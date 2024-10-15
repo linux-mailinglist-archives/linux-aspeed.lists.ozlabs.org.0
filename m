@@ -1,95 +1,73 @@
 Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF9199F0CB
-	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Oct 2024 17:14:40 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9761B99FA85
+	for <lists+linux-aspeed@lfdr.de>; Tue, 15 Oct 2024 23:49:38 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XSd1V4vzPz3byl
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2024 02:14:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XSnnD31d6z3blF
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2024 08:49:36 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=217.72.192.78
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1729005277;
-	cv=none; b=dP2X2ImwbZ6cJ07vsGYLmH+me9Fq2um9laEkRK8Jf9XuqnM/H07n7JPv1NmAQ0MR0kubFNdrAgCMazMyFZNLDjS7IHXlI3syGfdxAXANrPySYl23h8t7OhgkEDcLFl1cZVBQVUiDe03NEQuDKmFmjwVjUwlynrjeUMyeNU9QnoWZAdjaKQMuJxqgiTVn35h5XcTFnwbQushXnNxNjCxnFiiMSGZyKmKnW1JzD65sswq/kCxdzXl7DmtBJcR5VfkVUoRs2Sk7gAqhnNQKzgdWY5Nj1J+Ndd/9vYEcPy/p9Vx66gxBO/piuznRJjaruNdiCS6kBr2p7j4vjJXn8pl5lg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=193.142.43.55
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1729028974;
+	cv=none; b=nBRAwW262rPuuW9nsotpO3BFfx99nZEbRsd0YrVbgAq5hKoAdV652lEiio6t4639JP6YQeIUo/VndZqLmWljhzoFlfnJvw57O0c+eTJgwDr/XJ2KdHmtbKq7XlLJiuYj7+UVk+n7YNpjmDiBFcKd5W2bnnQfXB6c12kCTqeZW3Ncm67SuJLG1IlyEVZDPjeuK5USxU1G8luaaUJd5sPtxTpGPGa/4mb3us0qk+6+bmEbwFIUT5+o0fMzGwjKBDgqKqkCXJIYyPmbWcGtrsuV4fxzDGrKV3oI9wbYfjVjaaeZONMh1Z9pVeGxh3C398ki6IMpsimiFpRN29+58V3C2A==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1729005277; c=relaxed/relaxed;
-	bh=MaPDtsAu0VZDFqGSAskos6W/UUdZXWKX1E7T5Bfhlow=;
-	h=MIME-Version:Message-ID:From:To:Cc:Subject:Content-Type:Date:
-	 In-Reply-To:References; b=ordIHLlINMZAOyrlkwuyYlyR+gqZ3zyeY0wnnU7hKtBCfO1laSbGS2WXS6ZiKP/Tam6lBHx9gKOREoL72kCIOfJhWsdBg0jhtFW39I6af+YwV+7f3S6uX5AU9L7sebZnY//hRnEC6CYhv13K29kFuNoAeGVyoyDtoiSAHCtJxPFM8PW/mFZm5j54PLr3JIwozIFJb86V7Ok1bBmbgKfC/kvyCQXltFJ3n09fTlGtVqCqUhxMmYpEy4EmOY1myBydPfTth74kiIQXlaS7oNZMEUielbUPzV6r1cyBlY6Ahy47DZ7bCq8/5PNfn5Zwb9BdWJfEowQoNJqLa0fuJz8xUw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=CqnLBe28; dkim-atps=neutral; spf=pass (client-ip=217.72.192.78; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=lists.ozlabs.org) smtp.mailfrom=web.de
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+	t=1729028974; c=relaxed/relaxed;
+	bh=hALBkgP+0vHQHFOLfJVhzpCvZiu7iqZATK+f8xljF6o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=X2MTQWhjENZ1t6sM1NGv1TGb4XycyZ1LdrMObeDuXnoc614zbWs9+6DuSqPQbSa1gwtpWJlU6RB0aXGmMFTodzvmqj3UuwG6H24zlwIB3Jvt3Tyzl1/16OVv+fZrmqbEIXXKMo8XJcOHn9IneCkJOTBCUcAuR+JmQLc9FtDt8a6vnr98l+ll8ROkDMLJJRokKySyGv0HH9595jOdW6vDH1jDKDjdL7Lq78i2jGU3U3D3BSO4ofvcCIEI2nSg0xXkVfcO/TTM+ACe1k6r/X8KJ5f1sCYm/DueCzS1qNkqS2+2XM4DJpqQyaHZeEqn2o1pMuI8MmXjihuRpE2O7dmrbQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Bs4WK+3i; dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=4GA+ftBD; dkim-atps=neutral; spf=pass (client-ip=193.142.43.55; helo=galois.linutronix.de; envelope-from=tglx@linutronix.de; receiver=lists.ozlabs.org) smtp.mailfrom=linutronix.de
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=CqnLBe28;
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Bs4WK+3i;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=4GA+ftBD;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=web.de (client-ip=217.72.192.78; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=lists.ozlabs.org)
-Received: from mout.web.de (mout.web.de [217.72.192.78])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linutronix.de (client-ip=193.142.43.55; helo=galois.linutronix.de; envelope-from=tglx@linutronix.de; receiver=lists.ozlabs.org)
+X-Greylist: delayed 417 seconds by postgrey-1.37 at boromir; Wed, 16 Oct 2024 08:49:31 AEDT
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XSd1P6L6gz3bpW
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Oct 2024 02:14:32 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1729005249; x=1729610049; i=markus.elfring@web.de;
-	bh=MaPDtsAu0VZDFqGSAskos6W/UUdZXWKX1E7T5Bfhlow=;
-	h=X-UI-Sender-Class:MIME-Version:Message-ID:From:To:Cc:Subject:
-	 Content-Type:Date:In-Reply-To:References:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=CqnLBe28KRtNjw13Ck8LCwKo7NGIO4Y3nMTactozgVa0rYksUyfBOtkjPQbAKuU/
-	 LbhxnFRoDOcQN/FWAYB9I1SRIQshHH9E9xZYTH1AAISxBVOjL76+HtUY249izEATn
-	 IjxhuMqbOhrQ83YdECRUxPvI0zKM2uLlivMCPNx+Nlul/MKXXqcyc62uxu1eSDZvM
-	 M2ARktb7XBxTFygU5SmQH15gKdkUBszQYd3zn50STT783mh6fxAa5sNenslQqPNhO
-	 0KH4OZP17Fq2PP8MOP9g79au8SlFLZZ/Qkk8iGB4oDAMPnAB7mBgUvpFv8wv8jXb0
-	 pxXyy1J26Qmf4WYmXg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [94.31.89.95] ([94.31.89.95]) by web-mail.web.de
- (3c-app-webde-bap19.server.lan [172.19.172.19]) (via HTTP); Tue, 15 Oct
- 2024 17:07:24 +0200
-MIME-Version: 1.0
-Message-ID: <trinity-8fef4ba2-f5ab-4b78-b3de-aa1dc7d2fa33-1729004844102@3c-app-webde-bap19>
-From: Markus Elfring <Markus.Elfring@web.de>
-To: Kevin Chen <kevin_chen@aspeedtech.com>,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org
-Subject: RE: [PATCH v3 2/2] irqchip/aspeed-intc: Add support for AST27XX
- INTC
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 15 Oct 2024 17:07:24 +0200
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <PSAPR06MB49496CC4F25425753EA4252C89452@PSAPR06MB4949.apcprd06.prod.outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XSnn71Xtqz2xy2
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Oct 2024 08:49:31 +1100 (AEDT)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1729028543;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hALBkgP+0vHQHFOLfJVhzpCvZiu7iqZATK+f8xljF6o=;
+	b=Bs4WK+3isP7DKVNVaTNUaI/cX7y8ywrDgKgH/p2ecpxNUxJJo0bfpcpQ8SK4BcXOY2CYJQ
+	koe/V5rgwmYPy4OWcSKmFZbCAnO4X1fTHuAcVGFm61OmX+gLgw0WYIvAimHF/WjW3WvyzH
+	SCWMpw4lmBbQGc18oHIUM1HiDR7eaiJnFh3+YDMdDoTYHCvxulNioczbrzxxErJ5PRSj+P
+	D93sv4JPFkjAYRaW9BAAMV+Cv4RpA0dmVS+s5qKqYs0Vh8Rat09h+FJ59ePaDnNdymW+ce
+	nbD6AcfZIse28KHvl5QHb6eJQY84fpgt+5/ZGIpET97fj9/LBur6aj45bZQMjQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1729028543;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hALBkgP+0vHQHFOLfJVhzpCvZiu7iqZATK+f8xljF6o=;
+	b=4GA+ftBDLrodNSL6IIhR1BlPC9NDD73LIkk4yNdYSvee3SIv688WmN65Kfer6AZf+2rNDY
+	GP+ZpDSLkttq53Dw==
+To: Markus Elfring <Markus.Elfring@web.de>, Kevin Chen
+ <kevin_chen@aspeedtech.com>, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Andrew
+ Jeffery <andrew@codeconstruct.com.au>, Conor Dooley <conor+dt@kernel.org>,
+ Joel Stanley <joel@jms.id.au>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 2/2] irqchip/aspeed-intc: Add support for AST27XX INTC
+In-Reply-To: <f65dd139-1021-47d6-93a1-1477d6b4ca1d@web.de>
 References: <20241009115813.2908803-3-kevin_chen@aspeedtech.com>
  <f65dd139-1021-47d6-93a1-1477d6b4ca1d@web.de>
- <PSAPR06MB4949904D1FA95DBD3EF5288A89792@PSAPR06MB4949.apcprd06.prod.outlook.com>
- <0b995a34-28c4-4ba6-8ad2-e8413c6a63f5@web.de>
- <PSAPR06MB49491F8E0CE4069E9B9B1EA289442@PSAPR06MB4949.apcprd06.prod.outlook.com>
- <trinity-a5696b99-bf11-4ae3-8b00-20db116f86e4-1728911450361@3c-app-webde-bs22>
- <PSAPR06MB49496CC4F25425753EA4252C89452@PSAPR06MB4949.apcprd06.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:F3RU5HNCdI/jhBQpl+toJRa3DuBoVXM/3J7YtGQP8UK7HGzSQbDWkPV1QXbhmYa1fJYWS
- OT3rKdiRCJX+9hUs/QEWqw7bYCjq5DB6X9H1nPG5sBtFSjbelw9+KJRI6BrjJvEzHmSWCDSYYuVF
- MhqAxLP9hbrZtcjr58Pyok9idl9H8LpMsJCOMB8mAfnUL/YivF3D6ymuyUXT0cuW8g7l1JB65aXy
- vmPBcROpJgZfpg24+QtdQlF6FlL4XVIdNgFDbTIU1ei0HczxdoqplmDaAViogKxnqCdBRkVWF7e4
- mM=
-UI-OutboundReport: notjunk:1;M01:P0:eJe4TveRrWo=;E9TRLRM9bYscIYkS+rEdDOutbSd
- 8AB1wNyIwrb2koctU9TnEPPqtydagfH/DQ/7OyhSrBftbDIGy+1wF+bKut1iEFfUcJQEPrXfT
- PaOshrLztU8kbtBQsAbdrnTjCRGZx1O7PBhTuXa83Rsxl5yARDhfSESt6CRtoLoIs4EJXe2U8
- +ac9fYVkSyEq6yNvbEl8a+PYMv/QbV1vb5fVCZhuwyESGP2QnAjCKu/6BGBvzA0rpoLq9V3rl
- zKSbTK4MsqrVHMYC43/aIXhDuV5jpm/ortdCl+mRYUKBgxPFJBI+m63BGhH1cewCksY+DDiSZ
- e0QHV3T9RpWW+e383kWJ/Qkeyl9r/h1qghUBtcDXCaW0aSoDw+9fjgA8FVZ38sflsifJfDjba
- 3Bdf3yggPxcvdYCESIZJSuZC8E2ke0OrO1OnEiBwd3/4lIfEy+6dcRHwZi7CfcKd/jfjRchU8
- tNNJ4jP32XlPuKVD9AiFx+iDV9Rm1FjjnxOLZ0WwNGtcfy4r2qR9ENQy0Ag/lZni1RnYcPO73
- XLIxEEjM4kjuni3miT9RJNGULp3SKb7KWd0wpcwAktLHLYGDKmhpTgSRmUpckctxOI8WJ9Apq
- WT4NjRZMn8WjwlOByqyP/9hWOhYnpzLyJgBvpiU3l7TH3l3mryIaYN4U1yY+nt7j4a9xlqfVl
- jj3eod1sQm5dArtw8LAJRVbPLngpGDASRLYmrh/H7w==
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-	RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=disabled
-	version=4.0.0
+Date: Tue, 15 Oct 2024 23:42:22 +0200
+Message-ID: <874j5ddow1.ffs@tglx>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -102,47 +80,41 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>, kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Thomas Gleixner <tglx@linutronix.de>
+Cc: kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-=E2=80=A6
-> > > +static void aspeed_intc_ic_irq_handler(struct irq_desc *desc) {
-=E2=80=A6
-> > > +       guard(chained_irq)(desc);
-> >=20
-> > Using another macro call =E2=80=9Cscoped_guard(=E2=80=A6) { =E2=80=A6 =
-}=E2=80=9D?
-> Is it necessary to use scoped_guard(=2E=2E=2E) {=2E=2E=2E}?
+On Wed, Oct 09 2024 at 14:32, Markus Elfring wrote:
+>> +
+>> +	chained_irq_enter(chip, desc);
+>
+> Would you become interested to collaborate with another scoped guard
+> for this programming interface?
 
-It depends on corresponding case disintions=2E
+Collaborate in which way? What are you collaborating on?
 
+You are merely asking people to do work which you think is useful. You
+can do that, but that does not make it useful.
 
-> > > +       scoped_guard(raw_spinlock, &intc_ic->gic_lock) {
-> >=20
-> > Would you like to reconsider the proposed macro mixture once more?
-> Could I check the reason for once more?
+Making a guard variant of chained_irq_enter/exit needs some thought and
+a general plan for cleaning the whole chained irq usage up. It's on the
+cleanup list already with quite some other items.
 
-Coding style concerns =E2=80=A6?
+We are not adhoc adding a guard variant because guards are hip right
+now. And no this does not need a scoped variant ever.
 
+guards are not the panacea for everything.
 
-> > > +++ b/include/linux/irqchip/chained_irq=2Eh
-> > > @@ -38,4 +38,6 @@ static inline void chained_irq_exit(struct irq_chi=
-p *chip,
-> > >                 chip->irq_unmask(&desc->irq_data);
-> > >  }
-> > >
-> > > +DEFINE_GUARD(chained_irq, struct irq_desc *,
-> > chained_irq_exit((_T->irq_data=2Echip), (_T)),
-> > > +            chained_irq_enter((_T->irq_data=2Echip), (_T)))
-> >=20
-> > Would you like to add a #include directive in this header file accordi=
-ngly?
-> Can you give me an example?
+> https://elixir.bootlin.com/linux/v6.12-rc2/source/include/linux/irqchip/chained_irq.h#L13
 
-See also:
-https://elixir=2Ebootlin=2Ecom/linux/v6=2E12-rc3/source/include/linux/devi=
-ce=2Eh#L33
+Please refrain from these silly links. People know to find the functions
+on their own.
 
-Regards,
-Markus
+Kevin, please update the change log, add your SOB and move the local
+variables (unsigned long bit, status;) into the scoped_guard() zone.
+
+Leave chained_irq_enter/exit() alone and resubmit.
+
+Thanks,
+
+        tglx
