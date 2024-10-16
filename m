@@ -2,53 +2,65 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F19099FEC4
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2024 04:24:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86EF69A006C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2024 07:07:38 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XSvtc0XHnz3bvJ
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2024 13:24:40 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XSzVL3Y98z3cZy
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2024 16:07:22 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1729045477;
-	cv=none; b=cDgaLMhQF0JlbjacDOHBDYiegVjyk+jvyfgcWCxXQNFUWAKBxnXAbtU+mQvzhOH2voNZkI07b0jvp26+8I+13fbkwiu4A63/5mT0Tw7ER7w1GKyJ2EehkAm/ZSmwsboh7CJU2ZSzRjqg73ZruHC6sVYccQaZ7cuKV2w4IV89Dth7EW1PKcy2KQOBIzE3M3DuA64CcxVQXFDDVT3xNOX5ODoK8pZqxOjt44bAxRAPxzV2uQ9UfbzUcASZOLkgFgteGeXrV3bHYMxzQTat/5EeMUUTQPjjeIgEkqJsqbvnD8toNvEbN3dixKm61fnl9ZxrGU/1HiUWbT1b8FTlIfmMgA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1729055237;
+	cv=none; b=BLhYkyztPQ77dMwJte6nJvS61BdvU7zNe4AJLCaN7lUlfuZWQJ2h7CRnrmyhmqzQn5btt15F1CUwUMtKS5ZciVQCB1TZ3XOZNudP+FxuIYHXp+z9LAhxDfYMgEKeNqOGkUBtUG1TEgsTjuTeb8TpD2sD5pghlSLkQOfK15kdL4SAk4OpUhVW6o+cZ6qd9mWw+kwm+J24LcxA+vTEFizKGrtmA9VYnz8EDci4hkdJAK9xIJTY2QTF+MFtlwMclXy77TDpk1BavDjV/MutAl2PYXpeVHHbSqGUQRWkSWWluLmf6bEDm8SJ0cypcomYZOQigObH3xUENWhR138A9Qac0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1729045477; c=relaxed/relaxed;
-	bh=W2/Bx/KnkqlZutFBKTbgdJa4wqVr/g4PlrALX/dyA4k=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nzNGgQlc3T94VfMxA/mg7Ga+FwMIe6cFlpC+WKPqI1ArzHiRw0FHXi4P9m/zX996Aa/MStC1FM+WxHKlvy8Zp78T5ya9lv149E1VIeDTtfgygPdSfsc69LyL/xTSy6j3BKeqaMnBkRFcdwY/eylL1dh7HcgJjsH0MuiSeRA8IEymzF3RR0obN9+o4vqHEBInYYRYBZJNE7XN5qWZQuCox59mSLTjYhAaRjRZjyS2nuUy87D1XMFJ9lYshS0yT/0rgwuLfhhPgl8IMoEMYZuZf710THqdD5wxquEKxrhAOmROZpMOBME/1MZ8sjeE1gf816xkkIvH6woc5cjdqE5CEg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1729055237; c=relaxed/relaxed;
+	bh=2xl6GiNHnVkURELe+WIxH38Tw0c480sjCHy4Ex2x+rA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gkF2w47XaPsUaJoHsbu5T8tetJ/fBKGaf79z+6FQQPtG6UhPpWoHEPeDQ4wcGLN5R+MHKoEAn2wxOeZ2VOBShZLL6W452L27D1UAk3quWCHI94IUuzR+Oj29xBiQjiXYKy4WH/shqk2ineL2Wpr2T8vTEN1o6tSN28/BXDcNOyk7s4k2yvvU/QPWTyjshZv6R9hES3Ai7S7NdV9nbEpnLcf5/odUW785+8y4Qm21qQmCvzZn42hJdNynCY7PyIhDyGMoskFnT9hUXx33U/khC7h/Fq/0Y/p+mvP/gigvP6lBUgaFg8wO6PBI4HEPLIDMPHVX6PF1Lqpol0OtvMUI9g==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=lrGa2CNO; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=lrGa2CNO;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XSvtY1ygCz2yDl
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Oct 2024 13:24:37 +1100 (AEDT)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Wed, 16 Oct
- 2024 10:24:14 +0800
-Received: from localhost.localdomain (192.168.10.10) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Wed, 16 Oct 2024 10:24:14 +0800
-From: Kevin Chen <kevin_chen@aspeedtech.com>
-To: <tglx@linutronix.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-	<conor+dt@kernel.org>, <joel@jms.id.au>, <andrew@codeconstruct.com.au>,
-	<kevin_chen@aspeedtech.com>, <linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH v4 2/2] irqchip/aspeed-intc: Add AST27XX INTC support
-Date: Wed, 16 Oct 2024 10:24:10 +0800
-Message-ID: <20241016022410.1154574-3-kevin_chen@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241016022410.1154574-1-kevin_chen@aspeedtech.com>
-References: <20241016022410.1154574-1-kevin_chen@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XSzVC2Xkxz2xrC;
+	Wed, 16 Oct 2024 16:07:15 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1729055230;
+	bh=2xl6GiNHnVkURELe+WIxH38Tw0c480sjCHy4Ex2x+rA=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=lrGa2CNOs9oShkkf5L53gsq0hIF0WsD8lx77LkW0phj5nw/HhlpNvrA99hjgTGn9m
+	 kWnzgrP0SYB3f/ecuEN+ZXU4w+MXBFtR7BPrkmFFX9W+Jmrl1ueAFvXl1t1DYv51fF
+	 fS/b4dH4n6TxU/OCOgj32bsQwFad4DhZbPaGrHuZ0EXVzNMuUN6dAKfolGh6RM+vkd
+	 JuCj/I1pScJOLkLjMZ2XoJZf42dkWMnpODdi4/V7xJ17ncro0pkN5sQYK6hVqPPpwX
+	 R4+ALlqlyOyu4qp9IjGtVytLKaDBc8/JM6XglaRrRXa5kJacVLqBHY+aeTALUMQhp1
+	 sRpGQomyJMETg==
+Received: from [192.168.68.112] (203-173-0-39.dyn.iinet.net.au [203.173.0.39])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id C654767B60;
+	Wed, 16 Oct 2024 13:07:07 +0800 (AWST)
+Message-ID: <7555c528c90e6151f54d0e17c278527f95fac184.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] ARM: dts: aspeed: Add device tree for Ampere's Mt.
+ Jefferson BMC
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Chanh Nguyen <chanh@amperemail.onmicrosoft.com>, Chanh Nguyen
+	 <chanh@os.amperecomputing.com>
+Date: Wed, 16 Oct 2024 15:37:07 +1030
+In-Reply-To: <e8e31fb4-4a9f-4ea9-be4d-9ba29d824cc5@amperemail.onmicrosoft.com>
+References: <20241014105031.1963079-1-chanh@os.amperecomputing.com>
+	 <172891445289.1127319.4114892374425336022.robh@kernel.org>
+	 <b5919d904c9f06a618a54d49bc895c3081a511e4.camel@codeconstruct.com.au>
+	 <e8e31fb4-4a9f-4ea9-be4d-9ba29d824cc5@amperemail.onmicrosoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
-	autolearn=disabled version=4.0.0
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -61,179 +73,156 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
+Cc: "Rob Herring \(Arm\)" <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, OpenBMC Maillist <openbmc@lists.ozlabs.org>, Thang Nguyen <thang@os.amperecomputing.com>, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>, Khanh Pham <khpham@amperecomputing.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org, Quan Nguyen <quan@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-Support Aspeed Interrupt Controller on Aspeed Silicon SoCs.
+On Tue, 2024-10-15 at 13:39 +0700, Chanh Nguyen wrote:
+>=20
+> On 15/10/2024 07:44, Andrew Jeffery wrote:
+> > Hi Chanh,
+> >=20
+> > On Mon, 2024-10-14 at 09:05 -0500, Rob Herring (Arm) wrote:
+> > > On Mon, 14 Oct 2024 10:50:31 +0000, Chanh Nguyen wrote:
+> > > > The Mt. Jefferson BMC is an ASPEED AST2600-based BMC for the Mt. Je=
+fferson
+> > > > hardware reference platform with AmpereOne(TM)M processor.
+> > > >=20
+> > > > Signed-off-by: Chanh Nguyen <chanh@os.amperecomputing.com>
+> > > > ---
+> > > >   arch/arm/boot/dts/aspeed/Makefile             |   1 +
+> > > >   .../aspeed/aspeed-bmc-ampere-mtjefferson.dts  | 646 +++++++++++++=
++++++
+> > > >   2 files changed, 647 insertions(+)
+> > > >   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtj=
+efferson.dts
+> > > >=20
+> > >=20
+> > >=20
+> > > My bot found new DTB warnings on the .dts files added or changed in t=
+his
+> > > series.
+> > >=20
+> > > Some warnings may be from an existing SoC .dtsi. Or perhaps the warni=
+ngs
+> > > are fixed by another series. Ultimately, it is up to the platform
+> > > maintainer whether these warnings are acceptable or not. No need to r=
+eply
+> > > unless the platform maintainer has comments.
+> > >=20
+> > > If you already ran DT checks and didn't see these error(s), then
+> > > make sure dt-schema is up to date:
+> > >=20
+> > >    pip3 install dtschema --upgrade
+> > >=20
+> > >=20
+> > > New warnings running 'make CHECK_DTBS=3Dy aspeed/aspeed-bmc-ampere-mt=
+jefferson.dtb' for 20241014105031.1963079-1-chanh@os.amperecomputing.com:
+> > >=20
+> > > arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /: compat=
+ible: 'oneOf' conditional failed, one must be fixed:
+> > > 	'ampere,mtjefferson-bmc' is not one of ['delta,ahe50dc-bmc', 'facebo=
+ok,galaxy100-bmc', 'facebook,wedge100-bmc', 'facebook,wedge40-bmc', 'micros=
+oft,olympus-bmc', 'quanta,q71l-bmc', 'tyan,palmetto-bmc', 'yadro,vesnin-bmc=
+']
+> > > 	'ampere,mtjefferson-bmc' is not one of ['amd,daytonax-bmc', 'amd,eth=
+anolx-bmc', 'ampere,mtjade-bmc', 'aspeed,ast2500-evb', 'asrock,e3c246d4i-bm=
+c', 'asrock,e3c256d4i-bmc', 'asrock,romed8hm3-bmc', 'asrock,spc621d8hm3-bmc=
+', 'asrock,x570d4u-bmc', 'bytedance,g220a-bmc', 'facebook,cmm-bmc', 'facebo=
+ok,minipack-bmc', 'facebook,tiogapass-bmc', 'facebook,yamp-bmc', 'facebook,=
+yosemitev2-bmc', 'facebook,wedge400-bmc', 'hxt,stardragon4800-rep2-bmc', 'i=
+bm,mihawk-bmc', 'ibm,mowgli-bmc', 'ibm,romulus-bmc', 'ibm,swift-bmc', 'ibm,=
+witherspoon-bmc', 'ingrasys,zaius-bmc', 'inspur,fp5280g2-bmc', 'inspur,nf52=
+80m6-bmc', 'inspur,on5263m5-bmc', 'intel,s2600wf-bmc', 'inventec,lanyang-bm=
+c', 'lenovo,hr630-bmc', 'lenovo,hr855xg2-bmc', 'portwell,neptune-bmc', 'qco=
+m,centriq2400-rep-bmc', 'supermicro,x11spi-bmc', 'tyan,s7106-bmc', 'tyan,s8=
+036-bmc', 'yadro,nicole-bmc', 'yadro,vegman-n110-bmc', 'yadro,vegman-rx20-b=
+mc', 'yadro,vegman-sx20-bmc']
+> > > 	'ampere,mtjefferson-bmc' is not one of ['ampere,mtmitchell-bmc', 'as=
+peed,ast2600-evb', 'aspeed,ast2600-evb-a1', 'asus,x4tf-bmc', 'facebook,blet=
+chley-bmc', 'facebook,catalina-bmc', 'facebook,cloudripper-bmc', 'facebook,=
+elbert-bmc', 'facebook,fuji-bmc', 'facebook,greatlakes-bmc', 'facebook,harm=
+a-bmc', 'facebook,minerva-cmc', 'facebook,yosemite4-bmc', 'ibm,blueridge-bm=
+c', 'ibm,everest-bmc', 'ibm,fuji-bmc', 'ibm,rainier-bmc', 'ibm,system1-bmc'=
+, 'ibm,tacoma-bmc', 'inventec,starscream-bmc', 'inventec,transformer-bmc', =
+'jabil,rbp-bmc', 'qcom,dc-scm-v1-bmc', 'quanta,s6q-bmc', 'ufispace,ncplite-=
+bmc']
+> > > 	'aspeed,ast2400' was expected
+> > > 	'aspeed,ast2500' was expected
+> > > 	from schema $id: http://devicetree.org/schemas/arm/aspeed/aspeed.yam=
+l#
+> > >=20
+> >=20
+> > This needs to be fixed as pointed out by Krzysztof.
+> >=20
+>=20
+> Thank Andrew, I'll update that in patch v2
+>=20
+> > *snip*
+> >=20
+> > > arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/=
+bus@1e78a000/i2c@180/i2c-mux@70/i2c@0/psu@58: failed to match any schema wi=
+th compatible: ['pmbus']
+> > > arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjefferson.dtb: /ahb/apb/=
+bus@1e78a000/i2c@180/i2c-mux@70/i2c@0/psu@59: failed to match any schema wi=
+th compatible: ['pmbus']
+> >=20
+> > These two should also be fixed. The compatible must describe the
+> > physical device, not the communication/application protocol. It may be
+> > necessary to add a binding if there's not one already for the device.
+> >=20
+>=20
+> Hi Andrew, My device is following the pmbus specification. So I'm using=
+=20
+> the generic pmbus driver=20
+> (https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree=
+/drivers/hwmon/pmbus/pmbus.c#n237)=20
+> to probe my device.
+>=20
 
-ASPEED interrupt controller(INTC) maps the internal interrupt
-sources to a parent interrupt controller, which can be GIC or INTC.
+The devicetree doesn't describe drivers though, it describes devices.
+The compatible string needs to represent the device.
 
-Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
----
- drivers/irqchip/Makefile          |   1 +
- drivers/irqchip/irq-aspeed-intc.c | 140 ++++++++++++++++++++++++++++++
- 2 files changed, 141 insertions(+)
- create mode 100644 drivers/irqchip/irq-aspeed-intc.c
+>  In arch/arm/boot/dts/aspeed/ directory, many boards=20
+> are also using this compatible to probe our devices.
+>=20
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/=
+arch/arm/boot/dts/aspeed/aspeed-bmc-lenovo-hr855xg2.dts#n219
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/=
+arch/arm/boot/dts/aspeed/aspeed-bmc-inventec-transformers.dts#n263
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/=
+arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dts#n260
+>=20
+> Andrew, Recently I saw the ASPEED platform's maintainer accept the=20
+> "pmbus" compatible with a warning log. You can see in the below list=20
+> that patches were merged recently.
+>=20
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
+t/?id=3Dbb3776e564d2190db0ef45609e66f13c60ce5b48
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
+t/?id=3D28cfb03afcb20a841e96e821ba20870a7c437034
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
+t/?id=3D36d96827f480e90037d162098061333e279ea35f
+>=20
 
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index e3679ec2b9f7..086911bf4db6 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -84,6 +84,7 @@ obj-$(CONFIG_MVEBU_SEI)			+= irq-mvebu-sei.o
- obj-$(CONFIG_LS_EXTIRQ)			+= irq-ls-extirq.o
- obj-$(CONFIG_LS_SCFG_MSI)		+= irq-ls-scfg-msi.o
- obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-vic.o irq-aspeed-i2c-ic.o irq-aspeed-scu-ic.o
-+obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-intc.o
- obj-$(CONFIG_STM32MP_EXTI)		+= irq-stm32mp-exti.o
- obj-$(CONFIG_STM32_EXTI) 		+= irq-stm32-exti.o
- obj-$(CONFIG_QCOM_IRQ_COMBINER)		+= qcom-irq-combiner.o
-diff --git a/drivers/irqchip/irq-aspeed-intc.c b/drivers/irqchip/irq-aspeed-intc.c
-new file mode 100644
-index 000000000000..faf18a675395
---- /dev/null
-+++ b/drivers/irqchip/irq-aspeed-intc.c
-@@ -0,0 +1,140 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ *  Aspeed Interrupt Controller.
-+ *
-+ *  Copyright (C) 2023 ASPEED Technology Inc.
-+ */
-+
-+#include <linux/bitops.h>
-+#include <linux/irq.h>
-+#include <linux/irqchip.h>
-+#include <linux/irqchip/chained_irq.h>
-+#include <linux/irqdomain.h>
-+#include <linux/of_address.h>
-+#include <linux/of_irq.h>
-+#include <linux/io.h>
-+#include <linux/spinlock.h>
-+
-+#define INTC_INT_ENABLE_REG	0x00
-+#define INTC_INT_STATUS_REG	0x04
-+#define INTC_IRQS_PER_WORD	32
-+
-+struct aspeed_intc_ic {
-+	void __iomem		*base;
-+	raw_spinlock_t		gic_lock;
-+	raw_spinlock_t		intc_lock;
-+	struct irq_domain	*irq_domain;
-+};
-+
-+static void aspeed_intc_ic_irq_handler(struct irq_desc *desc)
-+{
-+	struct aspeed_intc_ic *intc_ic = irq_desc_get_handler_data(desc);
-+	struct irq_chip *chip = irq_desc_get_chip(desc);
-+
-+	chained_irq_enter(chip, desc);
-+
-+	scoped_guard(raw_spinlock, &intc_ic->gic_lock) {
-+		unsigned long bit, status;
-+
-+		status = readl(intc_ic->base + INTC_INT_STATUS_REG);
-+		for_each_set_bit(bit, &status, INTC_IRQS_PER_WORD) {
-+			generic_handle_domain_irq(intc_ic->irq_domain, bit);
-+			writel(BIT(bit), intc_ic->base + INTC_INT_STATUS_REG);
-+		}
-+	}
-+
-+	chained_irq_exit(chip, desc);
-+}
-+
-+static void aspeed_intc_irq_mask(struct irq_data *data)
-+{
-+	struct aspeed_intc_ic *intc_ic = irq_data_get_irq_chip_data(data);
-+	unsigned int mask = readl(intc_ic->base + INTC_INT_ENABLE_REG) & ~BIT(data->hwirq);
-+
-+	guard(raw_spinlock)(&intc_ic->intc_lock);
-+	writel(mask, intc_ic->base + INTC_INT_ENABLE_REG);
-+}
-+
-+static void aspeed_intc_irq_unmask(struct irq_data *data)
-+{
-+	struct aspeed_intc_ic *intc_ic = irq_data_get_irq_chip_data(data);
-+	unsigned int unmask = readl(intc_ic->base + INTC_INT_ENABLE_REG) | BIT(data->hwirq);
-+
-+	guard(raw_spinlock)(&intc_ic->intc_lock);
-+	writel(unmask, intc_ic->base + INTC_INT_ENABLE_REG);
-+}
-+
-+static struct irq_chip aspeed_intc_chip = {
-+	.name			= "ASPEED INTC",
-+	.irq_mask		= aspeed_intc_irq_mask,
-+	.irq_unmask		= aspeed_intc_irq_unmask,
-+};
-+
-+static int aspeed_intc_ic_map_irq_domain(struct irq_domain *domain, unsigned int irq,
-+					 irq_hw_number_t hwirq)
-+{
-+	irq_set_chip_and_handler(irq, &aspeed_intc_chip, handle_level_irq);
-+	irq_set_chip_data(irq, domain->host_data);
-+
-+	return 0;
-+}
-+
-+static const struct irq_domain_ops aspeed_intc_ic_irq_domain_ops = {
-+	.map = aspeed_intc_ic_map_irq_domain,
-+};
-+
-+static int __init aspeed_intc_ic_of_init(struct device_node *node,
-+					 struct device_node *parent)
-+{
-+	struct aspeed_intc_ic *intc_ic;
-+	int ret = 0;
-+	int irq, i;
-+
-+	intc_ic = kzalloc(sizeof(*intc_ic), GFP_KERNEL);
-+	if (!intc_ic)
-+		return -ENOMEM;
-+
-+	intc_ic->base = of_iomap(node, 0);
-+	if (!intc_ic->base) {
-+		pr_err("Failed to iomap intc_ic base\n");
-+		ret = -ENOMEM;
-+		goto err_free_ic;
-+	}
-+	writel(0xffffffff, intc_ic->base + INTC_INT_STATUS_REG);
-+	writel(0x0, intc_ic->base + INTC_INT_ENABLE_REG);
-+
-+	intc_ic->irq_domain = irq_domain_add_linear(node, INTC_IRQS_PER_WORD,
-+						    &aspeed_intc_ic_irq_domain_ops, intc_ic);
-+	if (!intc_ic->irq_domain) {
-+		ret = -ENOMEM;
-+		goto err_iounmap;
-+	}
-+
-+	raw_spin_lock_init(&intc_ic->gic_lock);
-+	raw_spin_lock_init(&intc_ic->intc_lock);
-+
-+	/* Check all the irq numbers valid. If not, unmaps all the base and frees the data. */
-+	for (i = 0; i < of_irq_count(node); i++) {
-+		irq = irq_of_parse_and_map(node, i);
-+		if (!irq) {
-+			pr_err("Failed to get irq number\n");
-+			ret = -EINVAL;
-+			goto err_iounmap;
-+		}
-+	}
-+
-+	for (i = 0; i < of_irq_count(node); i++) {
-+		irq = irq_of_parse_and_map(node, i);
-+		irq_set_chained_handler_and_data(irq, aspeed_intc_ic_irq_handler, intc_ic);
-+	}
-+
-+	return 0;
-+
-+err_iounmap:
-+	iounmap(intc_ic->base);
-+err_free_ic:
-+	kfree(intc_ic);
-+	return ret;
-+}
-+
-+IRQCHIP_DECLARE(ast2700_intc_ic, "aspeed,ast2700-intc-ic", aspeed_intc_ic_of_init);
--- 
-2.34.1
+Unfortunately for your argument, I'm not trying to make the case that
+some people are allowed to do this and others (such as yourself) are
+not.
 
+Rather, this is the review process in action, where hopefully everyone,
+including myself, tries to improve their practices with feedback.
+
+You can also find discussions where other maintainers (Guenter, hwmon
+maintainer; Krzysztof, devicetree maintainer) have asked that "pmbus"
+not be used as a compatible:
+
+https://lore.kernel.org/all/f76798ea-6edd-4888-8057-c09aaed88f25@roeck-us.n=
+et/
+
+The tools are asking you to do something different via the warnings,
+and so am I :) Please define the compatible according to the device
+used in the design.
+
+Thanks,
+
+Andrew
