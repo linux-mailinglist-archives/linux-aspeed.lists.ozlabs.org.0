@@ -2,29 +2,29 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83DB199FEC6
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F19099FEC4
 	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2024 04:24:43 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XSvtZ1xrlz3bpt
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2024 13:24:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XSvtc0XHnz3bvJ
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2024 13:24:40 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1729045476;
-	cv=none; b=lO2aBrRoSkLCJCxrW2/oQdKs+IQ7YsdHvZUrEWQH2IW1Rz9F4Yerc8PT1ARU/vexmoP7FWdZ1PZ2qwOMT2s3EDQUpqGy051dZu88Io98Z3bt+WLe1ZVHR532geX/JJn6yiezwnXeHmlL7chth3t8M7fQbqqUFw/AFpBck6cXfOtIhAtimCMCViNT/fz3J2FcENDNhXx+u072fml4agptjFVZY7QmOCWJ/vNJhNmTe4TeoUvqsdauaqNbNCuNVfAIxqg2BFKz8YcOVu8fd/q9AuTu+d39JzmEVSlQQkxXUMUjp00Yjx3iqYyx9cw3SmGrODFMDWHd5H0v8QljYdpnig==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1729045477;
+	cv=none; b=cDgaLMhQF0JlbjacDOHBDYiegVjyk+jvyfgcWCxXQNFUWAKBxnXAbtU+mQvzhOH2voNZkI07b0jvp26+8I+13fbkwiu4A63/5mT0Tw7ER7w1GKyJ2EehkAm/ZSmwsboh7CJU2ZSzRjqg73ZruHC6sVYccQaZ7cuKV2w4IV89Dth7EW1PKcy2KQOBIzE3M3DuA64CcxVQXFDDVT3xNOX5ODoK8pZqxOjt44bAxRAPxzV2uQ9UfbzUcASZOLkgFgteGeXrV3bHYMxzQTat/5EeMUUTQPjjeIgEkqJsqbvnD8toNvEbN3dixKm61fnl9ZxrGU/1HiUWbT1b8FTlIfmMgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1729045476; c=relaxed/relaxed;
-	bh=RKCduebel3psXC9cLk2EARWPXEKoPbQEwz5XdUrtyUs=;
+	t=1729045477; c=relaxed/relaxed;
+	bh=W2/Bx/KnkqlZutFBKTbgdJa4wqVr/g4PlrALX/dyA4k=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KJ26loiCXx4qlvqVDNy6crcTI/2kwcx3PvPMCrK0+kBYAnSrzcucZ0BrFvsuEzEK8MBOKOpyYqtcVSpjlgEN0iJKWtmDuZWjIPMHSEyvgFieLsKghzKjF6S5yAvLoGLz4S0exFUw7JJvC0JnquDdoMMl6876D9w2hsj0YHRa6HVPEsFneENffyQ61QJtplgoN1zIp12ongzO6wIqCwzHFLmh50ZdY6SZxnqeOKN7uQ3nCZccVZu0A7OLb99V05klEdSvP4Uw86BOrFXlBTW3r5c7oyFj1VXjO0hUikrdMqPm+02iwOCY4TiEh2e2sN17mSVMbNi+Xs6oypLhNIyCvA==
+	 MIME-Version:Content-Type; b=nzNGgQlc3T94VfMxA/mg7Ga+FwMIe6cFlpC+WKPqI1ArzHiRw0FHXi4P9m/zX996Aa/MStC1FM+WxHKlvy8Zp78T5ya9lv149E1VIeDTtfgygPdSfsc69LyL/xTSy6j3BKeqaMnBkRFcdwY/eylL1dh7HcgJjsH0MuiSeRA8IEymzF3RR0obN9+o4vqHEBInYYRYBZJNE7XN5qWZQuCox59mSLTjYhAaRjRZjyS2nuUy87D1XMFJ9lYshS0yT/0rgwuLfhhPgl8IMoEMYZuZf710THqdD5wxquEKxrhAOmROZpMOBME/1MZ8sjeE1gf816xkkIvH6woc5cjdqE5CEg==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XSvtW70Pvz2xnS
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Oct 2024 13:24:35 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XSvtY1ygCz2yDl
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Oct 2024 13:24:37 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Wed, 16 Oct
@@ -38,9 +38,9 @@ To: <tglx@linutronix.de>, <robh@kernel.org>, <krzk+dt@kernel.org>,
 	<kevin_chen@aspeedtech.com>, <linux-kernel@vger.kernel.org>,
 	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH v4 1/2] dt-bindings: interrupt-controller: Add support for ASPEED AST27XX INTC
-Date: Wed, 16 Oct 2024 10:24:09 +0800
-Message-ID: <20241016022410.1154574-2-kevin_chen@aspeedtech.com>
+Subject: [PATCH v4 2/2] irqchip/aspeed-intc: Add AST27XX INTC support
+Date: Wed, 16 Oct 2024 10:24:10 +0800
+Message-ID: <20241016022410.1154574-3-kevin_chen@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241016022410.1154574-1-kevin_chen@aspeedtech.com>
 References: <20241016022410.1154574-1-kevin_chen@aspeedtech.com>
@@ -64,130 +64,176 @@ List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
-The ASPEED AST27XX interrupt controller(INTC) contains second level and
-third level interrupt controller.
+Support Aspeed Interrupt Controller on Aspeed Silicon SoCs.
 
-INTC0:
-The second level INTC, which used to assert GIC if interrupt in INTC1 asserted.
-
-INTC1_x:
-The third level INTC, which used to assert INTC0 if interrupt in modules
-of INTC asserted.
-
-The relationship is like the following:
-  +-----+   +-------+     +---------+---module0
-  | GIC |---| INTC0 |--+--| INTC1_0 |---module1
-  |     |   |       |  |  |         |---...
-  +-----+   +-------+  |  +---------+---module31
-                       |
-                       |   +---------+---module0
-                       +---| INTC1_1 |---module1
-                       |   |         |---...
-                       |   +---------+---module31
-                      ...
-                       |   +---------+---module0
-                       +---| INTC1_5 |---module1
-                           |         |---...
-                           +---------+---module31
+ASPEED interrupt controller(INTC) maps the internal interrupt
+sources to a parent interrupt controller, which can be GIC or INTC.
 
 Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
 ---
- .../aspeed,ast2700-intc.yaml                  | 86 +++++++++++++++++++
- 1 file changed, 86 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml
+ drivers/irqchip/Makefile          |   1 +
+ drivers/irqchip/irq-aspeed-intc.c | 140 ++++++++++++++++++++++++++++++
+ 2 files changed, 141 insertions(+)
+ create mode 100644 drivers/irqchip/irq-aspeed-intc.c
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml
+diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
+index e3679ec2b9f7..086911bf4db6 100644
+--- a/drivers/irqchip/Makefile
++++ b/drivers/irqchip/Makefile
+@@ -84,6 +84,7 @@ obj-$(CONFIG_MVEBU_SEI)			+= irq-mvebu-sei.o
+ obj-$(CONFIG_LS_EXTIRQ)			+= irq-ls-extirq.o
+ obj-$(CONFIG_LS_SCFG_MSI)		+= irq-ls-scfg-msi.o
+ obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-vic.o irq-aspeed-i2c-ic.o irq-aspeed-scu-ic.o
++obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-intc.o
+ obj-$(CONFIG_STM32MP_EXTI)		+= irq-stm32mp-exti.o
+ obj-$(CONFIG_STM32_EXTI) 		+= irq-stm32-exti.o
+ obj-$(CONFIG_QCOM_IRQ_COMBINER)		+= qcom-irq-combiner.o
+diff --git a/drivers/irqchip/irq-aspeed-intc.c b/drivers/irqchip/irq-aspeed-intc.c
 new file mode 100644
-index 000000000000..55636d06a674
+index 000000000000..faf18a675395
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml
-@@ -0,0 +1,86 @@
-+# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/irqchip/irq-aspeed-intc.c
+@@ -0,0 +1,140 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ *  Aspeed Interrupt Controller.
++ *
++ *  Copyright (C) 2023 ASPEED Technology Inc.
++ */
 +
-+title: Aspeed AST2700 Interrupt Controller
++#include <linux/bitops.h>
++#include <linux/irq.h>
++#include <linux/irqchip.h>
++#include <linux/irqchip/chained_irq.h>
++#include <linux/irqdomain.h>
++#include <linux/of_address.h>
++#include <linux/of_irq.h>
++#include <linux/io.h>
++#include <linux/spinlock.h>
 +
-+description:
-+  This interrupt controller hardware is second level interrupt controller that
-+  is hooked to a parent interrupt controller. It's useful to combine multiple
-+  interrupt sources into 1 interrupt to parent interrupt controller.
++#define INTC_INT_ENABLE_REG	0x00
++#define INTC_INT_STATUS_REG	0x04
++#define INTC_IRQS_PER_WORD	32
 +
-+maintainers:
-+  - Kevin Chen <kevin_chen@aspeedtech.com>
++struct aspeed_intc_ic {
++	void __iomem		*base;
++	raw_spinlock_t		gic_lock;
++	raw_spinlock_t		intc_lock;
++	struct irq_domain	*irq_domain;
++};
 +
-+properties:
-+  compatible:
-+    enum:
-+      - aspeed,ast2700-intc-ic
++static void aspeed_intc_ic_irq_handler(struct irq_desc *desc)
++{
++	struct aspeed_intc_ic *intc_ic = irq_desc_get_handler_data(desc);
++	struct irq_chip *chip = irq_desc_get_chip(desc);
 +
-+  reg:
-+    maxItems: 1
++	chained_irq_enter(chip, desc);
 +
-+  interrupt-controller: true
++	scoped_guard(raw_spinlock, &intc_ic->gic_lock) {
++		unsigned long bit, status;
 +
-+  '#interrupt-cells':
-+    const: 2
-+    description:
-+      The first cell is the IRQ number, the second cell is the trigger
-+      type as defined in interrupt.txt in this directory.
++		status = readl(intc_ic->base + INTC_INT_STATUS_REG);
++		for_each_set_bit(bit, &status, INTC_IRQS_PER_WORD) {
++			generic_handle_domain_irq(intc_ic->irq_domain, bit);
++			writel(BIT(bit), intc_ic->base + INTC_INT_STATUS_REG);
++		}
++	}
 +
-+  interrupts:
-+    maxItems: 6
-+    description: |
-+      Depend to which INTC0 or INTC1 used.
-+      INTC0 and INTC1 are two kinds of interrupt controller with enable and raw
-+      status registers for use.
-+      INTC0 is used to assert GIC if interrupt in INTC1 asserted.
-+      INTC1 is used to assert INTC0 if interrupt of modules asserted.
-+      +-----+   +-------+     +---------+---module0
-+      | GIC |---| INTC0 |--+--| INTC1_0 |---module2
-+      |     |   |       |  |  |         |---...
-+      +-----+   +-------+  |  +---------+---module31
-+                           |
-+                           |   +---------+---module0
-+                           +---| INTC1_1 |---module2
-+                           |   |         |---...
-+                           |   +---------+---module31
-+                          ...
-+                           |   +---------+---module0
-+                           +---| INTC1_5 |---module2
-+                               |         |---...
-+                               +---------+---module31
++	chained_irq_exit(chip, desc);
++}
 +
++static void aspeed_intc_irq_mask(struct irq_data *data)
++{
++	struct aspeed_intc_ic *intc_ic = irq_data_get_irq_chip_data(data);
++	unsigned int mask = readl(intc_ic->base + INTC_INT_ENABLE_REG) & ~BIT(data->hwirq);
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupt-controller
-+  - '#interrupt-cells'
-+  - interrupts
++	guard(raw_spinlock)(&intc_ic->intc_lock);
++	writel(mask, intc_ic->base + INTC_INT_ENABLE_REG);
++}
 +
-+additionalProperties: false
++static void aspeed_intc_irq_unmask(struct irq_data *data)
++{
++	struct aspeed_intc_ic *intc_ic = irq_data_get_irq_chip_data(data);
++	unsigned int unmask = readl(intc_ic->base + INTC_INT_ENABLE_REG) | BIT(data->hwirq);
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
++	guard(raw_spinlock)(&intc_ic->intc_lock);
++	writel(unmask, intc_ic->base + INTC_INT_ENABLE_REG);
++}
 +
-+    bus {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
++static struct irq_chip aspeed_intc_chip = {
++	.name			= "ASPEED INTC",
++	.irq_mask		= aspeed_intc_irq_mask,
++	.irq_unmask		= aspeed_intc_irq_unmask,
++};
 +
-+        interrupt-controller@12101b00 {
-+            compatible = "aspeed,ast2700-intc-ic";
-+            reg = <0 0x12101b00 0 0x10>;
-+            #interrupt-cells = <2>;
-+            interrupt-controller;
-+            interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 193 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 194 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 195 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 196 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 197 IRQ_TYPE_LEVEL_HIGH>;
-+        };
-+    };
++static int aspeed_intc_ic_map_irq_domain(struct irq_domain *domain, unsigned int irq,
++					 irq_hw_number_t hwirq)
++{
++	irq_set_chip_and_handler(irq, &aspeed_intc_chip, handle_level_irq);
++	irq_set_chip_data(irq, domain->host_data);
++
++	return 0;
++}
++
++static const struct irq_domain_ops aspeed_intc_ic_irq_domain_ops = {
++	.map = aspeed_intc_ic_map_irq_domain,
++};
++
++static int __init aspeed_intc_ic_of_init(struct device_node *node,
++					 struct device_node *parent)
++{
++	struct aspeed_intc_ic *intc_ic;
++	int ret = 0;
++	int irq, i;
++
++	intc_ic = kzalloc(sizeof(*intc_ic), GFP_KERNEL);
++	if (!intc_ic)
++		return -ENOMEM;
++
++	intc_ic->base = of_iomap(node, 0);
++	if (!intc_ic->base) {
++		pr_err("Failed to iomap intc_ic base\n");
++		ret = -ENOMEM;
++		goto err_free_ic;
++	}
++	writel(0xffffffff, intc_ic->base + INTC_INT_STATUS_REG);
++	writel(0x0, intc_ic->base + INTC_INT_ENABLE_REG);
++
++	intc_ic->irq_domain = irq_domain_add_linear(node, INTC_IRQS_PER_WORD,
++						    &aspeed_intc_ic_irq_domain_ops, intc_ic);
++	if (!intc_ic->irq_domain) {
++		ret = -ENOMEM;
++		goto err_iounmap;
++	}
++
++	raw_spin_lock_init(&intc_ic->gic_lock);
++	raw_spin_lock_init(&intc_ic->intc_lock);
++
++	/* Check all the irq numbers valid. If not, unmaps all the base and frees the data. */
++	for (i = 0; i < of_irq_count(node); i++) {
++		irq = irq_of_parse_and_map(node, i);
++		if (!irq) {
++			pr_err("Failed to get irq number\n");
++			ret = -EINVAL;
++			goto err_iounmap;
++		}
++	}
++
++	for (i = 0; i < of_irq_count(node); i++) {
++		irq = irq_of_parse_and_map(node, i);
++		irq_set_chained_handler_and_data(irq, aspeed_intc_ic_irq_handler, intc_ic);
++	}
++
++	return 0;
++
++err_iounmap:
++	iounmap(intc_ic->base);
++err_free_ic:
++	kfree(intc_ic);
++	return ret;
++}
++
++IRQCHIP_DECLARE(ast2700_intc_ic, "aspeed,ast2700-intc-ic", aspeed_intc_ic_of_init);
 -- 
 2.34.1
 
