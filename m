@@ -2,63 +2,67 @@ Return-Path: <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05B8E9A1099
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Oct 2024 19:27:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9659A1686
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Oct 2024 02:08:55 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [IPv6:::1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XTHwf486Rz3bgV
-	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Oct 2024 04:27:46 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4XTSqC1XxKz3cZM
+	for <lists+linux-aspeed@lfdr.de>; Thu, 17 Oct 2024 11:08:39 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Delivered-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1729099665;
-	cv=none; b=Gh1AsKlSWyPNkjcWoIt6rJeie9gwkohmHqN4/xh7oXLc0VT1tF+aFa509UUnKVv/45IUqCLKbw/WmFw5q/jUc3eUbcHdBOHBG3Xs7MqT0aY5It+rr+2filFoDigaO5g/jXGns141luA5dH7JjH7on2Fox7S4vR2wRkDrBVuDeZmuQKYI4Q3Yb6LuGBxfZS2sVSvCWyOQDHOVSB24joVBw3uJegU0lWMPoVf/3vzoZ+4blSirtungHwb2jC5xTQibuUHzjTYKr1Vrz1FOKqN8kNQwfGnd4moZyVvkTtdEp/a66hiwhNB2u5KZoB/h6Z/4Puz+0Np0GcleVmBL5NZaiQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1729123714;
+	cv=none; b=W6H3okL5fNXcN9yvlglb/0JOyjZNL8zeTFTOcM3x9XrIDni+U3RiMR9UHAagvPhMKtQiC4hmPXMy8JbVsXMewEafX2GUIq4sWg2E3shdb1FdndykAFbD4+J2vFxsp+Wlf6hFHyCLxvcMVHPjd3GD+5gZLLN85XFKdqDOlA/0ndT9fhYYuUMmNgh1z6+22CboKghShXupLELmu+GVBNxkzolHLXOdmE5tjP5U5dfZ9DqZaMozFyhkW+OMiQuLXObrqcsNesnRBfllAeupfMQYbLwIWOguHYWglHXHIki/LaU97M31nI5winVjznMlnD0ETSKmT4gQP5tvLfv+9GjjMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1729099665; c=relaxed/relaxed;
-	bh=KRCU1dq1mteJmdk+Xab2HSdeJkY14Uqvh4+Bc2LQEvA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NwqtA8AON9nh2claBFGovg/6hSRbtX4u0x0JX3Pwa4Cf2puwisRFk4hbShjLba3Uex6RCbMJku6opl6CFmYVV1N1M7hKl9kEBTztYDeZm7/fsj5ALNlRaR0wc7pHSuODL7qv3RG5RigbTvt8ApTr2hXiNSScMGBei1zxDZFg1ch+0c0I+p+DWHco/8KHSJlTriWt57pbiqxwI0FQVajAOrcun4Y5d5uQ0KUlGyLoWwgxxP6DvmKEHHX2i9b2qnfotgbxY5rQG/f0VjHwh2ZlA92x4FGHnVhsrKlYmzV9Ba+3UgRHSsKRbtm9uzkFIkGaSPdTCOMuFkLAO2khMZmOlQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bejmBuPz; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1729123714; c=relaxed/relaxed;
+	bh=MJLV0tcHDxYrAJWRYnY4HRU2T9JXBQ/Ox19qpn6RCQY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mOonYO/hzPxBc13nKRYwFK6Cf4WWMP6FRpcI16Jgw6nMO5BPlgpiAFkp8yZf4j4nbAgHY3eoj77YdRTaUM8IJmez05KdAzYWLPBTs8s6G1QYYQgcucqt7AcxAfNZMPAvghNrrC0cCwdQG0sVDONlGewCGIdg/E442/KH2W97swEy+m5nyqtU0+0Di2EYIX4HD4ir8FYb1K/R6xW4kJwO6p5lIK1C09P3kEjGhG1XfpX8tS9VQSVhQZAeNzrUshvsKGRQtFDQGrEA7p36bDPv35swJF0IPhwdoGqvi2CayayU6vkD+MasSa05Lp8ytz/pgI8sKTBb6BxLpUDA149Cgw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=PdIzXG2o; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bejmBuPz;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=PdIzXG2o;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XTHwc41DGz2yF0
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 17 Oct 2024 04:27:44 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 9D5925C0578;
-	Wed, 16 Oct 2024 17:27:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92AF4C4CEC5;
-	Wed, 16 Oct 2024 17:27:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729099661;
-	bh=272Q2s1xa44MaO0n8oTBTXmRy6jsjZZweNSs8qCpZvQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bejmBuPzVsy4XgbhsU5iXKhZ/oFvXw9OV647k+dksp2e5R82EObDVVzlwt+ePy6ex
-	 x8ka188rIEmvUzA60c63yetG7cF/RynGSaWLgVJUFT84Q2MJuWOI8aqcVpjWo4jYrB
-	 hnJ7Xfl7QuRX2/Xg9RwHLObGBhPlTpx68EN7GdyJldt+9DFjhBavMfrnnuNX2PIi47
-	 ywKx7J6Xnb8XjnOOCBch2OlNf149br0VT8pViAOsQzL3DyXFtNJqtFo4/t2coT85Az
-	 GE+aPP6VRn9kRR0zl/MaAsqiTY/2H17ZAxgE2NA7CO6xFcVJp92YtiSIJHxo0cJ4BI
-	 2VTpnaoQ6+H9A==
-Date: Wed, 16 Oct 2024 12:27:40 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Kevin Chen <kevin_chen@aspeedtech.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: interrupt-controller: Add support
- for ASPEED AST27XX INTC
-Message-ID: <172909966003.2068484.893211890028147027.robh@kernel.org>
-References: <20241016022410.1154574-1-kevin_chen@aspeedtech.com>
- <20241016022410.1154574-2-kevin_chen@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4XTSq46tbWz3bZr;
+	Thu, 17 Oct 2024 11:08:32 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1729123710;
+	bh=MJLV0tcHDxYrAJWRYnY4HRU2T9JXBQ/Ox19qpn6RCQY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=PdIzXG2oo8nlIjIt6YdEvK79moJ6OhTLC/559NkVkW3MmTY58QSR7gPQ2bMIHvFPP
+	 K0jYXX6ycnnuKPOQrAUJeXy6ScnODBUZNqR8dMda4SDR9uglT/iFxny9G3M41bYOpc
+	 X7Ic9ngP3FWtxLnyhAK29dxGRG5XcISMN1L4Z51H2nZ7c+G9tMRMhgP+PiM+VV1XoA
+	 20HeD6o6Hikr84Z4Pr2tfKanhrxUbO7LT03hNeSt9ClkUIvB+6moOuJTHcQga5u3As
+	 5+Ucba5h9Cw30ZS3/6cwBRcxAKBVgYE/y6HDHu0vkmhsf06bI+PO56Qx1DJUrSQWhW
+	 Cet5g3j+8MMbA==
+Received: from [192.168.68.112] (203-173-0-39.dyn.iinet.net.au [203.173.0.39])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 913C667E1F;
+	Thu, 17 Oct 2024 08:08:27 +0800 (AWST)
+Message-ID: <f833ef3b873d0e71581dd138f046b19fa3fdeaf2.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] ARM: dts: aspeed: Add device tree for Ampere's Mt.
+ Jefferson BMC
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Chanh Nguyen <chanh@amperemail.onmicrosoft.com>, Chanh Nguyen
+	 <chanh@os.amperecomputing.com>
+Date: Thu, 17 Oct 2024 10:38:26 +1030
+In-Reply-To: <c42be4ea-9902-4fac-8b1e-afc38fe04bad@amperemail.onmicrosoft.com>
+References: <20241014105031.1963079-1-chanh@os.amperecomputing.com>
+	 <172891445289.1127319.4114892374425336022.robh@kernel.org>
+	 <b5919d904c9f06a618a54d49bc895c3081a511e4.camel@codeconstruct.com.au>
+	 <e8e31fb4-4a9f-4ea9-be4d-9ba29d824cc5@amperemail.onmicrosoft.com>
+	 <7555c528c90e6151f54d0e17c278527f95fac184.camel@codeconstruct.com.au>
+	 <c42be4ea-9902-4fac-8b1e-afc38fe04bad@amperemail.onmicrosoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241016022410.1154574-2-kevin_chen@aspeedtech.com>
-X-Spam-Status: No, score=-5.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.0
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 X-BeenThere: linux-aspeed@lists.ozlabs.org
 X-Mailman-Version: 2.1.29
@@ -71,44 +75,57 @@ List-Post: <mailto:linux-aspeed@lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed-request@lists.ozlabs.org?subject=help>
 List-Subscribe: <https://lists.ozlabs.org/listinfo/linux-aspeed>,
  <mailto:linux-aspeed-request@lists.ozlabs.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, krzk+dt@kernel.org, tglx@linutronix.de, linux-arm-kernel@lists.infradead.org
+Cc: "Rob Herring \(Arm\)" <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, OpenBMC Maillist <openbmc@lists.ozlabs.org>, Thang Nguyen <thang@os.amperecomputing.com>, linux-kernel@vger.kernel.org, Phong Vo <phong@os.amperecomputing.com>, Rob Herring <robh+dt@kernel.org>, Khanh Pham <khpham@amperecomputing.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Open Source Submission <patches@amperecomputing.com>, linux-arm-kernel@lists.infradead.org, Quan Nguyen <quan@os.amperecomputing.com>
 Errors-To: linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org
 Sender: "Linux-aspeed" <linux-aspeed-bounces+lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 
+Hi Chanh,
 
-On Wed, 16 Oct 2024 10:24:09 +0800, Kevin Chen wrote:
-> The ASPEED AST27XX interrupt controller(INTC) contains second level and
-> third level interrupt controller.
-> 
-> INTC0:
-> The second level INTC, which used to assert GIC if interrupt in INTC1 asserted.
-> 
-> INTC1_x:
-> The third level INTC, which used to assert INTC0 if interrupt in modules
-> of INTC asserted.
-> 
-> The relationship is like the following:
->   +-----+   +-------+     +---------+---module0
->   | GIC |---| INTC0 |--+--| INTC1_0 |---module1
->   |     |   |       |  |  |         |---...
->   +-----+   +-------+  |  +---------+---module31
->                        |
->                        |   +---------+---module0
->                        +---| INTC1_1 |---module1
->                        |   |         |---...
->                        |   +---------+---module31
->                       ...
->                        |   +---------+---module0
->                        +---| INTC1_5 |---module1
->                            |         |---...
->                            +---------+---module31
-> 
-> Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
-> ---
->  .../aspeed,ast2700-intc.yaml                  | 86 +++++++++++++++++++
->  1 file changed, 86 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml
-> 
+On Wed, 2024-10-16 at 17:26 +0700, Chanh Nguyen wrote:
+>=20
+> On 16/10/2024 12:07, Andrew Jeffery wrote:
+> > You can also find discussions where other maintainers (Guenter, hwmon
+> > maintainer; Krzysztof, devicetree maintainer) have asked that "pmbus"
+> > not be used as a compatible:
+> >=20
+> > https://lore.kernel.org/all/f76798ea-6edd-4888-8057-c09aaed88f25@roeck-=
+us.net/
+> >=20
+>=20
+> Hi Andrew,
+> I checked the discussion at=20
+> https://lore.kernel.org/all/f76798ea-6edd-4888-8057-c09aaed88f25@roeck-us=
+.net/=20
+> . It seems the maintainers don't want to use the "pmbus" compatible for=
+=20
+> specific devices. The maintaners require an explicitly compatible from=
+=20
+> device list in drivers/hwmon/pmbus/pmbus.c .
+>=20
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+There are two problems:
 
+1. Describing your _hardware_ (not drivers) in the devicetree
+2. Binding a driver to your device
+
+You ultimately care about both 1 and 2 as you want Linux to do
+something useful with the device, but for the purpose of this patch
+adding the devicetree, 1 is what matters and 2 is not really a part of
+the considerations.
+
+What needs to be the case is that the devicetree describes the device
+via an appropriate compatible string for the device (manufacturer and
+part number). Prior to that, the compatible string for the device needs
+to be documented in a devicetree binding. This may be the trivial-
+devices binding if there are no extra properties that need to be
+described, or you may need to write your own binding document for the
+device if it's more complex and one doesn't yet exist.
+
+So whatever is in pmbus.c needs to be fixed later on if your device is
+not yet supported by it, but that's a separate problem (2) to the
+problem you have here (1).
+
+Who is the manufacturer and what is the part number?
+
+
+Andrew
