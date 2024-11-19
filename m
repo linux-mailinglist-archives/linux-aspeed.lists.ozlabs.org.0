@@ -1,61 +1,70 @@
-Return-Path: <linux-aspeed+bounces-139-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-141-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EEB29D1DA2
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Nov 2024 02:52:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0F39D26CB
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 Nov 2024 14:26:29 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XsnYl6Hc2z30JH;
-	Tue, 19 Nov 2024 12:52:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Xt4yW3KgFz2y72;
+	Wed, 20 Nov 2024 00:26:27 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1731981147;
-	cv=none; b=hSk/By4gEBn6EgPdaO/nPIeWfRfyTk0zZv7p4hV+NchVqI9xaeixE9de2D82CXL1KQ8WwBd/wdNPh4OFm/ZGGlX2C6w5fv+v4QHxn25CCmFZ7Y9SCGknkkMJO3e3dVSx9O9zJbwdLl8nvyRK5Dr3tGbaZLgBjDtd6vvXh05+M90fainhbSyZn5ZrF8yzXRza+JQQcJb9vDb46i7AAMcmiz9Ai1G+pZXAZ/typ74TsUjjFG9SqMkX+gRemTGp1BxIv/MjgHKM5AncQR7uOYBhJ81vmKVFBZ54PgYvHE8xJpfV94aAaMovslbNAa5oPSBTcUz2+ShkRa6r08KsiPikPA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1732022787;
+	cv=none; b=NoPg3S4GUdkN5UbLl/MO2r3pR0mo3xQECm4oLcX773gqLlvbN37E2ltEgOz7arAr21Fl2SyF2kAG4dP5QMRQ48Vi6MIrn/QbVZwJbTyuISpbsI20uUFNbz5oj6VXt/O7v5MeCRblgGF2OozSwqZmyZmyihm0YNM4rpU2NFsGhfPrz+0f3laOkm0LdgN6+rY5tUlnxIJEUbSuwDqy69EXjUeECQfLUbBmLK96/wI7mlMCyFbNrmbOdUrtTzskGd1k7Ty/Xl9hJxEUvFa3DR4U60p+hjJGmin3Ugwm9vQCFwjbO4aoq6ixPi6DPb+JOE09wBVedTvTl0BCxkRnKNN7Kg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1731981147; c=relaxed/relaxed;
-	bh=SxM76o8BGy53AtlOJoitl7JV8kJz7mesTX75V2BZ4D4=;
+	t=1732022787; c=relaxed/relaxed;
+	bh=10XFHA4WlKYuCUuXVeCcAEgWg2V+Sh14geel43tsfcc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=krdkle9FOgn+7YRxdbFh6rCrQIHEgC3bjAp+qVu3h11gKQgRuHtnnYHj/nEuDvltP692s9XEYornrcFAbV2c0g94/h8LOnFSThx/B07ax+vfij4rDqK2Vo6zsZwghM/QOwVsVdXRU6g1JWzdQjXODLY8o9uJmiYhwDowP5ee6wknBpFqNOSxSuMvXzxhakEXTWxXTD6qr3J6S1YCf5WjZ87y/49piYp48rse/kHC+rmXAbMgI7Tji+fWNuqkFXt9QZ6AsGN88xoM4lxa2zSKHL4YUll7FWJ1kXHXr1ALwCkXfx7mzLFiztMk/foCTInV3eb9m/14JnCYF7zCAa54ww==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=qokv2DXP; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=EBBAWfLdGNNx3Dj4BOmfw7YzkHjgMWnrW2Yei9KwSpaLlzHnYnr37PaHiK1kgakEXa2+hYlWeDBMecrHlRKfgQknfpcg8iarAZ/FkQ7sYtoWbDjl0lRacXS+PinVJ+rLt3gN6k8wv2EkOs84GK8yDFYuOrr01YcMFzF+z1ZazMVUN7rCDq6BF0NCLbgp190WrkXRxUvqr6px5m3DZv8qfmXICqWtKDyOjqkBVhvXdeef2gk7SMqLPHcUkHPEojaVXxaH+KPvNVKWD1FTrVTMbhPf3ClPpPP3BGVG1o8hOVbnfmHpYcXZnCyDJ4B4hIiEEaUJlx6sgqpS+cILJpGVJg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=v9EloRtN; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=qokv2DXP;
+	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=v9EloRtN;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-X-Greylist: delayed 126 seconds by postgrey-1.37 at boromir; Tue, 19 Nov 2024 12:52:26 AEDT
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XsnYk6qT0z3028
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 19 Nov 2024 12:52:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Xt4yT4kkBz2xxt
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 20 Nov 2024 00:26:25 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=SxM76o8BGy53AtlOJoitl7JV8kJz7mesTX75V2BZ4D4=; b=qo
-	kv2DXPF5NrFtTmXJuEOhpovQLZUIAGFuSld5TeLwIPl4mLkHcAF1mYH216IVlMWFOR4wCy9/us05n
-	wPB7GLUOqbaKO12CCPHEKGt2dCOpkA+ildcppazSaUoNRItAVq6uDUkenkPYF6Km+XGmoh7xYVLE4
-	Nwvweckmq3fDjYo=;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=10XFHA4WlKYuCUuXVeCcAEgWg2V+Sh14geel43tsfcc=; b=v9EloRtNMXlEcEg5euoahINDxU
+	BsgU65QlQD3uKoH2Qfbws9YV99RKTqGhbNFfLlHJdXiMqeRGVZPP9EN3NhIszhvO2b7U1cHNOl8TB
+	Uf2vRBK/g7+XhmdmS+DtqxOBlvzGNzx5wQ9oYLv7nfbV0tIxHs9aYDTptdocqbXumWkc=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1tDDPX-00DjZv-5j; Tue, 19 Nov 2024 02:52:11 +0100
-Date: Tue, 19 Nov 2024 02:52:11 +0100
+	id 1tDOEv-00DnnA-DP; Tue, 19 Nov 2024 14:25:57 +0100
+Date: Tue, 19 Nov 2024 14:25:57 +0100
 From: Andrew Lunn <andrew@lunn.ch>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Jacky Chou <jacky_chou@aspeedtech.com>, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, joel@jms.id.au, hkallweit1@gmail.com,
-	linux@armlinux.org.uk, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [net-next 3/3] net: mdio: aspeed: Add dummy read for fire control
-Message-ID: <b8986779-27eb-4b60-b180-24d84ca9a501@lunn.ch>
+To: Jacky Chou <jacky_chou@aspeedtech.com>
+Cc: "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	"robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"joel@jms.id.au" <joel@jms.id.au>,
+	"andrew@codeconstruct.com.au" <andrew@codeconstruct.com.au>,
+	"hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: =?utf-8?B?5Zue6KaG?= =?utf-8?Q?=3A?= [net-next 0/3] Add Aspeed
+ G7 MDIO support
+Message-ID: <6ae91aae-5939-4ffd-a430-181fb88d259b@lunn.ch>
 References: <20241118104735.3741749-1-jacky_chou@aspeedtech.com>
- <20241118104735.3741749-4-jacky_chou@aspeedtech.com>
- <0d53f5fbb6b3f1eb01e601255f7e5ee3d1c45f93.camel@codeconstruct.com.au>
+ <7368c77e-08fe-4130-9b62-f1008cb5a0dc@lunn.ch>
+ <SEYPR06MB513475D2B233EA9BDF52AD259D202@SEYPR06MB5134.apcprd06.prod.outlook.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -68,50 +77,30 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0d53f5fbb6b3f1eb01e601255f7e5ee3d1c45f93.camel@codeconstruct.com.au>
+In-Reply-To: <SEYPR06MB513475D2B233EA9BDF52AD259D202@SEYPR06MB5134.apcprd06.prod.outlook.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-On Tue, Nov 19, 2024 at 09:35:39AM +1030, Andrew Jeffery wrote:
-> Hi Jacky,
+On Tue, Nov 19, 2024 at 05:35:40AM +0000, Jacky Chou wrote:
+> Hi Andrew Lunn
 > 
-> On Mon, 2024-11-18 at 18:47 +0800, Jacky Chou wrote:
-> > Add a dummy read to ensure triggering mdio controller before starting
-> > polling the status of mdio controller.
+> Thank you for your reply.
+> 
+> > > The Aspeed 7th generation SoC features three MDIO controllers.
+> > > The design of AST2700 MDIO controller is the same as AST2600.
 > > 
-> > Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
-> > ---
-> >  drivers/net/mdio/mdio-aspeed.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/net/mdio/mdio-aspeed.c b/drivers/net/mdio/mdio-
-> > aspeed.c
-> > index 4d5a115baf85..feae30bc3e78 100644
-> > --- a/drivers/net/mdio/mdio-aspeed.c
-> > +++ b/drivers/net/mdio/mdio-aspeed.c
-> > @@ -62,6 +62,8 @@ static int aspeed_mdio_op(struct mii_bus *bus, u8
-> > st, u8 op, u8 phyad, u8 regad,
-> >                 | FIELD_PREP(ASPEED_MDIO_DATA_MIIRDATA, data);
-> >  
-> >         iowrite32(ctrl, ctx->base + ASPEED_MDIO_CTRL);
-> > +       /* Add dummy read to ensure triggering mdio controller */
-> > +       (void)ioread32(ctx->base + ASPEED_MDIO_CTRL);
+> > If they are identical, why do you need a new compatible?
 > 
-> Why do this when the same register is immediately read by
-> readl_poll_timeout() below?
-> 
-> If there is a reason, I'd like some more explanation in the comment
-> you've added, discussing the details of the problem it's solving when
-> taking into account the readl_poll_timeout() call.
+> We want consistent naming in the DTS of the new SoC, even if Its 
+> design is the same as the older SoC.
 
-Also, is this a fix? Should it have a Fixes: tag? If so, it should not
-be part of this series, assuming the older devices have the same
-issue.
+You might find the DT Maintainers push back against this. What you
+want is effectively a Marketing game, it has little to do with
+technology, describing the hardware.
 
 	Andrew
 
