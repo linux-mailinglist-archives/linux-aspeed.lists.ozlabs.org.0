@@ -1,66 +1,67 @@
-Return-Path: <linux-aspeed+bounces-151-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-152-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D4B9D33CE
-	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Nov 2024 07:54:18 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AAEB9D3766
+	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Nov 2024 10:51:15 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XtXCW5HHsz2y72;
-	Wed, 20 Nov 2024 17:54:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Xtc7j1Slzz2yRC;
+	Wed, 20 Nov 2024 20:51:13 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:45d1:ec00::3"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1732085655;
-	cv=none; b=Cks74PLiNVZWH4FDepjsmu1hyt4CslR8x+ATAUNDaErWSg77xcZsUpIy6OwmmsdxeCdZ2iEQvyvN2f75kbtlFKJzWZKmDN14KC/zrpc3cSXpuqM33C/rsyMXyM2VrSgwf5PgCbPfr2+JZglzda1dCIN1mxyAFSaoqLUS4yeLQtCI7dbAHo4YRgs6fPqewpcuD4dlmiUQbUALvi0H5Xz9hH5ictPpXE0sEcAkKMJX8mDfZRm7gqcvNlxTSpZa8jP5dLf12HNhGUprxjqvJ+REYcIAGw1HbC9wij8bjnVaZ0Sb1sAGXH9dq/6aDOWwQZ2jwv/AgsVt4H6XC2QLT7R8Nw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2001:4d48:ad52:32c8:5054:ff:fe00:142"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1732096273;
+	cv=none; b=RNNfB757ZKZLPgDmpNZHtuvCI7ChJaXosP1t4SGH9VhKlLx955emEs7xVl5PMPhNN1bOj1bhlp0M62nX/NPYmf3OcTKWSq4ojNCMsw/bOPe2YqgZoV7b2IpHRRP9VHQEp25M1YA1ZC3lQ3FVxcsiT6WwH6pZii8xX8GuQv4AShg7Vj1taSihgQYOaWIy8nK4JLG57c3m91QIo0q45Qijk6PPQ8+DpoJ+bXFO13WFgyVpcRAmzGNyinUD5fKHX2FsS1WN0MY1rb/cB30RcIOESdrY0zFcfylj6NN3kRklnz6Y/6CQptjEIkv3h8ENpL3MNLE3eFnd6RzYdlrHLBsdEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1732085655; c=relaxed/relaxed;
-	bh=ZGVDroxvGZaMmvO0knhWHMPeqQ4OtV04fIWg9bKNd7c=;
+	t=1732096273; c=relaxed/relaxed;
+	bh=kZTawVyREwEbEOOkp3Rqm/v6gSKb/kMRQbLscX9yHuw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FW1JirEhFQiAZIoISzDDW7zya1poG3p0v8cBDaMSV0L7M6CORchRZYDtxqEn3m/Q2Tc8rxNAg1EQrnRtGjfPP14lrOedQYUh6ocIphOGsciiGaHSGFm9nZPd4tvonquFRlkFwa5cZZVYZW/LB47UIlHT6qfKEtO+O+K2Z9un54rlkDpEg4oE8CR+GzhTSZhNJGR4kQRZ3eeuJeqpoZO3QHYectrVPIVSAEtV7pnPsnWzx878tt4hULvaLWwkKypBWf8Go7M/U01uKpPMYvUQLniDtkL43m2/GpS9WbLzaeeIqxeeYZdwe3jkIxSnXsTH0cJu/rBZTssLG9DvvsD3ow==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Hs0kvvOv; dkim-atps=neutral; spf=pass (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=daoUE6WKQXHAInvCRB0aiIrb6WZk51BO7LoASVSJ9gUX1S/l/gxP6Fv9C4+YFg/JV29AtoHD2N6Yd4I+c6qA38GuNP1gqLqOdxx987OqhuH5y8pqUqpPcXyueSTg/4HVRx0XjMoCsjZweE8nBP3R5VjbLkVX/LVcO+TFkQpJ+9Qu5DWL/03Allvlo9KZM50Xb8PpMljn2v5la8aXgCVfgAUYZy4/I6A/2Alot6p2Qdg+7j9zqSzGxUZGs3RKJT/CED8inMv1A9t6Ty3swZcizEsSWWfjlTsTwf0yyUq+k7R9qB1La1169tFSrc+LATb+in0BmRJk8R2FzAlTzhwZcQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; dkim=pass (2048-bit key; secure) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.a=rsa-sha256 header.s=pandora-2019 header.b=igZMxffb; dkim-atps=neutral; spf=none (client-ip=2001:4d48:ad52:32c8:5054:ff:fe00:142; helo=pandora.armlinux.org.uk; envelope-from=linux+linux-aspeed=lists.ozlabs.org@armlinux.org.uk; receiver=lists.ozlabs.org) smtp.mailfrom=armlinux.org.uk
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Hs0kvvOv;
+	dkim=pass (2048-bit key; secure) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.a=rsa-sha256 header.s=pandora-2019 header.b=igZMxffb;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=armlinux.org.uk (client-ip=2001:4d48:ad52:32c8:5054:ff:fe00:142; helo=pandora.armlinux.org.uk; envelope-from=linux+linux-aspeed=lists.ozlabs.org@armlinux.org.uk; receiver=lists.ozlabs.org)
+X-Greylist: delayed 458 seconds by postgrey-1.37 at boromir; Wed, 20 Nov 2024 20:51:08 AEDT
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XtXCV3wCPz2y0K;
-	Wed, 20 Nov 2024 17:54:14 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id EB6E6A429FA;
-	Wed, 20 Nov 2024 06:52:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6954CC4CECD;
-	Wed, 20 Nov 2024 06:54:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732085650;
-	bh=yu0IVEbUHfOiqCOXFtKIo8jBF0HFsQeEynvGjcvNELw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hs0kvvOvB6EcOyu+DecW4JQwfXGTTJf/6WS3IneXaxhzQ7mCu7eid687fHls1LqR4
-	 hVQKmoCeYYzKhg79WNjIfngDZv3Lasyw42DmaJ+pKXXILr8E2Y72GkStjOrN3dLe39
-	 wJzV2dNuGPMZ6j3WyTBGBM2G9lei0aZYx3+q3o8Bh7SB3R6jHn5sRwEkZ3FpBHe0eh
-	 895uK8IKGwN/BVbfBI2leAI85qRvGeXZl6Lgnp/8bh71dfExQPd1UM9XzlibNTmc8e
-	 BrGtmWRZVvM/Kh9sWNyqMp2kEfo3hIhCYl21Rs5S9uy3vYoz+fIKw3UFbXxtdMH/D+
-	 /A2DHGXLlw86w==
-Date: Wed, 20 Nov 2024 07:54:06 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Brendan Higgins <brendanhiggins@google.com>, Tommy Huang <tommy_huang@aspeedtech.com>, 
-	"benh@kernel.crashing.org" <benh@kernel.crashing.org>, "joel@jms.id.au" <joel@jms.id.au>, 
-	"andrew@codeconstruct.com.au" <andrew@codeconstruct.com.au>, "wsa@kernel.org" <wsa@kernel.org>, 
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>, "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, 
-	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	BMC-SW <BMC-SW@aspeedtech.com>, "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>
-Subject: Re: [RFC v1] MAINTAINERS: transfer i2c-aspeed maintainership from
- Brendan to Ryan
-Message-ID: <37pcpov3u7oitszupqaw3upujy7fmns64gijqea5tz3m5zq4yy@stxttuqde5dz>
-References: <20241115044303.50877-1-brendanhiggins@google.com>
- <ZzcPJ9sweqxLZOGf@ninjato>
- <OS8PR06MB75413EC87F76AD0B1BBA0FEFF2272@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <x2rt6k5hw2km2vm4wjnqihop3xcy3uirhxs5wvhnesxc2athgb@c2ra7a62mfve>
- <OS8PR06MB754190CEF8763CCF5CE89899F2202@OS8PR06MB7541.apcprd06.prod.outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Xtc7c4DBfz2xsM
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 20 Nov 2024 20:51:08 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=kZTawVyREwEbEOOkp3Rqm/v6gSKb/kMRQbLscX9yHuw=; b=igZMxffbTRUyD8L+1EoUfrdzky
+	RSCaES81zeNcd2+z6BGEANUnUTKU4IfjdGt+u85jLekbR7U1rsHoncYLr4zg5cR1nKwjoKFdG6/ZC
+	Qx1umwuHGU1wHui6vx5IHTK9UBcFgRWsI0n1SAEWTnn1X1jXAcTFRL0C5pnH9XXUKpIfyWrRfpzry
+	66FUMXQBG2L1hvu0eYY+ZzUPvAe1h6j3tzVaDsT7lFo+FrDcVo3WgPrkzuiMEfWkTrd001NvRabRJ
+	Ewjn/XKISUqt3m0EGepTbsEloWWyFSGQBTDbYsE57tavrghZxu5A4lu+kEOy8NcKfOSmKvCWETIyW
+	oYTXeekg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:41692)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1tDhEg-0005D4-0P;
+	Wed, 20 Nov 2024 09:42:58 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1tDhEb-0006zB-1H;
+	Wed, 20 Nov 2024 09:42:53 +0000
+Date: Wed, 20 Nov 2024 09:42:53 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Jacky Chou <jacky_chou@aspeedtech.com>
+Cc: andrew@lunn.ch, hkallweit1@gmail.com, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	joel@jms.id.au, andrew@codeconstruct.com.au, f.fainelli@gmail.com,
+	netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v2] net: mdio: aspeed: Add dummy read for fire control
+Message-ID: <Zz2vHWLYTRKIG7GK@shell.armlinux.org.uk>
+References: <20241119095141.1236414-1-jacky_chou@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -75,40 +76,48 @@ List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <OS8PR06MB754190CEF8763CCF5CE89899F2202@OS8PR06MB7541.apcprd06.prod.outlook.com>
-X-Spam-Status: No, score=-2.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.0
+In-Reply-To: <20241119095141.1236414-1-jacky_chou@aspeedtech.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Hi Ryan,
+On Tue, Nov 19, 2024 at 05:51:41PM +0800, Jacky Chou wrote:
+> When the command bus is sometimes busy, it may cause the command is not
+> arrived to MDIO controller immediately. On software, the driver issues a
+> write command to the command bus does not wait for command complete and
+> it returned back to code immediately. But a read command will wait for
+> the data back, once a read command was back indicates the previous write
+> command had arrived to controller.
+> Add a dummy read to ensure triggering mdio controller before starting
+> polling the status of mdio controller to avoid polling unexpected timeout.
+> 
+> Fixes: a9770eac511a ("net: mdio: Move MDIO drivers into a new subdirectory")
+> Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
+> ---
+>  drivers/net/mdio/mdio-aspeed.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/net/mdio/mdio-aspeed.c b/drivers/net/mdio/mdio-aspeed.c
+> index c2170650415c..373902d33b96 100644
+> --- a/drivers/net/mdio/mdio-aspeed.c
+> +++ b/drivers/net/mdio/mdio-aspeed.c
+> @@ -62,6 +62,8 @@ static int aspeed_mdio_op(struct mii_bus *bus, u8 st, u8 op, u8 phyad, u8 regad,
+>  		| FIELD_PREP(ASPEED_MDIO_DATA_MIIRDATA, data);
+>  
+>  	iowrite32(ctrl, ctx->base + ASPEED_MDIO_CTRL);
+> +	/* Add dummy read to ensure triggering mdio controller */
+> +	(void)ioread32(ctx->base + ASPEED_MDIO_CTRL);
 
-...
+I'd change that comment to:
 
-> > > > > I see that I am the only person actually listed as the maintainer
-> > > > > at the moment, and I don't want to leave this in an unmaintained state.
-> > > > > What does everyone think? Are we cool with Ryan as the new
-> > maintainer?
-> > > >
-> > > > I am fine, depends on Ryan as far as I am concerned.
-> > > Thanks a lot, Brendan.
-> > > I am ok to be a maintainer.
-> > 
-> > can I take this as an a-b by you?
-> > 
-> Sorry, I don't know your "a-b" means.
-> If to be maintainer, Sure, I am willing to be.
+	/* The above write could be posted, causing the timeout below to
+	 * be inaccurate. Ensure the controller starts before we start the
+	 * timeout.
+	 */
 
-a-b is short for "Acked-by:". I assume you have acked this patch :-)
-
-So, thanks Ryan for taking this driver on you, I hope you'll
-enjoy. I took this patch into i2c/i2c-host-fixes.
-
-Andi
-
-P.S.
-Sometimes you will see r-b which stands for "Reviewed-by".
-Sometimes SoB or Sob or s-b for "Signed-off-by".
-
-It's just a way to overcomplicate something that is easy :-)
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
