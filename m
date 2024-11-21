@@ -1,57 +1,80 @@
-Return-Path: <linux-aspeed+bounces-153-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-155-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5759D3CA9
-	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Nov 2024 14:44:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB1A9D45E4
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Nov 2024 03:53:40 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4XtjJy2PnCz2yPS;
-	Thu, 21 Nov 2024 00:44:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Xv2qQ1tWkz2yjR;
+	Thu, 21 Nov 2024 13:53:38 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1732110274;
-	cv=none; b=XoeweMHNdGaHc8esGE8Z1L/3sEe8zVfN85IfqZI84znHaE5GRMNWaUWSWZxtjAsf71UuiHQ1pUEdl5A7koumv/Hdw+SEi/lWLt2CbzEUyk0DQ9VLzlkQfWOrihfAXnp9WUDua7u2eRwmlyHZaciYhE/nBwmqeJVnTv3ifrIA0kdegMHVSNbdRdoHiFasxiMxRh2IJsV1EWswzXVkaFXTdPGX+wKNMZjlSDR/fsho3mSFXf7DLChhwxe/XbHIv3c57QbuyCXJ5pfZcKO+FEGKjTbhlq+qBtB+l5/lZr8XllmVlzEARM9TYeg0j8CW+3ownzK83qP/rQJGPed1OE4nRg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::335"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1732157618;
+	cv=none; b=NcB9MettFReH8sjl4RdJ2aBWFL5lZmwNkQgfrSEpQb+Pn4wHVOCAB9//NmpPA4WhRHqJeiWTyjSbC/6TCfNwGBwoPvinLlofKnwpzkuZ7IOkeN7lNpJc/fJ/BtLL3U8pICYKUsejPL5/gIL03Y3F1UT9DlHtmSdXvULsA+xl5t2og1AhkXuDg8NLuTb6EuhD1z2lShWIxqpgAj3bWq+sIUYU4iqbDVNFk4Ephatz1qIWPo03KQ7yLuIuQhNwOy+whtE+UWKRMILmYtdsyGG2pjSWOXWUFdhe2ZmdQ7fc3VMxehy3WS6Kah/HmvnFBfG6lDMkvYlvkWi2kYI5WVBCDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1732110274; c=relaxed/relaxed;
-	bh=vwDPiYIBxwEmAaxai1DgMFwF8LB6iOUHjsbt/QR1yko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TpSdnkUnLrDi5TFAaB+oJ0tQyKcnvSEsBFVldDJQR9kIwis5ZcnoaHNFVaOyqQ2B4DrH3yR/czfndUecXQ6GvKlPYCuGQWzYoIRuPVQKjIaiMpQ0vM1H8WB+AQPY0YGT2mjD71tGWpL7rx3BU2XnXc9rRBOFiVOSqJe1IJMExyoccn6ptAALWV/MPkO1m63WhSfVpYu1hiIH1Es5gIq9xkrjCxmlWoY9BeQ7+4ZnoWJL3vAfhyrD4HGaPHPnMCwDn3v5CYJiXye6Xt3Yhz9+KIrJmJGEuI0swDC7m7xN3tPDtLjtCHPoH1j54/2nPTgGr76pEGR/ieJnkRO8Bgjolw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=dwQ/7DzW; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+	t=1732157618; c=relaxed/relaxed;
+	bh=NToX9+BNUIk/wvm1hddBf7K2+ouHu2IvaZpJI3Ppy8I=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=C+KGY+HC60U+ssStvds3fQYCsBCrYR8s2LGJf4dpkG1iO0sSDKe9dLWsQLhpZ/FZKCVu0mSpy1wdh2SYDtJ1w8sTWuQtKA1kkz4PM3e3Rc5nqnpnEqeJACmPr0Z0i/crDEd9DQTD9UKbFdkwS2esxZnSSAMjC3BcuB2duG+Dg1f9k0Ng6VqtMiPo71mX2hnFr0YU6obrpVU1hBDEL25dYz3SU1/e3stFOHhxBWdFvJwS04rbXiuwcRVjrqEvDka/G26JvTMZzMCIXr2vZBTl45HIz+LfrsCp9SzCgvr2e+Zl9TS59a2bh/7GN4g87ormpWZWsKaaf2t7tLNlGVyA0w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FXGcwHTs; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::335; helo=mail-ot1-x335.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=dwQ/7DzW;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FXGcwHTs;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::335; helo=mail-ot1-x335.google.com; envelope-from=peteryin.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4XtjJv73Jbz2xfR
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Nov 2024 00:44:31 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=vwDPiYIBxwEmAaxai1DgMFwF8LB6iOUHjsbt/QR1yko=; b=dwQ/7DzWt63C6SmfRoK5OrKV1l
-	jRvx7JKVfjETzd8RbU+63a98l6A5iM/YrQfGnE+V3inVGUYSkESBNpTPj2Ig8sYuN1yDBXsL9ck6L
-	8ILcrrEBhA5M3tzqu6J9pbDVSrda9UiViBg6CDjvGe5SID+sFJDX2PtAzet4YPzlLJNw=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tDkzw-00DxOS-NA; Wed, 20 Nov 2024 14:44:00 +0100
-Date: Wed, 20 Nov 2024 14:44:00 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Jacky Chou <jacky_chou@aspeedtech.com>, hkallweit1@gmail.com,
-	linux@armlinux.org.uk, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, joel@jms.id.au,
-	f.fainelli@gmail.com, netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Xv2qM3nXvz2yD6
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Nov 2024 13:53:34 +1100 (AEDT)
+Received: by mail-ot1-x335.google.com with SMTP id 46e09a7af769-71a6b13bbceso162475a34.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 20 Nov 2024 18:53:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732157609; x=1732762409; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NToX9+BNUIk/wvm1hddBf7K2+ouHu2IvaZpJI3Ppy8I=;
+        b=FXGcwHTsjW0km2m4Z0CyjtY4hV9T8zaQ+JMjFKSuJ41VHF6clY4+Q0SYF/bNXyAQiG
+         NrA42m9V6NrudjI5WJQiD2EXkD1RFsC98FCBuQ+5fiqkyxKHNb9OzSosTd1cejH01sTh
+         Nt6Wt43j+np3cnLior2NcT4r4atPiuEM9u2A4ZCvuQQxAWG+gnEzwPT08w+eXcCDla04
+         T5SwpclgmUmpbBFd4Xv6SFlo3JWaJ1YcMg7Bojkd7ZO9gXk8ylNB1KKYwHPDfdjo/rgl
+         EdxHTlAfzT1dx6iQ4tkd1ftRNzELJdX2n/CrQd3D1vMXysarA25Z9dap0Wnn6uK7AUPY
+         U8MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732157609; x=1732762409;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NToX9+BNUIk/wvm1hddBf7K2+ouHu2IvaZpJI3Ppy8I=;
+        b=w0JfSTIYJZnC2OJW/WrWfkCrIIqaD96h1HaWiIo1CCo3XpRuD26YCbpRSEMeqnrRxa
+         JZQGy6q+Q5A55G+Sbd619FTzgzm6VC8GFTImEbENOlG7zyVqmteVKsXjRBEDO4pPLuZE
+         6DrSV23bYakcSB1yc3ewV2iO4JW7nCeA04ro72sBDE+SJ7He4SgYOMpmNZv22uXAgvrQ
+         DPPrl7aWZGBCcUZvbUvjMmSHNw9gCImeVRRx2+0NOZ1vVE+fZgYfy0h3yf00JMDfd9/q
+         JPU4b1HM7PUDwByaMbXiUYoXtWDR9uYhjEH3TqXUQTk0T5KC1oxydt/HFFzDKjty0nJJ
+         tVbw==
+X-Forwarded-Encrypted: i=1; AJvYcCUKc3355tsv2zaj6RrGMWOPTbpBoA0PwDtK9D0DMybSk1cNJgJjvHEUqZR3b4hewvMjLWl2/AhHI61gy9o=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YxyyOtea6jmCiOLE66XmKS+KJreDyLUsp0DJtaGkW9FFJQguxQO
+	HU4aRbuW2bn10QzETkF2GHZnjLsRjxBz8GJhHzK2mZbGZJB27hI/
+X-Google-Smtp-Source: AGHT+IFkbEHHx3XfJszzn97ujfOlcNxcTBfxrOx7+9a00uiuu8u3anBb6MDO613kJHYzHthySL2VsQ==
+X-Received: by 2002:a05:6830:1512:b0:718:9b8b:429d with SMTP id 46e09a7af769-71ab30c329bmr5065817a34.4.1732157609031;
+        Wed, 20 Nov 2024 18:53:29 -0800 (PST)
+Received: from peter-bmc.dhcpserver.bu9bmc.local (2001-b400-e309-7a4e-e779-1177-8427-3602.emome-ip6.hinet.net. [2001:b400:e309:7a4e:e779:1177:8427:3602])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fbb64f5514sm285513a12.34.2024.11.20.18.53.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Nov 2024 18:53:28 -0800 (PST)
+From: Peter Yin <peteryin.openbmc@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v2] net: mdio: aspeed: Add dummy read for fire control
-Message-ID: <b6155c5f-3012-42d1-90dc-8ef39d1eef2d@lunn.ch>
-References: <20241119095141.1236414-1-jacky_chou@aspeedtech.com>
- <d28177c9152408d77840992f2b76efe3cb675b7a.camel@codeconstruct.com.au>
+Subject: [PATCH v2 0/6] Revise Meta(Facebook) Harma BMC(AST2600)
+Date: Thu, 21 Nov 2024 10:53:17 +0800
+Message-Id: <20241121025323.1403409-1-peteryin.openbmc@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -64,44 +87,46 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d28177c9152408d77840992f2b76efe3cb675b7a.camel@codeconstruct.com.au>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.0
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-On Wed, Nov 20, 2024 at 03:13:11PM +1030, Andrew Jeffery wrote:
-> On Tue, 2024-11-19 at 17:51 +0800, Jacky Chou wrote:
-> > When the command bus is sometimes busy, it may cause the command is
-> > not
-> > arrived to MDIO controller immediately. On software, the driver
-> > issues a
-> > write command to the command bus does not wait for command complete
-> > and
-> > it returned back to code immediately. But a read command will wait
-> > for
-> > the data back, once a read command was back indicates the previous
-> > write
-> > command had arrived to controller.
-> > Add a dummy read to ensure triggering mdio controller before starting
-> > polling the status of mdio controller to avoid polling unexpected
-> > timeout.
-> 
-> Why use the explicit dummy read rather than adjust the poll interval or
-> duration? I still don't think that's been adequately explained given
-> the hardware-clear of the fire bit on completion, which is what we're
-> polling for.
+Summary:
+Revise linux device tree entry related to Meta(Facebook) Harma
+specific devices connected to BMC(AST2600) SoC.
 
-I'm guessing here, but if the hardware has not received the write, the
-read could return an indication that the hardware is idle, and so the
-poll exits immediately. The returned value of the first read need to
-be ignored. It is simpler and more reliable to do that with an
-explicit read, rather than try to play with the poll timing.
+Base on:
+https://github.com/openbmc/linux/blob/dev-6.6/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
 
-AS i said, a guess. We need a good commit message explaining the
-reality of what is happening here.
+Base on:
+https://lore.kernel.org/all/14e1a0f581417d4228aea8c2569598d42b4bd334.camel@codeconstruct.com.au/
 
-	Andrew
+v1->v2
+  - Provide additional details for SGPIO.
+  - Add adc128d818 device
+
+v1
+  - Patch 0001 - Harma: Revise node name
+  - Patch 0002 - Harma: Add retimer device
+  - Patch 0003 - Harma: Revise GPIO line name
+  - Patch 0004 - Harma: add e1s power monitor
+  - Patch 0005 - Harma: fan board io-expande
+  - Patch 0006 - Harma: add adc128d818
+
+Peter Yin (6):
+  ARM: dts: aspeed: Harma: Revise node name
+  ARM: dts: aspeed: Harma: Add retimer device
+  ARM: dts: aspeed: Harma: Revise GPIO line name
+  ARM: dts: aspeed: Harma: add e1s power monitor
+  ARM: dts: aspeed: Harma: fan board io-expander
+  ARM: dts: aspeed: Harma: add adc128d818
+
+ .../dts/aspeed/aspeed-bmc-facebook-harma.dts  | 134 ++++++++++++++----
+ 1 file changed, 110 insertions(+), 24 deletions(-)
+
+-- 
+2.25.1
+
 
