@@ -1,80 +1,76 @@
-Return-Path: <linux-aspeed+bounces-188-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-190-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71D39EDE72
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2024 05:26:35 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1CC99EDEA0
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2024 05:51:26 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Y7zts0GF5z30Sy;
-	Thu, 12 Dec 2024 15:26:29 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Y80RY6fn4z30Sw;
+	Thu, 12 Dec 2024 15:51:21 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::42d"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1733888961;
-	cv=none; b=Bf+OfWivzgJlNOp3P9PTe7qgUyIculiLoAnqYmmpMPldDQrlZOicp1bjwTjm2HQxagqwbb3rczdE8BW6Po2qLyRODOShCAXcojYnGg7koOnAwSiM/VNtI/gbREQxQYfcOBMN7H+Em2Fa2g6rCBO23paC6Pdds8astP1ZlAhaa2i+V3Znsh7hjquRiTBU4KWzITfRyReHQqUSuaq4sHOXWvHGx3JirbkZ6f5wZNxs1VvYcnsW6Z25P+AV0a/9xudakYaKsvRhv/vODjvw6SHDrAL7S/wrMGGiK+yAWPiYMQPzVxEkTmOdvJ4k7M8pLZ1UIiJxizyEIVAOAmhxhsB+cA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::1033"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1733889157;
+	cv=none; b=Ct5wOptihjrAc1jAfhlyZhqW9FsbVtOsMBz/XZiZmM4/vEfcFWcSMa+g9egCikoly0R8MVWmdmNgsHMa1h0gGoK/7SvF0RiOgMM43cAj9rfhEL34TNzGhV4bpAUEXyYfjOAHv1vc2GaqRyE6dWNYo6/+vXshYAMuI8TQxk899ZaJ1+hmRcW4HKBpLj2j/XxBN4EbZtebNS6RPI4tZPlVilph4EiA8kVX9ROsudN4ZOYW1X2iFxRCjJ8o8r4ZEpQfva5Cfz93R1hMwburkLdKDU3QzpsQXOnGgQWhEM8c+oByC0JkB8n20woHTtTeoUXzL43kOlNBOzw4vIIHBj5+rg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1733888961; c=relaxed/relaxed;
-	bh=F5SQ9JD2m8PwX2AyXJonB6lYI/RXq35sHgQ7Uk77VOQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jtiB5GqN5co1KaBD3TIm8i6KNi78bMjfnZbb+SjJMXHIOXwVeFcDsGLcJJiASzp6s8JmSKxS/RSpzBHMlg6js0uMlxkU6Edv3Tl8UJsQ6Q/Mmo3qpecVXvx8T9MTEPTUcqvdDzmO2bECWX490hGd2D99CH4FanVcTfhjmUnVq1H3A76h+6+pxa9mnDGKK5OwJjExVjqqHxhs0fcmMWyGntBJC4UFA+vgV6Xf113ywA95NzNrfrEsY2l96k5PKH3QfUEjrYa7k4gknW+VL389cTQCebNRT6RFQHEOGp3PBiVTAfqUbOtQ/TYmOyAMgGGdOluLJobhk0UF0Ob4uDjUYA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=fail (p=none dis=none) header.from=pf.is.s.u-tokyo.ac.jp; dkim=pass (2048-bit key; unprotected) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=CQQJitxM; dkim-atps=neutral; spf=none (client-ip=2607:f8b0:4864:20::42d; helo=mail-pf1-x42d.google.com; envelope-from=joe@pf.is.s.u-tokyo.ac.jp; receiver=lists.ozlabs.org) smtp.mailfrom=pf.is.s.u-tokyo.ac.jp
+	t=1733889157; c=relaxed/relaxed;
+	bh=C+GRX0w5qrhMggfFHQ6mX+79vq6dxMz/WJh56g9FC0w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ltUbqom3kF7oISrQ90hbe7/WG9QTUxJfKBnIknFopkRb7VkasA0axqkiqFk7WRgVSV9GX/8hxIoO/D/dxDhRttn7PeTzn3Z5+SWI8eeDoCFOfL7QUvih/pH6KuUc0VNJ76ALg7F/B60lzO2rlF7BJpOjEQorFoM6ZB4VNGWs7juCzUyHOxYDdr9uHY6pX5Ygo9OKgAtLag3d1hslENHuYNSxEVTvFzXd08z5eCYDYiStr78inxDMPQO64UuP6eqMyg94/gioTAHst0yPrz+HuBSVw56s9phUMlYzky9eJs2L4bEcXdeGkcEa0B9Wg6EKDf/pdh1wk3agX2GOWC8I7w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=fail (p=none dis=none) header.from=pf.is.s.u-tokyo.ac.jp; dkim=pass (2048-bit key; unprotected) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=W3D1DmvA; dkim-atps=neutral; spf=none (client-ip=2607:f8b0:4864:20::1033; helo=mail-pj1-x1033.google.com; envelope-from=joe@pf.is.s.u-tokyo.ac.jp; receiver=lists.ozlabs.org) smtp.mailfrom=pf.is.s.u-tokyo.ac.jp
 Authentication-Results: lists.ozlabs.org; dmarc=fail (p=none dis=none) header.from=pf.is.s.u-tokyo.ac.jp
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=CQQJitxM;
+	dkim=pass (2048-bit key; unprotected) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=W3D1DmvA;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=pf.is.s.u-tokyo.ac.jp (client-ip=2607:f8b0:4864:20::42d; helo=mail-pf1-x42d.google.com; envelope-from=joe@pf.is.s.u-tokyo.ac.jp; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=pf.is.s.u-tokyo.ac.jp (client-ip=2607:f8b0:4864:20::1033; helo=mail-pj1-x1033.google.com; envelope-from=joe@pf.is.s.u-tokyo.ac.jp; receiver=lists.ozlabs.org)
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Y7M6Q6gNkz305P
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Dec 2024 14:49:16 +1100 (AEDT)
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-728eedfca37so199374b3a.2
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Dec 2024 19:49:16 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Y7MBD4JMgz305P
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Dec 2024 14:52:36 +1100 (AEDT)
+Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-2ee989553c1so5378418a91.3
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Dec 2024 19:52:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com; s=20230601; t=1733888954; x=1734493754; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=F5SQ9JD2m8PwX2AyXJonB6lYI/RXq35sHgQ7Uk77VOQ=;
-        b=CQQJitxMPQjpwXC/JqSAT7jZG8N9WSx+DF+URqiUFPRAI6XRkbjb1964yRCU3cIW00
-         rEWcte269XGHECodzM+NhkOk9/8ytzk9BBMy1/xVjQE1haXiulIVUthuEMdQC9gl3LDo
-         SZlURFA2AGJhgi7caQajvRCeJLSBSIDgLxVLjS8ywDCN3r5+diu60VMbvCtxJzyhl/IH
-         9OeSublr4XQBTaHKEBMRel35s+85X1e9TnP+vBdMIN98nu1UF1rXLMHUr0Sn5D7iQY+n
-         h2FQ4OTZj8AaS8d2z36OfFwVA/Exjg/SYsihX0wYhjmVi/gBxGJjzIcn/I/nUzTBdtzI
-         e53g==
+        d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com; s=20230601; t=1733889154; x=1734493954; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C+GRX0w5qrhMggfFHQ6mX+79vq6dxMz/WJh56g9FC0w=;
+        b=W3D1DmvAVrHq2Ik05b4T8lcysJd0hFZHA+JIF4cowa0ZEbovXHCfCUaLU9R7+fvMFO
+         Wz2RtDQlJmMO0gtOY8FtR0Mfub7auwMvtsP2NKvjAkU34/COgEc01biglCKX0ZOEArSP
+         tR2DWgVbXg8gztW/CjWAyn52dSyzLpDUhgBxXVha3M+itp0K+jkzzARY5E5NqhwxCJgl
+         DlSxCTf0xKPuCxwlq/yL2mvbdmXzVb1r9l04qcM2c4ATGKSPAAnvLlXtp704fVG/gGzX
+         0UKVPMr+GUMUUdeR6Q+WT+Vp5zZmB2mZqnBaCZsISfpC8FX75Zh/5bTkPDC3kFhoOoe0
+         cyqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733888954; x=1734493754;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F5SQ9JD2m8PwX2AyXJonB6lYI/RXq35sHgQ7Uk77VOQ=;
-        b=dXrUYiK2KOrQAUFh7h++TK4Etk7mu9QU+yz9Y/GnHQ3z2WxlpuBJl30DVxOuPI+F9N
-         eLF91+TFjUkmwVGm+iskWL2aT8BX6yuhPMksL+ZeS4jaC3rmPly1HQZnFVjwL1/ET/l6
-         rssIrHQW49W6GCnnkWPCVgBZEf4Yq2udrbUQMLERFFdgmp4fdqR2N/WznkE4TWZ0gPqs
-         jaz9pxXUeiEXrEcd6nLqs2efP0nLxWVEX1OX1X0urEJjXXHePrBL9MyeSEEI4gOE+Nid
-         BNoEPznJbX809P6T27uR4foFRnKuxcgfTr92HY3mhu1H9x5rQxbeqaneR3xhueNCjmHV
-         ggGg==
-X-Gm-Message-State: AOJu0YwoB3RmzvHgmPsQQ3y+/UJ9+TkJLv43CPzIBYgKiHIdwWKu2BiO
-	OUoWrfReEVnXEMpcfJbRYn3zS4xE738SolIoR50q/1v4sCL65FXZPrBcBVEPjRY=
-X-Gm-Gg: ASbGncuKbtuA85oMqb2JtWpoVsUGZ2MIt6kCO3ao/IVeI6ktiV2Ju4uTfcYNJSvicKn
-	wzLTfzYrFjdO1Ls4t/Pb5QmLIugS2C41TyLdjNXEegE2OXpXsKFge5sJFhIn6lsFcTxABaT/5Zo
-	QNRnrAMloRh6pAcFGLCt5Zm7O2dRFPTt6GBrWsFGHUx13xmg8lXa6DqDzy9mZBSjUq45fRG0kJY
-	BtaQCT7Jrm+Wus6iTnZtOpRFU69sMY/v2van4D+ib3UzDwipSnE01HGY2QhbK/hRF6D6b0F2B4l
-	27jgwuRfy7jBfeFNNbJDwaDpKFsjEdoz77hCl2Gv
-X-Google-Smtp-Source: AGHT+IE5r05cswO2zejERKPHmzWQjUNg3n5OzpNASVNgcxLvtTCenFYT7AMzaOgerO1VqXvFK/yW+A==
-X-Received: by 2002:a05:6a20:841d:b0:1e1:9ba5:80d8 with SMTP id adf61e73a8af0-1e1c1360eacmr2924632637.33.1733888953561;
-        Tue, 10 Dec 2024 19:49:13 -0800 (PST)
-Received: from localhost.localdomain (133-32-227-190.east.xps.vectant.ne.jp. [133.32.227.190])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fd50e37084sm3283675a12.76.2024.12.10.19.49.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2024 19:49:13 -0800 (PST)
-From: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-To: joel@jms.id.au,
-	andrew@codeconstruct.com.au
-Cc: linux-aspeed@lists.ozlabs.org,
-	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-Subject: [PATCH v2] soc: aspeed: move switch statements before resource allocation and free kfifo on error
-Date: Wed, 11 Dec 2024 12:49:08 +0900
-Message-Id: <20241211034908.228734-1-joe@pf.is.s.u-tokyo.ac.jp>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1733889154; x=1734493954;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C+GRX0w5qrhMggfFHQ6mX+79vq6dxMz/WJh56g9FC0w=;
+        b=ABxP4I1Fz0npIK1VrkHg2F7BArIxl/AnUu0QLGEG1a85464kStZw/1nCSvME7rLxjH
+         4EED5PfNMm+2mfZhsAmbrXFRhCw9VjgO9eSpX7/yqfCQjyBa6Ifld9H5NmVI9fHpnNJs
+         M+hLsVa4scCe/oRESa4JbmWiWNaUnlPXeb9n0rb3u0uEG+bPoWioi/GpP4UrOjo5+J3F
+         Lu/yNsLCz0uow7TSB66cMx9oaXuYkYx7nbL7AZAvtqf2ZO++X5Ax42NLGe1B6lCWczfV
+         Ot0NidrmrTwFFDj4g8uf4Pk/mhXOFxSMl0lWfbih0j/9Af97u5r6ArFWudkcrfeBm+TU
+         TqkQ==
+X-Gm-Message-State: AOJu0YwNoo8p5TlH4Bs2vhLUJNTjDscQOlY24O8YngIGDbv4DjSpJKpV
+	bPmmUEovOvQkCVaEIUnD0Ve7tx3sapDvvFx3mt0yjW7hhUxyrPflNcX8w/srEJ5et5Rdinp2aw/
+	TKeJMOA==
+X-Gm-Gg: ASbGncuptXO9shPGK2YBoOgfQgfa/JbAC1RmmJJk4y1wAZ6Ttyb3yTyyBTq29nitKV1
+	0jKE3e4cSbri6QFFe9tAEClBAuWJDy0XJmleA65bhjcFu1xnRP7ss0+eXJ+ONR/KeZFsTlcGj0c
+	GmDsqyi8NwwMyN5HwWfQl7Af2zCaQCr+f+gHhQxQvRuNBLZA2+FeKX2AYjj5Dncair36L/IbP7C
+	pwMF9ZrVCUCvGc0m9oJ4Ly/8lmTfamuiCpGllSyhWsY5+0GZZ5QvXv7Q2Jx4G0dqWk6xbBHD8hO
+	dP3ykvV9XvzQLL+iQwXTk47D39N4o8o=
+X-Google-Smtp-Source: AGHT+IFU9j6A4f4dkOlhm05C06mcUD5INPOuKPKniRfX9XpXihkV3/diN/mBId8+xhNmucq5MPpArw==
+X-Received: by 2002:a17:90b:4b09:b0:2ee:c4f2:a76d with SMTP id 98e67ed59e1d1-2f127fd864amr2107555a91.21.1733889153599;
+        Tue, 10 Dec 2024 19:52:33 -0800 (PST)
+Received: from [192.168.0.78] (133-32-227-190.east.xps.vectant.ne.jp. [133.32.227.190])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ef45f958d6sm10544075a91.17.2024.12.10.19.52.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Dec 2024 19:52:33 -0800 (PST)
+Message-ID: <2ce3a210-7533-4035-a94e-676d4b9f8eae@pf.is.s.u-tokyo.ac.jp>
+Date: Wed, 11 Dec 2024 12:52:30 +0900
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -87,79 +83,67 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] soc: aspeed: deregister a misc device on error
+To: Andrew Jeffery <andrew@codeconstruct.com.au>, joel@jms.id.au
+Cc: linux-aspeed@lists.ozlabs.org
+References: <20241207032504.1203334-1-joe@pf.is.s.u-tokyo.ac.jp>
+ <fff9f13e9839c086d566925c9066d885d46130ed.camel@codeconstruct.com.au>
+Content-Language: en-US
+From: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+In-Reply-To: <fff9f13e9839c086d566925c9066d885d46130ed.camel@codeconstruct.com.au>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=disabled
 	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-The switch statement in aspeed_lpc_enable_snoop() only depends on the
-function argument channel, thus move it prior to any resource
-acquisition. Also free the kfifo when misc_register() fails.
+Hi Andrew,
 
-Fixes: 524feb799408 ("soc: add aspeed folder and misc drivers")
-Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
----
-Changes in V2:
-- Move the switch statement before any resource allocation happens.
-- Free the kfifo before returning an error.
----
- drivers/soc/aspeed/aspeed-lpc-snoop.c | 34 ++++++++++++++-------------
- 1 file changed, 18 insertions(+), 16 deletions(-)
+Thank you for your review.
 
-diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-index 9ab5ba9cf1d6..de308bc789ed 100644
---- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
-+++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-@@ -190,22 +190,6 @@ static int aspeed_lpc_enable_snoop(struct aspeed_lpc_snoop *lpc_snoop,
- 	const struct aspeed_lpc_snoop_model_data *model_data =
- 		of_device_get_match_data(dev);
- 
--	init_waitqueue_head(&lpc_snoop->chan[channel].wq);
--	/* Create FIFO datastructure */
--	rc = kfifo_alloc(&lpc_snoop->chan[channel].fifo,
--			 SNOOP_FIFO_SIZE, GFP_KERNEL);
--	if (rc)
--		return rc;
--
--	lpc_snoop->chan[channel].miscdev.minor = MISC_DYNAMIC_MINOR;
--	lpc_snoop->chan[channel].miscdev.name =
--		devm_kasprintf(dev, GFP_KERNEL, "%s%d", DEVICE_NAME, channel);
--	lpc_snoop->chan[channel].miscdev.fops = &snoop_fops;
--	lpc_snoop->chan[channel].miscdev.parent = dev;
--	rc = misc_register(&lpc_snoop->chan[channel].miscdev);
--	if (rc)
--		return rc;
--
- 	/* Enable LPC snoop channel at requested port */
- 	switch (channel) {
- 	case 0:
-@@ -224,6 +208,24 @@ static int aspeed_lpc_enable_snoop(struct aspeed_lpc_snoop *lpc_snoop,
- 		return -EINVAL;
- 	}
- 
-+	init_waitqueue_head(&lpc_snoop->chan[channel].wq);
-+	/* Create FIFO datastructure */
-+	rc = kfifo_alloc(&lpc_snoop->chan[channel].fifo,
-+			 SNOOP_FIFO_SIZE, GFP_KERNEL);
-+	if (rc)
-+		return rc;
-+
-+	lpc_snoop->chan[channel].miscdev.minor = MISC_DYNAMIC_MINOR;
-+	lpc_snoop->chan[channel].miscdev.name =
-+		devm_kasprintf(dev, GFP_KERNEL, "%s%d", DEVICE_NAME, channel);
-+	lpc_snoop->chan[channel].miscdev.fops = &snoop_fops;
-+	lpc_snoop->chan[channel].miscdev.parent = dev;
-+	rc = misc_register(&lpc_snoop->chan[channel].miscdev);
-+	if (rc) {
-+		kfifo_free(&lpc_snoop->chan[channel].fifo);
-+		return rc;
-+	}
-+
- 	regmap_update_bits(lpc_snoop->regmap, HICR5, hicr5_en, hicr5_en);
- 	regmap_update_bits(lpc_snoop->regmap, SNPWADR, snpwadr_mask,
- 			   lpc_port << snpwadr_shift);
--- 
-2.34.1
+On 12/9/24 09:28, Andrew Jeffery wrote:
+> Hi Joe,
+> 
+> On Sat, 2024-12-07 at 12:25 +0900, Joe Hattori wrote:
+>> The error path of aspeed_lpc_enable_snoop() does not deregister the
+>> misc
+>> device, which results in a memory leak. Therefore, add a
+>> misc_deregister() call in the error path.
+>>
+>> Fixes: 524feb799408 ("soc: add aspeed folder and misc drivers")
+>> Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+>> ---
+>>   drivers/soc/aspeed/aspeed-lpc-snoop.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c
+>> b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+>> index 9ab5ba9cf1d6..083ddf6dcb7a 100644
+>> --- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
+>> +++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+>> @@ -221,6 +221,7 @@ static int aspeed_lpc_enable_snoop(struct
+>> aspeed_lpc_snoop *lpc_snoop,
+>>                  hicrb_en = HICRB_ENSNP1D;
+>>                  break;
+>>          default:
+>> +               misc_deregister(&lpc_snoop->chan[channel].miscdev);
+> 
+> We should free the kfifo too.
 
+Yes, fixed in the V2 patch.
+> 
+> Anyway, all the switch statement is doing is setting up mask metadata,
+> the non-default cases don't depend on the acquired resources. I think
+> it would make more sense to move it prior to any resource acquisition,
+> rather than try to unwind their acquisition in the default case.
+
+Definitely, it only depends on the function arg `channel`. Modified in 
+the v2 patch as well.
+> 
+> Andrew
+
+Best,
+Joe
 
