@@ -1,28 +1,28 @@
-Return-Path: <linux-aspeed+bounces-203-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-202-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E33B69EEE36
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2024 16:55:05 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB2AA9EEE37
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2024 16:55:06 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Y8H9J4tx6z30Wc;
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Y8H9J4WK7z30W0;
 	Fri, 13 Dec 2024 02:55:00 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
 ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1734018900;
-	cv=none; b=VCIw7o29wvuTBExwqQLOb4h0lMsxMolFScCki7H8IeQ9z5flmLdk0UdQKkzVqWSOw6ve7Jhc/lRBqmEPqQat0/YcBYYmXQU1dK6lAMbOq4/aXwN1XEzmX0aLkmfrwtUSRM/ld+vLFjr26AyMwTa8sy+rTYu5ps6krrgjpRR0x62/VD1Xxj3KgfSmJMAiYIYZ9FEQCO2oJf72VEGNnXkmau0btljKu8DICP4CJ0a7y1TpUjjbvkM5rL0S3V6gskg42Kji/cgI4ELv0/bjX4TlR7yIFMpjoSglI+E+Ex4LVbUiI2753JUctyLicTfQ5xk2sADCqld74DjrJpbBwoDCHQ==
+	cv=none; b=lWBO6S98MVzzq4u0d8l59R4G4gsjsfgBb+xXeuwYS3VlbOLSf/9Cx4tRgQ71JXDFlEwhg/k8gTpKxkXWTymSdWLDqvMeSsGJasPOduQxmfkslXTtZu/XJFZmCJkxSzjGpZUA0BT1Kv8BOfhGx3mGLhsnxbC+Z6FkkTG8iAhgc27MWKH3M675VnzAie6YOFBrDwjFosEwU6jW3cMpnkM6C5KgRAK5Y+5V2uNW1jSZNjg38Jg5ZAUwsjZoEEPnOwosH/QM/fTT4v9R9Ek5/lNZTMkDl3GAlqcPiOVrQCOmBQWyAnUK23PGfYv64+6uVeXP0DDcfk7ryMNhrsntXZJz8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
 	t=1734018900; c=relaxed/relaxed;
-	bh=PH2jwJDxKbVdEhmYyMQM41Lzp0xDt/pGgX9DslP/z70=;
+	bh=kZfHXKDmT/J4jrcQnuVjHvNIU/xHypvy/u/xYpBRfJk=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bKplKmzhm+2PawGmS05XIGpJn3HsZSwNWaRLF0BvT+Pgveg6TQehfP7UlF4xDC2AxAdh9rlk7Sj8Xz+nuOsVELOr4QAjZiWIDmQ5ndAfbHCtfDu8KMtNvw1b/KPl4sfPrx1SPb+VvkuK2A6f/k9DqUb1StAJr/b6LsGcdzXyjpntkARs0NkI/MTMu1jNna+rUDRHvtMdVwzgtpld0iMhqGPp7/WxtqJ3NflYCcNOKt9c5QfE1Gn+s5nIoaFVeUxhCU7yb/jtsFLqWrirNW3tvMUKkM8MfRsoefB+71xkVR879xaoDefL/MSBWKDVDe4MyUT0jd54bryVf8mW2WecmQ==
+	 MIME-Version:Content-Type; b=feaqGqo+J/xqF/wTSIGxspySV2sK0UCwZD7GKDaUgQ8TZC298ba5FJzgInGZnNcWpLnfulsMkJuYObnpyW0Hu/I9aC99Q0btLtfUVhDnbWec2jVqmA1N7npLmLXA4D7x6szaRvTVDc+oKrfZRllkffIKGKbScl4/wISkKmxgS5a0yfeLAEJue8h6eI/0NiY4OhpPV0ClPGewrGopUT1v8vifltU/SPnFJhj9mqhp53dZUf6SkqSO/mkSnuiHdy0mK16RohGZdjkZ2shfSXzjhE3W+E2jOtE4tivFboRWyfQAv9sR69GNBo7daz3U/b9aDojkOLnZCIQU0boI1JufRQ==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (unknown [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Y8H9H6VmVz30Vq
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Y8H9H6k9Rz30WY
 	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2024 02:54:59 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
@@ -41,9 +41,9 @@ To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
 	<kevin_chen@aspeedtech.com>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
 	<linux-kernel@vger.kernel.org>, <soc@lists.linux.dev>
-Subject: [PATCH v3 5/6] arm64: dts: aspeed: Add initial AST2700 EVB device tree
-Date: Thu, 12 Dec 2024 23:52:36 +0800
-Message-ID: <20241212155237.848336-8-kevin_chen@aspeedtech.com>
+Subject: [PATCH v3 6/6] arm64: defconfig: Add ASPEED AST2700 family support
+Date: Thu, 12 Dec 2024 23:52:37 +0800
+Message-ID: <20241212155237.848336-9-kevin_chen@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241212155237.848336-1-kevin_chen@aspeedtech.com>
 References: <20241212155237.848336-1-kevin_chen@aspeedtech.com>
@@ -65,89 +65,25 @@ X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
 	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Add EVB board of AST2700 in ASPEED Architecture.
+Enable CONFIG_ARCH_ASPEED in arm64 defconfig.
 
 Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
 ---
- arch/arm64/boot/dts/aspeed/Makefile        |  4 ++
- arch/arm64/boot/dts/aspeed/ast2700-evb.dts | 57 ++++++++++++++++++++++
- 2 files changed, 61 insertions(+)
- create mode 100644 arch/arm64/boot/dts/aspeed/Makefile
- create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-evb.dts
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/aspeed/Makefile b/arch/arm64/boot/dts/aspeed/Makefile
-new file mode 100644
-index 000000000000..ffe7e15017cc
---- /dev/null
-+++ b/arch/arm64/boot/dts/aspeed/Makefile
-@@ -0,0 +1,4 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+dtb-$(CONFIG_ARCH_ASPEED) += \
-+	ast2700-evb.dtb
-diff --git a/arch/arm64/boot/dts/aspeed/ast2700-evb.dts b/arch/arm64/boot/dts/aspeed/ast2700-evb.dts
-new file mode 100644
-index 000000000000..6dad88c98ce0
---- /dev/null
-+++ b/arch/arm64/boot/dts/aspeed/ast2700-evb.dts
-@@ -0,0 +1,57 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+/dts-v1/;
-+
-+#include "aspeed-g7.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+
-+/ {
-+	model = "AST2700A1-EVB";
-+	compatible = "aspeed,ast2700-evb", "aspeed,ast2700";
-+
-+	aliases {
-+		serial12 = &uart12;
-+	};
-+
-+	chosen {
-+		bootargs = "console=ttyS12,115200n8";
-+		stdout-path = &uart12;
-+	};
-+
-+	firmware {
-+		optee: optee {
-+			compatible = "linaro,optee-tz";
-+			method = "smc";
-+		};
-+	};
-+
-+	memory@400000000 {
-+		device_type = "memory";
-+		reg = <0x4 0x00000000 0x40000000>;
-+	};
-+
-+	reserved-memory {
-+		#address-cells = <2>;
-+		#size-cells = <1>;
-+		ranges;
-+
-+		mcu_fw: mcu-firmware@42fe00000 {
-+			reg = <0x4 0x2fe00000 0x200000>;
-+			no-map;
-+		};
-+
-+		atf: trusted-firmware-a@430000000 {
-+			reg = <0x4 0x30000000 0x80000>;
-+			no-map;
-+		};
-+
-+		optee_core: optee_core@430080000 {
-+			reg = <0x4 0x30080000 0x1000000>;
-+			no-map;
-+		};
-+	};
-+};
-+
-+&uart12 {
-+	status = "okay";
-+};
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index c62831e61586..8826068c7c1d 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -38,6 +38,7 @@ CONFIG_ARCH_AIROHA=y
+ CONFIG_ARCH_SUNXI=y
+ CONFIG_ARCH_ALPINE=y
+ CONFIG_ARCH_APPLE=y
++CONFIG_ARCH_ASPEED=y
+ CONFIG_ARCH_BCM=y
+ CONFIG_ARCH_BCM2835=y
+ CONFIG_ARCH_BCM_IPROC=y
 -- 
 2.34.1
 
