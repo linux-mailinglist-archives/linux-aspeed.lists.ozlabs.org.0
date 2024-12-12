@@ -1,29 +1,29 @@
-Return-Path: <linux-aspeed+bounces-199-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-200-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99A959EEE32
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2024 16:55:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643279EEE33
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2024 16:55:02 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Y8H9G6q4xz30WB;
-	Fri, 13 Dec 2024 02:54:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Y8H9H5k7jz30WR;
+	Fri, 13 Dec 2024 02:54:59 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1734018898;
-	cv=none; b=iqTQAuRe6+2CIn+XZJKj4PkIIi3pbC2yu6BrmxJ9gJiRXxild4sMC4W2oDU5PXSGtqNk8j1ufEmWLQbLtIoOo5DwsG4lJHFyLhNCaonmii5YpblFct+sjw+sopwzm36fW8eXcmzGa8rapMF+Ff2kmETPTBKqftSssBhbfrrF8E7n3sKPeVwFb72xTcYmh6ksEislKzQcbUWTDjo/K75eYZs9kbUvLWJaDDtw7GjZ2CA0R86tjxCjJZ/6//WtiLrEhP5iShFmZHvqrtUh1Z6qVUd0z6LXpDtq2AzgURbLP/hARhCD2Mu7bEj/W0yeT85y/JzFQbCKxGn9Fy6AWO81kg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1734018899;
+	cv=none; b=U7luwgey2QWMJJbL654rnykX4q2gITFgbMWgyUOvJ0rnHq1naqLP4S0fSl8UB+OgYLo7Vs6H9TX8OMb6rw1hgvcdxivvmRoOcIvsT/BBAcXwSqHb/6bQzeTzmBwKjI4TOEQUYoUMqOtigcQeR7IVJyTSiIJPJDzUYg62sOSkAK1tw72soQ93/bgunAJC49TWRbb3MoQMPmrvZtKvKFMDE45s8AdYwX4D749B/vBh6PeDo5n0Rduf+aOCUK9P40VPHYD85DZrBNHNOu/8yN6kP+/uBXBtw3wLzf6phkLstaov4OiiDqY9YbmARy63NNA2tqwwCjpKMSOrNMW03zA27A==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1734018898; c=relaxed/relaxed;
-	bh=0Gmy6qV1LwE2yQztvuvN1VPxCtOB/HT8J2meQGlVOrg=;
+	t=1734018899; c=relaxed/relaxed;
+	bh=fsgIyyuNQQmHaNkLRcT2eUdPgUHi+wEuPOm1VPLeACA=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cWJYU4tAmr3e4GPXqIpnFTRrQOAOiPV1vreylfJSetDGeX+sjXhBR3LLwTDk+5ZmXDpc2SSaraUnOzveu5+wQLroE2xaoF7CRgw0ug+43zzeAr4Z1qdmVRUZS2+IZBEKP50jViQwwZ0Ow9iKiGAAk+ccag1HuhSOFiyH2D6TIpTmJeOnX13ESFZMogFTgAG5KCrQhtQEVBZraS3TfWKv1YUle5hi9kYs2g/E3A6LCpsBrOdN8ximVc3BTN+B8BGCzb/0xwz2ZqeLyzcmV6rBXNj6CL2BnqhIzDcKDoecWeQnsPidxKd4/+aMpWwrNTkgpq5rkUEqsXSpYvt0ALN+zA==
+	 MIME-Version:Content-Type; b=jWgym662sYcJNAU37AwOZ1jjbPEwLdv6TbgGpqc7vlbqmT254xVu2DQbyPWvCzDupQLxq7+0wRkGZhpXKD/yIcfew1DfOYdgezKgBDHReY56S5Vz86UaSeTuYK6zvnGtXrgGCi1OQrayP4RQ6cfGqwc9WZQeqYnZPIMWotqSOr6QZBc1+632wC+wwGTrBxBddbL0IAnaZwS3vdUlKgF6v8lRh49YweH2esV+M9eta6vDiGRQCGmNEV/r4NHwrv1ZwMv8P31hqtiWZfTTbGnaPdobS1QGM508r8hvlAsrT0mlnYn5RnOg1mgfb5+KxKy4BuCgg/BUcl0fQuyPwTYP3w==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (unknown [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Y8H9F73mSz30W0
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2024 02:54:57 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Y8H9G5KBMz30Vq
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2024 02:54:58 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Thu, 12 Dec
@@ -41,9 +41,9 @@ To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
 	<kevin_chen@aspeedtech.com>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
 	<linux-kernel@vger.kernel.org>, <soc@lists.linux.dev>
-Subject: [PATCH v3 2/6] dt-bindings: interrupt-controller: Fix the size-cells in ast2700-intc
-Date: Thu, 12 Dec 2024 23:52:33 +0800
-Message-ID: <20241212155237.848336-5-kevin_chen@aspeedtech.com>
+Subject: [PATCH v3 3/6] arm64: aspeed: Add support for ASPEED AST27XX BMC SoC
+Date: Thu, 12 Dec 2024 23:52:34 +0800
+Message-ID: <20241212155237.848336-6-kevin_chen@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241212155237.848336-1-kevin_chen@aspeedtech.com>
 References: <20241212155237.848336-1-kevin_chen@aspeedtech.com>
@@ -65,32 +65,43 @@ X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
 	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-It is no need to let size-cells to 2 for the ASPEED AST27XX INTC. Modify
-the ast2700-intc example usage.
+Add ARCH_ASPEED in current arm64 architecture.
 
 Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
 ---
- .../bindings/interrupt-controller/aspeed,ast2700-intc.yaml    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ MAINTAINERS                  | 1 +
+ arch/arm64/Kconfig.platforms | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml
-index 55636d06a674..69503aa638fb 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml
-@@ -69,11 +69,11 @@ examples:
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 17daa9ee9384..c6d04cea43d6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2261,6 +2261,7 @@ Q:	https://patchwork.ozlabs.org/project/linux-aspeed/list/
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/joel/bmc.git
+ F:	Documentation/devicetree/bindings/arm/aspeed/
+ F:	arch/arm/boot/dts/aspeed/
++F:	arch/arm64/boot/dts/aspeed/
+ F:	arch/arm/mach-aspeed/
+ N:	aspeed
  
-     bus {
-         #address-cells = <2>;
--        #size-cells = <2>;
-+        #size-cells = <1>;
+diff --git a/arch/arm64/Kconfig.platforms b/arch/arm64/Kconfig.platforms
+index 370a9d2b6919..894b80434776 100644
+--- a/arch/arm64/Kconfig.platforms
++++ b/arch/arm64/Kconfig.platforms
+@@ -40,6 +40,12 @@ config ARCH_APPLE
+ 	  This enables support for Apple's in-house ARM SoC family, such
+ 	  as the Apple M1.
  
-         interrupt-controller@12101b00 {
-             compatible = "aspeed,ast2700-intc-ic";
--            reg = <0 0x12101b00 0 0x10>;
-+            reg = <0 0x12101b00 0x10>;
-             #interrupt-cells = <2>;
-             interrupt-controller;
-             interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>,
++config ARCH_ASPEED
++	bool "Aspeed SoC family"
++	help
++	  Say yes if you intend to run on an Aspeed ast2700 or similar
++	  seventh generation Aspeed BMCs.
++
+ menuconfig ARCH_BCM
+ 	bool "Broadcom SoC Support"
+ 
 -- 
 2.34.1
 
