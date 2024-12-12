@@ -1,52 +1,91 @@
-Return-Path: <linux-aspeed+bounces-202-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-207-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2AA9EEE37
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2024 16:55:06 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2C69EFEAD
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Dec 2024 22:50:04 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Y8H9J4WK7z30W0;
-	Fri, 13 Dec 2024 02:55:00 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Y8R2x0kMNz30Sy;
+	Fri, 13 Dec 2024 08:50:01 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1734018900;
-	cv=none; b=lWBO6S98MVzzq4u0d8l59R4G4gsjsfgBb+xXeuwYS3VlbOLSf/9Cx4tRgQ71JXDFlEwhg/k8gTpKxkXWTymSdWLDqvMeSsGJasPOduQxmfkslXTtZu/XJFZmCJkxSzjGpZUA0BT1Kv8BOfhGx3mGLhsnxbC+Z6FkkTG8iAhgc27MWKH3M675VnzAie6YOFBrDwjFosEwU6jW3cMpnkM6C5KgRAK5Y+5V2uNW1jSZNjg38Jg5ZAUwsjZoEEPnOwosH/QM/fTT4v9R9Ek5/lNZTMkDl3GAlqcPiOVrQCOmBQWyAnUK23PGfYv64+6uVeXP0DDcfk7ryMNhrsntXZJz8g==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.158.5
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1734040201;
+	cv=none; b=XOWM/FQda4qhn0qQlpfQ1aaEx0UbYqDww6wXfHDdg5hdYOrDk9T06qfcOs9QTlsoUmtKW+XzEnUNjDcE3GGaaBNDxb+et6INYY+ffe9UqdLq4yB5O/XwD2ne8NK6/TM2Y4XOHG+XEiHe+Uu6zfLhvPXXpl/yTelS06AVHJBK4k+tNPXjGr2NaxCjEbZ0BxkBsIL7osT1aV3JKp3BLxg4bke4HRfsovx0Wqmwf8wheGBG21rRQFQg6o4EllzsZnmi0hBhln4P89YWhzEF8Z1hlZVqMdLrQOx33B1t3pNLtDK5uSwodELPCG9f++v/MJwcIXGwOkQ0H9JrBpfFW4MlXw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1734018900; c=relaxed/relaxed;
-	bh=kZfHXKDmT/J4jrcQnuVjHvNIU/xHypvy/u/xYpBRfJk=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=feaqGqo+J/xqF/wTSIGxspySV2sK0UCwZD7GKDaUgQ8TZC298ba5FJzgInGZnNcWpLnfulsMkJuYObnpyW0Hu/I9aC99Q0btLtfUVhDnbWec2jVqmA1N7npLmLXA4D7x6szaRvTVDc+oKrfZRllkffIKGKbScl4/wISkKmxgS5a0yfeLAEJue8h6eI/0NiY4OhpPV0ClPGewrGopUT1v8vifltU/SPnFJhj9mqhp53dZUf6SkqSO/mkSnuiHdy0mK16RohGZdjkZ2shfSXzjhE3W+E2jOtE4tivFboRWyfQAv9sR69GNBo7daz3U/b9aDojkOLnZCIQU0boI1JufRQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (unknown [211.20.114.72])
+	t=1734040201; c=relaxed/relaxed;
+	bh=sQSRIpbMZMTvSt/ONP7qcZFmo/OmYcaw7A/YcvOiJxU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=evT6TJ2qJefjDc3sN8AAPfhinEfWTd83q+eBp8GTKtGt2vVGizq5Ngsa/VNmHV39XaB0TPjDCRbe3HKroN6Rx80gpT6euoiXLixJBjRBmzbk7Q0IzmUAKY6KEUUFQK550eBDs0fzvSNEK+iVdEJ/NLBwjf9WmbQp0u+v3PGBP+ozIalM9f958+D5PKaLzdZdw8m2wHOpdZWdt11vNv7g2SqyCjU9moBel8eEvNUFvABBOyHLvZUpPVhDTrricb8qLDKGJ15RRErcWvqXB3tnpWFYNZTU5nXizXsLzsPvKiPQavU9OsqCxabxMv8CTPq1YltU+DYy5ysuR08aYzzTgQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Eun+Ov/e; dkim-atps=neutral; spf=pass (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Eun+Ov/e;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Y8H9H6k9Rz30WY
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2024 02:54:59 +1100 (AEDT)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Thu, 12 Dec
- 2024 23:52:42 +0800
-Received: from localhost.localdomain (192.168.10.10) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Thu, 12 Dec 2024 23:52:42 +0800
-From: Kevin Chen <kevin_chen@aspeedtech.com>
-To: <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-	<joel@jms.id.au>, <andrew@codeconstruct.com.au>, <tglx@linutronix.de>,
-	<catalin.marinas@arm.com>, <will@kernel.org>, <arnd@arndb.de>,
-	<olof@lixom.net>, <quic_bjorande@quicinc.com>, <geert+renesas@glider.be>,
-	<dmitry.baryshkov@linaro.org>, <konradybcio@kernel.org>,
-	<neil.armstrong@linaro.org>, <johan+linaro@kernel.org>,
-	<kevin_chen@aspeedtech.com>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
-	<linux-kernel@vger.kernel.org>, <soc@lists.linux.dev>
-Subject: [PATCH v3 6/6] arm64: defconfig: Add ASPEED AST2700 family support
-Date: Thu, 12 Dec 2024 23:52:37 +0800
-Message-ID: <20241212155237.848336-9-kevin_chen@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241212155237.848336-1-kevin_chen@aspeedtech.com>
-References: <20241212155237.848336-1-kevin_chen@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Y8R2v4lYfz2yjg
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Dec 2024 08:49:59 +1100 (AEDT)
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BCHHNP1029647;
+	Thu, 12 Dec 2024 21:49:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=sQSRIpbMZMTvSt/ONP7qcZFmo/OmYcaw7A/YcvOiJ
+	xU=; b=Eun+Ov/ejazf5dJAtHZffyPyka2SPRWHNX95vIR0ulqUblko6XdBRitqV
+	PoQt054qhSB+cDeNn58SBtCMtQULwGCc0TWWvkDhhn8MGBINlMav2GZnCgBdhyPe
+	ecLis80cr0+hIiwQ+1XDeJHrfw2fcY6f52UpVToh4xUOK3FKmh3/7fGEkclxSfar
+	PV693d9CAXMY7TlFEivhVV6g9yjaEiMFRssfhmvWXqQKt2h9PMzqpd38GGKMpOPe
+	an1Y1vJYUIr1lMDFfNAaaOcj6vEnu9dCB/NyCsZbNixiecqSZEf4pFtCMl1EgsHX
+	jIl0f3zTSfV4gHlP9kG/lupG+ZszA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43ccsjwnbx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Dec 2024 21:49:35 +0000 (GMT)
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BCLmpVu014905;
+	Thu, 12 Dec 2024 21:49:34 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43ccsjwnbu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Dec 2024 21:49:34 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BCJWAhG032760;
+	Thu, 12 Dec 2024 21:49:33 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 43d0pstx59-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Dec 2024 21:49:33 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BCLnW8131392502
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 12 Dec 2024 21:49:32 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 49F5558056;
+	Thu, 12 Dec 2024 21:49:32 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A148958054;
+	Thu, 12 Dec 2024 21:49:30 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 12 Dec 2024 21:49:30 +0000 (GMT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+        eajames@linux.ibm.com, jdelvare@suse.com, linux@roeck-us.net,
+        corbet@lwn.net, joel@jms.id.au, andrew@codeconstruct.com.au,
+        Delphine_CC_Chiu@Wiwynn.com, broonie@kernel.org,
+        peteryin.openbmc@gmail.com, noahwang.wang@outlook.com,
+        naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com,
+        patrick.rudolph@9elements.com, gregkh@linuxfoundation.org,
+        peterz@infradead.org, pbiel7@gmail.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
+Cc: Ninad Palsule <ninad@linux.ibm.com>
+Subject: [PATCH v1 0/4] Add support for Intel CRPS PSU
+Date: Thu, 12 Dec 2024 15:48:59 -0600
+Message-ID: <20241212214927.3586509-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -60,31 +99,47 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: icj0bAT7zzgFYlr1nDRjw_RxSGMuUP5q
+X-Proofpoint-ORIG-GUID: lvlUArhSuLBsHdj0aE27zUlAmBm5SjQD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 adultscore=0
+ impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=979
+ mlxscore=0 priorityscore=1501 suspectscore=0 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2412120156
+X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Enable CONFIG_ARCH_ASPEED in arm64 defconfig.
+Hello,
 
-Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Please review the changes for Intel CRPS power supply driver.
+I need to add label in the pmbus core as new application like PSUSensor
+requires it.
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index c62831e61586..8826068c7c1d 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -38,6 +38,7 @@ CONFIG_ARCH_AIROHA=y
- CONFIG_ARCH_SUNXI=y
- CONFIG_ARCH_ALPINE=y
- CONFIG_ARCH_APPLE=y
-+CONFIG_ARCH_ASPEED=y
- CONFIG_ARCH_BCM=y
- CONFIG_ARCH_BCM2835=y
- CONFIG_ARCH_BCM_IPROC=y
+Ninad Palsule (4):
+  hwmon: pmbus-core: Add label for fan and temp
+  hwmon: (pmbus/crps) Add Intel CRPS185 power supply
+  dt-bindings: hwmon: intel,crps185: Add to trivial
+  ARM: dts: aspeed: system1: Use crps PSU driver
+
+ .../devicetree/bindings/trivial-devices.yaml  |   2 +
+ Documentation/hwmon/crps.rst                  |  95 ++++++
+ MAINTAINERS                                   |   7 +
+ .../dts/aspeed/aspeed-bmc-ibm-system1.dts     |   8 +-
+ drivers/hwmon/pmbus/Kconfig                   |   9 +
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/crps.c                    | 299 ++++++++++++++++++
+ drivers/hwmon/pmbus/pmbus_core.c              |  14 +
+ 8 files changed, 431 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/hwmon/crps.rst
+ create mode 100644 drivers/hwmon/pmbus/crps.c
+
 -- 
-2.34.1
+2.43.0
 
 
