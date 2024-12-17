@@ -1,180 +1,91 @@
-Return-Path: <linux-aspeed+bounces-266-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-261-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46FC59F40CE
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Dec 2024 03:31:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7001E9F408B
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Dec 2024 03:21:24 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YC1620VVwz2yRM;
-	Tue, 17 Dec 2024 13:31:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YC0t736Smz2yVt;
+	Tue, 17 Dec 2024 13:21:19 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:2011::70e" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1734402697;
-	cv=pass; b=PMDPOcpmwzKizYlKUJng1Fq1HMq+omwFGjrogIeOTIisXebnaNT5brLWFovb+9m2X8dxUpDVSAf8jJP2uGcwVXqmnXEnQ7t+3xd3sf+q+cR1Hm+jcXoglhxyciPEeF+p1DY2srjUjT/igStHkvcajzooDLZFq1KHtsmSV5sVsBeMuTrOC9a/+26KRV1uyIwQHCRTZ2N/1qiGNFtPoyaKlLAgHd229xBkZQn3C4NHeJY+WxHSMB0O+1YLWaifp1b5GtsPdszDAaKDYAfJkQ4FntGSlBIUUPnx/HZK+UDy1hpRtA7fwE18HbBRrEdQtz1eOo92TYBNB8vG/oN7eX/Icw==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1734402697; c=relaxed/relaxed;
-	bh=P3bSQWGvyHK2h/d91JlfOa8mz0i2Oaitv4Zoq1PK2lM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=myEhN/lIoIZZ+tqj4jaZD/8Dh9SzeuZhXyoTowtmxCVq/p1ubLnu2o7EKXg/qAyQF3W+gV/DaYDr0U52KGxC6bn3WtIWrt9pyM2RlTnFPeeWYL0ctqMctT73XAgLnLXBCsZICM2k7j4ebAEu7l9J56eMXvv+8uaExQ47A/+90YocE7Kw/88ikFuhDOZvbnUMd2s5XuZmi5YNa0j38SEwUkGhbLoBahpDXTc5hCmRPoi6G1WVkOMUC0PV+9WJHcvR050JQVpCRqJEaqXqm2I2/lgoZlJpPiQ+j9XE/4lKptBjILoKH8Y4qb2yQXVMqvP0nkKphINLFYV2neNWQCYwqw==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=2a01:111:f403:2011::70e; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:2011::70e; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2070e.outbound.protection.outlook.com [IPv6:2a01:111:f403:2011::70e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.158.5
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1734402079;
+	cv=none; b=MP+kukeFwEyZwFItzuP1O/LJ5M7wstxtOPIeRbPXECcvE86zaJVatdLOZR28AFR4AMoSvRhERDbvMQsfyhF8rt5anzLzUMkf9ey6shECeKNxr71bmadUBpPbpARlCMAMokt14lK9Jy/d7MX2gLE/GrSD/NGRkMSB6JHFoI+wLSKirFCz4793wvujOq+EJekxzhhJOnZkiAPJ2jmAd2hLIO/I8am+F0HpgL02v54XuRkeKbE71P6Mf7zjh9+lw3qV5ExirdFlrNmkkmtCb+lvpvZyxGsotsBvQagOpKL0yptekzzG7ldc2ifwoVPcZqssEy4MqiopRw9wLlPuIfLIog==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1734402079; c=relaxed/relaxed;
+	bh=N0/cbyYKYjyzhB5W5ZNjuGKefPyvhjoM75QqsEME/yg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OxZ5ImMchd7Mv0BUIY9s+3kS7i7gvugZKsPWc3JOKbCkqqbT12jEqklYuypIdtkl6xBIJj6FGj0jHUJINSEhujEtmdmAaRsg92IdAlMeO2A3vPaqlTvzUKVM8A/4gI+ZwSHPzFU0wAWyOMcETZ0sja5L+5+iRSFp5uqcdqPU9Wd1bVdWQG2FTuHv+VSIe25A3rz8CjnNbyVKhrBvlkAOyHb+UD82sBn6TPTah2tFR1m604CkUxGsdoyTkz38cYywy/HFiJnqeLRTE4FUDSTUaj5ts8WLhii2xJsKi/PAbkelD/QIkHnNFJQkDhzd8HvGqT2QHkJvcfMKhh3srJPqWw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=A3ATYpEt; dkim-atps=neutral; spf=pass (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=A3ATYpEt;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YC15v68Z2z2y6G
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 17 Dec 2024 13:31:31 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Hb9FcWU43E8jUl5jWR0fGQsaQBDDoaNKDUf8QRlddP52w2KK75qTPsK1TqbpB5IzGufrH8hyK75aBmrzt2lj6oqmGb8JcM+GJRGgC6CodzvU4b6TyuOe0cf+Wx3eK0TqpbxOWHVh5XV0cs0ZdCLD/LU6sT6o6pZKWVlXRK58ihjU3u54yD4qryAn1x9HuXnsnRM4vJTstNOQZN9AazEaXbm3e5tnntYzTLcIT7pgPd+GIx1MuPBPW0eSECaJ4QxUV/CjY5QIxFY4ybtz5X8c5NIY+FIXdVE9ZgZIAVNjIRXfj56Kq/NroRezppH6UJoSUtn2tpLfz1d92S2Zr1219A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P3bSQWGvyHK2h/d91JlfOa8mz0i2Oaitv4Zoq1PK2lM=;
- b=e/3UPB78CE7TuHnHUyCYFCof68dlNL1er5RYtyRoSETPeCVrbTDcTJUdaW/+GCUy43q55LQH+Q2DSdO/dchgKsHMNOKp6wTwoE52HaMT9+q4GoDiNEz7ec+o/pCweXdJrYSGrXuW8aFfB71rZLy2V4WkMgiU1nV2JyAZTbQiJSUY/xD9ZxniywRPF7kD3EAGxaFPvb3JFnaqC9JLnhh7806fdho3T3umJLCnCDPazWfBK93YV7J8LHhf6wGWFL8P143jQuYmpgXg715QcCp+XRSeDNDzLkXEeOBqMkPEKUBXJPvV3AcPPol/zlR+YG5QdaQ50XF7PlRRfPXfjYOW8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P3bSQWGvyHK2h/d91JlfOa8mz0i2Oaitv4Zoq1PK2lM=;
- b=Y/sl1u0SlGOJViwSbQStOk+iUxUvTRBxNjj6mZntD6r9zefR71D3T66G2qWhHlBm6LCZKFHhNP6j+UNhNnhBHglaHheyoyEw110L7BLuU9xoX9azg5ZmiLYTjZAblY8zZVifmQxWG9DZjmARyODTqpgwOGGujsz/QA+/vPkVE2JBTSsFwnP6V54B8a6OmuLGie0wKxgTbmYac759Cbm+yPE7W8dK3PR4Ju1306Io4AzHpDKE5tl3F9MBEYBMsjedp2j/jG0ZvMRki9mSXZW20gY++ibGdUTWXymTzJwFbl5iOaILxZTUzE/0nPNthLMPAHltOpKHSqSlWqJ5aouPzg==
-Received: from TYZPR06MB5203.apcprd06.prod.outlook.com (2603:1096:400:1f9::9)
- by TYZPR06MB5074.apcprd06.prod.outlook.com (2603:1096:400:1c6::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.11; Tue, 17 Dec
- 2024 02:15:19 +0000
-Received: from TYZPR06MB5203.apcprd06.prod.outlook.com
- ([fe80::b7e4:5d25:213:ef9b]) by TYZPR06MB5203.apcprd06.prod.outlook.com
- ([fe80::b7e4:5d25:213:ef9b%4]) with mapi id 15.20.8272.005; Tue, 17 Dec 2024
- 02:15:18 +0000
-From: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>, Guenter Roeck
-	<linux@roeck-us.net>, Patrick Williams <patrick@stwcx.xyz>,
-	"wim@linux-watchdog.org" <wim@linux-watchdog.org>
-CC: "joel@jms.id.au" <joel@jms.id.au>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-watchdog@vger.kernel.org"
-	<linux-watchdog@vger.kernel.org>, "Peter.Yin@quantatw.com"
-	<Peter.Yin@quantatw.com>, "Patrick_NC_Lin@wiwynn.com"
-	<Patrick_NC_Lin@wiwynn.com>, "Bonnie_Lo@wiwynn.com" <Bonnie_Lo@wiwynn.com>,
-	"DELPHINE_CHIU@wiwynn.com" <DELPHINE_CHIU@wiwynn.com>, BMC-SW
-	<BMC-SW@aspeedtech.com>, "chnguyen@amperecomputing.com"
-	<chnguyen@amperecomputing.com>
-Subject: RE: [PATCH v4 1/3] watchdog: aspeed: Update bootstatus handling
-Thread-Topic: [PATCH v4 1/3] watchdog: aspeed: Update bootstatus handling
-Thread-Index:
- AQHbLFdFSiy5MyUwCUe0YBcXjsWUGrKivQQAgAOD0oCABQ7T0IABNwoAgABcoTCAAJM4gIAPnzaggACImACAACRWgIAAKRmAgAHMCwCAKj+80A==
-Date: Tue, 17 Dec 2024 02:15:18 +0000
-Message-ID:
- <TYZPR06MB52039AB24714A400FF266024B2042@TYZPR06MB5203.apcprd06.prod.outlook.com>
-References: <20241101121201.2464091-1-chin-ting_kuo@aspeedtech.com>
-	 <20241101121201.2464091-2-chin-ting_kuo@aspeedtech.com>
-	 <ZyUcIIb1dtoNhX00@heinlein.vulture-banana.ts.net>
-	 <a0faca9a6ec7f4acdfa2f29b4ffb94b5392aea6b.camel@codeconstruct.com.au>
-	 <TYZPR06MB5203053A004676F51322DECFB25C2@TYZPR06MB5203.apcprd06.prod.outlook.com>
-	 <ed77d57facaaef0be796b4c6a742dc7bf3bff479.camel@codeconstruct.com.au>
-	 <TYZPR06MB52039B02B6D3053355F30489B25D2@TYZPR06MB5203.apcprd06.prod.outlook.com>
-	 <9a1e64ef-81d9-48b0-b871-ce4ff792eae4@roeck-us.net>
-	 <TYZPR06MB52039DB39B62E6FA5220103AB2272@TYZPR06MB5203.apcprd06.prod.outlook.com>
-	 <2531f830-6a36-4bd5-ba1e-9e19f0f66496@roeck-us.net>
-	 <219607ab74764f3d47659fb5ab3223b3034152e5.camel@codeconstruct.com.au>
-	 <9565c496-44d8-4214-8038-931926210d0f@roeck-us.net>
- <1bc83ee73545f9aab6e0a931cda8f5ffe41cb445.camel@codeconstruct.com.au>
-In-Reply-To:
- <1bc83ee73545f9aab6e0a931cda8f5ffe41cb445.camel@codeconstruct.com.au>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR06MB5203:EE_|TYZPR06MB5074:EE_
-x-ms-office365-filtering-correlation-id: 60e51951-68e4-46e6-16ee-08dd1e40a732
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?cHB2Z3V4d1Y4UExVOXMxTlYyY1ZEUCt0NklOM3A4ZTg1R0lneG9GUS9WakZG?=
- =?utf-8?B?djNFcjNuRjJjODBSOThXVkhCQk1Pa2xpNFBsVW9oVlR0K2h1dDZiclhycWpW?=
- =?utf-8?B?YlMzYUtuVm5SajE1YVYwazBIRStzclh1MjQvbWxLMmNtMFprWGNxYXMvRUlP?=
- =?utf-8?B?NDBmVHpndG44TDZ6cmo1SlJTcVEzSHUycEJtUGRVaTBkMjVicUFUdWVRenZt?=
- =?utf-8?B?Y3dZT3hGSmt4TXZLMjhCUTlkUkVLNG53SkErN2FrZEtWZ1drS1I4eGR4aHhi?=
- =?utf-8?B?eTYzMGMvOW92OENQUWcrYzdPQWx5REhTR2NVM1B4WU5lemhUaFFJYXVGYlUw?=
- =?utf-8?B?MjNyNGI4WG5FcURNak9sdlFwV3N0b2tiYk96V2lQME5wek5uWEtrSzEzTHA5?=
- =?utf-8?B?VS9md0xTYWhmTERkeE8wUWE0NEcrOXFZTVprRUlzWkFCbTBaQnp2Q0pTUUxz?=
- =?utf-8?B?Nm9wbTQ4MVQ5cE5VSVJxMll5MXhaL21uVEhuR3RQUmZERENrbThWeVZCWGpj?=
- =?utf-8?B?elQ2Yk5qS1B0WVp0NTFseDZpMlNHbzZDdHZuTXpZVnhzeS92dy9xQTlXYVlO?=
- =?utf-8?B?NUMyOFFCOHpobDQ2R3FFbnB0Qk9kUHE1R3Jlb1JtRUdCd1R2SHRhVjlpUm1P?=
- =?utf-8?B?Z3MyNEsycGQrWFFEeGNZZ3FVSXQ3NGI2SUJpTlJFVW1ESDBBOVBqV0lwbExn?=
- =?utf-8?B?NTMvalNlRkkrQjdzcGp0N21nZXBJMzFZd0ZKQjdtMDFBenNRSFVkVEZJV1Jq?=
- =?utf-8?B?TCtjN2ZnalA5QUk2anRKZDUrWFFrcEJ2eURxWHNyQkFweDhnQTd5ZHZmQ1BX?=
- =?utf-8?B?Q2VXQmEwWGlESjEwelBZVkFzdU9scmNlbW5tdmk3dlM1aW1Demtmd21qNVJi?=
- =?utf-8?B?NlNITmlIZFVPVXNMaFlQTTBxUEhoS1FjOU5yOUVZRFNLUWJYRzRRYjE1MjRt?=
- =?utf-8?B?WFl0OXN0eDQ1Wk91YXJFamNCSTRDblRYaEN4TzRNOGQ2amNLYUh6bTB4UkVv?=
- =?utf-8?B?ZVRpa0hDaUpORlE1L1hFKzY0NzVBdkNJbSs3OHJlRnBpUGFEeDJpMUhvT04w?=
- =?utf-8?B?V3NhOXpoMnBuV25sQ2NJNSs0QXJ5SnpVZThpem1Ub2h0RjBBdUN2aThsQUNL?=
- =?utf-8?B?b3d6RDU2RWxiOFRhczlDTFZKQVN3UUliZFZXT2pNdGl2SHBXcmltTU1URlpK?=
- =?utf-8?B?emxTcDMraTI4ak96Y0ptcE1KVW95dUFoQVdSaDk1bkpKNC9lamVTR2xVdmV5?=
- =?utf-8?B?S1V0SU4vSXE3bEtTZVRaSnNvOE1MdGNQV2FKYVFvRFU3V0pZMitpNDNuSXRE?=
- =?utf-8?B?NXFwSU1lb1cvQk5EWnJ4enZ6RTVPUlRWYjhPVnh3bXUvTjFJbXlXWThKUFll?=
- =?utf-8?B?K3lmdXY2SW81SFpDWXpEbm0rR29xYnYydlVPRlpwODlSNTJnWEFLajU3RmZF?=
- =?utf-8?B?NVdaTjZJRnNvUjFiZVJ0OHBiUUQ4UTdEcU9kOGVqd3JSdzlSOUlCa0lKTDJK?=
- =?utf-8?B?OUh5YjVabGVjNTUwRTFSbTh6aFFLVGoxWXE2Vmh5SjJBYXFLK0docm9sOHhO?=
- =?utf-8?B?WldUWkJxRUhHNkhRdzRyT1ZCRGxRc1BEOFBYVkZiWGh5NEl3ODd5eFdWVDhF?=
- =?utf-8?B?RWViaFNxNnFLN0E5Mng0YUdpOXJVdnpxOVhCdFpHcFRvU1dDV3RkUENhQXI1?=
- =?utf-8?B?TWJDendqd3E5VGYxZ29GY3owRDBqRDlpMmovcENjYlhQQTVtNW9OTFJqdkFq?=
- =?utf-8?B?aHJ1Rm1nU1lmaysvZi9peU9DZlJWWjdxLzBma3VpSE1ZMDZnM0l1SFBhbCtH?=
- =?utf-8?B?UEhGYUNDT05ESkMxTmpTQzR6QlRtK0diUDZTVUN1cHFLM2lrQjFvSUZOa2FE?=
- =?utf-8?B?WHVzSWtwZENGTVovUko5OVBpYjEzWktnMjYrN3diWlpRcjZwNTJsZ3dNVGhD?=
- =?utf-8?Q?NdTpj+NB3TpER3lKffJtI33zBucPqM0U?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB5203.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?cnhLaGY1dkpRak9udXF4N2dwTTFiUlR6U0UzUTVhU2hTQXBOaVBBMSsyWlh1?=
- =?utf-8?B?VG1qUkkxSGVNS3pFbFpLUmtiSjZuWlRlOU5aVHhzZGwrUjlQQVArTXhjOTky?=
- =?utf-8?B?WFZac3hibjNtWnpjSE9VNlJUbjdLdmRBYzltTWd5QnFZUUtiTzFGd08xaFVp?=
- =?utf-8?B?KzhNNlIvdlBpSVc3YnNlOENsMnFqbUUyZTNnbjUzeHhLTGx6WU9oQ25xTFFk?=
- =?utf-8?B?Sk1KSGRNSmMrdW11NXVKNmVqUkpYWDYxL2FLMGRLRlBKRUIrY3VLRTBUTmV3?=
- =?utf-8?B?RG1KUSt0VlI3dmpqekJ1SHd3RGhBNjhtZ1ZYZFhxWEdSeUI5Mk9EblZiOWJP?=
- =?utf-8?B?WDRvaEFha2paU1pBUDNJOTBMSFQwdjMranB2aForejhleXJSN3cxQWlLZFkz?=
- =?utf-8?B?RTFtWCtteThrVWNrUk50YjV5WmFYZlZQSFlQZGkzN1p0a3lKOGJIOWRLMVgv?=
- =?utf-8?B?ZDFwOHpFRHlQa2xSMEJldXFnOStaYzJoQ2tlTDVyL3VtMlpTd2ZYaHdpWDFD?=
- =?utf-8?B?cGRGQ3Mxc25PbTMzRHRpNm1IVkNER2VCaFVaaENzQ0ExSGJKZWxMR1RESXE2?=
- =?utf-8?B?eUxPZWFwSEhlalg5WVdKcktnSVp1RUNBSWNWK0NkdGNBRmFoR3hpYzhjWlBB?=
- =?utf-8?B?QzI0UllMTm9BUTVnaHByY2IyRUhUcVRvNkE3bi9PRzR3SldBZGZDcituRU9T?=
- =?utf-8?B?cm9ycllWMU93VDNZYkJRN1dSQmxPemErdy94V3hRZlUrZUJ5Z1dNNXZIUHZh?=
- =?utf-8?B?MnJWQTBxSW1lUXVRMmdiQWtjaktneFpVbGNFVXRITlQ5OTAzZkNzQW44U1Ix?=
- =?utf-8?B?NStwSmpxTGdhRytHT1V6VThIY1o3L3Nzb0MrNHFwRzBxU1hDVmREMVJWNW90?=
- =?utf-8?B?Kzd2aHBXM0E1czhVMHVOZGN3aGJQejN1M0VGendhZzk4Y0FncDNGTDZIM1V4?=
- =?utf-8?B?SzM1Ni9HdlAvYU9WTG0zU3ZOVS9PWk9JVi9BYnpIekk4MkpWdmd1aFpOdjJr?=
- =?utf-8?B?OXgrMEZSdWwxVkdIME5xODBKdlZ6Rjk3eCs0THFIRjJJSFA5M01QVi92a2dZ?=
- =?utf-8?B?ZFVnNlFpcGd6RW9oaHRZaXgyNTQ5TktSZjVraEpzc3F0cHJqS2p4aCtnWGVB?=
- =?utf-8?B?bHViQ0ltNFJNUWVzWlBqS1BIMWl5K0MyTVlnK3FjVllKaktCakdvMjIxNSt3?=
- =?utf-8?B?cDQ5MEovaFpMdE4wbUpwbHFHVnBtSHFZTnI1OFAvOFFJMTlvVzI0enhWN1B2?=
- =?utf-8?B?aUdmRktwRnN1dmJDSEpyei9LeHFpc1BNNWMzc1RMd1VZTEJVSGd4aUkxVXlU?=
- =?utf-8?B?SUNoZHROaHJJa05jNFpJd2VYeTJxdS9PTHBOSkw2Y3p2a3FlK0p2cnVUc2ZF?=
- =?utf-8?B?T0RGSmZIUW5qSDVqWFdWRlg4YXFmb1hUcmtpYW5lTjhTYXVKRXMyY1Y0Y0pU?=
- =?utf-8?B?ZW1HV0VralFXNWxmL29PTHE2cExlOTBaTTVoU0d0L2tza2h1MWtidk5sZnpY?=
- =?utf-8?B?L2d4UjZSLzg5Zm5hR0wwUFNlallaYjJ1NmlBSDFSWVlOK3RHbjJpajNmdW44?=
- =?utf-8?B?QzUrVW45ZGpHeG55VS9LZ3NIa2wrb0ZzSGkxTXZPUUxPQTNHVHFHeVlPSHZH?=
- =?utf-8?B?dXRjQWtkRFNKaGtvS1dIS3g1ZmRRdTE2ODZJeWZZSytpN3BZNmNyUmZlbmFn?=
- =?utf-8?B?S29CV3VQR2h1MUNGK2hUNDRqQStYS2lLL25DMkQrWmNtTjRRUTlCbjZUWmN1?=
- =?utf-8?B?V2x3dXgvMC9SMWJzSFlWaEZQYjV5dDZYQzN4aUlaa2J2WXZ6Unlwa2QzRkYz?=
- =?utf-8?B?aDZzRkxrOVh4cHFVU0NFTGJ5bFJMalV3UDBjVm5hVEk5c3JaZFdkdmFQei9m?=
- =?utf-8?B?VVFxUTZoeWVwYi8zOGpDMko5NnRpWm03T21laVIzbU1VQmpJV0FTYzVPbzBV?=
- =?utf-8?B?aDlGTklRZHFLd0ZtLzQ4L0hwdGRDUEd5eEV4bDV1a3NaRHpldWdtTTVRZlVC?=
- =?utf-8?B?WDVKRmtyK1pVa21oUG50QlV6aU1YRWRrdjRmaEpMc2FxV2dIOWxOVzNoTE1q?=
- =?utf-8?B?K3AyQWM1WmFpSHBkTDJ0OTJRK3VjSEZjSW5xc1NJZi96ODJ1UTVLWHQ3cTJZ?=
- =?utf-8?B?Ni9CV3ZwRjNnRHdoT2pkK2gyNk91ZkxvL21laUhlQTRCTm1NcHNSQURjQitk?=
- =?utf-8?B?dFE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YC0t605R1z2xl6
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 17 Dec 2024 13:21:17 +1100 (AEDT)
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGNaimY023824;
+	Tue, 17 Dec 2024 02:20:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=N0/cbyYKYjyzhB5W5ZNjuGKefPyvhjoM75QqsEME/
+	yg=; b=A3ATYpEtBSm8Gly5Bq8HpAmyecOZ8t3z5OtnWI2jEi/nnhOV2jL89O4xD
+	6nW2sY53iAHJBwb4gBKRMJDet+HSkjtTV0gfiOfko2Awey5TofHolkbyt6Cb6nXs
+	gDJm8LmLtjFJVbINe7XXxVcvZ6doQADDDNRtDFRpa4Ll6v3y4zhbT9E3fxZ0yDZ3
+	wm/VJV0vIPsT8KH/8PNoYnXEmoWR+ve1fl3gbPM/uUCJlf6F9ZaQM0QLYe4A5AeO
+	qz5Ia04Bh8aZavKrpIkUw5HrsZcn7WZeleswWrW3ZpivZ+hWYS4evFjHRmAmFhPJ
+	FWzodCrjVtC/lwl21PaWqyLD7cYqw==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jx1a8g4m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 02:20:53 +0000 (GMT)
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BH2Krp2015281;
+	Tue, 17 Dec 2024 02:20:53 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jx1a8g4g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 02:20:53 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGNZEMY014451;
+	Tue, 17 Dec 2024 02:20:52 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 43hq21gees-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 02:20:52 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BH2KpKV30147290
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 17 Dec 2024 02:20:51 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 452CD58054;
+	Tue, 17 Dec 2024 02:20:51 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EDB275803F;
+	Tue, 17 Dec 2024 02:20:48 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 17 Dec 2024 02:20:48 +0000 (GMT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+        eajames@linux.ibm.com, jdelvare@suse.com, linux@roeck-us.net,
+        corbet@lwn.net, joel@jms.id.au, andrew@codeconstruct.com.au,
+        Delphine_CC_Chiu@Wiwynn.com, broonie@kernel.org,
+        peteryin.openbmc@gmail.com, noahwang.wang@outlook.com,
+        naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com,
+        patrick.rudolph@9elements.com, gregkh@linuxfoundation.org,
+        peterz@infradead.org, pbiel7@gmail.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
+Cc: Ninad Palsule <ninad@linux.ibm.com>
+Subject: [PATCH v3 0/4] Add support for Intel CRPS PSU
+Date: Mon, 16 Dec 2024 20:20:38 -0600
+Message-ID: <20241217022046.113830-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -187,41 +98,59 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB5203.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60e51951-68e4-46e6-16ee-08dd1e40a732
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2024 02:15:18.7850
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oflbXlk1/u8jXRgRK+oyzYjtsnNzFwjBqUzOc7cjtZffh5Ofr1a1uuWVYf4hHg5T0zCyGOq5D/9Ah4Wd/uTUv12GAm+zJhqlln+77JB0mjg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5074
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_PASS,SPF_PASS autolearn=disabled version=4.0.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: hiondQNnoeXo-ecR__tA0eP-gWSS9wXQ
+X-Proofpoint-ORIG-GUID: cD3hqKkyNGW6xB0jbKQxY6q_lrMa3KhS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ lowpriorityscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 spamscore=0 suspectscore=0
+ clxscore=1015 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412170015
+X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-SGkgQW5kcmV3LA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEFuZHJl
-dyBKZWZmZXJ5IDxhbmRyZXdAY29kZWNvbnN0cnVjdC5jb20uYXU+DQo+IFNlbnQ6IFdlZG5lc2Rh
-eSwgTm92ZW1iZXIgMjAsIDIwMjQgMTI6NTQgUE0NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NCAx
-LzNdIHdhdGNoZG9nOiBhc3BlZWQ6IFVwZGF0ZSBib290c3RhdHVzIGhhbmRsaW5nDQo+IA0KPiBP
-biBNb24sIDIwMjQtMTEtMTggYXQgMTc6MjcgLTA4MDAsIEd1ZW50ZXIgUm9lY2sgd3JvdGU6DQo+
-ID4gU28sIGFnYWluLCB3aGF0IGV4YWN0bHkgd291bGQgdXNlcnNwYWNlIGRvIHdpdGggdGhlIGlu
-Zm9ybWF0aW9uIHRoYXQNCj4gPiB0aGlzIHdhcyBhIHdhdGNoZG9nIHRyaWdnZXJlZCB3YXJtIHJl
-Ym9vdCA/IFdoeSB3b3VsZCBpdCBuZWVkIHRoYXQNCj4gPiBpbmZvcm1hdGlvbiA/DQo+IA0KPiBJ
-J2xsIGRlZmVyIHRvIHRoZSBvdGhlcnMgb24gVG8vQ2MgdG8gYW5zd2VyIHRoYXQuDQo+IA0KPiBN
-eSBvbmx5IHBvc2l0aW9uIGlzIEkgZG9uJ3QgdGhpbmsgY2hhbmdpbmcgYmVoYXZpb3VyIG9mIGV4
-aXN0aW5nIGRyaXZlcnMgdG8NCj4gZXhwbG9pdCBXRElPRl9FWFRFUk4xIGFzIGEgZ3JhY2VmdWwt
-cmVib290IGluZGljYXRvciBpcyBhIGdvb2QgaWRlYSBlaXRoZXIuDQo+IE9idmlvdXNseSBJIGRv
-bid0IGhhdmUgbXVjaCBza2luIGluIHRoZSBnYW1lIHdpdGggd2F0Y2hkb2cgbWFpbnRlbmFuY2Us
-IHNvDQo+IG15IHRob3VnaHRzIHNob3VsZG4ndCBoYXZlIG11Y2ggaW5mbHVlbmNlIGJleW9uZCB0
-aGUgQXNwZWVkLXNwZWNpZmljcywgYnV0IEkNCj4ganVzdCBkaWRuJ3Qgd2FudCB0byBzZWUgc29t
-ZSBmdW4gbmV3IGNvbmZ1c2lvbiBvciBpbmNvbXBhdGliaWxpdHkgYXJpc2UgYXMgYQ0KPiByZXN1
-bHQuDQo+IA0KQWdyZWUgdG8geW91ciBtaXNnaXZpbmcsIGluIHRoZSBuZXh0IHBhdGNoZXMsIG9u
-bHkgdHdvIGNhdGVnb3JpZXMsICJQb3dlciBvbiByZXNldCINCmFuZCAiV0RUIHJlc2V0IiAoQ2Fy
-ZCByZXNldCksIHdpbGwgYmUgdGFrZW4gaW50byBjb25zaWRlcmF0aW9uLiBUaGUgZ3JhY2VmdWwt
-cmVib290DQpzY2VuYXJpbyB3aWxsIGJlIHBvc3Rwb25lZCB0byB0aGUgcGF0Y2hlcyBpbiB0aGUg
-ZnV0dXJlLg0KDQoNClRoYW5rcywNCkNoaW4tVGluZw0KDQo=
+Hello,
+
+Please review the version 3 of patchset.
+
+V3:
+---
+  - Improved documentation as per suggestion.
+  - Fixed issues in the probe function.
+  - Add ACKed string in the commit message
+V2:
+---
+  - Fixed documentation issues.
+  - Added pmbus revision debugfs file in the core
+  - Remove debugfs and read word from crps185
+  - Improved commit messages
+
+Ninad Palsule (4):
+  hwmon: (pmbus/core) Add PMBUS_REVISION in debugfs
+  hwmon: (pmbus/crps) Add Intel CRPS185 power supply
+  dt-bindings: hwmon: intel,crps185: Add to trivial
+  ARM: dts: aspeed: system1: Use crps PSU driver
+
+ .../devicetree/bindings/trivial-devices.yaml  |  2 +
+ Documentation/hwmon/crps.rst                  | 97 +++++++++++++++++++
+ Documentation/hwmon/index.rst                 |  1 +
+ MAINTAINERS                                   |  7 ++
+ .../dts/aspeed/aspeed-bmc-ibm-system1.dts     |  8 +-
+ drivers/hwmon/pmbus/Kconfig                   |  9 ++
+ drivers/hwmon/pmbus/Makefile                  |  1 +
+ drivers/hwmon/pmbus/crps.c                    | 74 ++++++++++++++
+ drivers/hwmon/pmbus/pmbus_core.c              | 13 ++-
+ 9 files changed, 206 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/hwmon/crps.rst
+ create mode 100644 drivers/hwmon/pmbus/crps.c
+
+-- 
+2.43.0
+
 
