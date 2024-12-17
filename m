@@ -1,94 +1,79 @@
-Return-Path: <linux-aspeed+bounces-269-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-273-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926A39F540D
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Dec 2024 18:36:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747AC9F541C
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Dec 2024 18:37:17 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YCP9l1rXWz30Pl;
-	Wed, 18 Dec 2024 04:36:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YCPBz3Qjvz30Mn;
+	Wed, 18 Dec 2024 04:37:15 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.158.5
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1734456971;
-	cv=none; b=VqStsOly2SfWlswzl/0K2H3oSyL4P08qKWr3LjVfiYKA3OuOVE6w4PPobY757v/p+ylEcnPmi/9mM+5uridNgBUp8CGBrwcUmjXj7p3t6IZ7cbB1lhDvm8hkYZfRvpdrUJOXc4P1uF9F1e3O/GzLXgWOarD5bDnZM9p+VGj3Hz+PFL6QBXSyDjUNwHPZQIoO3r66ksFizhcHzuPgHHz7tlvp0P2vaD5i66WBhLFUZwMaftlrJAd0ABbUtq7JC796GxCvclSowNTHHCkzo7/0Cx9mbEP+P4kPt0w2XNoHE4WEsa64KM36dqflcyxfmCbLcm/ynOrKbH/r+pho2yl2lA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1734457035;
+	cv=none; b=V+QRPWwQmFXjaBoJzM/zghJWZ24F8YHqTnuMd6nQrkim/0h+pvUBkMkhb3O53id3YMdiwFGtF0y21kR6B7Eoc2i1hTwbvk2yZg7utDaE4uikxN+B43iEX+O2pdK2WWPlDjFNJ0hNuti0Qr0cTfWq2FDNgtMa3UW2HIueUYZuaXgFiHUTPxklTfE53T8SbWK2ugb+1rC0rqg/jw0edgSwe7yoivn0Lu9IMqWv5AKEWnQX2By2knjIOfFG6Zlw33XepJJiwDEqwKY8Jsj1hQW5i2s7av3qLRBl+PlzMWii5TG6LKlz7PWcRido5I/FhLy/fKO5EguRYidTx0tkIpyBEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1734456971; c=relaxed/relaxed;
-	bh=R5+873Ef+Kkj4YNDKn1lh7cr/++D0FfitFuPzZwixKs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kw6ZSvJBqPj7hFl77EAYW+YaXXozAoZ9Dp4VDgfZ12Gkvu6XvArXG0/Y/MiDzROhOpcrVnPAtEZhj7dG7kH6mmpMKcECsVgTrb8ZwE1wL53D5/PSaaae6kGAT/HzXBoLMQpryP4DL6agrM1R8huqJci47kYOpqqZ7HucO9M2tvW9GKFOb5gfyCz1cslTlztBfFH4jUatSpm2FI6K0NIAiQxwo7zn2ZTjEvrH3XFsOWN4pmIM+A7J0271hIQ33X6ghVraTLMR1sOGBbyLFEgK9ASy/zrzdcic/6/MRWdN3PWercuh56jqgIW3dOawf8J9ltjaOB60F4408PCEw1v5KQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=ihuk+tVr; dkim-atps=neutral; spf=pass (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
+	t=1734457035; c=relaxed/relaxed;
+	bh=pJO0g6v98gvESn7JKbTO95058fP43fk5TN6hOObRlfk=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To; b=aSRIYNI5Mc8Wt2TiWP3PiWPzcenCewvbx4J9i5WLtbNgirV//LSK5Ko+xOosF+bmvH9AGlE2r+gb9+ELifmAHAGNwzRlUv4Rk6u/7CatwjthduDBaZZKk9cbButvZdORsEZK0oW8HabX+OgA7U0y257nNCoKlNOHVVyIzkXnwY0A2MCJyPfLeCdS8EfLeCDIbofzSRhGRubomuTGr6H6KtK9HkD2gaGqFRachJZr1elU2J1eKul1QJENeOIcwN2Fd6FPhfIh2d2NKYJiGirVtl6CNVAC+GHvJ18nLmE0UeS5gClqwnPuv4BHPMKqviTHcAcvswgch/7jl7vaCV3wBQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=pnRR+XXa; dkim-atps=neutral; spf=pass (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=ihuk+tVr;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=pnRR+XXa;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
 Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YCP9j6fHHz30DV
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Dec 2024 04:36:09 +1100 (AEDT)
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHC0E7f025028;
-	Tue, 17 Dec 2024 17:35:50 GMT
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YCPBy29nJz30DV
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Dec 2024 04:37:14 +1100 (AEDT)
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHE6KSC020873;
+	Tue, 17 Dec 2024 17:36:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=R5+873Ef+Kkj4YNDK
-	n1lh7cr/++D0FfitFuPzZwixKs=; b=ihuk+tVrXDQsy71FbIUDoh1uBCvvJCZtX
-	CBAZXP0U/QSDZC6LZ1XoryD070i5T7StMea4l88VM7uhvAOabmweJu7hFqC2non9
-	PToHQ3YpkaKGAzGkLMoTFq0Fdml8gcZ0QYeSJ4lKFvLjEpEuAA3YXWT5JuVYw79L
-	cnIT8npbEEYoV2DL0AQ0KkjnvBvv37GfNMt68lZEuoP67IqVjgsvqqQSi9pcAC1f
-	koY9xjf9lJGpD3cw1UmSu875i9MJMM55xPtwiTsGorD4Fz2goQB12ggJ+Qs6hk0c
-	1lbp9ehlUTJsKv034DPUQjtAzD7YNTObUw9NeXeeONFZoQcLDhqHw==
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=pJO0g6v98gvESn7JKbTO95058fP43f
+	k5TN6hOObRlfk=; b=pnRR+XXa7ggDtT1+wm1nwBXRZvjvPHOgg5xA0oZCyM+Jt0
+	z721v67CsmHIHMeRj8itBr6LXqf8tS9PmevW2txILmM6x3Y1xDKwysqu3gSsZbIi
+	PUo1gWKlzwBl0wbcCsWJeb3T5G6AmZVlyyMPsJdjMkll+52qJbrDShDv+h23J30F
+	T9jrNXfMoYL/tEhkREndp5S32p+yGhXARRB1iNB4yNhQwgQLV0motpON+KNXzFBt
+	0aNJlSMI/cT2SKRXBtsWYf6BBl2W4ygXntrqudu7bHABU5BALZ1s8twokQwzB4Qz
+	h1LI4IFYUpSSOfU2Na4vbaPIixe2OS5/hLSO/GzQ==
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jx1aca3g-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43kas4s3fv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 17:35:50 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BHH40gC021414;
-	Tue, 17 Dec 2024 17:35:49 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jx1aca3e-1
+	Tue, 17 Dec 2024 17:36:52 +0000 (GMT)
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BHHMTG3027530;
+	Tue, 17 Dec 2024 17:36:51 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43kas4s3fs-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 17:35:49 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHFIwE7014435;
-	Tue, 17 Dec 2024 17:35:48 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43hmqy406x-1
+	Tue, 17 Dec 2024 17:36:51 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHFtTsb005523;
+	Tue, 17 Dec 2024 17:36:50 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43hnbn3vva-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 17:35:48 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BHHZl6632899780
+	Tue, 17 Dec 2024 17:36:50 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BHHaoK912780066
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 17 Dec 2024 17:35:47 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2009C58059;
-	Tue, 17 Dec 2024 17:35:47 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AD2BE58058;
-	Tue, 17 Dec 2024 17:35:45 +0000 (GMT)
-Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 17 Dec 2024 17:35:45 +0000 (GMT)
-From: Ninad Palsule <ninad@linux.ibm.com>
-To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-        eajames@linux.ibm.com, jdelvare@suse.com, linux@roeck-us.net,
-        corbet@lwn.net, joel@jms.id.au, andrew@codeconstruct.com.au,
-        Delphine_CC_Chiu@Wiwynn.com, broonie@kernel.org,
-        peteryin.openbmc@gmail.com, noahwang.wang@outlook.com,
-        naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com,
-        patrick.rudolph@9elements.com, gregkh@linuxfoundation.org,
-        peterz@infradead.org, pbiel7@gmail.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
-Cc: Ninad Palsule <ninad@linux.ibm.com>
-Subject: [PATCH v4 4/4] ARM: dts: aspeed: system1: Use crps PSU driver
-Date: Tue, 17 Dec 2024 11:35:35 -0600
-Message-ID: <20241217173537.192331-5-ninad@linux.ibm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241217173537.192331-1-ninad@linux.ibm.com>
-References: <20241217173537.192331-1-ninad@linux.ibm.com>
+	Tue, 17 Dec 2024 17:36:50 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id ED9245805C;
+	Tue, 17 Dec 2024 17:36:49 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C3F1658051;
+	Tue, 17 Dec 2024 17:36:44 +0000 (GMT)
+Received: from [9.61.165.36] (unknown [9.61.165.36])
+	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 17 Dec 2024 17:36:44 +0000 (GMT)
+Content-Type: multipart/alternative;
+ boundary="------------B53FnkL9CkYq5UERVvj4WOB9"
+Message-ID: <71332e94-4005-4215-9d7f-7e9dd4c2850f@linux.ibm.com>
+Date: Tue, 17 Dec 2024 11:36:43 -0600
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -101,63 +86,115 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] dt-bindings: hwmon: intel,crps185: Add to trivial
+To: Krzysztof Kozlowski <krzk@kernel.org>, robh@kernel.org, krzk+dt@kernel.org,
+        conor+dt@kernel.org, eajames@linux.ibm.com, jdelvare@suse.com,
+        linux@roeck-us.net, corbet@lwn.net, joel@jms.id.au,
+        andrew@codeconstruct.com.au, Delphine_CC_Chiu@Wiwynn.com,
+        broonie@kernel.org, peteryin.openbmc@gmail.com,
+        noahwang.wang@outlook.com, naresh.solanki@9elements.com,
+        lukas@wunner.de, jbrunet@baylibre.com, patrick.rudolph@9elements.com,
+        gregkh@linuxfoundation.org, peterz@infradead.org, pbiel7@gmail.com,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+        linux-i2c@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20241217022046.113830-1-ninad@linux.ibm.com>
+ <20241217022046.113830-4-ninad@linux.ibm.com>
+ <21008f97-d0bd-45bf-8e10-9ec2539ed858@kernel.org>
+Content-Language: en-US
+From: Ninad Palsule <ninad@linux.ibm.com>
+In-Reply-To: <21008f97-d0bd-45bf-8e10-9ec2539ed858@kernel.org>
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: wkWp5cporoFO1BP6_dFdfcnPS-qlhero
-X-Proofpoint-ORIG-GUID: HNkbUGJPCFAxkqRCJFNudlAMYRsDbKmO
+X-Proofpoint-ORIG-GUID: t5ZCVQPd7E7bf55RZ-cojhAL0PehfWEc
+X-Proofpoint-GUID: -OexnxIj1ca2J81KPTCj1RFFCwyAYgWQ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- lowpriorityscore=0 mlxscore=0 mlxlogscore=854 malwarescore=0
- impostorscore=0 bulkscore=0 priorityscore=1501 spamscore=0 suspectscore=0
- clxscore=1015 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
+ mlxlogscore=999 mlxscore=0 impostorscore=0 lowpriorityscore=0
+ priorityscore=1501 malwarescore=0 spamscore=0 clxscore=1015 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2411120000 definitions=main-2412170134
 X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.0
+	HTML_MESSAGE,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,
+	SPF_PASS autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-The system1 uses Intel common redundant (crps185) power supplies so move
-to correct new crps driver.
+This is a multi-part message in MIME format.
+--------------B53FnkL9CkYq5UERVvj4WOB9
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
----
- arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Hello Krzysztof,
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
-index 8f77bc9e860c..360b9ce3c850 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
-@@ -681,22 +681,22 @@ &i2c2 {
- 	status = "okay";
- 
- 	power-supply@58 {
--		compatible = "ibm,cffps";
-+		compatible = "intel,crps185";
- 		reg = <0x58>;
- 	};
- 
- 	power-supply@59 {
--		compatible = "ibm,cffps";
-+		compatible = "intel,crps185";
- 		reg = <0x59>;
- 	};
- 
- 	power-supply@5a {
--		compatible = "ibm,cffps";
-+		compatible = "intel,crps185";
- 		reg = <0x5a>;
- 	};
- 
- 	power-supply@5b {
--		compatible = "ibm,cffps";
-+		compatible = "intel,crps185";
- 		reg = <0x5b>;
- 	};
- };
--- 
-2.43.0
+Thanks for the review.
+
+On 12/16/24 23:49, Krzysztof Kozlowski wrote:
+> On 17/12/2024 03:20, Ninad Palsule wrote:
+>> Add INTEL Common Redundant Power Supply Versions crps185 bindings as
+>> trivial. It is trivial because only compatibility string is required in
+>> the device tree to load this driver.
+> That's incorrect reason. You should describe the hardware, e.g. the
+> hardware does not have any resources, like clocks or supplies.
+>
+>
+>
+> Best regards,
+> Krzysztof
+>
+Updated the commit message as per the suggestion.
+
+Regards,
+
+Ninad
+
+--------------B53FnkL9CkYq5UERVvj4WOB9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hello <span style="white-space: pre-wrap">Krzysztof,</span></p>
+    <p><span style="white-space: pre-wrap">Thanks for the review.
+</span></p>
+    <div class="moz-cite-prefix">On 12/16/24 23:49, Krzysztof Kozlowski
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:21008f97-d0bd-45bf-8e10-9ec2539ed858@kernel.org">
+      <pre wrap="" class="moz-quote-pre">On 17/12/2024 03:20, Ninad Palsule wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">Add INTEL Common Redundant Power Supply Versions crps185 bindings as
+trivial. It is trivial because only compatibility string is required in
+the device tree to load this driver.
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+That's incorrect reason. You should describe the hardware, e.g. the
+hardware does not have any resources, like clocks or supplies.
+
+
+
+Best regards,
+Krzysztof
+
+</pre>
+    </blockquote>
+    <p>Updated the commit message as per the suggestion.</p>
+    <p>Regards,</p>
+    <p>Ninad<br>
+    </p>
+  </body>
+</html>
+
+--------------B53FnkL9CkYq5UERVvj4WOB9--
 
 
