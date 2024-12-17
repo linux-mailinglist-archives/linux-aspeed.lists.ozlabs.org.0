@@ -1,50 +1,91 @@
-Return-Path: <linux-aspeed+bounces-267-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-271-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E419F4325
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Dec 2024 06:50:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBC19F5410
+	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Dec 2024 18:36:15 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YC5Vv72sDz30dt;
-	Tue, 17 Dec 2024 16:49:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YCP9m07Gsz30Mn;
+	Wed, 18 Dec 2024 04:36:12 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1734414599;
-	cv=none; b=hHLo+zYiDL0E5I/3sx3QC4K5TlCItFSqQComSLvwdg6qUTXdR79mAjYFBC4BRYkqKBU6eXtKPwX9rk98LXhIsoQ4yf0ykSLASr87OdM97nF5pVWYFaUPq8C8h45UiJt50RK2s0f5V1ZJkZ4IF1qxk0YPWIBpZCgy677g/dr2IvxvaAfTqV4edrb4SDvMsENdzssjTjLd3xRT+MUfLhf1FgUKMXQ5C1+txg/+meu2FfogCBLJbUB9GO7ob5oJtj2jCD+EBcLG/WCgiePcVfI0yvQ0mXOrJq4HQ7zcgemq8Rj2E3zyL8pLfz7GUL3h1BQol5LefAIvI6Kc/X9JWcFPBw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.156.1
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1734456971;
+	cv=none; b=mpdZ7YpLkduhT4+vDkB7BCB+JXtUzw9SAWasQ8Q3kdx/XuQyMzv9DmiKFYpLDLBxtZMnKxT1IpHyHKYGVFVJ/9f8grMhIqs8ju952HZmmd8Sux/VWBa+mkWTgyEFD8HHflYboaUoXTMZ0SeMi+Za/Rsaw9TuEzyG3P+kRBY1ZQsPnOM4qTPelDE7WuhiomtecdRS3LFW7vocYNe3nKePSQ5Wfk8V6OHoWWBtVyEkuGxcQ+hQjS+6zbDFSD/Af6X0viYXULLMArHrznwfRre0XrbVLn6uZTqzv4m++Sy/0E2sTQSLfXPjxdmXVS5itgFZDWz1sROCvy5xxDoohI+0SQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1734414599; c=relaxed/relaxed;
-	bh=nNTJ+RSKF3nNEr9KviDI+mWYUDxyuqhmE+lCTSJr90M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hwjae+uPeo+lTHjO7MFKOwontTSMssAOfnR9U6vbcICWZf0EbsAwtAeyTO0lRKMFZxppLaA94QF61DzOcsiiTOSjqd+WBYQSfZ+d54D0YvTgwZGeyr4ndGLBtA5QO51f2rsMinHDIExkq+1anuxqqpv4iy6r3parnMcKvs+455k7STnlPRCgvBHPG4n8+0TLjF2vLq2AMAWbK2r+aTHfUI5aI40U5MeYyb1PQIOzz8G0kNGo1oinBiiMe99rruQVqErvQF2Uxg96T0NabrHeEOpdOvQPYPlgk+PHECTLat60LeR/jpC4jJf4Z7OaSxGHsLfNwv3QbsXCUI61eipgbA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=IkOaD+mQ; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1734456971; c=relaxed/relaxed;
+	bh=3Cze64ZkJ4Cz2gsZweHybIIHWwAMYbRAejZdS1uXHZQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C4IfKljudXpW/AvK30LCiLxELpOuUwwkTnc+7rfH9L9/IbWIKUq9j/d4GJ/wkEoOae7MKCaaX/S5Cz6WWsy+v+1iDVlTb6A4Wtc+ZxFQhzJopx7YwAuGERIz0FqrEwBXm6xco7ijTqJzFfJXi/1k8670gADLIsQ8EcsVgfF1lLwRKtzj7pAHSTDem3q6X0b8hiHyKP28nc1d4Bj5v+lff+ZJQielBWUMqdpf/Qk57Vwf9+xBf5mAqyGgRm1nU99y3U0fPSFOMEet9RtfX2gJJ4hfxijG/C/ymVObGT5yrBJN9qGgBb65awV4bCJhBJzPN4F64X/ytzQu2Jjnz8HPqg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=RyhdRXmt; dkim-atps=neutral; spf=pass (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=IkOaD+mQ;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=RyhdRXmt;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YC5Vt54xmz30PH
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 17 Dec 2024 16:49:58 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id AB0905C04DC;
-	Tue, 17 Dec 2024 05:49:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B580C4CED3;
-	Tue, 17 Dec 2024 05:49:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734414595;
-	bh=nNTJ+RSKF3nNEr9KviDI+mWYUDxyuqhmE+lCTSJr90M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IkOaD+mQZumFR6kVGx98rNnXoQRbhQpDBUcM0d1Ml9c9rv/dOwsJu+vM1JmmxUV/t
-	 ntunHvKGKd1aImhUM/iKqWN224vgYTZ2cbU275pZbyEG4ugUDis83N42mJybWRSF/7
-	 bkc46DKLKTHSuemlt5Exa76O7v5nKskPMGM/Go7ORYq7QXUr4aEqCNi6XeTrCtTMeG
-	 7ZX2++mKV4ddURHk6aVk+QNXQxBZyPG4ih6omQeEOrIcil938XuLN+4VEJbVnq9+vq
-	 uX5ueb0QOreybgNI0AcIXE/f2ebTolsS+kvPl2wChgonZNZF2BIXth6Ck7dzaHVoDQ
-	 kWW5ZArTDTz3w==
-Message-ID: <21008f97-d0bd-45bf-8e10-9ec2539ed858@kernel.org>
-Date: Tue, 17 Dec 2024 06:49:45 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YCP9k3VdTz30NF
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 18 Dec 2024 04:36:10 +1100 (AEDT)
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHD0UoA028122;
+	Tue, 17 Dec 2024 17:35:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=3Cze64ZkJ4Cz2gsZweHybIIHWwAMYbRAejZdS1uXH
+	ZQ=; b=RyhdRXmtfU1PxDNu+dAtHsA4dikP/urhvZ1aDjrJ6M7CFpYB/RP/37Qqi
+	Uf9kf46bcPZ1EjYDGPVq8nx6BHqF51PF5RZl4hiQUKp4GO32W9zWn2fWppezczt1
+	A0rexEJSNsd7dSOZlrxIVfmrfXKKdmhSIPmus9MYFupa9UvFs4N7SFwqMH0ktLJf
+	jagbMLWsdZh6MTQa3/2t/3IAopKKCnRnkbyt4ESeQpbvF0Wd9cZVf4ljHF2CC2bE
+	jO27X7mj9hKO1WIIDKV8n+n4ZwkZIs5Hm4PB3Ebz8hPHCNWGCLk7sAg4w624DX/R
+	Uv3cho6gYF1TqkwaqjA/2vV28QQmA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43k9t6heeu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 17:35:44 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BHHQ0jN028818;
+	Tue, 17 Dec 2024 17:35:43 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43k9t6heeq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 17:35:43 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHEs3sY029321;
+	Tue, 17 Dec 2024 17:35:42 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 43hmbsm34m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 17:35:42 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BHHZfSZ25887300
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 17 Dec 2024 17:35:41 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1747A5805D;
+	Tue, 17 Dec 2024 17:35:41 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B09A45805C;
+	Tue, 17 Dec 2024 17:35:39 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 17 Dec 2024 17:35:39 +0000 (GMT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+        eajames@linux.ibm.com, jdelvare@suse.com, linux@roeck-us.net,
+        corbet@lwn.net, joel@jms.id.au, andrew@codeconstruct.com.au,
+        Delphine_CC_Chiu@Wiwynn.com, broonie@kernel.org,
+        peteryin.openbmc@gmail.com, noahwang.wang@outlook.com,
+        naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com,
+        patrick.rudolph@9elements.com, gregkh@linuxfoundation.org,
+        peterz@infradead.org, pbiel7@gmail.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
+Cc: Ninad Palsule <ninad@linux.ibm.com>
+Subject: [PATCH v4 0/4] Add support for Intel CRPS PSU
+Date: Tue, 17 Dec 2024 11:35:31 -0600
+Message-ID: <20241217173537.192331-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -57,85 +98,63 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] dt-bindings: hwmon: intel,crps185: Add to trivial
-To: Ninad Palsule <ninad@linux.ibm.com>, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, eajames@linux.ibm.com, jdelvare@suse.com,
- linux@roeck-us.net, corbet@lwn.net, joel@jms.id.au,
- andrew@codeconstruct.com.au, Delphine_CC_Chiu@Wiwynn.com,
- broonie@kernel.org, peteryin.openbmc@gmail.com, noahwang.wang@outlook.com,
- naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com,
- patrick.rudolph@9elements.com, gregkh@linuxfoundation.org,
- peterz@infradead.org, pbiel7@gmail.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20241217022046.113830-1-ninad@linux.ibm.com>
- <20241217022046.113830-4-ninad@linux.ibm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241217022046.113830-4-ninad@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: QWx7H6vTap48emznpRAQAtERyGJSso6k
+X-Proofpoint-ORIG-GUID: AEW_zZyOLNc4vOhz9gVc1LmegMtQ296D
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 clxscore=1015
+ priorityscore=1501 adultscore=0 impostorscore=0 suspectscore=0
+ mlxlogscore=999 spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2412170134
+X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-On 17/12/2024 03:20, Ninad Palsule wrote:
-> Add INTEL Common Redundant Power Supply Versions crps185 bindings as
-> trivial. It is trivial because only compatibility string is required in
-> the device tree to load this driver.
+Hello,
 
-That's incorrect reason. You should describe the hardware, e.g. the
-hardware does not have any resources, like clocks or supplies.
+Please review the version 3 of patchset.
 
+V4:
+---
+  - Improved commit message.
 
+V3:
+---
+  - Improved documentation as per suggestion.
+  - Fixed issues in the probe function.
+  - Add ACKed string in the commit message
+V2:
+---
+  - Fixed documentation issues.
+  - Added pmbus revision debugfs file in the core
+  - Remove debugfs and read word from crps185
+  - Improved commit messages
 
-Best regards,
-Krzysztof
+Ninad Palsule (4):
+  hwmon: (pmbus/core) Add PMBUS_REVISION in debugfs
+  hwmon: (pmbus/crps) Add Intel CRPS185 power supply
+  dt-bindings: hwmon: intel,crps185: Add to trivial
+  ARM: dts: aspeed: system1: Use crps PSU driver
+
+ .../devicetree/bindings/trivial-devices.yaml  |  2 +
+ Documentation/hwmon/crps.rst                  | 97 +++++++++++++++++++
+ Documentation/hwmon/index.rst                 |  1 +
+ MAINTAINERS                                   |  7 ++
+ .../dts/aspeed/aspeed-bmc-ibm-system1.dts     |  8 +-
+ drivers/hwmon/pmbus/Kconfig                   |  9 ++
+ drivers/hwmon/pmbus/Makefile                  |  1 +
+ drivers/hwmon/pmbus/crps.c                    | 74 ++++++++++++++
+ drivers/hwmon/pmbus/pmbus_core.c              | 13 ++-
+ 9 files changed, 206 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/hwmon/crps.rst
+ create mode 100644 drivers/hwmon/pmbus/crps.c
+
+-- 
+2.43.0
+
 
