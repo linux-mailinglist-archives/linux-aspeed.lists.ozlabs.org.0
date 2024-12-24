@@ -1,52 +1,52 @@
-Return-Path: <linux-aspeed+bounces-302-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-311-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4A49FC0EC
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Dec 2024 18:26:27 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3719FC100
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Dec 2024 18:29:23 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YHhdF3qy5z302c;
-	Wed, 25 Dec 2024 04:26:25 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YHhhd741Zz3064;
+	Wed, 25 Dec 2024 04:29:21 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=217.70.178.240
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1735061185;
-	cv=none; b=mNW3rWa7tSpuZCh+TgIANOmRRdJx5+9W5a8mVK2sD9Jv6NmHzJe5TcfnSTMpM4MlA2xSw66m3a6tRbq7Xl6mvEgsAhtZwqgAW1cWDxnhWY06Vd43R7Gr1DSlIfb0XwBWoj91EavrlxEaAModKu+Dk2AQ/ieXIeT6ndBtTiMkyMJlrTw1m0Wg8winR8iCdJcd0mjAmxO25ITZ+Kzsx+JVApceXIp41GcUYbjqtF0QsnOHXR3+VJynJ/J3ODXixuRF+MAY9X+TdmNmEXCGHSc4hPi+OcBMxRB4X3t+IRkEQkdw0neXbyj3hDasU20UJYbouEqANxCceIPwd6m+rTHz1Q==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1735061361;
+	cv=none; b=iSh7V90hBdvwyAdKECc3ZRRJUsGF0S5wIWt8xWeWTvNbajpKVTnSea7lbikXW/+4TUJmCLv/k4q8UCXCuY/mC6wrk0Kuz8Kmj5Dv9kb2WeAQYzyLYb2J2nDPAkaM103a2eabk1LTYVT3G5fwZEcByez9UrQzI6hyLzrfiYA1Dg1ZW1yd1MX7CEBBqKtejvH96wODtTMI5nqKTiao4zrybBpWZPWCjqXIaxsWwOrEEw+CdBMe7cnfKU25sjg/mtvY/578itSvfVoq8PWzO7oqvdLS9CAAVkC/adXvDTkOUH6wWackkmh8EAv6OYSdSv8jW7Q4H7fCRdKb0VToAOmQtA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1735061185; c=relaxed/relaxed;
-	bh=NPTwujdULqDMAWJvUaFFPZ6Ty000e2Bmk5z+jRzLZ3I=;
+	t=1735061361; c=relaxed/relaxed;
+	bh=BuQ/lBXfZRP3KmcoAIIIjIvvj0TWlpOZ+bgtTbc13Ew=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=c/h9zl0bbJaAQ069yy4Yx7jAKMUIIbU8P0UfR5Bxtsg6DOft3tUganE4QiSZ1KF/+YlgL0BNPJyG+oDWfpm83xOm4/NJQUkluCvNgwFFMXDT5IHvLg0N5abzsShtwsGPKAGuM1t/lyPSHPVRL8zVvPSayivxVTsbNYqt9x80MngTAR2+us/yDMhmPq/5dZVDPKtN0PVkYmcduGfOowLrBDqgrUqgN8ySVTPiKrxa+JGqw0bQUKdIQlsomzWH0Kd47bVhLSss96n6CV/uH340B8koOHelGQSM7VPd829/xOPwA7jPqw/i4C8vlkH3S4kwrUEgXJ+yC3Y2N/plKgzYBA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=ZWKmgERF; dkim-atps=neutral; spf=pass (client-ip=217.70.178.240; helo=mslow1.mail.gandi.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
+	 In-Reply-To:To:Cc; b=DQEoAQQ4IdN61hogFTECRT54l9BfBVyPvL0Ziv3eMYlLCdg9t26g9M3dVZbJEwRdqEfofRtjZ1qrpywwq8Pi6U8ML4ysaspOzc/mH+36AEcFs6GTdDJ4Y8F1hgihJN5DoPhm2cpY2As/ScM/ZIvz4InXsY1VZTDieX3zvVc9CDMEzOJUYUmPyMZQk+0tcUiRofQdgv0YZrAggD3mWNAhyhjsxa1zzX6sVz/+Dp0GxOz+4yWj3l71enrlGhrfWS/OshGlt15slZNpMIA8hMg33UI5SeDmN+/h/Lg3MnR3wi8yXMpOT6FIhGPYTHWu20DpC1B/Dm9nK4EX77EPc8LzuQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=IduTNU+h; dkim-atps=neutral; spf=pass (client-ip=217.70.178.240; helo=mslow1.mail.gandi.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=ZWKmgERF;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=IduTNU+h;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=217.70.178.240; helo=mslow1.mail.gandi.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org)
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YHhdC5Dh6z3028;
-	Wed, 25 Dec 2024 04:26:23 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YHhhc18Y3z305C;
+	Wed, 25 Dec 2024 04:29:19 +1100 (AEDT)
 Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 6CAE9C0D03;
-	Tue, 24 Dec 2024 17:07:16 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EF6EA40005;
-	Tue, 24 Dec 2024 17:07:04 +0000 (UTC)
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 39887C0E1D;
+	Tue, 24 Dec 2024 17:07:21 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7674940004;
+	Tue, 24 Dec 2024 17:07:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1735060029;
+	t=1735060034;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NPTwujdULqDMAWJvUaFFPZ6Ty000e2Bmk5z+jRzLZ3I=;
-	b=ZWKmgERFc9lmwxxx6UvyJo+HxANoWAKFnt/84JjZx6t4upVdrlwsfWjPeuUq0FzAgyEy2V
-	shJMU0k3uOASbarNefu0/toxF9Ps41PKa8/7p2T8WOuvxGopWz3GPQFWE8P85t2tlE94+J
-	KtOa58aSvfYrt2wSk3EV3aLtdFGKCWiJqyBkUJnFoVjd9Q7u+p3UO7Jz45ZylJT3sLWl1w
-	nzWNmOxyeogdCFXripvD68o2ySV+xFEEEqPwnUWpBL1Qw15mT7yDGUH9GMNQgd5QZDkQby
-	2X9/D8BdT4Xodu2qrCeJUPqRR/kgmoVlDw9kPD+uIFaxUrHmS9ndMaoaPEvjAg==
+	bh=BuQ/lBXfZRP3KmcoAIIIjIvvj0TWlpOZ+bgtTbc13Ew=;
+	b=IduTNU+hjx2JMI+ZczcllkxQWFarUPJTBt2CY3eplw1bLQGPUSCLhdxigrtoBaEf0j29ee
+	NSV6ajFbvImwJ4n5GAe5fhNF9tXKIgjZstrS6LTjbbhJjtdosAP7FT7QB+VjwG5Vsn/jie
+	drrYlHpayDrPTyjlZnKKNENS+tZHw9pbPZ9E7D/CkG2pjwhNhZ8WzLrLjTTIuENJyxcCBa
+	6SgtQs4HumZQzwS3Ot+iav5Y/prVRwt9s3NS45jdKP+O8KPy9Ww3blfnC6PlMcnIP3Jj34
+	n45NZj1atT90QvBKdZ74edmPq1vOn1F9guwAaUikxpXH+iJK9kDG+TiqJ8BktQ==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Tue, 24 Dec 2024 18:05:55 +0100
-Subject: [PATCH v2 10/27] spi: mt65xx: Support per spi-mem operation
+Date: Tue, 24 Dec 2024 18:05:56 +0100
+Subject: [PATCH v2 11/27] spi: mxic: Support per spi-mem operation
  frequency switches
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
@@ -62,7 +62,7 @@ List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241224-winbond-6-11-rc1-quad-support-v2-10-ad218dbc406f@bootlin.com>
+Message-Id: <20241224-winbond-6-11-rc1-quad-support-v2-11-ad218dbc406f@bootlin.com>
 References: <20241224-winbond-6-11-rc1-quad-support-v2-0-ad218dbc406f@bootlin.com>
 In-Reply-To: <20241224-winbond-6-11-rc1-quad-support-v2-0-ad218dbc406f@bootlin.com>
 To: Mark Brown <broonie@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>, 
@@ -109,44 +109,32 @@ device value will be given anyway.
 The per-operation frequency capability is thus advertised to the spi-mem
 core.
 
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- drivers/spi/spi-mt65xx.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/spi/spi-mxic.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/spi/spi-mt65xx.c b/drivers/spi/spi-mt65xx.c
-index 85f3bafc975dbc3fd95f77b8dcfc0ca9aac32f5d..197bf2dbe5de7e853ccddf2c90d8bff40202f025 100644
---- a/drivers/spi/spi-mt65xx.c
-+++ b/drivers/spi/spi-mt65xx.c
-@@ -961,7 +961,7 @@ static int mtk_spi_mem_exec_op(struct spi_mem *mem,
+diff --git a/drivers/spi/spi-mxic.c b/drivers/spi/spi-mxic.c
+index 809767d3145c17291525ab7c246085597e0ff5e6..eeaea6a5e3103952e71a474e0de84099bc476a79 100644
+--- a/drivers/spi/spi-mxic.c
++++ b/drivers/spi/spi-mxic.c
+@@ -522,7 +522,7 @@ static int mxic_spi_mem_exec_op(struct spi_mem *mem,
+ 	int i, ret;
+ 	u8 addr[8], cmd[2];
  
- 	mtk_spi_reset(mdata);
- 	mtk_spi_hw_init(mem->spi->controller, mem->spi);
--	mtk_spi_prepare_transfer(mem->spi->controller, mem->spi->max_speed_hz);
-+	mtk_spi_prepare_transfer(mem->spi->controller, op->max_freq);
+-	ret = mxic_spi_set_freq(mxic, mem->spi->max_speed_hz);
++	ret = mxic_spi_set_freq(mxic, op->max_freq);
+ 	if (ret)
+ 		return ret;
  
- 	reg_val = readl(mdata->base + SPI_CFG3_IPM_REG);
- 	/* opcode byte len */
-@@ -1122,6 +1122,10 @@ static const struct spi_controller_mem_ops mtk_spi_mem_ops = {
- 	.exec_op = mtk_spi_mem_exec_op,
+@@ -582,6 +582,7 @@ static const struct spi_controller_mem_caps mxic_spi_mem_caps = {
+ 	.dtr = true,
+ 	.ecc = true,
+ 	.swap16 = true,
++	.per_op_freq = true,
  };
  
-+static const struct spi_controller_mem_caps mtk_spi_mem_caps = {
-+	.per_op_freq = true,
-+};
-+
- static int mtk_spi_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -1160,6 +1164,7 @@ static int mtk_spi_probe(struct platform_device *pdev)
- 	if (mdata->dev_comp->ipm_design) {
- 		mdata->dev = dev;
- 		host->mem_ops = &mtk_spi_mem_ops;
-+		host->mem_caps = &mtk_spi_mem_caps;
- 		init_completion(&mdata->spimem_done);
- 	}
- 
+ static void mxic_spi_set_cs(struct spi_device *spi, bool lvl)
 
 -- 
 2.47.0
