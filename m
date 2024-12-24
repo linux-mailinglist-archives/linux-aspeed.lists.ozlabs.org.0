@@ -1,85 +1,51 @@
-Return-Path: <linux-aspeed+bounces-284-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-312-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18459F8B67
-	for <lists+linux-aspeed@lfdr.de>; Fri, 20 Dec 2024 05:39:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6B09FC102
+	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Dec 2024 18:29:37 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YDvpK2bqdz2yJ5;
-	Fri, 20 Dec 2024 15:39:37 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YHhhv4mSXz305c;
+	Wed, 25 Dec 2024 04:29:35 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:2011::60b" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1734669577;
-	cv=pass; b=bLgQvqIua0JAvBYzlljD1L4wAAvU62Y0pshv+D9Eu3LKbRKiIAJF7FMTTbogCsMdmuldxLcHkSI+7P2MJ9r/xeS5fTmH82Qsd8b4H0f1CKZTmWfbSlj6PDhJzNAl4AkmsDAOulYq8EIUfPSrfSBCM3K4JPpTLbz1krHPMSuN4/vP/Cqg6V72Dj4N6ZulzloefmIgtiL89ihsxiRKxLErOKzDgbjlsL74H+G1riCzIDcJs9huYXejNGUtF7z2g6ypIttxjNPcmKsouPXD3F4BannKWTYIWBYf5k+rk4J95p7rhCLZOh+hOCdVweGoevSaUMQKrEOQXobK6Gxodki+bw==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1734669577; c=relaxed/relaxed;
-	bh=LWRmS9XZsuuB0IsMvKfsYzU0SaisE7IPei+IdLuyHWw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Wmsdjh7VvGNZyZk97GxIp0qDGH8cMtp+zJqk1VcyZUlZtJ5xsrxVDTdXeFFeVjuRLkPmYxc+YFy8mkH4R9E0CzOtNFv/+JiGjH4bspyCZJ68IAldshu+EjURUdXooPLCLXPHMD+RIQJXGDQycIUe4uHuFT2mklxoule/uhhvbbm0+iq52mLy3nd28+3fq6aQHf8o7tJQ8zqZd0uO4Vut0YWsbH4EdFWuk+DUXUJTzQc1hBWZVWIo9sU+Q+G3D7nj0qN4MAXJGryLSASHifAXFHhhoLwmUQrk7dJrQ89JJhPTx1HEmOBSFkB1vpxEDtW5QHzzu+JlbTg2A4ibtskYvg==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com; dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=Y1Os76Kr; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:2011::60b; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org) smtp.mailfrom=wiwynn.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=217.70.178.240
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1735061375;
+	cv=none; b=Jp+oG9jmKdBDYmn0Ae7SCb1qbyDdtVfrHUzaQWwoeQLbXTayqBjTM6G8Mt3ukC79kJzDnQDGmatIOmlWuE/z7J989xjTfG+J7qNj0h2zbd+hfbRGgAtuNdfdXPw1Km8J0wC7ybRJDUzIpUy8xsgLYVLW0+z7RM4I17Bh6DGZNmXJDKSIc9J0p0Ee4gs5lwru1wMU96TDQPAI1XzTyfsis3L4RMHWSFn9amDcwBLm+8JMDgtnIE1LSIADwHHGuTtWcYXOzpWCr7tgYD4hHcRgk0v8UxmCCsycIF1bH3rKxKBSpVZgb82AkcKgss42C8qZ18MMYtYHlNHzY1cdSmkwjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1735061375; c=relaxed/relaxed;
+	bh=r/Gn3c6Z2+oOxsTlq15aX44iSBF2ngtpY5A8qzg8rVM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=UgaNo8tabMVrz+2UMBUJNxh1SKGKPSmY6RtOmhyhJxrOsLnTVDcj4J6cG7+136JWRIE03AB9gU8h7OiN36GujX3/zTR/Xw2LOYyUEUc4MO0XKnYfpBBdSA8IjjSb0I0IcIXv3SJVR1eIhLtE4q9AeGHovS2F4/tsLGxNxbrRnJ69jHUpvohWlxkRm3G7dqp8TyqysfJf97xSn5OOSFU8jFmvFeaQ26GStAMBNXPOC21bXNnGCUQpnN2iGPBKUor4te8hIF6XTd0e35qf9uscGIobbM7BDwkYwHD2CarpvVnaYZ8ARb71HubkydI0UMORm1Xdcac2b2P4p/CdgQ+m4g==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=ji12gTav; dkim-atps=neutral; spf=pass (client-ip=217.70.178.240; helo=mslow1.mail.gandi.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=Y1Os76Kr;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=ji12gTav;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f403:2011::60b; helo=apc01-tyz-obe.outbound.protection.outlook.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2060b.outbound.protection.outlook.com [IPv6:2a01:111:f403:2011::60b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=217.70.178.240; helo=mslow1.mail.gandi.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org)
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YDvpJ0fb2z2yHL
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 20 Dec 2024 15:39:35 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uSI0FMWCFXHLQwh2KLalBCie8f5aXohHbPZut6GS4wMlniw6chRrFBuuZF+dFqNYzOIsPMg5mznjhFgycZFHrgqMk2Rt5zH3+GQ4VLgdM2HvwuKjoLmudMlIfM9wG3ER/yIUt+0BQpA48lgtADZLrKoaYozFrakr7KYvVjBrOYvt71G0PJcc2vPltMKJo2N7Z87HgmlVJcOXtja018pIYmMMGt4OcOQZvx72PlTuLPVyJd7BnGLIJoK4vJZpHZ/8/m+wxg2XqMizTr2biCv7sRSsCTLVBi9WHnSjPI0p4z9eCa9i1hM0+7//1kTYE3FGmDaG6Eijj0d/QVrbXUNnwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LWRmS9XZsuuB0IsMvKfsYzU0SaisE7IPei+IdLuyHWw=;
- b=m804fONmV0w0NWfw3XZahgTo7kZiRn6k1Qacts3XZr4FZ9XO2GZeNMU0IqB0rr0lDkG2msIpW3vyZE20szrhxvDClxcCGhURTXGKpUNPgjK7zmh6Qw0zrdpe6IuA5k5jN+JCZhtGzqxXH+Yl4RhjWrNTBwGrlh9wVMJ3pPz7OQbkMgyKiroRsxQE0xte30uhxlINHiRmc8lhsX9u9v5+t4X5lER6r29MyGq/7OsEYQVeOGHx5TvPXJyfnf30Tb0bh/5y3/1xgqHaRixL5p752CyUfhkbu8bCJzn7hP3Q3gQG2fp2zBWfbH/FYI2uWQxltyla1X2kFBpdzXoJPhB35Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
- (p=quarantine sp=quarantine pct=100) action=quarantine
- header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LWRmS9XZsuuB0IsMvKfsYzU0SaisE7IPei+IdLuyHWw=;
- b=Y1Os76Kryx9U9kgBuB0ktEogaamKfjmjxWlFA2wAH4AMxFv2ts6ckpzx95Inc9utWHXn+0LMKvPRP+t28d3ybkIVtpx2RdVAKLKg99MzpRrLTzKettX6AGQ3u8JavtrQf2CmY4MhNG4NhB7q4+y/7VJjMVCGG8jzLRA7ezKXvG43xGS9GmNjIu/MiOstWf6rhfZcsHp2rjzKr4gcR2UXJFoB6aSZHzh+ndLTT+5tx1OHPC4ghIdfmklhmYQENmdTwyRtfPu9/TUvHi7NNWbKARsNZHgAcLl+BfpiDxr3A5Va8gbNpD0gDnatfntzgIAbFAg/OV4KWLxF6WMmbz5LGA==
-Received: from PS2PR03CA0019.apcprd03.prod.outlook.com (2603:1096:300:5b::31)
- by TYSPR04MB7218.apcprd04.prod.outlook.com (2603:1096:400:470::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.13; Fri, 20 Dec
- 2024 04:39:10 +0000
-Received: from HK2PEPF00006FB0.apcprd02.prod.outlook.com
- (2603:1096:300:5b:cafe::e6) by PS2PR03CA0019.outlook.office365.com
- (2603:1096:300:5b::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8272.12 via Frontend Transport; Fri,
- 20 Dec 2024 04:39:10 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
- smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
-Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
- designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
- client-ip=211.20.1.79; helo=localhost.localdomain;
-Received: from localhost.localdomain (211.20.1.79) by
- HK2PEPF00006FB0.mail.protection.outlook.com (10.167.8.6) with Microsoft SMTP
- Server id 15.20.8251.15 via Frontend Transport; Fri, 20 Dec 2024 04:39:09
- +0000
-From: Delphine CC Chiu <delphine_cc_chiu@wiwynn.com>
-To: patrick@stwcx.xyz,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Marshall Zhan <marshall.zhan.wiwynn@gmail.com>,
-	Delphine CC Chiu <delphine_cc_chiu@wiwynn.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1] ARM: dts: aspeed: yosemite4: add fan led config
-Date: Fri, 20 Dec 2024 12:38:51 +0800
-Message-Id: <20241220043852.1096074-1-delphine_cc_chiu@wiwynn.com>
-X-Mailer: git-send-email 2.25.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YHhhs6q5Yz305P;
+	Wed, 25 Dec 2024 04:29:33 +1100 (AEDT)
+Received: from relay2-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::222])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 001ECC0840;
+	Tue, 24 Dec 2024 17:06:38 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7712C40004;
+	Tue, 24 Dec 2024 17:06:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1735059983;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=r/Gn3c6Z2+oOxsTlq15aX44iSBF2ngtpY5A8qzg8rVM=;
+	b=ji12gTaveVn1lCP9UvPR+lkewDUv8CjCn0LOn5zGo0v79llUFWB6v2y+102nr1zl6n9jBC
+	0clzBYCG3ZysNzwaHVFSlmYUHUiVmLTmNEocUe48zTa0Vz5JtEW8Pf44pvyi7zbtozvv2r
+	LzXmlzO4kxANnZVsIvaWHRuRro9pdTSe3WVI7xKA/gaJHGhedzr0uVbu+2qROKMI4a7sNz
+	ADkmUKNe+kuhpOajUlCu0MaTzP+u+fssGUgj80ySYyhqmKQYNQnF0BYJiEkzRX8EaQS0AP
+	vW8Yiwy5rO5E+wjkrkXA3jg7McS1I4rk4AsLkRIAv6CgT6vbd7JEjJeycg4/Wg==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH v2 00/27] spi-nand/spi-mem DTR support
+Date: Tue, 24 Dec 2024 18:05:45 +0100
+Message-Id: <20241224-winbond-6-11-rc1-quad-support-v2-0-ad218dbc406f@bootlin.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -92,275 +58,172 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: HK2PEPF00006FB0:EE_|TYSPR04MB7218:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: d7bb937f-67b4-49b7-8f75-08dd20b03eea
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|7416014|376014|1800799024|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?8/5NX7jcriBNoL4fNat+IXV8ikIrOqX0ZwScceqoOyICPixqBAF7CvRhlTUM?=
- =?us-ascii?Q?cnaqQWtCWLAUH6+J7U5T6+b2mlOz0tk3K2A8ihsKgg7t3WwuheTvydy0gmub?=
- =?us-ascii?Q?+WWQgemH8iy8tLUzet79zytUaW/fXSqd8mm25Umqsod0kxPsCF1K9jkUkDI4?=
- =?us-ascii?Q?q9A5Ta4bZN2qz/iSBPY8GMwPjXgQ6T9QAHjkgL7mMrn3KaboD4iearp/cvPY?=
- =?us-ascii?Q?JPnR4g/0yESgWcTIlMhhGW3i+x4O3eEm/Va+3gn75E2fsjcB+/ts5tTOJrvV?=
- =?us-ascii?Q?92fHcBesmhAfqGxN3Ln67GvjjvqnZgFI3eKWfD6/kgYOZnV01HobiAxorby6?=
- =?us-ascii?Q?jLYzW+dL3JjalWXZRK5U/KXTR513dbg7YpXD2ejpzDl1PNnxCHYMq9DbxeH5?=
- =?us-ascii?Q?4Dl8dgVpjdlRDLAq79FbHs50ZWRYG2H4QyYPdx7BMxgQrBZYYNC9mcNffsKU?=
- =?us-ascii?Q?LI3/IUk48sLorL40eyhQC6m8n1Tu3OBysP5yEZ6fTXFm3CHXXxNKxw6of8J/?=
- =?us-ascii?Q?mQDEjVfAg9speSQ+K7Ck3OL7PadoV/OhwB6pzAEP+BnDF44+NBIq1qxelzFr?=
- =?us-ascii?Q?IvgG5i9poWIxQPVIByRPwz902kv3er0+maXonE+PBXjrSQ7yt73Up6f2WgyC?=
- =?us-ascii?Q?wo4mdUOmOA9uUJuwPwruaHzB3A99CQ+om5Qn2Cl1W/LrFGrdzmSQNMZz/9m3?=
- =?us-ascii?Q?wvCNm5KN09f+N1AX5NaHEut3Z6tU0xwNcL4W933mDYLlZ6IwVtOOVQgOuDDL?=
- =?us-ascii?Q?FHuFEvMWC9MsXwpQq6DCBhyGpLZMYZP+lSE1Rgcr6qyhdPBRqMQ3vDtxczlq?=
- =?us-ascii?Q?xUbw4P+GrLudkUzQ+Xggpya5B9kydRoBNz+wZBPqotKd8bDg+MUQlAUOBoBE?=
- =?us-ascii?Q?QlJ54EI4Vu6GPJPxV1fTQzoZ/ffk5tj45PRAsQXeN9ddfCiSRP/HCkqc2KWH?=
- =?us-ascii?Q?GKGJWG1QVoyT5vu8lvakfsoJAcSWhyIr/c1rviey/wtUXruGV/i9DfvmOYq2?=
- =?us-ascii?Q?N5sOK0LAhEaNqSidNnEX4sBZWpv/J+PqTIghBtH5+HWKpTYuTgAOJGh95N8F?=
- =?us-ascii?Q?cxkruy02wHaCFWOKIQcRnkWs0jGi35pBKXdmKj63kaX/bwIwIFoePOAeAaVn?=
- =?us-ascii?Q?1T86teK4kkFdWZvucib0Vp6VnoM+yKtAXLwkXWoTbQPmNEa+r30QML2vNVEI?=
- =?us-ascii?Q?ZPUwzvrgn/56ScLTufbNXiEQI1qKUQjjZW6f5qo0T+GrDJBZg+U4/1Om4RGg?=
- =?us-ascii?Q?eddo0x5Vy7mdKXa1JFtEFgYfgbDUbwXIuJWisqE6I9Oc1TQ3FXBsORM/CczW?=
- =?us-ascii?Q?RPhnCk3kMV5isH1q7m3qwVJhXrSjKtopUDWkSl2PwRZOfCNuSbbPxiLi0h1x?=
- =?us-ascii?Q?SsxcZDZjgDsDr9DtccQiTGusy7i2B4ZxTyEgmG9ZAxqhn4hOZQOxC0y8ShMb?=
- =?us-ascii?Q?bgSF6HW5UyjH3C1EVFcSiITBLrgQnxL/7bCkbae5Ai+hZYJosShkjcy0eIG8?=
- =?us-ascii?Q?aPPriUwPJI/hLiU=3D?=
-X-Forefront-Antispam-Report:
-	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(1800799024)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: wiwynn.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 04:39:09.5870
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7bb937f-67b4-49b7-8f75-08dd20b03eea
-X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
-X-MS-Exchange-CrossTenant-AuthSource:
-	HK2PEPF00006FB0.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR04MB7218
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
-	SPF_PASS,WEIRD_QUOTING autolearn=disabled version=4.0.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOnpamcC/yXNyw6DIBCF4VcxrDuGmYAxXfU9GheotE6ioOClx
+ vjupXb5ncV/DhFtYBvFPTtEsCtH9i6BbploOuPeFrhNFiRJIaGEjV3tXQsFIEJoEKbFtBCXcfR
+ hBomqJKkNoSGRGmOwL/5c/WeV3HGcfdivuxV/678sSWOBWmKuSl2UChAGnhbb58HszvSP2vu5Z
+ 5c3fhDVeZ5f4IGW6LkAAAA=
+X-Change-ID: 20241210-winbond-6-11-rc1-quad-support-0148205a21a2
+To: Mark Brown <broonie@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>, 
+ Serge Semin <fancer.lancer@gmail.com>, Han Xu <han.xu@nxp.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Daire McNamara <daire.mcnamara@microchip.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Haibo Chen <haibo.chen@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>, 
+ Heiko Stuebner <heiko@sntech.de>, Michal Simek <michal.simek@amd.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, 
+ =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
+ Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
+ Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Raju Rangoju <Raju.Rangoju@amd.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Steam Lin <stlin2@winbond.com>, linux-spi@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-mtd@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+ openbmc@lists.ozlabs.org, linux-stm32@st-md-mailman.stormreply.com, 
+ Pratyush Yadav <pratyush@kernel.org>, 
+ Tudor Ambarus <tudor.ambarus@linaro.org>, stable+noautosel@kernel.org
+X-Mailer: b4 0.15-dev
+X-GND-Sasl: miquel.raynal@bootlin.com
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_PASS
+	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-From: Marshall Zhan <marshall.zhan.wiwynn@gmail.com>
+Hello Mark, hello MTD folks,
 
-Set fan led config in yosemite4 DTS.
+Here is a (big) series supposed to bring DTR support in SPI-NAND.
 
-Signed-off-by: Marshall Zhan <marshall.zhan.wiwynn@gmail.com>
-Signed-off-by: Delphine CC Chiu <delphine_cc_chiu@wiwynn.com>
+I could have split this into two but I eventually preferred showing the
+big picture. Once v1 will be over, I can make it two. However when we'll
+discuss merging, we'll have to share an immutable tag among the two
+subsystems.
+
+Here is the logic:
+* patches 1 & 2 add support for spi-mem operations with a specific
+  frequency limitation. This is not only related to DTR support, because
+  as you can see I could use this to support basic features in the
+  Winbond driver.
+* patches 3-17 are going through all the easy controller drivers, where
+  effectively supporting these per-operation limitation was easy to
+  do. In practice, I believe all controllers can, but software is
+  sometimes the limiting factor. All controllers without spi-mem support
+  will gracefully handle the request (provided that they already care
+  about the maximum speed of course), and all the updated controllers in
+  this series will also handle the situation correctly. For the others,
+  it's an opt-in parameter, so they will simply refuse the operation
+  during the checks_op/supports_op() phase.
+* patches 18-20 add DTR support in spi-mem.
+* patches 21-24 add DTR support in SPI-NAND.
+* patches 25-27 add DTR support to Winbon chips.
+
 ---
- .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 166 +++++++++++++++++-
- 1 file changed, 163 insertions(+), 3 deletions(-)
+Changes in v2:
+- Fixed breakage reported by Mark.
+- Created an "adjust_op_freq" helper in the core and used it from
+  spi_mem_exec_op(). This way it is called only once. The main parameter
+  must still be casted otherwise we would need to do the call outside of
+  spi_mem_exec_op() which would imply about 40 different changes in the
+  core and drivers and also the assurance that we would get it wrong
+  again later.
+- Reworked the logic for picking the best variant to include all
+  subtleties due to maximum/supported frequencies. The choice takes
+  slightly longer now but should return the truly fastest variant for
+  each case.
+- Removed unique parenthesis in some kdoc comment.
+- Fixed the inconsistency when handling the maximum per operation
+  frequencies between spi-mem and non spi-mem controllers.
+- Fixed many typos.
+- Added a core check to validate the per op frequency against the minimum
+  supported frequencies by controller drivers.
+- Removed a useless check from the amd driver and turned a function
+  void. Also used the controller parameters in this driver rather than
+  the top-level definitions.
+- Clarified some of the commit logs.
+- Collected tags.
+- Prevented a patch from being picked-up automatically by the stable
+  team.
+- Reordered some terms in macros in the spi-mem core.
+- Rebased on top of v6.13-rc1.
+- Link to v1: https://lore.kernel.org/r/20241025161501.485684-1-miquel.raynal@bootlin.com
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-index ab4904cf2c0e..b5865efcc80c 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
-@@ -73,6 +73,160 @@ tpm@0 {
- 			spi-max-frequency = <33000000>;
- 		};
- 	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led_identify {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&identify_gpio 8 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan0_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio0 4 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan0_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio0 5 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan1_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio0 10 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan1_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio0 11 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan2_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio1 4 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan2_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio1 5 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan3_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio1 10 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan3_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio1 11 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan4_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio0 2 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan4_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio0 3 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan5_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio0 8 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan5_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio0 9 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan6_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio1 2 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan6_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio1 3 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan7_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio1 8 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan7_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio1 9 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan8_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio0 0 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan8_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio0 1 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan9_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio0 6 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan9_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio0 7 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan10_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio1 0 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan10_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio1 1 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan11_blue {
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&led_gpio1 6 GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led_fan11_amber {
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&led_gpio1 7 GPIO_ACTIVE_HIGH>;
-+		};
-+	};
- };
- 
- &uart1 {
-@@ -995,11 +1149,17 @@ gpio@20 {
- 				#gpio-cells = <2>;
- 			};
- 
--			gpio@21 {
-+			identify_gpio: gpio@21 {
- 				compatible = "nxp,pca9506";
- 				reg = <0x21>;
- 				gpio-controller;
- 				#gpio-cells = <2>;
-+				gpio-line-names = "","","","",
-+						  "","","","",
-+						  "LED_IDENTIFY",
-+						  "","","","","","","",
-+						  "","","","","","","","",
-+						  "","","","","","","","";
- 			};
- 
- 			gpio@22 {
-@@ -1173,7 +1333,7 @@ eeprom@52 {
- 				reg = <0x52>;
- 			};
- 
--			gpio@61 {
-+			led_gpio0: gpio@61 {
- 				compatible = "nxp,pca9552";
- 				reg = <0x61>;
- 				#address-cells = <1>;
-@@ -1221,7 +1381,7 @@ eeprom@52 {
- 				reg = <0x52>;
- 			};
- 
--			gpio@61 {
-+			led_gpio1: gpio@61 {
- 				compatible = "nxp,pca9552";
- 				reg = <0x61>;
- 				#address-cells = <1>;
+---
+Miquel Raynal (27):
+      spi: spi-mem: Extend spi-mem operations with a per-operation maximum frequency
+      spi: spi-mem: Add a new controller capability
+      spi: amd: Support per spi-mem operation frequency switches
+      spi: amd: Drop redundant check
+      spi: amlogic-spifc-a1: Support per spi-mem operation frequency switches
+      spi: cadence-qspi: Support per spi-mem operation frequency switches
+      spi: dw: Support per spi-mem operation frequency switches
+      spi: fsl-qspi: Support per spi-mem operation frequency switches
+      spi: microchip-core-qspi: Support per spi-mem operation frequency switches
+      spi: mt65xx: Support per spi-mem operation frequency switches
+      spi: mxic: Support per spi-mem operation frequency switches
+      spi: nxp-fspi: Support per spi-mem operation frequency switches
+      spi: rockchip-sfc: Support per spi-mem operation frequency switches
+      spi: spi-sn-f-ospi: Support per spi-mem operation frequency switches
+      spi: spi-ti-qspi: Support per spi-mem operation frequency switches
+      spi: zynq-qspi: Support per spi-mem operation frequency switches
+      spi: zynqmp-gqspi: Support per spi-mem operation frequency switches
+      spi: spi-mem: Reorder spi-mem macro assignments
+      spi: spi-mem: Create macros for DTR operation
+      spi: spi-mem: Estimate the time taken by operations
+      mtd: spinand: Create distinct fast and slow read from cache variants
+      mtd: spinand: Add an optional frequency to read from cache macros
+      mtd: spinand: Enhance the logic when picking a variant
+      mtd: spinand: Add support for read DTR operations
+      mtd: spinand: winbond: Update the *JW chip definitions
+      mtd: spinand: winbond: Add comment about naming
+      mtd: spinand: winbond: Add support for DTR operations
+
+ drivers/mtd/nand/spi/alliancememory.c |  4 +--
+ drivers/mtd/nand/spi/ato.c            |  4 +--
+ drivers/mtd/nand/spi/core.c           | 15 ++++++--
+ drivers/mtd/nand/spi/esmt.c           |  4 +--
+ drivers/mtd/nand/spi/foresee.c        |  4 +--
+ drivers/mtd/nand/spi/gigadevice.c     | 16 ++++-----
+ drivers/mtd/nand/spi/macronix.c       |  4 +--
+ drivers/mtd/nand/spi/micron.c         |  8 ++---
+ drivers/mtd/nand/spi/paragon.c        |  4 +--
+ drivers/mtd/nand/spi/toshiba.c        |  4 +--
+ drivers/mtd/nand/spi/winbond.c        | 27 ++++++++++++---
+ drivers/mtd/nand/spi/xtx.c            |  4 +--
+ drivers/spi/spi-amd.c                 | 21 ++++++------
+ drivers/spi/spi-amlogic-spifc-a1.c    |  7 +++-
+ drivers/spi/spi-cadence-quadspi.c     |  3 +-
+ drivers/spi/spi-dw-core.c             | 10 ++++--
+ drivers/spi/spi-fsl-qspi.c            | 12 +++++--
+ drivers/spi/spi-mem.c                 | 64 +++++++++++++++++++++++++++++++++++
+ drivers/spi/spi-microchip-core-qspi.c | 26 +++++++++++---
+ drivers/spi/spi-mt65xx.c              |  7 +++-
+ drivers/spi/spi-mxic.c                |  3 +-
+ drivers/spi/spi-nxp-fspi.c            | 12 +++++--
+ drivers/spi/spi-rockchip-sfc.c        | 11 ++++--
+ drivers/spi/spi-sn-f-ospi.c           |  8 +++--
+ drivers/spi/spi-ti-qspi.c             |  7 +++-
+ drivers/spi/spi-zynq-qspi.c           | 13 +++++--
+ drivers/spi/spi-zynqmp-gqspi.c        | 13 ++++---
+ include/linux/mtd/spinand.h           | 58 ++++++++++++++++++++++++++++---
+ include/linux/spi/spi-mem.h           | 56 +++++++++++++++++++++++++++++-
+ 29 files changed, 349 insertions(+), 80 deletions(-)
+---
+base-commit: 9100187b36091e5cc046d1f415f50a04ec31c25f
+change-id: 20241210-winbond-6-11-rc1-quad-support-0148205a21a2
+
+Best regards,
 -- 
-2.25.1
+Miquel Raynal <miquel.raynal@bootlin.com>
 
 
