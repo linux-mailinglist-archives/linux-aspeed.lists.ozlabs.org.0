@@ -1,50 +1,47 @@
-Return-Path: <linux-aspeed+bounces-298-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-313-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527889FC0B6
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Dec 2024 18:08:36 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30B449FF32F
+	for <lists+linux-aspeed@lfdr.de>; Wed,  1 Jan 2025 08:01:42 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YHhDf1pbFz305G;
-	Wed, 25 Dec 2024 04:08:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YNLNg5qlHz2yvn;
+	Wed,  1 Jan 2025 18:01:39 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=217.70.183.194
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1735060114;
-	cv=none; b=M0GEV8TqCzVtfxxbucVGTo3PeLDPUGW9+/Tkldtx7ukau3qsAQkX8T8kjzqNFWCWqGMVEmzA4W4s78G0QV8ZWwCDGPJW23XQpjRsKXWku1LnTMrgDheaecNUylrw9drfnme2XBfzBtwkdY7UJ/XNKiNoDPXGAWs9f5vNUkwYlM2SFfXIG1xC61QZ2Z9vRkATx+7Aqa8xQ/2EfLEW6SqiTc256IoGD0EgP6lrG58+bStgiUCscdrzEGrOWL9t7vfUPXWIPKl4HLW7vSXQfMPtWksxrpkC4Xo7QIzbxFXVcvZTq5CWgt+Nr6Gi4NJON6i0GMvgznRKvPrHfAU1xi84bA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1735714899;
+	cv=none; b=duQohs2El2v349qU3fYyOp2mIS3Rr1ZQj6Lk2txOzWCqdjV7rtpp4q9TskWShfMAc6flPO4ZSxK97EOqibdtASCipC3hi1I9CJm5WCdYGv8t48qo6oG5NVAmBhRVFpdztPL6lmDcHop57BhLZegO8JT7Fce5ow+ib3qyQ4m9JSCkhPGE4MLzUCZIv4wrZbFhxNbGtHcROYOsHif42vemY7AGO+Ixdolj/VG+d66/JgF+0bfQc3KJsqtwRCM0j1nxTBIubhrZwoIR3TuUB1esNxE5L98T+Z7ClLK6o8JCbTV2g4aafVyRvc06E+7S0YhDyO6u4lvjjIWYrg1D/UYblw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1735060114; c=relaxed/relaxed;
-	bh=st7iZmfts2tp/8JHKFXB7UyuKEKOlhrYdKjKeGEcYRI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ly/xhxjJ4pizJC0q9LfuV+rZQgGeE5lQ5vrCkMMC6I337F87JRaKNYPD5P+n35qyXci4c/rFPmuirlcuelXmk3lobQco4/lWkT7H1JhFTjWcS1vowooBqhxXY4PBEM3MjD/MX1nC0hTQJgB17mVMr0eSQMNegQna8BEbtiBMMawQX2q6AKWX2/J5hisCRY8eEH2cllvs/YVzsqIFSumzzGDBHVwdNsmeFCcxsT3i5GmELWLhujb2ypw7PmdYI37kHc7NYRncQI7y4jAyorEMFLcZE1MuhIBr6042TOIB95r3XRKQm4Y81E6kijfSPiEBJBkuX3yoaXKxu5KNdjNGew==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=C6PU0+1o; dkim-atps=neutral; spf=pass (client-ip=217.70.183.194; helo=relay2-d.mail.gandi.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=C6PU0+1o;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=217.70.183.194; helo=relay2-d.mail.gandi.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	t=1735714899; c=relaxed/relaxed;
+	bh=fYojANO0jZk2dkL6S2xLZf75tzTY4jMo+7ufgg/5CgQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mdGwe37F8Mms3G756mSB0XLJjSc+NSACM3IYmFsWb9cnPsFdFRklFlm88qWN+tZKvruKMVxErRW1dlSQi/6968eytSWU2hrAm25GZ39Nh5ohj+rrisRDeRs2svN34s0FqHlTGSDnPP2qmGy/4feT0KSGFrBJSo1gTMhBpRp/JCf4m8RlPZw3izmlp8ahUv2IF48dUCvO4whxYJhwAmGW9aInFeTOTDQRqCOCE65TU+C/+2qk5tndUO7VFip+2VvqU320RJAYQ0KKMmI4qMg/K46R9Q0RWWI5bpCyJX5khjmCTWRCJSRB1wzNBv+IV9z0usD+AXx1eL/5Y94yeU5HHg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YHhDb70J3z302D;
-	Wed, 25 Dec 2024 04:08:31 +1100 (AEDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6BD5240004;
-	Tue, 24 Dec 2024 17:08:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1735060109;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=st7iZmfts2tp/8JHKFXB7UyuKEKOlhrYdKjKeGEcYRI=;
-	b=C6PU0+1oRp15Veqp9zxnzsWiEF4EXFnjn/8rqCWVdcYin0pJ2xwfhRPvZRHBNh0jF+5OK2
-	ybueriz7GuiSPXhebd+kw8TvM3Np469mC+/RmPtvvOULmkxUcLApE+gZhr0NAeUtYc1HY4
-	0bBususlDBpKDw5EHbp5TH5AQ4qGppu4b7AtWUNqdiU3dFi7kevDTJ4tvv5m27FYwj8r5K
-	vGW6SjZOKYr9SFdM8I2QDjP1wwpUF1MbDQmQVPfOvQP93eBhPxxV31sh2SCJyt9BRQv6+/
-	fCiLuztwNjULwAHbXZVaUw+WenD6DT1nMBqCN5356EYSnmpCgCS4nxil91kYFw==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Tue, 24 Dec 2024 18:06:12 +0100
-Subject: [PATCH v2 27/27] mtd: spinand: winbond: Add support for DTR
- operations
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YNLNf31Tjz2yvl
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  1 Jan 2025 18:01:37 +1100 (AEDT)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Wed, 1 Jan
+ 2025 15:01:16 +0800
+Received: from aspeedtech.com (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
+ Transport; Wed, 1 Jan 2025 15:01:16 +0800
+From: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+To: <patrick@stwcx.xyz>, <andrew@codeconstruct.com.au>, <linux@roeck-us.net>,
+	<wim@linux-watchdog.org>, <joel@jms.id.au>, <linux-watchdog@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <Peter.Yin@quantatw.com>, <Patrick_NC_Lin@wiwynn.com>,
+	<BMC-SW@aspeedtech.com>, <chnguyen@amperecomputing.com>,
+	<aaron_lee@aspeedtech.com>
+Subject: [PATCH v5 0/1] Update ASPEED WDT bootstatus
+Date: Wed, 1 Jan 2025 15:01:15 +0800
+Message-ID: <20250101070116.2287171-1-chin-ting_kuo@aspeedtech.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -57,79 +54,44 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241224-winbond-6-11-rc1-quad-support-v2-27-ad218dbc406f@bootlin.com>
-References: <20241224-winbond-6-11-rc1-quad-support-v2-0-ad218dbc406f@bootlin.com>
-In-Reply-To: <20241224-winbond-6-11-rc1-quad-support-v2-0-ad218dbc406f@bootlin.com>
-To: Mark Brown <broonie@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>, 
- Serge Semin <fancer.lancer@gmail.com>, Han Xu <han.xu@nxp.com>, 
- Conor Dooley <conor.dooley@microchip.com>, 
- Daire McNamara <daire.mcnamara@microchip.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Haibo Chen <haibo.chen@nxp.com>, Yogesh Gaur <yogeshgaur.83@gmail.com>, 
- Heiko Stuebner <heiko@sntech.de>, Michal Simek <michal.simek@amd.com>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, 
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
- Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, 
- =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Raju Rangoju <Raju.Rangoju@amd.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Steam Lin <stlin2@winbond.com>, linux-spi@vger.kernel.org, 
- linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
- linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-mtd@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
- openbmc@lists.ozlabs.org, linux-stm32@st-md-mailman.stormreply.com
-X-Mailer: b4 0.15-dev
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H3,
-	RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-W25N01JW and W25N02JW support many DTR read modes in single, dual and
-quad configurations.
+This patch series inherits the patch submitted by Peter.
+https://patchwork.kernel.org/project/linux-watchdog/patch/20240430143114.1323686-2-peteryin.openbmc@gmail.com/
+Bootstatus mechanism is reconstructed to the latest
+architecture and for all existing ASPEED BMC platforms.
 
-DTR modes however cannot be used at 166MHz, as the bus frequency in
-this case must be lowered to 80MHz.
+Changes in v2:
+  - Support SW restart on AST2600 by default without
+    adding any dts property.
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
- drivers/mtd/nand/spi/winbond.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Changes in v3:
+  - Get watchdog controller index by dividing register
+    base offset by register size.
 
-diff --git a/drivers/mtd/nand/spi/winbond.c b/drivers/mtd/nand/spi/winbond.c
-index 51972ba0f193c7b27ece0296c1590ddfed0ac813..8394a1b1fb0c125ddb614269069d107463e905a3 100644
---- a/drivers/mtd/nand/spi/winbond.c
-+++ b/drivers/mtd/nand/spi/winbond.c
-@@ -24,10 +24,15 @@
-  */
- 
- static SPINAND_OP_VARIANTS(read_cache_dtr_variants,
-+		SPINAND_PAGE_READ_FROM_CACHE_QUADIO_DTR_OP(0, 8, NULL, 0, 80 * HZ_PER_MHZ),
-+		SPINAND_PAGE_READ_FROM_CACHE_X4_DTR_OP(0, 2, NULL, 0, 80 * HZ_PER_MHZ),
- 		SPINAND_PAGE_READ_FROM_CACHE_QUADIO_OP(0, 2, NULL, 0),
- 		SPINAND_PAGE_READ_FROM_CACHE_X4_OP(0, 1, NULL, 0),
-+		SPINAND_PAGE_READ_FROM_CACHE_DUALIO_DTR_OP(0, 4, NULL, 0, 80 * HZ_PER_MHZ),
-+		SPINAND_PAGE_READ_FROM_CACHE_X2_DTR_OP(0, 2, NULL, 0, 80 * HZ_PER_MHZ),
- 		SPINAND_PAGE_READ_FROM_CACHE_DUALIO_OP(0, 1, NULL, 0),
- 		SPINAND_PAGE_READ_FROM_CACHE_X2_OP(0, 1, NULL, 0),
-+		SPINAND_PAGE_READ_FROM_CACHE_DTR_OP(0, 2, NULL, 0, 80 * HZ_PER_MHZ),
- 		SPINAND_PAGE_READ_FROM_CACHE_FAST_OP(0, 1, NULL, 0),
- 		SPINAND_PAGE_READ_FROM_CACHE_OP(0, 1, NULL, 0, 54 * HZ_PER_MHZ));
- 
+Changes in v4:
+  - Update the commit message for updating bootstatus
+    handling patch.
+  - Rename aspeed_wdt_config struct to aspeed_wdt_data.
+  - Create restart callback function.
+
+Changes in v5:
+  - Remove SW reset mechanism since there is no consensus
+    about bootstatus for SW reset currently.
+  - Correct the method for clearing reset event flag on
+    AST2400 and AST2500 legacy platforms.
+
+Chin-Ting Kuo (1):
+  watchdog: aspeed: Update bootstatus handling
+
+ drivers/watchdog/aspeed_wdt.c | 85 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 83 insertions(+), 2 deletions(-)
 
 -- 
-2.47.0
+2.34.1
 
 
