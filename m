@@ -1,89 +1,80 @@
-Return-Path: <linux-aspeed+bounces-321-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-322-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E52A04079
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2025 14:11:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D99E6A0412B
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2025 14:49:07 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YSBJN02Pkz3bVF;
-	Wed,  8 Jan 2025 00:11:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YSC8153P8z30gL;
+	Wed,  8 Jan 2025 00:49:05 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::32b"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736255475;
-	cv=none; b=np19p5Rz+WbXXyUFLCx3ZeyX4j+255IN7YjQj/hrchHDR6X0kuAMHSmfRyhxvKMMJaf04/BxEGXAoGH5CoMgfdV53MFyZdEYOaJ++cb4HIWV0svtJ8DpZVxNs8IU6KQlrxBgWXifmlzhJ5qoKtQn1V6SicMa1bLR//xCuA7h6bXPfEwBCK0pJAVlC54fbBbDv5/+OvJqV+V0fa/xe3FKZSUF3Waekvpd2nnxzBHHWoY+LOW25qHR5h2yLBhYwMtC1HIBg1Wg2Mt6P9y2AoHdOQm/qUojcEj6ZV79uo4K29dIR5A6YN7sWjCJ6zUi5iCDbS7L+l4KyzBcF07X+rp5Hg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=93.104.207.81
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736257745;
+	cv=none; b=AVMXAY1XmA9yxkMahew3CusPQe4DmVkN24DFMu9vKngMCGrgraeZa+bN0720MQXGCd6x30cmwRJY/EHhmqVrMRfFuSdBYqncYxJ0ouU2yqGkCRHXpSKc56hwvgz11/s1s3063EYzQMsKuIC/r/3akLlve3C1li1GzDoJuL5i1bbjaY/+uOpKA/aYxGRR7NX1+Xb5Mh51krPVGjqRHCJJEwdqfqNuy9XfYik+UMUVHLJfwGZbJCNFbnLHJOIunoC+jnsMEflXJr/0hl2O9fIs1kB5yxxnxdmfT/ENPmgdntEcWIHAOdl/0Jmld2+DOKZ/6UVClZU6IhcitRRLF/Wg+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1736255475; c=relaxed/relaxed;
-	bh=BPSDsnf8xMzpznIKoQbetYMFd7ZBSAYbuVYrJIoIquU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Bx2WxIhBREKHpM1t7VXTPHQ2yo+F9ZCe1XXqncjkruWtpzozh5jVZNmJefPVXl1a5lOUXq95PSTCePKDCui8SvITdE2hgbuSCi19wg8wEUVh7cx1g4mb7uoF+IPl9zEdZKR55xdZXVrsqcs9e2diWOyT0AH4ps5Pr31fzYJ6DM/6wOilfzMpmicxdwkQC2prcmWBy0zdSseac551OJecx+zFgOnnTn+Xw4/JudEa+D3D1NzZwxIGI2EcoBBrMXSj5ygy17HLEJL3ka1ls6gHP0RGh1vV5RYSETqvFHTFTov8DV6U2SkG9a5UomNp50txvOyZsMpe2LYn8xnodWU6iQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org; dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=oyi4Z30F; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org) smtp.mailfrom=linaro.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+	t=1736257745; c=relaxed/relaxed;
+	bh=H2JiFyCh/Tl5YOwhVHC+9/o2zm1iU1FIoUS3LVDCVQM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CYYmKy2ILUuZvY+mBm2fVgmDCZk3PKzLc5bVVmJ/oAflv0VU4fIXN6G4QkcRBmG3smQihKkqJI7e8QvDR3PvQ5JddJuTxEUqgGDy/7sEApXOfjIBZY/oUhFgXSLPEo5/8Gb1Kvbr/XGXIlHKdaMamrH2hUEbsfD+FlMmv2lPoilpUYuQcXRrCgrTECMKZAFWgu6OWBYq4uURIA6tlivcV4QnGxUw2BvBe6YDTUP+IGiJ69iPlvaRgtxKggfo2Y/ChwLNNszTqIRIiB7QB1TZPH0fkgNeHZEdsm5s4IutJuP1U/vbJWMp9GCULImQ+j5sDZN/X7Cb6w9psAWUDusE6A==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.a=rsa-sha256 header.s=key1 header.b=KN7Pur3r; dkim=fail header.d=ew.tq-group.com header.i=@ew.tq-group.com header.a=rsa-sha256 header.s=dkim header.b=Gp8ECD2a reason="key not found in DNS"; dkim-atps=neutral; spf=pass (client-ip=93.104.207.81; helo=mx1.tq-group.com; envelope-from=alexander.stein@ew.tq-group.com; receiver=lists.ozlabs.org) smtp.mailfrom=ew.tq-group.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=oyi4Z30F;
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.a=rsa-sha256 header.s=key1 header.b=KN7Pur3r;
+	dkim=fail reason="key not found in DNS" header.d=ew.tq-group.com header.i=@ew.tq-group.com header.a=rsa-sha256 header.s=dkim header.b=Gp8ECD2a;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ew.tq-group.com (client-ip=93.104.207.81; helo=mx1.tq-group.com; envelope-from=alexander.stein@ew.tq-group.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 65 seconds by postgrey-1.37 at boromir; Wed, 08 Jan 2025 00:48:59 AEDT
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YSBJL5Dkcz2xnc
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Jan 2025 00:11:14 +1100 (AEDT)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-43616c12d72so24462515e9.2
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Jan 2025 05:11:14 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YSC7v1pL8z30YT
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Jan 2025 00:48:58 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736255471; x=1736860271; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BPSDsnf8xMzpznIKoQbetYMFd7ZBSAYbuVYrJIoIquU=;
-        b=oyi4Z30FQyGZ869t/hIkzVr0awb3GU2gwVXVGPq6DXSEjmI+dRzNCbf/1xquQDKX4E
-         a1dfFyFUAjCsRGFBb1IV/1XjhQV6dxeN+4C26JN0cUh60/Y/6z7lxVfAkipWDqBPWhZX
-         gcCTOWzPK6yjvpyBtWu/SkmdVR+Y5FS5oHyudcP+fFmmj1j6/0AHF+8Cu4Odmcy3HCQu
-         pvpES7hbQTJiJ7te6/tI0YwSZDHg63qS7Dar9AJnrT87QSwKIqvjEA5ZlsPbZ8zVL14D
-         xO918lHLBi+CorZbonW3FfuzL5izymhISGEj1pUj1dEDsx1wGzcSU7uT/vzH55KV+aTG
-         MLHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736255471; x=1736860271;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BPSDsnf8xMzpznIKoQbetYMFd7ZBSAYbuVYrJIoIquU=;
-        b=Aa36wJEFh+Abx0WST+oDw92Dj216rwq276T3cnJCNuSCWInG103Q+32imkhKnEOxjf
-         AZkJ2EllLTEZqegSievjngFEQr21kwzd4XIhjvEDxr44wOYC5rdCqgVF4rmYZ1OnvYKE
-         OqiNp+w5B6FOi9T32KulJH0wPaUQXMKm1TzqcrXLEBt+8VjYFH4SWQNg6Re9n0CebrUr
-         GWwChCMuGtJbGW2a0UeerNdYOz5k/PXit8x5EISCmUwzmGQ5FM3LBR88CxW+9U26Tygn
-         3pC06pC6qRcmHbC6kfw2U1HqxZhBiOs+Mli8MmrvD5Qh3DlcZbfgBCt8k/T/DJgKIos2
-         VhRg==
-X-Forwarded-Encrypted: i=1; AJvYcCWPrtfuwRXym0FDtDlcH+K8OUDc3JGnOXEZa4+9M8nJ3hcYV+ChMQg0kz4ODdIYJpngvrXXrKDxxmhxqa8=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YyjozQBmkWQTuYlLx4ZjN+LQmzILqxJ/dBuv7mO/tN8Gi0Edn/D
-	y5cTFHqvz6EHWE9q1lMQ/jBw3a50dITwb01EsdNxVieG76Twb5/WY3STUIjJhwM=
-X-Gm-Gg: ASbGncudv2o78czu2Sw6SO9y9GDjMSeiWKo1NF2Kbfju532+Om9W4EZKMR6KoUcc/1R
-	7w7VJhPejBG4IBC/Zi/s4b4n5IKf6+Z7xlCcymLNAgYsy7FBsAIarS9Hm503kYiyXvUQXlTTXm/
-	lmIzsD7/md/gvzytn2sWAe/sTl84Lhrrsq4TQy4j1KmKOVR+bn4KDbHpnqY4JexoBLZAQgAi6R9
-	wkWRnzumCGb2X3l2g/fZejHQRvJO7yM/B0MDqTyLDFwfAlddT4V3smrpy/XfKLel9RuHBE=
-X-Google-Smtp-Source: AGHT+IFcDu8xWuN0TunF1FW8lTPc9ujrnA78CGY24BiMzjjLy9sHjT+/sVzeAlZ8ODcnc2aRlSGLHg==
-X-Received: by 2002:a05:600c:5103:b0:431:4983:e8fe with SMTP id 5b1f17b1804b1-43668b93cb8mr217094915e9.9.1736255471085;
-        Tue, 07 Jan 2025 05:11:11 -0800 (PST)
-Received: from krzk-bin.. ([178.197.223.165])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436dd1682e4sm10229135e9.1.2025.01.07.05.11.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 05:11:10 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Thomas Gleixner <tglx@linutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1736257739; x=1767793739;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=H2JiFyCh/Tl5YOwhVHC+9/o2zm1iU1FIoUS3LVDCVQM=;
+  b=KN7Pur3rrs31qPmjGONqw9Ben14BMMrrhuzC/k/JEnpMq/4KmygxWhXg
+   VowDDiHXNV/2knTsUq+9lQMpO3Y+uKgVj2hfvuLHTQF9AY6iIH5L3NRPi
+   oBAQjofRLnx22N1OrfN+x7yRdEN1f8IyFPigMzY09sZAbPrETO47NKxa4
+   dllWg2i1GVFmi78oh+RzuxGXeeFD4UAplHa4DR9I3JrivKmthMQJHdCWJ
+   TvR7wu1hDtboBKGTGpEr2iNmPvPDq/IkCV9+R+wl8UPmZ2EB42BzzFWjD
+   XgrmuM58j7gINZwdpMqj5gx1gdfJ3wnIh5lc5fvS1sg27xyfLY1YzmADi
+   w==;
+X-CSE-ConnectionGUID: OVZasUpRQum1PZsDd73xFw==
+X-CSE-MsgGUID: mYpmTubRRzSDooSbu505XQ==
+X-IronPort-AV: E=Sophos;i="6.12,295,1728943200"; 
+   d="scan'208";a="40895891"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 07 Jan 2025 14:47:43 +0100
+X-CheckPoint: {677D307F-16-3C670366-E45AD810}
+X-MAIL-CPID: D9326B8D606E51C9C554D2FC41D37A2A_4
+X-Control-Analysis: str=0001.0A682F28.677D307F.00A7,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 12BB0164990;
+	Tue,  7 Jan 2025 14:47:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1736257658;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H2JiFyCh/Tl5YOwhVHC+9/o2zm1iU1FIoUS3LVDCVQM=;
+	b=Gp8ECD2aEaJ2EoPlQW15Ikeq6rQoBFt/xYZHffSmoaiTRcEt3DyE1007ghx7QUsh6rWleF
+	lVKVhAGrvYWx+CEhDIzb+u3GFfHUIrNePQeY7nizrT961wk3aoCy86jbq9k1WGCr1X2RnA
+	ooMJ7bMSMZAzRbH4f4WwI+NhT3Gr9T1Q7ZZihIWPpiYe4ojX3SOqQh+a2FQ3vSheOrwhcX
+	F5L14kcteB5aHapjOda7uYt6BTq6MW8VaLetOMmY5he1vQAsX4D0qjLcLXWBDFl5WpEvRR
+	JInTk5xg/jzac1LcmHiQQC7oyqGly+SMY4vt8KxMP12YKK3wIRlQbd7PMldfJg==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, Justin Chen <justin.chen@broadcom.com>, Al Cooper <alcooperx@gmail.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Florian Fainelli <f.fainelli@gmail.com>, Benjamin Bara <benjamin.bara@skidata.com>, Bjorn Andersson <andersson@kernel.org>, Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, Del Regno <angelogioacchino.delregno@collabora.com>, Tianping Fang <tianping.fang@mediatek.com>, Jassi Brar <jaswinder.singh@linaro.org>, Biju Das <biju.das.jz@bp.renesas.com>, Yoshihiro Shimoda <yoshihiro.shimod
+ a.uh@renesas.com>, Francesco Dolcini <francesco.dolcini@toradex.com>, Macpaul Lin <macpaul.lin@mediatek.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] dt-bindings: interrupt-controller: Correct indentation and style in DTS example
-Date: Tue,  7 Jan 2025 14:11:08 +0100
-Message-ID: <20250107131108.246898-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
+Subject: Re: [PATCH] dt-bindings: usb: Correct indentation and style in DTS example
+Date: Tue, 07 Jan 2025 14:47:27 +0100
+Message-ID: <10618962.nUPlyArG6x@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20250107131015.246461-1-krzysztof.kozlowski@linaro.org>
+References: <20250107131015.246461-1-krzysztof.kozlowski@linaro.org>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -96,90 +87,82 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-DTS example in the bindings should be indented with 2- or 4-spaces and
-aligned with opening '- |', so correct any differences like 3-spaces or
-mixtures 2- and 4-spaces in one binding.
+Am Dienstag, 7. Januar 2025, 14:10:13 CET schrieb Krzysztof Kozlowski:
 
-No functional changes here, but saves some comments during reviews of
-new patches built on existing code.
+> DTS example in the bindings should be indented with 2- or 4-spaces and
+> aligned with opening '- |', so correct any differences like 3-spaces or
+> mixtures 2- and 4-spaces in one binding.
+>=20
+> No functional changes here, but saves some comments during reviews of
+> new patches built on existing code.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../bindings/usb/aspeed,usb-vhub.yaml         | 40 +++++++++----------
+>  .../devicetree/bindings/usb/brcm,bdc.yaml     | 14 +++----
+>  .../devicetree/bindings/usb/cypress,hx3.yaml  | 24 +++++------
+>  .../devicetree/bindings/usb/dwc2.yaml         |  4 +-
+>  .../devicetree/bindings/usb/fcs,fsa4480.yaml  | 20 +++++-----
+>  .../bindings/usb/intel,keembay-dwc3.yaml      | 30 +++++++-------
+>  .../devicetree/bindings/usb/ite,it5205.yaml   | 18 ++++-----
+>  .../bindings/usb/maxim,max3420-udc.yaml       | 28 ++++++-------
+>  .../bindings/usb/nvidia,tegra210-xusb.yaml    |  4 +-
+>  .../bindings/usb/renesas,rzv2m-usb3drd.yaml   | 36 ++++++++---------
+>  .../bindings/usb/renesas,usb3-peri.yaml       | 24 +++++------
+>  .../devicetree/bindings/usb/ti,hd3ss3220.yaml | 38 +++++++++---------
+>  .../bindings/usb/ti,tusb73x0-pci.yaml         |  6 +--
+>  .../devicetree/bindings/usb/ti,usb8020b.yaml  | 20 +++++-----
+>  .../devicetree/bindings/usb/ti,usb8041.yaml   | 16 ++++----
+>  15 files changed, 161 insertions(+), 161 deletions(-)
+>=20
+> [snip]
+> diff --git a/Documentation/devicetree/bindings/usb/ti,usb8041.yaml b/Docu=
+mentation/devicetree/bindings/usb/ti,usb8041.yaml
+> index c2e29bd61e11..bce730a5e237 100644
+> --- a/Documentation/devicetree/bindings/usb/ti,usb8041.yaml
+> +++ b/Documentation/devicetree/bindings/usb/ti,usb8041.yaml
+> @@ -51,17 +51,17 @@ examples:
+> =20
+>          /* 2.0 hub on port 1 */
+>          hub_2_0: hub@1 {
+> -          compatible =3D "usb451,8142";
+> -          reg =3D <1>;
+> -          peer-hub =3D <&hub_3_0>;
+> -          reset-gpios =3D <&gpio1 11 GPIO_ACTIVE_LOW>;
+> +            compatible =3D "usb451,8142";
+> +            reg =3D <1>;
+> +            peer-hub =3D <&hub_3_0>;
+> +            reset-gpios =3D <&gpio1 11 GPIO_ACTIVE_LOW>;
+>          };
+> =20
+>          /* 3.0 hub on port 2 */
+>          hub_3_0: hub@2 {
+> -          compatible =3D "usb451,8140";
+> -          reg =3D <2>;
+> -          peer-hub =3D <&hub_2_0>;
+> -          reset-gpios =3D <&gpio1 11 GPIO_ACTIVE_LOW>;
+> +            compatible =3D "usb451,8140";
+> +            reg =3D <2>;
+> +            peer-hub =3D <&hub_2_0>;
+> +            reset-gpios =3D <&gpio1 11 GPIO_ACTIVE_LOW>;
+>          };
+>      };
+>=20
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../aspeed,ast2400-vic.yaml                   | 10 +++----
- .../brcm,bcm7120-l2-intc.yaml                 | 30 +++++++++----------
- 2 files changed, 20 insertions(+), 20 deletions(-)
+=46or ti,usb8041.yaml:
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2400-vic.yaml b/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2400-vic.yaml
-index 73e8b9a39bd7..86516cd44b9d 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2400-vic.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2400-vic.yaml
-@@ -52,11 +52,11 @@ additionalProperties: false
- examples:
-   - |
-     interrupt-controller@1e6c0080 {
--         compatible = "aspeed,ast2400-vic";
--         reg = <0x1e6c0080 0x80>;
--         interrupt-controller;
--         #interrupt-cells = <1>;
--         valid-sources = <0xffffffff 0x0007ffff>;
-+        compatible = "aspeed,ast2400-vic";
-+        reg = <0x1e6c0080 0x80>;
-+        interrupt-controller;
-+        #interrupt-cells = <1>;
-+        valid-sources = <0xffffffff 0x0007ffff>;
-     };
- 
- ...
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/brcm,bcm7120-l2-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/brcm,bcm7120-l2-intc.yaml
-index 786f2426399b..0fcbe304cd05 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/brcm,bcm7120-l2-intc.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/brcm,bcm7120-l2-intc.yaml
-@@ -130,23 +130,23 @@ required:
- examples:
-   - |
-     irq0_intc: interrupt-controller@f0406800 {
--      compatible = "brcm,bcm7120-l2-intc";
--      interrupt-parent = <&intc>;
--      #interrupt-cells = <1>;
--      reg = <0xf0406800 0x8>;
--      interrupt-controller;
--      interrupts = <0x0 0x42 0x0>, <0x0 0x40 0x0>;
--      brcm,int-map-mask = <0xeb8>, <0x140>;
--      brcm,int-fwd-mask = <0x7>;
-+        compatible = "brcm,bcm7120-l2-intc";
-+        interrupt-parent = <&intc>;
-+        #interrupt-cells = <1>;
-+        reg = <0xf0406800 0x8>;
-+        interrupt-controller;
-+        interrupts = <0x0 0x42 0x0>, <0x0 0x40 0x0>;
-+        brcm,int-map-mask = <0xeb8>, <0x140>;
-+        brcm,int-fwd-mask = <0x7>;
-     };
- 
-   - |
-     irq1_intc: interrupt-controller@10000020 {
--       compatible = "brcm,bcm3380-l2-intc";
--       reg = <0x10000024 0x4>, <0x1000002c 0x4>,
--             <0x10000020 0x4>, <0x10000028 0x4>;
--       interrupt-controller;
--       #interrupt-cells = <1>;
--       interrupt-parent = <&cpu_intc>;
--       interrupts = <2>;
-+        compatible = "brcm,bcm3380-l2-intc";
-+        reg = <0x10000024 0x4>, <0x1000002c 0x4>,
-+              <0x10000020 0x4>, <0x10000028 0x4>;
-+        interrupt-controller;
-+        #interrupt-cells = <1>;
-+        interrupt-parent = <&cpu_intc>;
-+        interrupts = <2>;
-     };
--- 
-2.43.0
 
 
