@@ -1,51 +1,82 @@
-Return-Path: <linux-aspeed+bounces-342-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-344-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BB2A04922
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2025 19:22:45 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44FFAA04CBB
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2025 23:56:22 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YSKCk6h0Bz2yJ5;
-	Wed,  8 Jan 2025 05:22:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YSRHS0LmZz2yD5;
+	Wed,  8 Jan 2025 09:56:20 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736274162;
-	cv=none; b=cNXGWWyoDkES9tSPW5v1nSmq3mHxa5m226KiZ7avsCW8ob7XW/uW7KpGG3Ngxc4isC1Zck338aVyhnaffZ6DIgKSE55bQoYaOP1pDS8y5jvQ/kQUu0tBY7Wh4lFe1izUxH2lc0aJj8eYTTrxOP4Q/4wkw6zbe6fXxjFz1bIghZBoIMKdTX97nJt6Nhgdp9DB9lc58ciiLaIZFSL0fAtr8vpQh95vvo90ZHM3m/A1NB1eSTbKmm8HFBDgL+v7Rma2qeOGwW1e5xOmwRNvu2EKTw1GT1MiBWdbeGxTjNXQzH9kfSqa8UVc229olweG2gnCdIf9dD5Dt72Lb4lhzxIS1Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=217.194.8.81
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736271704;
+	cv=none; b=Pe3cbC2suqZsbPHzF2b/rK73q7/A8VH2544RSVW8Ix/Y45Wk8RtotMec4h5qlxogGOPxKBqSKipZJqAfPsW75BRBFBHHtI1dHAiDZJ/CndXW7t1p9o4MhJ65Ek5+c2S5qgIsJaqdAMQlcYOAzdu3UaHLfTEmEXOh9hx2Lqc0UGhp6xtUAqeY+DkuDHAMesDDySZwjzuUORaVvaRaZwptvqtDRFrwmX16b2AClUxRMVhK8F2tHfxJLCvZOQTS7FtEDiErbhGJ2xgGK3fzc9OZDdDwIETzSn6HuZM0Jta+uPVVTW+tb8beKBTsaHTgPT6WPtcb3Q2TGGEHkbHcpVimFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1736274162; c=relaxed/relaxed;
-	bh=/gkFFLzzDG1L/33tUrIZ7IbRLBj2EoYvSSWS8ENRDhM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=fYWEIE9H4vPpHgwqS2+89ZOuWxCjXHegjZbTIa41P6nm5NVZFGRXCujZJSVFLfsFnlvv+6KCNTFWAgypoMrZTpzkjU8UV4Qkp1ERyw806eCe8JDbT0Wd9DmUpPsD+COvb35GzMyEYeWtYOoE99rIEtDTI1u4OrEdzmj9AlzGBMOVHwh1YSGLjCvQvw3FBJ4u7jQYmqEBJeEEk0TmlBBjbYbOeotBDfTbPlXn74CkQraVvV1NLBmQ4kGCAt3DUYd+7zmYv1NmQYQO/h+uuKARPdU+EIsFrbYBSIaBzbl8MhEQV2Gw9LI4thT/dkTIcIwaYLu9+MAlbzHL6Nh4Zkqy1Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Y8Uox00V; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1736271704; c=relaxed/relaxed;
+	bh=YpsA1hCVY3ewqxQ7j406xH50/PlVnUrpfZDhJ2TaT4A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TxD36apULtFAp3boHV0dr7LHDmcnhVWkQaTu4hlQD24neAIu+04mwH0pcG9zHYXzExGhz+RKcoaB/TKPi+/0U7i3ee59Bc75WFd0COWtJhGveTrNVnjnjTOEQ6sCKuJ2fq5mVwHy1KMuLE5a8r8bBrS+vMhxBs4ikeDgvWpw0gXIEiJBbzqagCtP/Ays+3qtGstJXZgoG1TienkHI1eD2Sd0pL1twUwHVr9iiEUVyBdBwgYdxyYY4me52IoJxZn7qQYBU+SGk8ZxNFF0HIDIKQgkzuxstkxG83hprZ6qGu7xNHrKcPgwYtCqoal8kXqTfBmNQ5w57JsN8LSDPdxJSA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.a=rsa-sha256 header.s=default header.b=dZXZV8FC; dkim-atps=neutral; spf=pass (client-ip=217.194.8.81; helo=mail11.truemail.it; envelope-from=francesco@dolcini.it; receiver=lists.ozlabs.org) smtp.mailfrom=dolcini.it
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Y8Uox00V;
+	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.a=rsa-sha256 header.s=default header.b=dZXZV8FC;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=dolcini.it (client-ip=217.194.8.81; helo=mail11.truemail.it; envelope-from=francesco@dolcini.it; receiver=lists.ozlabs.org)
+X-Greylist: delayed 483 seconds by postgrey-1.37 at boromir; Wed, 08 Jan 2025 04:41:38 AEDT
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YSKCj4xXkz2yFD
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Jan 2025 05:22:41 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 85225A41B86;
-	Tue,  7 Jan 2025 18:20:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7A9DC4CED6;
-	Tue,  7 Jan 2025 18:22:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736274156;
-	bh=nQt0n0t3yZF3lcbbDEr06Sl/D9a0HeRqKxRgtUlA08I=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=Y8Uox00V0JqdR041OQIfsDcEnXxckrrsxU+9GwVzlDW75rqIbyuwc/gSpA/1JFEws
-	 3ILKwoSAbMHiK6q+Iy3iIFE2ZQjba3dsgC4QqqMM75IE6xzfd4M60L6bnC9h1XIFg1
-	 813GljNv7DbP7qomTalL0jq0xCVsBLhgbGSYgF/KDvjt0AHRm8tCZ6XbXBp4b9pbvd
-	 0S3rmZzcpycYu2LROF9Acl6tOjSoiztCEzw3vhQ5m4VNcIiys9FUBjEUb9q5YIH1Zt
-	 33dBBdWB559MFABnYDCYlXp9p6tO0t2X3CPRa02N8NhghE31+7ZQlMaOfWcirRZxuC
-	 tIbd6/eNeyYsw==
-Date: Tue, 07 Jan 2025 12:22:35 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YSJJL4PDYz2yhM
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Jan 2025 04:41:38 +1100 (AEDT)
+Received: from francesco-nb (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+	by mail11.truemail.it (Postfix) with ESMTPA id BEB121F948;
+	Tue,  7 Jan 2025 18:33:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+	s=default; t=1736271195;
+	bh=YpsA1hCVY3ewqxQ7j406xH50/PlVnUrpfZDhJ2TaT4A=; h=From:To:Subject;
+	b=dZXZV8FCflkSbXZf2ez6Y/NLj/wwpNR69lN/ozvq6wc0hHsv7aNHN7bcmznN1fdB1
+	 8nR/aEIIP3JLTbzZhig7PZp7yrl0IFr4Zr1/jDq7/s4oA3XAZKIk27q1Yl8knhi4Cm
+	 /UyHsYkvK+OMnN01osdNq0nQH6wZLtjMutCoy5r5VyrM6fNWTibTQhWJTC0coHFvM8
+	 AMa/AAx+f+KLs2A38kPgagH0qrkgOm+K/deSLLzj1Uhk2rHErYdrWDDkqDkkVSWOH6
+	 y/dvfV7H0prkHth0t+jSdD20DJp085U9PyAYfNDEnuYZqi34cJY+/bpQG9CK5LGqW9
+	 av41Gza7na4cg==
+Date: Tue, 7 Jan 2025 18:33:11 +0100
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Justin Chen <justin.chen@broadcom.com>,
+	Al Cooper <alcooperx@gmail.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Benjamin Bara <benjamin.bara@skidata.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+	Del Regno <angelogioacchino.delregno@collabora.com>,
+	Tianping Fang <tianping.fang@mediatek.com>,
+	Jassi Brar <jaswinder.singh@linaro.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Francesco Dolcini <francesco.dolcini@toradex.com>,
+	Macpaul Lin <macpaul.lin@mediatek.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: usb: Correct indentation and style in DTS
+ example
+Message-ID: <20250107173311.GA72209@francesco-nb>
+References: <20250107131015.246461-1-krzysztof.kozlowski@linaro.org>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -58,71 +89,25 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: eajames@linux.ibm.com, linux-aspeed@lists.ozlabs.org, 
- netdev@vger.kernel.org, kuba@kernel.org, minyard@acm.org, joel@jms.id.au, 
- andrew@codeconstruct.com.au, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- davem@davemloft.net, krzk+dt@kernel.org, conor+dt@kernel.org, 
- ratbert@faraday-tech.com, pabeni@redhat.com, 
- openipmi-developer@lists.sourceforge.net, edumazet@google.com, 
- andrew+netdev@lunn.ch
-To: Ninad Palsule <ninad@linux.ibm.com>
-In-Reply-To: <20250107162350.1281165-3-ninad@linux.ibm.com>
-References: <20250107162350.1281165-1-ninad@linux.ibm.com>
- <20250107162350.1281165-3-ninad@linux.ibm.com>
-Message-Id: <173627415580.1273439.8070481995690256439.robh@kernel.org>
-Subject: Re: [PATCH v2 02/10] bindings: ipmi: Add binding for IPMB device
- intf
-X-Spam-Status: No, score=-2.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250107131015.246461-1-krzysztof.kozlowski@linaro.org>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-
-On Tue, 07 Jan 2025 10:23:39 -0600, Ninad Palsule wrote:
-> Add device tree binding document for the IPMB device interface driver.
+On Tue, Jan 07, 2025 at 02:10:13PM +0100, Krzysztof Kozlowski wrote:
+> DTS example in the bindings should be indented with 2- or 4-spaces and
+> aligned with opening '- |', so correct any differences like 3-spaces or
+> mixtures 2- and 4-spaces in one binding.
 > 
-> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
-> ---
->  .../devicetree/bindings/ipmi/ipmb-dev.yaml    | 42 +++++++++++++++++++
->  1 file changed, 42 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml
+> No functional changes here, but saves some comments during reviews of
+> new patches built on existing code.
 > 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Acked-by: Francesco Dolcini <francesco.dolcini@toradex.com> # ti,tusb73x0-pci.yaml
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/ipmi/ipmb-dev.example.dts:21.17-30: Warning (reg_format): /example-0/i2c/i2c@10:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
-Documentation/devicetree/bindings/ipmi/ipmb-dev.example.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/ipmi/ipmb-dev.example.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/ipmi/ipmb-dev.example.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/ipmi/ipmb-dev.example.dts:18.13-24.11: Warning (i2c_bus_bridge): /example-0/i2c: incorrect #address-cells for I2C bus
-Documentation/devicetree/bindings/ipmi/ipmb-dev.example.dts:18.13-24.11: Warning (i2c_bus_bridge): /example-0/i2c: incorrect #size-cells for I2C bus
-Documentation/devicetree/bindings/ipmi/ipmb-dev.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/ipmi/ipmb-dev.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'i2c_bus_bridge'
-Documentation/devicetree/bindings/ipmi/ipmb-dev.example.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/ipmi/ipmb-dev.example.dts:19.20-23.15: Warning (avoid_default_addr_size): /example-0/i2c/i2c@10: Relying on default #address-cells value
-Documentation/devicetree/bindings/ipmi/ipmb-dev.example.dts:19.20-23.15: Warning (avoid_default_addr_size): /example-0/i2c/i2c@10: Relying on default #size-cells value
-Documentation/devicetree/bindings/ipmi/ipmb-dev.example.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250107162350.1281165-3-ninad@linux.ibm.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
 
 
