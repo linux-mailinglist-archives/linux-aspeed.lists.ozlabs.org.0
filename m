@@ -1,80 +1,71 @@
-Return-Path: <linux-aspeed+bounces-322-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-323-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99E6A0412B
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2025 14:49:07 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C36BA0425C
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2025 15:26:32 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YSC8153P8z30gL;
-	Wed,  8 Jan 2025 00:49:05 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YSCz96rcgz3bTM;
+	Wed,  8 Jan 2025 01:26:29 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=93.104.207.81
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736257745;
-	cv=none; b=AVMXAY1XmA9yxkMahew3CusPQe4DmVkN24DFMu9vKngMCGrgraeZa+bN0720MQXGCd6x30cmwRJY/EHhmqVrMRfFuSdBYqncYxJ0ouU2yqGkCRHXpSKc56hwvgz11/s1s3063EYzQMsKuIC/r/3akLlve3C1li1GzDoJuL5i1bbjaY/+uOpKA/aYxGRR7NX1+Xb5Mh51krPVGjqRHCJJEwdqfqNuy9XfYik+UMUVHLJfwGZbJCNFbnLHJOIunoC+jnsMEflXJr/0hl2O9fIs1kB5yxxnxdmfT/ENPmgdntEcWIHAOdl/0Jmld2+DOKZ/6UVClZU6IhcitRRLF/Wg+Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.158.5
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736259989;
+	cv=none; b=PymlLPI1c66d2suPHMbgm9IHA8i071Of2fFtvujbv3VqtZzN93JrnrWOpgW4pd9qQ5PbaQPP4CjcLOoacO1ygeZS7WlNvHlPiqbQ4JVqtQy49lGwPnI0qOujGU+QQImpVWuvtfUMlfbLVmZuM4QCAfi+8Ir+YEkb4LmnppJQZ/O5Av9aw5hTyINS7Ngtt6mQi8gUxw+89/z8KRLFM6pPRoH4cOskYWYEBj8PKJsLmPx6D6zIr/pgfmjJVAJFMw44WZB4MRfXEAz5kBxwOYQtg4b8+/dVksj3cHrO0Oh9fWb0jAYv+IHzFaUjGcGQxORGDshRcHke+6tVuKb2q1/6Ng==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1736257745; c=relaxed/relaxed;
-	bh=H2JiFyCh/Tl5YOwhVHC+9/o2zm1iU1FIoUS3LVDCVQM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CYYmKy2ILUuZvY+mBm2fVgmDCZk3PKzLc5bVVmJ/oAflv0VU4fIXN6G4QkcRBmG3smQihKkqJI7e8QvDR3PvQ5JddJuTxEUqgGDy/7sEApXOfjIBZY/oUhFgXSLPEo5/8Gb1Kvbr/XGXIlHKdaMamrH2hUEbsfD+FlMmv2lPoilpUYuQcXRrCgrTECMKZAFWgu6OWBYq4uURIA6tlivcV4QnGxUw2BvBe6YDTUP+IGiJ69iPlvaRgtxKggfo2Y/ChwLNNszTqIRIiB7QB1TZPH0fkgNeHZEdsm5s4IutJuP1U/vbJWMp9GCULImQ+j5sDZN/X7Cb6w9psAWUDusE6A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.a=rsa-sha256 header.s=key1 header.b=KN7Pur3r; dkim=fail header.d=ew.tq-group.com header.i=@ew.tq-group.com header.a=rsa-sha256 header.s=dkim header.b=Gp8ECD2a reason="key not found in DNS"; dkim-atps=neutral; spf=pass (client-ip=93.104.207.81; helo=mx1.tq-group.com; envelope-from=alexander.stein@ew.tq-group.com; receiver=lists.ozlabs.org) smtp.mailfrom=ew.tq-group.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+	t=1736259989; c=relaxed/relaxed;
+	bh=8aJq6DyymI3ykrkUx9xwMXuoVHlfLNSCOq31gWtyKFA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=kziHhsD3BoWegOArJfJUxmzcrhNDic0W1FX4lUBMgpqMFiwXEnyN29xhOlxYH/ZFEUZbwR5HEhV5fu3nOYgRwdk4Irn/G5BJjqcpwF3OfA1z7CTMrIeIPYuupcDEHtO0lLplxDjZ/Kszgs6MNoeDDNagCeM9ll2z5xtWCmqqBB06yATsyxyRGbH/gKk6L6jhwAo/tUyws2jq1vAWbtkWH6qX7hb1OevsfIA0EiA3gc9d4pOB3saPbEQBOGEDHG2OooIAA3DRkHHY5wq4a1Je6GaHYqBSfeQ3pw7yQahJT/19UVQUvm7jAS9lifVmd/OZYIsWo1KEZ/PrSw0uVepKBw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=LkyKDOF+; dkim-atps=neutral; spf=pass (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.a=rsa-sha256 header.s=key1 header.b=KN7Pur3r;
-	dkim=fail reason="key not found in DNS" header.d=ew.tq-group.com header.i=@ew.tq-group.com header.a=rsa-sha256 header.s=dkim header.b=Gp8ECD2a;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=LkyKDOF+;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=ew.tq-group.com (client-ip=93.104.207.81; helo=mx1.tq-group.com; envelope-from=alexander.stein@ew.tq-group.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 65 seconds by postgrey-1.37 at boromir; Wed, 08 Jan 2025 00:48:59 AEDT
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YSC7v1pL8z30YT
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Jan 2025 00:48:58 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1736257739; x=1767793739;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=H2JiFyCh/Tl5YOwhVHC+9/o2zm1iU1FIoUS3LVDCVQM=;
-  b=KN7Pur3rrs31qPmjGONqw9Ben14BMMrrhuzC/k/JEnpMq/4KmygxWhXg
-   VowDDiHXNV/2knTsUq+9lQMpO3Y+uKgVj2hfvuLHTQF9AY6iIH5L3NRPi
-   oBAQjofRLnx22N1OrfN+x7yRdEN1f8IyFPigMzY09sZAbPrETO47NKxa4
-   dllWg2i1GVFmi78oh+RzuxGXeeFD4UAplHa4DR9I3JrivKmthMQJHdCWJ
-   TvR7wu1hDtboBKGTGpEr2iNmPvPDq/IkCV9+R+wl8UPmZ2EB42BzzFWjD
-   XgrmuM58j7gINZwdpMqj5gx1gdfJ3wnIh5lc5fvS1sg27xyfLY1YzmADi
-   w==;
-X-CSE-ConnectionGUID: OVZasUpRQum1PZsDd73xFw==
-X-CSE-MsgGUID: mYpmTubRRzSDooSbu505XQ==
-X-IronPort-AV: E=Sophos;i="6.12,295,1728943200"; 
-   d="scan'208";a="40895891"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 07 Jan 2025 14:47:43 +0100
-X-CheckPoint: {677D307F-16-3C670366-E45AD810}
-X-MAIL-CPID: D9326B8D606E51C9C554D2FC41D37A2A_4
-X-Control-Analysis: str=0001.0A682F28.677D307F.00A7,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 12BB0164990;
-	Tue,  7 Jan 2025 14:47:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1736257658;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H2JiFyCh/Tl5YOwhVHC+9/o2zm1iU1FIoUS3LVDCVQM=;
-	b=Gp8ECD2aEaJ2EoPlQW15Ikeq6rQoBFt/xYZHffSmoaiTRcEt3DyE1007ghx7QUsh6rWleF
-	lVKVhAGrvYWx+CEhDIzb+u3GFfHUIrNePQeY7nizrT961wk3aoCy86jbq9k1WGCr1X2RnA
-	ooMJ7bMSMZAzRbH4f4WwI+NhT3Gr9T1Q7ZZihIWPpiYe4ojX3SOqQh+a2FQ3vSheOrwhcX
-	F5L14kcteB5aHapjOda7uYt6BTq6MW8VaLetOMmY5he1vQAsX4D0qjLcLXWBDFl5WpEvRR
-	JInTk5xg/jzac1LcmHiQQC7oyqGly+SMY4vt8KxMP12YKK3wIRlQbd7PMldfJg==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, Justin Chen <justin.chen@broadcom.com>, Al Cooper <alcooperx@gmail.com>, Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Florian Fainelli <f.fainelli@gmail.com>, Benjamin Bara <benjamin.bara@skidata.com>, Bjorn Andersson <andersson@kernel.org>, Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, Del Regno <angelogioacchino.delregno@collabora.com>, Tianping Fang <tianping.fang@mediatek.com>, Jassi Brar <jaswinder.singh@linaro.org>, Biju Das <biju.das.jz@bp.renesas.com>, Yoshihiro Shimoda <yoshihiro.shimod
- a.uh@renesas.com>, Francesco Dolcini <francesco.dolcini@toradex.com>, Macpaul Lin <macpaul.lin@mediatek.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] dt-bindings: usb: Correct indentation and style in DTS example
-Date: Tue, 07 Jan 2025 14:47:27 +0100
-Message-ID: <10618962.nUPlyArG6x@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20250107131015.246461-1-krzysztof.kozlowski@linaro.org>
-References: <20250107131015.246461-1-krzysztof.kozlowski@linaro.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YSCz85tsXz3bTD
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Jan 2025 01:26:28 +1100 (AEDT)
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 507E6cSd015943
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 7 Jan 2025 14:26:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=8aJq6D
+	yymI3ykrkUx9xwMXuoVHlfLNSCOq31gWtyKFA=; b=LkyKDOF+QHkK190ZU8Mf76
+	1MZM8BeA8SbTpFAKBJqxxca/TGESUZbhWf0JgitWETmkMpn4YlAdlE2Pr+D786HE
+	n8rOCN146PBanbxKFoL7qIp/UiX+96ZN8fvGx6dC5e44g3/6JFc5JlEJu16Uem1z
+	C1jvwlPreHSjqZgV5AyCNZf6A32wXdD/vBdDZjTGYxjpheQgJzigijgH/kyz1PkM
+	lX5ofkTW1p+8DmUak9ouJHcdYxHulGo8kLvglRyO9UZWqczAVNswj2Y4OBVAPuBw
+	iSo/qiGsHVVVaXpJSGVROYWWJ8dO2pVJEkMl69oS+7YcUWNpU7+sNt0gP/GIRQrQ
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4415r5037h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Jan 2025 14:26:26 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 507CV2Hu003571
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 7 Jan 2025 14:26:25 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 43yfat314v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Jan 2025 14:26:25 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 507EQOWA32047748
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 7 Jan 2025 14:26:24 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 66FED58062
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Jan 2025 14:26:24 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 462B35805A
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Jan 2025 14:26:24 +0000 (GMT)
+Received: from [9.24.12.86] (unknown [9.24.12.86])
+	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  7 Jan 2025 14:26:24 +0000 (GMT)
+Message-ID: <5637e122-760d-4181-87f1-542d78a71e86@linux.ibm.com>
+Date: Tue, 7 Jan 2025 08:26:23 -0600
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -87,82 +78,77 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
-X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 3/8] ARM: dts: aspeed: system1: Add RGMII support
+To: linux-aspeed@lists.ozlabs.org
+References: <20241213145037.3784931-1-ninad@linux.ibm.com>
+ <20241213145037.3784931-4-ninad@linux.ibm.com>
+ <4a8788c1-8424-40f6-a9da-bf135acad29b@lunn.ch>
+Content-Language: en-US
+From: Ninad Palsule <ninad@linux.ibm.com>
+In-Reply-To: <4a8788c1-8424-40f6-a9da-bf135acad29b@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: T42rWI_TK8TibysBwBwHfnkRQbkrOf59
+X-Proofpoint-GUID: T42rWI_TK8TibysBwBwHfnkRQbkrOf59
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=818
+ suspectscore=0 phishscore=0 clxscore=1015 adultscore=0 bulkscore=0
+ impostorscore=0 malwarescore=0 mlxscore=0 priorityscore=1501
+ lowpriorityscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2501070118
+X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Am Dienstag, 7. Januar 2025, 14:10:13 CET schrieb Krzysztof Kozlowski:
+Hi Andrew,
 
-> DTS example in the bindings should be indented with 2- or 4-spaces and
-> aligned with opening '- |', so correct any differences like 3-spaces or
-> mixtures 2- and 4-spaces in one binding.
->=20
-> No functional changes here, but saves some comments during reviews of
-> new patches built on existing code.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  .../bindings/usb/aspeed,usb-vhub.yaml         | 40 +++++++++----------
->  .../devicetree/bindings/usb/brcm,bdc.yaml     | 14 +++----
->  .../devicetree/bindings/usb/cypress,hx3.yaml  | 24 +++++------
->  .../devicetree/bindings/usb/dwc2.yaml         |  4 +-
->  .../devicetree/bindings/usb/fcs,fsa4480.yaml  | 20 +++++-----
->  .../bindings/usb/intel,keembay-dwc3.yaml      | 30 +++++++-------
->  .../devicetree/bindings/usb/ite,it5205.yaml   | 18 ++++-----
->  .../bindings/usb/maxim,max3420-udc.yaml       | 28 ++++++-------
->  .../bindings/usb/nvidia,tegra210-xusb.yaml    |  4 +-
->  .../bindings/usb/renesas,rzv2m-usb3drd.yaml   | 36 ++++++++---------
->  .../bindings/usb/renesas,usb3-peri.yaml       | 24 +++++------
->  .../devicetree/bindings/usb/ti,hd3ss3220.yaml | 38 +++++++++---------
->  .../bindings/usb/ti,tusb73x0-pci.yaml         |  6 +--
->  .../devicetree/bindings/usb/ti,usb8020b.yaml  | 20 +++++-----
->  .../devicetree/bindings/usb/ti,usb8041.yaml   | 16 ++++----
->  15 files changed, 161 insertions(+), 161 deletions(-)
->=20
-> [snip]
-> diff --git a/Documentation/devicetree/bindings/usb/ti,usb8041.yaml b/Docu=
-mentation/devicetree/bindings/usb/ti,usb8041.yaml
-> index c2e29bd61e11..bce730a5e237 100644
-> --- a/Documentation/devicetree/bindings/usb/ti,usb8041.yaml
-> +++ b/Documentation/devicetree/bindings/usb/ti,usb8041.yaml
-> @@ -51,17 +51,17 @@ examples:
-> =20
->          /* 2.0 hub on port 1 */
->          hub_2_0: hub@1 {
-> -          compatible =3D "usb451,8142";
-> -          reg =3D <1>;
-> -          peer-hub =3D <&hub_3_0>;
-> -          reset-gpios =3D <&gpio1 11 GPIO_ACTIVE_LOW>;
-> +            compatible =3D "usb451,8142";
-> +            reg =3D <1>;
-> +            peer-hub =3D <&hub_3_0>;
-> +            reset-gpios =3D <&gpio1 11 GPIO_ACTIVE_LOW>;
->          };
-> =20
->          /* 3.0 hub on port 2 */
->          hub_3_0: hub@2 {
-> -          compatible =3D "usb451,8140";
-> -          reg =3D <2>;
-> -          peer-hub =3D <&hub_2_0>;
-> -          reset-gpios =3D <&gpio1 11 GPIO_ACTIVE_LOW>;
-> +            compatible =3D "usb451,8140";
-> +            reg =3D <2>;
-> +            peer-hub =3D <&hub_2_0>;
-> +            reset-gpios =3D <&gpio1 11 GPIO_ACTIVE_LOW>;
->          };
->      };
->=20
+Thank you for the review. Sorry for the late reply as I was on vacation.
 
-=46or ti,usb8041.yaml:
-Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+On 12/13/24 16:03, Andrew Lunn wrote:
+>> +&mac0 {
+>> +	status = "okay";
+>> +
+>> +	phy-mode = "rgmii-rxid";
+> Why is everybody getting RGMII wrong this week?
+>
+> Do you have an extra long clock line on the PCB for the TX clock?
 
+We are using ASPEED ast2600 chip and their recommendation is to enable 
+RX interface delay from the PHY chip for mac0 and mac1.
 
+We tested the network and it is working as expected.
+
+>
+>> +	phy-handle = <&ethphy0>;
+>> +
+>> +	pinctrl-names = "default";
+>> +	pinctrl-0 = <&pinctrl_rgmii1_default>;
+>> +};
+>> +
+>>   &mac2 {
+>>   	status = "okay";
+>> +
+>> +	phy-mode = "rgmii";
+> Do you have extra long clock lines on the PCB for both Rx and Tx
+> clock?
+>
+> I suspect you don't and the RGMII delays are messed up somehow.
+
+This is a recommendation by ASPEED for mac2 and mac3. We tested the 
+network and it is working as expected.
+
+Can you please let me know more about your concern?
+
+Regards,
+
+Ninad
+
+>
+> 	Andrew
+>
 
