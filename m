@@ -1,72 +1,72 @@
-Return-Path: <linux-aspeed+bounces-336-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-332-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D635A045F6
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2025 17:24:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959E7A045F4
+	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2025 17:24:34 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YSGbQ2CJ8z3bVH;
-	Wed,  8 Jan 2025 03:24:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YSGbL0C8Pz3bSg;
+	Wed,  8 Jan 2025 03:24:30 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.158.5
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736267074;
-	cv=none; b=EVUppst3sf26DoscnrUBFcuc+3hj6OSGgCSmCy4CI5O6xs7EsGcRPX4d/TFZZBEVjfw6Z9sxpteg0vYMzDV2rtIQSuXsjRkBSBCS+Ij743D2+cttRxb2ydTJVNTKVoird5AK5GfUnkvqZTTH9VxaQEsb0Hsu6W5iYXkfoLtoyFu3DBp/fdCwvFuSXKyWupe0qTseMqKMMA2ieksi8LSFoEuEu6cEC13BNxH5UNd9XDhBg+7MuyUteXQWA4aFZp1GKobeeSxFKd/CbhDYn6PdjFzgdQe3EeJemntuZhjvZYUkHXYXQ9prCe/ubIrTRJjzFFEm13bd+459579P1znF4Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.156.1
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736267070;
+	cv=none; b=QFv8BuezOU3Z6GaXxqh9HFoN5LRy23KjAfMWBwTxu8cNoIu4eYVcZuvv8PgZEbwuax2hqkuOyX4yOcFJCnbaIG7Qe3YmJy75rVoK3BrQ2jlbGNMyQv5uoCFZBsPPWhMuKYOoeRgv6K9BB2k05DgdnJ4dGvVPUz+G6ZCQXXr1O6D5k1+tJg8tGo4D+UwQmA+xTjcGYClEomcsojLVeon3rqY1vCdonIWuPfn8PFbW5BSJ6Au2BmAbJZSAgXAcWGs1lmezTz6+yz/ULLLZrmshRNwXatPZO4DMRXsNtNXiE5HXncbl4rgVrKMnMyo/Y0RAemsoa6IKmPIbehH3yOQH2A==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1736267074; c=relaxed/relaxed;
-	bh=A0j5sE9aOONKyfKSVWxxzNoKelh9NbjPLewnzBLoOgQ=;
+	t=1736267070; c=relaxed/relaxed;
+	bh=1cT7F3TlNr3e59Gc8G7LZ0oWAeS7DLfnlZgtZCna+Ao=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aIsp8/jK8EYnh+DHOqEvcae8dt/6D1arx5zSgFH9f1klKr3ixifdi+XZ6VuAK9Nw/vhVa0NOYuNEC9O6h939HXSeuRNgvU6VrENKd62Vm92VQSdaJZMmYl7O/gG1R4IzZ/fhiGF/bAQiHB+LjFs4YEPV2IF3lpNhEHRZdd0Vp/+Z+pGU2ju9M0iFxLLqT3R2kUshWF4Qdtt5WHbN7SY9IqDixuBJyffHOBAAljC/fCsyc/eCamshjJej4QPHWrELF0zMgxKaNW4wjqb8S8Xz+2tF5A02KWAu8BJxd0eYcU69/0Y22/+xre6lqH5oovHEdqKxoi4YBLjSlacFH662Zg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=tdYnCyHA; dkim-atps=neutral; spf=pass (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
+	 MIME-Version; b=gZj3WyKYPgoLTkUyReTwOkQ0p8JCeb8ZkO3bNc7YXUWX75WMWQwQVRPJos3V1PuUsZefpM6BJiQZsbb2HpbZi24SO/nNMK9bkfSeg51DEJcgYNEhtlXmDhYP7j63s7OMR776Wbe+PrB8RHNuOu1ZYgA5CpwqACzFNxy3WhwmfKRJRzT7oojghA6fqNDfH5GGk1dxgtJzrdXs9UE/ynRaS3KLBCmqPuJwwfrbWs7Yny1W2+hqxGysAlh8DiDEWp5g5hH4zrhID7j5VB+uXVpPsQmyIvjcF7orER/xg8o4BD8kNT45raCtWgx7zJL9K61LfPCBVx4mX4GnbTsRJo9bOg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=qpmidVIa; dkim-atps=neutral; spf=pass (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=tdYnCyHA;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=qpmidVIa;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YSGbP3hznz3bPR
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Jan 2025 03:24:33 +1100 (AEDT)
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 507E75rL016616;
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YSGbK2F9wz3bPR
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Jan 2025 03:24:29 +1100 (AEDT)
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 507FFHZ6027168;
 	Tue, 7 Jan 2025 16:23:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
 	content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=A0j5sE9aOONKyfKSV
-	WxxzNoKelh9NbjPLewnzBLoOgQ=; b=tdYnCyHACHL0kkIeIPqbAWpv1Jw9W8m4Z
-	eACoRLe80bATCTvX2e9soLmFerzd4PjFl1/R/4yBK1dEC+zc9a3gAdfIz1x7bvrE
-	hAv9hJQtN/zqDkv8NtEU21pU8uB28260XrHgscpjLzPxErxUBpQgIzxs/KvR4FGn
-	VnSZiPcRjNsT42rn8S/slZ9JmAKP5DA7oLnAT73lF4tKyBjslENM8pnhuyuaI0Nh
-	9l//iG5DM+qFSraukrg7qMPKsUnLWXonLJ6ur4sGkHR+waTUzppAxjBxaHieUs4a
-	Wane/6zfL8iJXbpg/CeMZtlDuU5b2XeRcrj/8jQHEiNGXPn1Ez2LA==
+	:mime-version:references:subject:to; s=pp1; bh=1cT7F3TlNr3e59Gc8
+	G7LZ0oWAeS7DLfnlZgtZCna+Ao=; b=qpmidVIaEgckWIAd8PSEq12vHWhjstKdr
+	nJbVVnpZPfICAwueVbdDaQK87ee6nbOYBMaYV107sdhseZrWQjxNmBAdGT6nzSvj
+	BmlZci/bOrfQt568lPcoo7Oz3+20voMKVknlAnAa1Um0yaFw7d2T5XsPoBZkWiNm
+	NbMCoQhNZvV2T8LE2dOooKTt1IJKYx3hew/SYti7QZGoWNpIQhYdNSIJukBFHxDy
+	fm/THxO4pK+MYS3PuqZjfMJ1xppCnVMbzZcOFjP0+W9mSq0XPgIBFsUVxsDk7OXy
+	oE4QPvcWygbqXV9o+TvigMbNHX3AaawK01neeAxw72bHCb/SJNFLQ==
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4415r50pyu-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 440vrjb8f9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 Jan 2025 16:23:57 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 507FIEkb006350;
+	Tue, 7 Jan 2025 16:23:57 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 440vrjb8f6-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Tue, 07 Jan 2025 16:23:56 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 507G7I3l029796;
-	Tue, 7 Jan 2025 16:23:56 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4415r50pyp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jan 2025 16:23:56 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 507DnKRN016144;
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 507DRZ1C013571;
 	Tue, 7 Jan 2025 16:23:55 GMT
 Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43ygtku7g1-1
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43yganua9b-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Tue, 07 Jan 2025 16:23:55 +0000
 Received: from smtpav01.dal12v.mail.ibm.com (smtpav01.dal12v.mail.ibm.com [10.241.53.100])
-	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 507GNsAZ33489448
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 507GNsj822872662
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
 	Tue, 7 Jan 2025 16:23:54 GMT
 Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F0DAD5805D;
-	Tue,  7 Jan 2025 16:23:53 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 3FAC458062;
+	Tue,  7 Jan 2025 16:23:54 +0000 (GMT)
 Received: from smtpav01.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AD12258062;
-	Tue,  7 Jan 2025 16:23:53 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 0507A58064;
+	Tue,  7 Jan 2025 16:23:54 +0000 (GMT)
 Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
 	by smtpav01.dal12v.mail.ibm.com (Postfix) with ESMTP;
 	Tue,  7 Jan 2025 16:23:53 +0000 (GMT)
@@ -79,9 +79,9 @@ To: minyard@acm.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
         devicetree@vger.kernel.org, eajames@linux.ibm.com,
         linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 06/10] ARM: dts: aspeed: system1: Reduce sgpio speed
-Date: Tue,  7 Jan 2025 10:23:43 -0600
-Message-ID: <20250107162350.1281165-7-ninad@linux.ibm.com>
+Subject: [PATCH v2 07/10] ARM: dts: aspeed: system1: Update LED gpio name
+Date: Tue,  7 Jan 2025 10:23:44 -0600
+Message-ID: <20250107162350.1281165-8-ninad@linux.ibm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250107162350.1281165-1-ninad@linux.ibm.com>
 References: <20250107162350.1281165-1-ninad@linux.ibm.com>
@@ -99,41 +99,129 @@ List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 0siNA57K363vt422JNCn8NowrhNMQaw8
-X-Proofpoint-GUID: BJOWMCZJXFN43DKgSaipg9OxuU4L6zfw
+X-Proofpoint-GUID: kNu9FyWAwFWKQW5pCqsbM5d-YLLU1Ck2
+X-Proofpoint-ORIG-GUID: XEdwy5UYo1IHao2r_gzksErmfkekzQgF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=518
- suspectscore=0 phishscore=0 clxscore=1015 adultscore=0 bulkscore=0
- impostorscore=0 malwarescore=0 mlxscore=0 priorityscore=1501
- lowpriorityscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2501070133
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
+ adultscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0 mlxscore=0
+ impostorscore=0 mlxlogscore=787 priorityscore=1501 bulkscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2501070133
 X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.0
+	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+	WEIRD_QUOTING autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Reduce sgpio speed to improve stability with the current PCB layout.
+Rename LEDs with meaningful names for easier identification.
 
 Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
 ---
- arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../dts/aspeed/aspeed-bmc-ibm-system1.dts     | 36 +++++++++----------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
 diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
-index 0f4658074709..a37dfd359836 100644
+index a37dfd359836..5e6824836213 100644
 --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
 +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
-@@ -401,7 +401,7 @@ &emmc {
- &sgpiom0 {
- 	status = "okay";
- 	ngpios = <128>;
--	bus-frequency = <1000000>;
-+	bus-frequency = <500000>;
- };
+@@ -116,63 +116,63 @@ vga_memory: region@bf000000 {
+ 	leds {
+ 		compatible = "gpio-leds";
  
- &ibt {
+-		led-0 {
++		led-bmc-ready {
+ 			gpios = <&gpio0 ASPEED_GPIO(L, 7) GPIO_ACTIVE_HIGH>;
+ 		};
+ 
+-		led-1 {
++		led-bmc-hb {
+ 			gpios = <&gpio0 ASPEED_GPIO(P, 7) GPIO_ACTIVE_HIGH>;
+ 		};
+ 
+-		led-2 {
++		led-rear-enc-fault0 {
+ 			gpios = <&gpio0 ASPEED_GPIO(S, 6) GPIO_ACTIVE_HIGH>;
+ 		};
+ 
+-		led-3 {
++		led-rear-enc-id0 {
+ 			gpios = <&gpio0 ASPEED_GPIO(S, 7) GPIO_ACTIVE_HIGH>;
+ 		};
+ 
+-		led-4 {
++		led-fan0-fault {
+ 			gpios = <&pca3 5 GPIO_ACTIVE_LOW>;
+ 		};
+ 
+-		led-5 {
++		led-fan1-fault {
+ 			gpios = <&pca3 6 GPIO_ACTIVE_LOW>;
+ 		};
+ 
+-		led-6 {
++		led-fan2-fault {
+ 			gpios = <&pca3 7 GPIO_ACTIVE_LOW>;
+ 		};
+ 
+-		led-7 {
++		led-fan3-fault {
+ 			gpios = <&pca3 8 GPIO_ACTIVE_LOW>;
+ 		};
+ 
+-		led-8 {
++		led-fan4-fault {
+ 			gpios = <&pca3 9 GPIO_ACTIVE_LOW>;
+ 		};
+ 
+-		led-9 {
++		led-fan5-fault {
+ 			gpios = <&pca3 10 GPIO_ACTIVE_LOW>;
+ 		};
+ 
+-		led-a {
++		led-fan6-fault {
+ 			gpios = <&pca3 11 GPIO_ACTIVE_LOW>;
+ 		};
+ 
+-		led-b {
++		led-nvmed0-fault {
+ 			gpios = <&pca4 4 GPIO_ACTIVE_HIGH>;
+ 		};
+ 
+-		led-c {
++		led-nvmed1-fault {
+ 			gpios = <&pca4 5 GPIO_ACTIVE_HIGH>;
+ 		};
+ 
+-		led-d {
++		led-nvmed2-fault {
+ 			gpios = <&pca4 6 GPIO_ACTIVE_HIGH>;
+ 		};
+ 
+-		led-e {
++		led-nvmed3-fault {
+ 			gpios = <&pca4 7 GPIO_ACTIVE_HIGH>;
+ 		};
+ 	};
+@@ -368,14 +368,14 @@ &gpio0 {
+ 	/*I0-I7*/	"","","","","","","","",
+ 	/*J0-J7*/	"","","","","","","","",
+ 	/*K0-K7*/	"","","","","","","","",
+-	/*L0-L7*/	"","","","","","","","bmc-ready",
++	/*L0-L7*/	"","","","","","","","led-bmc-ready",
+ 	/*M0-M7*/	"","","","","","","","",
+ 	/*N0-N7*/	"pch-reset","","","","","flash-write-override","","",
+ 	/*O0-O7*/	"","","","","","","","",
+-	/*P0-P7*/	"","","","","","","","bmc-hb",
++	/*P0-P7*/	"","","","","","","","led-bmc-hb",
+ 	/*Q0-Q7*/	"","","","","","","pch-ready","",
+ 	/*R0-R7*/	"","","","","","","","",
+-	/*S0-S7*/	"","","","","","","rear-enc-fault0","rear-enc-id0",
++	/*S0-S7*/	"","","","","","","led-rear-enc-fault0","led-rear-enc-id0",
+ 	/*T0-T7*/	"","","","","","","","",
+ 	/*U0-U7*/	"","","","","","","","",
+ 	/*V0-V7*/	"","rtc-battery-voltage-read-enable","","power-chassis-control","","","","",
 -- 
 2.43.0
 
