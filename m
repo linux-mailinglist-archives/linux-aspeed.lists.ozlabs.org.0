@@ -1,51 +1,63 @@
-Return-Path: <linux-aspeed+bounces-343-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-345-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B70A04CAF
-	for <lists+linux-aspeed@lfdr.de>; Tue,  7 Jan 2025 23:54:42 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79893A04D3C
+	for <lists+linux-aspeed@lfdr.de>; Wed,  8 Jan 2025 00:13:18 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YSRFX26yCz2yD5;
-	Wed,  8 Jan 2025 09:54:40 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YSRg027x7z30TF;
+	Wed,  8 Jan 2025 10:13:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:4641:c500::1"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736290480;
-	cv=none; b=Xn4y3bmuWdy3kdNuzQoLYbyycOe7t0pdaihD9kMM3Vy43kOn0wp2fBdBitIiguxAPB8Ubgri8Y54dKLP3YXcS3Ey5424Zql1CHn7blU05c7qeqbcZjnAcHWLT5ndQLRgMzYcE5kwEoL4kwoKi3sdlDJCAOdgYXbjWN52Z2wGD2/CEFPLwNXqNKjEOgxLEGBXkfNLVNOtr164y8dmm5zL+jCe7TAm900Nl3h6pBy3QYFemyKiFbuo/gvph+OJ3zVV/teCGQbxOsJNrN0Q3o5M7HNsI9sn8vDmFQoTzELW09pP9gGuF4TqQVzs9wq4hx8uraF85isqJN4LAGgxOjTAMw==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736291596;
+	cv=none; b=BoMX1dIF1bF6lPsym4M/3f9rw8T5IU5tEiHaxblkRJweyKjWslgUgu3qcR9GQxE56f0LbsBGmN0k/worM/iqwM5eexvsNMr8EB17TX0qw+CAUydTLT7BEYVprMaXuclLADUJWey1BTYAbG73m0h9ddA1g0J1XNEGtDaEmaePbAkuQ2sJMDUmt1X9SWjZaHhg0p2PV2RW0wEcehVp5l/2eCO2WiNnFSnFzoikMCQVPmdRhvitk225aq39vMECva7sgKxnVcK3jBEXTBND5gqY9baRie5xbfqkoaKlwpmSknN7nf0s5tS5wopy2sHbKZw8GSn6V9sU0zZ07DBfMmap2w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1736290480; c=relaxed/relaxed;
-	bh=vLc1xPAL0AFFKPRpUd/UVHpL4aDbiIngxyJwJEuzDb8=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=E6QpaHEF5bBmE0Ih3J4b3kU7E49KnV29C5JWeG/gnECDmPZrVcn7bk6Iyxqw4/0aFrcexU2vXM1qrAYnjcNcODWG9gys3xBvE4+pBMClQlCH7AgtVHnM1cuMHC++Ktg6XURDi6ORahuTGDHPmhru45XEM7slHGBWiDS1tI7er5ECWo8PSW3IS51n44lMEoq62ybwPIpZL5rIoaWylTCCPrJfqm1aSCvCPn2Wgyc4EZWdSRT+bQCg485hgg446dM+7Z+R5V8NteRUpLjZY3lk32idZCZzBYJ+M6nkW8IItjXwkiJvxSW6SANDTAMH2O/A8qoj0QAR0HpWB7HBIRSLdw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=LJf7DYF3; dkim-atps=neutral; spf=pass (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	t=1736291596; c=relaxed/relaxed;
+	bh=cXWjOzH5UzEYw27TDmJ11UEwxNrIrh3j6oaKp86+zmA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HSBULOyq/onA2PKsRSf3xaeBDG6pmhYAZ9jhvJ2Px9JYb4jG/QiJEC9uzRUiLHF2hfynGacyHqj+VZpgz4kIir1YWILU0Zjy5l1ZKNE9139gLIhur63vBknoGSny1fhzMq86PXds1X9FKo+q9moEzGm6VlO/8zq1BbZxB4Y5n3iVzO29AxYZeFU2dzT1drYrJEedfVARdAN/f0lc9PPRP8yzwt28CAm6QTygLJL74XAEQsBJ294zQDBQS3EoWCuzl8COqD4Q9BLZ2JiHn3jg61uC8/lJlDScm23wqm8FcN4z+hL4OfTnbkbhJgc8lHhboYldi+EvEVYH0Kj/8XRkWw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=BpvIv3gv; dkim-atps=neutral; spf=pass (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=LJf7DYF3;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=BpvIv3gv;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YSRFW2jqLz2y8p
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Jan 2025 09:54:39 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YSRfz1hYSz304f
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  8 Jan 2025 10:13:15 +1100 (AEDT)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 04F595C62E1;
-	Tue,  7 Jan 2025 22:53:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98A7DC4CEE8;
-	Tue,  7 Jan 2025 22:54:33 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id ED71A5C0F91;
+	Tue,  7 Jan 2025 23:12:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A1DC4CED6;
+	Tue,  7 Jan 2025 23:13:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736290473;
-	bh=dYbF7CHxuuCz2p1jW22Ix5UW0UmrzVjjqtNsyO8jekA=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=LJf7DYF3n6cj3pBXooqWfWIUfMxkpq+W8jkF9sAjxC7pNSYms7tQbAQ9ZcS6HULtp
-	 0zn6w2Tc9E71TTX19KpDZYeTBMbyqAiqX2S2Hu2uRHXmrV9YkPRDjDDNT/YZ1iRyd4
-	 RLWfGOKVsiMoPJvQRWNbHSvi/WyUkvIUR0W9UWq+Ssg6rulAXGwW9oOaNlIbp5xbVs
-	 GIdvbuuIr+Us+G0Q9045WfDhoZpZSlHpNytlG/in7WZGCnMGerIXzvaP7nnHXaiF48
-	 NZgt0JQEE54lkJtYijy4F9cjWTwzJLBpQqXxWrX4oRw5Vn2gv8MXAoVIprSD0SS09a
-	 rRKbWZgYVdhpQ==
-Date: Tue, 07 Jan 2025 16:54:32 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1736291592;
+	bh=Do/168fsFw6i80h2fR3YzMw5FE9OseaEDLt7XS3HU7g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BpvIv3gvmHkpEVhnNyN37lX3TxNiebJs1tHfvBdm0G1eeX0t4GC7nnRsRoB+jCF6U
+	 8YjvgIye0yGn1ndJ+hDTT+RnJJZeNboOru3+3jHg7A+ierFyLCkCzgdRfjyqnuLdkX
+	 drGMJ0FHxB/3GWIWzQ4Moj3LGfdg1JXVilAeJHIGjnEEhWDRP60H43Wt2wWWIrQLSs
+	 BRuiPpRBy94Hn0tW6weXnf54+bcu5BfzwXLgzLaj49cvvyGvqAth642gSMS+JejS+j
+	 hj4OdFu47n9KCunxQjIogQnds/pm1TmtgIL/6imDVnrlJ6cDzanK7j8Han8EJAU2NC
+	 RIpHEzG19CDZw==
+Date: Tue, 7 Jan 2025 17:13:11 -0600
+From: Rob Herring <robh@kernel.org>
+To: Ninad Palsule <ninad@linux.ibm.com>
+Cc: minyard@acm.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, ratbert@faraday-tech.com,
+	openipmi-developer@lists.sourceforge.net, netdev@vger.kernel.org,
+	joel@jms.id.au, andrew@codeconstruct.com.au,
+	devicetree@vger.kernel.org, eajames@linux.ibm.com,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 02/10] bindings: ipmi: Add binding for IPMB device intf
+Message-ID: <20250107231311.GA1965288-robh@kernel.org>
+References: <20250107162350.1281165-1-ninad@linux.ibm.com>
+ <20250107162350.1281165-3-ninad@linux.ibm.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -58,86 +70,101 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: devicetree@vger.kernel.org, krzk+dt@kernel.org, netdev@vger.kernel.org, 
- davem@davemloft.net, andrew@codeconstruct.com.au, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- ratbert@faraday-tech.com, minyard@acm.org, andrew+netdev@lunn.ch, 
- edumazet@google.com, joel@jms.id.au, kuba@kernel.org, 
- openipmi-developer@lists.sourceforge.net, pabeni@redhat.com, 
- eajames@linux.ibm.com, linux-arm-kernel@lists.infradead.org, 
- conor+dt@kernel.org
-To: Ninad Palsule <ninad@linux.ibm.com>
-In-Reply-To: <20250107162350.1281165-1-ninad@linux.ibm.com>
-References: <20250107162350.1281165-1-ninad@linux.ibm.com>
-Message-Id: <173629037049.1994533.7630339914217766401.robh@kernel.org>
-Subject: Re: [PATCH v2 00/10] DTS updates for system1 BMC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250107162350.1281165-3-ninad@linux.ibm.com>
 X-Spam-Status: No, score=-2.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
 	SPF_PASS autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
+On Tue, Jan 07, 2025 at 10:23:39AM -0600, Ninad Palsule wrote:
+> Add device tree binding document for the IPMB device interface driver.
 
-On Tue, 07 Jan 2025 10:23:37 -0600, Ninad Palsule wrote:
-> Hello,
-> 
-> Please review the patch set.
-> 
-> V2:
+Please mention this is already is already in use both in a driver and 
+.dts files.
+
+> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
 > ---
->   Fixed CHECK_DTBS errors by
->     - Using generic node names
->     - Documenting phy-mode rgmii-rxid in ftgmac100.yaml
->     - Adding binding documentation for IPMB device interface
-> 
-> NINAD PALSULE (7):
->   ARM: dts: aspeed: system1: Add IPMB device
->   ARM: dts: aspeed: system1: Add GPIO line name
->   ARM: dts: aspeed: system1: Add RGMII support
->   ARM: dts: aspeed: system1: Reduce sgpio speed
->   ARM: dts: aspeed: system1: Update LED gpio name
->   ARM: dts: aspeed: system1: Remove VRs max8952
->   ARM: dts: aspeed: system1: Mark GPIO line high/low
-> 
-> Ninad Palsule (3):
->   dt-bindings: net: faraday,ftgmac100: Add phys mode
->   bindings: ipmi: Add binding for IPMB device intf
->   ARM: dts: aspeed: system1: Disable gpio pull down
-> 
->  .../devicetree/bindings/ipmi/ipmb-dev.yaml    |  42 +++++
->  .../bindings/net/faraday,ftgmac100.yaml       |   3 +
->  .../dts/aspeed/aspeed-bmc-ibm-system1.dts     | 177 ++++++++++++------
->  3 files changed, 163 insertions(+), 59 deletions(-)
+>  .../devicetree/bindings/ipmi/ipmb-dev.yaml    | 42 +++++++++++++++++++
+>  1 file changed, 42 insertions(+)
 >  create mode 100644 Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml
 > 
-> --
+> diff --git a/Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml b/Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml
+> new file mode 100644
+> index 000000000000..9136ac8004dc
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml
+> @@ -0,0 +1,42 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/ipmi/ipmb-dev.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: IPMB Device Driver
+
+Bindings are for devices, not drivers. Drop 'Driver'. It's a stretch 
+that IPMB is even a device, but since there are already a few users, I 
+guess we're stuck with it.
+
+> +
+> +description: IPMB Device Driver bindings
+
+No point in a description that just repeats the title. Please expand 
+this. For example, AIUI, this is for the device end, not the BMC end.
+
+> +
+> +maintainers:
+> +  - Ninad Palsule <ninad@linux.ibm.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ipmb-dev
+> +
+> +  reg:
+> +    maxItems: 1
+
+As this is the slave end, I2C_OWN_SLAVE_ADDRESS should be set. So:
+
+minimum: 0x40000000
+maximum: 0x4000007f
+
+Maybe 10-bit addressing has to be supported too?
+
+> +
+> +  i2c-protocol:
+> +    description:
+> +      This property specifies that the I2C block transfer should be performed
+> +      instead of SMBUS block transfer.
+
+This can be more concisely said:
+
+Use I2C block transfer instead of SMBUS block transfer.
+
+> +    type: boolean
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        i2c@10 {
+
+'i2c' node name is for i2c buses and this is not one. 'ipmb' is probably 
+fine here.
+
+> +            compatible = "ipmb-dev";
+> +            reg = <0x10>;
+> +            i2c-protocol;
+> +        };
+> +    };
+> -- 
 > 2.43.0
 > 
-> 
-> 
-
-
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-New warnings running 'make CHECK_DTBS=y aspeed/aspeed-bmc-ibm-system1.dtb' for 20250107162350.1281165-1-ninad@linux.ibm.com:
-
-arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dtb: gpio@1e780000: 'hog-0', 'hog-1', 'hog-2', 'hog-3' do not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/gpio/aspeed,ast2400-gpio.yaml#
-
-
-
-
-
 
