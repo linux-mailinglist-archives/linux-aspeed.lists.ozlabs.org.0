@@ -1,51 +1,88 @@
-Return-Path: <linux-aspeed+bounces-447-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-450-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0CDFA0BBC6
-	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Jan 2025 16:26:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB110A0C1D4
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Jan 2025 20:49:02 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YWx1Q6jnfz3cXv;
-	Tue, 14 Jan 2025 02:26:18 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YX2rX2msZz3d3Q;
+	Tue, 14 Jan 2025 06:49:00 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736781978;
-	cv=none; b=nRKL0PqOdhYtbSpUP/LzDbuMxLb3+31DGGJh5V8Bj33Mf5Bchy2T+TSe6TDEi0qN/6u4VEF7S+Nfg/UA4ZZj9lUDSFFu8Sw5tz7+uFjN9KAnS25uUda3LZZOFBsVu86/wGXFN3CIvlU5iD0hp4C67a9hhHHotBHWvvNTAVqC6JjIRxAY5oEgvk2xaBPmlXgxJG3ONDgi9e/t8B8Bv6fEoivUI8w1/01LKHrheDwOKyB2PCbenTB/aYtplNjjqYazDdCde+UFzxeop/e0sT/qzNR0ZA9kL5XJT4dx01MCDzQ9ewbbmHKYRcJ88HZXOHfqdkr49Hc5j2mC8NuWBybHuA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.156.1
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736797740;
+	cv=none; b=ClPtf4ny4mMDydioicWIgRiljU+HZsp+57FDnETUSo1H/2vYvFzDT/GZ1kFWoUv1GgYPLnxh5WRCJj7xaE6GdEOBpni4d8gptyl7+THapKmL5cBBfuzfJ3vwRG7PVaCbU0hUsZv3EJrJ1414cq+chGVb0eHuIBHet7yXKccX94M9edlMxww/cngMjkFBnDfzsUdJoQ1O5n3RqGw3QDjE3hxMTC7Jw1lE/fk1QB8nCqbHgEcDqBRtjysKMCKuXFjM9lgV72Dp81uT9VA411Sux5ItnGfKy/sM+damMJmUN+VvmIMhSTihvGbBsB4npmN0alv5oMfGeAOWuUINDZE66g==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1736781978; c=relaxed/relaxed;
-	bh=pCexijReCLDALyBYDT/wveBapsUoKXzsuwJVO6B+djg=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=SYqrzJtCP3nT18eIB0BTzhqGZvQAbkGXfxtdPBHXHf+ouph1XlDhXNEFaz86Ux/uJ2N4Nedi4//IOboRJxubEgR4cZKIEAjnTY7odw9V4CCbixFa7dgUWSx1BVXsbUoMRxRkfAxcMpChRhcqothoZtX6tXqgTHVM59Jn/RiGbs0WH3AFxC6zl1ZEA3xnpb7O3ZHTvnuMJNNvqLot3Q08wdGaauRlBF4ZZKjfeGybaGvj76NJ3766n/0/Tjh+CqfUMIyy79Gu9Gzm64KHZclGzqJ25fpJx3gQjzaU1hn2zv4n/iEutaWb28AQLqFwhd6MmHi8XtqkI/eltJxXsDhuBw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dSDMpSA6; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1736797740; c=relaxed/relaxed;
+	bh=qaIFLaOUiRvCT9Os5n5OgFpUMzb9zTAPapw6oIOdZXs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CYt2tLAXVTMkp8wbsEnufbqSJMdVUTTElfhiymPxjIgO/WERVT9AGE/sh2A6/yy3VPNSejs+3cRcRIUpnRp7zkMhikyxAPYrXfKmxZoVG4XYXqRMHSVMnye2kAiD262xP/ApqTw421ZjTTJhKLMq/Tq8BGCKJBLoc0gkdveGCDZoJSbBu179XsLYh/skhRg+NimyVWcl4YHTFINlNfgkbC6ps50W8/lv8dto3kjeH+LaUre1GyR4SRVgqh8Sl+PnfXbJNBwDQOMlq2mvUWId3ozmoBx5NpDyRk0QkPpKdojmC2N7Dw1g1bU/uc/B38CUsNJ8+fQdjwG8VDNYPD2tQA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=jSq+utTx; dkim-atps=neutral; spf=pass (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=dSDMpSA6;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=jSq+utTx;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YWx1P16qkz3cWB
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Jan 2025 02:26:17 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 299B25C4C14;
-	Mon, 13 Jan 2025 15:25:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA5F9C4CEE3;
-	Mon, 13 Jan 2025 15:26:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736781971;
-	bh=mgTx6aOYLPXtqcfI3g1VHKq5JpmA5YkehPbZVMZdgaY=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=dSDMpSA6C7sZPmyjE97Q3KaGNovHhACtHy3/gldzUUQqt9qeDYLvlneExcnp17wec
-	 aGF6aHuF648gSUljdj7UGdneY2TzkuZUQKHYM23k6PZDdCIn24Jn5aw4QWm8CQw3uy
-	 TcGDVNQLuJhTaTJnT1sOvQnROTcb1NfDd7PYRJzHz8uMUbUZLztdDoRvUERcE9Qu2k
-	 zrpoeT4L4CMextWc8WgHGUmFXmO7lrc+92rsTeqV8o+nNyIf3MTkCKXv4sRlmgvx7k
-	 YraJ4NYWaU9a6ffYM1hGo0tuEB3Imd/BikEWjpw71do+MOUdhBx7rBt4ideXfkwSK/
-	 aWfifrReyTnpg==
-Date: Mon, 13 Jan 2025 09:26:10 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YX2rV3PPFz3d8G
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Jan 2025 06:48:58 +1100 (AEDT)
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50DDNPfV020828;
+	Mon, 13 Jan 2025 19:48:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=qaIFLaOUiRvCT9Os5n5OgFpUMzb9zTAPapw6oIOdZ
+	Xs=; b=jSq+utTxSzLFYah/a0Grs9wV+O3dSfk1QBoAUpVvcSaGgKg6Pp09/Z2V9
+	qIh140z9Rd2HDztqer/TFZfd6uZ/U7gJJlWG1A7S+kRITNT61g/1rKY5VwQWLtC/
+	vKerS/dMyt+DV/bvp4PcMD6AXlSk5E4T2JMi4bt0Rl9iczUccVaYbs+W14ww5gTQ
+	mmCqNQoP725neI+4UJSOJo54mf8DhNNV+yqigl6OYem619SJcJZ143WetNTkHA6c
+	/E20bcARcDoMMcamzpcQ6zABQwvxAl7vAE5GVteQp3mpLVOTEMkdkKK+Qkj5uOj/
+	gispywSE3IYTn7akupVGc6dc3vh5Q==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 444qvhmgr3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Jan 2025 19:48:28 +0000 (GMT)
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50DJmRoV027756;
+	Mon, 13 Jan 2025 19:48:27 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 444qvhmgr0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Jan 2025 19:48:27 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50DJ5Zh4004551;
+	Mon, 13 Jan 2025 19:48:26 GMT
+Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4442ysg1dw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Jan 2025 19:48:26 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
+	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50DJmPW811993564
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 13 Jan 2025 19:48:25 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 068C658058;
+	Mon, 13 Jan 2025 19:48:25 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1707D58059;
+	Mon, 13 Jan 2025 19:48:24 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 13 Jan 2025 19:48:23 +0000 (GMT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: minyard@acm.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+        andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com,
+        openipmi-developer@lists.sourceforge.net, netdev@vger.kernel.org,
+        joel@jms.id.au, andrew@codeconstruct.com.au,
+        devicetree@vger.kernel.org, eajames@linux.ibm.com,
+        linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org
+Cc: Ninad Palsule <ninad@linux.ibm.com>
+Subject: [PATCH v4 0/9] DTS updates for system1 BMC
+Date: Mon, 13 Jan 2025 13:48:10 -0600
+Message-ID: <20250113194822.571884-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -58,96 +95,69 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-aspeed@lists.ozlabs.org, Joel Stanley <joel@jms.id.au>, 
- devicetree@vger.kernel.org, Andrew Jeffery <andrew@codeconstruct.com.au>, 
- linux-arm-kernel@lists.infradead.org, Patrick Williams <patrick@stwcx.xyz>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-kernel@vger.kernel.org, 
- Cosmo Chou <cosmo.chou@quantatw.com>, Potin Lai <potin.lai@quantatw.com>, 
- Conor Dooley <conor+dt@kernel.org>
-To: Potin Lai <potin.lai.pt@gmail.com>
-In-Reply-To: <20250113-potin-catalina-dts-update-20250102-v2-1-1725117fe7a9@gmail.com>
-References: <20250113-potin-catalina-dts-update-20250102-v2-1-1725117fe7a9@gmail.com>
-Message-Id: <173678161661.2153651.3945745286602645687.robh@kernel.org>
-Subject: Re: [PATCH v2] ARM: dts: aspeed: catalina: Update DTS to support
- multiple PDB board sources
-X-Spam-Status: No, score=-5.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NORMAL_HTTP_TO_IP,
-	NUMERIC_HTTP_ADDR,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: tqbnUedT_PDrHvclV9WE6JMAZm_je1hk
+X-Proofpoint-ORIG-GUID: -z05ANiWUTwGX-gCJbwBmVqOAmYpWNt7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 adultscore=0 mlxscore=0 spamscore=0
+ phishscore=0 impostorscore=0 mlxlogscore=500 lowpriorityscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501130156
+X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
+Hello,
 
-On Mon, 13 Jan 2025 14:16:23 +0800, Potin Lai wrote:
-> This patch updates the Catalina device tree to support different sources
-> of PDB boards.
-> 
-> Changes for Main source PDB board
-> - Thermal Sensor Monitoring:
->   - Added IOB NIC nodes (TMP421) for thermal sensor monitoring.
->   - Added FIO remote thermal node (TMP75) for thermal sensor monitoring.
-> - Fan Monitoring and Control:
->   - Add fan p12V power sensor node (MP5990) for sensor monitoring.
->   - Add fan controllers (MAX31790) for fan control and tach monitoring.
-> 
-> Changes for 2nd source PDB board
-> - Fan Monitoring and Control:
->   - Added 2nd source fan controllers (NCT7363) for fan duty control and
->     tach monitoring.
-> - Power Monitoring:
->   - Added 2nd source HSC nodes (XDP710) for power sensor monitoring.
-> - Address Conflicts:
->   - Removed all ina238 nodes due to address conflicts. Moved the driver
->     probe for ina238 to userspace.
-> 
-> Changes for PDB brick board
-> - Power Monitoring:
->   - Add delta brick nodes for power sensor monitoring.
-> 
-> Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
-> ---
-> Updating the Catalina DTS to support multiple PDB board sources.
-> ---
-> Changes in v2:
-> - Add delta_brick nodes to support PDB brick board
-> - Link to v1: https://lore.kernel.org/r/20250103-potin-catalina-dts-update-20250102-v1-1-b0b7a523c968@gmail.com
-> ---
->  .../dts/aspeed/aspeed-bmc-facebook-catalina.dts    | 170 ++++++++++++++++++---
->  1 file changed, 147 insertions(+), 23 deletions(-)
-> 
+Please review the patch set.
 
+V4:
+---
+  - Removed "Add RGMII support" patch as it needs some work from the
+    driver side.
+  - Improved IPBM device documentation.
+  - There is a new warning in CHECK_DTBS which are false positive so
+    ignored them.
+    arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dtb: gpio@1e780000: 'hog-0', 'hog-1', 'hog-2', 'hog-3' do not match any of the regexes: 'pinctrl-[0-9]+'
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+V3:
+---
+  - Fixed dt_binding_check warnings in ipmb-dev.yaml
+  - Updated title and description in ipmb-dev.yaml file.
+  - Updated i2c-protocol description in ipmb-dev.yaml file.
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+V2:
+---
+  Fixed CHECK_DTBS errors by
+    - Using generic node names
+    - Documenting phy-mode rgmii-rxid in ftgmac100.yaml
+    - Adding binding documentation for IPMB device interface
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+NINAD PALSULE (6):
+  ARM: dts: aspeed: system1: Add IPMB device
+  ARM: dts: aspeed: system1: Add GPIO line name
+  ARM: dts: aspeed: system1: Reduce sgpio speed
+  ARM: dts: aspeed: system1: Update LED gpio name
+  ARM: dts: aspeed: system1: Remove VRs max8952
+  ARM: dts: aspeed: system1: Mark GPIO line high/low
 
-  pip3 install dtschema --upgrade
+Ninad Palsule (3):
+  dt-bindings: net: faraday,ftgmac100: Add phys mode
+  bindings: ipmi: Add binding for IPMB device intf
+  ARM: dts: aspeed: system1: Disable gpio pull down
 
+ .../devicetree/bindings/ipmi/ipmb-dev.yaml    |  55 +++++++
+ .../bindings/net/faraday,ftgmac100.yaml       |   3 +
+ .../dts/aspeed/aspeed-bmc-ibm-system1.dts     | 139 +++++++++++-------
+ 3 files changed, 143 insertions(+), 54 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml
 
-New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/aspeed/' for 20250113-potin-catalina-dts-update-20250102-v2-1-1725117fe7a9@gmail.com:
-
-arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: /ahb/apb/fsi@1e79b000/cfam@0,0/hub@3400/cfam@1,0/i2c@1800: failed to match any schema with compatible: ['ibm,fsi-i2c-master']
-arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
-arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-x570d4u.dtb: lpc@1e789000: lpc-snoop@90: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus@1e78a000/i2c@100/i2c-mux@70/i2c@3/delta_brick@63: failed to match any schema with compatible: ['pmbus']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus@1e78a000/i2c@100/i2c-mux@70/i2c@3/delta_brick@64: failed to match any schema with compatible: ['pmbus']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus@1e78a000/i2c@100/i2c-mux@70/i2c@3/delta_brick@65: failed to match any schema with compatible: ['pmbus']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus@1e78a000/i2c@100/i2c-mux@70/i2c@3/delta_brick@66: failed to match any schema with compatible: ['pmbus']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dtb: /ahb/apb/bus@1e78a000/i2c@100/i2c-mux@70/i2c@3/delta_brick@67: failed to match any schema with compatible: ['pmbus']
-arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2500-gfx', 'syscon']
-arch/arm/boot/dts/aspeed/aspeed-bmc-asus-x4tf.dtb: /ahb/apb/video@1e700000: failed to match any schema with compatible: ['aspeed,ast2600-video-engine']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-minerva.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
-
-
-
-
+-- 
+2.43.0
 
 
