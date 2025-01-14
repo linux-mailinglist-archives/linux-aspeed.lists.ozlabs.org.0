@@ -1,72 +1,72 @@
-Return-Path: <linux-aspeed+bounces-473-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-470-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57563A1139B
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Jan 2025 23:02:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D70A11395
+	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Jan 2025 23:02:30 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YXjmB5r4Rz3bLS;
-	Wed, 15 Jan 2025 09:02:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YXjm25Zhvz30gn;
+	Wed, 15 Jan 2025 09:02:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.158.5
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736892154;
-	cv=none; b=fK+EAt6L1RWQm9snQANga8gO1Jh7JrYAxyF73HY3Ucu5m9z6YqtOWij1dZ9MBlpIGpfQ/Gz2XEwBVSRXZK8fwo6klhPKPECwvTYPRtEq9/acUeBLkz4nhkbpPb/fSsfaLMC/Xt99Pi2g2/7ICJ08BMiT5Pe04EzdkgcR5GLUKArqfdRpmoMAHueQEXru71Vsd+yI0hG/tgmHt75JaI6xio27S7i2m6F1uWJ2Xg3oYe2ohhV3HMdCS7DLEyiFAZi+KUwvasCcBKPYeMyS6boRkI8uFn2g9E5G3wxI4hxzB/1/UkOMroU5WQLYdUVP07mottZ+BY8Oh0GdPWHeR2o/Pw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.156.1
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736892146;
+	cv=none; b=H9oQeKVN439QWgMGxw5qWa1LTon1rliwpjuxgvGE50iAvXN50+9JfbF427fCflacWqDwNzoum0PzxCCBU5z5e3s5DLAYZgCCsIAFSo1MryYSnH5GTx7CaCIk/Eq+ZYYR1tx+HmjUdVEJiwcpmkpS1mxYZPl3TeXdFiz9weEhpFBmGV0zUagtD+PNBPVJUzd8Lwpuui6GxRrjVF+rWf0mU0AFNOxDZAa1aZFjZKGD5cOOA/mtVVUrX/ZCqmJSXkXvJSWJ4N4uEzyHJgomRMAi+OWwOtXpUYnpGoiStBKo/bVzNZXeGis+vroVsHnsjtg+XF3u/+U1DOX41St9LZQE3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1736892154; c=relaxed/relaxed;
-	bh=zcXYfq7y3Ykx9nkv3r9zTbWUpugtYvbNec4z//sgjIQ=;
+	t=1736892146; c=relaxed/relaxed;
+	bh=vKxoPx9My90u4FXsrZ67kXwC4AWp9vnqq+lEeh78BK8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LdSS5HLIXwEiwqXLC3H68bzmoyNx99ltcgqhHgFvd9ptJDHYgc/r0eVW6YW1Kgp36iRNnbFCSfo2p/iCJjQvldsyJRXXY5JqXmLDpCeJJEyEh70kq7bpzMUcP0rvK9uUElILhZm39mcAxQMyLi54H5i1311VUUEh0feHl3w4+H5b+veHuxE+OcH2l+TogQ1BFOemrHiJu2Ua/u3VSN3opYSt9Amu8RIrpK19O5h1xtlSg8ByUFoUW4KL2GoBe2PXyvk/a8MOIXUain6pQe9TKeXMXmjgPifDhfKvtMaOWAVGMEWUDUTPHSIgaKL82miD9A/WgW9wFUp0dNl2P8jBTQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=VRmnu1BT; dkim-atps=neutral; spf=pass (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
+	 MIME-Version; b=LFL6bV923660mpP2fRt6kG4eaCU+SLJrq+O/A7dSZRrmgvDhAEHNOxcdYh/DCkmeeVO1b8gNmSbVxEsiTFZGH04hN0Cdj05UHk5IWh/zgqeuJ5LGvktwSPPZH8ZQ8RtgspfHc24wrWCdFiNXJyFF9H/1pT6pi59Voi6YCW2vNvxUkq67ckDEfFpFcMDoT6SmCEYvF1SyJTBQftEsFZkg4pETJ1mQaI+vGxjRRSB0lm/Bi/ceVb9UIEhyWL3oyYNcoULRqHIDCuJd3K/544Yc7s1xAFGJDW5W/s/iu9KNbHtEwdpDN1b7UXaWMkUxTroyiUYDVeH32PMegZzkyYAjWg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=elcVJkO1; dkim-atps=neutral; spf=pass (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=VRmnu1BT;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=elcVJkO1;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YXjm90drDz2yDt
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Jan 2025 09:02:32 +1100 (AEDT)
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50EEPcDd028858;
-	Tue, 14 Jan 2025 22:01:53 GMT
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YXjm03651z2yDt
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Jan 2025 09:02:23 +1100 (AEDT)
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50EFUGWC020063;
+	Tue, 14 Jan 2025 22:01:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=zcXYfq7y3Ykx9nkv3
-	r9zTbWUpugtYvbNec4z//sgjIQ=; b=VRmnu1BTOy2FY96lpy2TM07TjTv8XAmuQ
-	1K0QJUib22cuaoN6CZek9lOFtKc/0GafgmcrJ6j/t0okoaG0KQImowJBOYTB6S2Y
-	RhXIgbmpN7xoAFDEBAQeJ1jx1gppBQBmtgsHS9WXhNqcPz2rReu8iVKEIPO+G2m2
-	NCS+vW3MHB7GkMsDXJkEmM5cl46yny+ewLM7IDnT5JxkJ1nB933W5MN4q9hMirgj
-	JTfj+XZXrONWIbH6qqKroDEcoWsZItJCJoJW69e9XDSS7Log7+aRbsUJBIHepmoP
-	YKy26PShpF/zJ1pOw0CyyB0r1H35x7ujZ4A0J8N2NHRw8+UccjQhA==
+	:mime-version:references:subject:to; s=pp1; bh=vKxoPx9My90u4FXsr
+	Z67kXwC4AWp9vnqq+lEeh78BK8=; b=elcVJkO1kH1QRoFtvU/b/aJI+G/REVqen
+	f0GX1/tPc4U/2uielfO2TBYV+VXTgnrSdbW/LqJVA7AcPvfkhDqV9Sfznwpd/tGK
+	VWI9jPfkvSpzDiCgm2vBa4iYx93FqhVb1rDsVEQNnryilg6Ml5fL7h80VPuDeVVK
+	+r5/yCVK2voS0aljAYbdj6oHiORwCFqZ8RLGwFVSGnikPRLnOPbtEMRN3nH7xtOx
+	AQ6TWOjh3JCRlXQZA/EEdlAcyHrP28n/oKJxMUaYFklRyAWsvKnw/zHBdBXnSX3E
+	7FNw8GwWw4kKkc1c6BsZEMJpvy9drIPtPT8jxOxiECyej1kNykzUw==
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 445cnb4y8b-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 445tmghnnk-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jan 2025 22:01:52 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50EM1RNB021473;
+	Tue, 14 Jan 2025 22:01:53 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50ELx7ho027205;
+	Tue, 14 Jan 2025 22:01:53 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 445tmghnnf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Jan 2025 22:01:53 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50EIL9Al000875;
 	Tue, 14 Jan 2025 22:01:52 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 445cnb4y88-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jan 2025 22:01:52 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50ELB2R6002666;
-	Tue, 14 Jan 2025 22:01:51 GMT
 Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4443by5dj1-1
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 44456jw1x7-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jan 2025 22:01:51 +0000
+	Tue, 14 Jan 2025 22:01:52 +0000
 Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50EM1o8a40698582
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50EM1oYG39125722
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
 	Tue, 14 Jan 2025 22:01:50 GMT
 Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0294458043;
+	by IMSVA (Postfix) with ESMTP id 4612558055;
 	Tue, 14 Jan 2025 22:01:50 +0000 (GMT)
 Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B366C58059;
-	Tue, 14 Jan 2025 22:01:49 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 0AFF35805D;
+	Tue, 14 Jan 2025 22:01:50 +0000 (GMT)
 Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
 	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
 	Tue, 14 Jan 2025 22:01:49 +0000 (GMT)
@@ -80,9 +80,9 @@ To: minyard@acm.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
         linux-kernel@vger.kernel.org
 Cc: Ninad Palsule <ninad@linux.ibm.com>
-Subject: [PATCH v5 01/10] dt-bindings: net: faraday,ftgmac100: Add phys mode
-Date: Tue, 14 Jan 2025 16:01:35 -0600
-Message-ID: <20250114220147.757075-2-ninad@linux.ibm.com>
+Subject: [PATCH v5 02/10] bindings: ipmi: Add binding for IPMB device intf
+Date: Tue, 14 Jan 2025 16:01:36 -0600
+Message-ID: <20250114220147.757075-3-ninad@linux.ibm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250114220147.757075-1-ninad@linux.ibm.com>
 References: <20250114220147.757075-1-ninad@linux.ibm.com>
@@ -100,44 +100,91 @@ List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 76MBiHBKeBv7zH-V57kldJaA5JyIP1E9
-X-Proofpoint-GUID: GA3jCc5-1BcKbb-HG3DEmBiQEpl11kYK
+X-Proofpoint-GUID: aSQsrX9jx7OijKSBJsvA4HdCeRS0f5wD
+X-Proofpoint-ORIG-GUID: DNRQRotDHqS5C11uooN1J6k4eFQG3V9c
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-01-14_07,2025-01-13_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 bulkscore=0 phishscore=0 clxscore=1015 mlxscore=0
- mlxlogscore=948 spamscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
+ adultscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2411120000 definitions=main-2501140166
 X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Aspeed device supports rgmii, rgmii-id, rgmii-rxid, rgmii-txid so
-document them.
+Add device tree binding document for the IPMB device interface.
+This device is already in use in both driver and .dts files.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
 ---
- Documentation/devicetree/bindings/net/faraday,ftgmac100.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ .../devicetree/bindings/ipmi/ipmb-dev.yaml    | 55 +++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml
 
-diff --git a/Documentation/devicetree/bindings/net/faraday,ftgmac100.yaml b/Documentation/devicetree/bindings/net/faraday,ftgmac100.yaml
-index 9bcbacb6640d..55d6a8379025 100644
---- a/Documentation/devicetree/bindings/net/faraday,ftgmac100.yaml
-+++ b/Documentation/devicetree/bindings/net/faraday,ftgmac100.yaml
-@@ -44,6 +44,9 @@ properties:
-   phy-mode:
-     enum:
-       - rgmii
-+      - rgmii-id
-+      - rgmii-rxid
-+      - rgmii-txid
-       - rmii
- 
-   phy-handle: true
+diff --git a/Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml b/Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml
+new file mode 100644
+index 000000000000..21c5aaf427d7
+--- /dev/null
++++ b/Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml
+@@ -0,0 +1,55 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/ipmi/ipmb-dev.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: The Intelligent Platform Management Bus(IPMB) Device
++
++description: |
++  The IPMB is an I2C bus which provides interconnection between a Baseboard
++  Management Controller(BMC) and chassis electronics. The BMC sends IPMI
++  requests to intelligent controllers like Satellite Management Controller(MC)
++  devices via IPMB and the device sends responses back to the BMC.
++  This device uses an I2C slave device to send and receive IPMB messages,
++  either on a BMC or other MC. A miscellaneous device provices a user space
++  program to communicate with the kernel and the backend device. Some IPMB
++  devices only support the I2C protocol and not the SMB protocol.
++
++  IPMB communications protocol Specification V1.0
++  https://www.intel.com/content/dam/www/public/us/en/documents/product-briefs/ipmp-spec-v1.0.pdf
++
++maintainers:
++  - Ninad Palsule <ninad@linux.ibm.com>
++
++properties:
++  compatible:
++    enum:
++      - ipmb-dev
++
++  reg:
++    maxItems: 1
++
++  i2c-protocol:
++    description:
++      Use I2C block transfer instead of SMBUS block transfer.
++    type: boolean
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        ipmb-dev@10 {
++            compatible = "ipmb-dev";
++            reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
++            i2c-protocol;
++        };
++    };
 -- 
 2.43.0
 
