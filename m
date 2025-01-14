@@ -1,91 +1,78 @@
-Return-Path: <linux-aspeed+bounces-472-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-480-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8593A11399
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Jan 2025 23:02:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2411FA113D5
+	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Jan 2025 23:08:29 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YXjmB39Wwz30jZ;
-	Wed, 15 Jan 2025 09:02:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YXjty6dmfz3bSK;
+	Wed, 15 Jan 2025 09:08:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.156.1
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736892154;
-	cv=none; b=I5oKdAUyqoeKplZJyYJ6V052D8gXhcVOy3jPj4FXM6EvmqW9ZgrTO2YqGxxsVkkMPnDuCAb3lvIcJG86U4HB0paVXqWZqxH6cGKs9QbqpTrgTdAyChXJmBTPdBVtF0G/Lu0KZNwA1255VkhQt+lC686R1AXZQgAdtiiuwzs4W315Lw0CApDg28zELmmRNb/YcsHiG0+TGEtM6gn859BoyEotMZ0/Oe0Z45zrLTWlK3hoNW21UPZ921keW7hU+ZiVNpWaED+MjWxePzIVsWv5FOz9FgsjPBsiVtrp9PvW0IKNAs++6MLGmkHnnP1UvKTeF58migiZD+XQOO47delQ5Q==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736892506;
+	cv=none; b=L0MxKC2waND2iIj14CP+Cdc4dYia6Rz0EejpJXi0zwwM39v1OZkOYDta1G3TLhPLr2Wo9Hc+Eknl/7LNePeuknWbUuld+Kg9N5KTte5rzqbW7WEEM8S8884UclWmP2NUBgZk4efK7wNLl4hsKDz/RgfIUh9D7RVHUM5nqws1isbXQnptBR/Qjb3VkjryhFItGr+C0XxWqsDdtp2RfsaASMxrq4w0/3TGz+H9fVsUQzcRPsnO+dNnaOMBDOwbBOF6RqpeBFriyKIM75MjLL1rgsPoABXds7DkuVr0QkaErjVPvTAjmAwPKEUCKbsHA62gn4VwzA28DwCTF65ejHO/bg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1736892154; c=relaxed/relaxed;
-	bh=lI3o01bHQXZgJL9XcZlb7A4E5yqHwfiO2JwhT8zbtNg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aYGq6uVWKQLarwNqurHWsjGA9GcABWnGeJehV2MEiNnS6O2THfQWMt7KZGJ1EQs3wb0bir7MMfu3LDq4oCnBeVzHvahsCrbWT6eIzGcyncuD/lpjuVA09Xcvgd8WMCYBUJFXSV+XE8aSVJt5ldX7P8n3VFMvfqL5n11j/VjwAV4LoOlVSdhZUWk3pwxb72ILtQX3/DQgD1GVCVrYnUQTMlIH6Y4zr2FjTNW7Lum8sMfEzNsb6DH+smCsbX6TXNrksKMsrUcR2formaN9YA0uGshrPeSJZsqcDPFwo8jTdHaYyHOP4zI6F9uCQexBRcrX3xTaQdWGOiZb7Lqjfe2IZA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=ec28pq20; dkim-atps=neutral; spf=pass (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
+	t=1736892506; c=relaxed/relaxed;
+	bh=H9FTzMRGKReVo8rRd51mMDR1WUTZm8UGLKzKl1Ziuew=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iJPITqF62xffWiXIvkQZjCxo+uKF5yG/D1fgd9969nK8lvR1wXMxPRmNKlhzZuchPOyo7jeyepYBhOc0gxPU/YX6jj8xIub7sJh2oy0q0UcYPj/7PECY13LjGYsVTLldcdfFSK4GDGiXzgU5+ksyzgsorwDSzXzbkeG0TijLaVaqGn1WeFZ0whUq4BW4DcGYGYro//y5ono8cgCQTeGJzyqIAbFzdwNKjSut3j/QBVtUOS5TzTc2o/VKtehK+2WDI0Kk8YsurP5PtA9h7CEhIQV6YlBJDvrsbOPoFQWiu7MjHr2TjbHt4f1PUSdDF28hqPcv8zQaVsZV9szIlbNgug==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=rzD4kMaQ; dkim-atps=neutral; spf=pass (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=ec28pq20;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=rzD4kMaQ;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
 Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YXjm94pSJz30hL
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Jan 2025 09:02:33 +1100 (AEDT)
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50EFUZ1w006008;
-	Tue, 14 Jan 2025 22:01:56 GMT
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YXjtx5wXnz3bSJ
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Jan 2025 09:08:25 +1100 (AEDT)
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50EFUS7u020161;
+	Tue, 14 Jan 2025 22:08:00 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=lI3o01bHQXZgJL9Xc
-	Zlb7A4E5yqHwfiO2JwhT8zbtNg=; b=ec28pq20SwVMwJkW3i9lCSiMVMaPy8Zy4
-	amfpbb1ymhWOv/tkYMrStBxPk1krfLhggxKHni7iGvydTOhLoWKZrQ+wILY4YQkA
-	AUcUqla6TTJVVkU+GSZ//aJlaUT7Wer7B5+fWsaXblWwDLsZmdc26s4OJq3nqNHK
-	vNn+nv+8EJdrqM8fcRFlNX1XBdyRsCDHDPM7axI+wGMOdXEOSshTjysHuznRWg9n
-	aukN2/xWt2qVMkl3FNf+Y+310pH5XZEiayrBzq2GXd8S44/zvlZVYvc3KuTFCCEj
-	XXN31JqGqHawA83ftOI6WrDljPfowx3S8G9Fqd4CIzKzxJNHCQUGA==
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=H9FTzM
+	RGKReVo8rRd51mMDR1WUTZm8UGLKzKl1Ziuew=; b=rzD4kMaQ+5YxCEChLLPEXm
+	W6guXK23lS9Fn9Uv4NQ5UaODFoctFHzatf8ruqrMX2XLg5+HDXTB2DLjyTnk3Q3I
+	J0Lb5vsOjO+5V/cl3pxC71UwDhEhnZ8XbMtJX4mnotc7f0DciITaDpaTqy4UyNp0
+	5Ki5BM8U+xXaP/wqhOjG79+l2MmrnitWTUpjS6FzrXCb1HslWN2V6uMJumGIWmtc
+	+HTvzG7Wnf5DIjDpsdaHyL942COFy+2uKZ9ms72AlN59FjmFiLypqOa2CiIwIFnn
+	35yb4UHbo8OoKUTAgGPWfavgjGzu3WJd5nrw3dgl9prok8M2kmpNyCB3hmEz4Xlg
+	==
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 445tmghn8s-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 445tmghpby-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jan 2025 22:01:55 +0000 (GMT)
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50EM174s013660;
-	Tue, 14 Jan 2025 22:01:55 GMT
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 445tmghn8p-1
+	Tue, 14 Jan 2025 22:07:59 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50EM7pTd011791;
+	Tue, 14 Jan 2025 22:07:59 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 445tmghpbv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jan 2025 22:01:55 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50EJEU1Q016498;
-	Tue, 14 Jan 2025 22:01:54 GMT
-Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4445p1my7k-1
+	Tue, 14 Jan 2025 22:07:59 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50EIvnK6001110;
+	Tue, 14 Jan 2025 22:07:58 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 44456jw2r8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jan 2025 22:01:54 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50EM1qEO25363102
+	Tue, 14 Jan 2025 22:07:58 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50EM7vp428050170
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Jan 2025 22:01:52 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9120058043;
-	Tue, 14 Jan 2025 22:01:52 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5685C5805D;
-	Tue, 14 Jan 2025 22:01:52 +0000 (GMT)
-Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 14 Jan 2025 22:01:52 +0000 (GMT)
-From: Ninad Palsule <ninad@linux.ibm.com>
-To: minyard@acm.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-        andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com,
-        openipmi-developer@lists.sourceforge.net, netdev@vger.kernel.org,
-        joel@jms.id.au, andrew@codeconstruct.com.au,
-        devicetree@vger.kernel.org, eajames@linux.ibm.com,
-        linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org
-Cc: Ninad Palsule <ninad@linux.ibm.com>
-Subject: [PATCH v5 10/10] ARM: dts: aspeed: system1: Disable gpio pull down
-Date: Tue, 14 Jan 2025 16:01:44 -0600
-Message-ID: <20250114220147.757075-11-ninad@linux.ibm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250114220147.757075-1-ninad@linux.ibm.com>
-References: <20250114220147.757075-1-ninad@linux.ibm.com>
+	Tue, 14 Jan 2025 22:07:57 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7373558054;
+	Tue, 14 Jan 2025 22:07:57 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 43E5C5805A;
+	Tue, 14 Jan 2025 22:07:56 +0000 (GMT)
+Received: from [9.61.120.113] (unknown [9.61.120.113])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 14 Jan 2025 22:07:56 +0000 (GMT)
+Message-ID: <6eb91fb6-eac9-4386-98c8-196ac3d51e7b@linux.ibm.com>
+Date: Tue, 14 Jan 2025 16:07:55 -0600
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -98,75 +85,164 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/9] bindings: ipmi: Add binding for IPMB device intf
+To: corey@minyard.net
+Cc: minyard@acm.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+        andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com,
+        openipmi-developer@lists.sourceforge.net, netdev@vger.kernel.org,
+        joel@jms.id.au, andrew@codeconstruct.com.au,
+        devicetree@vger.kernel.org, eajames@linux.ibm.com,
+        linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org
+References: <20250113194822.571884-1-ninad@linux.ibm.com>
+ <20250113194822.571884-3-ninad@linux.ibm.com>
+ <Z4aUyX8g-JprzLpd@mail.minyard.net>
+Content-Language: en-US
+From: Ninad Palsule <ninad@linux.ibm.com>
+In-Reply-To: <Z4aUyX8g-JprzLpd@mail.minyard.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: c8C_KsBQNEgFT4YhF8zQHLFtQPAtGzNk
-X-Proofpoint-ORIG-GUID: MrTv6CNgHQPgrpuIK_BBVP3xX9v_YVCl
+X-Proofpoint-GUID: C0WHlT9TpC8xSLH_NeldTho0i_3p3X2Z
+X-Proofpoint-ORIG-GUID: isMDwKsHEYgDk1WkKrzf-SSVOFPHI0hO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-01-14_07,2025-01-13_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- suspectscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0 bulkscore=0
- impostorscore=0 adultscore=0 malwarescore=0 mlxlogscore=875 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
+ adultscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2411120000 definitions=main-2501140166
 X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-	WEIRD_QUOTING autolearn=disabled version=4.0.0
+	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Disable internal pull down for the following GPIO lines.
-- GPIOL4 - Reset PCH registers in the rtc.
-- GPIOL5 - Reset portition of Intel ME
-- GPIOL6 - FM smi active
-- GPIOL7 - psu all dc power good.
+Hello Corey,
 
-Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
----
- .../dts/aspeed/aspeed-bmc-ibm-system1.dts     | 28 +++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Thanks for the review.
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
-index 1f0a6247f97e..723cbbbc72bf 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
-@@ -355,7 +355,35 @@ &uhci {
- 	status = "okay";
- };
- 
-+&pinctrl {
-+	pinctrl_gpiol4_unbiased: gpiol4 {
-+		pins = "C15";
-+		bias-disable;
-+	};
-+
-+	pinctrl_gpiol5_unbiased: gpiol5 {
-+		pins = "F15";
-+		bias-disable;
-+	};
-+
-+	pinctrl_gpiol6_unbiased: gpiol6 {
-+		pins = "B14";
-+		bias-disable;
-+	};
-+
-+	pinctrl_gpiol7_unbiased: gpiol7 {
-+		pins = "C14";
-+		bias-disable;
-+	};
-+};
-+
- &gpio0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_gpiol4_unbiased
-+		&pinctrl_gpiol5_unbiased
-+		&pinctrl_gpiol6_unbiased
-+		&pinctrl_gpiol7_unbiased>;
-+
- 	gpio-line-names =
- 	/*A0-A7*/	"","","","","","","","",
- 	/*B0-B7*/	"","","","","bmc-tpm-reset","","","",
--- 
-2.43.0
+On 1/14/25 10:46, Corey Minyard wrote:
+> On Mon, Jan 13, 2025 at 01:48:12PM -0600, Ninad Palsule wrote:
+>> Add device tree binding document for the IPMB device interface.
+>> This device is already in use in both driver and .dts files.
+>>
+>> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+>> ---
+>>   .../devicetree/bindings/ipmi/ipmb-dev.yaml    | 55 +++++++++++++++++++
+>>   1 file changed, 55 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml b/Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml
+>> new file mode 100644
+>> index 000000000000..136806cba632
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml
+>> @@ -0,0 +1,55 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/ipmi/ipmb-dev.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: The Intelligent Platform Management Bus(IPMB) Device
+>> +
+>> +description: |
+>> +  The IPMB is an I2C bus which provides interconnection between Baseboard
+> "Baseboard -> "a Baseboard"
+Fixed.
+>
+>> +  Management Controller(BMC) and chassis electronics. The BMC sends IPMI
+>> +  requests to intelligent controllers like Satellite Management Controller(MC)
+>> +  device via IPMB and the device sends a response back to the BMC.
+> device -> devices
+> "a response" -> responses
+Fixed
+>
+>> +  This device binds backend Satelite MC which is a I2C slave device with the BMC
+> You use IPMB devices on both the BMC and the MCs.  The sentence above is
+> a little confusing, too.  How about:
+>
+> This device uses an I2C slave device to send and receive IPMB messages,
+> either on a BMC or other MC.
+Changed
+>
+>> +  for management purpose. A miscalleneous device provices a user space program
+> Misspelling: miscellaneous
+Fixed.
+>
+>> +  to communicate with kernel and backend device. Some IPMB devices only support
+> "kernel" -> "the kernel"
+Fixed
+>
+>> +  I2C protocol instead of SMB protocol.
+> the I2C protocol and not the SMB protocol.
+>
+> Yes, the English language uses way too many articles...
+>
+> That is a lot of detail, but it looks good beyond what I've commented
+> on.
+Changed.
+>
+>> +
+>> +  IPMB communications protocol Specification V1.0
+>> +  https://www.intel.com/content/dam/www/public/us/en/documents/product-briefs/ipmp-spec-v1.0.pdf
+>> +
+>> +maintainers:
+>> +  - Ninad Palsule <ninad@linux.ibm.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - ipmb-dev
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  i2c-protocol:
+>> +    description:
+>> +      Use I2C block transfer instead of SMBUS block transfer.
+>> +    type: boolean
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    i2c {
+>> +        #address-cells = <1>;
+>> +        #size-cells = <0>;
+>> +
+>> +        ipmb-dev@10 {
+>> +            compatible = "ipmb-dev";
+>> +            reg = <0x10>;
+> I'm not sure of the conventions around device tree here, but the reg is
+> not used in the driver and it will always be the I2C address that
+> already in that node just one level up.  It does not serve any purpose
+> that I can see.  My suggestion would be to remove it.
 
+There are some boards already using reg so I will not be able to remove
+
+but I have updated the example which reflects what those boards are doing
+
+  which indicates that node address is ORed with I2C slaved address.
+
+Regards,
+
+Ninad
+
+>
+> -corey
+>
+>> +            i2c-protocol;
+>> +        };
+>> +    };
+>> -- 
+>> 2.43.0
+>>
 
