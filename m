@@ -1,184 +1,87 @@
-Return-Path: <linux-aspeed+bounces-495-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-496-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2117A12F63
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jan 2025 00:51:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF82A135F2
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Jan 2025 10:00:21 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YYN792h6Mz30MZ;
-	Thu, 16 Jan 2025 10:51:17 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YYcJf06P8z30VV;
+	Thu, 16 Jan 2025 20:00:18 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:200e::706" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1736915867;
-	cv=pass; b=HZXQFYd7XlBz79qA+7sfl8nE4eblgJ4xn5Fr2IggAjj37tSAe62iZZkcRxnCY53BDDrkN6O3kXZf/9ILnLAxPkWlIs7v+JXzx93pKycXAAjk64QsKzRmcfa5HWqfjceaE6Z8BED/Dl4RSqqdSY0ACGkk55jwti4MVhf2Y6W0GI+4zqRekSSc32CIeEEbsHWqb6bFO5vSzXu71LrjohHwktPNSdywL9vtG3AAiGc1IXJ2ugBLL8YRpv8UnSP0nPwZlzzh+QigNe0WLFVqSZf9T7lK+tgv8waDBd7HjLdCDJW2WCOnyVoxGwr2MYGUprO0FftjuiqbrpDSfnydE3ytXA==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1736915867; c=relaxed/relaxed;
-	bh=KRpkm/OisHnyUp1QJCYTRRsVMyfyR1aSPP3zAmhuH98=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=VCpzbiaGxvW3vWOgyG7K0Xj7gDV32c8CAM3DqICleW9FYoowfT74PYNvwi4rI6yCObQm4dKbEGwzG74qwU3J3FlpiNmaiWvo/k7eZ4oEaHzFJQsjtPEHggUQxOaVvkYdWGsd9JuwzEBQvqPsGyXu4SAFiWVc3895xoKWQ6ZthN2tLpB05Qo9AK0EsE1gVoQnFs2tYtmfapSnblPNh+nFM2sgg+RRQRVS2DTKuwKdvbkhqelLIP1UeNwamcZ5QL2IhZEK74s9VJKxCpixLms0/E182PDD9/dVGkYrD9NqmvO/a4InWOczniNWXC7a1mP5GYmzC+2xRlPBLbn1GA7cIw==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=Zzb7SdjS; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:200e::706; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::32a"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1737018017;
+	cv=none; b=O2s4an6zUEyVUq18TmugV6LSHiUEnBcTjFBNmduf2mKDHHzUilDOOcUOLT2kfN2BQ1Qwug0kzfJL3x2a174veabpkC7HRsYWygvuwk+nybgH/+xUBzDZiKUidgMur4APCsCndqnx0uJ4lNZNreaohRtBwbhET/AzAkq768ZheyRPY6TUehTiKiBbpmWanBmFiTNVnssZ1hySITqAgR9axUZeFXwLQC3+QWP9hyVELYvG/NDKScpsXIXIg/JNZRgvwdvWXMHUXKD3RzYCu/P7Pjk3J82werWHHGy7VsDw8bDnTbrE8+lXY9iZb43WjomLcLn30urUuh79O3sZaGsSQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1737018017; c=relaxed/relaxed;
+	bh=5gqr6NvAYHZHbH+BTE4J152E1GvxLluv0LUbmOZ5OTg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SDBJWu9SLFap31rEXlwZufuWiDHyIkOxNSy9vjta344suEBNAMizqvJAW8uRbkD1BisLO7iJ5poQznQUCujtW26OBpdvgP07rSQGaleOjYGLtmG5NhVPGDhS5Gx+nx9LA5Vz5xVr3z88+9/I1bhwzTz1RbSPkhkjrHd5EDwt8zaA3tXkBrFRn+rLgxFgsn/87E8d28qhSgr6cuxxGwjcv1XT4+Yh1A1KsAkJ5vaVOXV0C14pYBUFL5/6Dct4ty36kJOWTxg101W3pX6gTM5kt/0oPuS+UGJmUPTDndYmCNt0/huJUlIHfo+2vbI4Uohb0gdMc48m6q9K5WYg1xPSwQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org; dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=DsUWzsNi; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::32a; helo=mail-wm1-x32a.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org) smtp.mailfrom=linaro.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector2 header.b=Zzb7SdjS;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=DsUWzsNi;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:200e::706; helo=apc01-psa-obe.outbound.protection.outlook.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on20706.outbound.protection.outlook.com [IPv6:2a01:111:f403:200e::706])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::32a; helo=mail-wm1-x32a.google.com; envelope-from=krzysztof.kozlowski@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YXtX703LBz2yGY
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Jan 2025 15:37:42 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bVEY0fIJ1xKiqtbS0lDFN/ppoj9zN3Pm9mriPQqH/lfM4xDQOwaZnM6QkATh70h6oy8XRu+tw8nlmhuzc4UuJy1z4CGCDejBl6fjDgOELhRRbmfBX0SFiW+1WqpGNJJWUzEmgVVcDt8rVDZCMgj0F7iDRROJoLlowWG5t/njOk0WGdgZKKftv0MchvsZzf7kGIds/7TAh/rGwLnkeOxqJM9DwZernbT2fa7hHeLIlLc/9iTAMxP4LCg7uwXB6w0ihPqTFJrQyCTLtO5LHh8LBGTVTq1fyOuViX040G7NKy9cQI3WX/KMNhxDtZWGEuEODe51yj2kD9wIdRQlo5jk6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KRpkm/OisHnyUp1QJCYTRRsVMyfyR1aSPP3zAmhuH98=;
- b=m5x2R3P2x71KLmHBtymm9AX+gxlWQ3HuPkJpUeFLqFhQXZ9QGoCP2LjYKOqj9j56SY8y90oxlxaXwep3unwj7VHR2mk6W5ubZP8rQhesSqJGDM1en80yNCKUaQuBB9hrSc8gshAkRgVAVMKJb1altg9tvb8tmDXy5xiG2SgAZtT2JWSPFhNy0e9mKQkN34L42bgvklCg6My2qXLhMAV6Fi15Z2J1Ik8Jf9vt0y0vtKA+U6TDrpvfxmEMheuBavzZrJz/HHbKrihHPVLhIk4WiGUHHUx3uDrmAfvm1dQ08YKrPh+I6PnPJmzYeKb9kB/ROxvaws6QEmcu3tgqSeqjKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KRpkm/OisHnyUp1QJCYTRRsVMyfyR1aSPP3zAmhuH98=;
- b=Zzb7SdjSo8I9BTZ4HROCQkyH07OcoGbS2G99KIutQifTcfuteLIu2/tuIYHr8ULsi6JFWLqpPl3tqDqv4c4aSknsNmxYtRD/m5MkZsG0LIBGrNQjUgBL9/xhUSKgOE3lj8mKZjPplPK9KYz0t9/eYIEOYuvMevst4oDh6tFE+oMVI2uhdS+ALHTD39dvwSYaRj1Esh0s0VF2uGAwcv20dW3hdhKdh2br33B82QOSx5Vd2A+EFOzuB03zmf9jKnTlknn45t+ZZ7sFdCqiBN/nIela97RZRUDZ5jLUX4LWwsAaNrChqGJT4iO+zQAlcW4KcsHPIpLS0nwV3KWMHYVePA==
-Received: from SEYPR06MB5134.apcprd06.prod.outlook.com (2603:1096:101:5a::12)
- by JH0PR06MB6602.apcprd06.prod.outlook.com (2603:1096:990:2f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.12; Wed, 15 Jan
- 2025 04:22:17 +0000
-Received: from SEYPR06MB5134.apcprd06.prod.outlook.com
- ([fe80::6b58:6014:be6e:2f28]) by SEYPR06MB5134.apcprd06.prod.outlook.com
- ([fe80::6b58:6014:be6e:2f28%6]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
- 04:22:16 +0000
-From: Jacky Chou <jacky_chou@aspeedtech.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: Ninad Palsule <ninad@linux.ibm.com>, "andrew+netdev@lunn.ch"
-	<andrew+netdev@lunn.ch>, "andrew@codeconstruct.com.au"
-	<andrew@codeconstruct.com.au>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"davem@davemloft.net" <davem@davemloft.net>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "eajames@linux.ibm.com"
-	<eajames@linux.ibm.com>, "edumazet@google.com" <edumazet@google.com>,
-	"joel@jms.id.au" <joel@jms.id.au>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
-	"kuba@kernel.org" <kuba@kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "minyard@acm.org" <minyard@acm.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"openipmi-developer@lists.sourceforge.net"
-	<openipmi-developer@lists.sourceforge.net>, "pabeni@redhat.com"
-	<pabeni@redhat.com>, "ratbert@faraday-tech.com" <ratbert@faraday-tech.com>,
-	"robh@kernel.org" <robh@kernel.org>
-Subject:
- =?big5?B?pl7C0Dogpl7C0Dogpl7C0Dogpl7C0Dogpl7C0DogW1BBVENIIHYyIDA1LzEwXSBB?=
- =?big5?Q?RM:_dts:_aspeed:_system1:_Add_RGMII_support?=
-Thread-Topic:
- =?big5?B?pl7C0Dogpl7C0Dogpl7C0Dogpl7C0DogW1BBVENIIHYyIDA1LzEwXSBBUk06IGR0?=
- =?big5?Q?s:_aspeed:_system1:_Add_RGMII_support?=
-Thread-Index:
- AQHbYX4ZqwUnoFUOykuCVX4SkD1z27MNKUAAgABN4QCAAApFgIAAvO3AgAAxcoCAABHnAIAAB/+AgAEsnXCAAFgBAIAENTRQgACHsgCAAAOEgIACXbCwgAAFSQCAAAD+YA==
-Date: Wed, 15 Jan 2025 04:22:16 +0000
-Message-ID:
- <SEYPR06MB513402FD4735C602C5531F499D192@SEYPR06MB5134.apcprd06.prod.outlook.com>
-References:
- <SEYPR06MB51344BA59830265A083469489D132@SEYPR06MB5134.apcprd06.prod.outlook.com>
- <8042c67c-04d3-41c0-9e88-8ce99839f70b@lunn.ch>
- <c0b653ea-3fe0-4bdb-9681-bf4e3ef1364a@linux.ibm.com>
- <c05c0476-c8bd-42f4-81da-7fe96e8e503b@lunn.ch>
- <SEYPR06MB5134A63DBE28AA1305967A0C9D1C2@SEYPR06MB5134.apcprd06.prod.outlook.com>
- <d80f5916-4918-4849-bf4e-2ef608ece09d@linux.ibm.com>
- <SEYPR06MB51340579A53502150F67ADEC9D1F2@SEYPR06MB5134.apcprd06.prod.outlook.com>
- <bcebe5ed-6080-4642-b6a5-5007d97fac71@linux.ibm.com>
- <26dec4b7-0c6d-4e8e-9df6-d644191e767f@lunn.ch>
- <SEYPR06MB5134DD6F514225EA8607DC979D192@SEYPR06MB5134.apcprd06.prod.outlook.com>
- <e5178acd-0b6f-4580-9892-0cca48b6898a@lunn.ch>
-In-Reply-To: <e5178acd-0b6f-4580-9892-0cca48b6898a@lunn.ch>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEYPR06MB5134:EE_|JH0PR06MB6602:EE_
-x-ms-office365-filtering-correlation-id: 8e20ceca-949a-42d7-83b2-08dd351c3196
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?big5?B?QzIyL25GcGFzN1k1SlRsOTFUL0dCbGlrcjNQTjBJS3pOV2lUVGdMaytWWGw0WlJh?=
- =?big5?B?aFBRZ0RsN0k5N3lsQmhHUFlpa0plNWZ1WEVJQTZjeXlaQXRTM3lYZlZtZU50bVNM?=
- =?big5?B?SjhvUlJOa3pPZ3RRSTJjSnkwWFZqTFlZVHJqbEpwRjAvaVEvQ0hDTVpKQUVIejBI?=
- =?big5?B?MVcwMGowQklqaDJzdXowWFBFdzFINnhLWXpYZ1AwczQxSjBaN1BiZXpka09kbDRz?=
- =?big5?B?MGRmRzlDMHk4M3g4SytPREI0aGp3NGY4OFY4WTBGUmtrYldTMHFiM1ZqcEYyTXVD?=
- =?big5?B?WjN5bWpCZ3luYW1IekkwUVprNWlaMEJYeVBKZ0svQUlsV2tmZXNTemVYNEdmZVg3?=
- =?big5?B?UHdpYkRyVVFweDZhUGltOGoxTWRmemhhWHFuNnptTUd3WDFJd2lQRFNqR2ZMY2tX?=
- =?big5?B?NWlNSW9MTGJQTWl5S3RRVjZqN09rSUhwUS9nUWNWS25udXdrK0w1ZjlUOGRnL2hr?=
- =?big5?B?RCtuSk83UEJ2am1HdVExNTNvb09tbFBUSHhjd0dJWDZTRUphcWgwY3BOMDJ5WGFY?=
- =?big5?B?OWtWS1pwS3RlZTVJYlV0cXBmTUFabWhtOFVVVHVjdHNyR0JzVTRCK2p0b05mWXNL?=
- =?big5?B?UEl2NXI3a3FXaXVSUWpuaDZMU0xydHNwbWpyTkNvUGpsaHMvU2hTcTRXZEl4QW9j?=
- =?big5?B?aEJhUm85WGxuYzFiaWlQTGxCNlg2cm5xbjV3WityeW03WERMZVlUQ1YrRmQzMHdF?=
- =?big5?B?T0s3aHRrTjJNOXh6K25mYmFkLzMyd3FUaTNjTktKZk5MWVEvdGQvTHpjM2g0OHVW?=
- =?big5?B?OGlSRUNzOUtyZnNBRjFGTmp2cHVCblJ4WDlNNzdLRU1EVEpGQ1k0NlhESFpOTEky?=
- =?big5?B?Y1d3UW1tVThHV1R4dGlJUVh1UzJRWk5KQ0I3cnprcG9zRy9qOUlsSVM3ZkJkZVNV?=
- =?big5?B?a3hUcUlYTzg5L1ZCZWJ1dTJ3eEZvbWxZRWY5eTlESE1zb1pPVGFnY3RETDMyNG1q?=
- =?big5?B?VjRORHpYLzJmdW1lZ1I0T1VyME14NlR6OGxYK2pDbGpobEUyZnozKzBSOVBmaEJh?=
- =?big5?B?WEowU0JLbnorSCtvZ3VFSHlKZVc2Y2hVWW5NeE14K1Z1Tnl2Q3FqL1lSMmhqSUVh?=
- =?big5?B?S2N3cU1WLzZ5ZDRTR0czQm9jSy9NZWgzc1U2VmlJNmFPSVkyRWtCakprUnhid2Qr?=
- =?big5?B?N3VDTWNVYjhsM21meTVtZ2hwWW9tMXRMYW43Z0FwR1FYOUN2Z2QxdEdxZVJIWXlm?=
- =?big5?B?OGRlRTl3allVdlBkVmo2QmlSZ0htL3p6M2dBeVd6NkhVYllnY1k0WjNlUHdXdE9V?=
- =?big5?B?VTJqSk45cjlHODBYalBaRFcvSlordmdib3FXQ3h6NHpBR2R3NG5iVG5mMktMUmti?=
- =?big5?B?SmpNR2pRUDFWWEEvSHF5dWNlaWRUODhyNFRnZTdzMldRUW5qVFBUOW8vbFpkaitO?=
- =?big5?B?L1RTSlkxaWh2R3BYUVFYUi9vcG5SV05kSDY1Rzd6aWJneGtKR2VHamZUdzk5cEZR?=
- =?big5?B?dkozK2EzaXFBdnFaQnhSZVJ2b2gwOG9yWHpLdGluVjdlVVJvRFVmYi9IRjlyOGM2?=
- =?big5?B?L2hMUCtEK3dwVW9XUm94VDRXYlNGR2U1QXNLUGhoT3F1eEoydVd0Y1pqVkxkTzRH?=
- =?big5?B?TFZodjdjS21pTGc2WEd4YkFDWkczUzBwZW5OSlBFRWdNOUp5WVE5dlp1eE9jejRy?=
- =?big5?B?Zkc2K3J2WUJ5OHFicFJ6QnEvZ2ZsQjVDYU9tckpMOUhCTzJ6T1oyY25iRm05elhM?=
- =?big5?B?OTE5MHJoK3FUcHk5cXJTMkdNa2YrNG9uZWdGTktjM2EvTzFHeGdWYVZUL0EzalE2?=
- =?big5?B?SUd0c25rMXZlUVVZNXp3d3U5a0JUVTZhdUd2NzQ0RU1kWGN6dndYd0orRXpaQVZV?=
- =?big5?Q?rxqsXPM4BQ3aKKBLeMRYV2DNqoDdtu68?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR06MB5134.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?big5?B?R2xZcm9HeGVub2I4SkRuQ1h4d3hWSGJITExSUGdJSlcrb2djaUVBQlU1ZHlqRUJu?=
- =?big5?B?UENVZ0EyY3duNjN6a241OUliR1RrZTR2QXJuMWZFcHZSYm55QmFHVHoyVGxCbm5D?=
- =?big5?B?MW1vUDNKUmlrY3c0VHNzanRBTjAxQzVzZStmc3hMcStTR1ZYekFUSm5leXBDTGxH?=
- =?big5?B?R25SZTVNSVU5dG9MM3d1VUd6RHJlVGpoZUNYMEwveTlFRzBUTVViRExPRUo0Wk1I?=
- =?big5?B?T3l3c2grOFphRkJjV3JBOG5pRGYycmxCdXlUb1ExSjVXQW1raDNaei96V0xlc1B6?=
- =?big5?B?UGUvS3IrTTVMZ1ZCMVVnTHdFRmMrYURzSkZBVC9sQnBqamNqd3dVdTF6cmpZYWR6?=
- =?big5?B?R056cDlwYlVISTVSTFcrZEtqZnpOQTFQQkh2N3N3ZENTQllrbm9LeEQzRnd6WWNS?=
- =?big5?B?NDd1ZUNJNkJKL25mM0ZhNWhEeCt0S0pQR2NUSW91OXplRkxBcDF3WkE0cTJiUnpB?=
- =?big5?B?MzRNcHQ5aU42emxRZElRTFpFTmdhSGJ0ZTJnL0lUK3FkcENPdlFKQlpDRVpZSEVn?=
- =?big5?B?ZXdldkFHYzZnVGVJQkNyTXFrbVNuYWlkSjJweDY3ejVoMiswekdVcHloOFUzUXZp?=
- =?big5?B?bGk0UU5XeUlta00zd2RVdEtWMktqdmVaSnRReWh0ZzJ5UU81djR0c3A1b1pPS1ZK?=
- =?big5?B?bWc1YzRmREtTVkFxUFBvd21pYWZxNVpmRGtjYU5lMDFqSWltbVkzOXdyNmpxakM5?=
- =?big5?B?TGR2emNXQ3JhM2N4T2JjQjY2RENXQkRuazNRZllGU1ZZeUF4R05yaTd4TXJSNVJD?=
- =?big5?B?cElJSHowb0poQjRVYUVlcTdJVzFDVzVMV0lHdXM2Nmp3UzQreVdaR3BtUU1wQTFR?=
- =?big5?B?VmVya21ZS3JFTzJBekdQMEFSbGxUZHg4TmxQWmpnU2JrS2JlVVJCemlYNDhmajNC?=
- =?big5?B?YUQyZEZKYUdqUjFIQzNjd09KdEVnYkxENlRwUy96VlJzV2dVM2FDYjVOaUg3VEE1?=
- =?big5?B?UnNEVnlxaUFVOWRMTWx5c29mNnFkWWw4MG9XYytLMXNsVmZrY2JrWG9HZ0czTEZi?=
- =?big5?B?YkhZVEtpNCtPSEQzc0lObEd6MTR4azFtZm1OYUpMRUhuZjlqckF5citob2JoMkxV?=
- =?big5?B?OXBnWnNhTEdoSmFyZmVNcitKL3NXRkZpK1REa0ROQmd5WC9aS0E3c05FZWtkV1A0?=
- =?big5?B?aVpRODFSdGtjb1lvQTdJT3J0YUhoUktSdmIzU25jRGdVK3E1NEhJMWIvMjh3Sjha?=
- =?big5?B?RExnT0VzSTk4b1lVUDh4T2VHV0lyK3NiUDJhM1lSeE9DSlpyNWlZY25NeDdaT3V5?=
- =?big5?B?eGlIdVNoK1JXSW9tR2haemtPUTNUK3dzeGt6dGpqc3BkVmVCU0ZiY2l0UXkxR0xG?=
- =?big5?B?NktnTUVTUDFQUU1Jak1vZHNnNnE3NkUyT1lsTnErelVhQTFiVW9VYkM4endQc0tz?=
- =?big5?B?elFUUXpDSzJKRU4wb3hlRDhQMzhRY0ZjaytmeURZa3Rxd0dDUEs5ckFwZ2xOUWZv?=
- =?big5?B?czVERnpmQXJmUkNEVFlOL2JhcmxYTnlnaDFMTHZsclAyOXpURDEyRG5UREQzcmxT?=
- =?big5?B?c2l4UmhiNWFJNnB4NnNrVW9ncG13eW51UUQwaXEvcXZhR0NOaXJaMHNLMUJZeUNq?=
- =?big5?B?WnIxM05WY0xUejRrMzlBK0RpVzhkRjVWZHpHTExqeGNnNnM1VkJORy83ZVo3OFJW?=
- =?big5?B?L2dqcGJML2VhenlERHZKMTJPUWdUWmE5Ynh5SUpjRXFiQi9URHpkbVo4Ykd6MFk0?=
- =?big5?B?Vkh6cFc3d0hGeDB2VDZ0enFKNStCLzYrUkVPaVhVa3cwSFgxcDRCdVEyTzQxT2Fp?=
- =?big5?B?QUR5a0dOV2U2U1NkbGdCdEZUeTlyNkRhZmljVWtJVVVHNW8xTmgzRG4rZk5sMmFl?=
- =?big5?B?US92QXY3am00eTFWdjRneVluRUY5bWVPamp4N3ZXMk4xSnpyVnBsWlgwRThoUlRp?=
- =?big5?B?VGlTM2VGM2tBSGlKK0ROREJJVkd3c2ZvKzI4YXlBOGIva09lSkZYZzdYQmF6MTR0?=
- =?big5?B?eEtqeDd1bFRhckhza0JLbDVMaDg2UEVvNmRDOWNxV3hoZUk1Q1RrVzA5K0xaN2Rh?=
- =?big5?Q?09fDappBkvwfCY6Y?=
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YYcJc1ZLqz2yvl
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Jan 2025 20:00:15 +1100 (AEDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-43637977fa4so384325e9.3
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Jan 2025 01:00:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1737018013; x=1737622813; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5gqr6NvAYHZHbH+BTE4J152E1GvxLluv0LUbmOZ5OTg=;
+        b=DsUWzsNiU+6y35k4PEKqMViAePy43xSSsJAPvr9UdozIJsxGNP4Ok0FJL08HkLG31Z
+         ox/LGZGDna76lSMNFiE99Xe1PrW+5WPAOGqqE//WYeWSOLOXOtsAAXM/rNMJo1sIBGIv
+         GMdlfUCsj7Z6mmWKGBcjNtiNanCZPfbkt3qkW6J14iEHunyMmXAou6MlMcSBumruQue+
+         gA4MDfc29iRNysyqmP2gNZbtMjRa6XXeq9SEd1z53W7HRU8XK/qtBF55mU/WPTZ1zpyd
+         S69YUkUjd8DistuOwX2kLYf6qpeBQlwE7qYFgDkHLZR+Vf9X36IK9xAqheKzk1ralait
+         d2TQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737018013; x=1737622813;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5gqr6NvAYHZHbH+BTE4J152E1GvxLluv0LUbmOZ5OTg=;
+        b=YqJV3cPZvw+CY3FUTkw3UROhleAPs9zcLIvcGDERKN+mFBAiNhdk6fAtG77sflw0Nj
+         cIp9q+wtcaMh9I04FSZ0gxTpRawiJfJqGOXF4oOJmcX6D67EQSHAVA+0DzCd04JqjMJL
+         mC4xB9JSoJuXJaVlTsjWizSxHO5b/3HnnI9DRtjNE3u+fN4rMzYFlvM+SD9V7Ip7JNfW
+         PKZsv4wI/7IVFz3dlnhihFCrCpgA7vl80YFzrorhQn/UB7Z8hKPE3fkPXZ4wCwnf99/B
+         rddOKe+4dWiF2zM4FEbV6CAveO1IgIV9SVrmz37GsRcY9w6al8TaLtR+2d15teViLY+p
+         xSYA==
+X-Forwarded-Encrypted: i=1; AJvYcCWH2cUJukbq1a/apc8BwEbpPlgIW5Gk+vH7nGvFPJW4VNhImDm2tf8qEs/1BfaNNhh87WnBY4olKMI8nuY=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YyWuqrMQ9NfdG8M3nfP9cujOF0WKarMzPoMBVVitIsJtuR/bKs0
+	rjQ5KsCl62R84J7QCzw4oD0i8SGU/UeqeeFci7bEanGDMvldZOk+88pAl7Akh2E4ytH+3dtCnp3
+	D
+X-Gm-Gg: ASbGncspV+P0hPg0IzWVaXnr3fTHhp59jfmx8LYGGbCyIRNGto4h0JJKgcaY2oznZHD
+	tlbqhIqtqYEj2vlrcLf7StzzDZbl4WCqCb56Gl7412zKbTpigdylUiCvXoQ/N/UjDuRA8OT0Z2g
+	zrChMqsq/MpgDcCByu+j0OJScRfTPSAtIyuPA6cPBN2tjPlk3Lx0Nbr2fhCJPK6h23aOwspOjD+
+	6Uy39D/ASkV0l7HmiEcX2V9x5++c+rKJQAzcO/pBPT6uXyzFJCVbv6picndzXoIaY5cyzs=
+X-Google-Smtp-Source: AGHT+IEdCvvSTHki1HBY1hvoomwNRHzgxnNFGIdd/OSiqXX14IIWxhyjrb3+mAlQ0GJm/I8NLHN26g==
+X-Received: by 2002:a5d:59a7:0:b0:385:f909:eb33 with SMTP id ffacd0b85a97d-38a87308df0mr12042682f8f.10.1737018012817;
+        Thu, 16 Jan 2025 01:00:12 -0800 (PST)
+Received: from krzk-bin.. ([178.197.223.165])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4388ebdefe0sm7277525e9.15.2025.01.16.01.00.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jan 2025 01:00:12 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] ARM: dts: aspeed: Align GPIO hog name with bindings
+Date: Thu, 16 Jan 2025 10:00:09 +0100
+Message-ID: <20250116090009.87338-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -191,44 +94,952 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB5134.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e20ceca-949a-42d7-83b2-08dd351c3196
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2025 04:22:16.3423
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vKTu6znj+boVCyQdDoABqJvVd5HG+Qm1kotqWI9G2g5F417AfR8BgCj3z9YXiJVWyRsqzu040EMm6w+LcZB2/1L7sWOsFMfyL/zjWUsodKM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR06MB6602
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
-	SPF_PASS autolearn=disabled version=4.0.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+	WEIRD_QUOTING autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-SGkgQW5kcmV3DQoNCj4gPg0KPiA+IFBlcmhhcHMgd2Ugd2lsbCBrZWVwIHVzaW5nICJyZ21paSIN
-Cj4gDQo+IE5vLiBJdCBpcyB3cm9uZy4NCj4gDQo+ID4gVGhlIHJlYXNvbiBpcyB3ZSBjYW5ub3Qg
-YmUgc3VyZSBhbGwgUEhZcyBoYXZlIHN1cHBvcnQgZm9yIHBoeS1tb2RlDQo+IHByb3BlcnR5Lg0K
-PiA+IFdlIHdpbGwgcmVmZXIgdG8gdGhlIG90aGVyIE1BQ3MgYW5kIFBIWXMgZHJpdmVyIGFib3V0
-IHBoeS1tb2RlIGFuZA0KPiA+IHJ4L3R4LWludGVybmFsLWRlbGF5LXBzIHByb3BlcnRpZXMgaG93
-IHRoZXkgaW1wbGVtZW50Lg0KPiA+DQo+ID4gQ3VycmVudGx5LCB3ZSB3aWxsIHBsYW4gdG8gaW1w
-bGVtZW50IFJHTUlJIGRlbGF5IGluIGZ0Z21hYzEwMCBkcml2ZXINCj4gPiBiYXNlZCBvbiBldGhl
-cm5ldC1jb250cm9sbGVyLnlhbWwuDQo+ID4NCj4gPiBBdCBzYW1lIHRpbWUsIHdlIHdpbGwgdGhp
-bmsgaG93IHRvIGNvbmZpZ3VyZSB0aGVzZSBwaHktbW9kZSAicmdtaWktcnhpZCIsDQo+ICJyZ21p
-aS10eGlkIg0KPiA+IGFuZCAicmdtaWktaWQgaW4gTUFDIGRyaXZlci4NCj4gDQo+IEkgYWxyZWFk
-eSBleHBsYWluIGhvdyB0aGlzIHdvcmtzIG9uY2UuIFBsZWFzZSByZWFkIHRoaXMgdGhyZWFkIGFn
-YWluLi4uLiBUaGUNCj4gTUFDIGNhbiBhcHBseSB0aGUgZGVsYXlzLCBidXQgaXQgbXVzdCBtYXNr
-IHRoZSBwaHktbW9kZSBpdCBwYXNzZXMgdG8gdGhlIFBIWS4NCg0KWWVzLiBJIGhhdmUgcmVhZCB0
-aGVzZSBtYWlscy4NCg0KSSB1bmRlcnN0YW5kIHdoYXQgeW91IG1lYW4uDQoicmdtaWkiOiBkZWxh
-eSBvbiBQQ0IsIG5vdCBNQUMgb3IgUEhZLg0KInJnbWlpLWlkIjogZGVsYXkgb24gTUFDIG9yIFBI
-WSwgbm90IFBDQi4NCg0KZnRnbWFjMTAwIGRyaXZlciBnZXRzIHBoeSBkcml2ZXIgaGFuZGxlIGZy
-b20gb2ZfcGh5X2dldF9hbmRfY29ubmVjdCgpLCBpdCB3aWxsIHBhc3MgdGhlIHBoeS1tb2RlIHRv
-DQpwaHkgZHJpdmVyIGZyb20gdGhlIG5vZGUgb2YgbWFjIGR0cy4NClRoZXJlZm9yZSwgSSB1c2Ug
-InJnbWlpLWlkIiBhbmQgdGhlIHBoeSB3aWxsIGVuYWJsZSB0eC9yeCBpbnRlcm5hbCBkZWxheS4N
-CklmIEkgdXNlICJyZ21paS1pZCIgYW5kIGNvbmZpZ3VyZSB0aGUgUkdNSUkgZGVsYXkgaW4gZnRn
-bWFjMTAwIGRyaXZlciwgSSBjYW5ub3QgcGFzcyB0aGUgcGh5LW1vZGUgdG8gDQpwaHkgZHJpdmVy
-Lg0KTWF5IEkgYmUgY29ycmVjdD8NCg0KQmFzZWQgb24gZXRoZXJuZWwtY29udHJvbGxlci55YW1s
-LCBtYXliZSBuZWVkIHRvIGFkanVzdCB0aGUgZGVzY3JpcHRpb24gYWJvdXQgcGh5LW1vZGUgaW4g
-dGhpcyBmaWxlIGZpcnN0Pw0KDQpUaGFua3MsDQpKYWNreQ0KDQo=
+Bindings expect GPIO hog names to end with 'hog' suffix, so correct it
+to fix dtbs_check warnings like:
+
+  aspeed-bmc-lenovo-hr630.dtb: pin_gpio_b5: $nodename:0: 'pin_gpio_b5' does not match '^.+-hog(-[0-9]+)?$'
+
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ .../dts/aspeed/aspeed-bmc-ampere-mtjade.dts   |  2 +-
+ .../aspeed-bmc-arm-stardragon4800-rep2.dts    |  4 +-
+ .../aspeed/aspeed-bmc-asrock-e3c246d4i.dts    |  2 +-
+ .../dts/aspeed/aspeed-bmc-bytedance-g220a.dts |  4 +-
+ .../dts/aspeed/aspeed-bmc-delta-ahe50dc.dts   |  2 +-
+ .../dts/aspeed/aspeed-bmc-ibm-bonnell.dts     |  2 +-
+ .../dts/aspeed/aspeed-bmc-ibm-everest.dts     |  2 +-
+ .../dts/aspeed/aspeed-bmc-ibm-rainier.dts     |  4 +-
+ .../dts/aspeed/aspeed-bmc-lenovo-hr630.dts    | 46 ++++++-------
+ .../dts/aspeed/aspeed-bmc-lenovo-hr855xg2.dts | 68 +++++++++----------
+ .../dts/aspeed/aspeed-bmc-opp-lanyang.dts     | 14 ++--
+ .../boot/dts/aspeed/aspeed-bmc-opp-nicole.dts | 10 +--
+ .../dts/aspeed/aspeed-bmc-opp-palmetto.dts    | 40 +++++------
+ .../dts/aspeed/aspeed-bmc-opp-romulus.dts     |  6 +-
+ .../boot/dts/aspeed/aspeed-bmc-opp-zaius.dts  |  8 +--
+ 15 files changed, 107 insertions(+), 107 deletions(-)
+
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dts
+index 31c5d319aa0a..263702599767 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ampere-mtjade.dts
+@@ -825,7 +825,7 @@ ocp-aux-pwren-hog {
+ 		line-name = "ocp-aux-pwren";
+ 	};
+ 
+-	bmc-ready {
++	bmc-ready-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(AC, 5) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dts
+index 29c68c37e7f5..9605ccade155 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-arm-stardragon4800-rep2.dts
+@@ -201,13 +201,13 @@ &gfx {
+ };
+ 
+ &gpio {
+-	pin_gpio_c7 {
++	pin-gpio-c7-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(C, 7) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "BIOS_SPI_MUX_S";
+ 	};
+-	pin_gpio_d1 {
++	pin-gpio-d1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(D, 1) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dts
+index bb2e6ef609af..93190f4e696c 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-e3c246d4i.dts
+@@ -182,7 +182,7 @@ &gpio {
+ 			"CK_33M_BMC", "LFRAME", "SERIRQ", "S_PLTRST";
+ 
+ 	/* Assert BMC_READY so BIOS doesn't sit around waiting for it */
+-	bmc-ready {
++	bmc-ready-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(J, 0) GPIO_ACTIVE_LOW>;
+ 		output-high;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dts
+index 3f03a198a1a8..54a5509b04f1 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-bytedance-g220a.dts
+@@ -915,14 +915,14 @@ fan@5 {
+ };
+ 
+ &gpio {
+-	pin_gpio_i3 {
++	pin-gpio-i3-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(I, 3) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "NCSI_BMC_R_SEL";
+ 	};
+ 
+-	pin_gpio_b6 {
++	pin-gpio-b6-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(B, 6) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts
+index b6bfdaea08e6..cce8d0416dc8 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-delta-ahe50dc.dts
+@@ -395,7 +395,7 @@ &gpio {
+ 	 * back to one causes a power output glitch, so install a hog to keep
+ 	 * it at one as a failsafe to ensure nothing accidentally touches it.
+ 	 */
+-	doom-guardrail {
++	doom-guardrail-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(E, 0) GPIO_ACTIVE_LOW>;
+ 		output-low;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts
+index 7364adc6b80d..2f5d4075a64a 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts
+@@ -155,7 +155,7 @@ &gpio0 {
+ 		/*Y0-Y7*/	"","","","","","","","",
+ 		/*Z0-Z7*/	"","","","","","","","";
+ 
+-	usb_power {
++	usb-power-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(O, 3) GPIO_ACTIVE_LOW>;
+ 		output-high;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
+index 9961508ee872..4d9e2cd11f44 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
+@@ -312,7 +312,7 @@ &gpio0 {
+ 	/*Y0-Y7*/	"","","","","","","","",
+ 	/*Z0-Z7*/   "","","","","","","","";
+ 
+-	usb_power {
++	usb-power-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(O, 3) GPIO_ACTIVE_LOW>;
+ 		output-high;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts
+index a4aec3010456..836b90dc7014 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts
+@@ -224,14 +224,14 @@ &gpio0 {
+ 	/*Y0-Y7*/	"","","","","","","","",
+ 	/*Z0-Z7*/	"","","","","","","","";
+ 
+-	i2c3_mux_oe_n {
++	i2c3-mux-oe-n-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(G, 6) GPIO_ACTIVE_LOW>;
+ 		output-high;
+ 		line-name = "I2C3_MUX_OE_N";
+ 	};
+ 
+-	usb_power {
++	usb-power-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(O, 3) GPIO_ACTIVE_LOW>;
+ 		output-high;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-lenovo-hr630.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-lenovo-hr630.dts
+index ddbcbc64e235..4ad0f44af1ab 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-lenovo-hr630.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-lenovo-hr630.dts
+@@ -405,161 +405,161 @@ fan@13 {
+ 
+ &gpio {
+ 
+-	pin_gpio_b5 {
++	pin-gpio-b5-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(B, 5) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "IRQ_BMC_PCH_SMI_LPC_N";
+ 	};
+ 
+-	pin_gpio_f0 {
++	pin-gpio-f0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 0) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "IRQ_BMC_PCH_NMI_R";
+ 	};
+ 
+-	pin_gpio_f3 {
++	pin-gpio-f3-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 3) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "I2C_BUS0_RST_OUT_N";
+ 	};
+ 
+-	pin_gpio_f4 {
++	pin-gpio-f4-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 4) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "FM_SKT0_FAULT_LED";
+ 	};
+ 
+-	pin_gpio_f5 {
++	pin-gpio-f5-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 5) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "FM_SKT1_FAULT_LED";
+ 	};
+ 
+-	pin_gpio_g4 {
++	pin-gpio-g4-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(G, 4) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "FAN_PWR_CTL_N";
+ 	};
+ 
+-	pin_gpio_g7 {
++	pin-gpio-g7-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(G, 7) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "RST_BMC_PCIE_I2CMUX_N";
+ 	};
+ 
+-	pin_gpio_h2 {
++	pin-gpio-h2-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(H, 2) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "PSU1_FFS_N_R";
+ 	};
+ 
+-	pin_gpio_h3 {
++	pin-gpio-h3-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(H, 3) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "PSU2_FFS_N_R";
+ 	};
+ 
+-	pin_gpio_i3 {
++	pin-gpio-i3-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(I, 3) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_INTRUDED_COVER";
+ 	};
+ 
+-	pin_gpio_j2 {
++	pin-gpio-j2-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(J, 2) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_BIOS_UPDATE_N";
+ 	};
+ 
+-	pin_gpio_j3 {
++	pin-gpio-j3-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(J, 3) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "RST_BMC_HDD_I2CMUX_N";
+ 	};
+ 
+-	pin_gpio_s2 {
++	pin-gpio-s2-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(S, 2) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_VGA_SW";
+ 	};
+ 
+-	pin_gpio_s4 {
++	pin-gpio-s4-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(S, 4) GPIO_ACTIVE_HIGH>;
+ 		output;
+ 		line-name = "VBAT_EN_N";
+ 	};
+ 
+-	pin_gpio_s6 {
++	pin-gpio-s6-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(S, 6) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "PU_BMC_GPIOS6";
+ 	};
+ 
+-	pin_gpio_y0 {
++	pin-gpio-y0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(Y, 0) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "BMC_NCSI_MUX_CTL_S0";
+ 	};
+ 
+-	pin_gpio_y1 {
++	pin-gpio-y1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(Y, 1) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "BMC_NCSI_MUX_CTL_S1";
+ 	};
+ 
+-	pin_gpio_z0 {
++	pin-gpio-z0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(Z, 0) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "I2C_RISER2_INT_N";
+ 	};
+ 
+-	pin_gpio_z2 {
++	pin-gpio-z2-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(Z, 2) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "I2C_RISER2_RESET_N";
+ 	};
+ 
+-	pin_gpio_z3 {
++	pin-gpio-z3-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(Z, 3) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "FM_BMC_PCH_SCI_LPC_N";
+ 	};
+ 
+-	pin_gpio_z7 {
++	pin-gpio-z7-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(Z, 7) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "BMC_POST_CMPLT_N";
+ 	};
+ 
+-	pin_gpio_aa0 {
++	pin-gpio-aa0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(AA, 0) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "HOST_BMC_USB_SEL";
+ 	};
+ 
+-	pin_gpio_aa5 {
++	pin-gpio-aa5-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(AA, 5) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-lenovo-hr855xg2.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-lenovo-hr855xg2.dts
+index 6045b60b80da..de61eac54585 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-lenovo-hr855xg2.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-lenovo-hr855xg2.dts
+@@ -425,238 +425,238 @@ fan@16 {
+ 
+ &gpio {
+ 
+-	pin_gpio_a1 {
++	pin-gpio-a1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(A, 1) GPIO_ACTIVE_LOW>;
+ 		output-high;
+ 		line-name = "BMC_EMMC_RST_N";
+ 	};
+ 
+-	pin_gpio_a3 {
++	pin-gpio-a3-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(A, 3) GPIO_ACTIVE_LOW>;
+ 		output-high;
+ 		line-name = "PCH_PWROK_BMC_FPGA";
+ 	};
+ 
+-	pin_gpio_b5 {
++	pin-gpio-b5-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(B, 5) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "IRQ_BMC_PCH_SMI_LPC_N";
+ 	};
+ 
+-	pin_gpio_b7 {
++	pin-gpio-b7-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(B, 7) GPIO_ACTIVE_LOW>;
+ 		output-low;
+ 		line-name = "CPU_SM_WP";
+ 	};
+ 
+-	pin_gpio_e0 {
++	pin-gpio-e0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(E, 0) GPIO_ACTIVE_HIGH>;
+ 		input;
+ 		line-name = "PDB_PSU_SEL";
+ 	};
+ 
+-	pin_gpio_e2 {
++	pin-gpio-e2-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(E, 2) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "LOCATOR_LED_N";
+ 	};
+ 
+-	pin_gpio_e5 {
++	pin-gpio-e5-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(E, 5) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "FM_BMC_DBP_PRESENT_R1_N";
+ 	};
+ 
+-	pin_gpio_e6 {
++	pin-gpio-e6-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(E, 6) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_ME_SECURITY_OVERRIDE_N";
+ 	};
+ 
+-	pin_gpio_f0 {
++	pin-gpio-f0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 0) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "IRQ_BMC_PCH_NMI_R";
+ 	};
+ 
+-	pin_gpio_f1 {
++	pin-gpio-f1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 1) GPIO_ACTIVE_HIGH>;
+ 		input;
+ 		line-name = "CPU2_PROCDIS_BMC_N";
+ 	};
+ 
+-	pin_gpio_f2 {
++	pin-gpio-f2-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 2) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "RM_THROTTLE_EN_N";
+ 	};
+ 
+-	pin_gpio_f3 {
++	pin-gpio-f3-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 3) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "FM_PMBUS_ALERT_B_EN";
+ 	};
+ 
+-	pin_gpio_f4 {
++	pin-gpio-f4-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 4) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_FORCE_NM_THROTTLE_N";
+ 	};
+ 
+-	pin_gpio_f6 {
++	pin-gpio-f6-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 6) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "FM_BMC_CPU_PWR_DEBUG_N";
+ 	};
+ 
+-	pin_gpio_g7 {
++	pin-gpio-g7-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(G, 7) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_PCIE_I2C_MUX_RST_N";
+ 	};
+ 
+-	pin_gpio_h6 {
++	pin-gpio-h6-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(H, 6) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "FM_BMC_DBP_PRESENT_R2_N";
+ 	};
+ 
+-	pin_gpio_i3 {
++	pin-gpio-i3-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(I, 3) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "SPI_BMC_BIOS_WP_N";
+ 	};
+ 
+-	pin_gpio_j1 {
++	pin-gpio-j1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(J, 1) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_USB_SEL";
+ 	};
+ 
+-	pin_gpio_j2 {
++	pin-gpio-j2-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(J, 2) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "PDB_SMB_RST_N";
+ 	};
+ 
+-	pin_gpio_j3 {
++	pin-gpio-j3-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(J, 3) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "SPI_BMC_BIOS_HOLD_N";
+ 	};
+ 
+-	pin_gpio_l0 {
++	pin-gpio-l0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(L, 0) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "PDB_FAN_TACH_SEL";
+ 	};
+ 
+-	pin_gpio_l1 {
++	pin-gpio-l1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(L, 1) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "SYS_RESET_BMC_FPGA_N";
+ 	};
+ 
+-	pin_gpio_l4 {
++	pin-gpio-l4-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(L, 4) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "FM_EFUSE_FAN_G1_EN";
+ 	};
+ 
+-	pin_gpio_l5 {
++	pin-gpio-l5-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(L, 5) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "FM_EFUSE_FAN_G2_EN";
+ 	};
+ 
+-	pin_gpio_r6 {
++	pin-gpio-r6-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(R, 6) GPIO_ACTIVE_HIGH>;
+ 		input;
+ 		line-name = "CPU3_PROCDIS_BMC_N";
+ 	};
+ 
+-	pin_gpio_r7 {
++	pin-gpio-r7-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(R, 7) GPIO_ACTIVE_HIGH>;
+ 		input;
+ 		line-name = "CPU4_PROCDIS_BMC_N";
+ 	};
+ 
+-	pin_gpio_s1 {
++	pin-gpio-s1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(S, 1) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "DBP_SYSPWROK_BMC";
+ 	};
+ 
+-	pin_gpio_s2 {
++	pin-gpio-s2-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(S, 2) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "PCH_RST_RSMRST_N";
+ 	};
+ 
+-	pin_gpio_s6 {
++	pin-gpio-s6-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(S, 6) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_HW_STRAP_5";
+ 	};
+ 
+-	pin_gpio_z3 {
++	pin-gpio-z3-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(Z, 3) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "FM_BMC_PCH_SCI_LPC_N";
+ 	};
+ 
+-	pin_gpio_aa0 {
++	pin-gpio-aa0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(AA, 0) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "FW_PSU_ALERT_EN_N";
+ 	};
+ 
+-	pin_gpio_aa4 {
++	pin-gpio-aa4-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(AA, 4) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "DBP_CPU_PREQ_N";
+ 	};
+ 
+-	pin_gpio_ab3 {
++	pin-gpio-ab3-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(AB, 3) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "BMC_WDTRST";
+ 	};
+ 
+-	pin_gpio_ac6 {
++	pin-gpio-ac6-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(AC, 6) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dts
+index 370738572a55..b875b6b45083 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dts
+@@ -264,49 +264,49 @@ &gfx {
+ };
+ 
+ &gpio {
+-	pin_gpio_b0 {
++	pin-gpio-b0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(B, 0) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_HDD1_PWR_EN";
+ 	};
+ 
+-	pin_gpio_b5 {
++	pin-gpio-b5-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(B, 5) GPIO_ACTIVE_HIGH>;
+ 		input;
+ 		line-name = "BMC_USB1_OCI2";
+ 	};
+ 
+-	pin_gpio_h5 {
++	pin-gpio-h5-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(H, 5) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_CP0_PERST_ENABLE_R";
+ 	};
+ 
+-	pin_gpio_z2 {
++	pin-gpio-z2-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(Z, 2) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "RST_PCA9546_U177_N";
+ 	};
+ 
+-	pin_gpio_aa6 {
++	pin-gpio-aa6-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(AA, 6) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_CP0_RESET_N";
+ 	};
+ 
+-	pin_gpio_aa7 {
++	pin-gpio-aa7-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(AA, 7) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_TPM_RESET_N";
+ 	};
+ 
+-	pin_gpio_ab0 {
++	pin-gpio-ab0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(AB, 0) GPIO_ACTIVE_LOW>;
+ 		output-high;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dts
+index b1d0ff85d397..1a7c61750d0d 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dts
+@@ -248,27 +248,27 @@ &gpio {
+ 	/*AB0-AB7*/	"","","","","","","","",
+ 	/*AC0-AC7*/	"","","","","","","","";
+ 
+-	func_mode0 {
++	func-mode0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(D, 3) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 	};
+-	func_mode1 {
++	func-mode1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(D, 4) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 	};
+-	func_mode2 {
++	func-mode2-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(D, 5) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 	};
+-	seq_cont {
++	seq-cont-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(S, 7) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 	};
+-	ncsi_cfg {
++	ncsi-cfg-hog {
+ 		gpio-hog;
+ 		input;
+ 		gpios = <ASPEED_GPIO(E, 1) GPIO_ACTIVE_HIGH>;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dts
+index 45631b47a7b3..123da82c04d5 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dts
+@@ -209,140 +209,140 @@ &lpc_ctrl {
+ };
+ 
+ &gpio {
+-	pin_func_mode0 {
++	pin-func-mode0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(C, 4) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "func_mode0";
+ 	};
+ 
+-	pin_func_mode1 {
++	pin-func-mode1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(C, 5)  GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "func_mode1";
+ 	};
+ 
+-	pin_func_mode2 {
++	pin-func-mode2-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(C, 6) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 		line-name = "func_mode2";
+ 	};
+ 
+-	pin_gpio_a0 {
++	pin-gpio-a0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(A, 0) GPIO_ACTIVE_HIGH>;
+ 		input;
+ 		line-name = "BMC_FAN_RESERVED_N";
+ 	};
+ 
+-	pin_gpio_a1 {
++	pin-gpio-a1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(A, 1) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "APSS_WDT_N";
+ 	};
+ 
+-	pin_gpio_b1 {
++	pin-gpio-b1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(B, 1) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "APSS_BOOT_MODE";
+ 	};
+ 
+-	pin_gpio_b2 {
++	pin-gpio-b2-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(B, 2) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "APSS_RESET_N";
+ 	};
+ 
+-	pin_gpio_b7 {
++	pin-gpio-b7-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(B, 7) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "SPIVID_STBY_RESET_N";
+ 	};
+ 
+-	pin_gpio_d1 {
++	pin-gpio-d1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(D, 1) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_POWER_UP";
+ 	};
+ 
+-	pin_gpio_f1 {
++	pin-gpio-f1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 1) GPIO_ACTIVE_HIGH>;
+ 		input;
+ 		line-name = "BMC_BATTERY_TEST";
+ 	};
+ 
+-	pin_gpio_f4 {
++	pin-gpio-f4-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 4) GPIO_ACTIVE_HIGH>;
+ 		input;
+ 		line-name = "AST_HW_FAULT_N";
+ 	};
+ 
+-	pin_gpio_f5 {
++	pin-gpio-f5-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 5) GPIO_ACTIVE_HIGH>;
+ 		input;
+ 		line-name = "AST_SYS_FAULT_N";
+ 	};
+ 
+-	pin_gpio_f7 {
++	pin-gpio-f7-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(F, 7) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_FULL_SPEED_N";
+ 	};
+ 
+-	pin_gpio_g3 {
++	pin-gpio-g3-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(G, 3) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "BMC_FAN_ERROR_N";
+ 	};
+ 
+-	pin_gpio_g4 {
++	pin-gpio-g4-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(G, 4) GPIO_ACTIVE_HIGH>;
+ 		input;
+ 		line-name = "BMC_WDT_RST1_P";
+ 	};
+ 
+-	pin_gpio_g5 {
++	pin-gpio-g5-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(G, 5) GPIO_ACTIVE_HIGH>;
+ 		input;
+ 		line-name = "BMC_WDT_RST2_P";
+ 	};
+ 
+-	pin_gpio_h0 {
++	pin-gpio-h0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(H, 0) GPIO_ACTIVE_HIGH>;
+ 		input;
+ 		line-name = "PE_SLOT_TEST_EN_N";
+ 	};
+ 
+-	pin_gpio_h1 {
++	pin-gpio-h1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(H, 1) GPIO_ACTIVE_HIGH>;
+ 		input;
+ 		line-name = "BMC_RTCRST_N";
+ 	};
+ 
+-	pin_gpio_h2 {
++	pin-gpio-h2-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(H, 2) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 		line-name = "SYS_PWROK_BMC";
+ 	};
+ 
+-	pin_gpio_h7 {
++	pin-gpio-h7-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(H, 7) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dts
+index 24df24ad9c80..e6b383f6e977 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dts
+@@ -263,17 +263,17 @@ &gpio {
+ 	/*AB0-AB7*/	"","","","","","","","",
+ 	/*AC0-AC7*/	"","","","","","","","";
+ 
+-	nic_func_mode0 {
++	nic-func-mode0-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(D, 3) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 	};
+-	nic_func_mode1 {
++	nic-func-mode1-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(D, 4) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 	};
+-	seq_cont {
++	seq-cont-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(S, 7) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dts
+index 9904f0a58cfa..6ac7b0aa6e54 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dts
+@@ -509,25 +509,25 @@ &gpio {
+ 	/*AB0-AB7*/	"","","","","","","","",
+ 	/*AC0-AC7*/	"","","","","","","","";
+ 
+-	line_iso_u146_en {
++	line-iso-u146-en-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(O, 4) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 	};
+ 
+-	ncsi_mux_en_n {
++	ncsi-mux-en-n-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(P, 0) GPIO_ACTIVE_HIGH>;
+ 		output-low;
+ 	};
+ 
+-	line_bmc_i2c2_sw_rst_n {
++	line-bmc-i2c2-sw-rst-n-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(P, 1) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+ 	};
+ 
+-	line_bmc_i2c5_sw_rst_n {
++	line-bmc-i2c5-sw-rst-n-hog {
+ 		gpio-hog;
+ 		gpios = <ASPEED_GPIO(P, 3) GPIO_ACTIVE_HIGH>;
+ 		output-high;
+-- 
+2.43.0
+
 
