@@ -1,56 +1,42 @@
-Return-Path: <linux-aspeed+bounces-543-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-541-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2941A19B7B
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EAB3A19B79
 	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jan 2025 00:31:23 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YdgLv4kzdz2yZN;
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YdgLv0wb5z2yQL;
 	Thu, 23 Jan 2025 10:31:19 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=117.135.210.2
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1737448720;
-	cv=none; b=CrFpaendcYV8gNfNB+ZbvwU/vASFZIodKZQjqQCK1D0FWdFEK9lxFThTiRiHI7dQQG35MrN8vcG0TMfyaIxGIEdXlaRyd2KK3Ul+N4XWFyfL9CMeOUwlECdkDAxxK8JeseWQ5JE76iYVxujxPdHG1OYY3dI8sfPhIU0BIJFdDlNJ6l+88k1aCLbQlp2PHlaw6e7Nad/gELs9oCUS5f223eZ5K0EKkFw54gS6D7sDiZmzxA1TCtryct5LhbC1zvg+8QUCsatP+Q8tOepw5fX+NRXCT/2VTP7tZoWjzSyL3w3itATUo8WHuKmy6Ve9UJNDn5FE2nJtOFqL3K0LZASdOQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=220.197.31.2
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1737514113;
+	cv=none; b=BZZqZ/MxqE6y8odP+KKcRWHCcQWEnL+4yS8UD2WPa3Dl57B/UZLsyTnHUTadn+UVCZUnyHZEa5IvdaPPgTYsIo0T6gHiqjzIbt6Il5XcSulRk1XGR6d8axMTbWsdE3O7SQ8jbR+704XzfZdA5HDc+6qs9r8UmfoIDm7fVmNskLUibM70zw6I+cVGGtCw5sjlXIM+A0F5fbr7W8c3T9CxZbEe8pPnEITasEPG6Rk1arQ1g8Y0tjejt0uk/GQZyJ5OHHIsIXgUClXcSM3Ky2K72v3pK8BBGdr0VhyPTXX02nF095qN+C9K7MaQy+3gG6CBlMeG+WxJWflmeqsa0zi3Ww==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1737448720; c=relaxed/relaxed;
-	bh=pDSeFk+LOdLdoQAIClpWcVVVNDGjKxQEEF+U/Jv1pBA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WD3EnB2LNYXD26VtVcJtUVKbhnWAcOjLRyEhISkytBk3q3OjWVsncgAqou2WGd2kCCNx+KhnY7Y0qVGiNtA5i+suP/y67sjs9EmYBsP+xXmAoxs4yIM6f2alXcSwOB3Rl3fZgOchxUlkCdTGnlVe+4XPDV8WZRgnfbxiut2aiWl7pzypAPmm2yw0PZIh0mB6vidTaGzfttF8xzu2V7Sp9NWcyvWiBKartfPBIZW9v7HUyuZs1lUCGskumoVNn8BbpB8A2d10yLRiIENM2lLxqq/JhfIg6bOcsIkkr/bYsEz2uvEI1MBz1rpYgAYqAq8CWzGqS41lwnpiaE4s2Dd2jg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=163.com; dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=ahj6IIUZ; dkim-atps=neutral; spf=pass (client-ip=117.135.210.2; helo=m16.mail.163.com; envelope-from=oushixiong1025@163.com; receiver=lists.ozlabs.org) smtp.mailfrom=163.com
+	t=1737514113; c=relaxed/relaxed;
+	bh=5yBT85ljG1wrfV6S+5drF9x61f+zj54LsDIH5RHI2Yg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b8Cmisn9yq3VIqPK3jmttggmDO7HYjcSseqTcmehGercyXK6g77Su3hERuQ3N2B4PdyBBJs2euKkerDGl0zPrR+K33MlRwrinwgtN0IUBEbeYbbUVqXGaznyuaovy3kv/fzryu0YQsgkrxE4C52iM4VFtRnzFFLH2aE7Gpl1/3TlD/U+WUzhuhHvWokX2Ji8mLOjU3b4tIIm4oEddeD7TLCGlVrEPdd58TtRzBtK6d/LmWpimqEBK7rCOAha2uqD8QOnroAYqpEUWs4bIsWIQBo8Sr5oFqGN7JeGqGbXEZRbtl2TOZOgnyONodpl1bjTZlnzXAoSMbIVw00pPvPmWg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=163.com; dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=DjV9xUi3; dkim-atps=neutral; spf=pass (client-ip=220.197.31.2; helo=m16.mail.163.com; envelope-from=oushixiong1025@163.com; receiver=lists.ozlabs.org) smtp.mailfrom=163.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=ahj6IIUZ;
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=DjV9xUi3;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=163.com (client-ip=117.135.210.2; helo=m16.mail.163.com; envelope-from=oushixiong1025@163.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 1830 seconds by postgrey-1.37 at boromir; Tue, 21 Jan 2025 19:38:37 AEDT
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YcgbK4yVBz2yFD
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Jan 2025 19:38:35 +1100 (AEDT)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=163.com (client-ip=220.197.31.2; helo=m16.mail.163.com; envelope-from=oushixiong1025@163.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 68168 seconds by postgrey-1.37 at boromir; Wed, 22 Jan 2025 13:48:31 AEDT
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Yd7mv1YF8z2xHT
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Jan 2025 13:48:28 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=pDSeF
-	k+LOdLdoQAIClpWcVVVNDGjKxQEEF+U/Jv1pBA=; b=ahj6IIUZMKJCkYc/gVT5k
-	2LojJslh/h9nEiHrrOLFgAZ4OO091ZLdH+d/wefRgNJOP5vs0XtZ7FvLJ0+wHwdW
-	GYHtob1Pryh43Zsk7BBsPMfInpZbTiZyDlrTeVYgJSrP08yDHmz08cmy3BJgStoV
-	iza9kQas21cbXJmklBsd9k=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wD3TwjcUY9n605cHg--.59188S2;
-	Tue, 21 Jan 2025 15:50:53 +0800 (CST)
-From: oushixiong1025@163.com
-To: Joel Stanley <joel@jms.id.au>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	linux-aspeed@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH] drm/aspeed: Use devm_platform_get_and_ioremap_resource()
-Date: Tue, 21 Jan 2025 15:50:41 +0800
-Message-Id: <20250121075041.201599-1-oushixiong1025@163.com>
-X-Mailer: git-send-email 2.25.1
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From:
+	Content-Type; bh=5yBT85ljG1wrfV6S+5drF9x61f+zj54LsDIH5RHI2Yg=;
+	b=DjV9xUi3F6BvtjRuZE3J9ks4LoIiE2H4D1xFGx9byXRRYU+P5Oc5C4cFywYPp7
+	3d47k7x3bwimjr3CxwNHSIWpGmdEFnTlBQGrDVMTtp76B89+kQkoe/r2ggB5gIPu
+	gNNQaE8TvGHdSGdCVrGx5w0iHwifoKJHBC3s8POakh1mI=
+Received: from [10.42.20.80] (unknown [])
+	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wAnej0CXJBn0GgDHw--.39692S2;
+	Wed, 22 Jan 2025 10:46:27 +0800 (CST)
+Message-ID: <42a2e30f-ce1a-19ae-6886-f11a8a58eea3@163.com>
+Date: Wed, 22 Jan 2025 10:46:25 +0800
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -63,42 +49,49 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] drm/aspeed: Use devm_platform_get_and_ioremap_resource()
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Joel Stanley <joel@jms.id.au>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, linux-aspeed@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
+References: <20250121075041.201599-1-oushixiong1025@163.com>
+ <b5rhfo6q6ko4vf2vubkcma4v7dnpxruh7peyqav6tszj4sg6ee@mzjc543jsujn>
+From: Shixiong Ou <oushixiong1025@163.com>
+In-Reply-To: <b5rhfo6q6ko4vf2vubkcma4v7dnpxruh7peyqav6tszj4sg6ee@mzjc543jsujn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3TwjcUY9n605cHg--.59188S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZFW3uw4UJr1kAFyrJFWxtFb_yoW3KFbE9F
-	48ursxXFW7Aryqg3y2v3ZxCFyIkF9a9rW8GF18tayFq3W7Z34DX34jgr1vqr1a9w4fAF98
-	t3WUJr13A3s7CjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbqNtDUUUUU==
+X-CM-TRANSID:_____wAnej0CXJBn0GgDHw--.39692S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUjku4DUUUU
 X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXQ3bD2ePUAodpQAAsO
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXQfbD2ePkETEKwABsc
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=disabled
-	version=4.0.0
+	NICE_REPLY_A,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-From: Shixiong Ou <oushixiong@kylinos.cn>
 
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
----
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+在 2025/1/21 18:16, Dmitry Baryshkov 写道:
+> On Tue, Jan 21, 2025 at 03:50:41PM +0800, oushixiong1025@163.com wrote:
+>> From: Shixiong Ou <oushixiong@kylinos.cn>
+>>
+> Missing commit message
+I will add commit message on v2, thanks.
+>> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+> This doesn't match your email address, so SoB is missing.
 
-diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-index a7a6b70220eb..33f81b53771d 100644
---- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-+++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
-@@ -146,8 +146,7 @@ static int aspeed_gfx_load(struct drm_device *drm)
- 	struct resource *res;
- 	int ret;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	priv->base = devm_ioremap_resource(drm->dev, res);
-+	priv->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(priv->base))
- 		return PTR_ERR(priv->base);
- 
--- 
-2.25.1
+The SMAP service for my email <oushixiong@kylinos.cn>  is not working 
+now, so I sent this patch from my alternate mailbox.
+
+Shixiong Ou <oushixiong@kylinos.cn> and Shixiong Ou 
+<oushixiong1025@163.com> are both my email addresses.
 
 
