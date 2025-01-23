@@ -1,84 +1,63 @@
-Return-Path: <linux-aspeed+bounces-544-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-546-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314A9A19B7C
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jan 2025 00:31:25 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB253A1AC83
+	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Jan 2025 23:12:17 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YdgLv5bqgz2yjR;
-	Thu, 23 Jan 2025 10:31:19 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YfFYB61qZz2ytN;
+	Fri, 24 Jan 2025 09:12:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2001:4b98:dc4:8::228"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1737554755;
-	cv=none; b=QA2Vv8FxnnP7sXxYbioTilzfTCyeMRvHCu/vYhH15YuiMc+scHniJrM/VjfHT8g3eZ9kjdjo5wukSWZGts91NIp4HN0/qHmOD58e1M3GoOKKXcGEP0/l1yaxXa2W1soyDz1P/PAWwSlKBUU1aM2BdjvbHMpHbrOMjtZNggsKvyWKcMOT88v6+NzWTlH0+kqLPTWAvY8EGnxN7p9vcg1oDQ+E8QnNVbEv63HBETHAceGDj6DQGQSmUGa2cOgxqIcrGVl+w1GJGfdWUyKjHHUgfFMExq+g2Hgow3lY4Y+UQy98VcTjZYppd5ubFdPvTsVvypDu+vPKMxeuRBOuGqRg/A==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1737670334;
+	cv=none; b=axBftvnrBvIn7KhUPFt+7HZ5whq0XkIs0T/4uoBR+QZeKoLSO99cH3TjlOI04rxczJ0HjUl8z96ab3XsFeHdI0KdKnJZuO/mT5JcpVQPWVzBUXA7e7hya2nCnagqgF9QGkS4h3BD6aXY7Yj/TDJ/1N2pLm7SnfiwET4ANNtt751jqz8x3SsYbNTpteevPVEGnWn6gaaxejoWdCYfMt5jP4HoKrdMPYHazGQbLqzLfspa9oEnx0HZOApihbLzFgyMhnvAWbXbWE5wE+u2gvOuK65Qb7MntVs1zAx5T/Fm0X87EM98nQ2Yc4Rd/XDGbQMb1yCxHKqMjWNyHpfQc5NulQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1737554755; c=relaxed/relaxed;
-	bh=u6A2D9Gp6FOhIbSWgb9j5UrKEP+ZhUZ+HlhkvNqPm+8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Pvk5HRayLYDWj18R5zxi+Ih5c/L9SADJ6tZhNa7pw8g/NeLORCff5CQIxCxH3uBwA7u6QDqx/XrTRl9OwBQlgu/WfFfs0wlPxrR3QtG88D1rChyoYrwQ2BbAmWlB9xFyGP1hqaZLyB7mUWHIpzBLF/dOsAXQuydi295IvlPIHuv3H77Su5M4ns1J+jb7JanRYs09y903of1JaqLIFiWa+ddNWOq5UA7M0ga5T9WuHSXzBgPQUcV6tqjVdw3nTJle18+h4gRarv8XbnN8hf3Ai0X+ZXsaZ+czkjxdAsIooN/8ElZeIUbP/Wx2A2kovt0jdvcIm3aKRcBIEeRaB8FOcA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=j45+Wj0b; dkim-atps=neutral; spf=pass (client-ip=2001:4b98:dc4:8::228; helo=relay8-d.mail.gandi.net; envelope-from=maxime.chevallier@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+	t=1737670334; c=relaxed/relaxed;
+	bh=LRPyClg3EsQbuPGoIm4DyxtDIXG2VDQIOtJhIA48rqk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kxNO38hsh2S8u4cIuGDTNQ9jEHri9akxHC8m3yXrGSScXu1ofMxdZcNJZT5Tuyq7KchJzDNxrjUasfx1aWQiBhuqPP5Ji+0+FH7MYfNOc+3pg2R6JNbpmnddoB0ensB5JqCrG/w3UPuk0148muv9znwh1q5jIvrasfc4NbbN22Nu69VzP23q1m821fEEt7ykzxwxtsKaq77S1D5ALQAVNK4X9at26w4fb6dC5DI2D6IsodMupfOnUPhJNkbKGLIhscLJqHEku7GBWU0r82NjBttYEECA05HvzHTc+mgjWy2PIHl8TLudAC3nlazIQCd+XkBRUiDDM14IroWohpRjQQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pS0PydAP; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=j45+Wj0b;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pS0PydAP;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=2001:4b98:dc4:8::228; helo=relay8-d.mail.gandi.net; envelope-from=maxime.chevallier@bootlin.com; receiver=lists.ozlabs.org)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YdQpT4Xk3z2yDr
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Jan 2025 01:05:51 +1100 (AEDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9D40F1BF208;
-	Wed, 22 Jan 2025 14:05:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1737554747;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u6A2D9Gp6FOhIbSWgb9j5UrKEP+ZhUZ+HlhkvNqPm+8=;
-	b=j45+Wj0bkZUjkfE2K7uxrujT3U0CBiljadFY9MriVnVTIHNFfsdFA5xnU5ptdu/wlydT4b
-	n2vJbfLP+TmM0g0MR4H0vd5fJviqvSdbh8lgC+59TU/F7Kg9mInq2xT1/fXyc8Tympc6pG
-	SC1r2wzqeAOGO3MYoRZWhHoz94AxeCf6w7Sg90jqLyrtUdnL1bBgjkNRgxmFFzVSP+iS14
-	gMCgNt+ynhl7pYBKfOnoTLNBgl1YBVjuodqnbWHX3XtTAebrVCkdoAeIJFUCtV2Rus55TL
-	9HF2d9LlA3ulb67ms7LaA+aWcA3fGjTx4RxCyixqFvkjd/WiVeMYS9QNDhjXUQ==
-Date: Wed, 22 Jan 2025 15:05:42 +0100
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Ninad Palsule <ninad@linux.ibm.com>, Jacky Chou
- <jacky_chou@aspeedtech.com>, "andrew+netdev@lunn.ch"
- <andrew+netdev@lunn.ch>, "andrew@codeconstruct.com.au"
- <andrew@codeconstruct.com.au>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "davem@davemloft.net" <davem@davemloft.net>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "eajames@linux.ibm.com"
- <eajames@linux.ibm.com>, "edumazet@google.com" <edumazet@google.com>,
- "joel@jms.id.au" <joel@jms.id.au>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, "kuba@kernel.org" <kuba@kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
- <linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "minyard@acm.org" <minyard@acm.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "openipmi-developer@lists.sourceforge.net"
- <openipmi-developer@lists.sourceforge.net>, "pabeni@redhat.com"
- <pabeni@redhat.com>, "ratbert@faraday-tech.com" <ratbert@faraday-tech.com>,
- "robh@kernel.org" <robh@kernel.org>
-Subject: Re: =?UTF-8?B?5Zue6KaGOiDlm57opoY6?= [PATCH v2 05/10] ARM: dts:
- aspeed: system1: Add RGMII support
-Message-ID: <20250122150542.55d483e6@fedora.home>
-In-Reply-To: <c83f0193-ce24-4a3e-87d1-f52587e13ca4@lunn.ch>
-References: <59116067-0caa-4666-b8dc-9b3125a37e6f@lunn.ch>
-	<SEYPR06MB51344BA59830265A083469489D132@SEYPR06MB5134.apcprd06.prod.outlook.com>
-	<8042c67c-04d3-41c0-9e88-8ce99839f70b@lunn.ch>
-	<c0b653ea-3fe0-4bdb-9681-bf4e3ef1364a@linux.ibm.com>
-	<c05c0476-c8bd-42f4-81da-7fe96e8e503b@lunn.ch>
-	<SEYPR06MB5134A63DBE28AA1305967A0C9D1C2@SEYPR06MB5134.apcprd06.prod.outlook.com>
-	<9fbc6f4c-7263-4783-8d41-ac2abe27ba95@lunn.ch>
-	<81567190-a683-4542-a530-0fb419f5f9be@linux.ibm.com>
-	<0ee94fd3-d099-4d82-9ba8-eb1939450cc3@lunn.ch>
-	<20250122140719.5629ae57@fedora.home>
-	<c83f0193-ce24-4a3e-87d1-f52587e13ca4@lunn.ch>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YfFYB08Ftz2xYg
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 24 Jan 2025 09:12:13 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id C791EA40B1F;
+	Thu, 23 Jan 2025 22:10:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D677C4CED3;
+	Thu, 23 Jan 2025 22:12:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737670330;
+	bh=h5zYZEeh2fayA+qgYt1ROno/TFyCfT21k9zimU507Dk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pS0PydAP+A2YJMSiI8R5iPpvEnHyM7oUr40s3uHQxbFxq6iXZ498P+qYTBYL5FiG9
+	 98ffwKSrAFQvn9NDtjAD0K87PpxCpCsK6QXof+baFrDGreCApwkNQ2vmEuqNXQu+Kv
+	 t6pyoV7HiNuLnpxeSUQPHwzR9n4Af9dU6mCCXwY7HXLAbXf+0xDZZfq8IFEW797fuL
+	 Wvc5n0H8yOZaKN4VElcrUqH4XdlT2AfYnkHZYFINZC+3L3iS8PP6SfaN/r5TJWuik1
+	 wjpwY2Kn/I7M3bLekd2YYYhV8/+KYrxRXUJXBzyBldxEU0xqvYvokHfM/QoJLFgqRS
+	 VUARXO7KPHoWA==
+Date: Thu, 23 Jan 2025 16:12:09 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Ninad Palsule <ninad@linux.ibm.com>
+Cc: pabeni@redhat.com, davem@davemloft.net, edumazet@google.com,
+	conor+dt@kernel.org, kuba@kernel.org, andrew+netdev@lunn.ch,
+	joel@jms.id.au, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	krzk+dt@kernel.org, eajames@linux.ibm.com,
+	andrew@codeconstruct.com.au, minyard@acm.org,
+	openipmi-developer@lists.sourceforge.net,
+	devicetree@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v6 02/10] bindings: ipmi: Add binding for IPMB device intf
+Message-ID: <173767032899.448455.5833909744401276024.robh@kernel.org>
+References: <20250116203527.2102742-1-ninad@linux.ibm.com>
+ <20250116203527.2102742-3-ninad@linux.ibm.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -91,100 +70,26 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: maxime.chevallier@bootlin.com
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_PASS
-	autolearn=disabled version=4.0.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250116203527.2102742-3-ninad@linux.ibm.com>
+X-Spam-Status: No, score=-2.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+	SPF_PASS autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-> > Can we consider an update in the kernel doc along these lines :
-> > 
-> > ---
-> >  Documentation/networking/phy.rst | 19 +++++++++++--------
-> >  1 file changed, 11 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/Documentation/networking/phy.rst b/Documentation/networking/phy.rst
-> > index f64641417c54..7ab77f9867a0 100644
-> > --- a/Documentation/networking/phy.rst
-> > +++ b/Documentation/networking/phy.rst
-> > @@ -106,14 +106,17 @@ Whenever possible, use the PHY side RGMII delay for these reasons:
-> >    configure correctly a specified delay enables more designs with similar delay
-> >    requirements to be operated correctly
-> >  
-> > -For cases where the PHY is not capable of providing this delay, but the
-> > -Ethernet MAC driver is capable of doing so, the correct phy_interface_t value
-> > -should be PHY_INTERFACE_MODE_RGMII, and the Ethernet MAC driver should be
-> > -configured correctly in order to provide the required transmit and/or receive
-> > -side delay from the perspective of the PHY device. Conversely, if the Ethernet
-> > -MAC driver looks at the phy_interface_t value, for any other mode but
-> > -PHY_INTERFACE_MODE_RGMII, it should make sure that the MAC-level delays are
-> > -disabled.
-> > +The MAC driver may add delays if the PCB doesn't include any. This can be
-> > +detected based on firmware "rx-internal-delay-ps" and "tx-internal-delay-ps"
-> > +properties.
-> > +
-> > +When the MAC driver can insert the delays, it should always do so when these
-> > +properties are present and non-zero, regardless of the RGMII mode specified.
-> > +
-> > +However, the MAC driver must adjust the PHY_INTERFACE_MODE_RGMII_* mode it passes
-> > +to the connected PHY device (through phy_attach or phylink_create() for example)
-> > +to account for MAC-side delay insertion, so that the the PHY device knows
-> > +if any delays still needs insertion on either TX or RX paths.  
-> 
-> You dropped:
-> 
->    For cases where the PHY is not capable of providing this delay...
-> 
-> This is something i would like to keep, to strengthen that we really
-> do want the PHY to add the delays. Many MACs are capable of adding
-> delays, but we don't want them to, the PHY should do it, so we have
-> consistency.
-> 
-> The language i've tried to use is that "rx-internal-delay-ps" and
-> "tx-internal-delay-ps" can be used to fine tune the delays, so i'm
-> expecting their values to be small, because the PHY is adding the 2ns,
-> and the MAC is just adding/removing 0-200ps etc. I've also used the
-> same terminology for PHY drivers, the PHY DT properties for delays are
-> used for fine tuning, but the basic 2ns on/off comes from the phy-mode
-> passed to phylib.
-> 
-> If it is just fine tuning, and not adding the full 2ns, it should just
-> pass phy-mode straight through.
-> 
-> So your text becomes something like:
-> 
->   The MAC driver may fine tune the delays. This can be configured
->   based on firmware "rx-internal-delay-ps" and "tx-internal-delay-ps"
->   properties. These values are expected to be small, not the full 2ns
->   delay.
-> 
->   A MAC driver inserting these fine tuning delays should always do so
->   when these properties are present and non-zero, regardless of the
->   RGMII mode specified.
-> 
-> Then we can address when the MAC adds the full 2ns.
-> 
->   For cases where the PHY is not capable of providing the 2ns delay,
->   the MAC must provide it, if the phy-mode indicates the PCB is not
->   providing the delays. The MAC driver must adjust the
->   PHY_INTERFACE_MODE_RGMII_* mode it passes to the connected PHY
->   device (through phy_attach or phylink_create() for example) to
->   account for MAC-side delay insertion, so that the the PHY device
->   does not add additional delays.
-> 
-> I also think we need something near the beginning like:
-> 
->   The device tree property phy-mode describes the hardware. When used
->   with RGMII, its value indicates if the hardware, i.e. the PCB,
->   provides the 2ns delay required for RGMII. A phy-mode of 'rgmii'
->   indicates the PCB is adding the 2ns delay. For other values, the
->   MAC/PHY pair must insert the needed 2ns delay, with the strong
->   preference the PHY adds the delay.
 
-Thanks Andrew for the suggestions, your wording is definitely better
-than mine :) I'll queue that for when net-next re-opens.
+On Thu, 16 Jan 2025 14:35:17 -0600, Ninad Palsule wrote:
+> Add device tree binding document for the IPMB device interface.
+> This device is already in use in both driver and .dts files.
+> 
+> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+> ---
+>  .../devicetree/bindings/ipmi/ipmb-dev.yaml    | 56 +++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml
+> 
 
-Maxime
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+
 
