@@ -1,73 +1,73 @@
-Return-Path: <linux-aspeed+bounces-555-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-556-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E3AA214CF
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Jan 2025 00:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4992DA214D0
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Jan 2025 00:01:16 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YjLPN1ZXvz3005;
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YjLPN1fHqz30N8;
 	Wed, 29 Jan 2025 10:01:12 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=170.10.129.124
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738103553;
-	cv=none; b=SW6BuCHudZu4eTVFrKL+3E/CbDjQZ6L8wKS0RWkOt6YjuZ2sM1xzJjLlKGa10l8eqqPyxi4mjgLHRMvgRruocu3hna0QWaVv0yzWsCWtrKBnaHesPdHtSJAr1UaI3sVJ+w4F/xnYsZLwGkGmdqmvV54r57jATuzS+AWhV0Shy9j5SPyUKnhYTkFYp6/pdc6IhTZQKrqqQ2+2VtV0GK5m3Yr7sh/gLLPQq4rHMlEQDa5ir7dBjd5aLA3JD7W6knEjOakrMqW1svybeYywwvbOyCF6PquNMR5NIKCqyGlFjfLf7GGoJ6eyAeHY5YXL3OHmvjT5AN/Bc/0x/kixFaFdcw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=170.10.133.124
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738103561;
+	cv=none; b=GaHRxtRqPu+dZFVo9gCc948+r5ypNxPofz2vJE2Fxn+tR9oEOdy5I9LyxXKd7i7xmsg21AWzgJfk3nLB5z3pOMFe64ypuP/fLItS4E30xar9pRTSBl6OcK2iJlDUmbeoD6BTaZ8DD3iUwRIxIEOQ+a5sP4tJVlwg6fqFsvHH4dY+RtsuoE/EW6NE6azk5l5fSf3Kx6Zzu1JlDDsA+7GW2Yfq8TzsOx/mkp+byPqVIqrNIj01onkvu6jG5YFOEPvJVKS+OQsfPYdgzHmN+/9FNRTMtwakKyBynBgokqJoZqjoMO0kAi0P3TZAasvYRSH8PDSRMc1Rp26Slu1QjH/lfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1738103553; c=relaxed/relaxed;
-	bh=VIJ5Kry5fQSY9xKb4EzJWEIWjDvQbQdKGXZAWVgTCeM=;
+	t=1738103561; c=relaxed/relaxed;
+	bh=N/Il65n7d2FNdwRu7j2DfL+2gqiTcQ9juutchj4unv8=;
 	h=From:Date:Subject:MIME-Version:Message-Id:References:In-Reply-To:
-	 To:Cc:Content-Type; b=bVGS475oHf/RBraV74cQ86zaZKjuKO08fCJnOwLCiXOUIwb2LnCHVIbpJOG06h65LmuE0s8xXsXhFbzThiF+YNzeH8QHG5XWTaHRx5QjBR8o+1yC0jIOHtfja0p5MkKFABEjdkJolpzycEkdhJ45/oe5spC8Z5kMj5i6TC0a5YvwnPXusbexKdlUUlIzyBi4KDhlhAinAIRWRZZdMI2OpH0OkzInKBaBmkH4x3LkIn2QI3JNKT8MAuSR0tpOZ7rsSTvn24Nj9sZdQEx78Fp/w5bTCAOk18cgTghcMvimEetl5AoweQD4ak4QCys9jj27i/VAzxldMiR7Ye6I82DL2A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com; dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=FxYc6Iq6; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=FxYc6Iq6; dkim-atps=neutral; spf=pass (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org) smtp.mailfrom=redhat.com
+	 To:Cc:Content-Type; b=hluoIZehgOM4DvwwigVlhWPT6cRS1rUKwwwBgfmTXbE75V8uCE9YPlgykCB+f4EXku5X/WW0bZkUpgUb3X4hlk87CgqXQZXB6d5u2QOukOMJpfN7jU8Bpttvp09J4uzS03MxSowtbL0QIJUrXwyVD0mRh81XHWcbshCmzx2xKlF63WDATP6kZ73TCrcri3C2pEbhZEyYnp4os5sONw8zGBy99sPdoCvroAxXaft35lS9zMWyaNa9PwvEPPTnqQaRW9l9p4Pyq4mQ/1SM6ccy3WPQXYRctpzzuTWgDJkqFdIHViB16WP7pTw8QUuegK6sx4BQp+Irw4EHsnM+KPlI6A==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com; dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=aErGNQFD; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=aErGNQFD; dkim-atps=neutral; spf=pass (client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org) smtp.mailfrom=redhat.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=FxYc6Iq6;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=FxYc6Iq6;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=aErGNQFD;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=aErGNQFD;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org)
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YjKmJ3mPsz2xt7
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Jan 2025 09:32:32 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YjKmS1Gn6z2xt7
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Jan 2025 09:32:39 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738103549;
+	s=mimecast20190719; t=1738103557;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VIJ5Kry5fQSY9xKb4EzJWEIWjDvQbQdKGXZAWVgTCeM=;
-	b=FxYc6Iq6Xl7rw3C6AcU+j/rvhBEaFRbbG2nKd/j78Z4C6a75PQf2t/TVTQ03cYT4F6EnS9
-	Jdyq9Bif7ZGDGtGulcjzq4TrBX1ObF6t5BD49ILUrsOOb6hanpZzq4gjwTk6jR4gUfEZ8i
-	R7Y0vrXAR8Oc1xLiVhWoJs+0GHKrouo=
+	bh=N/Il65n7d2FNdwRu7j2DfL+2gqiTcQ9juutchj4unv8=;
+	b=aErGNQFDxdAwpuCVg31YVKwneDoFtSG0xg/i/ZcQ9X8TYA1QHvG9SzcdcMB44rt0Q3W8pk
+	Fz674pbS1IvgEYA8TNTf8l4REH8l0UtjmN0DyZiPU34TfMUw7ble+23xBGFzXwWITT4ODv
+	OdnnrdBmMZxZKNIHCjqxDLO5fxhXA9w=
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738103549;
+	s=mimecast20190719; t=1738103557;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VIJ5Kry5fQSY9xKb4EzJWEIWjDvQbQdKGXZAWVgTCeM=;
-	b=FxYc6Iq6Xl7rw3C6AcU+j/rvhBEaFRbbG2nKd/j78Z4C6a75PQf2t/TVTQ03cYT4F6EnS9
-	Jdyq9Bif7ZGDGtGulcjzq4TrBX1ObF6t5BD49ILUrsOOb6hanpZzq4gjwTk6jR4gUfEZ8i
-	R7Y0vrXAR8Oc1xLiVhWoJs+0GHKrouo=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=N/Il65n7d2FNdwRu7j2DfL+2gqiTcQ9juutchj4unv8=;
+	b=aErGNQFDxdAwpuCVg31YVKwneDoFtSG0xg/i/ZcQ9X8TYA1QHvG9SzcdcMB44rt0Q3W8pk
+	Fz674pbS1IvgEYA8TNTf8l4REH8l0UtjmN0DyZiPU34TfMUw7ble+23xBGFzXwWITT4ODv
+	OdnnrdBmMZxZKNIHCjqxDLO5fxhXA9w=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-499-UYemQA77OOmnvGolnUTm_w-1; Tue,
- 28 Jan 2025 17:32:27 -0500
-X-MC-Unique: UYemQA77OOmnvGolnUTm_w-1
-X-Mimecast-MFC-AGG-ID: UYemQA77OOmnvGolnUTm_w
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-198-Z5t1DH4TPUSNjcxacOkECA-1; Tue,
+ 28 Jan 2025 17:32:35 -0500
+X-MC-Unique: Z5t1DH4TPUSNjcxacOkECA-1
+X-Mimecast-MFC-AGG-ID: Z5t1DH4TPUSNjcxacOkECA
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A49221801883;
-	Tue, 28 Jan 2025 22:32:16 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BA29A195608B;
+	Tue, 28 Jan 2025 22:32:27 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.231])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A11C118008C0;
-	Tue, 28 Jan 2025 22:32:05 +0000 (UTC)
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F1FCA18008D4;
+	Tue, 28 Jan 2025 22:32:16 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 28 Jan 2025 17:29:33 -0500
-Subject: [PATCH 09/14] drm/sti: move to devm_platform_ioremap_resource()
+Date: Tue, 28 Jan 2025 17:29:34 -0500
+Subject: [PATCH 10/14] drm/stm: move to devm_platform_ioremap_resource()
  usage
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
@@ -81,7 +81,7 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Message-Id: <20250128-cocci-memory-api-v1-9-0d1609a29587@redhat.com>
+Message-Id: <20250128-cocci-memory-api-v1-10-0d1609a29587@redhat.com>
 References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
 In-Reply-To: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
 To: Joel Stanley <joel@jms.id.au>, 
@@ -130,272 +130,70 @@ Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
  imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
  linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
  linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738103410; l=8252;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738103410; l=1552;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=JbskecsnMIpBU4lrFilQz4/qcpYNCTq/NrtxA3xb7+4=;
- b=IpIP+jWe+07YEUQSzIEZo8JdiYByGIXY+slEamVaLYuLLhO1QLUUyVQFCReSBehNAC3KLJMI5
- Y/QbRDjTbCOBXVkOOiWhLzmZwTzKDG7PjoQf1vK9lvIySB/51cAHmBd
+ bh=SBQvLlE5WdolnkNtVzzAyIi/XRoTRcXCfSRhVrqoWuM=;
+ b=gTFB4qqvXFU3N6mS6uEVgMa+d38j8Ixc/qOlT74VphyV+UdXlGHEHukzxa+uSO2Rhcqqyl575
+ DbvTLy76BbYBQleInZIE9L46We9yrtR4G/j4tW0IKFhF1vxosUJKLo9
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 3V_0pr7zdhMWNsmiLz8qYkG_f1hmtQQtLrKFd9DwIW0_1738103537
+X-Mimecast-MFC-PROC-ID: GiV8FaW18oejK8ihwkplt8M8vh_yoO-KXvyjE6FHQTw_1738103548
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-0.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.0
+	RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Replace platform_get_resource/_byname + devm_ioremap
+Replace platform_get_resource + devm_ioremap_resource
 with just devm_platform_ioremap_resource()
 
 Used Coccinelle to do this change. SmPl patch:
-
-@rule@
+@rule_1@
 identifier res;
-expression ioremap;
-identifier pdev;
-constant mem;
-expression name;
-@@
--struct resource *res;
-...
--res = platform_get_resource_byname(pdev,mem,name);
-<...
--if (!res) {
--...
--}
-...>
--ioremap = devm_ioremap(...);
-+ioremap = devm_platform_ioremap_resource_byname(pdev,name);
-
-and
-@rule_2@
-identifier res;
-expression ioremap;
+expression ioremap_res;
 identifier pdev;
 @@
 -struct resource *res;
 ...
 -res = platform_get_resource(pdev,...);
-<...
--if (!res) {
--...
--}
-...>
--ioremap = devm_ioremap(...);
-+ioremap = devm_platform_ioremap_resource(pdev,0);
+-ioremap_res = devm_ioremap_resource(...);
++ioremap_res = devm_platform_ioremap_resource(pdev,0);
 
-Cc: Alain Volmat <alain.volmat@foss.st.com>
+Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+Cc: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Cc: Philippe Cornu <philippe.cornu@foss.st.com>
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/sti/sti_compositor.c | 10 +---------
- drivers/gpu/drm/sti/sti_dvo.c        | 10 +---------
- drivers/gpu/drm/sti/sti_hda.c        | 10 +---------
- drivers/gpu/drm/sti/sti_hdmi.c       | 11 +----------
- drivers/gpu/drm/sti/sti_hqvdp.c      | 10 +---------
- drivers/gpu/drm/sti/sti_tvout.c      | 10 +---------
- drivers/gpu/drm/sti/sti_vtg.c        | 10 +---------
- 7 files changed, 7 insertions(+), 64 deletions(-)
+ drivers/gpu/drm/stm/ltdc.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_compositor.c b/drivers/gpu/drm/sti/sti_compositor.c
-index 063f82d23d80c4ba83624a0066a18416a2b37351..7aefce6706ba2cd7d97a33228c9b9812edecf06f 100644
---- a/drivers/gpu/drm/sti/sti_compositor.c
-+++ b/drivers/gpu/drm/sti/sti_compositor.c
-@@ -177,7 +177,6 @@ static int sti_compositor_probe(struct platform_device *pdev)
- 	struct device_node *np = dev->of_node;
- 	struct device_node *vtg_np;
- 	struct sti_compositor *compo;
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index 54a73753eff98902012c6012914fa8c6482affbd..ba315c66a04d72758b9d3cfcd842432877f66d3a 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -1900,7 +1900,6 @@ int ltdc_load(struct drm_device *ddev)
+ 	struct drm_panel *panel;
+ 	struct drm_crtc *crtc;
+ 	struct reset_control *rstc;
 -	struct resource *res;
- 	unsigned int i;
+ 	int irq, i, nb_endpoints;
+ 	int ret = -ENODEV;
  
- 	compo = devm_kzalloc(dev, sizeof(*compo), GFP_KERNEL);
-@@ -194,14 +193,7 @@ static int sti_compositor_probe(struct platform_device *pdev)
- 
- 	memcpy(&compo->data, of_match_node(compositor_of_match, np)->data,
- 	       sizeof(struct sti_compositor_data));
--
--	/* Get Memory ressources */
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (res == NULL) {
--		DRM_ERROR("Get memory resource failed\n");
--		return -ENXIO;
--	}
--	compo->regs = devm_ioremap(dev, res->start, resource_size(res));
-+	compo->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (compo->regs == NULL) {
- 		DRM_ERROR("Register mapping failed\n");
- 		return -ENXIO;
-diff --git a/drivers/gpu/drm/sti/sti_dvo.c b/drivers/gpu/drm/sti/sti_dvo.c
-index c6c2abaa1891cd3ea025805b50d275ec314512c3..660588f01f90950a9b2c180ab230188c19901f26 100644
---- a/drivers/gpu/drm/sti/sti_dvo.c
-+++ b/drivers/gpu/drm/sti/sti_dvo.c
-@@ -511,7 +511,6 @@ static int sti_dvo_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct sti_dvo *dvo;
--	struct resource *res;
- 	struct device_node *np = dev->of_node;
- 
- 	DRM_INFO("%s\n", __func__);
-@@ -523,14 +522,7 @@ static int sti_dvo_probe(struct platform_device *pdev)
+@@ -1966,8 +1965,7 @@ int ltdc_load(struct drm_device *ddev)
+ 		reset_control_deassert(rstc);
  	}
  
- 	dvo->dev = pdev->dev;
--
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dvo-reg");
--	if (!res) {
--		DRM_ERROR("Invalid dvo resource\n");
--		return -ENOMEM;
--	}
--	dvo->regs = devm_ioremap(dev, res->start,
--			resource_size(res));
-+	dvo->regs = devm_platform_ioremap_resource_byname(pdev, "dvo-reg");
- 	if (!dvo->regs)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
-index b12863bea95559c4f874eb94cea8938609d435d4..28fde4c568d0069ecf2f2f69f5be0e87c1d5f4f3 100644
---- a/drivers/gpu/drm/sti/sti_hda.c
-+++ b/drivers/gpu/drm/sti/sti_hda.c
-@@ -741,7 +741,6 @@ static int sti_hda_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct sti_hda *hda;
--	struct resource *res;
- 
- 	DRM_INFO("%s\n", __func__);
- 
-@@ -750,14 +749,7 @@ static int sti_hda_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	hda->dev = pdev->dev;
--
--	/* Get resources */
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "hda-reg");
--	if (!res) {
--		DRM_ERROR("Invalid hda resource\n");
--		return -ENOMEM;
--	}
--	hda->regs = devm_ioremap(dev, res->start, resource_size(res));
-+	hda->regs = devm_platform_ioremap_resource_byname(pdev, "hda-reg");
- 	if (!hda->regs)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index ca2fe17de4a5d1e0199e59a97e6c7601e139ed9e..666143c48b0d0f2c20cd26323ddbc8e69d966622 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -1380,7 +1380,6 @@ static int sti_hdmi_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct sti_hdmi *hdmi;
- 	struct device_node *np = dev->of_node;
--	struct resource *res;
- 	struct device_node *ddc;
- 	int ret;
- 
-@@ -1399,15 +1398,7 @@ static int sti_hdmi_probe(struct platform_device *pdev)
- 	}
- 
- 	hdmi->dev = pdev->dev;
--
--	/* Get resources */
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "hdmi-reg");
--	if (!res) {
--		DRM_ERROR("Invalid hdmi resource\n");
--		ret = -ENOMEM;
--		goto release_adapter;
--	}
--	hdmi->regs = devm_ioremap(dev, res->start, resource_size(res));
-+	hdmi->regs = devm_platform_ioremap_resource_byname(pdev, "hdmi-reg");
- 	if (!hdmi->regs) {
- 		ret = -ENOMEM;
- 		goto release_adapter;
-diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c b/drivers/gpu/drm/sti/sti_hqvdp.c
-index 0f658709c9d0d398c4eed65202443db9d0b41f8c..420395598d119a403d531211022e6005d6a2bd59 100644
---- a/drivers/gpu/drm/sti/sti_hqvdp.c
-+++ b/drivers/gpu/drm/sti/sti_hqvdp.c
-@@ -1356,7 +1356,6 @@ static int sti_hqvdp_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct device_node *vtg_np;
- 	struct sti_hqvdp *hqvdp;
--	struct resource *res;
- 
- 	DRM_DEBUG_DRIVER("\n");
- 
-@@ -1367,14 +1366,7 @@ static int sti_hqvdp_probe(struct platform_device *pdev)
- 	}
- 
- 	hqvdp->dev = dev;
--
--	/* Get Memory resources */
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res) {
--		DRM_ERROR("Get memory resource failed\n");
--		return -ENXIO;
--	}
--	hqvdp->regs = devm_ioremap(dev, res->start, resource_size(res));
-+	hqvdp->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (!hqvdp->regs) {
- 		DRM_ERROR("Register mapping failed\n");
- 		return -ENXIO;
-diff --git a/drivers/gpu/drm/sti/sti_tvout.c b/drivers/gpu/drm/sti/sti_tvout.c
-index af6c06f448c4819def8cc0d0836e30f991529690..0bebe815f5e7567f84388af93723a6fa7d2cc7a2 100644
---- a/drivers/gpu/drm/sti/sti_tvout.c
-+++ b/drivers/gpu/drm/sti/sti_tvout.c
-@@ -838,7 +838,6 @@ static int sti_tvout_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct device_node *node = dev->of_node;
- 	struct sti_tvout *tvout;
--	struct resource *res;
- 
- 	DRM_INFO("%s\n", __func__);
- 
-@@ -850,14 +849,7 @@ static int sti_tvout_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	tvout->dev = dev;
--
--	/* get memory resources */
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tvout-reg");
--	if (!res) {
--		DRM_ERROR("Invalid glue resource\n");
--		return -ENOMEM;
--	}
--	tvout->regs = devm_ioremap(dev, res->start, resource_size(res));
-+	tvout->regs = devm_platform_ioremap_resource_byname(pdev, "tvout-reg");
- 	if (!tvout->regs)
- 		return -ENOMEM;
- 
-diff --git a/drivers/gpu/drm/sti/sti_vtg.c b/drivers/gpu/drm/sti/sti_vtg.c
-index 5ba469b711b5318e9e9e6d8df127fb8933d1fac1..b5353fe774d72fd629ecd3ef75a5d2817ca8617f 100644
---- a/drivers/gpu/drm/sti/sti_vtg.c
-+++ b/drivers/gpu/drm/sti/sti_vtg.c
-@@ -380,20 +380,12 @@ static int vtg_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct sti_vtg *vtg;
--	struct resource *res;
- 	int ret;
- 
- 	vtg = devm_kzalloc(dev, sizeof(*vtg), GFP_KERNEL);
- 	if (!vtg)
- 		return -ENOMEM;
--
--	/* Get Memory ressources */
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!res) {
--		DRM_ERROR("Get memory resource failed\n");
--		return -ENOMEM;
--	}
--	vtg->regs = devm_ioremap(dev, res->start, resource_size(res));
-+	vtg->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (!vtg->regs) {
- 		DRM_ERROR("failed to remap I/O memory\n");
- 		return -ENOMEM;
+-	ldev->regs = devm_ioremap_resource(dev, res);
++	ldev->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(ldev->regs)) {
+ 		DRM_ERROR("Unable to get ltdc registers\n");
+ 		ret = PTR_ERR(ldev->regs);
 
 -- 
 2.47.0
