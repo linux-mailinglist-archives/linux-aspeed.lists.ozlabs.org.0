@@ -1,93 +1,84 @@
-Return-Path: <linux-aspeed+bounces-591-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-593-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0E1A23DF9
-	for <lists+linux-aspeed@lfdr.de>; Fri, 31 Jan 2025 13:53:01 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9361DA23EB2
+	for <lists+linux-aspeed@lfdr.de>; Fri, 31 Jan 2025 14:54:08 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YkwmC4dVJz30Vy;
-	Fri, 31 Jan 2025 23:52:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Yky6f3gn8z2yJL;
+	Sat,  1 Feb 2025 00:54:02 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=195.135.223.130
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738327979;
-	cv=none; b=MPgGI8WsP6IuMY1B0Z7iqzi+0yTujr8X/vE3mDm5BhtjDUV1xlwnGHOQZR0joVQX+kQ6sOmVnfEK6mylxcJUqlXYjTwQPVQ9QA6ndlaq+/QPHoNQryHKb9waRFWhG1lt9mGP0O0shBcVO9luyDK/tSnvFYFiDAq3EpJKjTTjonuuVTztxfp1X3yHDH/XtOwEsoU2H/pBC5WBoyPVNeHMjiLH6ZSDjlbvt0k7nWdJN31MouZsbqsNkfQZ9UoqMgxXR/tjinXTsn94ZjSNQCWd8uWSgv484UfDvkr+oZGxwMbcqP4MNm7dZjdpWllw4LLjpYcgVEDhWKtGLY4yQLKvhg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a02:1800:110:4::f00:10"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738331642;
+	cv=none; b=UuiQ9dFSzHmT7Cdvo1JAEsmoC1JqI/gA8IWUiRUVn/Tsy0Duh1S/3NYcFEH8Bj2548sI58EMavqLQVSaclS6Oj61NJvnhujVwR06LQwwLiwUGBoh8lM+FTVDcoSGl54/WzeLlwOsg1SOeNYa5HFEgk1/tXEu5pnKdWdrXtOjWu6k0Cixahegxx8T9n0ITgELvRgvC6v1jpTq+IyNpS4R3KveZWq7lgwXOlosMw01zFnYfp38J5Xwt/+vLLF+f8oA77nOk5cVj0OhndT1ZRngJKVdoemkHiXbJE5eOMDDmx5vw19sLUD47GQ3FXKVowkOXLJqrOcgodAJRJYhsFQvwg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1738327979; c=relaxed/relaxed;
-	bh=xuqPM8bGj5U9tmFRVmkdxRxXX6iIQR3TQtKKGW1chJo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KM+P4KPGqoobIGR3vKnKRPWdsy0CXOAhwMC/e3Q0JBEtO6vb/abxsUKNucemLe/5VFKBEx1VWzev2SPpNRPB+n11d/tnBkH/1l2QI2sJ8L/osMplIqXh3P12hbCNN00Hy+NGMhXDEg+FPNmm6wOop8tduFb3bnp9dB5eByIsNhqMJfGDbcIiSdSld3k3cT0YSqxYyYTk8Evrd1/SfUyA6cyvcRdzvnsn5ziu4XIKYQFnTDQE/HeRSCrG1koAmK8b79LCbzYq8HAWDqLrM6Z5A/XejCi34ML3vKdHzleZLSG7v73dLeY4UwJwR0QB+POWVTpfLrYCMSC99+dcZHDEPA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=suse.de; dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=OJXvJekh; dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=q/Rg3t+c; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=OJXvJekh; dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=q/Rg3t+c; dkim-atps=neutral; spf=pass (client-ip=195.135.223.130; helo=smtp-out1.suse.de; envelope-from=tzimmermann@suse.de; receiver=lists.ozlabs.org) smtp.mailfrom=suse.de
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=OJXvJekh;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=q/Rg3t+c;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=OJXvJekh;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=q/Rg3t+c;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=suse.de (client-ip=195.135.223.130; helo=smtp-out1.suse.de; envelope-from=tzimmermann@suse.de; receiver=lists.ozlabs.org)
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	t=1738331642; c=relaxed/relaxed;
+	bh=JMEGILcF69irU9arW/KgodIGGc36sjVPZdJq9Ew/JBs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l5pElQE6uh0k5yV8CqsdKUHWrEykQBWU40cedfcoJ1gpx1bxc4vN/hHym106iU2OvmcCuD5XrRmMHiriTDAROgswDpGAnBMo1cItPLonim9pkAZlH7fEdutx1TSCxCc0XsC/4OHxxQH74Lbi7QJrIxSWQVwcGPmrj3QgeYIjFIrdWddLCNaxsI5vtOWvBgiokYrCKPNz/SoFIeJ5Do6rtLmOgqzKYTyLaKwd75UPyvJ9rMMH4UhmdtxUzxEbKYDP7Ub9jo8MCbV7CbCDGSgwVXpB+akQDYT4vySK17FjjRBSrxv1S8aFsIvrk0RIcMPsPFCrG5cNmbBoUPMpNL8ktg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=pass (client-ip=2a02:1800:110:4::f00:10; helo=riemann.telenet-ops.be; envelope-from=geert@linux-m68k.org; receiver=lists.ozlabs.org) smtp.helo=riemann.telenet-ops.be
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.helo=riemann.telenet-ops.be (client-ip=2a02:1800:110:4::f00:10; helo=riemann.telenet-ops.be; envelope-from=geert@linux-m68k.org; receiver=lists.ozlabs.org)
+Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [IPv6:2a02:1800:110:4::f00:10])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YkwmB1l64z30Vq
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 31 Jan 2025 23:52:58 +1100 (AEDT)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6102221164;
-	Fri, 31 Jan 2025 12:52:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1738327974; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=xuqPM8bGj5U9tmFRVmkdxRxXX6iIQR3TQtKKGW1chJo=;
-	b=OJXvJekhlynoZ9rIvLIfn2YimoIgOmxTS9oa5YNuExw/xCVhowm8nWPWf3G8sJXzsAUnuI
-	s/epMH7Z9y7ITOOQZNt5wsAH7Sad0Phs4mZQXO1spnUTWEWvph+XD4deyPYgfLtE/wflwt
-	n1K2bt6j5IJVe/wONIp9bcpFcEWEXQc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1738327974;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=xuqPM8bGj5U9tmFRVmkdxRxXX6iIQR3TQtKKGW1chJo=;
-	b=q/Rg3t+ctg2xwN/ynQC3w7uf5PXG8JsZOsy9hahuVbde7ewDLZD/zGOE2X9/vXC8gW2mgU
-	Dt9cfhleBehZDGAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OJXvJekh;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="q/Rg3t+c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1738327974; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=xuqPM8bGj5U9tmFRVmkdxRxXX6iIQR3TQtKKGW1chJo=;
-	b=OJXvJekhlynoZ9rIvLIfn2YimoIgOmxTS9oa5YNuExw/xCVhowm8nWPWf3G8sJXzsAUnuI
-	s/epMH7Z9y7ITOOQZNt5wsAH7Sad0Phs4mZQXO1spnUTWEWvph+XD4deyPYgfLtE/wflwt
-	n1K2bt6j5IJVe/wONIp9bcpFcEWEXQc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1738327974;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=xuqPM8bGj5U9tmFRVmkdxRxXX6iIQR3TQtKKGW1chJo=;
-	b=q/Rg3t+ctg2xwN/ynQC3w7uf5PXG8JsZOsy9hahuVbde7ewDLZD/zGOE2X9/vXC8gW2mgU
-	Dt9cfhleBehZDGAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0180F1364B;
-	Fri, 31 Jan 2025 12:52:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lkNHOqTHnGf9WwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Fri, 31 Jan 2025 12:52:52 +0000
-Message-ID: <0ae17de1-c6dc-48eb-aed2-b099b2abbea5@suse.de>
-Date: Fri, 31 Jan 2025 13:52:52 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Yky6d1f5xz2yK7
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  1 Feb 2025 00:54:01 +1100 (AEDT)
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+	by riemann.telenet-ops.be (Postfix) with ESMTPS id 4Ykxz13D52z4x49t
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 31 Jan 2025 14:47:25 +0100 (CET)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:a916:3147:9f19:c260])
+	by baptiste.telenet-ops.be with cmsmtp
+	id 7pmw2E00W0naHe801pmwxH; Fri, 31 Jan 2025 14:47:24 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tdrM6-0000000FHxr-1qQW;
+	Fri, 31 Jan 2025 14:46:56 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tdrMG-0000000DFVN-1Vog;
+	Fri, 31 Jan 2025 14:46:56 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S . Miller" <davem@davemloft.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Crt Mori <cmo@melexis.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Alex Elder <elder@ieee.org>
+Cc: linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	qat-linux@intel.com,
+	linux-gpio@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-iio@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 0/3] Non-const bitfield helpers
+Date: Fri, 31 Jan 2025 14:46:50 +0100
+Message-ID: <cover.1738329458.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -100,161 +91,94 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/14] Documentation: Update the todo
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Anusha Srivatsa <asrivats@redhat.com>, Joel Stanley <joel@jms.id.au>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Stefan Agner
- <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu
- <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat
- <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-aspeed@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, imx@lists.linux.dev,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
- <20250128-cocci-memory-api-v1-14-0d1609a29587@redhat.com>
- <a389f799-442e-45f3-8609-2eb2f0b7a825@suse.de>
- <li2awsqmdoye3u7n3gi2mrhbfxs77e3edjmsg5zclnyjinsnul@2bjkc5agyu5u>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <li2awsqmdoye3u7n3gi2mrhbfxs77e3edjmsg5zclnyjinsnul@2bjkc5agyu5u>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 6102221164
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[redhat.com,jms.id.au,linux.intel.com,gmail.com,ffwll.ch,codeconstruct.com.au,agner.ch,nxp.com,linaro.org,hisilicon.com,google.com,kernel.org,pengutronix.de,collabora.com,baylibre.com,googlemail.com,denx.de,rock-chips.com,sntech.de,linux.alibaba.com,foss.st.com,nvidia.com,synopsys.com,raspberrypi.com,igalia.com,lwn.net,lists.ozlabs.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,st-md-mailman.stormreply.com];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL5qdohruh175rhiw1bqi96ifb)];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[60];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.5 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_NONE autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Hi Maxime
+	Hi all,
 
+This is an updated subset of a patch series I sent more than 3 years
+ago[1].
 
-Am 29.01.25 um 15:31 schrieb Maxime Ripard:
-> Hi Thomas,
->
-> On Wed, Jan 29, 2025 at 02:06:15PM +0100, Thomas Zimmermann wrote:
->> Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:
->>> Remove the TODO now that this series addresses
->>> the changes needed.
->> While your series is fine, this TODO item is unrelated. It's about various
->> ancient fbdev drivers that do not reserve their memory regions correctly. So
->> please drop patch 14 form the series.
-> Is it? Could we rephrase the entry then? I'm the one that suggested
-> Anusha to work on this, and it's still not clear to me what it means
-> exactly if it's not what she worked on :)
+<linux/bitfield.h> contains various helpers for accessing bitfields, as
+typically used in hardware registers for memory-mapped I/O blocks.
+These helpers ensure type safety, and deduce automatically shift values
+from mask values, avoiding mistakes due to inconsistent shifts and
+masks, and leading to a reduction in source code size.
 
-I guess, we could make this more precise.
+The existing FIELD_{GET,PREP}() macros are limited to compile-time
+constants.  However, it is very common to prepare or extract bitfield
+elements where the bitfield mask is not a compile-time constant.
+To avoid this limitation, the AT91 clock driver introduced its own
+field_{prep,get}() macros.  Hence my v1 series aimed to make them
+available for general use, and convert several drivers to the existing
+FIELD_{GET,PREP}() and the new field_{get,prep}() helpers.
 
-Some old graphics drivers don't request their memory ranges correctly. 
-It's usually a problem with hardware that has exclusive ranges, such as 
-the VGA. Vga16fb doesn't request the range as it should. Someone needs 
-to audit all those old drivers and fix them.
+Due to some pushback (mostly centered around using the typed
+{u*,be*,le*,...}_get_bits() macros instead, which of course would
+require making them work with non-constant masks first, too), this
+series was never applied, and became buried deep in my TODO haystack...
+However, several people still liked the idea: since v1, multiple copies
+of the field_{prep,get}() macros appeared upstream, and one more is
+queued for v6.15.
 
-Best regards
-Thomas
+Hence I think it's time to revive and consolidate...
 
+Changes compared to v1:
+  - Cast val resp. reg to the mask type,
+  - Fix 64-bit use on 32-bit architectures,
+  - Convert new upstream users:
+      - drivers/crypto/intel/qat/qat_common/adf_gen4_pm_debugfs.c
+      - drivers/gpio/gpio-aspeed.c
+      - drivers/iio/temperature/mlx90614.c
+      - drivers/pinctrl/nuvoton/pinctrl-ma35.c
+      - sound/usb/mixer_quirks.c
+  - Convert new user queued in renesas-devel for v6.15:
+      - drivers/soc/renesas/rz-sysc.c
+  - Drop the last 14 RFC patches.
+    They can be updated/resubmitted/applied later.
 
->
-> Maxime
+I can take all three patches through the Renesas tree, and provide an
+immutable branch with the first patch for ther interested parties.
+
+Thanks for your comments!
+
+[1] "[PATCH 00/17] Non-const bitfield helper conversions"
+    https://lore.kernel.org/all/cover.1637592133.git.geert+renesas@glider.be
+
+Geert Uytterhoeven (3):
+  bitfield: Add non-constant field_{prep,get}() helpers
+  clk: renesas: Use bitfield helpers
+  soc: renesas: Use bitfield helpers
+
+ drivers/clk/at91/clk-peripheral.c             |  1 +
+ drivers/clk/at91/pmc.h                        |  3 --
+ drivers/clk/renesas/clk-div6.c                |  6 ++--
+ drivers/clk/renesas/rcar-gen3-cpg.c           | 15 +++-----
+ drivers/clk/renesas/rcar-gen4-cpg.c           |  9 ++---
+ .../qat/qat_common/adf_gen4_pm_debugfs.c      |  8 +----
+ drivers/gpio/gpio-aspeed.c                    |  5 +--
+ drivers/iio/temperature/mlx90614.c            |  5 +--
+ drivers/pinctrl/nuvoton/pinctrl-ma35.c        |  4 ---
+ drivers/soc/renesas/renesas-soc.c             |  4 +--
+ drivers/soc/renesas/rz-sysc.c                 |  3 +-
+ include/linux/bitfield.h                      | 34 +++++++++++++++++++
+ sound/usb/mixer_quirks.c                      |  4 ---
+ 13 files changed, 52 insertions(+), 49 deletions(-)
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.43.0
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
