@@ -1,51 +1,51 @@
-Return-Path: <linux-aspeed+bounces-626-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-625-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D328A268B2
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B47A268B1
 	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Feb 2025 01:41:22 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Yn4L80NVrz2xQ8;
-	Tue,  4 Feb 2025 11:41:20 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Yn4L732tCz2xKd;
+	Tue,  4 Feb 2025 11:41:19 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=193.252.22.70
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738589911;
-	cv=none; b=Tyduyyjc63ojJRSKmuYvSQtjUmk+2p4aRBXGBTuRLbGJhKifW06xYCEP9nuPHTfER6Obh35vcAO0HLTY3mR0MsSot4K1Ml3E7KQUCqXIqGFyPGC38K9kHysi5NBH/1ULdI7xfdmyxyUZz+ylAaPIXELJiTVWE36g3V/7LWj9hvKB9JCc8549Nqt3y5166V5jILt1qSNDl6+U7Q71tAgEzMFq9Bv1EMVwVyTzz1rDvkAD8qUlP6sAqWxdpoPgZpbS7VzscWtcX1bBJYbGPpE4XVKi3AReW6u5EauvF7jjQ28l5CwPE0ic1JVI9ZGYBS+AnMIvyA0HaBZXZTa52+A9BA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=193.252.22.71
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738597408;
+	cv=none; b=I9SOe/1/DiSC1BXX6QyHOM4jK7rpW127kjJ8qWLWqB7s39LGfIbuYxAlrqSkp04s8HwqM4e4W8qB5a9hgKP9HOzTOVT2zqIP5tDZyWaiJ94UgFDliVaPKu1KvYMky3TVkGpLKpAZw3Fpcc5oSv/JZt3a+kkLail+n5jf4/WwvRx3pQ/p4sfgcSSoWauBGA5t2D3Pi1HbUTdu21AosCzkc0VEBKL/rB/SEJp8vZbCr/kRFggrkwjoMSLOjmMZadm+T+1Cv4uNnVKlGZzppPmEhW4zmTG2jVgFTflf9iTScPM22DTW8PJqWEWH/qPBtyI9zv3Rh90AgT/91yyBy8YBmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1738589911; c=relaxed/relaxed;
-	bh=/g4W8zsNjOkB4DJtFhM/WsfKs6gE5EsQ2w79HWI72oI=;
+	t=1738597408; c=relaxed/relaxed;
+	bh=RZsvS79FyvH7npVg4P4SWlQ3ou2VaFduLz7By9FNQMM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cDXePcX7fBBZ5mS4KHib0zxffyo1bE/bHrIyeb0KLj27hKbiCxkGvhHl0YvM0RsQcVF946bXYCTIOzA3B9bFxu3xU3IPWlF4hR6b6TyH1onf13+sTSTc7CSBRgbnZmMTQrIfZbi6WZAtcFnbXlM76MN6ndtGOoZDS4iknqzumn1fwC24LQnG+g64kQFuHoSV6GHGTsoIdD30pXA5Pf3lN/JGzzAMNPGcCGSQ5C+JtzeFsHAk3gOe48o48tm35wovjnDe45vR+X7RTFJYg8jm2WbUdMHb55oT/kB51wj+UmLVltvGlTuPc7iMx4qi5GJyR2FaqWQN5EYx7VCwE2AazQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.a=rsa-sha256 header.s=t20230301 header.b=XwYwJD9q; dkim-atps=neutral; spf=pass (client-ip=193.252.22.70; helo=out.smtpout.orange.fr; envelope-from=mailhol.vincent@wanadoo.fr; receiver=lists.ozlabs.org) smtp.mailfrom=wanadoo.fr
+	 In-Reply-To:Content-Type; b=NDz2eUOaLc3WvP0LKbdPbKY3/ZsYf2mWq4aeqi3RlUvhCGusD706gyz4nVDHuXXjsBTdL8bxP89WA9O2RxTqGlCGg0m+6WDTKIBuqjaiB6q8kBTIDB4PVZuEir5vu6XoWXr9ZpJRcBtHa1PsNZdsUt9z+UqmsXObzTOKIneISqyhme2vmU+fkNdTMSI5p2X5CPQ8YWQwqXshFqlxEFuaQc2AMaydQqvTRBLGlaj7rMBvkAnN+GitL2HENT+Qm5HtxBQeRJRqk9CyKejd2dRQ8WzQFCngZt0ydZyCu1+nAQg+iuiVGgtP3nUINWXXFIM7WjxN61T51uJA6c96UxE1UQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.a=rsa-sha256 header.s=t20230301 header.b=E6vkO1BK; dkim-atps=neutral; spf=pass (client-ip=193.252.22.71; helo=out.smtpout.orange.fr; envelope-from=mailhol.vincent@wanadoo.fr; receiver=lists.ozlabs.org) smtp.mailfrom=wanadoo.fr
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.a=rsa-sha256 header.s=t20230301 header.b=XwYwJD9q;
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.a=rsa-sha256 header.s=t20230301 header.b=E6vkO1BK;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wanadoo.fr (client-ip=193.252.22.70; helo=out.smtpout.orange.fr; envelope-from=mailhol.vincent@wanadoo.fr; receiver=lists.ozlabs.org)
-Received: from out.smtpout.orange.fr (out-70.smtpout.orange.fr [193.252.22.70])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wanadoo.fr (client-ip=193.252.22.71; helo=out.smtpout.orange.fr; envelope-from=mailhol.vincent@wanadoo.fr; receiver=lists.ozlabs.org)
+Received: from out.smtpout.orange.fr (out-71.smtpout.orange.fr [193.252.22.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YmndK0yZZz2xsW
-	for <linux-aspeed@lists.ozlabs.org>; Tue,  4 Feb 2025 00:38:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YmrPV55tbz2xYl
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  4 Feb 2025 02:43:24 +1100 (AEDT)
 Received: from [172.16.82.72] ([124.33.176.97])
 	by smtp.orange.fr with ESMTPA
-	id ewd2tOy0dEoZKewdIt5Ip4; Mon, 03 Feb 2025 14:37:19 +0100
+	id eyaCtfZi6inFieyaHt4JBP; Mon, 03 Feb 2025 16:42:19 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1738589839;
-	bh=/g4W8zsNjOkB4DJtFhM/WsfKs6gE5EsQ2w79HWI72oI=;
+	s=t20230301; t=1738597339;
+	bh=RZsvS79FyvH7npVg4P4SWlQ3ou2VaFduLz7By9FNQMM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=XwYwJD9qo2zk974igNaK7YRqOSOeQpGfDoLCz5WdqzVZVaQCeXRz5fRwVtek4nccr
-	 IIPachRHSkoVTOEAWF+Q1RzHqSOorzh7zXI195lPeh6rI9NWNNeXuWFRvNezWJTw3p
-	 PujsqHiaXsnhXn4ml0tu+soSLAwHQx/2ykUaxgbrj/FrCgmqj2lH181uuMut8tBYuy
-	 aja0FJrJQgnw/6NiWOYkVZxNTWgTqVbG3qy26HXJ2+cOUzaAglixyIojvdf5gfQ1kK
-	 saeXLw4BQa+dsq1UxBUW8SPV6tQMuEPXP5HvV9PLKQ6hwtsv5+NhzubCQc+XQUYX3M
-	 ZF/4/IEW0rvcw==
+	b=E6vkO1BKyl9ZpZ/TIQbXnlfLL271wV2srdURu+fgQIsPEjIDixSMulc1y5cgOUdvQ
+	 iU0xocdrubJQbaGqdM4S1eETa1X3VnmbyIlCpIe+a4qtacRIMNgrbIBohfYQ/Cbs11
+	 4XcRUGo4AdWzSsrodY9VqO3xRb+ccURkqfTphOk6wf42jjzptRkf6Ew7LUPb8/7xmB
+	 4nxFwkSmDXyg1SOWrja+h9uckxzLz1buRrs02RmLyeg90pT9qhR9xDfFtDYVrbgxVL
+	 8i8tQrSryz9UIKkC0YPWmVq5f1paxeJQ4qhOnmIpEQ2eQwpF8/yY2k5burgk4+LioO
+	 cQ9XcwAjHlJHA==
 X-ME-Helo: [172.16.82.72]
 X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
-X-ME-Date: Mon, 03 Feb 2025 14:37:19 +0100
+X-ME-Date: Mon, 03 Feb 2025 16:42:19 +0100
 X-ME-IP: 124.33.176.97
-Message-ID: <45920591-e1d6-4337-a906-35bb5319836c@wanadoo.fr>
-Date: Mon, 3 Feb 2025 22:36:43 +0900
+Message-ID: <16e1568d-8747-41e0-91b9-ce23c5592799@wanadoo.fr>
+Date: Tue, 4 Feb 2025 00:41:55 +0900
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -61,9 +61,9 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH treewide v2 1/3] bitfield: Add non-constant
  field_{prep,get}() helpers
-To: Johannes Berg <johannes@sipsolutions.net>,
- Yury Norov <yury.norov@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-clk@vger.kernel.org,
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Johannes Berg <johannes@sipsolutions.net>,
+ Yury Norov <yury.norov@gmail.com>, linux-clk@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
  linux-crypto@vger.kernel.org, qat-linux@intel.com,
  linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
@@ -88,6 +88,8 @@ References: <cover.1738329458.git.geert+renesas@glider.be>
  <1824412519cb8791ab428065116927ee7b77cf35.1738329459.git.geert+renesas@glider.be>
  <e20a177a-30cd-4088-89e1-b479aba1356c@wanadoo.fr> <Z5-xMUqrDuaE8Eo_@thinkpad>
  <74cab7d1ec31e7531cdda0f1eb47acdebd5c8d3f.camel@sipsolutions.net>
+ <45920591-e1d6-4337-a906-35bb5319836c@wanadoo.fr>
+ <CAMuHMdXZKNtAmiMP8uuSngZMsDLGcYwrLS0xNWzN4UfLaccdyA@mail.gmail.com>
 Content-Language: en-US
 From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
@@ -100,7 +102,7 @@ Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
  yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
  CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
  ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <74cab7d1ec31e7531cdda0f1eb47acdebd5c8d3f.camel@sipsolutions.net>
+In-Reply-To: <CAMuHMdXZKNtAmiMP8uuSngZMsDLGcYwrLS0xNWzN4UfLaccdyA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
@@ -108,54 +110,66 @@ X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-On 03/02/2025 at 16:44, Johannes Berg wrote:
-> On Sun, 2025-02-02 at 12:53 -0500, Yury Norov wrote:
+On 03/02/2025 at 22:59, Geert Uytterhoeven wrote:
+> Hi Vincent,
+> 
+> On Mon, 3 Feb 2025 at 14:37, Vincent Mailhol <mailhol.vincent@wanadoo.fr> wrote:
+>> On 03/02/2025 at 16:44, Johannes Berg wrote:
+>>> On Sun, 2025-02-02 at 12:53 -0500, Yury Norov wrote:
+>>>>> Instead of creating another variant for
+>>>>> non-constant bitfields, wouldn't it be better to make the existing macro
+>>>>> accept both?
+>>>>
+>>>> Yes, it would definitely be better IMO.
+>>>
+>>> On the flip side, there have been discussions in the past (though I
+>>> think not all, if any, on the list(s)) about the argument order. Since
+>>> the value is typically not a constant, requiring the mask to be a
+>>> constant has ensured that the argument order isn't as easily mixed up as
+>>> otherwise.
 >>
->>> Instead of creating another variant for
->>> non-constant bitfields, wouldn't it be better to make the existing macro
->>> accept both?
+>> If this is a concern, then it can be checked with:
 >>
->> Yes, it would definitely be better IMO.
+>>   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask) &&
+>>                    __builtin_constant_p(_val),
+>>                    _pfx "mask is not constant");
+>>
+>> It means that we forbid FIELD_PREP(non_const_mask, const_val) but allow
+>> any other combination.
 > 
-> On the flip side, there have been discussions in the past (though I
-> think not all, if any, on the list(s)) about the argument order. Since
-> the value is typically not a constant, requiring the mask to be a
-> constant has ensured that the argument order isn't as easily mixed up as
-> otherwise.
-
-If this is a concern, then it can be checked with:
-
-  BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask) &&
-                   __builtin_constant_p(_val),
-                   _pfx "mask is not constant");
-
-It means that we forbid FIELD_PREP(non_const_mask, const_val) but allow
-any other combination.
-
-> With a non-constant mask there can also be no validation that the mask
-> is contiguous etc.
+> Even that case looks valid to me. Actually there is already such a user
+> in drivers/iio/temperature/mlx90614.c:
 > 
-> Now that doesn't imply a strong objection - personally I've come to
-> prefer the lower-case typed versions anyway - but something to keep in
-> mind when doing this.
+>     ret |= field_prep(chip_info->fir_config_mask, MLX90614_CONST_FIR);
 > 
-> However, the suggested change to BUILD_BUG_ON_NOT_POWER_OF_2 almost
-> certainly shouldn't be done for the same reason - not compiling for non-
-> constant values is [IMHO] part of the API contract for that macro. This
-> can be important for the same reasons.
+> So if you want enhanced safety, having both the safer/const upper-case
+> variants and the less-safe/non-const lower-case variants makes sense.
 
-Your point is fair enough. But I do not see this as a killer argument.
-We can instead just add below helper:
+So, we are scared of people calling FIELD_PREP() with the arguments in
+the wrong order:
 
-  BUILD_BUG_ON_STATICALLY_NOT_POWER_OF_2()
+  FIELD_PREP(val, mask)
 
-But, for the same reason why I would rather not have both the
-FIELD_{PREP,GET}() and the field_{prep,get}(), I would also rather not
-have a BUILD_BUG_ON_NOT_POWER_OF_2() and a
-BUILD_BUG_ON_STATICALLY_NOT_POWER_OF_2().
+thus adding the check that mask must be a compile time constant.
 
-If your concern is the wording of the contract, the description can just
-be updated.
+But if we introduce a second function, don't we introduce the risk of
+having people use the lower case variant instead of the upper case variant?
+
+  field_prep(incorrect_const_mask, val)
+
+I am not sure to follow the logic of why having two functions is the
+safer choice. Whatever the solution you propose, there will be a way to
+misuse it. Let me ask, what is the most likely to happen:
+
+  1. wrong parameter order
+  2. wrong function name
+
+?
+
+If you have the conviction that people more often do mistake 1. then I
+am fine with your solution. Otherwise, if 1. and 2. have an equally
+likelihood, then I would argue to go with the simplicity of the single
+function.
 
 
 Yours sincerely,
