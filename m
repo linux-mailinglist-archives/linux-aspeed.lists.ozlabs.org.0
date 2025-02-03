@@ -1,107 +1,48 @@
-Return-Path: <linux-aspeed+bounces-600-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-602-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39ADBA250DD
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Feb 2025 01:16:35 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DEF0A2517C
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Feb 2025 03:57:04 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YmRqf0B4Pz2y8P;
-	Mon,  3 Feb 2025 11:16:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YmWP83dt2z2xGT;
+	Mon,  3 Feb 2025 13:57:00 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::1135"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738518841;
-	cv=none; b=hyEMYV/HEjN8j2QC9CyyeAHuUBCKdFdjkQ6WKTdZIFuiH4bPAZLrXuFBy7Qv1fPlCpiMshtE8EevSsqM5qm2XddKMgl5Vmn7ZK2NZY+mTBMHsAUDfPTDbIcJ/87xbQWT5pr0A5kez7Omh6CnTbaNavxg68QQS0iTVlhWknsJ+J6MhSgmLK3tZ/h4lRASQFV5t75dku0Lx+fWCMqQC7d7Ejc2ef+gudhzPvXB1p3u+TOx3Py4rGEzYxUbr+pmHfk0ODkui+OTERkBQ4u5KVM0c6DXGmPOP/462qVxd2g87k7AMEp47ki/kG+YGLutiBknQnMBt4pkTs5YSEOCYoSUYw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738551420;
+	cv=none; b=PKV4mvveTGEC6oRA455VBoTjBdWL//J5xHSFHs8bYSaScKM6F3MvrLQMzAeUsjaFBZSIyrc7KWFK0QBG0JNnUW/aOPsijgUQyBgIzdBItRv/WLmVAIQ9l/NWZfld2rYTfRVcLsS6gLKmSBDsOlNLOULcnXiAzEAsR37ijiblbfWekLT12J74W6JOYfg2WZvCqHpKUUjEkw4gtHc4YBBqRNT0SWfQ0vPVD3Wu/Ht5pmEJwa+ZyRIqRUihAUUh0zG9Yy4SC/pJK1p8W4GOiN9gmg6c2ZxV+xABh+TAOn9QKlVPxttGHKpzPI/OSyWzq6m8yiAJhS/ogLzfx9mAI3jH1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1738518841; c=relaxed/relaxed;
-	bh=bu/o5ZKE+DmrVvfqpvDfKwO+d8/POCqsIdA64ajmPWE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B5QGS0P6uJW6phs1Wwt6+2iwz2Xm2gNARXhx8oW7ZomyFDreCP7ue/MZsDJv8gzSwXeulArNK3JoqOREf4/KygFglW0W+MYBlVdkhsq7AktzGKaXT1Orb5u4OnzMGDHzdeZgkrl5cvObNqEpkBw5n3mvNBCpr4SZpvFf4mDItHdVQNda3boKvulpOM4+zQ+DjvKggVMba2zYSZudl7xbP1TmkIZR0zwTSgoHppTe/ssbgmPx/84pa4DNW9ZWfA2GD5CbNFnHtOSvivX9+Z+mMB8PFTfRT9K/N8aw6rrsIgkDimT7eYXT/ZUkA8ZjR7E4YiiG8TTzRZB+DO0W2imgYw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FPBaY0it; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1135; helo=mail-yw1-x1135.google.com; envelope-from=yury.norov@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1738551420; c=relaxed/relaxed;
+	bh=/M3u/UfzPn7K2j1tUy85ouRPJtHFLSPO1KCwoEDBz08=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=LjmLlatqDzMsrl4oJR0qthzzm/SIJdjts5vAqwEZNCuaJHo533+pwRsitlkgqirEM5ctm11Yk1RMgPNctdMqVdcf6xtGs5PsqtmRXx7r7XPVHQCPra8+TC+u2F4lSxgRHYDabqrGMI4+B63sNU77tJeOs6FroYXrWaWWZCvdYk3rqzedpCCdPpjhg9/k7dCS91wxBmmCqpw3RqdF0hnQTpQ0RV9T3z6S2FmqaGjcmPYZFZy1XdQ79y1Qa0lBcQApDsAaQhpXGlUbiQxQfovBUR6fie+yJ4nZteVYUtywCO+L4qGs6wxyAJUYXDSwjDm/ipAxn8lcRqt8z8Z0d/xBqg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=keaaDwqB; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FPBaY0it;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=keaaDwqB;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1135; helo=mail-yw1-x1135.google.com; envelope-from=yury.norov@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YmHLb4psdz2xBk
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  3 Feb 2025 04:53:58 +1100 (AEDT)
-Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-6f6cb364c7fso17285557b3.3
-        for <linux-aspeed@lists.ozlabs.org>; Sun, 02 Feb 2025 09:53:58 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YmWP75s2qz2xGF
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  3 Feb 2025 13:56:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738518835; x=1739123635; darn=lists.ozlabs.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bu/o5ZKE+DmrVvfqpvDfKwO+d8/POCqsIdA64ajmPWE=;
-        b=FPBaY0itWgqelvyRhjXMuFQiBeKLV4aPsy+aoHdHlX8IN+sJA+/AQAqlayIz2xkAWl
-         aZc108Nf1c4Mu6Gp36tCHZNl6oYtJzyWN0XOp0mwaAwNm/ZOLgDCzPdTFzqArrSTEauh
-         Dq7YMfJ40xYJqbsGsSoXYBTPPMyicGsPXkw5AoyxB4UIecpm7brBxVbcQJr+XyeG5ARh
-         V6y7Jj7uGLf7jpJZhoYUg+z7jFZe9379wtBijoh30cLoX0fLjjBPlJRy2Gb/WWQ7nGsY
-         ICmw4E1ZmV4i6NQ6n3/iCHQVBJ5jMyf5+ib5o0GoHwIdNwJvLXuG5wbsTJ9By01UqUQx
-         Muaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738518835; x=1739123635;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bu/o5ZKE+DmrVvfqpvDfKwO+d8/POCqsIdA64ajmPWE=;
-        b=GLAA62QGDQ3Vx+QE11OhXecc7nqJCJhKKEmIxb7MUmV/aS5I9uc7LCr7/MmUlMa2QO
-         YCKZzc7nvIVhufefkRdrbd0Tjsh3+GAjN61hFKMRDuzfcQhuq7MWbx9CyJ/zSDzPV3h0
-         SZKYFoWEa9TWlfwlBucUHyT/iF8mxuL9Yi51qgcpsQCD4sombmMQAXrL7MKj/fvuOyGN
-         WbzMjWRUDQ3RzmbMkR8yX6I7qIVCLOLbo6C2/nTP3lA+S2dhfKPOJ450TVd0dDDFlMR+
-         mAfZugE3cMJv4iBfUVCjkkWsPkEnSzKIhxHU0JgwuWWT5DbKfaEpoRhx6CT7sbXOvd3X
-         kAKw==
-X-Forwarded-Encrypted: i=1; AJvYcCWi2O3Wnw0Z7R2HrtNd9iNWYWZ9V6Q4qZCyuCod4gdwe+gF3aIG36IqqSzf2gynEHBQDOrMxLVm3DMK5zU=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YyEacGihDrMcNnr+eIb/8qG0+Bb52MTjatES7lpa2zqXKyUwDrc
-	mr0wBlVIxvGwjnF0Z4FzgMReWVdfT6y9koC2ZoQbsBSvVO5sBAEQ
-X-Gm-Gg: ASbGncshtiNFVMdy7ZJsPP6K3KRyrmNocx0MnorNER4CNSPCA6cAu1M76g6hWWo853i
-	SeFWPhhaeq+fBoWxOsXdc3yWztOj49WnV1UwZ/n4LxgriNv9GdUsXgmjYnZxozmZv1hozvJPL4Y
-	g/soLl4f1zXrY4HDeGiZzZZAvFptHpStJPyEHb/wqYr1OrCNudZalLcbu+UVeXeLywqbpKD5/hd
-	RJcizYlPwraVwTJLpPQqra4aTg07OdSo26HpBZmlDie1SNNgLChyq0OFNVZwBKz8OQKUJ7yTPP2
-	5W7m9T4Ryizkl6w//HkkJoMO4HTn6vV2jpdU5b4tJIGgp6MhQfs=
-X-Google-Smtp-Source: AGHT+IHHQI3478HvRiKWIVLIdATv32EFyyXdDb7s9xEv/S/0xqBbGzFcSVKK2nIkOtoAuYeOo+6nPg==
-X-Received: by 2002:a05:690c:6e09:b0:6f5:4304:fdc with SMTP id 00721157ae682-6f7a832a301mr158970467b3.6.1738518835574;
-        Sun, 02 Feb 2025 09:53:55 -0800 (PST)
-Received: from localhost (c-73-224-175-84.hsd1.fl.comcast.net. [73.224.175.84])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6f8c465b884sm17908247b3.59.2025.02.02.09.53.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Feb 2025 09:53:55 -0800 (PST)
-Date: Sun, 2 Feb 2025 12:53:53 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
-	qat-linux@intel.com, linux-gpio@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>
-Subject: Re: [PATCH treewide v2 1/3] bitfield: Add non-constant
- field_{prep,get}() helpers
-Message-ID: <Z5-xMUqrDuaE8Eo_@thinkpad>
-References: <cover.1738329458.git.geert+renesas@glider.be>
- <1824412519cb8791ab428065116927ee7b77cf35.1738329459.git.geert+renesas@glider.be>
- <e20a177a-30cd-4088-89e1-b479aba1356c@wanadoo.fr>
+	d=codeconstruct.com.au; s=2022a; t=1738551418;
+	bh=/M3u/UfzPn7K2j1tUy85ouRPJtHFLSPO1KCwoEDBz08=;
+	h=From:Date:Subject:To:Cc;
+	b=keaaDwqBcwuRr2sI322cGvM6QhW3T8VZUIxniSpkWNFtHxvEYmOnJqsDXFQTvVwij
+	 TV62XwwNM8Lny3y/GlktCxB2By33Y+iKiDyxrqh09BD3xef6UI5VFwY26s3weL4xaJ
+	 qrMrMhFX3YY9SHuv9T+JdhQrw/eV/nirx005KyFZBSSF+gTXotW0xcKu4itLfs2vuU
+	 8HXubwBXbJvZyBaO+s/GWRpfUvE8RdHjK87epWug2CxO+pQZABSg3tvZxx46F0G6J9
+	 64ZkKgFyBgnnAmohCv4wDPnkyP8flCNPAeAng42WH6+STBsZ+Fcgxm3nCgrbnQb5Dg
+	 ctkVcjJ6ugq3w==
+Received: from [127.0.1.1] (58-7-156-140.dyn.iinet.net.au [58.7.156.140])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id C2762703FB;
+	Mon,  3 Feb 2025 10:56:55 +0800 (AWST)
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+Date: Mon, 03 Feb 2025 13:26:31 +1030
+Subject: [PATCH] MAINTAINERS: Mark Andrew as M: for ASPEED MACHINE SUPPORT
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -114,66 +55,57 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e20a177a-30cd-4088-89e1-b479aba1356c@wanadoo.fr>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250203-aspeed-maintainer-v1-1-60bc3a5f0a7c@codeconstruct.com.au>
+X-B4-Tracking: v=1; b=H4sIAF4woGcC/x2MOwqAMBAFryJbG4jrp/AqYpG4T93CKImIIN7dY
+ DHFFDMPJURFor54KOLSpHvIUpUFTasLC4xKdmLLrWVbG5cOQMzmNJwZRCMi3oNZXNNR7o6IWe/
+ /OYzv+wGLOVJiYwAAAA==
+X-Change-ID: 20250203-aspeed-maintainer-dddbbe22da46
+To: joel@jms.id.au, linux-aspeed@lists.ozlabs.org, arnd@arndb.de, 
+ soc@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+X-Mailer: b4 0.14.2
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.0
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-On Sun, Feb 02, 2025 at 05:26:04PM +0900, Vincent Mailhol wrote:
-> On 31/01/2025 at 22:46, Geert Uytterhoeven wrote:
-> > The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> > constants.  However, it is very common to prepare or extract bitfield
-> > elements where the bitfield mask is not a compile-time constant.
-> 
-> Why is it that the existing FIELD_{GET,PREP}() macros must be limited to
-> compile time constants?
+From discussion in [1] and in-person with Joel, flip my entry from R:
+to M:.
 
-I guess, for historical reasons?
+Link: https://lore.kernel.org/all/CACPK8Xe8yZLXzEQPp=1D2f0TsKA7hBZG=pHHW6U51FMpp_BiRQ@mail.gmail.com/ [1]
+Cc: Joel Stanley <joel@jms.id.au>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: soc@lists.linux.dev
+Cc: linux-aspeed@lists.ozlabs.org
+Cc: linux-arm-kernel@lists.infradead.org
+Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Instead of creating another variant for
-> non-constant bitfields, wouldn't it be better to make the existing macro
-> accept both?
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 896a307fa06545e2861abe46ea7029f9b4d3628e..305e5530560e53c10f0b610fa7b4456ca78fdfc2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2285,7 +2285,7 @@ F:	drivers/irqchip/irq-aspeed-i2c-ic.c
+ 
+ ARM/ASPEED MACHINE SUPPORT
+ M:	Joel Stanley <joel@jms.id.au>
+-R:	Andrew Jeffery <andrew@codeconstruct.com.au>
++M:	Andrew Jeffery <andrew@codeconstruct.com.au>
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+ S:	Supported
 
-Yes, it would definitely be better IMO.
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20250203-aspeed-maintainer-dddbbe22da46
 
-> As far as I can see, only __BUILD_BUG_ON_NOT_POWER_OF_2()  and
-> __BF_FIELD_CHECK() need to be adjusted. I am thinking of this:
-> 
-> diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
-> index 63928f173223..c6bedab862d1 100644
-> --- a/include/linux/bitfield.h
-> +++ b/include/linux/bitfield.h
-> @@ -8,6 +8,7 @@
->  #define _LINUX_BITFIELD_H
-> 
->  #include <linux/build_bug.h>
-> +#include <linux/compiler.h>
->  #include <asm/byteorder.h>
-> 
->  /*
-> @@ -62,15 +63,13 @@
-> 
->  #define __BF_FIELD_CHECK(_mask, _reg, _val, _pfx)                      \
->         ({                                                              \
-> -               BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
-> -                                _pfx "mask is not constant");          \
-> -               BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");    \
-> -               BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
-> -                                ~((_mask) >> __bf_shf(_mask)) &        \
-> -                                       (0 + (_val)) : 0,               \
-> +               BUILD_BUG_ON_MSG(statically_true((_mask) == 0),         \
-> +                                _pfx "mask is zero");                  \
-> +               BUILD_BUG_ON_MSG(statically_true(~((_mask) >>
+Best regards,
+-- 
+Andrew Jeffery <andrew@codeconstruct.com.au>
 
-This should be a const_true(), because statically_true() may be OK
-with something like:
-        ((runtime_var << 1) & 1 == 0)
-
-I think it's your own patch that adds const_true(): 4f3d1be4c2f8a :)
-
-Thanks,
-Yury
 
