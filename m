@@ -1,95 +1,80 @@
-Return-Path: <linux-aspeed+bounces-632-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-635-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F010A27941
-	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Feb 2025 19:03:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C9AFA27A47
+	for <lists+linux-aspeed@lfdr.de>; Tue,  4 Feb 2025 19:44:13 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YnWSc6XmZz2ypP;
-	Wed,  5 Feb 2025 05:03:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YnXMZ6Q8vz2ysv;
+	Wed,  5 Feb 2025 05:44:10 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::42c"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738692208;
-	cv=none; b=hqqU7kDhNbr8Qqn5Sf6TrFGehxDZNwLVSeg5DjuzSGd5kAXVASd5mv8aA5aTTF+xamolaDqVpAd0CPaZHDTRpYO1wbNN2VgQUnlThpO6F/IOon98e9tZQNsDGcUFopW5pVRJdJzFavEjJtJjl3sNpKrj2fDMwLPvC9lopawTQayIsvYg2+3EJlp2HbgSodjaKuzABJmpw0hi3JLFYvPcS/IQcYibtMePVbv97FdxDi4aWXR7AeGorGM39Ns4QhY5uYDhBiPuBbG3dxP1zvVS7HnPWZ1nMeyYian3rdqXgT/vGmEjimuNwVZwe4leuhfAMHMdqTfVTZHBzvgeiFGF3Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.158.5
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738694650;
+	cv=none; b=lN8x1B/ak4hMxWt8IT7oHnjuFg/fUhavT0mFNaquMR0AzVjkRm2CQATQcPKOqHdxDHE09PN7j/0oK649pf3+i1ZWoc5SQ/2jV56u+yvDFiCyLO3t+Oh6GexGhg1mq0Oo2qm9q8OX+8nR0r8YblS6P5Ac/aJ9rY0rSEtTkjmcB/rzjttc42Jj4tTxp2R1Ypv7Q3CfvN8tv1k4hqaWMBqGqCiE6YCNX1nYF/zlvbkGnsEWRMnsM/ekTS84KujMctV5bjPrEYamBvuzIDfdNxZGA7dri+uWDkL0/juMMEcqPK38KwC9jUuNaDbsoHAersEC90d6wNeo7PDhsCgHppH0Sg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1738692208; c=relaxed/relaxed;
-	bh=4W7/uVh1SHBueJ7TDZhlHeiCdQneN4JhcxgrJWh5ZZA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WO6V05/0jz66qqlQG/VChvypQVI3icXymRs+Wx3KUuVNQ5hw6/LbMehntDsM+20JzigcPIL1nQOtjhokkPU+ZsDl5WxEpJWvv+PJLkFrb9XdmhXJ+K8kVUtgIvxNZy5bTqfdOq1UfOV7X0uHqxfZ/xhrIxkoTst2txjwM1rkG1xwnT/o013QeLp5j/wx/5qrxbwqpkbrkKL32Kh+xmF1rrNQhuQmPD6OwPH4k7rvgDrh43D5Qa2rGrkp7MK+GxwB8/7WjzM6kh6BpPTlAQviyuReVvB3RZZvPr9OcuBHtLTS3ckDInVXEijviGdhEOFrgPvrlzi4Q8LL3TYRoYSUNQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=F+JQ2fUX; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::42c; helo=mail-wr1-x42c.google.com; envelope-from=naresh.solanki@9elements.com; receiver=lists.ozlabs.org) smtp.mailfrom=9elements.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com
+	t=1738694650; c=relaxed/relaxed;
+	bh=EGA6gUn9zRkuVLwQf80uhCdEddQ0d36aW1lKnlzmiRQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d5Nue7TwiDVHsC/DoZC6Bjc7IdoWn6mmMCfzwbm26i5UyKHVaMBVeOYTCVVCMA9b4EX1lLy16wGcjkM9V45cSLqcYQpW5ctAqSlwyaTQ/jRUrvNjv18wQVfEt9vwYuiOmvftDAklBFz8SdoCXVNjuVueK62Q1OaDdqrwbMp04V5EMcuuFVgqSR7Au/ACueJbPbtgKXbYEZ7YNFV0x2ekzDKOIRkwoxH/ERPmIe1HCjmJSy6eNACbzXCR7Wy88qZUju9I5KY3Lju8QjsztnwzTNid4HbrmwkN+Mro+w/n43vHG2IrLzquJJ3PEaYQsx34iMN0f7ABYrph53RUMYo9fg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=bIebhRt8; dkim-atps=neutral; spf=pass (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=F+JQ2fUX;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=bIebhRt8;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=9elements.com (client-ip=2a00:1450:4864:20::42c; helo=mail-wr1-x42c.google.com; envelope-from=naresh.solanki@9elements.com; receiver=lists.ozlabs.org)
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=ninad@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YnWSb0V9qz2yXd
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  5 Feb 2025 05:03:26 +1100 (AEDT)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-38a8b35e168so21672f8f.1
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 04 Feb 2025 10:03:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1738692202; x=1739297002; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4W7/uVh1SHBueJ7TDZhlHeiCdQneN4JhcxgrJWh5ZZA=;
-        b=F+JQ2fUXka/dBar7xG1Cfcue54ptpo9KRtwv7ti+fDnHGjKJX24o3MrRmJcSCBteof
-         2zmNPtE3KsN+dg4K+ch5JWT90Zupaoud3ban3o8VV5CNAFYuMCQfXkxeFEAYXV56+fQa
-         atCPAAndaSWX5QKu96BJ3rZnnE1/yfopFoLQshGNLq/zJoLfcyeIVDRbxPiG4PeE3JR1
-         D4bOiIVuKrn4WOZlgJkN+XH3yrKNHvyixWyKtROyXXOLVt6MBiXLOf21hYEHm5M0Qnob
-         Dn5aqyNuN1e3N5/yBbryPucsv5mcWSrA6jT06u0iqyHFrGBFAkZc84JBx7eGrIwg+A/N
-         1jlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738692202; x=1739297002;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4W7/uVh1SHBueJ7TDZhlHeiCdQneN4JhcxgrJWh5ZZA=;
-        b=Q1fLQaATwASui8xnN3r9v8R7eipws9FpUavvE4GpV64ceZ1awMULrj2EDgFMCQwp+A
-         i47/3+mNh2IaujQCDKuxoq5L9kJ2Vc/78MyVtdDtN4Zn0EqjC10n/PlmXcYo687tSVsG
-         33On8iNTq+WQoshNdMK7KhgomssbKvWki63qUkMdvU/gJBEZLNlIhoEp+CFRHCC2dzWe
-         zDM+yYNyMEFNA0rOQ1fYNB/1WFLkcGDJeU3amoOwM/DOCUe9nT68pPrIQfiNGxD5NDSv
-         JjrOv3JAxQFdy6gjfeYnQcgb7zZ938R4DcCzD9/IKgboyyjyPJJ6W+oEEZ0OenMTNJ4v
-         QJiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVfSFJOY2ZZGBp3RhvOabwjH/CpW4GAyWpZg3e1pT6n6A/SoeVuUXBRXtg6zQUZuluBP/uwvqfkiY5t+pc=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxQ9zXz6+SsEXQl/tbherQLTRPWVyIzNhfOcaw6jqtY99/ZsGIF
-	8Xf2854SsSfyDIB4YfVPdd2L4qbbMxuleVl48EEKF1bSaqjI6L6LzLk78DMimGQ=
-X-Gm-Gg: ASbGncsQwroOzgV4BIYBT1E3IL1M+HOkZB02wYiZ+BIC/S5tdoIrY4/Mf9Vn7SAOyeg
-	ptgxLA/pqApkUFACNQ/M0/diONwF0UdL/gKDfaFmb1h1WdQUHIaQ0s5Lm0HEuQMBJpGg6sDgVJQ
-	+cQ0jXSBl9moRFUUnKjSqhyiX5CK0GCnFb8GfOx+2GQxzj4w4UaUciOSBkRuxZGeLMIfTxOAKKP
-	4k4IYxlhLGgqkhO3/JIKnO3zaXfaG0wJqPeOBOEpqO7+7lF5xyEAWvqs0pgRQWNhDJIx7XY0P+j
-	pIjS+CTg6RbND4rA7ymlICc1WP9iHbMCyRovwlvYiE/BfJ85iyiGlRG/gG0C0fXYw/3gszo1eVA
-	UTNZq8lUPjcM=
-X-Google-Smtp-Source: AGHT+IE/qY9aAKQmWdzpYQlP9HqBpbBqhuFIYDUB8Q8Ee1l43WimZvBDhx75rwg4/X6t6kRWcupvFw==
-X-Received: by 2002:a05:6000:4013:b0:38a:88ac:ee69 with SMTP id ffacd0b85a97d-38da53ab53dmr3527394f8f.13.1738692201956;
-        Tue, 04 Feb 2025 10:03:21 -0800 (PST)
-Received: from stroh80.lab.9e.network (ip-078-094-000-050.um19.pools.vodafone-ip.de. [78.94.0.50])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e244ecd6sm202687235e9.28.2025.02.04.10.03.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 10:03:21 -0800 (PST)
-From: Naresh Solanki <naresh.solanki@9elements.com>
-To: Guenter Roeck <linux@roeck-us.net>,
-	broonie@kernel.org,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: linux-hwmon@vger.kernel.org,
-	Naresh Solanki <naresh.solanki@9elements.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ARM: dts: aspeed: sbp1: Update for ir38640
-Date: Tue,  4 Feb 2025 23:33:04 +0530
-Message-ID: <20250204180306.2755444-2-naresh.solanki@9elements.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20250204180306.2755444-1-naresh.solanki@9elements.com>
-References: <20250204180306.2755444-1-naresh.solanki@9elements.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YnXMZ0cHtz2yXd
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  5 Feb 2025 05:44:09 +1100 (AEDT)
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 514GEnWO028618;
+	Tue, 4 Feb 2025 18:43:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=EGA6gUn9zRkuVLwQf80uhCdEddQ0d36aW1lKnlzmi
+	RQ=; b=bIebhRt8NW06bb1R2iEF9rHXjje7eQhp6FSqccrpeNHVicQ0bcn+x37z/
+	PU5DlOTBxkqbfXZrWtpibxlSHT4kO+ZPgGTc7JQOMuh3RN90LmyI9puZ8Gq0tpWD
+	Mh59Rf/77TXXKzbCBSDcCz0canUoQ1+qTm0gmkrqaxaclcbGD5bs5jTRHr2rDCw3
+	vsAz3npuxg7eViILUs93sZ0yk20w9yFiojH2gXyET4ZGLlucziw12TrmvWjVMIuJ
+	4m3yEouwRRhwAZzqnXaQIC8biAf6MBy1ZJYYj/WIQnNuqHW2imT8ZKT7Ghvv5Oyp
+	UOgdmCks+e+6VI/bMcdXXGwrZWa9Q==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44knqtrxfq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Feb 2025 18:43:43 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 514GDkbq006502;
+	Tue, 4 Feb 2025 18:43:42 GMT
+Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 44hyekcuuk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Feb 2025 18:43:42 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
+	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 514Ihfah25101028
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 4 Feb 2025 18:43:41 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0FE6158058;
+	Tue,  4 Feb 2025 18:43:41 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 26AF858059;
+	Tue,  4 Feb 2025 18:43:40 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue,  4 Feb 2025 18:43:40 +0000 (GMT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: brgl@bgdev.pl, linus.walleij@linaro.org, minyard@acm.org, robh@kernel.org,
+        krzk+dt@kernel.org, conor+dt@kernel.org,
+        openipmi-developer@lists.sourceforge.net, joel@jms.id.au,
+        andrew@codeconstruct.com.au, devicetree@vger.kernel.org,
+        eajames@linux.ibm.com, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+Cc: Ninad Palsule <ninad@linux.ibm.com>, andrew@lunn.ch
+Subject: [PATCH v8 0/9] DTS updates for system1 BMC
+Date: Tue,  4 Feb 2025 12:43:26 -0600
+Message-ID: <20250204184337.3896834-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -103,236 +88,89 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: sSYgMD278uzYUMt_Vx3iymDjSFnl_9I0
+X-Proofpoint-ORIG-GUID: sSYgMD278uzYUMt_Vx3iymDjSFnl_9I0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-04_08,2025-02-04_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ adultscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ clxscore=1011 mlxlogscore=616 phishscore=0 malwarescore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502040140
+X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Update node to align with infineon,ir38060.yaml
+Hello,
 
-Signed-off-by: Naresh Solanki <naresh.solanki@9elements.com>
+Please review the patch set version 8.
+
+V8:
 ---
- .../boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dts   | 124 +++++++++++-------
- 1 file changed, 80 insertions(+), 44 deletions(-)
+  - Updated subject line from bindings to dt-bindings
+  - Updated comment with reviewed by.
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dts
-index 8d98be3d5f2e..34f3d773a775 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-sbp1.dts
-@@ -1838,13 +1838,17 @@ i2c@2 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 
--			pvcore_nic2: ir38263-pvcore-nic2@40 {
-+			ir38263_pvcore_nic2: ir38263-pvcore-nic2@40 {
- 				compatible = "infineon,ir38263";
- 				reg = <0x40>;
- 
--				regulator-name = "pvcore_nic2";
--				regulator-enable-ramp-delay = <2000>;
--				vin-supply = <&p12v>;
-+				regulators {
-+					pvcore_nic2: vout {
-+						regulator-name = "pvcore_nic2";
-+						regulator-enable-ramp-delay = <2000>;
-+						vin-supply = <&p12v>;
-+					};
-+				};
- 			};
- 		};
- 
-@@ -1853,13 +1857,17 @@ i2c@3 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 
--			pvcore_nic1: ir38263-pvcore-nic1@40 {
-+			ir38263_pvcore_nic1: ir38263-pvcore-nic1@40 {
- 				compatible = "infineon,ir38263";
- 				reg = <0x40>;
- 
--				regulator-name = "pvcore_nic1";
--				regulator-enable-ramp-delay = <2000>;
--				vin-supply = <&p12v>;
-+				regulators {
-+					pvcore_nic1: vout {
-+						regulator-name = "pvcore_nic1";
-+						regulator-enable-ramp-delay = <2000>;
-+						vin-supply = <&p12v>;
-+					};
-+				};
- 			};
- 		};
- 
-@@ -1874,13 +1882,17 @@ i2c@5 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 
--			p3v3_nic: ir38263-p3v3-nic@40 {
-+			ir38263_p3v3_nic: ir38263-p3v3-nic@40 {
- 				compatible = "infineon,ir38263";
- 				reg = <0x40>;
- 
--				regulator-name = "p3v3_nic";
--				regulator-enable-ramp-delay = <2000>;
--				vin-supply = <&p12v>;
-+				regulators {
-+					p3v3_nic: vout {
-+						regulator-name = "p3v3_nic";
-+						regulator-enable-ramp-delay = <2000>;
-+						vin-supply = <&p12v>;
-+					};
-+				};
- 			};
- 		};
- 
-@@ -1889,13 +1901,17 @@ i2c@6 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 
--			p1v2_nic: ir38263-p1v2-nic@40 {
-+			ir38263_p1v2_nic: ir38263-p1v2-nic@40 {
- 				compatible = "infineon,ir38263";
- 				reg = <0x40>;
- 
--				regulator-name = "p1v2_nic";
--				regulator-enable-ramp-delay = <2000>;
--				vin-supply = <&p12v>;
-+				regulators {
-+					p1v2_nic: vout {
-+						regulator-name = "p1v2_nic";
-+						regulator-enable-ramp-delay = <2000>;
-+						vin-supply = <&p12v>;
-+					};
-+				};
- 			};
- 		};
- 
-@@ -1904,13 +1920,17 @@ i2c@7 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 
--			p1v8_nic: ir38263-p1v8-nic@40 {
-+			ir38263_p1v8_nic: ir38263-p1v8-nic@40 {
- 				compatible = "infineon,ir38263";
- 				reg = <0x40>;
- 
--				regulator-name = "p1v8_nic";
--				regulator-enable-ramp-delay = <2000>;
--				vin-supply = <&p12v>;
-+				regulators {
-+					p1v8_nic: vout {
-+						regulator-name = "p1v8_nic";
-+						regulator-enable-ramp-delay = <2000>;
-+						vin-supply = <&p12v>;
-+					};
-+				};
- 			};
- 		};
- 	};
-@@ -2070,13 +2090,17 @@ i2c@1 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 
--			p1v05_pch_aux: ir38263-p1v05-pch-aux@40 {
-+			ir38263_p1v05_pch_aux: ir38263-p1v05-pch-aux@40 {
- 				compatible = "infineon,ir38263";
- 				reg = <0x40>;
- 
--				regulator-name = "p1v05_pch_aux";
--				regulator-enable-ramp-delay = <2000>;
--				vin-supply = <&p12v>;
-+				regulators {
-+					p1v05_pch_aux: vout {
-+						regulator-name = "p1v05_pch_aux";
-+						regulator-enable-ramp-delay = <2000>;
-+						vin-supply = <&p12v>;
-+					};
-+				};
- 			};
- 		};
- 
-@@ -2085,13 +2109,17 @@ i2c@2 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 
--			p1v8_pch_aux: ir38060-p1v8-pch-aux@40 {
-+			ir38060_p1v8_pch_aux: ir38060-p1v8-pch-aux@40 {
- 				compatible = "infineon,ir38060";
- 				reg = <0x40>;
- 
--				regulator-name = "p1v8_pch_aux";
--				regulator-enable-ramp-delay = <2000>;
--				vin-supply = <&p12v>;
-+				regulators {
-+					p1v8_pch_aux: vout {
-+						regulator-name = "p1v8_pch_aux";
-+						regulator-enable-ramp-delay = <2000>;
-+						vin-supply = <&p12v>;
-+					};
-+				};
- 			};
- 		};
- 
-@@ -3596,34 +3624,42 @@ i2c@1 {
- 		reg = <1>;
- 		#address-cells = <1>;
- 		#size-cells = <0>;
--		p5v_aux: ir38263-p5v-aux@40 {
-+		ir38263_p5v_aux: ir38263-p5v-aux@40 {
- 			compatible = "infineon,ir38263";
- 			reg = <0x40>;
- 
--			regulator-name = "p5v_aux";
--			regulator-enable-ramp-delay = <2000>;
--			vin-supply = <&p12v>;
--			vbus-supply = <&p3v3_bmc_aux>;
--			regulator-always-on;
--			regulator-boot-on;
-+			regulators {
-+				p5v_aux: vout {
-+					regulator-name = "p5v_aux";
-+					regulator-enable-ramp-delay = <2000>;
-+					vin-supply = <&p12v>;
-+					vbus-supply = <&p3v3_bmc_aux>;
-+					regulator-always-on;
-+					regulator-boot-on;
-+				};
-+			};
- 		};
- 	};
- 	i2c@2 {
- 		reg = <2>;
- 		#address-cells = <1>;
- 		#size-cells = <0>;
--		p3v3_aux: ir38263-p3v3-aux@40 {
-+		ir38263_p3v3_aux: ir38263-p3v3-aux@40 {
- 			compatible = "infineon,ir38263";
- 			reg = <0x40>;
- 
--			vin-supply = <&p12v>;
--			regulator-name = "p3v3_aux";
--			/*
--			 * 2msec for regulator + 18msec for board capacitance
--			 * Note: Every IC has a PTC which slowly charges the bypass
--			 * cap.
--			 */
--			regulator-enable-ramp-delay = <200000>;
-+			regulators {
-+				p3v3_aux: vout {
-+					regulator-name = "p3v3_aux";
-+					/*
-+					 * 2msec for regulator + 18msec for board capacitance
-+					 * Note: Every IC has a PTC which slowly charges the bypass
-+					 * cap.
-+					 */
-+					vin-supply = <&p12v>;
-+					regulator-enable-ramp-delay = <200000>;
-+				};
-+			};
- 		};
- 	};
- 	i2c@3 {
+V7:
+---
+  - Updated pattern in the ast2400-gpio.yaml
+  - Dropped "dt-bindings: net: faraday,ftgmac100" patch sending it
+    separately.
+
+V6:
+---
+  - Fixed dt_binding_check errors for ipmb-dev.yaml
+  - Changed the hog parsing pattern in ast2400-gpio
+
+V5:
+---
+  - Improved IPBM device documentation.
+  - Added the hog parsing in ast2400-gpio
+
+V4:
+---
+  - Removed "Add RGMII support" patch as it needs some work from the
+    driver side.
+  - Improved IPBM device documentation.
+  - There is a new warning in CHECK_DTBS which are false positive so
+    ignored them.
+    arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dtb: gpio@1e780000: 'hog-0', 'hog-1', 'hog-2', 'hog-3' do not match any of the regexes: 'pinctrl-[0-9]+'
+
+V3:
+---
+  - Fixed dt_binding_check warnings in ipmb-dev.yaml
+  - Updated title and description in ipmb-dev.yaml file.
+  - Updated i2c-protocol description in ipmb-dev.yaml file.
+
+V2:
+---
+  Fixed CHECK_DTBS errors by
+    - Using generic node names
+    - Documenting phy-mode rgmii-rxid in ftgmac100.yaml
+    - Adding binding documentation for IPMB device interface
+
+NINAD PALSULE (6):
+  ARM: dts: aspeed: system1: Add IPMB device
+  ARM: dts: aspeed: system1: Add GPIO line name
+  ARM: dts: aspeed: system1: Reduce sgpio speed
+  ARM: dts: aspeed: system1: Update LED gpio name
+  ARM: dts: aspeed: system1: Remove VRs max8952
+  ARM: dts: aspeed: system1: Mark GPIO line high/low
+
+Ninad Palsule (3):
+  dt-bindings: ipmi: Add binding for IPMB device
+  dt-bindings: gpio: ast2400-gpio: Add hogs parsing
+  ARM: dts: aspeed: system1: Disable gpio pull down
+
+ .../bindings/gpio/aspeed,ast2400-gpio.yaml    |   6 +
+ .../devicetree/bindings/ipmi/ipmb-dev.yaml    |  56 +++++++
+ .../dts/aspeed/aspeed-bmc-ibm-system1.dts     | 139 +++++++++++-------
+ 3 files changed, 147 insertions(+), 54 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/ipmi/ipmb-dev.yaml
+
 -- 
-2.42.0
+2.43.0
 
 
