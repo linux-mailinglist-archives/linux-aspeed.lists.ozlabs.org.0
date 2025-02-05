@@ -1,85 +1,71 @@
-Return-Path: <linux-aspeed+bounces-667-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-670-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA37DA29CE7
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Feb 2025 23:51:25 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76CA4A29CE9
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Feb 2025 23:51:26 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YpFpC2Hn6z305m;
-	Thu,  6 Feb 2025 09:51:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YpFpD22Plz306J;
+	Thu,  6 Feb 2025 09:51:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=170.10.129.124
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738775782;
-	cv=none; b=IAS1Yf4DsqjnDlXxvKiqNG5JX5OOrHlUpaNKiZ2PvvbgPktWiGa0+KZmIghj85GapLnP/7fpjF4kkAlbYjt2SLespaAow0rghtFqvwkKBUrkdrn7jWdJ1IDRs6fqZ43MPNW1m85u8Ocn6lVaXu7m3SYNxV9xJtc/zrB21bb6RpV7rxee0bf8xpH0W8iYL3e/Xuimg7hb9URdzeye+jBIz2dKUdsNBXPZW7ExdkIrQ5MfLVCYQSPeVnF3juklAPU0VVuemtWfac7o5ecojLUS7l5+4PNZU+DdqeSGvEM0P3cNiBikf/LLaKfJW/ZFJ3vypkfI0fPzqWDv1wHAyJmB2g==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738786176;
+	cv=none; b=O93YM85EsEnlEB/pHEn/6EOCsnvMtYxLQX184xApk8h0IMis2+gjTD9jhSOvOpntApBhn0hgjMqmXtfuTikfl/FVhwYuR+OHfPsuLJdgQmCPEzz8HdpO3w7eXQmNAzAjtiBN/yHiYQ0ftlP2AM5WIcMMbs4UQVEBIXQYcuZWIQKaX5G4gqSuUBSRdALQm4TCSEL84YRnpBgBSwIinrBMgX2ybAIyx6hRJUpV43U0FsXDHEmgBmoAw0HpvpgwYBCyFuT7dK8UlZyHbieDcoeGp4x4lg1MpYazqpmeT7g36e/Xfvk8rObu+wzjSKJ4vgsSjyZETjX5hXsdxFrbnmWTuA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1738775782; c=relaxed/relaxed;
-	bh=zeSidYCdYJnARtwshAoVNn6AXIZ4ayw7DuR83E+9hlo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fP+1M73ESpUfjUp6x5R4/H6QWVIWKSrAdPTSFEcpPfLmAh6YkdtVzrXWUXyj4BzAHUcTXIGOYMK3mjJ8+6lL+NpfyPCHlIGrUTxww0QaxK66DGpIFbCbK7uOXDYlrqzdgJMCuoBG1iEBc6t/l06J+4R3FFlNUwwLotxlT6M+51Dz9nNtQjo+d9G2g3Yb+C43x1S/wxeVCMTuwS/PAJxuyYUFz86izikJgc8VgrUf3KQmSUGLjGSvqQNUOVtGeS6OefMVWZfWv65RwZj+/C3GDzNzmZdEw/TQm+F1f6c9RdcvGL7ijpjARJIwxpYUrVNYHWwEkNUK4PugyqZylDZZVQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com; dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ejkGPFJi; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=OzVljpOy; dkim-atps=neutral; spf=pass (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org) smtp.mailfrom=redhat.com
+	t=1738786176; c=relaxed/relaxed;
+	bh=FtyHp14quoZKfSwCwvs1IfBWioeKvvPDS6kPB6/O+SI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:To:Cc:Content-Type; b=mPkwNAYcEGzzerfnlkLDOUze52Mck0P/ua/bbAkipkglQJaXmt//8DGsRvsqADd9ANoFeQWvp1eCpdebqfNOGyvBrSPTx/QRQiEWm6njJ1OJDO0uOvg9rcwSGf0BWN+XF3MzwYGdx4NllazIztuWJENNSz/jvCdQ+WHOfrQYDOS+zDVZg2YO5xsUYHK8L4MK1zmsw2USfNsHEQyu/DuicKXMNnwsai74j3rbm1JOj97EjXDIbE5+uJlopw2a/HKPfG3rYUgYbdh50qcLybg68C7swxpzLz/++69XZui4r+msc8iaIIYlwEBf3A17juz8aMjCA/NnaRmIfjvKDs38BQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com; dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=enfdz9QJ; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Enaho0bq; dkim-atps=neutral; spf=pass (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org) smtp.mailfrom=redhat.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ejkGPFJi;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=OzVljpOy;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=enfdz9QJ;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Enaho0bq;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org)
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Yp6Mn33B9z2xJ8
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Feb 2025 04:16:19 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YpBCd2L5kz3011
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Feb 2025 07:09:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738775775;
+	s=mimecast20190719; t=1738786167;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zeSidYCdYJnARtwshAoVNn6AXIZ4ayw7DuR83E+9hlo=;
-	b=ejkGPFJiif/LRtUA5EKrAsnn8tsdPUmtc3eWWBda6Gcxe1FnBdSNXZ7AZjlnN4qp/i2JtP
-	v4ZHuxVI2LSCBSfyXvy449GMm4cl27XbNGKx9vcAjm/JIumnuR3ssHBXtJb0c7Tka4WioN
-	wm5lnmHYo+K9XNl2EwrHCIUz8l69IVA=
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FtyHp14quoZKfSwCwvs1IfBWioeKvvPDS6kPB6/O+SI=;
+	b=enfdz9QJ+69G2dIe+QOzItgQeTJOJetipJ36vrbVG0pSxnl4tardMD9dySgWEOrpiFpawQ
+	GpMANZFdw/XnOSIJP9B0yv7sqS61O+pAkBrTCZcco138uWnHCCNz12WEju6zx0PUyQgAfF
+	R2piun2Yztpi4ZNDRWrX5h2da3YFCo4=
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738775776;
+	s=mimecast20190719; t=1738786168;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zeSidYCdYJnARtwshAoVNn6AXIZ4ayw7DuR83E+9hlo=;
-	b=OzVljpOyisTd20SPRvgNRNsbWfedGsLmPTglCktx5xMb/5RH57A+g/zLagsXcWNQE7/KIK
-	UHt2voSmcWKVMsmZIE78PfKraQWdJb8aZsx4xZiHnzxTRPes2Cc2lqKlXZR+K+iAcBrAAn
-	lNubUL18yCsq3U8DZHPNP5djw37/3GI=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-279-iVCuChiANkqqSJGEhdQHuw-1; Wed, 05 Feb 2025 12:16:13 -0500
-X-MC-Unique: iVCuChiANkqqSJGEhdQHuw-1
-X-Mimecast-MFC-AGG-ID: iVCuChiANkqqSJGEhdQHuw
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-6f46924f63eso14503287b3.0
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 05 Feb 2025 09:16:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738775773; x=1739380573;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zeSidYCdYJnARtwshAoVNn6AXIZ4ayw7DuR83E+9hlo=;
-        b=dMyPCvOh6VxkDKkzBtzu98AxSaY7BsKUMBnvL6018I9mCX+B+MA7qrgWNUmtFfs6EK
-         AoXrjOXfnuAJBwBX0zfRD7nk3kulMGprZNPOxwoUHSEiwiE9MPOl1VL+Cd9+rAAwDESF
-         AlU0GMiYBgFyIxHKJmcAVCQzM9nXRrAkknqHPrZB3+wZmeytrqeP9OoiD1T9f+pSwVTQ
-         ySsUWMlEoeAg9Dpo19FLx2N3sH1MJBF5bp/rk+tLZX5aZ3spMrbnlYfmfrqGGjTkGuUq
-         3DqQDT7wPfTNE3pBFuzlKR2zv6qJie8EKY3T5neKnbEldZIsoMQj5Awo4qosLPLGORQU
-         weGw==
-X-Forwarded-Encrypted: i=1; AJvYcCWdIL5VaC0XuwR0WBMPHABJ5gWGQTzrONuje4TwbR4nOPk849Yqf9XOyMydleQSEjnZ4VT4oKUxNTIxCRg=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yw7bZmIc90Upl1nvar3dHydAJfjjIklqCGxYSc1YywvAG/zh9R4
-	8/vtLqyXxoVqvvRpKX8CMsqImrUg2AHTFXKLCZi6Rv24t/Hrlk0vCXjvVFwkedyif/o04cw9xot
-	3+FOTFPI3R8Gt/8Pb0WONDNx1PXWGOiE1NLWY483sbYaGRfTKUimnLCeFDywBS+mfDmWeZu+xkV
-	+9DzuRB+IdmZHCV4EPP1ozANoamTKLZ1gs2UxPhg==
-X-Gm-Gg: ASbGnctg3yfHyYosq3svrB+liP4bL1gkMNXc/I4nTZ2LW8r3It6AgGaLwA+vEPSdyA2
-	wrATRBB42Wa/3dJKnf19xv4r/AKSzJAQEfTzxhdcWSc61ioyQhfhIp7f2Xwkl
-X-Received: by 2002:a05:690c:6c0c:b0:6f9:4195:8195 with SMTP id 00721157ae682-6f99a60b0cdmr1342277b3.15.1738775773244;
-        Wed, 05 Feb 2025 09:16:13 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEo2HkXE9/PB8TiTOCOmlpYI4+BLO/SI3ZFeKcGKfVuRa8aoXdOtxFKnY5ClyavR5vDRDWGBJn3fTqfR8+aXmM=
-X-Received: by 2002:a05:690c:6c0c:b0:6f9:4195:8195 with SMTP id
- 00721157ae682-6f99a60b0cdmr1341537b3.15.1738775772906; Wed, 05 Feb 2025
- 09:16:12 -0800 (PST)
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FtyHp14quoZKfSwCwvs1IfBWioeKvvPDS6kPB6/O+SI=;
+	b=Enaho0bqesLNKvL0NTIqFKvneu6TkEzKVtK4mecT+wgYbP944/nWPCH7fYx+Wf5oQYTXN0
+	h42hCFRJFGAmzdV7ivWM+IYoN9jLT4gnpgZDIB3t75ZIRYOsbKlWL8I+Lhfxmvx4bl6Pk+
+	SP5rEr3FvII/kQ30tsv+pVBoJm3gGPQ=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-225-CF1M26uSNJmCSR8ep_ZkTQ-1; Wed,
+ 05 Feb 2025 15:09:22 -0500
+X-MC-Unique: CF1M26uSNJmCSR8ep_ZkTQ-1
+X-Mimecast-MFC-AGG-ID: CF1M26uSNJmCSR8ep_ZkTQ
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 409D419560B6;
+	Wed,  5 Feb 2025 20:09:13 +0000 (UTC)
+Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.21])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 957B919560A3;
+	Wed,  5 Feb 2025 20:08:57 +0000 (UTC)
+From: Anusha Srivatsa <asrivats@redhat.com>
+Subject: [PATCH 00/12] drm: Move to using devm_platform_ioremap_resource
+Date: Wed, 05 Feb 2025 15:07:56 -0500
+Message-Id: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -92,181 +78,199 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
- <20250128-cocci-memory-api-v1-14-0d1609a29587@redhat.com> <a389f799-442e-45f3-8609-2eb2f0b7a825@suse.de>
- <li2awsqmdoye3u7n3gi2mrhbfxs77e3edjmsg5zclnyjinsnul@2bjkc5agyu5u> <0ae17de1-c6dc-48eb-aed2-b099b2abbea5@suse.de>
-In-Reply-To: <0ae17de1-c6dc-48eb-aed2-b099b2abbea5@suse.de>
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 5 Feb 2025 12:16:02 -0500
-X-Gm-Features: AWEUYZllqvGkhQf1gMIyypHoBPrhgiNdZ-ww_BiUqVz8q-uL_n50cYGcicLCGMU
-Message-ID: <CAN9Xe3S3E_LzU7zF1UCE7fD9OE2bU7BcLy6xQOQk2s7=k+6v=A@mail.gmail.com>
-Subject: Re: [PATCH 14/14] Documentation: Update the todo
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Maxime Ripard <mripard@kernel.org>, Joel Stanley <joel@jms.id.au>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
-	Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
-	Xinwei Kong <kong.kongxinwei@hisilicon.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Marek Vasut <marex@denx.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, 
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
-	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	=?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
-	imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
-	linux-doc@vger.kernel.org
+X-B4-Tracking: v=1; b=H4sIABzFo2cC/x3MQQqAIBBA0avErBtQSYmuEi1Sp5pFKgoVSHdPW
+ r7F/xUKZaYCU1ch08WFY2iQfQfuWMNOyL4ZlFBaKKHxpBNddI4x0L0mRuPtYEcpjTcELUuZNn7
+ +5by87we0aAeTYgAAAA==
+X-Change-ID: 20250205-mem-cocci-newapi-6db4b8116d6e
+To: Joel Stanley <joel@jms.id.au>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
+ Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Alexey Brodkin <abrodkin@synopsys.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
+ linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738786137; l=4887;
+ i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
+ bh=JBXfstQaIVwQ4CElA5zFAPJmVat5vbPS8gLTRdPLuUI=;
+ b=kB2Ax15EIn2x59280nG+iYRJh3A8F3lI/vAFp/1S4keeM/8lC4ZnJc86pKPdqRuC7++JEqhWK
+ fKEzwCmQXKIDNwrIxS+ebvDgJC/rzBnDe6p36Nc05otkT/OeNyXMGX2
+X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
+ pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Yp8IlWvYOP901ArPRf3IqY3kxFj3yvlPsnPTsbb4H10_1738775773
+X-Mimecast-MFC-PROC-ID: Ji46vYLmisLD6YhHzaCJqbzA0u_Wb3YLZ9k0M1yiyZo_1738786157
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000049d89e062d68488b"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-0.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HTML_MESSAGE,RCVD_IN_DNSWL_NONE,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
 	RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
---00000000000049d89e062d68488b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Start replacing the below occurences with the newer API:
+- (devm_)platform_get_resource + devm_ioremap_resource
+- (devm_)platform_get_resource + (devm_)ioremap
+- platform_get_resource_byname + devm_ioremap
+Move all these occurences to uses devm_platform_ioremap_resource
+instead.
 
-On Fri, Jan 31, 2025 at 7:53=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de>
-wrote:
+This is v2 of the series. Changes from v1 [1]:
+- Mostly fix the compilation errors :( What had passed locally
+happened to be the wrong config with most drivers not enabled.
+- Clarify the TODO item in the GPU section of Documentation
+for anyone who wants to do it in future.
+- Drop meson patch from discussion in v1
+- Drop rockchip patch as well. Offline discussion with
+Maxime led to the conclusion that using
+devm_platform_get_and_ioremap_resource() would be a better
+approach in that source file. Not adding that change as part of
+this series, can be addressed separately.
 
-> Hi Maxime
->
->
-> Am 29.01.25 um 15:31 schrieb Maxime Ripard:
-> > Hi Thomas,
-> >
-> > On Wed, Jan 29, 2025 at 02:06:15PM +0100, Thomas Zimmermann wrote:
-> >> Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:
-> >>> Remove the TODO now that this series addresses
-> >>> the changes needed.
-> >> While your series is fine, this TODO item is unrelated. It's about
-> various
-> >> ancient fbdev drivers that do not reserve their memory regions
-> correctly. So
-> >> please drop patch 14 form the series.
-> > Is it? Could we rephrase the entry then? I'm the one that suggested
-> > Anusha to work on this, and it's still not clear to me what it means
-> > exactly if it's not what she worked on :)
->
-> I guess, we could make this more precise.
->
-> Some old graphics drivers don't request their memory ranges correctly.
-> It's usually a problem with hardware that has exclusive ranges, such as
-> the VGA. Vga16fb doesn't request the range as it should. Someone needs
-> to audit all those old drivers and fix them.
->
->
-This sounds like a good next approach. I will make the documentation more
-clear.
+[1] - https://patchwork.freedesktop.org/series/144073/
 
-Thanks for feedback everyone!
+Used Coccinelle to make the code changes.Semantic patch:
 
-Anusha
+//First Case
+//rule s/platform_get_resource + devm_ioremap_resource/devm_platform_ioremap_resource
+@rule_1@
+identifier res;
+expression ioremap_res;
+identifier pdev;
+@@
+-struct resource *res;
+...
+-res = platform_get_resource(pdev,...);
+-ioremap_res = devm_ioremap_resource(...);
++ioremap_res = devm_platform_ioremap_resource(pdev,0);
 
-> Best regards
-> Thomas
->
->
-> >
-> > Maxime
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
->
->
+//Second case
+//rule s/(devm_)platform_get_resource + (devm_)ioremap/devm_platform_ioremap_resource.
+@rule_2@
+identifier res;
+expression ioremap;
+identifier pdev;
+@@
+-struct resource *res;
+...
+-res = platform_get_resource(pdev,...);
+<...
+-if (!res) {
+-...
+-}
+...>
+-ioremap = devm_ioremap(...);
++ioremap = devm_platform_ioremap_resource(pdev,0);
 
---00000000000049d89e062d68488b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+//Third case
+//rule s/(devm_)platform_get_resource_byname + (devm_)ioremap/devm_platform_ioremap_resource_byname.
+@rule_3@
+identifier res;
+expression ioremap;
+identifier pdev;
+constant mem;
+expression name;
+@@
+-struct resource *res;
+<+...
+-res = platform_get_resource_byname(pdev,mem,name);
+<...
+-if (!res) {
+-...
+-}
+...>
+-ioremap = devm_ioremap(...);
++ioremap = devm_platform_ioremap_resource_byname(pdev,name);
+...+>
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 31,=
- 2025 at 7:53=E2=80=AFAM Thomas Zimmermann &lt;<a href=3D"mailto:tzimmerman=
-n@suse.de">tzimmermann@suse.de</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">Hi Maxime<br>
-<br>
-<br>
-Am 29.01.25 um 15:31 schrieb Maxime Ripard:<br>
-&gt; Hi Thomas,<br>
-&gt;<br>
-&gt; On Wed, Jan 29, 2025 at 02:06:15PM +0100, Thomas Zimmermann wrote:<br>
-&gt;&gt; Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:<br>
-&gt;&gt;&gt; Remove the TODO now that this series addresses<br>
-&gt;&gt;&gt; the changes needed.<br>
-&gt;&gt; While your series is fine, this TODO item is unrelated. It&#39;s a=
-bout various<br>
-&gt;&gt; ancient fbdev drivers that do not reserve their memory regions cor=
-rectly. So<br>
-&gt;&gt; please drop patch 14 form the series.<br>
-&gt; Is it? Could we rephrase the entry then? I&#39;m the one that suggeste=
-d<br>
-&gt; Anusha to work on this, and it&#39;s still not clear to me what it mea=
-ns<br>
-&gt; exactly if it&#39;s not what she worked on :)<br>
-<br>
-I guess, we could make this more precise.<br>
-<br>
-Some old graphics drivers don&#39;t request their memory ranges correctly. =
-<br>
-It&#39;s usually a problem with hardware that has exclusive ranges, such as=
- <br>
-the VGA. Vga16fb doesn&#39;t request the range as it should. Someone needs =
-<br>
-to audit all those old drivers and fix them.<br>
-<br></blockquote><div><br></div><div>This sounds like a good next approach.=
- I will make the documentation more clear.</div><div><br></div><div>Thanks =
-for feedback everyone!</div><div><br></div><div>Anusha <br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
-Best regards<br>
-Thomas<br>
-<br>
-<br>
-&gt;<br>
-&gt; Maxime<br>
-<br>
--- <br>
---<br>
-Thomas Zimmermann<br>
-Graphics Driver Developer<br>
-SUSE Software Solutions Germany GmbH<br>
-Frankenstrasse 146, 90461 Nuernberg, Germany<br>
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman<br>
-HRB 36809 (AG Nuernberg)<br>
-<br>
-</blockquote></div></div>
+Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+---
+Anusha Srivatsa (12):
+      drm/aspeed: move to devm_platform_ioremap_resource() usage
+      drm/fsl-dcu: move to devm_platform_ioremap_resource() usage
+      drm/hisilicon: move to devm_platform_ioremap_resource() usage
+      drm/mediatek: move to devm_platform_ioremap_resource() usage
+      drm/mxsfb: move to devm_platform_ioremap_resource() usage
+      drm/sprd: move to devm_platform_ioremap_resource() usage
+      drm/sti: move to devm_platform_ioremap_resource() usage
+      drm/stm: move to devm_platform_ioremap_resource() usage
+      drm/tegra: move to devm_platform_ioremap_resource() usage
+      drm/tiny: move to devm_platform_ioremap_resource() usage
+      drm/vc4: move to devm_platform_ioremap_resource() usage
+      Documentation: Update the todo
 
---00000000000049d89e062d68488b--
+ Documentation/gpu/todo.rst                      | 12 +++---
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c         |  4 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c       |  4 +-
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c    |  4 +-
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c |  4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_color.c       |  4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c       |  4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c       |  4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c         |  4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c        |  4 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c              |  4 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c             |  4 +-
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c         |  4 +-
+ drivers/gpu/drm/mxsfb/lcdif_drv.c               |  4 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c               |  4 +-
+ drivers/gpu/drm/sprd/sprd_dpu.c                 |  9 +---
+ drivers/gpu/drm/sprd/sprd_dsi.c                 |  9 +---
+ drivers/gpu/drm/sti/sti_compositor.c            | 10 +----
+ drivers/gpu/drm/sti/sti_dvo.c                   | 10 +----
+ drivers/gpu/drm/sti/sti_hda.c                   |  9 +---
+ drivers/gpu/drm/sti/sti_hdmi.c                  | 11 +----
+ drivers/gpu/drm/sti/sti_hqvdp.c                 | 10 +----
+ drivers/gpu/drm/sti/sti_tvout.c                 | 10 +----
+ drivers/gpu/drm/sti/sti_vtg.c                   | 10 +----
+ drivers/gpu/drm/stm/ltdc.c                      |  4 +-
+ drivers/gpu/drm/tegra/dsi.c                     |  4 +-
+ drivers/gpu/drm/tiny/arcpgu.c                   |  4 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                  | 55 +++++++------------------
+ 28 files changed, 46 insertions(+), 177 deletions(-)
+---
+base-commit: 92514ef226f511f2ca1fb1b8752966097518edc0
+change-id: 20250205-mem-cocci-newapi-6db4b8116d6e
+
+Best regards,
+-- 
+Anusha Srivatsa <asrivats@redhat.com>
 
 
