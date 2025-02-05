@@ -1,74 +1,73 @@
-Return-Path: <linux-aspeed+bounces-675-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-671-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B279A29CEA
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Feb 2025 23:51:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBEDEA29CE4
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Feb 2025 23:51:25 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YpFpF4VTFz305D;
-	Thu,  6 Feb 2025 09:51:17 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YpFpD4S3lz305S;
+	Thu,  6 Feb 2025 09:51:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=170.10.133.124
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738786293;
-	cv=none; b=YIH+dFzv6jsyLPTb6ysNCZUAJIlZladhlccU9wE/eYYrRVUXBMtFmYnFcoiVGZ+vC0P/x6lFZRdJzrVaw2sgCU7rzYBrYD/Oh3tiaZp9PBOtqm/64dOniCcEbX9pSG4WNBgj4pTga6Rl5Vw4y8VViKswB8mxIyn6Wo0pOsdtUQ10qWYXMporWDi1fzDeAYkaRrxlmDEsQzOuW7zYZ/IOoPoNbpB1nWyfRwjzojB4JgO0bX/t2ierD600Jc9UnBbHNwwXeZmVjnwZw3NvIaIKnePJlmu+vmg6RldyCdPROhpWV/tsoWGIi7xpMr032C0UdTsqEYlD8/rE+DbOKjn4tQ==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738786302;
+	cv=none; b=X0rpuZPkRmf60nt/0flUivOLesJkgAMyjjB99PZpNXMzGxzvMKUm/kWwlqLG+vOgVaYTLEg6LEdnTAM+mvASSfTX0wPn/2MZU095yaeXNaYaDHiNYcFl27C7VJrdZtOC0bE/eETsf9frFwztIIcUgIWgQhgeNgqBqLNV52Mkad2yCmzsrFJoB+1FoKwKeUke1H9JI9bQtxV+qN7twNvXld7gIOwTLtzuUk5ptU81afrrqJ52lO09FHrHTG111f+Va44NQyhAiylJuyTJRax1MnI4iIq0QBUZrVUaGyJpTsIjCxUoLCUHAKB57iv+ygz5VuJVCGlbvKuuvc+hASxLgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1738786293; c=relaxed/relaxed;
-	bh=8SyjCwbf1S+bcTHNMqbzrT6yhS3x+rdZOVYONTdbbck=;
+	t=1738786302; c=relaxed/relaxed;
+	bh=ZN6lOxdYMjUO49jm3bB80agqHnejl+uLnWAidVCm81Y=;
 	h=From:Date:Subject:MIME-Version:Message-Id:References:In-Reply-To:
-	 To:Cc:Content-Type; b=cN1RQpIvzRkZlksarvsvLYFKfcXEyQRHbqJA/VBSXnbWFzyLiP3AF+rb6hwgfX4JJQoS23fVe/UaraOr7lYq3LFNEpoa6LUHcGLyO+A7Zu0btSOj3DlWqCS4tE9wUtZaaAEWJ1rKTHOoNLWs7NpUVo9SaZWERdVnXCWMXOwtO7q+qIbVkuL4W8cXbV7E3trx4nIHd91SGnxDPcGzBYhncH6F5ACrxo0Vxwakx7wJ620ShIscfjFVTApZTpDlR6EMV4DSK9FDeDIVqEBI+iWpMQ6o+9PCLAy7kOcHFvzkeU8p6z2GWfuBzjBBB91cApH4EetT4j+DQg18bo0E1Rjn3w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com; dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=FBd0Wcnj; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=M1C7M+rB; dkim-atps=neutral; spf=pass (client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org) smtp.mailfrom=redhat.com
+	 To:Cc:Content-Type; b=QNXw7iy0Oq40djbODPkaPNG9oFmV4bnRLpgDKhsyzfsbbgeqUTHBsR+oBywXrE3EthSsJnE/iTZkBxW+M/RLtb7N6+xxzHUlPrZFqFYXbeNxye3hc7G8NXnJZf86MrODSXKkCScTg7xgYBSQWglop7Vj5JiQ5nyJeBro87sz6Z2OK9inBkwDxWYEYy0/w8qIdYLCokwFtPhY2cKY9vodGwYa1CzfxhyOF+DAkRMD1AIpP6Jpw40w4gWDp2Y2qHjjBbdJN/8hhd0fKX4mQIZjPu7ZGeAYA1aCVnjM/rHV4/L5ypCqyItcb+jF60XFIU5xfch7FhhgnV3fYdhwhNLO8g==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com; dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bvR+jL3T; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bvR+jL3T; dkim-atps=neutral; spf=pass (client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org) smtp.mailfrom=redhat.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=FBd0Wcnj;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=M1C7M+rB;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bvR+jL3T;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bvR+jL3T;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org)
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YpBFw3vmvz3011
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Feb 2025 07:11:32 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YpBG51tmGz3011
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Feb 2025 07:11:40 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738786289;
+	s=mimecast20190719; t=1738786298;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8SyjCwbf1S+bcTHNMqbzrT6yhS3x+rdZOVYONTdbbck=;
-	b=FBd0Wcnjt0CGdxUuSiNQgYoh3xVhr7NcwgAqZd+4MZq3x9wghnbObwoSxoGAE3A5ZqVmR/
-	D4h1Pcz4uchVu4Yk0Ugj9qX8vwbOVZ8pm+p36cbgCCT8CM1dtYF2EIbXHq70zZ5ZXB4+ub
-	AHqt065kzXULmehAkEeeTmYa2VnPLRA=
+	bh=ZN6lOxdYMjUO49jm3bB80agqHnejl+uLnWAidVCm81Y=;
+	b=bvR+jL3TD96NzqJmDt7WDWuZum9wumQiW6+NvP9T9MlmHqventyBpYwCFwcxkORnLKpBKz
+	a704TGzExiWWEp+dPQeDCTlNCK37lfynyG61z6Fg1gR/CjulqUsDOITYUlcRYykhYF4p+L
+	/pdw6ZGW4cF/jwO1W6dK3yKcmHR6l7Y=
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738786290;
+	s=mimecast20190719; t=1738786298;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8SyjCwbf1S+bcTHNMqbzrT6yhS3x+rdZOVYONTdbbck=;
-	b=M1C7M+rBVs6TXPcjvFnh2YSFdjxJ/giJPB29LOtmQPYo2win+Fv3eHfiOrChbCHCbx//Aa
-	LXK6uJsATV28+zehuTdbWP1LQPv+sGIDzfxdlr5DvOqewgfKEmDZ0Vky/EPygExogTDeaE
-	X6Anl8Ddg02xBbV6yRLNoEEuPfcgGVk=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=ZN6lOxdYMjUO49jm3bB80agqHnejl+uLnWAidVCm81Y=;
+	b=bvR+jL3TD96NzqJmDt7WDWuZum9wumQiW6+NvP9T9MlmHqventyBpYwCFwcxkORnLKpBKz
+	a704TGzExiWWEp+dPQeDCTlNCK37lfynyG61z6Fg1gR/CjulqUsDOITYUlcRYykhYF4p+L
+	/pdw6ZGW4cF/jwO1W6dK3yKcmHR6l7Y=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-510-d9E0y7o3NraGgHUbSgJsdA-1; Wed,
- 05 Feb 2025 15:11:24 -0500
-X-MC-Unique: d9E0y7o3NraGgHUbSgJsdA-1
-X-Mimecast-MFC-AGG-ID: d9E0y7o3NraGgHUbSgJsdA
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-564-VivRk6b0MMGXZMwAVSQiaA-1; Wed,
+ 05 Feb 2025 15:11:35 -0500
+X-MC-Unique: VivRk6b0MMGXZMwAVSQiaA-1
+X-Mimecast-MFC-AGG-ID: VivRk6b0MMGXZMwAVSQiaA
 Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 698681955F3F;
-	Wed,  5 Feb 2025 20:11:18 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BA2681801A18;
+	Wed,  5 Feb 2025 20:11:28 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.21])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 101D519560A3;
-	Wed,  5 Feb 2025 20:11:07 +0000 (UTC)
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 760DD19560AB;
+	Wed,  5 Feb 2025 20:11:18 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 05 Feb 2025 15:08:07 -0500
-Subject: [PATCH 11/12] drm/vc4: move to devm_platform_ioremap_resource()
- usage
+Date: Wed, 05 Feb 2025 15:08:08 -0500
+Subject: [PATCH 12/12] Documentation: Update the todo
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -81,7 +80,7 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Message-Id: <20250205-mem-cocci-newapi-v1-11-aebf2b0e2300@redhat.com>
+Message-Id: <20250205-mem-cocci-newapi-v1-12-aebf2b0e2300@redhat.com>
 References: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
 In-Reply-To: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
 To: Joel Stanley <joel@jms.id.au>, 
@@ -127,151 +126,59 @@ Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
  linux-rockchip@lists.infradead.org, 
  linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
  linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738786137; l=4051;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738786137; l=1470;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=cGR+PxRoxuebICENqHulDwycMVIkKhLPFIEGSESALX8=;
- b=xxdVwBWLuMEiypVjDD+SjdlJr+E3FmnnKe4+6mwyq3Jsp3b2JeAXfuUeFeYrD9tkleRyn4M2I
- gZ+0ny1k2KkDDtUMVDgoa4/Gelwzs4xPuw9i9ORgjvf4Shdft9gP0bC
+ bh=8E/zDOS2y2jXYtpxt4v/XPpri1L2d3Hp1icGGz6XyLc=;
+ b=kvdtINpTCFoOpfqXf/fVrI+PlDBH109lqvGOt8aqdxgPNRLHbndphfZbHS68h26FBvlE/Lev1
+ rwTEVkvxYkZBkVPbSaO6vTBgPPPOtlnOVyP8CR4ue3yQ+gZM3xTUog2
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: ZDsxUVWNtErWYtIV7jxGOp3P7vWsN_SSPgLHvTqCCSg_1738786278
+X-Mimecast-MFC-PROC-ID: RhcQFV7_-P5JyAyJbg2GiWm_fNWK7Iy6jsZpAeqJ3wc_1738786288
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-0.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
 	RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=disabled
 	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Replace platform_get_resource_byname + devm_ioremap_resource
-with just devm_platform_ioremap_resource()
+Update the Documentation to be more precise.
 
-Used Coccinelle to do this change. SmPl patch:
-//rule s/(devm_)platform_get_resource_byname +
-//(devm_)ioremap/devm_platform_ioremap_resource.
-@rule_3@
-identifier res;
-expression ioremap;
-identifier pdev;
-constant mem;
-expression name;
-@@
--struct resource *res;
-<+...
--res = platform_get_resource_byname(pdev,mem,name);
-<...
--if (!res) {
--...
--}
-...>
--ioremap = devm_ioremap(...);
-+ioremap = devm_platform_ioremap_resource_byname(pdev,name);
-...+>
+v2: Update for clarity
 
-v2: Change the SmPl patch to work on multiple occurences of
-the pattern. This also fixes the compilation error.
-
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maíra Canal <mcanal@igalia.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 55 +++++++++++-------------------------------
- 1 file changed, 14 insertions(+), 41 deletions(-)
+ Documentation/gpu/todo.rst | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 47d9ada98430634cfd8c1e21c2a4d00d501bab7e..066f1246dab420ee889845b0c573d80ce7c88595 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -2951,71 +2951,44 @@ static int vc5_hdmi_init_resources(struct drm_device *drm,
- {
- 	struct platform_device *pdev = vc4_hdmi->pdev;
- 	struct device *dev = &pdev->dev;
--	struct resource *res;
- 	int ret;
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 256d0d1cb2164bd94f9b610a751b907834d96a21..03fcd086889acbd1294669b260292ffc79e97e2f 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -441,13 +441,13 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
  
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "hdmi");
--	if (!res)
--		return -ENODEV;
--
--	vc4_hdmi->hdmicore_regs = devm_ioremap(dev, res->start,
--					       resource_size(res));
-+	vc4_hdmi->hdmicore_regs = devm_platform_ioremap_resource_byname(pdev,
-+									"hdmi");
- 	if (!vc4_hdmi->hdmicore_regs)
- 		return -ENOMEM;
+ Level: Intermediate
  
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "hd");
--	if (!res)
--		return -ENODEV;
--
--	vc4_hdmi->hd_regs = devm_ioremap(dev, res->start, resource_size(res));
-+	vc4_hdmi->hd_regs = devm_platform_ioremap_resource_byname(pdev, "hd");
- 	if (!vc4_hdmi->hd_regs)
- 		return -ENOMEM;
+-Request memory regions in all drivers
+--------------------------------------
++Request memory regions in all fbdev drivers
++--------------------------------------------
  
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "cec");
--	if (!res)
--		return -ENODEV;
--
--	vc4_hdmi->cec_regs = devm_ioremap(dev, res->start, resource_size(res));
-+	vc4_hdmi->cec_regs = devm_platform_ioremap_resource_byname(pdev,
-+								   "cec");
- 	if (!vc4_hdmi->cec_regs)
- 		return -ENOMEM;
+-Go through all drivers and add code to request the memory regions that the
+-driver uses. This requires adding calls to request_mem_region(),
+-pci_request_region() or similar functions. Use helpers for managed cleanup
+-where possible.
++Old/ancient fbdev drivers do not request their memory properly.
++Go through these drivers and add code to request the memory regions that the
++driver uses. Problematic areas include hardware that has exclusive ranges like
++VGA. VGA16fb does not request the range as it is expected.
  
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "csc");
--	if (!res)
--		return -ENODEV;
--
--	vc4_hdmi->csc_regs = devm_ioremap(dev, res->start, resource_size(res));
-+	vc4_hdmi->csc_regs = devm_platform_ioremap_resource_byname(pdev,
-+								   "csc");
- 	if (!vc4_hdmi->csc_regs)
- 		return -ENOMEM;
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dvp");
--	if (!res)
--		return -ENODEV;
--
--	vc4_hdmi->dvp_regs = devm_ioremap(dev, res->start, resource_size(res));
-+	vc4_hdmi->dvp_regs = devm_platform_ioremap_resource_byname(pdev,
-+								   "dvp");
- 	if (!vc4_hdmi->dvp_regs)
- 		return -ENOMEM;
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "phy");
--	if (!res)
--		return -ENODEV;
-+	vc4_hdmi->phy_regs = devm_platform_ioremap_resource_byname(pdev,
-+								   "phy");
- 
--	vc4_hdmi->phy_regs = devm_ioremap(dev, res->start, resource_size(res));
- 	if (!vc4_hdmi->phy_regs)
- 		return -ENOMEM;
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "packet");
--	if (!res)
--		return -ENODEV;
--
--	vc4_hdmi->ram_regs = devm_ioremap(dev, res->start, resource_size(res));
-+	vc4_hdmi->ram_regs = devm_platform_ioremap_resource_byname(pdev,
-+								   "packet");
- 	if (!vc4_hdmi->ram_regs)
- 		return -ENOMEM;
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "rm");
--	if (!res)
--		return -ENODEV;
--
--	vc4_hdmi->rm_regs = devm_ioremap(dev, res->start, resource_size(res));
-+	vc4_hdmi->rm_regs = devm_platform_ioremap_resource_byname(pdev, "rm");
- 	if (!vc4_hdmi->rm_regs)
- 		return -ENOMEM;
- 
+ Drivers are pretty bad at doing this and there used to be conflicts among
+ DRM and fbdev drivers. Still, it's the correct thing to do.
 
 -- 
 2.47.0
