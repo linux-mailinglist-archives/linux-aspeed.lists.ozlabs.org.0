@@ -1,99 +1,85 @@
-Return-Path: <linux-aspeed+bounces-661-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-667-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E53ACA285B9
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Feb 2025 09:40:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA37DA29CE7
+	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Feb 2025 23:51:25 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Yntwc251Cz2yXY;
-	Wed,  5 Feb 2025 19:40:32 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YpFpC2Hn6z305m;
+	Thu,  6 Feb 2025 09:51:15 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::42d"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738744832;
-	cv=none; b=SYlAuPC6lzkSipqllAynhPvuM0d6PimHCjRSU1b70/YUS/ICSZb8NlsW+qxAJwkrwWaL3GCvFJKMo+U5apUFEtvjt0aq4puayZLaA64Ivn0XhR2N25VhqsUT6t8qnPQUowrv2ZUzI7DsQn9TwrNFHYKsAzZli73NZWwuNpAMwgvbN8VnOJy6zQ7o8CNgZR96tc8a2W/HTmboaNvn0VIhUgxGxd72oYnpbg2YOJb7WKkBHUiA/700DSGrXQtAMgpXGklw+zqG5hiCsyD0ygHoD9scgW/PZH7PiDNiGzP76Oo3UaOUA415zNs4LrfnC2RGrH24chBRfz62lYSUrUOsxg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=170.10.129.124
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1738775782;
+	cv=none; b=IAS1Yf4DsqjnDlXxvKiqNG5JX5OOrHlUpaNKiZ2PvvbgPktWiGa0+KZmIghj85GapLnP/7fpjF4kkAlbYjt2SLespaAow0rghtFqvwkKBUrkdrn7jWdJ1IDRs6fqZ43MPNW1m85u8Ocn6lVaXu7m3SYNxV9xJtc/zrB21bb6RpV7rxee0bf8xpH0W8iYL3e/Xuimg7hb9URdzeye+jBIz2dKUdsNBXPZW7ExdkIrQ5MfLVCYQSPeVnF3juklAPU0VVuemtWfac7o5ecojLUS7l5+4PNZU+DdqeSGvEM0P3cNiBikf/LLaKfJW/ZFJ3vypkfI0fPzqWDv1wHAyJmB2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1738744832; c=relaxed/relaxed;
-	bh=+es5DswhUHJuqnAtb0R/kgWj5lIvrRgBlmdAByRuO1k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iHKUCsrVYfUeC7eieVe34sL/29NDDjHk03lWMgM4UXQwL9RBYcxm7fe6UWsG4Q6fWCn1VS/L1448ZfP7Mxqz5Jgffn8HLNI+nFEzpnhIDVHjp4ksRqvPTd5BW1I8FbBf9rX+vcbR+BwoZVwRAJ6hiBNB8W7Gxby9eijSMjcEJuTKSwVJ1+AXf8r12qqreWC2NuhtI7mgUQbuNlQkDOVka8L8PuFMb4CiUqLiYUrVpjQCilXtg3OXnig7qbxW9qolU0aa5iv3xSqkvvFqYHahw4BWQ+3MyClHBAbcARIsSGLe3PwTp9pzsrHpnrQdYfFlnCuzhQPT+7tCyfDkgDKiCA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=eNIQ6A3b; dkim-atps=neutral; spf=none (client-ip=2a00:1450:4864:20::42d; helo=mail-wr1-x42d.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org) smtp.mailfrom=bgdev.pl
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+	t=1738775782; c=relaxed/relaxed;
+	bh=zeSidYCdYJnARtwshAoVNn6AXIZ4ayw7DuR83E+9hlo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fP+1M73ESpUfjUp6x5R4/H6QWVIWKSrAdPTSFEcpPfLmAh6YkdtVzrXWUXyj4BzAHUcTXIGOYMK3mjJ8+6lL+NpfyPCHlIGrUTxww0QaxK66DGpIFbCbK7uOXDYlrqzdgJMCuoBG1iEBc6t/l06J+4R3FFlNUwwLotxlT6M+51Dz9nNtQjo+d9G2g3Yb+C43x1S/wxeVCMTuwS/PAJxuyYUFz86izikJgc8VgrUf3KQmSUGLjGSvqQNUOVtGeS6OefMVWZfWv65RwZj+/C3GDzNzmZdEw/TQm+F1f6c9RdcvGL7ijpjARJIwxpYUrVNYHWwEkNUK4PugyqZylDZZVQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com; dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ejkGPFJi; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=OzVljpOy; dkim-atps=neutral; spf=pass (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org) smtp.mailfrom=redhat.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=eNIQ6A3b;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ejkGPFJi;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=OzVljpOy;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=bgdev.pl (client-ip=2a00:1450:4864:20::42d; helo=mail-wr1-x42d.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org)
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YntwZ1rMNz2yRM
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  5 Feb 2025 19:40:28 +1100 (AEDT)
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-38633b5dbcfso6890332f8f.2
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 05 Feb 2025 00:40:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1738744824; x=1739349624; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+es5DswhUHJuqnAtb0R/kgWj5lIvrRgBlmdAByRuO1k=;
-        b=eNIQ6A3bDP+fWJta4lHT7r3eSd57zm13W0vXW9vpmhWrb5Hk1MTvh/+ujuOrZbkEy4
-         71btACYpgXqi2mzJSZTuqGee5FjRP/80osnbTFAMHUS9T72u+77aoKdmOGMEx0t1TP9g
-         KYOFRHxOjkSTWbIE/d+yuFssfrAQlq7vsIPnvMZOdfuxL09nG894ffEwhyVWaoHE+r+i
-         tXqOJ033cy+FYkyaQwkG6/m0Ddk3l9uZKSttONWK+ARqKE3X0hrze3cEFWfKWssxkS+t
-         Ifngp+4OlInTd6a0RZfuX9MW6cLttMDSSdbQW/X4bPkLCj1u4eu7p+Z4plpNEo/kkGOl
-         3wuQ==
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Yp6Mn33B9z2xJ8
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Feb 2025 04:16:19 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738775775;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zeSidYCdYJnARtwshAoVNn6AXIZ4ayw7DuR83E+9hlo=;
+	b=ejkGPFJiif/LRtUA5EKrAsnn8tsdPUmtc3eWWBda6Gcxe1FnBdSNXZ7AZjlnN4qp/i2JtP
+	v4ZHuxVI2LSCBSfyXvy449GMm4cl27XbNGKx9vcAjm/JIumnuR3ssHBXtJb0c7Tka4WioN
+	wm5lnmHYo+K9XNl2EwrHCIUz8l69IVA=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738775776;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zeSidYCdYJnARtwshAoVNn6AXIZ4ayw7DuR83E+9hlo=;
+	b=OzVljpOyisTd20SPRvgNRNsbWfedGsLmPTglCktx5xMb/5RH57A+g/zLagsXcWNQE7/KIK
+	UHt2voSmcWKVMsmZIE78PfKraQWdJb8aZsx4xZiHnzxTRPes2Cc2lqKlXZR+K+iAcBrAAn
+	lNubUL18yCsq3U8DZHPNP5djw37/3GI=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-279-iVCuChiANkqqSJGEhdQHuw-1; Wed, 05 Feb 2025 12:16:13 -0500
+X-MC-Unique: iVCuChiANkqqSJGEhdQHuw-1
+X-Mimecast-MFC-AGG-ID: iVCuChiANkqqSJGEhdQHuw
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-6f46924f63eso14503287b3.0
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 05 Feb 2025 09:16:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738744824; x=1739349624;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+es5DswhUHJuqnAtb0R/kgWj5lIvrRgBlmdAByRuO1k=;
-        b=cqUVnWckBOg8pOPePyZ2S2EUL9k4jzlbmBPT4MgXcyppuoVVkghJxI2gYr1HE9fzmr
-         vt7v4j8IOnzy96soxKQ9czbk5Eu5lxtipgeYAUf+1kG0CND7spxJqoUDuKL+WkOAjwiW
-         9sJG6TyXmUUAyoq4+LrIH29l6mrww5EAsMWyjs/cZ8qYqt88tbO0ztsE+s9+46ZRxxpq
-         57j5l3Y/rDpDYnyn3YTStwiQTu33uRXH8PlplWCTBg78U6pca4zIKgOWptlFzR7kLheI
-         p1irthfY4ZWt3hlP90xWglh8UJYpRN/RdPiRswt+OqZEOy6JUbovZAJpX6qbFW94EfXw
-         1aGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXMVjWtlZBdZrBXdIlEV4EK3COFzkRD2eYPQCPQ/R4EPIODqTZmhWF5tVzgVx+yKVDDAVqkDR+lkavxD0c=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YyHhq5YLo6mEagXbLemEj56b+HQzs3JAncvoIZaSeg1eTF/6uxe
-	iVcv09HUrC6xqooMNdGKK3/HBpk2RRFaAr9+UCE5UZGNgmXNGId19e5HwcXlKa0=
-X-Gm-Gg: ASbGnctlKpaTFfcn9xGVaLc/IK6163xgpG3sZJmg/dU/slM+FXHcE6Wua1yLjS9sJus
-	O2rDA8b20lXtws1l6HZAbBHdxcxSFN7kgrZwHo5gDiGUe5CSux4XhOv/KSTZq5eOwqtMZgujKPq
-	h2TWzZDIe3bloFYua1n2uct/+eYC+jLKFxAMoLzcAmpnUSJXzkeVKdSOVmp/QkxEyIaQ0guBXKV
-	AQO+9jx6hOQ5UQngLsHWPmtYucfQvdgZrcy3ovAf7neWg9L8URsNy4AdpE6Oy+LTHB/BYPzgv24
-	7C8WwKXK+duS+tg=
-X-Google-Smtp-Source: AGHT+IHufl43yH4h42TNeRNb4pIxJfhWtSlcWpDN/3IHQPb679izKuQl7RiI9837Q+o9LDGQeygmhQ==
-X-Received: by 2002:a5d:47a4:0:b0:38b:ec34:2d62 with SMTP id ffacd0b85a97d-38db48a0aa1mr1427352f8f.24.1738744823940;
-        Wed, 05 Feb 2025 00:40:23 -0800 (PST)
-Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:a766:1fb1:99b5:1d5f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38db6d7fb3dsm704259f8f.72.2025.02.05.00.40.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 00:40:23 -0800 (PST)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: brgl@bgdev.pl,
-	linus.walleij@linaro.org,
-	minyard@acm.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	joel@jms.id.au,
-	andrew@codeconstruct.com.au,
-	devicetree@vger.kernel.org,
-	eajames@linux.ibm.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Ninad Palsule <ninad@linux.ibm.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	andrew@lunn.ch
-Subject: Re: (subset) [PATCH v9 0/9] DTS updates for system1 BMC
-Date: Wed,  5 Feb 2025 09:40:21 +0100
-Message-ID: <173874481706.6250.3472033617115260753.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250204194115.3899174-1-ninad@linux.ibm.com>
-References: <20250204194115.3899174-1-ninad@linux.ibm.com>
+        d=1e100.net; s=20230601; t=1738775773; x=1739380573;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zeSidYCdYJnARtwshAoVNn6AXIZ4ayw7DuR83E+9hlo=;
+        b=dMyPCvOh6VxkDKkzBtzu98AxSaY7BsKUMBnvL6018I9mCX+B+MA7qrgWNUmtFfs6EK
+         AoXrjOXfnuAJBwBX0zfRD7nk3kulMGprZNPOxwoUHSEiwiE9MPOl1VL+Cd9+rAAwDESF
+         AlU0GMiYBgFyIxHKJmcAVCQzM9nXRrAkknqHPrZB3+wZmeytrqeP9OoiD1T9f+pSwVTQ
+         ySsUWMlEoeAg9Dpo19FLx2N3sH1MJBF5bp/rk+tLZX5aZ3spMrbnlYfmfrqGGjTkGuUq
+         3DqQDT7wPfTNE3pBFuzlKR2zv6qJie8EKY3T5neKnbEldZIsoMQj5Awo4qosLPLGORQU
+         weGw==
+X-Forwarded-Encrypted: i=1; AJvYcCWdIL5VaC0XuwR0WBMPHABJ5gWGQTzrONuje4TwbR4nOPk849Yqf9XOyMydleQSEjnZ4VT4oKUxNTIxCRg=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yw7bZmIc90Upl1nvar3dHydAJfjjIklqCGxYSc1YywvAG/zh9R4
+	8/vtLqyXxoVqvvRpKX8CMsqImrUg2AHTFXKLCZi6Rv24t/Hrlk0vCXjvVFwkedyif/o04cw9xot
+	3+FOTFPI3R8Gt/8Pb0WONDNx1PXWGOiE1NLWY483sbYaGRfTKUimnLCeFDywBS+mfDmWeZu+xkV
+	+9DzuRB+IdmZHCV4EPP1ozANoamTKLZ1gs2UxPhg==
+X-Gm-Gg: ASbGnctg3yfHyYosq3svrB+liP4bL1gkMNXc/I4nTZ2LW8r3It6AgGaLwA+vEPSdyA2
+	wrATRBB42Wa/3dJKnf19xv4r/AKSzJAQEfTzxhdcWSc61ioyQhfhIp7f2Xwkl
+X-Received: by 2002:a05:690c:6c0c:b0:6f9:4195:8195 with SMTP id 00721157ae682-6f99a60b0cdmr1342277b3.15.1738775773244;
+        Wed, 05 Feb 2025 09:16:13 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEo2HkXE9/PB8TiTOCOmlpYI4+BLO/SI3ZFeKcGKfVuRa8aoXdOtxFKnY5ClyavR5vDRDWGBJn3fTqfR8+aXmM=
+X-Received: by 2002:a05:690c:6c0c:b0:6f9:4195:8195 with SMTP id
+ 00721157ae682-6f99a60b0cdmr1341537b3.15.1738775772906; Wed, 05 Feb 2025
+ 09:16:12 -0800 (PST)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -106,28 +92,181 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=disabled
-	version=4.0.0
+References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
+ <20250128-cocci-memory-api-v1-14-0d1609a29587@redhat.com> <a389f799-442e-45f3-8609-2eb2f0b7a825@suse.de>
+ <li2awsqmdoye3u7n3gi2mrhbfxs77e3edjmsg5zclnyjinsnul@2bjkc5agyu5u> <0ae17de1-c6dc-48eb-aed2-b099b2abbea5@suse.de>
+In-Reply-To: <0ae17de1-c6dc-48eb-aed2-b099b2abbea5@suse.de>
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Wed, 5 Feb 2025 12:16:02 -0500
+X-Gm-Features: AWEUYZllqvGkhQf1gMIyypHoBPrhgiNdZ-ww_BiUqVz8q-uL_n50cYGcicLCGMU
+Message-ID: <CAN9Xe3S3E_LzU7zF1UCE7fD9OE2bU7BcLy6xQOQk2s7=k+6v=A@mail.gmail.com>
+Subject: Re: [PATCH 14/14] Documentation: Update the todo
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Maxime Ripard <mripard@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
+	Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Marek Vasut <marex@denx.de>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+	Yannick Fertre <yannick.fertre@foss.st.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Alexey Brodkin <abrodkin@synopsys.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	=?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+	imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Yp8IlWvYOP901ArPRf3IqY3kxFj3yvlPsnPTsbb4H10_1738775773
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000049d89e062d68488b"
+X-Spam-Status: No, score=-0.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,HTML_MESSAGE,RCVD_IN_DNSWL_NONE,
+	RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+--00000000000049d89e062d68488b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Jan 31, 2025 at 7:53=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
+.de>
+wrote:
 
-On Tue, 04 Feb 2025 13:41:03 -0600, Ninad Palsule wrote:
-> Please review the patch set version 9.
-> 
-> V9:
-> 
+> Hi Maxime
+>
+>
+> Am 29.01.25 um 15:31 schrieb Maxime Ripard:
+> > Hi Thomas,
+> >
+> > On Wed, Jan 29, 2025 at 02:06:15PM +0100, Thomas Zimmermann wrote:
+> >> Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:
+> >>> Remove the TODO now that this series addresses
+> >>> the changes needed.
+> >> While your series is fine, this TODO item is unrelated. It's about
+> various
+> >> ancient fbdev drivers that do not reserve their memory regions
+> correctly. So
+> >> please drop patch 14 form the series.
+> > Is it? Could we rephrase the entry then? I'm the one that suggested
+> > Anusha to work on this, and it's still not clear to me what it means
+> > exactly if it's not what she worked on :)
+>
+> I guess, we could make this more precise.
+>
+> Some old graphics drivers don't request their memory ranges correctly.
+> It's usually a problem with hardware that has exclusive ranges, such as
+> the VGA. Vga16fb doesn't request the range as it should. Someone needs
+> to audit all those old drivers and fix them.
+>
+>
+This sounds like a good next approach. I will make the documentation more
+clear.
 
-Applied, thanks!
+Thanks for feedback everyone!
 
-[2/9] dt-bindings: gpio: ast2400-gpio: Add hogs parsing
-      commit: e8f2ca6be61f1cae2ff12932fa03224581b6b231
+Anusha
 
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Best regards
+> Thomas
+>
+>
+> >
+> > Maxime
+>
+> --
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+>
+>
+
+--00000000000049d89e062d68488b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 31,=
+ 2025 at 7:53=E2=80=AFAM Thomas Zimmermann &lt;<a href=3D"mailto:tzimmerman=
+n@suse.de">tzimmermann@suse.de</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">Hi Maxime<br>
+<br>
+<br>
+Am 29.01.25 um 15:31 schrieb Maxime Ripard:<br>
+&gt; Hi Thomas,<br>
+&gt;<br>
+&gt; On Wed, Jan 29, 2025 at 02:06:15PM +0100, Thomas Zimmermann wrote:<br>
+&gt;&gt; Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:<br>
+&gt;&gt;&gt; Remove the TODO now that this series addresses<br>
+&gt;&gt;&gt; the changes needed.<br>
+&gt;&gt; While your series is fine, this TODO item is unrelated. It&#39;s a=
+bout various<br>
+&gt;&gt; ancient fbdev drivers that do not reserve their memory regions cor=
+rectly. So<br>
+&gt;&gt; please drop patch 14 form the series.<br>
+&gt; Is it? Could we rephrase the entry then? I&#39;m the one that suggeste=
+d<br>
+&gt; Anusha to work on this, and it&#39;s still not clear to me what it mea=
+ns<br>
+&gt; exactly if it&#39;s not what she worked on :)<br>
+<br>
+I guess, we could make this more precise.<br>
+<br>
+Some old graphics drivers don&#39;t request their memory ranges correctly. =
+<br>
+It&#39;s usually a problem with hardware that has exclusive ranges, such as=
+ <br>
+the VGA. Vga16fb doesn&#39;t request the range as it should. Someone needs =
+<br>
+to audit all those old drivers and fix them.<br>
+<br></blockquote><div><br></div><div>This sounds like a good next approach.=
+ I will make the documentation more clear.</div><div><br></div><div>Thanks =
+for feedback everyone!</div><div><br></div><div>Anusha <br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
+Best regards<br>
+Thomas<br>
+<br>
+<br>
+&gt;<br>
+&gt; Maxime<br>
+<br>
+-- <br>
+--<br>
+Thomas Zimmermann<br>
+Graphics Driver Developer<br>
+SUSE Software Solutions Germany GmbH<br>
+Frankenstrasse 146, 90461 Nuernberg, Germany<br>
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman<br>
+HRB 36809 (AG Nuernberg)<br>
+<br>
+</blockquote></div></div>
+
+--00000000000049d89e062d68488b--
+
 
