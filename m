@@ -1,65 +1,65 @@
-Return-Path: <linux-aspeed+bounces-694-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-697-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127B3A31661
-	for <lists+linux-aspeed@lfdr.de>; Tue, 11 Feb 2025 21:05:34 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D3F1A31A08
+	for <lists+linux-aspeed@lfdr.de>; Wed, 12 Feb 2025 00:57:43 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Yssqs5hyyz3blH;
-	Wed, 12 Feb 2025 07:05:13 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Ysz045JrTz2yZ6;
+	Wed, 12 Feb 2025 10:57:40 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.11
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1739304313;
-	cv=none; b=HniyePY1D28/7qCI6Acv7AC1tBVYMx1r+3QpWhWrWkqNGWJZMC3YOYOXYMVUX95fQUhgDJwwOTDNkq2+czjUuaOLhafopLBIzqo73AvoLOwkiTnm71GhBNmf5kKB9gYOgqfD3ysBhtiBr1aSWZCJjXiiXchwbjEABgo4uyVtmzDBezRfmwPG1SKUki15FZshhln0WN173gip+lp0mT1WFc5YGTNu6ZLuQ6cjiE498RcLUA6HHgEKJ9xEg7s+AN3EX/6zu/JMnjiJRrzfU4CKVVhowmF0o/pimIY9NgBtQMI/sSpu4rnHYZQSvQ74mLB4PvPDMs6ScZm9rog8x3SJjA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=198.175.65.9
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1739318260;
+	cv=none; b=JAXpIaBmsDSjslycOFunhBaOAtxnl8D6vUBzPJqGRmzKWNM47agizBCtLT49P1yVcPqE57NgVvLXEEpFTMqWycuCz5C7cPPbLm1LHuAbkHlSaTThSlSUkFHv2TTR4Yp1GaEeJfufrrKkwYPkGMhcBFNmOsELrFprpW6uVWCyOu2j27BrM7jX2HLN/eb14j5pEhtKVmLvp9oBkZT2JFqQWsVT3noZWRMU+qTpC6J+uUDZjAvCmE21fFjS9tszeZgLxrZM9nlRcaxuvUpjenrxOVXQYs84+15Qp32BPtLAIqat4LiaLxBSGqGcOcsILBeofLAB0N15MQdWna7VxJMHxQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1739304313; c=relaxed/relaxed;
-	bh=WRrhfUJMLcwm7jDOJxXzWOi3iNVvaHl+As0hJI1I3+s=;
+	t=1739318260; c=relaxed/relaxed;
+	bh=QSq1tI42Abpe9wKSDPaLZqszOnSMDC7NmHe5B2W5PJQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I6W0Z/z07hhbsOnfyCTgR8er0qGjQZiz1BLOGWf/8qvdVtGidRtV2O1yjD7k/WkC3WIs7At2AHGHQ/OD6G2k81GyKaVeN38hHEIs/BT1yzcrQwWQcg0hLTi3+Dvv/kPeRh4sRK7yuxQWhtRDHu/EUvVbiqYvyX2R3G1H9BHS7BZ8iBohdrByAG3cCoI/T/PVI0kpsJV3ShuZ25SGP1qBaN8YuCZ9XIMwilwVakdmDTrdvPTdXHnsR4sHazl4zCGPHmQW1BtcpC5j5HcLHcCoQNCoiozDVYvGIgJ5X3fdGCyO0vdzScxX+x0NMSnt2KU45+3mXT4vop0dXL0YJq3/Tg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=f7xMkc7Q; dkim-atps=neutral; spf=pass (client-ip=192.198.163.11; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=eiqVpRr0J6NMDDH4GU3DdTpDCpomxB+noqRuiqc+XT4VrKilGs7XxPdoJGZHaSykBefjWK23elLQTszqtb/bkfAYHEax2L9sNI7hgHF9iriv3DkjQGe/SNGuHPv1Mn8kRiL8zL4xMI4weQyaQG+GassAOm9EgEHRQb5qsWkHFt9z5JxYSOqspIQq2YQSsmFf9FFzb8opnzu+x4Fye0PeUOc5l7lg0gLS8FuXobQRxBt6tLUl8vb/GEB2WJxxtDQIPCkxBDnDE7QTi7yEHDZbB9+nKj+P62KBX/aDmpVzRWYK927Myy00Uy4A7X7K+Fh1rbnsQRVLOEUXgxGOEAXikA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fYyJDBoi; dkim-atps=neutral; spf=pass (client-ip=198.175.65.9; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=f7xMkc7Q;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fYyJDBoi;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.198.163.11; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 64 seconds by postgrey-1.37 at boromir; Wed, 12 Feb 2025 07:05:10 AEDT
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.9; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 64 seconds by postgrey-1.37 at boromir; Wed, 12 Feb 2025 10:57:38 AEDT
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Yssqp6VDlz30HB
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 12 Feb 2025 07:05:10 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Ysz0240dgz2yWK
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 12 Feb 2025 10:57:38 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739304311; x=1770840311;
+  t=1739318259; x=1770854259;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+AX2bjNWcBgeVuZYMnS0XA3xsjmS3gSf31qR7edUe2k=;
-  b=f7xMkc7QLutZHTMeE+iS5R59RADEQyE5dcIntFnsygaaa0ln50g9o0we
-   oiQhyTq8qERQg2xNUlluF3eU+raYg93BJe4xl9K6GfznbQC/ZFhr0Mp6w
-   JKPlMSzdMs+CjRE4n3YUfymoCfdqXs2twpZoiExuCjP3NN3TnM+R5Iq/k
-   QixWU3AliQQPH265xOWw23HIYVlHGKZEqy/TvwQnM44JdYKxum43w8IFW
-   VsHLzO3bTe/0DbzWWd9zote4ECin3V0NWGZ/um3eXhc0I2P0W0Zq4HCOh
-   CccL6XXKJnZLlb8OHfk3fgYMRcQ+hLcPd814Zix2W21fU/y9FNV5PcVXQ
-   A==;
-X-CSE-ConnectionGUID: +DoGJ1PBRk+sIKKI89EItQ==
-X-CSE-MsgGUID: uTLTV4ckQeWO9EQHyFU73Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="50576429"
+  bh=PSn0Zmv5N7ytlJwYw0DWAn3cbqPBj9i+Z2EniPfj4ww=;
+  b=fYyJDBoiUeWfsApe8Uyaw5sq/Wb5d5pi6rwMgkiqUCkNJocf1ZI+Wwn3
+   rPw+TMQiB7SBe8GTzV+rj1Nbl6bgNnFcPlF1uFl9Gz4Ma8wuFZtCUHNQm
+   RX+6f/OhN0KgCNjY3kRBvvn5OP1B8/dqWdKz2zi7Tm8RLnXc80b/ECBIm
+   FGaYo2RmTYfm3GQ9OdnYcQGiPTQwKqAJUvtbb8WyivfC6QbLeeuKEqSo/
+   lQ6tuvGgahiwh30HeTB0u15RMc6v8eEetxiCZCQJYnMLkJkVkmAvkfaWP
+   EE9evh/THyL317QrfLEJy2KuKCRsmP49V1glEvyIH4JH02rBqZLb79ggK
+   Q==;
+X-CSE-ConnectionGUID: /Feko2AbTEC67ZNAypMkRQ==
+X-CSE-MsgGUID: Apv+MTRYTIGQPgtV9ktEng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="62427124"
 X-IronPort-AV: E=Sophos;i="6.13,278,1732608000"; 
-   d="scan'208";a="50576429"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 12:04:02 -0800
-X-CSE-ConnectionGUID: oU7pHzeYQ9GS8dLDNz4nMg==
-X-CSE-MsgGUID: 8aqitMpsRn2oSq0VGocsVQ==
+   d="scan'208";a="62427124"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2025 15:56:26 -0800
+X-CSE-ConnectionGUID: BGEregKiTOCpjOcaSYt5Ow==
+X-CSE-MsgGUID: DUSwUO8RTy6ArYggwXccmA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,278,1732608000"; 
-   d="scan'208";a="112569720"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112518747"
 Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Feb 2025 12:03:57 -0800
+  by orviesa010.jf.intel.com with ESMTP; 11 Feb 2025 15:56:22 -0800
 Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1thwU6-0014eB-3A;
-	Tue, 11 Feb 2025 20:03:54 +0000
-Date: Wed, 12 Feb 2025 04:03:42 +0800
+	id 1ti071-0014qp-1u;
+	Tue, 11 Feb 2025 23:56:19 +0000
+Date: Wed, 12 Feb 2025 07:55:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ryan Chen <ryan_chen@aspeedtech.com>,
 	Michael Turquette <mturquette@baylibre.com>,
@@ -71,9 +71,9 @@ To: Ryan Chen <ryan_chen@aspeedtech.com>,
 	Conor Dooley <conor+dt@kernel.org>,
 	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v8 3/3] clk: aspeed: add AST2700 clock driver
-Message-ID: <202502120324.m723zyqS-lkp@intel.com>
+Message-ID: <202502120701.cqyc1KZw-lkp@intel.com>
 References: <20250210085004.1898895-4-ryan_chen@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
@@ -110,70 +110,44 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/dt-binding-cloc
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
 patch link:    https://lore.kernel.org/r/20250210085004.1898895-4-ryan_chen%40aspeedtech.com
 patch subject: [PATCH v8 3/3] clk: aspeed: add AST2700 clock driver
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250212/202502120324.m723zyqS-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502120324.m723zyqS-lkp@intel.com/reproduce)
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250212/202502120701.cqyc1KZw-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250212/202502120701.cqyc1KZw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502120324.m723zyqS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502120701.cqyc1KZw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/clk/clk-ast2700.c:11:
-   In file included from include/linux/platform_device.h:13:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2224:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/clk/clk-ast2700.c:209:37: warning: unused variable 'soc0_mpll_div8' [-Wunused-const-variable]
-     209 | static const struct clk_parent_data soc0_mpll_div8[] = {
-         |                                     ^~~~~~~~~~~~~~
->> drivers/clk/clk-ast2700.c:237:37: warning: unused variable 'soc0_ahb' [-Wunused-const-variable]
-     237 | static const struct clk_parent_data soc0_ahb[] = {
-         |                                     ^~~~~~~~
->> drivers/clk/clk-ast2700.c:337:37: warning: unused variable 'uart13clk' [-Wunused-const-variable]
-     337 | static const struct clk_parent_data uart13clk[] = {
-         |                                     ^~~~~~~~~
->> drivers/clk/clk-ast2700.c:341:37: warning: unused variable 'uart14clk' [-Wunused-const-variable]
-     341 | static const struct clk_parent_data uart14clk[] = {
-         |                                     ^~~~~~~~~
->> drivers/clk/clk-ast2700.c:345:37: warning: unused variable 'uart15clk' [-Wunused-const-variable]
-     345 | static const struct clk_parent_data uart15clk[] = {
-         |                                     ^~~~~~~~~
->> drivers/clk/clk-ast2700.c:349:37: warning: unused variable 'uart16clk' [-Wunused-const-variable]
-     349 | static const struct clk_parent_data uart16clk[] = {
-         |                                     ^~~~~~~~~
->> drivers/clk/clk-ast2700.c:353:37: warning: unused variable 'soc1_ahb' [-Wunused-const-variable]
-     353 | static const struct clk_parent_data soc1_ahb[] = {
-         |                                     ^~~~~~~~
->> drivers/clk/clk-ast2700.c:369:37: warning: unused variable 'd_clk_sels' [-Wunused-const-variable]
+>> drivers/clk/clk-ast2700.c:369:37: warning: 'd_clk_sels' defined but not used [-Wunused-const-variable=]
      369 | static const struct clk_parent_data d_clk_sels[] = {
          |                                     ^~~~~~~~~~
-   11 warnings generated.
+>> drivers/clk/clk-ast2700.c:353:37: warning: 'soc1_ahb' defined but not used [-Wunused-const-variable=]
+     353 | static const struct clk_parent_data soc1_ahb[] = {
+         |                                     ^~~~~~~~
+>> drivers/clk/clk-ast2700.c:349:37: warning: 'uart16clk' defined but not used [-Wunused-const-variable=]
+     349 | static const struct clk_parent_data uart16clk[] = {
+         |                                     ^~~~~~~~~
+>> drivers/clk/clk-ast2700.c:345:37: warning: 'uart15clk' defined but not used [-Wunused-const-variable=]
+     345 | static const struct clk_parent_data uart15clk[] = {
+         |                                     ^~~~~~~~~
+>> drivers/clk/clk-ast2700.c:341:37: warning: 'uart14clk' defined but not used [-Wunused-const-variable=]
+     341 | static const struct clk_parent_data uart14clk[] = {
+         |                                     ^~~~~~~~~
+>> drivers/clk/clk-ast2700.c:337:37: warning: 'uart13clk' defined but not used [-Wunused-const-variable=]
+     337 | static const struct clk_parent_data uart13clk[] = {
+         |                                     ^~~~~~~~~
+>> drivers/clk/clk-ast2700.c:237:37: warning: 'soc0_ahb' defined but not used [-Wunused-const-variable=]
+     237 | static const struct clk_parent_data soc0_ahb[] = {
+         |                                     ^~~~~~~~
+>> drivers/clk/clk-ast2700.c:209:37: warning: 'soc0_mpll_div8' defined but not used [-Wunused-const-variable=]
+     209 | static const struct clk_parent_data soc0_mpll_div8[] = {
+         |                                     ^~~~~~~~~~~~~~
 
 
-vim +/soc0_mpll_div8 +209 drivers/clk/clk-ast2700.c
+vim +/d_clk_sels +369 drivers/clk/clk-ast2700.c
 
    208	
  > 209	static const struct clk_parent_data soc0_mpll_div8[] = {
