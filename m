@@ -1,70 +1,62 @@
-Return-Path: <linux-aspeed+bounces-713-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-705-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D93A350D3
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Feb 2025 23:01:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76154A334D4
+	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Feb 2025 02:39:47 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Yv8Jv3BN9z30CN;
-	Fri, 14 Feb 2025 09:01:19 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YtdCP112rz301B;
+	Thu, 13 Feb 2025 12:39:45 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::631"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1739410689;
-	cv=none; b=M1G0Xwa+81NVA6dGumpDeLrrlYXMMK6CxMlCLPDSPZ/6l166Q7Oc4otp178LPyQYCQ8ICOzVm5UTL9ofsqba0ld8872/seKAGNfu8af51RUIRoBWKtUXUkvF4qII5IyHTmaTRIAV1cpgRjl6OO0mkuvoGehg0JIGfjtbQtg77anRDttNzVTQLJQcyJRfY9wGflWdqKhIC5HmUkkPfE5PDKWnLK6aXGL25NEOoSaNk8nMjpBmf1jByehxizzhtz2VRhrRy/80ac3n8M0Xny8iwF2YMjx4+PhHTxXf3pF/NhQckmy86m7D3eD+ctCVNrtZNNmmIW3LwHqMwmCLrKaxXw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1739410785;
+	cv=none; b=n5XRNGfkVz6jyKbK7n8KjqshtPXJ46wBvwAwxQ3kGeA6JFGDoKIldjQ6TO7/OXqOBxwAsrorRRptxOy6bMQPHCPKuiyqXS1lfk+EyKMQdg2z8OBfyJ76WyfFdEnqbQPpZzTvQhb4mF8ZOLJnFlYaQIC8JSBZFyIkIw/XWrdVtT0K1CKy3qIULw8p+qV5XO3HlCWwsQwmy/cE7WmUtIsglB6A6sZO9KsYb2jBEBx0d3g5XmX4bCBNJN4z5prFguHtLgDNpS7aI6aIbGusKcwRCgaVrRxcMZPy7P/CS9kZxtyiV7l9WPjWL/Sr70DkWLnHHOF5RkSkJ3jYBhNX40qJCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1739410689; c=relaxed/relaxed;
-	bh=f3qnB+BjgvVqudxLGCEV8ahQDENtwWQvSoLgLc6HJ5w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HkcikrN67ue7T0OX7J8NyX1tTnnfU9zJVlzCV3PBJ8DFUcaEdvBnKvdqgk4bSQpd2GKut5VI2+oHbF5nWGNYZjVah/ldotJrWIYv8Np0DwvQ2/RK/SssykpF8Y8bNiM9ixaQZxBpughq7PxJwib6mb8NCiq3d2b7YTU97OH5MKSfYdI34weJSbzpwwkCl0URwgHdzMvE2Jn0SW80JwSKVIeijPh4OZx/U1po4W56KMNRQjM8K9OGTGmhHXnMxdd4XB5N0tarW1Ri/b4OTHWal3pcjjDijPEARUNOJmLmop58ypArIS8cXTnKOKUok9uPO8nfycyVUuRwVZtx2inbkw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jCZJHUlR; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::631; helo=mail-pl1-x631.google.com; envelope-from=chenyuan0y@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1739410785; c=relaxed/relaxed;
+	bh=7ynEPinVYg58vFFqJ9Y3/dS+93WPxCWeOZ+W7+imhK8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FaMY8EhBXYg+JJCjWxXjuzkpl7rtlBo0sOuiigukJYShXsX3tuycWYIEJG0djJrbLKCPrgJZKTPvHJf+P9PGMvZIPHOrmCNIWukwWVWfv/PEPH+/7G55EC/8jecAsTeUItB21BuMyZXlITW6OrWStlSZIOFb5JQYy3iOwsUfYsZ2JHAuBa9SCPixA7A4Y9SSz1wbUdlOYq8II8xjBgjLiAg/mqNugNczBXda6NT2XXA09ISJvAIezhWb5R18f9lPFbeUeVz1J+/fKp7vN8o8TPACaM6vaC0CQgqWYK5vopBaWNCgOWfIvgUmjaIJYPOzriVtnYN1PV8j/wBcQuMGWg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=Fx7eib3X; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jCZJHUlR;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=Fx7eib3X;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::631; helo=mail-pl1-x631.google.com; envelope-from=chenyuan0y@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Ytd9X24kPz2yK7
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 13 Feb 2025 12:38:07 +1100 (AEDT)
-Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-21f54143aeaso528825ad.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 12 Feb 2025 17:38:07 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YtdCN4pk9z2yK7
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 13 Feb 2025 12:39:44 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739410686; x=1740015486; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f3qnB+BjgvVqudxLGCEV8ahQDENtwWQvSoLgLc6HJ5w=;
-        b=jCZJHUlRs1NzvOgwqlSr7LGnhX4qAP4xIcS/yOobXcSrQyz8J1yFTATDHa/prRSCnE
-         X6hcTOa4mcdNWjaikEidvKOOSnABxTv5d6gkFNpE1AdgJIWm0Hhxq/qKP/fE7A1qo6qO
-         moKXJLb/MKJfGbU5WAkl2R/nUO8TUYK8IuZ+plPnh9Hkk21MuEeyjDMJEOdxlQdSCnFo
-         3hhwdbSohseOduzqZa3X+TH4YWjlQrhqNTE+jXre9BqZNXYmYWAJbmdCrWCASOSwU8ml
-         41pV8VDBRi5LwjnBQ/hJkRwl/NPMMe6DFZDuut/v2NN5wvGYaFRJMbC1O1OVdN/VBfNg
-         DPNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739410686; x=1740015486;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f3qnB+BjgvVqudxLGCEV8ahQDENtwWQvSoLgLc6HJ5w=;
-        b=MZS5ub7bbSbxgvg0EX1ptZmLofIkf4mqXcHckk7qGpB/AgX5yNXYnXS3x4rgASNlyS
-         dB1/u3UZQvYRFHk5oR1Y2Lt+mKcshJtBQijOIKhl4XrU/PnVRqNc5g24SPcvUmpVNgfr
-         NuqkV1NuOJvpDfQZwuAyxd8QNBXm9m7EkX4FmGQY+Ph+1m5t0qHQvcuisDWAbkYOZfOq
-         5D82eiv1xraOY17sNewysJYFaBowBW7XdbIPuXfCAx2rFQL0f9dziALHqZ1WbEHrlEs2
-         6zWGWpQs/F3Efen1cULnJsRq67SZ8vFGyuImx5rz0mXMP7paQ4XghdQldevphgoLJA84
-         WN/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUpR0Ki7qXf3tBkQdMyFQjtXeb0//qt+HsHSbsU8P5m9CSrEwlzsE1ytFXATHnAMnhztvoXYDXze5puTPY=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yyf5XtFxt/ThtJhdcKbUPMEtOIxP3pMuHDwQkeT9UIdC6OUhOmH
-	DI8qwznTO+bio2c6a+quyIe93IN6bc+cZho43O8zk8MHijXWPTbjhzg/xXQmC0QKhSsGmWb8Clr
-	iWgpRmQPS9M2MEITDfY40KSniCg==
-X-Gm-Gg: ASbGncsLjIzDv5OSSwIi6Eq7xg1BuA3/A25qouZHnR/uPdr7eJ2DUr5aTLKeprKBujC
-	+k/mJZUR4/zA4PRWiKbbHL02HEp5t2RJtg60hnGQyqFTHNqmXK+s4OwUN/Xt6+VuJdFh4kSduJg
-	==
-X-Google-Smtp-Source: AGHT+IGNSf6rGtM/0ntuhaOil/OeR7IwjOWYFQDUAqkZMflXOFRT9qKkIxcKzWOWjZx79tkVLAIyz+1kIHTsJrDn3wI=
-X-Received: by 2002:a17:903:2b0c:b0:216:32b6:cf0f with SMTP id
- d9443c01a7336-220bbb58176mr34931005ad.12.1739410685858; Wed, 12 Feb 2025
- 17:38:05 -0800 (PST)
+	d=codeconstruct.com.au; s=2022a; t=1739410784;
+	bh=7ynEPinVYg58vFFqJ9Y3/dS+93WPxCWeOZ+W7+imhK8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=Fx7eib3XacDk4lxD4dnjY4m+ta1n7/2Jkt7TtBw5BZw5rUPmpssTEoG+roFoYDPvg
+	 YGNwK+sEiNMwEAYVitnFnOjB9YGrbTA+FjTqjwgvZQHBDYWSIlOMnXzcERdzCJqPrm
+	 U6H/QITP/jNkLuUV2C+PvrByCdd3hn86fqitcVUfr5K7FWaFe1GYp9YALBK9YStdux
+	 iawfA8zq0tMjdDnjZBXoRyE0Ok0eacV8W+C7gLl4A6Bl6Mmsu8gARPYK61XeUBp+0H
+	 3x0KZydeJ1OZQKFjDlLj6HWrKuRiAgp25OHG19g1vaHpGRY8a+7QQ82Lw5SDTWHRuU
+	 QH0Cu94VW1lYg==
+Received: from [192.168.68.112] (203-173-7-184.dyn.iinet.net.au [203.173.7.184])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 662197576E;
+	Thu, 13 Feb 2025 09:39:43 +0800 (AWST)
+Message-ID: <8e6c7913fda39baa50309886f9f945864301660f.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] soc: aspeed: Add NULL pointer check in
+ aspeed_lpc_enable_snoop()
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Chenyuan Yang <chenyuan0y@gmail.com>
+Cc: joel@jms.id.au, richardcochran@gmail.com, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Date: Thu, 13 Feb 2025 12:09:42 +1030
+In-Reply-To: <CALGdzuoeYesmdRBG_QPW_rkFcX7v=0hsDr0iX3u5extEL5qYag@mail.gmail.com>
+References: <20250212212556.2667-1-chenyuan0y@gmail.com>
+	 <f649fc0f8491ab666b3c10f74e3dc18da6c20f0a.camel@codeconstruct.com.au>
+	 <CALGdzuoeYesmdRBG_QPW_rkFcX7v=0hsDr0iX3u5extEL5qYag@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -77,79 +69,75 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-References: <20250212212556.2667-1-chenyuan0y@gmail.com> <f649fc0f8491ab666b3c10f74e3dc18da6c20f0a.camel@codeconstruct.com.au>
-In-Reply-To: <f649fc0f8491ab666b3c10f74e3dc18da6c20f0a.camel@codeconstruct.com.au>
-From: Chenyuan Yang <chenyuan0y@gmail.com>
-Date: Wed, 12 Feb 2025 19:37:54 -0600
-X-Gm-Features: AWEUYZnjQUUyxNUV0VBU760EACS8AzZdfQ6WtL9mWgDhcmj_152WjiAils2-6oI
-Message-ID: <CALGdzuoeYesmdRBG_QPW_rkFcX7v=0hsDr0iX3u5extEL5qYag@mail.gmail.com>
-Subject: Re: [PATCH] soc: aspeed: Add NULL pointer check in aspeed_lpc_enable_snoop()
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: joel@jms.id.au, richardcochran@gmail.com, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.0
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Hi Andrew,
+On Wed, 2025-02-12 at 19:37 -0600, Chenyuan Yang wrote:
+> Hi Andrew,
+>=20
+> Thanks for your prompt reply!
+>=20
+> On Wed, Feb 12, 2025 at 6:21=E2=80=AFPM Andrew Jeffery
+> <andrew@codeconstruct.com.au> wrote:
+> >=20
+> > Hi Chenyuan,
+> >=20
+> > On Wed, 2025-02-12 at 15:25 -0600, Chenyuan Yang wrote:
+> > > lpc_snoop->chan[channel].miscdev.name could be NULL, thus,
+> > > a pointer check is added to prevent potential NULL pointer
+> > > dereference.
+> > > This is similar to the fix in commit 3027e7b15b02
+> > > ("ice: FiI am cx some null pointer dereference issues in ice_ptp.c").
+> > >=20
+> > > This issue is found by our static analysis tool.
+> > >=20
+> > > Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+> > > ---
+> > > =C2=A0drivers/soc/aspeed/aspeed-lpc-snoop.c | 2 ++
+> > > =C2=A01 file changed, 2 insertions(+)
+> > >=20
+> > > diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c
+> > > b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+> > > index 9ab5ba9cf1d6..376b3a910797 100644
+> > > --- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
+> > > +++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+> > > @@ -200,6 +200,8 @@ static int aspeed_lpc_enable_snoop(struct
+> > > aspeed_lpc_snoop *lpc_snoop,
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lpc_snoop->chan[channel].m=
+iscdev.minor =3D MISC_DYNAMIC_MINOR;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lpc_snoop->chan[channel].m=
+iscdev.name =3D
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 devm_kasprintf(dev, GFP_KERNEL, "%s%d", DEVICE_NAME,
+> > > channel);
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!lpc_snoop->chan[channel].m=
+iscdev.name)
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 return -ENOMEM;
+> >=20
+> > This introduces yet another place where the driver leaks resources in
+> > an error path (in this case, the channel kfifo). The misc device also
+> > gets leaked later on. It would be nice to address those first so that
+> > handling this error can take the appropriate cleanup path.
+> >=20
+> > Andrew
+>=20
+> It seems that the `aspeed_lpc_enable_snoop()` function originally does
+> not have a cleanup path. For example, if `misc_register` fails, the
+> function directly returns rc without performing any cleanup.
+> Similarly, when the `channel` has its default value, the function
+> simply returns -EINVAL.
+>=20
+> Given this, I am wondering whether it would be a good idea to
+> introduce a cleanup path. If so, should we ensure cleanup for all
+> possible exit points?
 
-Thanks for your prompt reply!
+Yes please!
 
-On Wed, Feb 12, 2025 at 6:21=E2=80=AFPM Andrew Jeffery
-<andrew@codeconstruct.com.au> wrote:
->
-> Hi Chenyuan,
->
-> On Wed, 2025-02-12 at 15:25 -0600, Chenyuan Yang wrote:
-> > lpc_snoop->chan[channel].miscdev.name could be NULL, thus,
-> > a pointer check is added to prevent potential NULL pointer
-> > dereference.
-> > This is similar to the fix in commit 3027e7b15b02
-> > ("ice: FiI am cx some null pointer dereference issues in ice_ptp.c").
-> >
-> > This issue is found by our static analysis tool.
-> >
-> > Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
-> > ---
-> >  drivers/soc/aspeed/aspeed-lpc-snoop.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c
-> > b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-> > index 9ab5ba9cf1d6..376b3a910797 100644
-> > --- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
-> > +++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-> > @@ -200,6 +200,8 @@ static int aspeed_lpc_enable_snoop(struct
-> > aspeed_lpc_snoop *lpc_snoop,
-> >         lpc_snoop->chan[channel].miscdev.minor =3D MISC_DYNAMIC_MINOR;
-> >         lpc_snoop->chan[channel].miscdev.name =3D
-> >                 devm_kasprintf(dev, GFP_KERNEL, "%s%d", DEVICE_NAME,
-> > channel);
-> > +       if (!lpc_snoop->chan[channel].miscdev.name)
-> > +               return -ENOMEM;
->
-> This introduces yet another place where the driver leaks resources in
-> an error path (in this case, the channel kfifo). The misc device also
-> gets leaked later on. It would be nice to address those first so that
-> handling this error can take the appropriate cleanup path.
->
-> Andrew
+Thanks,
 
-It seems that the `aspeed_lpc_enable_snoop()` function originally does
-not have a cleanup path. For example, if `misc_register` fails, the
-function directly returns rc without performing any cleanup.
-Similarly, when the `channel` has its default value, the function
-simply returns -EINVAL.
+Andrew
 
-Given this, I am wondering whether it would be a good idea to
-introduce a cleanup path. If so, should we ensure cleanup for all
-possible exit points?
-
-Looking forward to your thoughts.
-
--Chenyuan
 
