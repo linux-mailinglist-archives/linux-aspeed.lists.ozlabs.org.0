@@ -1,59 +1,71 @@
-Return-Path: <linux-aspeed+bounces-712-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-732-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D81A340E4
-	for <lists+linux-aspeed@lfdr.de>; Thu, 13 Feb 2025 14:55:46 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A72A36B9D
+	for <lists+linux-aspeed@lfdr.de>; Sat, 15 Feb 2025 04:32:49 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YtxXb0pPmz2yNP;
-	Fri, 14 Feb 2025 00:55:43 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Yvvct03HVz2yZN;
+	Sat, 15 Feb 2025 14:32:46 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1739454943;
-	cv=none; b=NPTN2hoPDQlV/nn1jRrKHAS5jFO5xKVHoA8THJhgnpJ8p82QZ6+fHsh9wo9rXXUk0NPRJVK2cFojk4u/2m4m9UI+Rz71J/DuL1XAiL5piK3YarVwQZgNUUluhtI7jVu9AIss0MPIPf16vo9crQEz+azvYwTpPBAAtzux5sr4Rx+54P/flkOAfNq5vidAc2moLwSUzAXxBwe8g5sn3r9sMJ1/GkUvqeSmpSyLJCAGY3ieyr4cocnDKtLOYyt29nMzXIz84FSr6NAQsfui9R6olsyu7NShRs8rH95fhrPAmijijXysOM3fQmiiHFBFEJiYmyJRbO5X5fuM7WSLD6Jjlg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=170.10.133.124
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1739492393;
+	cv=none; b=bDvRknZrDKkzkxR7rQGZjWY5N1UiPwNk5xf0DQS73zDPA9sb+80rbTZUTBzUVX1exGA6xxz85LHmwqziZUB7AkquNr7SIskSzHJ6Zbry6/2EBMwpTuOTHBfVwBJXTaxrCc2ZNrmk/DmBBAv6KJsbef2300764XYrSt3dLVRIsBlG0nXJbNZUjerVcMdvmsQUujRn95ImVdcz0sWAx6yKkHEwDGG7tfgSRtUwo0LdSJ3MJPKElhjGvVPk/blNwWNnBA6NGB4ngY1GIfoTHGxV6aUXtmEcCxd77nQ/WwPoVoKuEyczXYNi5hzK2v09oZwyLhwm7Y5QZzjXlxh3tp2MCw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1739454943; c=relaxed/relaxed;
-	bh=iSIJAx4EpNXrVsBR/rpvqubaa9T4PDr1XsPwpgCesCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lApQFoVLith6M0LeRy/pgl2oOkLV2uFjldmppXbr3vuc8hvqtaFJ9zp4sSMcvR+EQyq0IGg/NCbYLwFt4MbcEgAF94Yk2pMEVGQjcysF6PGKBEgh0GdDBuIrFJYIyj+ALkuAq4VUaF0GsXkxtpd8N6xnSW6vz2XGg5jw5YrAkRWphHmcaxDhcEEU+ca2i1GbXEXNhI2AdLHKc/xiOcQ8DsbocJVhWde70cey/5Xnn3NLLRAtN4jRZxhLBWfNbb6Smxa/kiGfu3gPu+OwSmuxa38cytFRr/sdwVJ2I4vezWqjoZxg1+m4KCiXMmFxaoBAmnV7HP4K+o+omEWjRps+qw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=gkZtbL8j; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+	t=1739492393; c=relaxed/relaxed;
+	bh=tF6nQiuAoGdDRaxi4ffFK8y97AsM0p7biyz4jaKoW/4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:To:Cc:Content-Type; b=mR6FI5TWD+QvlP/UAngTV8ToZu2n1Bj/A8BfJ23Te/5WQSyDq7E41/BY3T9w4R/4gYWZ32tWW1OjFikPFKPF72usJ+VbS2s/IFXK374vX7TgKxSc2zvxWrdZRkW91PI1BHmSxIZbXl/QkRNAYDOGcv3lTqL8Ba+Bupd5WsIGNxoEXz8/7qvMyNqinotWaCIbvP7mfHdoAGNZs7Uy4R0L6dY9rhpmjGaLspbB/S+BxmZTtwWWQw7Cl/nDcmXdHnLgv46K+sfXlhZkMOWAscddu5aGavU45RMSMyUyA+neCkXpxqcyMusUGURAXwWA4pgNzaiVoVMQ/9S52utXsF7kXA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com; dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=hfskKvOw; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=b11CFYtm; dkim-atps=neutral; spf=pass (client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org) smtp.mailfrom=redhat.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=gkZtbL8j;
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=hfskKvOw;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=b11CFYtm;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YtxXY1BXXz2yN3
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Feb 2025 00:55:40 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=iSIJAx4EpNXrVsBR/rpvqubaa9T4PDr1XsPwpgCesCw=; b=gkZtbL8jtyFaX5I7SQPe1yOCe9
-	UWSxm5Ie8L9UyWPhu5BlROG5LnnlOBATL2gTmW8b7+NvDxFwlfulajbuPd/ZwZxWER6fDYhZIDIjB
-	64NFBb8/q7lqP1EXLk/fZAh5drzeQeTVYUA3BSGfq3Q8KnIUUrJv6qv5MPc1zdWHkZSw=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tiZgZ-00DklN-Ck; Thu, 13 Feb 2025 14:55:23 +0100
-Date: Thu, 13 Feb 2025 14:55:23 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Chenyuan Yang <chenyuan0y@gmail.com>
-Cc: Andrew Jeffery <andrew@codeconstruct.com.au>, joel@jms.id.au,
-	richardcochran@gmail.com, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH] soc: aspeed: Add NULL pointer check in
- aspeed_lpc_enable_snoop()
-Message-ID: <2d5c9d87-abbc-4118-9031-f2c7b5c96085@lunn.ch>
-References: <20250212212556.2667-1-chenyuan0y@gmail.com>
- <f649fc0f8491ab666b3c10f74e3dc18da6c20f0a.camel@codeconstruct.com.au>
- <CALGdzuoeYesmdRBG_QPW_rkFcX7v=0hsDr0iX3u5extEL5qYag@mail.gmail.com>
- <8e6c7913fda39baa50309886f9f945864301660f.camel@codeconstruct.com.au>
- <CALGdzurifZaqatjGRZGxA4FyNBHOYJdVXpKHSM4hQdA3qZtYvQ@mail.gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YvCNm0v0Hz2yft
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Feb 2025 11:19:50 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739492384;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tF6nQiuAoGdDRaxi4ffFK8y97AsM0p7biyz4jaKoW/4=;
+	b=hfskKvOw3ZQLr6fAbok+cYr2qwuecnpRQt3llnFkBbqQmZ7PrE+ZgeIEJgu3z3gKNyfFhR
+	GUkUScmTAi7/8sqL+njfe6PSZsRVQk3ldT29LQgZgKEhqAj1whgMtkTuGWoy/YfeaMYSLN
+	egVp0eYNJAkzUfSV6pI7GedKThP8wjs=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739492385;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tF6nQiuAoGdDRaxi4ffFK8y97AsM0p7biyz4jaKoW/4=;
+	b=b11CFYtmUjIpH8OoRsEvRcDPb7z5f4JEZBIqpIU1kTA5UGQ8jVo/GH9vGAGLkNWJI7OIq8
+	8vmQik8EyRHR6grPmKieA+n4VMCewuEozjzHXjjQmVoX/WoCixlDH6OajWelh/3hyqePgz
+	MiMAg4rYc+yfoTo9/6B1gFBGuzOzARc=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-300-zfNw4zUWPoCPxlmZ-VC4NA-1; Thu,
+ 13 Feb 2025 19:19:41 -0500
+X-MC-Unique: zfNw4zUWPoCPxlmZ-VC4NA-1
+X-Mimecast-MFC-AGG-ID: zfNw4zUWPoCPxlmZ-VC4NA_1739492375
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 73DD9180087D;
+	Fri, 14 Feb 2025 00:19:30 +0000 (UTC)
+Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.199])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9123019373C4;
+	Fri, 14 Feb 2025 00:19:16 +0000 (UTC)
+From: Anusha Srivatsa <asrivats@redhat.com>
+Subject: [PATCH 00/12] drm: Move to using devm_platform_ioremap_resource
+Date: Thu, 13 Feb 2025 19:19:13 -0500
+Message-Id: <20250213-mem-cocci-v3-v1-0-93466d165349@redhat.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -66,57 +78,190 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALGdzurifZaqatjGRZGxA4FyNBHOYJdVXpKHSM4hQdA3qZtYvQ@mail.gmail.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+X-B4-Tracking: v=1; b=H4sIAAKMrmcC/x3MQQqAIBBA0avIrBvQCSG6SrSIaapZqKEQgXj3p
+ OVb/F+hSFYpMJsKWR4tmmKHGwzwtcVTUPduIEvekhsxSEBOzIrPiJ6dFXKeZDqgJ3eWQ99/t6y
+ tfbaoKWFeAAAA
+X-Change-ID: 20250213-mem-cocci-v3-5c10e2152e8f
+To: Joel Stanley <joel@jms.id.au>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
+ Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Alexey Brodkin <abrodkin@synopsys.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>, 
+ CK Hu <ck.hu@mediatek.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739492356; l=4546;
+ i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
+ bh=RYl8F5/aPh8ikJsFxMU1SMqP5uI28pqwHX8dD7l8K/U=;
+ b=WnxWQhBi5C/L81rTjcUFFGzsRo89PrH4LR3kqQyjFGJ7KK2bxR5gH52AZgGYsQJmH1QxT+UZU
+ m56uJ8jVm3wDxtsSjBgC7XvMz5uL+Ep+Zw75J7pRo4h0Sv4qNV2Ryxi
+X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
+ pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: amzDaZWpbpND9a3o5PGCwZrzuIgPctkza7W3A1tyC9Q_1739492375
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+	RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=disabled
 	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-On Wed, Feb 12, 2025 at 07:50:49PM -0600, Chenyuan Yang wrote:
-> Hi Andrew,
-> 
-> I've drafted the following patch to address the resource cleanup issue:
+Start replacing the below occurences with the newer API:
+- (devm_)platform_get_resource + devm_ioremap_resource
+- (devm_)platform_get_resource + (devm_)ioremap
+- platform_get_resource_byname + devm_ioremap
+Move all these occurences to uses devm_platform_ioremap_resource
+instead.
 
-Please just follow the normal procedure of submitting a patch.
+This is v3 of the series. Changes from v2 [1]:
+- Keep the old snippet of documentation and add further
+clarification (Thomas)
+- change in vc4 driver for the a resource is not needed.
+Add a comment to clarify why that is left behind (Maxime)
 
-	Andrew
+[2] - https://patchwork.freedesktop.org/series/144073/
 
-> 
-> ```
->  drivers/soc/aspeed/aspeed-lpc-snoop.c | 17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c
-> b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-> index 9ab5ba9cf1d6..4988144aba88 100644
-> --- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
-> +++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-> @@ -200,11 +200,15 @@ static int aspeed_lpc_enable_snoop(struct
-> aspeed_lpc_snoop *lpc_snoop,
->   lpc_snoop->chan[channel].miscdev.minor = MISC_DYNAMIC_MINOR;
->   lpc_snoop->chan[channel].miscdev.name =
->   devm_kasprintf(dev, GFP_KERNEL, "%s%d", DEVICE_NAME, channel);
-> + if (!lpc_snoop->chan[channel].miscdev.name) {
-> + rc = -ENOMEM;
-> + goto free_fifo;
-> + }
+Used Coccinelle to make the code changes.Semantic patch:
 
-You were asked to first add cleanup, then fix this possible NULL
-pointer dereference.
+//First Case
+//rule s/platform_get_resource + devm_ioremap_resource/devm_platform_ioremap_resource
+@rule_1@
+identifier res;
+expression ioremap_res;
+identifier pdev;
+@@
+-struct resource *res;
+...
+-res = platform_get_resource(pdev,...);
+-ioremap_res = devm_ioremap_resource(...);
++ioremap_res = devm_platform_ioremap_resource(pdev,0);
 
-> I have a couple of questions regarding the cleanup order:
-> 
-> 1. Do we need to call misc_deregister() in this case, considering that
-> the registration happens before return -EINVAL?
-> 2. If misc_deregister() is required, is there a specific order we
-> should follow when calling misc_deregister() and
-> kfree(lpc_snoop->chan[channel].miscdev.name);?
+//Second case
+//rule s/(devm_)platform_get_resource + (devm_)ioremap/devm_platform_ioremap_resource.
+@rule_2@
+identifier res;
+expression ioremap;
+identifier pdev;
+@@
+-struct resource *res;
+...
+-res = platform_get_resource(pdev,...);
+<...
+-if (!res) {
+-...
+-}
+...>
+-ioremap = devm_ioremap(...);
++ioremap = devm_platform_ioremap_resource(pdev,0);
 
-As a general rule, cleanup is the opposite order to setup.
+//Third case
+//rule s/(devm_)platform_get_resource_byname + (devm_)ioremap/devm_platform_ioremap_resource_byname.
+@rule_3@
+identifier res;
+expression ioremap;
+identifier pdev;
+constant mem;
+expression name;
+@@
+-struct resource *res;
+<+...
+-res = platform_get_resource_byname(pdev,mem,name);
+<...
+-if (!res) {
+-...
+-}
+...>
+-ioremap = devm_ioremap(...);
++ioremap = devm_platform_ioremap_resource_byname(pdev,name);
+...+>
 
-Also, you want to do some research about that devm_ means.
+Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+---
+Anusha Srivatsa (12):
+      drm/aspeed: move to devm_platform_ioremap_resource() usage
+      drm/fsl-dcu: move to devm_platform_ioremap_resource() usage
+      drm/hisilicon: move to devm_platform_ioremap_resource() usage
+      drm/mediatek: move to devm_platform_ioremap_resource() usage
+      drm/mxsfb: move to devm_platform_ioremap_resource() usage
+      drm/sprd: move to devm_platform_ioremap_resource() usage
+      drm/sti: move to devm_platform_ioremap_resource() usage
+      drm/stm: move to devm_platform_ioremap_resource() usage
+      drm/tegra: move to devm_platform_ioremap_resource() usage
+      drm/tiny: move to devm_platform_ioremap_resource() usage
+      drm/vc4: move to devm_platform_ioremap_resource() usage
+      Documentation: Update the todo
 
-	Andrew
+ Documentation/gpu/todo.rst                      | 13 +++---
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c         |  4 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c       |  4 +-
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c    |  4 +-
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c |  4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_color.c       |  4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_gamma.c       |  4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c       |  4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c         |  4 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c        |  4 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c              |  4 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c             |  4 +-
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c         |  4 +-
+ drivers/gpu/drm/mxsfb/lcdif_drv.c               |  4 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c               |  4 +-
+ drivers/gpu/drm/sprd/sprd_dpu.c                 |  9 +----
+ drivers/gpu/drm/sprd/sprd_dsi.c                 |  9 +----
+ drivers/gpu/drm/sti/sti_compositor.c            | 10 +----
+ drivers/gpu/drm/sti/sti_dvo.c                   | 10 +----
+ drivers/gpu/drm/sti/sti_hda.c                   |  9 +----
+ drivers/gpu/drm/sti/sti_hdmi.c                  | 11 +----
+ drivers/gpu/drm/sti/sti_hqvdp.c                 | 10 +----
+ drivers/gpu/drm/sti/sti_tvout.c                 | 10 +----
+ drivers/gpu/drm/sti/sti_vtg.c                   | 10 +----
+ drivers/gpu/drm/stm/ltdc.c                      |  4 +-
+ drivers/gpu/drm/tegra/dsi.c                     |  4 +-
+ drivers/gpu/drm/tiny/arcpgu.c                   |  4 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                  | 54 +++++++++----------------
+ 28 files changed, 51 insertions(+), 172 deletions(-)
+---
+base-commit: 68763b29e0a6441f57f9ee652bbf8e7bc59183e5
+change-id: 20250213-mem-cocci-v3-5c10e2152e8f
+
+Best regards,
+-- 
+Anusha Srivatsa <asrivats@redhat.com>
+
 
