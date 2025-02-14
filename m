@@ -1,73 +1,83 @@
-Return-Path: <linux-aspeed+bounces-736-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-744-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957F9A36BA1
-	for <lists+linux-aspeed@lfdr.de>; Sat, 15 Feb 2025 04:32:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C5BA36BA9
+	for <lists+linux-aspeed@lfdr.de>; Sat, 15 Feb 2025 04:32:57 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Yvvcw1KWTz2ygP;
-	Sat, 15 Feb 2025 14:32:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Yvvd35116z3bmN;
+	Sat, 15 Feb 2025 14:32:55 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=170.10.129.124
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1739492504;
-	cv=none; b=PWDzeDWZM2ShbAj+6xcy4KcT/7RwLQ93xi1eYR80aLlk1SAe6wnKN/WepoPa1teXFjkakzIFh+QzCCivW/p5zvZbGibOvEaMeXH0zc6q/N4D84GDOkzBDFHyAyFSbqZIlRXd/mPEGNuAWnjrtfjFtao3/KJKZ7hmggLc2LIcEXP0BwuN1fCDSLs/Jp/Vfpd+Ge63FE0ioTdEPLMqwjyXfD9utO/Iskp1ayblbMVLVYE1zRzASv4LKWM6BAYKLKTtYeYrN8p2MkgoTWDmXgqZW1NrJ9ejrv7mcSwRnxJTknW5Yy/5tqC1U0He8xhlQfPITj+Sn85sugmETXN69LaxNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1739492504; c=relaxed/relaxed;
-	bh=YekiFLZYEOC7oNklCnqy2v4cDXBgQn3tW82+Hlneiv0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MqUc8jfh2Sfx3/h50HHv2sOyFBgSfBZ56y9oZgDWspj9jSvMdoYE+wG+J2+SKr07SEoGvA6K4bokH9iSD0/q/ii+9Pa1RE0JGjKbEFLMz9T9Y+3yYNnizYI+wL2ZrwAU79D+gVOAf2Kk0gquyou3ISWH/K5K3YJuHY42TZtYHRzaArhzNtEPEXYEwihY2nH0Ienrq4fEbRqg17DouCVtJXoVphNoRJ1alas3as+AVrYnk8PalJGJHO6q5FmTlJeiTeyRBK+f0kHZVFDJdzZfcpZ6+xu1McpGOzTgKPgJe6PPToZBsYtC2PhOdyk38pNn3+5JzYmqjj61aeUZ/QiQiA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com; dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=IgWGZ0i4; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=NhPCtwVV; dkim-atps=neutral; spf=pass (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org) smtp.mailfrom=redhat.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:c40f::7" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1739495790;
+	cv=pass; b=es4OSQzJeqeoSq+tv1TNZcFKh2AfJgjHXhxwrbkW7CZ6QcrZnLO8OqbyLJteHnWBXa6xPEr3ly2wI681DmvlKfFrFK8NIffGS9OPGYKzBorQbALb886UM4Ppz7cxhC6pDTmGkYhUnihJ2P6X6DYrYeOsao7MUnClIUk7wCSdcmWrJZ5s3gc3V83ijjDBaTItfpAVDI+dFzFT+x9WLBNx3Fda4iwFZWfuYHRi68YWoZnuiU18Xfb218jLhgiITmpJ5M3n5vEjXspZsQuFvK0XQrim/s7oofRnfdu7uguJWZIMRdK2zyoJ9/az2gs8BDBWT9ACy25A0SKtuCkIrS/pww==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1739495790; c=relaxed/relaxed;
+	bh=XhBYabwod4LpaU83iHbE0xRxkIKJmiQo9VgFLEJXSFg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=kGgA5Akunltm33jMRFFTLJbbJvrKIqrizOXEpjs5qlBWHcxaLoDAh/7Czs0A/w9VnwtCy4JSa6FMELzdSt0IytY8T1IODgxh5j2j5vNRnA57SM7Au628l7stbFHHCfwFEVKv9PK+gDxqSx7c4lNBo1BRP+aDCnEzfpRFEWn/xDoCamYrCGRWTJC4mrlDHiMmlOKzS+JtKhBtssxxOIOXv1e/cr3LKxpeFia8/nGZW5EcMOq4yBFDryNA7oExBHa5csHWoIOZ2xYR0ngPntAZsV90iShpwZT1LFJR67rCpOMyhX7BzyWIDG8YiCjxdhBWK9RcQZMCQbqVBk+0LEJH6A==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com; dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=w+UJSSR5; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c40f::7; helo=seypr02cu001.outbound.protection.outlook.com; envelope-from=marshall_zhan@wiwynn.com; receiver=lists.ozlabs.org) smtp.mailfrom=wiwynn.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=IgWGZ0i4;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=NhPCtwVV;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=w+UJSSR5;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org)
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=2a01:111:f403:c40f::7; helo=seypr02cu001.outbound.protection.outlook.com; envelope-from=marshall_zhan@wiwynn.com; receiver=lists.ozlabs.org)
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazlp170130007.outbound.protection.outlook.com [IPv6:2a01:111:f403:c40f::7])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YvCQv6Jtvz2yft
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Feb 2025 11:21:43 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739492500;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YekiFLZYEOC7oNklCnqy2v4cDXBgQn3tW82+Hlneiv0=;
-	b=IgWGZ0i4ZRCo/+B0+FFQZQUiPeFQrFSyh+ZrY3SWVI2Fka7B8q0TLAKUL+QNMQAGLivb8h
-	lH37XFo/RC6AevUSTM6qBVvw/KjevfP2EPYM1NsZzhVw85tDDJIyGRJT7iPQT5NUSKlfiA
-	QQLuZH0V4K8PSpozWGZ4Uek8dKdki9M=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739492501;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YekiFLZYEOC7oNklCnqy2v4cDXBgQn3tW82+Hlneiv0=;
-	b=NhPCtwVVUpsOnBLWgJk4EBx7RkCRj0TQOIsbXF4tMf40pHzfnMCc+ZjWyR7pytDkh4VfWh
-	hBF8ePivRb6zr2XgfLQHFGCbsJanpYCE4s6Ty+VZO4ySdB9iXsAnITBg5j0oCcMpAVRq+s
-	lAqpETpAH7ert+Zk3q3Z7w4lfZtWevg=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-611-GREkPZofPRqAGTMWmiWrUg-1; Thu,
- 13 Feb 2025 19:21:37 -0500
-X-MC-Unique: GREkPZofPRqAGTMWmiWrUg-1
-X-Mimecast-MFC-AGG-ID: GREkPZofPRqAGTMWmiWrUg
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AE9361800879;
-	Fri, 14 Feb 2025 00:21:32 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.199])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B66FE19373C4;
-	Fri, 14 Feb 2025 00:21:23 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 13 Feb 2025 19:19:25 -0500
-Subject: [PATCH 12/12] Documentation: Update the todo
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YvDf601ZHz30Gq
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Feb 2025 12:16:29 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=H9QgMYzWIigPnW56Bza9oK6jJ6RLVC7OcUci4PCMbBxDhvfz1HkOh/9POSoBmkV4jx0Pw3NlWOuaAVRtNUt4xsqhzsLaWfNlFFwGyqeWwf/Ik1QQ9oQ8RC491vNK9XigmYrzVwxPg/cx6SW7is+o3ZluqF6lL8/jSXZMRz+KngDCXM5MKjUCG7laTD0y4gZbItgdPRf5HYNqL9KLfVffxKmuAR7zLKfPPR8gQNMjt1n4DL7XU1+GZ0qA/t7Gsh2115eorwBIKEt9RcooCmWuNG4dkG+MQAHJQBFfJJkR2DPGrONtXY6AUPvba/psZIC0l9NgtqPvJ5ukWe4FpXUO0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XhBYabwod4LpaU83iHbE0xRxkIKJmiQo9VgFLEJXSFg=;
+ b=SBvztswhTc46f0kdV1b/8ed3aIUNa2NC/erkzAlIV0W7lB7oySa8wqYCHvmnMHdnao38fV1TIyhHxCQqmU90NppP5Pk91tbfSVmgZ6gO9mxxgoBlH7Yxez05A7g+/3B9BMsfX4ccSGyKpTAZJesMcjQ6eZUW/FyT1aHGjiEc4Q5JSBvFMvlq+g3Ybv1dUG/GevJSgme2DD8SJvKN/ZoQMXSeh1LUXVrpgrhBkuDrbH7tRpXXCFFLsdvNqnM7zgTkLAbTyu7gFLE1b7Hnet/Unmj0A8f5o4g6twtOnyVSyOHQwSggramuBNHFugPfBw9560GRyq80zDFk/83VUbJpig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XhBYabwod4LpaU83iHbE0xRxkIKJmiQo9VgFLEJXSFg=;
+ b=w+UJSSR5U0zepu5HRVAIFZvjvZRV6DpXl6WvSu3mGIY3uC02MWC0PJ+oQ4eQjSvrEywlNH69FwlXmTnbrbj9pDdVCrPd+2Eunp2FF/ZzvxlI9eKndeF/3T3tE5wQAPYp6LHsWL+cXHkPnWRKa7nEyGgMCnDyUo3VRrOeLzVVg7VHLt9z5ugHavcRsnmRNi9Twz7/P48cNXZLRfJSsLEE34bh9EuCg6paBcJa90O/12eg03MU/9GPaaIlluzbi2OzaUX/s2ac1AdMhqhrwgmTL7pXLxOje93v+Ll+l+GXEktKhUD0yQpV61i/9VxmfgBDoC9gKnkmlGJSsC40Os0pVA==
+Received: from SG2PR03CA0124.apcprd03.prod.outlook.com (2603:1096:4:91::28) by
+ SEYPR04MB6752.apcprd04.prod.outlook.com (2603:1096:101:dd::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8445.16; Fri, 14 Feb 2025 01:16:00 +0000
+Received: from SG1PEPF000082E6.apcprd02.prod.outlook.com
+ (2603:1096:4:91:cafe::d3) by SG2PR03CA0124.outlook.office365.com
+ (2603:1096:4:91::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.8 via Frontend Transport; Fri,
+ 14 Feb 2025 01:15:59 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ SG1PEPF000082E6.mail.protection.outlook.com (10.167.240.9) with Microsoft
+ SMTP Server id 15.20.8445.10 via Frontend Transport; Fri, 14 Feb 2025
+ 01:15:58 +0000
+From: MarshallZhan-wiwynn <marshall_zhan@wiwynn.com>
+To: patrick@stwcx.xyz,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: MarshallZhan-wiwynn <marshall_zhan@wiwynn.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH dev 6.6 v3] ARM: dts: aspeed: yosemite4: add I3C config in DTS
+Date: Fri, 14 Feb 2025 09:15:55 +0800
+Message-Id: <20250214011556.1891113-1-marshall_zhan@wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -80,104 +90,179 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250213-mem-cocci-v3-v1-12-93466d165349@redhat.com>
-References: <20250213-mem-cocci-v3-v1-0-93466d165349@redhat.com>
-In-Reply-To: <20250213-mem-cocci-v3-v1-0-93466d165349@redhat.com>
-To: Joel Stanley <joel@jms.id.au>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Alexey Brodkin <abrodkin@synopsys.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
- linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739492356; l=1573;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=bYxgFN867I+WeRXfo+Hqrkj7dpTr9KOQQ6gXwIiRKW0=;
- b=cHX+5YoNVZJTRemhs4SucNAn3ucLSNF85bfH//R9r2aykA56GpMQQQSLXVA7X7foeQRwKWecs
- +OKDBIRplsKChc5XegZo+yGbuHDto2wbs/C+rOhVmPq3dgGic16khxR
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.0
+Content-Transfer-Encoding: quoted-printable
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG1PEPF000082E6:EE_|SEYPR04MB6752:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: ed2b0c0b-b767-4a30-fc5b-08dd4c9523f6
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|82310400026|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?KgrmApvqD4NtljMrZz0G4zZkl/xTIOkdeo1IbwkFqLOS+nN8mnv+QsHX3Qsd?=
+ =?us-ascii?Q?9DR8gq9EB0ChAWJkkDIp8h/VGGoin1FA7+mvMvZZ3nyfu/V/GOCgyhkbyH+D?=
+ =?us-ascii?Q?0L1/OzRQgeCqCA3nFfu5wqtpWsSPzMyXTeqYQmEIa0GQRG+iFfsHOCESPmQN?=
+ =?us-ascii?Q?BXU5ceLSWFu7SnFTaZAkYC2olDV9zdFpLXibh47IhGa2qA54H2SZevoADL9t?=
+ =?us-ascii?Q?dnAb8om227XIzPpOHRX4PkPhSO3FPA7wdfKXCQLebKYckc59YajnsUH045TD?=
+ =?us-ascii?Q?1hMUlYuFC6fM5ZNNtxFkfdVm7mi8E7UwGnC4vWh/j4egHUEzN3Zy+d9gVFNF?=
+ =?us-ascii?Q?dVmYI25dEk2J6GGzkbhC7HEoxVaLkie3f+T5REHY7zm1DINyNn+0QD6j6/H+?=
+ =?us-ascii?Q?JxjxBUZgnRlO9zHueGnyiySDibJSmm2w8/5A16vD+0Rsd4lHQ8XrJshztPGy?=
+ =?us-ascii?Q?UrazGkEOKuVTPr6xI+3X/2QVfwl++UXBuwKy3Bf0aICnDcXxdv+iO0+svwFo?=
+ =?us-ascii?Q?c3Ul2TtjdFmWvXhcMcX0UfAUWBZkAgH/FbQUIaDmiANjA89iVE7flqX+ibsH?=
+ =?us-ascii?Q?lxbWjoQmi5rISKXUmCFbwLEkhgqg8igz0ULA4eTX1ppwdK3+3Xs8g98SZmh2?=
+ =?us-ascii?Q?+I9Xi35zuPBS5wNiWnxwI9c/m0vNnOBooqHaPOSJddteosinUh7eySr/SeqC?=
+ =?us-ascii?Q?vxuc8zp9PRipBgoV/Tvl2/I2DeKJfzIH0Q6m1k+qlkoTaR/8MTXKEhkHp+LF?=
+ =?us-ascii?Q?/YLLMlMFvz7q47h9KXf7iaCxzgMTjXd62SD+VPLJthErHHqfXLZ7NRxic+7+?=
+ =?us-ascii?Q?WrzLlOnVi6GLLMqSxDer9tCTBz45U/YZ16gpaLo+542fzNokqgKoW9gTIYq+?=
+ =?us-ascii?Q?jD4F/rksMeNE/uL7rwUyX1rrP181uOAlMKVHgmaRmSGbif583Lyz2q3zyBv5?=
+ =?us-ascii?Q?i3Ldm2tGjShoEA/dnluAaItkgzpHv6fzrirO0y8+tZr9DRvOk/AzJVei7dcR?=
+ =?us-ascii?Q?sBnzSUOwyGq/6rm/UnvllILcqA3AleBZXakeQUQSQlgEZirEM75uCy1b8yJv?=
+ =?us-ascii?Q?4xt9Jvcu9ceslmrgQbgM4JlttMbeswmTfLjrHcAS+CRVdO7p9dZzL6gilERJ?=
+ =?us-ascii?Q?A2auf1StHh3ShrMParIxg9E9nEVj/coKXE9eN8yQUxq2YbkB/9flm+kJso+/?=
+ =?us-ascii?Q?3JlXOlPTYu402F5jlEG/2P8CMQJZrMHN5b0dtsC4ddT8WdC7UDpTrHuLUe9c?=
+ =?us-ascii?Q?G4JpdtLvsEQVLggUrUDw8pUDOXts+Q/L3jQRdyez7TRMw602X5SYPnlm4JAa?=
+ =?us-ascii?Q?vaQBXkWd5Rg3tpBFpHRQDW9s3+cPB2EiOvbw3Zcq3sHfjumGlbG0c33L8Y7Y?=
+ =?us-ascii?Q?bfz6HrkGKq3VzhGF+hZzq1IhnJt2AvApBj+102+yyc7W7QNKEzt2QZdet4Ou?=
+ =?us-ascii?Q?gq2jTCc6MCXR3OaGoOmzalUNSTd60UUYgCR0RHW3NNAasLwmWQxP+U1gzcjq?=
+ =?us-ascii?Q?5FSXlVDuY9UOdUY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(82310400026)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2025 01:15:58.6517
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed2b0c0b-b767-4a30-fc5b-08dd4c9523f6
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SG1PEPF000082E6.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR04MB6752
+X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+	SPF_PASS autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Update the Documentation to be more precise.
+Set I3C config in yosemite4 DTS.
 
-v2: Update for clarity
-v3: Further details in Todo
+Test plan:
+Tested pass with aspeed I3C patches and I3C hub driver.
 
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+Signed-off-by: MarshallZhan-wiwynn <marshall_zhan@wiwynn.com>
 ---
- Documentation/gpu/todo.rst | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ .../aspeed/aspeed-bmc-facebook-yosemite4.dts  | 88 +++++++++++++++++++
+ 1 file changed, 88 insertions(+)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 256d0d1cb2164bd94f9b610a751b907834d96a21..c57777a24e03d91b1ffe04365f7356f2d938befd 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -441,14 +441,15 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
- 
- Level: Intermediate
- 
--Request memory regions in all drivers
---------------------------------------
-+Request memory regions in all fbdev drivers
-+--------------------------------------------
- 
--Go through all drivers and add code to request the memory regions that the
--driver uses. This requires adding calls to request_mem_region(),
-+Old/ancient fbdev drivers do not request their memory properly.
-+Go through these drivers and add code to request the memory regions
-+that the driver uses. This requires adding calls to request_mem_region(),
- pci_request_region() or similar functions. Use helpers for managed cleanup
--where possible.
--
-+where possible. Problematic areas include hardware that has exclusive ranges
-+like VGA. VGA16fb does not request the range as it is expected.
- Drivers are pretty bad at doing this and there used to be conflicts among
- DRM and fbdev drivers. Still, it's the correct thing to do.
- 
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/a=
+rch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+index ab4904cf2c0e..3f98e67674d0 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+@@ -1317,6 +1317,94 @@ eeprom@50 {
+        };
+ };
 
--- 
-2.47.0
++&i3c0 {
++       status =3D "okay";
++       pinctrl-names =3D "default";
++       pinctrl-0 =3D <&pinctrl_i3c1_default>;
++       i3c-scl-hz =3D <8000000>;
++       i3c-pp-scl-hi-period-ns =3D <62>;
++       i3c-pp-scl-lo-period-ns =3D <63>;
++       i3c-od-scl-hi-period-ns =3D <380>;
++       i3c-od-scl-lo-period-ns =3D <620>;
++       sda-tx-hold-ns =3D <10>;
++
++       mctp-controller;
++       hub@0x70 {
++               reg =3D <0x70 0x3c0 0x00700000>;
++               cp0-ldo-en =3D "disabled";
++               cp1-ldo-en =3D "disabled";
++               cp0-ldo-volt =3D "1.2V";
++               cp1-ldo-volt =3D "1.2V";
++               tp0145-ldo-en =3D "disabled";
++               tp2367-ldo-en =3D "disabled";
++               tp0145-ldo-volt =3D "1.2V";
++               tp2367-ldo-volt =3D "1.2V";
++               tp0145-pullup =3D "2k";
++               tp2367-pullup =3D "2k";
++
++               target-port@0 {
++                       mode =3D "i3c";
++                       pullup =3D "enabled";
++               };
++               target-port@1 {
++                       mode =3D "i3c";
++                       pullup =3D "enabled";
++               };
++               target-port@2 {
++                       mode =3D "i3c";
++                       pullup =3D "enabled";
++               };
++               target-port@3 {
++                       mode =3D "i3c";
++                       pullup =3D "enabled";
++               };
++       };
++};
++
++&i3c1 {
++       status =3D "okay";
++       pinctrl-names =3D "default";
++       pinctrl-0 =3D <&pinctrl_i3c2_default>;
++       i3c-scl-hz =3D <8000000>;
++       i3c-pp-scl-hi-period-ns =3D <62>;
++       i3c-pp-scl-lo-period-ns =3D <63>;
++       i3c-od-scl-hi-period-ns =3D <380>;
++       i3c-od-scl-lo-period-ns =3D <620>;
++       sda-tx-hold-ns =3D <10>;
++
++       mctp-controller;
++       hub@0x70 {
++               reg =3D <0x70 0x3c0 0x00700000>;
++               cp0-ldo-en =3D "disabled";
++               cp1-ldo-en =3D "disabled";
++               cp0-ldo-volt =3D "1.2V";
++               cp1-ldo-volt =3D "1.2V";
++               tp0145-ldo-en =3D "disabled";
++               tp2367-ldo-en =3D "disabled";
++               tp0145-ldo-volt =3D "1.2V";
++               tp2367-ldo-volt =3D "1.2V";
++               tp0145-pullup =3D "2k";
++               tp2367-pullup =3D "2k";
++
++               target-port@0 {
++                       mode =3D "i3c";
++                       pullup =3D "enabled";
++               };
++               target-port@1 {
++                       mode =3D "i3c";
++                       pullup =3D "enabled";
++               };
++               target-port@2 {
++                       mode =3D "i3c";
++                       pullup =3D "enabled";
++               };
++               target-port@3 {
++                       mode =3D "i3c";
++                       pullup =3D "enabled";
++               };
++       };
++};
++
+ &adc0 {
+        status =3D "okay";
+        pinctrl-0 =3D <&pinctrl_adc0_default &pinctrl_adc1_default
+--
+2.25.1
 
+WIWYNN PROPRIETARY
+This email (and any attachments) contains proprietary or confidential infor=
+mation and is for the sole use of its intended recipient. Any unauthorized =
+review, use, copying or distribution of this email or the content of this e=
+mail is strictly prohibited. If you are not the intended recipient, please =
+notify the sender and delete this email immediately.
 
