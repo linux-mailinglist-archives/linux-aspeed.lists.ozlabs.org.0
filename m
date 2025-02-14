@@ -1,43 +1,44 @@
-Return-Path: <linux-aspeed+bounces-724-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-721-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90529A35F8D
-	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Feb 2025 14:56:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C12CFA35F8B
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Feb 2025 14:56:37 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YvYW82PQkz3bld;
-	Sat, 15 Feb 2025 00:56:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YvYW50tpfz30dt;
+	Sat, 15 Feb 2025 00:56:33 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a02:1800:110:4::f00:10"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1739541396;
-	cv=none; b=Ow1lcERH517Cc7ytMJHThZyh+q6B2E71PjrC+MQYxH+2V4qRkYXFdyve+TOIvoSDqW4XzzAF3OxR9GoilpP1Y13GxZCRf3ZNyJTKXmhHjA4dBUq0AfAwiRt5VfnIquPL9hfXay7Rnz5Rgk4GpRRwvlgR4+gtI1QTtPZpC20iDkwn4T4nc0Co1pbWxnfS4gX2RAQCjpT/XIed6CNA0rYmPVz/Ovgz5o7+Hz/2flSQpUCFsnoGVEvU+JwhER446PP9BL3BiS/c+5hg0tINHqy6hhdXdYT2iwd5T2JQdmikhDmN8leygkeJW19u1pm2EQlUhk4gXCO7/4m1Sec+8SXVEA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=195.130.132.48
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1739541392;
+	cv=none; b=lmGc2+yQs7sX2LOYWZWZG47z6bWjxgXC47EPPLpDtMR0FjyEBm+aSCRdrLlW63T4If5uOzJE+HOpcn8Q+BIhTBNIRHEyX4l7DkIC9jHPw4ejt/gTbAM2RJRLqqDIa09l8XnnTRML+PEb/I4bEraO8d5mG/N8JMbYsCcCeUasfiTpGYxCXPABNqhPiDlTLUgMz82TjLZ5rCRPaH7Hz403mT1Z0/VsFPCnvqUbu9n3HhdDQxheCIBJSk/V6eDSmkv2WdMur1IDXrYCEpv6oY+PvF4gpugFF1q5iabl/Wxatm8KKKOY2Y5Rz9YdRBFsyV93WPgHrcHaWHF2NDOvppdgYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1739541396; c=relaxed/relaxed;
-	bh=iYt5jWh3A66zM5dq1kV+b/5Oxgu4UuJfWgS+KQpBlR4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FwsQueMXqUjli9kku7eAhWOc62Kz39Leggfc5Kvcnym9ftcFleBRqE5IUbaDEoQdd4OMlaoFJzWsSNMOzgS9jxR4H4BlVaeheS4ije8OM9oGK3ctWfwoEgRitcIDHm8lXlMqJ3/TN+EoX/kYb/JMDeptcEeyK8i+Tva4gZOBvxnSf7r9EvG/VueN5rc3uTE89oGcP7hD/Q38Ve15KcC0MPGze7yqJZGJdieiQdsyFUSNS+JOZqoV7m23c5H0Cnm9lgYWJkRn3JApQLbcS+q+Ju13Od+On1XR5gXOIgZLa0Z4zAtOneHuORc0VxpTjd/A1/feYbpu+G7ZQwWrr4Xe/g==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=pass (client-ip=2a02:1800:110:4::f00:10; helo=riemann.telenet-ops.be; envelope-from=geert@linux-m68k.org; receiver=lists.ozlabs.org) smtp.helo=riemann.telenet-ops.be
+	t=1739541392; c=relaxed/relaxed;
+	bh=ieSviPBjJLVAo2lEPMzr48dShxvUoX9e50T9HLFhjRs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EwkV60b6OZunnbCARwxSIfFJairkE+d1PGYhxHLsKIr0lXsxQwuTQlnWUzFY1XiwupHLNSbaYFI0CqGhHO7WsI+QDZSYqKwQUzcJu7elyjqO3uJC/cRoMBta7YH75JV+F8BKErR7mLoW2Yj6l6qjYcVk4Lo2cdtmz1/HbUTGD8noZgBFcpRpvhkt7Sa3sMnBgXnGgkvi4QRWcwXdBepSR4RyL7SL6EtBG72hN+43ALUZFzWlqfRKaohaLyVvQwMG5NvdSvm84F4RlAmpTb5TXMbRNEBGWsBbOS6vs2uPVZPDSZbHfU2o1eEg/IpZYXnzFKpJKWP9IEJvo6PDot9flQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=pass (client-ip=195.130.132.48; helo=cantor.telenet-ops.be; envelope-from=geert@linux-m68k.org; receiver=lists.ozlabs.org) smtp.helo=cantor.telenet-ops.be
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.helo=riemann.telenet-ops.be (client-ip=2a02:1800:110:4::f00:10; helo=riemann.telenet-ops.be; envelope-from=geert@linux-m68k.org; receiver=lists.ozlabs.org)
-Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [IPv6:2a02:1800:110:4::f00:10])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.helo=cantor.telenet-ops.be (client-ip=195.130.132.48; helo=cantor.telenet-ops.be; envelope-from=geert@linux-m68k.org; receiver=lists.ozlabs.org)
+Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YvYW72fcmz30Yb
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 15 Feb 2025 00:56:35 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YvYW411nbz30XR
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 15 Feb 2025 00:56:31 +1100 (AEDT)
 Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-	by riemann.telenet-ops.be (Postfix) with ESMTPS id 4YvYVy3dz5z4x019
+	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4YvYVy3hPXz4x1Sf
 	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Feb 2025 14:56:26 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:6395:73cc:7fc4:4cab])
 	by michel.telenet-ops.be with cmsmtp
-	id DRvu2E00M1MuxXz06RvuMZ; Fri, 14 Feb 2025 14:56:25 +0100
+	id DRvu2E00L1MuxXz06RvuMY; Fri, 14 Feb 2025 14:56:25 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tiwAL-00000006p2a-0rh2;
+	id 1tiwAL-00000006p2b-0uwA;
 	Fri, 14 Feb 2025 14:55:54 +0100
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tiwAc-00000000qEe-1aws;
+	id 1tiwAc-00000000qEh-1jsF;
 	Fri, 14 Feb 2025 14:55:54 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Michael Turquette <mturquette@baylibre.com>,
@@ -77,10 +78,12 @@ Cc: linux-clk@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v3 0/4] Non-const bitfield helpers
-Date: Fri, 14 Feb 2025 14:55:49 +0100
-Message-ID: <cover.1739540679.git.geert+renesas@glider.be>
+Subject: [PATCH v3 1/4] bitfield: Drop underscores from macro parameters
+Date: Fri, 14 Feb 2025 14:55:50 +0100
+Message-ID: <ef545b87b3e3e48ec91ab4ad272d17334ab0569c.1739540679.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1739540679.git.geert+renesas@glider.be>
+References: <cover.1739540679.git.geert+renesas@glider.be>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -94,108 +97,171 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.6 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_NONE autolearn=disabled
-	version=4.0.0
+X-Spam-Status: No, score=0.1 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
+	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-	Hi all,
+There is no need to prefix macro parameters with underscores.
+Remove the underscores.
 
-This is an updated subset of a patch series I sent more than 3 years
-ago[2].
+Suggested-by: David Laight <david.laight.linux@gmail.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v3:
+  - New.
+---
+ include/linux/bitfield.h | 86 ++++++++++++++++++++--------------------
+ 1 file changed, 43 insertions(+), 43 deletions(-)
 
-<linux/bitfield.h> contains various helpers for accessing bitfields, as
-typically used in hardware registers for memory-mapped I/O blocks.
-These helpers ensure type safety, and deduce automatically shift values
-from mask values, avoiding mistakes due to inconsistent shifts and
-masks, and leading to a reduction in source code size.
-
-The existing FIELD_{GET,PREP}() macros are limited to compile-time
-constants.  However, it is very common to prepare or extract bitfield
-elements where the bitfield mask is not a compile-time constant.
-To avoid this limitation, the AT91 clock driver introduced its own
-field_{prep,get}() macros.  Hence my v1 series aimed to make them
-available for general use, and convert several drivers to the existing
-FIELD_{GET,PREP}() and the new field_{get,prep}() helpers.
-
-Due to some pushback (mostly centered around using the typed
-{u*,be*,le*,...}_get_bits() macros instead, which of course would
-require making them work with non-constant masks first, too), this
-series was never applied, and became buried deep in my TODO haystack...
-However, several people still liked the idea: since v1, multiple copies
-of the field_{prep,get}() macros appeared upstream, and one more is
-queued for v6.15.
-
-Hence I think it's time to revive and consolidate...
-
-Changes compared to v2[1]:
-  - New patch "[PATCH v3 1/4] bitfield: Drop underscores from macro
-    parameters",
-  - Add Acked-by,
-  - Drop underscores from macro parameters,
-  - Use __auto_type where possible,
-  - Correctly cast reg to the mask type,
-  - Introduces __val and __reg intermediates to simplify the actual
-    operation,
-  - Drop unneeded parentheses,
-  - Clarify having both FIELD_{GET,PREP}() and field_{get,prep}(),
-
-Changes compared to v1[2]:
-  - Cast val resp. reg to the mask type,
-  - Fix 64-bit use on 32-bit architectures,
-  - Convert new upstream users:
-      - drivers/crypto/intel/qat/qat_common/adf_gen4_pm_debugfs.c
-      - drivers/gpio/gpio-aspeed.c
-      - drivers/iio/temperature/mlx90614.c
-      - drivers/pinctrl/nuvoton/pinctrl-ma35.c
-      - sound/usb/mixer_quirks.c
-  - Convert new user queued in renesas-devel for v6.15:
-      - drivers/soc/renesas/rz-sysc.c
-  - Drop the last 14 RFC patches.
-    They can be updated/resubmitted/applied later.
-
-I can take all four patches through the Renesas tree, and provide an
-immutable branch with the first two patches for the interested parties.
-
-Thanks for your comments!
-
-[1] "[PATCH v2 0/3] Non-const bitfield helpers"
-    https://lore.kernel.org/all/cover.1738329458.git.geert+renesas@glider.be
-[2] "[PATCH 00/17] Non-const bitfield helper conversions"
-    https://lore.kernel.org/all/cover.1637592133.git.geert+renesas@glider.be
-
-Geert Uytterhoeven (4):
-  bitfield: Drop underscores from macro parameters
-  bitfield: Add non-constant field_{prep,get}() helpers
-  clk: renesas: Use bitfield helpers
-  soc: renesas: Use bitfield helpers
-
- drivers/clk/at91/clk-peripheral.c             |   1 +
- drivers/clk/at91/pmc.h                        |   3 -
- drivers/clk/renesas/clk-div6.c                |   6 +-
- drivers/clk/renesas/rcar-gen3-cpg.c           |  15 +--
- drivers/clk/renesas/rcar-gen4-cpg.c           |   9 +-
- .../qat/qat_common/adf_gen4_pm_debugfs.c      |   8 +-
- drivers/gpio/gpio-aspeed.c                    |   5 +-
- drivers/iio/temperature/mlx90614.c            |   5 +-
- drivers/pinctrl/nuvoton/pinctrl-ma35.c        |   4 -
- drivers/soc/renesas/renesas-soc.c             |   4 +-
- drivers/soc/renesas/rz-sysc.c                 |   3 +-
- include/linux/bitfield.h                      | 122 ++++++++++++------
- sound/usb/mixer_quirks.c                      |   4 -
- 13 files changed, 97 insertions(+), 92 deletions(-)
-
+diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
+index 63928f1732230700..e8269f23b824c4a9 100644
+--- a/include/linux/bitfield.h
++++ b/include/linux/bitfield.h
+@@ -60,68 +60,68 @@
+ 
+ #define __bf_cast_unsigned(type, x)	((__unsigned_scalar_typeof(type))(x))
+ 
+-#define __BF_FIELD_CHECK(_mask, _reg, _val, _pfx)			\
++#define __BF_FIELD_CHECK(mask, reg, val, pfx)				\
+ 	({								\
+-		BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),		\
+-				 _pfx "mask is not constant");		\
+-		BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");	\
+-		BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?		\
+-				 ~((_mask) >> __bf_shf(_mask)) &	\
+-					(0 + (_val)) : 0,		\
+-				 _pfx "value too large for the field"); \
+-		BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >	\
+-				 __bf_cast_unsigned(_reg, ~0ull),	\
+-				 _pfx "type of reg too small for mask"); \
+-		__BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +			\
+-					      (1ULL << __bf_shf(_mask))); \
++		BUILD_BUG_ON_MSG(!__builtin_constant_p(mask),		\
++				 pfx "mask is not constant");		\
++		BUILD_BUG_ON_MSG((mask) == 0, pfx "mask is zero");	\
++		BUILD_BUG_ON_MSG(__builtin_constant_p(val) ?		\
++				 ~((mask) >> __bf_shf(mask)) &	\
++					(0 + (val)) : 0,		\
++				 pfx "value too large for the field"); \
++		BUILD_BUG_ON_MSG(__bf_cast_unsigned(mask, mask) >	\
++				 __bf_cast_unsigned(reg, ~0ull),	\
++				 pfx "type of reg too small for mask"); \
++		__BUILD_BUG_ON_NOT_POWER_OF_2((mask) +			\
++					      (1ULL << __bf_shf(mask))); \
+ 	})
+ 
+ /**
+  * FIELD_MAX() - produce the maximum value representable by a field
+- * @_mask: shifted mask defining the field's length and position
++ * @mask: shifted mask defining the field's length and position
+  *
+  * FIELD_MAX() returns the maximum value that can be held in the field
+- * specified by @_mask.
++ * specified by @mask.
+  */
+-#define FIELD_MAX(_mask)						\
++#define FIELD_MAX(mask)						\
+ 	({								\
+-		__BF_FIELD_CHECK(_mask, 0ULL, 0ULL, "FIELD_MAX: ");	\
+-		(typeof(_mask))((_mask) >> __bf_shf(_mask));		\
++		__BF_FIELD_CHECK(mask, 0ULL, 0ULL, "FIELD_MAX: ");	\
++		(typeof(mask))((mask) >> __bf_shf(mask));		\
+ 	})
+ 
+ /**
+  * FIELD_FIT() - check if value fits in the field
+- * @_mask: shifted mask defining the field's length and position
+- * @_val:  value to test against the field
++ * @mask: shifted mask defining the field's length and position
++ * @val:  value to test against the field
+  *
+- * Return: true if @_val can fit inside @_mask, false if @_val is too big.
++ * Return: true if @val can fit inside @mask, false if @val is too big.
+  */
+-#define FIELD_FIT(_mask, _val)						\
++#define FIELD_FIT(mask, val)						\
+ 	({								\
+-		__BF_FIELD_CHECK(_mask, 0ULL, 0ULL, "FIELD_FIT: ");	\
+-		!((((typeof(_mask))_val) << __bf_shf(_mask)) & ~(_mask)); \
++		__BF_FIELD_CHECK(mask, 0ULL, 0ULL, "FIELD_FIT: ");	\
++		!((((typeof(mask))val) << __bf_shf(mask)) & ~(mask)); \
+ 	})
+ 
+ /**
+  * FIELD_PREP() - prepare a bitfield element
+- * @_mask: shifted mask defining the field's length and position
+- * @_val:  value to put in the field
++ * @mask: shifted mask defining the field's length and position
++ * @val:  value to put in the field
+  *
+  * FIELD_PREP() masks and shifts up the value.  The result should
+  * be combined with other fields of the bitfield using logical OR.
+  */
+-#define FIELD_PREP(_mask, _val)						\
++#define FIELD_PREP(mask, val)						\
+ 	({								\
+-		__BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");	\
+-		((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask);	\
++		__BF_FIELD_CHECK(mask, 0ULL, val, "FIELD_PREP: ");	\
++		((typeof(mask))(val) << __bf_shf(mask)) & (mask);	\
+ 	})
+ 
+ #define __BF_CHECK_POW2(n)	BUILD_BUG_ON_ZERO(((n) & ((n) - 1)) != 0)
+ 
+ /**
+  * FIELD_PREP_CONST() - prepare a constant bitfield element
+- * @_mask: shifted mask defining the field's length and position
+- * @_val:  value to put in the field
++ * @mask: shifted mask defining the field's length and position
++ * @val:  value to put in the field
+  *
+  * FIELD_PREP_CONST() masks and shifts up the value.  The result should
+  * be combined with other fields of the bitfield using logical OR.
+@@ -130,30 +130,30 @@
+  * be used in initializers. Error checking is less comfortable for this
+  * version, and non-constant masks cannot be used.
+  */
+-#define FIELD_PREP_CONST(_mask, _val)					\
++#define FIELD_PREP_CONST(mask, val)					\
+ 	(								\
+ 		/* mask must be non-zero */				\
+-		BUILD_BUG_ON_ZERO((_mask) == 0) +			\
++		BUILD_BUG_ON_ZERO((mask) == 0) +			\
+ 		/* check if value fits */				\
+-		BUILD_BUG_ON_ZERO(~((_mask) >> __bf_shf(_mask)) & (_val)) + \
++		BUILD_BUG_ON_ZERO(~((mask) >> __bf_shf(mask)) & (val)) + \
+ 		/* check if mask is contiguous */			\
+-		__BF_CHECK_POW2((_mask) + (1ULL << __bf_shf(_mask))) +	\
++		__BF_CHECK_POW2((mask) + (1ULL << __bf_shf(mask))) +	\
+ 		/* and create the value */				\
+-		(((typeof(_mask))(_val) << __bf_shf(_mask)) & (_mask))	\
++		(((typeof(mask))(val) << __bf_shf(mask)) & (mask))	\
+ 	)
+ 
+ /**
+  * FIELD_GET() - extract a bitfield element
+- * @_mask: shifted mask defining the field's length and position
+- * @_reg:  value of entire bitfield
++ * @mask: shifted mask defining the field's length and position
++ * @reg:  value of entire bitfield
+  *
+- * FIELD_GET() extracts the field specified by @_mask from the
+- * bitfield passed in as @_reg by masking and shifting it down.
++ * FIELD_GET() extracts the field specified by @mask from the
++ * bitfield passed in as @reg by masking and shifting it down.
+  */
+-#define FIELD_GET(_mask, _reg)						\
++#define FIELD_GET(mask, reg)						\
+ 	({								\
+-		__BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");	\
+-		(typeof(_mask))(((_reg) & (_mask)) >> __bf_shf(_mask));	\
++		__BF_FIELD_CHECK(mask, reg, 0U, "FIELD_GET: ");	\
++		(typeof(mask))(((reg) & (mask)) >> __bf_shf(mask));	\
+ 	})
+ 
+ extern void __compiletime_error("value doesn't fit into mask")
 -- 
 2.43.0
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
