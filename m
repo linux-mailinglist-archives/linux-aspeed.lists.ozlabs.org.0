@@ -1,44 +1,44 @@
-Return-Path: <linux-aspeed+bounces-722-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-723-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42E1A35F8F
-	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Feb 2025 14:56:39 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FCBA35F8C
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Feb 2025 14:56:38 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YvYW51dYsz30XR;
-	Sat, 15 Feb 2025 00:56:33 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YvYW61Wfsz3bVW;
+	Sat, 15 Feb 2025 00:56:34 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=195.130.132.48
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1739541393;
-	cv=none; b=U5CQUabpN8ehPzmd+CWQJ85JcLMv95TY0m2855gjIf9cZTKL206MJcR++De5u5N/J/t4RW8l/zcdxI3xNo6M/R3tzHDB2EiXE1ImsIKNBrT1uDKJV+DTRw9DxVuHP+ETQQbR4DLnLDxlnmmvwjX3c9QbORalwNv2js7/qdT+87jMYrgS6bl1ViANmwtIejs3IQ0WT07YNU8XWqPvesNhHZOh2IUyqZIKKJHOrk6wH9eiRmSPN0IWYmecnbEWjazPq3iXtX/4XP0CYA98GywZrFOTyCLGm3va3MfuA6COPvTuSveqRMm2wBrZPY0aKfAY98PDVtpv8bQ0rkYdQ0v3tQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a02:1800:110:4::f00:11"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1739541394;
+	cv=none; b=miw7TSoLw2d12Xqsy1UNVvTYr3Pud6keqrGpgDznkOa6n8DczSqQg4ktE9J2sGmF2Pu8HPqWTMfrZTc4l6uI8Hnkw098V0ldLgfQcHDx536tzyWIkXxbPWT9x079LgUTWVXluBA4oimDtGv+nOkLxdgDzewmK1YqwLsGUatOBiVxUQQD+bThCVV/hSp2QVXNCOkBnL6fq8Cy/wYDeXrug1tgkTaQhVGytOps6KgySL7q90htiRhGlkaF2dXhwoESTK991kBmQrG9rYiwDlBwQ4EH7NhWyhUI/kUMYyOnD13RhOrB+5jKzpeI04e2S56EVd8eEur2sTyWaLrK3UMDmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1739541393; c=relaxed/relaxed;
-	bh=eeUwrRpD2YC1sE1xYDTYmrhZ9ZUlADLpQEgAOjhP27A=;
+	t=1739541394; c=relaxed/relaxed;
+	bh=GDyTzgU1PmXELoym+xbGW8+kZOYpPi+FROeC2ty0Qtw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EqnLA06CFDPut3nGJrZTlZn+jAsIYA0WItiPJcX47LQRpWWUufz7JnnmGFZyn6T5Yjk2WYYYs0kbScyy7/VSXhzPWp87VzTClKxFnpeIlEEFiF3zXnyfQ3qn+cKNuE8UdrTcDNsMW/MH8n3HlxvR78mQyaQxxXO0UeAUk6gbMh47LggSIJMiCnZ/q19WdGHpGaah0BfD8kTbl3IIaHOUtMh7gRhxyONZ3gmRHlT0dcMGtWedVqAxojeAR3ia0o9BsQxrbP91T7iorMMVf4zqcENcnoW3k1pLHfIRtBGVT9m6HiRBa4mV2942C15fxdJzywPxFv41oKTLp/RYm/mFSw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=pass (client-ip=195.130.132.48; helo=cantor.telenet-ops.be; envelope-from=geert@linux-m68k.org; receiver=lists.ozlabs.org) smtp.helo=cantor.telenet-ops.be
+	 MIME-Version; b=JPSInAT/xDIvmOE+w6q2mtUuGnNqSZkKLyQ1+hniprsw6oELNqZKVSKKAL2zZaXDRj72l/7D13YQdDGPhp4zBPIgnMIVdcoUrmiczjQB9LiOfr2Rv2ZMEPH2Kkxj0hhbOLooz19x+MEEjRcbG/mcBf83BdqJPHP/COAKju4nJCQfF7om0AIgmJnBSNm4u/vgY8WM6qpqWg+F8772BAQRBrwlR2Ihiq/dZPLiKL9URuwja+n6ddzLlETVj8N3FZX1jvJC+f0g563qAl1da5ovrEKkTmZVjCFfuXIGgj3nZdp8r1oszV6Tn/JtUm+eahxjDgJ0op4gNnJTyf22glsKsA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=pass (client-ip=2a02:1800:110:4::f00:11; helo=weierstrass.telenet-ops.be; envelope-from=geert@linux-m68k.org; receiver=lists.ozlabs.org) smtp.helo=weierstrass.telenet-ops.be
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.helo=cantor.telenet-ops.be (client-ip=195.130.132.48; helo=cantor.telenet-ops.be; envelope-from=geert@linux-m68k.org; receiver=lists.ozlabs.org)
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.helo=weierstrass.telenet-ops.be (client-ip=2a02:1800:110:4::f00:11; helo=weierstrass.telenet-ops.be; envelope-from=geert@linux-m68k.org; receiver=lists.ozlabs.org)
+Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [IPv6:2a02:1800:110:4::f00:11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YvYW416XLz30Yb
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 15 Feb 2025 00:56:30 +1100 (AEDT)
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4YvYVy3hWVz4x2sh
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Feb 2025 14:56:26 +0100 (CET)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YvYW53hzFz30Yb
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 15 Feb 2025 00:56:32 +1100 (AEDT)
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4YvYVx5br0z4wy1N
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Feb 2025 14:56:25 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:6395:73cc:7fc4:4cab])
-	by michel.telenet-ops.be with cmsmtp
-	id DRvu2E00N1MuxXz06RvuMa; Fri, 14 Feb 2025 14:56:25 +0100
+	by baptiste.telenet-ops.be with cmsmtp
+	id DRvu2E00H1MuxXz01RvuSz; Fri, 14 Feb 2025 14:56:25 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tiwAL-00000006p2i-19TY;
+	id 1tiwAL-00000006p2o-1GsL;
 	Fri, 14 Feb 2025 14:55:54 +0100
 Received: from geert by rox.of.borg with local (Exim 4.97)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1tiwAc-00000000qEo-22dS;
+	id 1tiwAc-00000000qEs-2BGZ;
 	Fri, 14 Feb 2025 14:55:54 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Michael Turquette <mturquette@baylibre.com>,
@@ -78,9 +78,9 @@ Cc: linux-clk@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v3 3/4] clk: renesas: Use bitfield helpers
-Date: Fri, 14 Feb 2025 14:55:52 +0100
-Message-ID: <425fa9bb496eecc3fd7fb4bd8e6a98de18c14756.1739540679.git.geert+renesas@glider.be>
+Subject: [PATCH v3 4/4] soc: renesas: Use bitfield helpers
+Date: Fri, 14 Feb 2025 14:55:53 +0100
+Message-ID: <77384c0a6660b90c5c9f1eaa9d1f5ce32f3330a3.1739540679.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1739540679.git.geert+renesas@glider.be>
 References: <cover.1739540679.git.geert+renesas@glider.be>
@@ -98,13 +98,10 @@ List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=0.1 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_NONE
-	autolearn=disabled version=4.0.0
+	SPF_HELO_PASS,SPF_NONE autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Use the FIELD_{GET,PREP}() and field_{get,prep}() helpers for const
-respective non-const bitfields, instead of open-coding the same
-operations.
+Use the field_get() helper, instead of open-coding the same operation.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
@@ -112,120 +109,33 @@ v3:
   - No changes,
 
 v2:
-  - Rebase on top of commit 470e3f0d0b1529ab ("clk: renesas: rcar-gen4:
-    Introduce R-Car Gen4 CPG driver").
+  - Drop RFC, as a dependency was applied.
 ---
- drivers/clk/renesas/clk-div6.c      |  6 +++---
- drivers/clk/renesas/rcar-gen3-cpg.c | 15 +++++----------
- drivers/clk/renesas/rcar-gen4-cpg.c |  9 +++------
- 3 files changed, 11 insertions(+), 19 deletions(-)
+ drivers/soc/renesas/renesas-soc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/clk/renesas/clk-div6.c b/drivers/clk/renesas/clk-div6.c
-index 3abd6e5400aded6a..f7b827b5e9b2dd32 100644
---- a/drivers/clk/renesas/clk-div6.c
-+++ b/drivers/clk/renesas/clk-div6.c
-@@ -7,6 +7,7 @@
-  * Contact: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
+index df2b38417b8042fc..8030b9a62ec46668 100644
+--- a/drivers/soc/renesas/renesas-soc.c
++++ b/drivers/soc/renesas/renesas-soc.c
+@@ -5,6 +5,7 @@
+  * Copyright (C) 2014-2016 Glider bvba
   */
  
 +#include <linux/bitfield.h>
- #include <linux/clk-provider.h>
- #include <linux/init.h>
  #include <linux/io.h>
-@@ -171,8 +172,7 @@ static u8 cpg_div6_clock_get_parent(struct clk_hw *hw)
- 	if (clock->src_mask == 0)
- 		return 0;
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+@@ -512,8 +513,7 @@ static int __init renesas_soc_init(void)
+ 							   eshi, eslo);
+ 		}
  
--	hw_index = (readl(clock->reg) & clock->src_mask) >>
--		   __ffs(clock->src_mask);
-+	hw_index = field_get(clock->src_mask, readl(clock->reg));
- 	for (i = 0; i < clk_hw_get_num_parents(hw); i++) {
- 		if (clock->parents[i] == hw_index)
- 			return i;
-@@ -191,7 +191,7 @@ static int cpg_div6_clock_set_parent(struct clk_hw *hw, u8 index)
- 	if (index >= clk_hw_get_num_parents(hw))
- 		return -EINVAL;
- 
--	src = clock->parents[index] << __ffs(clock->src_mask);
-+	src = field_prep(clock->src_mask, clock->parents[index]);
- 	writel((readl(clock->reg) & ~clock->src_mask) | src, clock->reg);
- 	return 0;
- }
-diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/rcar-gen3-cpg.c
-index 027100e84ee4c429..ca8f6a68771628fb 100644
---- a/drivers/clk/renesas/rcar-gen3-cpg.c
-+++ b/drivers/clk/renesas/rcar-gen3-cpg.c
-@@ -54,10 +54,8 @@ static unsigned long cpg_pll_clk_recalc_rate(struct clk_hw *hw,
- {
- 	struct cpg_pll_clk *pll_clk = to_pll_clk(hw);
- 	unsigned int mult;
--	u32 val;
- 
--	val = readl(pll_clk->pllcr_reg) & CPG_PLLnCR_STC_MASK;
--	mult = (val >> __ffs(CPG_PLLnCR_STC_MASK)) + 1;
-+	mult = FIELD_GET(CPG_PLLnCR_STC_MASK, readl(pll_clk->pllcr_reg)) + 1;
- 
- 	return parent_rate * mult * pll_clk->fixed_mult;
- }
-@@ -94,7 +92,7 @@ static int cpg_pll_clk_set_rate(struct clk_hw *hw, unsigned long rate,
- 
- 	val = readl(pll_clk->pllcr_reg);
- 	val &= ~CPG_PLLnCR_STC_MASK;
--	val |= (mult - 1) << __ffs(CPG_PLLnCR_STC_MASK);
-+	val |= FIELD_PREP(CPG_PLLnCR_STC_MASK, mult - 1);
- 	writel(val, pll_clk->pllcr_reg);
- 
- 	for (i = 1000; i; i--) {
-@@ -176,11 +174,7 @@ static unsigned long cpg_z_clk_recalc_rate(struct clk_hw *hw,
- 					   unsigned long parent_rate)
- {
- 	struct cpg_z_clk *zclk = to_z_clk(hw);
--	unsigned int mult;
--	u32 val;
--
--	val = readl(zclk->reg) & zclk->mask;
--	mult = 32 - (val >> __ffs(zclk->mask));
-+	unsigned int mult = 32 - field_get(zclk->mask, readl(zclk->reg));
- 
- 	return DIV_ROUND_CLOSEST_ULL((u64)parent_rate * mult,
- 				     32 * zclk->fixed_div);
-@@ -231,7 +225,8 @@ static int cpg_z_clk_set_rate(struct clk_hw *hw, unsigned long rate,
- 	if (readl(zclk->kick_reg) & CPG_FRQCRB_KICK)
- 		return -EBUSY;
- 
--	cpg_reg_modify(zclk->reg, zclk->mask, (32 - mult) << __ffs(zclk->mask));
-+	cpg_reg_modify(zclk->reg, zclk->mask,
-+		       field_prep(zclk->mask, 32 - mult));
- 
- 	/*
- 	 * Set KICK bit in FRQCRB to update hardware setting and wait for
-diff --git a/drivers/clk/renesas/rcar-gen4-cpg.c b/drivers/clk/renesas/rcar-gen4-cpg.c
-index 31aa790fd003d45e..a63114a1d431968f 100644
---- a/drivers/clk/renesas/rcar-gen4-cpg.c
-+++ b/drivers/clk/renesas/rcar-gen4-cpg.c
-@@ -279,11 +279,7 @@ static unsigned long cpg_z_clk_recalc_rate(struct clk_hw *hw,
- 					   unsigned long parent_rate)
- {
- 	struct cpg_z_clk *zclk = to_z_clk(hw);
--	unsigned int mult;
--	u32 val;
--
--	val = readl(zclk->reg) & zclk->mask;
--	mult = 32 - (val >> __ffs(zclk->mask));
-+	unsigned int mult = 32 - field_get(zclk->mask, readl(zclk->reg));
- 
- 	return DIV_ROUND_CLOSEST_ULL((u64)parent_rate * mult,
- 				     32 * zclk->fixed_div);
-@@ -334,7 +330,8 @@ static int cpg_z_clk_set_rate(struct clk_hw *hw, unsigned long rate,
- 	if (readl(zclk->kick_reg) & CPG_FRQCRB_KICK)
- 		return -EBUSY;
- 
--	cpg_reg_modify(zclk->reg, zclk->mask, (32 - mult) << __ffs(zclk->mask));
-+	cpg_reg_modify(zclk->reg, zclk->mask,
-+		       field_prep(zclk->mask, 32 - mult));
- 
- 	/*
- 	 * Set KICK bit in FRQCRB to update hardware setting and wait for
+-		if (soc->id &&
+-		    ((product & id->mask) >> __ffs(id->mask)) != soc->id) {
++		if (soc->id && field_get(id->mask, product) != soc->id) {
+ 			pr_warn("SoC mismatch (product = 0x%x)\n", product);
+ 			ret = -ENODEV;
+ 			goto free_soc_dev_attr;
 -- 
 2.43.0
 
