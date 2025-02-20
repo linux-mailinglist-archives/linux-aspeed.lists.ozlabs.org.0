@@ -1,50 +1,76 @@
-Return-Path: <linux-aspeed+bounces-792-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-795-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110A5A3E348
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Feb 2025 19:05:17 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 687E6A3E633
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Feb 2025 22:00:11 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4YzLlD6G7cz30Qk;
-	Fri, 21 Feb 2025 05:05:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4YzQd23vf5z2y92;
+	Fri, 21 Feb 2025 08:00:06 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:4641:c500::1"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1740074712;
-	cv=none; b=D/6oxCNOu/6kuOe9QXjnLUO76AEz+C1HsjEKLTj/ym61IUxY/MG8giNROHcdMQESMT+T3Wg53kFsmKKhUxXEaydM6S+VEx6T2wDWm3TWowoG+IZGWGy5VKQdhJhDOmxaEPeXgEkTn7IkBtCe/rl/yKAgQ6nDdhgfv5uksKPsQXZuSAk6+9Ioihv2d82BAkDFjzlMaubxWaQ8Wfe/prg+fAC6Hlg6u4Rw2rcJPJ3KosKvQeBmCb58FneOS0psUA1j5L+s3qgmXynOdAZmvh798dFLRWk+OqAhJ/04DxTYGBEwrjNXB2xkN78F+N7ZMmo4Ocq1B9l4coWmEm5Ij4gV/Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.158.5
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1740085206;
+	cv=none; b=djgb9v9kpsyWHJ5kLp+J2L1pD6zdOIkrdSpI9hOP2V3MRUQkukF75OLbNyfJaDm2VBvLEf/Si5NKBvzITz1pR8vsch9LYs3DNjNhbJxLyAs1R3C4mA2b7Q/GJY267CBpFq2j0EIbFAiON1d8X0j7D6sJSC/DDtId3skHDKFqobkJH440hX8mfPHKxEPtxHUAZL59YwuaOQkAH0dzMYRqi7bU1z/PyQs7nNZbCxDvWo2W33aVncFdcTDL080vqgUxQBouGQcxnLLh5HWoEjUOMJJnku9DbvJPlmFhBhcWQKtWnYt9ZlSInYli60GYm8dvifZkFBE1qSPeLuu+vf8zKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1740074712; c=relaxed/relaxed;
-	bh=ilQqEXyA8RLOF2HHBK2NnM0q4daU7pyu2Zy2zLAar60=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DYY8tIrapPQ+m3XedncOCKJ0fg7D79eU0ZtvwLaUl0xxxl/3VSaIl2SG1flLYjapN6IyVdx2lq75XZQtfiyqfg+tL4Twe3oQ31yZUARqaSR1Ulnm7aNbENn6YLQ/RDaM/RwJxnHio0E2Ty5DKTyclJH7Q0JJnvk7YixL5arlAQk099H09GVEhRh0MWBvg3jc7HHclWiHlj5gDBA9DUCaB903AnR19ogrn3o5+m80rD+Uhskb6rVmZlv47wafjeVs/qZ3oGYmxJJnvhClnbdSTEuvz7bWX+49pEcNaQw5YlN6HuX+4zk18rT3ig+n3YNEjbp4jlROPIJYcJc4GV14JA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=eIEug/o0; dkim-atps=neutral; spf=pass (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1740085206; c=relaxed/relaxed;
+	bh=Ay90aIoC12ub+sc0fHvsFF5x1FZK0nWJsCdk9go52qA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dTc4RFGMSRDlJBz3D62E4a2e1snW8psiVwLlN82KNOukEPMOaquoKl3k/yu0m135+JEAlTdoQ5rNmpN9YsC9msLtVTkd3OTQmlvoPTo9Fe7+882otiz9CjtIYcydlFcy50Ik6j25vLLhEBhC83NYi9R3IuoVCmXrYzY+svM+BUX1FvIqydkJ9UgailnqoTPov1V0wVv3EFLt0jszrGOipu/e/0Hlh9vqvOpXYNMvV/KBqzW+UaDLcNVHvBlsZs6cA5DvQw613vhJnWqagnwv5AmL4iMZ9ncl7beF3qzMGYdhgm5/HtG7Ir9XitW6vFUs9q93R3kN3r4gvz2J89wATw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=N2eGWgaU; dkim-atps=neutral; spf=pass (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=eIEug/o0;
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=N2eGWgaU;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.158.5; helo=mx0b-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4YzLlD0XlJz2yWK
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Feb 2025 05:05:12 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 47AC15C5F26;
-	Thu, 20 Feb 2025 18:04:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0105C4CEE6;
-	Thu, 20 Feb 2025 18:05:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740074709;
-	bh=1Ar4twKjARHRUgMTXu0SoMkA2ntup61NxpV+y69N71U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eIEug/o0qw2/L/iyE9cBGMXp6B73qpyO78qULi1tE6S7cXqqQEMQfIlZcvLUVI37/
-	 2fPVaGDwbLVweFQ4/nAQqa95mXpElABNMNLi84No98SsKNoMBt4J27+ouvu2PKJfdB
-	 mjtBmTE+947qb4rn2PsuE+391B1BbZi5U5VSOYsEXKo467rZjAhmiMqYt5j9Ti7px/
-	 nWA+zMIpTQ9AjPLt2H2sG3Zo74qQfzeA5Zriex55mNtN0PvYk2T53iVR9pjSCLp4kv
-	 0pLK7tf2Tj1wcsnpke6/EfWhdIpYcZFk/sNQ0HWZ1qDz35mixe1eDcmapNZSNgGxF5
-	 y2ATPWaTwmMJg==
-Message-ID: <68c61ffc-51c7-48a4-9fba-a14562d0027d@kernel.org>
-Date: Thu, 20 Feb 2025 19:05:05 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4YzQd10GCZz2yGN
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Feb 2025 08:00:03 +1100 (AEDT)
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51KH1hSW010230;
+	Thu, 20 Feb 2025 20:59:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=Ay90aIoC12ub+sc0fHvsFF5x1FZK0nWJsCdk9go52
+	qA=; b=N2eGWgaUoGXSDi66BDr5tA0WdtrHAtk/swtHmFULEQo9iRBYY8OdmPSHV
+	6d5R5Q8WIZdTw0fdnVn1g9FUleTXrzdUvNoSGDQWBD/B9yNXSTJayCvfdEmHddZE
+	lbHCFkhazqUv3yiYei+ScgS38mJymzG5REIOrwyJOzjweMI8nPgXRBTwZGeIBsKn
+	ICCBJcs4kPv6MPNJMNjxK4GyG4LhoxVRVKVSLZkZubkK2h4uD3Bh/8pr2X9oLGB8
+	wejvGTloIOHgfzYaTkZ2uqkPkd8Rszo52iKkA77+DAwTqIR5+CM+JkpE/sRHMhs5
+	RaXwqA5XKPSBVnB2pOx54vqr8cbgA==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44wu80dc63-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Feb 2025 20:59:51 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 51KI81Cg002323;
+	Thu, 20 Feb 2025 20:59:50 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 44w03xc6p0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Feb 2025 20:59:50 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 51KKxnDh9568946
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 20 Feb 2025 20:59:49 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 979295803F;
+	Thu, 20 Feb 2025 20:59:49 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2785358054;
+	Thu, 20 Feb 2025 20:59:49 +0000 (GMT)
+Received: from slate16.aus.stglabs.ibm.com (unknown [9.61.129.233])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 20 Feb 2025 20:59:49 +0000 (GMT)
+From: Eddie James <eajames@linux.ibm.com>
+To: linux-aspeed@lists.ozlabs.org
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+        andrew@codeconstruct.com.au, devicetree@vger.kernel.org,
+        eajames@linux.ibm.com
+Subject: [PATCH v2 0/3] ARM: dts: aspeed: Add Balcones system
+Date: Thu, 20 Feb 2025 14:59:45 -0600
+Message-ID: <20250220205948.1777200-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.43.5
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -57,84 +83,46 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] dt-bindings: hwmon: ucd90320: Add 90160 compatible
-To: Eddie James <eajames@linux.ibm.com>, linux-aspeed@lists.ozlabs.org
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andrew@codeconstruct.com.au, devicetree@vger.kernel.org
-References: <20250219212735.1365050-1-eajames@linux.ibm.com>
- <20250219212735.1365050-3-eajames@linux.ibm.com>
- <3ed2b213-0219-4ca7-817c-d6adf424612e@kernel.org>
- <f9615bfa-9d3a-47df-a5dc-a6a1f3b4940b@linux.ibm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <f9615bfa-9d3a-47df-a5dc-a6a1f3b4940b@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 9nsGT2CUchekFR5PniEZCCRtzcHlEDhH
+X-Proofpoint-ORIG-GUID: 9nsGT2CUchekFR5PniEZCCRtzcHlEDhH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-20_09,2025-02-20_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 spamscore=0 phishscore=0 malwarescore=0 mlxscore=0
+ adultscore=0 mlxlogscore=787 bulkscore=0 suspectscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2502200140
+X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-On 20/02/2025 17:15, Eddie James wrote:
-> 
-> On 2/20/25 08:47, Krzysztof Kozlowski wrote:
->> On 19/02/2025 22:27, Eddie James wrote:
->>> The 90160 is just like the 90320 but with less GPIs and GPIOs.
->> Then isn't it compatible?
->>
->> Where is your driver change?
-> 
-> 
-> Sorry, my commit message should be more clear. The driver already 
-> supports the ucd90160 and matches the compatible string I added here. 
-> I'll improve my commit message for v2.
-Driver has many more entries, why are you adding only one compatible?
-Please fix all of them, not one by one.
+The Balcones system is similar to Bonnell but with a POWER11 processor.
 
-Best regards,
-Krzysztof
+Changes since v1:
+ - Add all the ucd9000 driver supported compatible strings
+ - Fix node ordering in Balcones device tree
+ - Improve commit message to explain addition of ibm-power11-dual.dtsi
+
+Eddie James (3):
+  dt-bindings: arm: aspeed: add IBM Balcones board
+  dt-bindings: hwmon: ucd90320: Add additional compatible strings
+  ARM: dts: aspeed: Add Balcones system
+
+ .../bindings/arm/aspeed/aspeed.yaml           |   1 +
+ .../bindings/hwmon/pmbus/ti,ucd90320.yaml     |   6 +
+ arch/arm/boot/dts/aspeed/Makefile             |   1 +
+ .../dts/aspeed/aspeed-bmc-ibm-balcones.dts    | 594 +++++++++++++
+ .../arm/boot/dts/aspeed/ibm-power11-dual.dtsi | 779 ++++++++++++++++++
+ .../arm/boot/dts/aspeed/ibm-power11-quad.dtsi | 769 +----------------
+ 6 files changed, 1383 insertions(+), 767 deletions(-)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dts
+ create mode 100644 arch/arm/boot/dts/aspeed/ibm-power11-dual.dtsi
+
+-- 
+2.43.5
+
 
