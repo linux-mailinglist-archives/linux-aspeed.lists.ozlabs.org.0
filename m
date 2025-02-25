@@ -1,73 +1,76 @@
-Return-Path: <linux-aspeed+bounces-840-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-846-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4B6A450C0
-	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2025 00:01:24 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D1DA450EA
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2025 00:28:55 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Z2Y4Y5dvWz30gC;
-	Wed, 26 Feb 2025 10:01:17 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Z2YhP3PMWz305D;
+	Wed, 26 Feb 2025 10:28:53 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=170.10.129.124
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1740522197;
-	cv=none; b=OE+iPjyg87G7gC3zGS9nr6ia/Dl7o2H5kOkBX+BzhsbQsio/nq667013ZM+xXNX6kbTNUeRBjo3zKdvfNhm3de3TpiUNKl1ftKpkrZuh5SDlaF5ilK46OJdjNtDjKfFBbDKVKRbjje65I83A3c7rvlae1k+2hXzG2j/6gFujIjXNcEzkBEe/tvi601aB6XLjWr+l67FiPJuU+iER7yiqavc4/1cyYN0HVsT9lIEWTLUmeGI2AncO7RFFqaA0sRTnUfywnakTPZxnphz52Q5v7XeeUMQVAAQjDJS55vyUOcG63kq1pkXYpeuMxSsxrNEZKqGtWN19bVzBS2lCK12i7g==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1740526133;
+	cv=none; b=l1nh5ytB2fm/LXEYIdUPT0zD86B7p8ogrviv82d29fCIDlmL3CQjxyqlheXR5cl745he73g2qQ4Pm5n5+LMC7PhYa9J5i67on6awk+81r3DsZOSTl1suUyrVfvgURKPT172R+RuN9kYOz+GtxoFEbAeYpj+VjE57DRKTqSdA1EOUCTyysCwnZzC1WwjMvKb5ryaiat0W9PqBTR/478cwiExVFWR0ufsk1xlNvXYmO0qpKojtJPRJ+iGpoEBwY+dzif8JDmO2WqJut6WvGq+pEhZ7rb0L+ar/oY2pCtKJnjMbCgYvBJzJmSge40L9sMGsTqAyohrYwP7/vYrQEMRCnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1740522197; c=relaxed/relaxed;
-	bh=4YKTxXn5l9L/3067x1ZnZ8w6M1gB59GICvb9XtTgB0s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Plj6kSh4uoDvrq4lIkyd6fOHxNdjfxbLQ74KDDNf0aUA4Ru0nUZijejvEkf4l/5nCQTfN9fdc225eCddrstukBjrdeHNUUjfUvP0r2TrsPn3zp/IFKc8S5e3PDjn5V1S59k9twY5+yT2Bf3JsYbE0cfwV4XOnPxt7cfj3O8J2wlXJ2RnYPWpWtxnRJdrOe9uKYb4r1IgWl6rJy6SkzOWFRCoT9RYapUeGQoaKVjbFUl4cm6yXORekeLfspsfU2HG0fV481VV8byBl0S6jA/RXFMm93mAm+LYUBaPA7cjcAbPteSe+wAlHoIbSwRlERSSjTpEv86NMI6gwrtAJDCgbA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com; dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=LC3ir0+O; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=LC3ir0+O; dkim-atps=neutral; spf=pass (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org) smtp.mailfrom=redhat.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+	t=1740526133; c=relaxed/relaxed;
+	bh=QSvc/XemxvspxE6At8l/Qu+fHyG/W1yOWa6QPQHBb58=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AJib7EPzAyPIgAXK4tIrVAxeNRQDfx32g2azsC/zpyiQUyLBScqwRis7smMyYczsALbH6zOVpH56F4WB0fSaVT5dVyhZCx/gCnB4B+lMueNBgw7CzwHwRV6gfKuysWf1gTPTmC01MsICdCVN4cxvwZr9sM4oM7a6aH1JTq4vE1Awiu7GNoxrCjHW+USST3WqrsZzFo/6ZSsKFov5pV5Pq1GnLGHOcdR8nrvcYm3FQmp8ApzsWvJSY95CJmXRQJ30zX8s/mi6ayyboksWxh9hukh+t5u9RW307cVcVC+yt+d2GcxwVi85ACx6J5WpLAJiqFtnsk8/pWfFyj3Pzqf6ww==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=JoDWORWh; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=LC3ir0+O;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=LC3ir0+O;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=JoDWORWh;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=asrivats@redhat.com; receiver=lists.ozlabs.org)
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Z2XDh5qjdz2ypD
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Feb 2025 09:23:16 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740522194;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4YKTxXn5l9L/3067x1ZnZ8w6M1gB59GICvb9XtTgB0s=;
-	b=LC3ir0+OZKAoIFN09kk7QIu3MUoz2vSTyEdNft0hRwMd0ptV/NW82p4k+JAWm6Glyqc6pZ
-	JxRt/2wPaoLjhBng/0k7NHz6gPVL8BH0R5B49IY1IAPQecE9VM+35JbOHnQ4D3nnsrtAGr
-	wLNTD5jp0yFzi5kmzqCfN2FpA6r+gzk=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1740522194;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4YKTxXn5l9L/3067x1ZnZ8w6M1gB59GICvb9XtTgB0s=;
-	b=LC3ir0+OZKAoIFN09kk7QIu3MUoz2vSTyEdNft0hRwMd0ptV/NW82p4k+JAWm6Glyqc6pZ
-	JxRt/2wPaoLjhBng/0k7NHz6gPVL8BH0R5B49IY1IAPQecE9VM+35JbOHnQ4D3nnsrtAGr
-	wLNTD5jp0yFzi5kmzqCfN2FpA6r+gzk=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-513-oa49bnmHNVqMO6CG_JqJbQ-1; Tue,
- 25 Feb 2025 17:23:08 -0500
-X-MC-Unique: oa49bnmHNVqMO6CG_JqJbQ-1
-X-Mimecast-MFC-AGG-ID: oa49bnmHNVqMO6CG_JqJbQ_1740522183
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D68F01903085;
-	Tue, 25 Feb 2025 22:23:00 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.79])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4D5CD1800357;
-	Tue, 25 Feb 2025 22:22:51 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 25 Feb 2025 17:20:53 -0500
-Subject: [PATCH RESEND 12/12] Documentation: Update the todo
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Z2YhM5XLFz2ydQ
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Feb 2025 10:28:51 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1740526128;
+	bh=QSvc/XemxvspxE6At8l/Qu+fHyG/W1yOWa6QPQHBb58=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=JoDWORWh5GMuHWhPpH1YC1VOcRnB6A0kfhfXPOGKob7Lozkmp3Ldds10SIb0gMhEo
+	 fmHS9hlv8mpFF3iIb62peumhlZfdGhgFv3CgFEpbMtrVtyKku5LWeuo/UR2qvIQH3t
+	 Z8jAT5Wcm8SyNW+trXOBYBpF6Gk+cYA+lsQkvKDh7kS53ux52/9KGCGUU/lWA4zwAr
+	 8PvFv8z+MShtsR07hsYXl3OkWSbnXfFCkv3tesjsRtL2NBV8wjH2lKY37vYfVp/CYy
+	 2rPbc879sPoopOr5hnt0fyzuB0ocRbNoDd1Kaut3S26MhoDuno6+T2IE5VlHCTKMzc
+	 HEV5j0ycCFL5A==
+Received: from [192.168.68.112] (ppp118-210-173-152.adl-adc-lon-bras34.tpg.internode.on.net [118.210.173.152])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 1415377691;
+	Wed, 26 Feb 2025 07:28:43 +0800 (AWST)
+Message-ID: <0008bab55f56252016406e06f147ef52f058bb86.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v1 3/3] soc: aspeed: lpc-pcc: Add PCC controller support
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Mo Elbadry <elbadrym@google.com>
+Cc: Kevin Chen <kevin_chen@aspeedtech.com>, "joel@jms.id.au"
+ <joel@jms.id.au>,  Z-ChiaWei Wang <chiawei_wang@aspeedtech.com>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, 
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "tomer.maimon" <tomer.maimon@nuvoton.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, "lee@kernel.org" <lee@kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>,  "conor+dt@kernel.org" <conor+dt@kernel.org>, Jenmin
+ Yuan <jenmin_yuan@aspeedtech.com>, BMC-SW <BMC-SW@aspeedtech.com>
+Date: Wed, 26 Feb 2025 09:58:41 +1030
+In-Reply-To: <CAOO6b=udHyXx3QXyUE=siuuJopanUxzbFeBujtqWRy=j2ut4fw@mail.gmail.com>
+References: <20250217114831.3225970-1-kevin_chen@aspeedtech.com>
+	 <20250217114831.3225970-4-kevin_chen@aspeedtech.com>
+	 <e43b5f8f-37e4-4468-b3ca-5059a5e6f3c3@kernel.org>
+	 <6fd7cd57261ddf9831f57dc4c637b24e9f8982d9.camel@codeconstruct.com.au>
+	 <PSAPR06MB4949C65DF5C034BD6B40C9B589FA2@PSAPR06MB4949.apcprd06.prod.outlook.com>
+	 <d4945482509cad0bf3e8cd93c1fb21bac2e0c7f2.camel@codeconstruct.com.au>
+	 <TY0PR06MB4960EA7255DF0BDF235F0D9689C52@TY0PR06MB4960.apcprd06.prod.outlook.com>
+	 <ba2757fd02b3e7c8f9c862c76f2cfcd2b6bfb41b.camel@codeconstruct.com.au>
+	 <PSAPR06MB494947E21AB39369ADFA8C9489C72@PSAPR06MB4949.apcprd06.prod.outlook.com>
+	 <f7369d6205e05c7aac3f3de7cbd08c3b08960d75.camel@codeconstruct.com.au>
+	 <CAOO6b=udHyXx3QXyUE=siuuJopanUxzbFeBujtqWRy=j2ut4fw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -80,104 +83,38 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-memory-drm-misc-next-v1-12-9d0e8761107a@redhat.com>
-References: <20250225-memory-drm-misc-next-v1-0-9d0e8761107a@redhat.com>
-In-Reply-To: <20250225-memory-drm-misc-next-v1-0-9d0e8761107a@redhat.com>
-To: Joel Stanley <joel@jms.id.au>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Alexey Brodkin <abrodkin@synopsys.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
- linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740522045; l=1573;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=/15qlsboM6yCAvaydvQcsEN4W06HB6cK0UlxWA8+/dI=;
- b=ctwB++vs/uJo3W74tDO1hgYWH+/4RjK1rS8II5NkImDP6J2u1dRysoaEir8KpfcS5eR2mtRZk
- klKUEMHenKeDWvB9gJk66H8NhG2Mti3PcGp+7DJwrN0qR8FJ1Dt9Wf3
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
-X-Spam-Status: No, score=-0.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.0
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Update the Documentation to be more precise.
+Hi Mo,
 
-v2: Update for clarity
-v3: Further details in Todo
+On Mon, 2025-02-24 at 20:34 -0800, Mo Elbadry wrote:
+> Hi Andrew,
+>=20
+> I agree that a small layer of abstraction is needed to provide common
+> chardev semantics to userspace. I think that effort can come where both
+> Nuvoton and Aspeed unify their design and agree on a common abstraction
+> layer.
+>=20
+> I think such efforts may take some time for both to unify, is it possible
+> to get this upstreamed (after addressing all other comments) while both
+> parties work on an agreed unified abstraction layer?
+>=20
 
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
----
- Documentation/gpu/todo.rst | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Given Arnd doesn't want bespoke userspace interfaces in the SoC drivers
+this will need to go elsewhere, perhaps drivers/char or drivers/misc.
+Greg and Arnd maintain both, so the patch needs to make a convincing
+argument to them. For my part, my comments are just opinions based on
+my understanding of the use-cases and the SoCs involved, and the desire
+for reasonable devicetree and userspace interfaces.
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 256d0d1cb2164bd94f9b610a751b907834d96a21..c57777a24e03d91b1ffe04365f7356f2d938befd 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -441,14 +441,15 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
- 
- Level: Intermediate
- 
--Request memory regions in all drivers
---------------------------------------
-+Request memory regions in all fbdev drivers
-+--------------------------------------------
- 
--Go through all drivers and add code to request the memory regions that the
--driver uses. This requires adding calls to request_mem_region(),
-+Old/ancient fbdev drivers do not request their memory properly.
-+Go through these drivers and add code to request the memory regions
-+that the driver uses. This requires adding calls to request_mem_region(),
- pci_request_region() or similar functions. Use helpers for managed cleanup
--where possible.
--
-+where possible. Problematic areas include hardware that has exclusive ranges
-+like VGA. VGA16fb does not request the range as it is expected.
- Drivers are pretty bad at doing this and there used to be conflicts among
- DRM and fbdev drivers. Still, it's the correct thing to do.
- 
+I don't think it's right to try to rush things as devicetree and
+userspace interfaces can be tricky to change or remove. Rushing tends
+to be painful for all involved in the long run.
 
--- 
-2.48.1
+Cheers,
 
+Andrew
 
