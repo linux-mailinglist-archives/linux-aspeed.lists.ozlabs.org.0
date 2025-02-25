@@ -1,50 +1,69 @@
-Return-Path: <linux-aspeed+bounces-831-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-833-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D06AFA44046
-	for <lists+linux-aspeed@lfdr.de>; Tue, 25 Feb 2025 14:14:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 924E1A450B9
+	for <lists+linux-aspeed@lfdr.de>; Wed, 26 Feb 2025 00:01:20 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Z2J2v0wFkz30Th;
-	Wed, 26 Feb 2025 00:13:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Z2Y4V1dpQz2ywR;
+	Wed, 26 Feb 2025 10:01:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1740489239;
-	cv=none; b=A3F07B7YinnroRfHYWudCrWGP2EmIach2E0GHpI29FO+4aHybm5zkTyFE+OWbyeDabURmO0XrBjfjTl7BIyLfN+rIpX9Y8f023XBYhatB18AByN9ibirNm5Pie7NSHtnlUIgjp8cKn5NuBi0DurJ1goeyYAPPOcxo5OGKUsIERiuc2yQ5PjMdHJLJY9Jz9POQQfltG+CdVtg9mBP6CXXaHS+54HyX5qg0H0P5uwFGnv0tDq7pH5lDhi9ZIN/PUZ4PpZuYLCpNwmmxoadD4eDNI38csLxxZQHrJoyVRA950PM/a80x5OMOD0pOh2Z+uMOJPdSeBXu0TVwC2rUgOT+VQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::12c"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1740458084;
+	cv=none; b=WagafZJqG1mPiJr+c5QdNDzcfeWZy72Wz2yyi6I7+C56bsWOE0dHy5zFNrDTjFDX0rYnQjQ4b+LDVUXijgY07ExcRrWk2us/3GRWn0Q09o7oHW58dcx4Im4ZsnT0MpjN9QvAIR4Xe371ZQJYsqLqJxMr3yofAfA4dea9znQJxntjNxXMoSPx5PDmYtmownSQOEZCU+n0Gz8VsWGd2PPAiBDkQnWVNS/o3b6nmmsEmrRK/nxpHh6y9Ahe/gHtRmkKe1fOqZjT5ow25TclXw3To5w1GD1JADPNKZCLdVkM6uqx9Ui7qoLjUwy65hYBQPOVG3qAxBQDiKq0sDO5ecV4Ew==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1740489239; c=relaxed/relaxed;
-	bh=V/WLfZftXwn0QMm+i+gVWV0wjiBcMBdZ4HcKuIyxHls=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=UbQGQM/R3EoIVX3H3CR6pLk9uJTX2n1GccPvcVBZr9X3QUtOankBoTTx2JQxKZopwowLWotpDECo297V7hisM7Rl17gdWQyY+GufICz+DTqoKJXLrTKV/e1SXYZ/Bc9jI/eZiHfuHs84UjlTJJg0w7GA8VMQkssYF5hl23jMPj8qvm4PnWTwVKEsssWP2zl0Reb0qVFsCESMq+qGHvmf46o18bmwdeGJr9kCsvf23yM7fe+VnsiMtze6TO17jwqGJF4Z2livHnK8Ae4kh4FJ1RE9ZBcGYuRGWjvbtSW5LhUz8jxuMzcOn5J2ryBfGAu5RAOvOLeTkqkcle+tLHDLXQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PL071skN; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1740458084; c=relaxed/relaxed;
+	bh=XkUG0GwBbaraAGYEOMab08l1MxTvBaTLFY/Sl+KE8CQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KFOZlY6w/rLr9TAGY6GGMGpywM8WyGeJ8Aw5HjshPNdgY7OOyGxXrlhWwbSijKJLTa4Tn06IYIgVlwWdaosr79pl6zREbfVcldsuyhmau0qt0IH+wuYeAjbZezRYgMcZyc6wUWjlZS+vxVYoeaVCdWp7FzrPJxks76zqYnXVhi16GIh90UbHeIe0ZJhbjJMIzvpesff452SwixjiKwpV5w9eZklgwhDl9hrZiURZcy6pNfRxAqdhFv43tqZmiAPY1etp9SHVdnFl9z1PuI9ZouylLrR+KmBqeh+ZO+C5koGbg65nM8uz7REoClmYlOzmtLdSNO3Z5nZqx3K+jS0BgA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=google.com; dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=xLpWTbA+; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::12c; helo=mail-il1-x12c.google.com; envelope-from=elbadrym@google.com; receiver=lists.ozlabs.org) smtp.mailfrom=google.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PL071skN;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=xLpWTbA+;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=google.com (client-ip=2607:f8b0:4864:20::12c; helo=mail-il1-x12c.google.com; envelope-from=elbadrym@google.com; receiver=lists.ozlabs.org)
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com [IPv6:2607:f8b0:4864:20::12c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Z2J2t124bz30TM
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 26 Feb 2025 00:13:58 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 28A0A5C718F;
-	Tue, 25 Feb 2025 13:13:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DE82C4CEDD;
-	Tue, 25 Feb 2025 13:13:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740489234;
-	bh=DGNBCAm2Bb+g82225Nn5nxVsAmT5j6wYmXnlyqkoNZk=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=PL071skNzUMHIjpJ4IgSnCe6G1rGpbFGvVtBnLiV8bUuMOHEAVafTbHGUy9/1YsD4
-	 jc3990mUZnfv0Be5thjANFysWpneqy7gM2SEDYNRuMvw0beBOxRosL6YDKhk9d8Tna
-	 KEudHQln+jDL82X6QqnUV+dlNwf/JmYfXwb4BSEeKvdXAvJbAQz8wsLGUsohlw20hg
-	 u3+DWJB5T2/HHoyD5+Gxt5vyzwKpJMT0pQxqoESiLPzXeK2DpBBTo0yCI2cOdtzmPO
-	 uAH6EdHW2fig+x2JmoiVnCAoh+ZMj+Q4zUl6V/cUACoYEmvo/bWxmoi2FUqH5xNbGq
-	 wn68QzeOHC+gg==
-Message-ID: <c4727195-757a-4624-8580-78e5c32e9290@kernel.org>
-Date: Tue, 25 Feb 2025 14:13:48 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Z24Wk1vL1z2yF4
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 25 Feb 2025 15:34:42 +1100 (AEDT)
+Received: by mail-il1-x12c.google.com with SMTP id e9e14a558f8ab-3d19702f977so66045ab.1
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 24 Feb 2025 20:34:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1740458079; x=1741062879; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XkUG0GwBbaraAGYEOMab08l1MxTvBaTLFY/Sl+KE8CQ=;
+        b=xLpWTbA+J/c5gxo7bo2kqrHjECOfPXdHVHtgIC28SUs3O21fh10qs1tkEDHv3h07ye
+         wdZ0ifobXD/1QX6Enxo3bg1RnOom0kBeQbzsPfhW7bME0BWDnguGVQSGknYruYgoOEA4
+         /6N4NN747RV0YAxCILMljmKh+2OcAB0r62ecNVMapp1e3v14chzC880zM7bNlFJcxACU
+         GPwQkFDTbP63gQ9Roh0rnlzH4EY2+19VcvLSdF+UoCKPC8zK6pHdiw/afnfKT9SCbZVP
+         qottFsXE72IaPMmwe1sO4dv2zcMOXT/0rjawr7pbFCH2HaO58jPVwEwsD0o/SvwHMCs5
+         C7JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740458079; x=1741062879;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XkUG0GwBbaraAGYEOMab08l1MxTvBaTLFY/Sl+KE8CQ=;
+        b=M7bh/eTy0Nrsi39qyUqOezIJ1AS3GxlvNsQ/Hk2tNtVA9AHa5++QepkiM42yNgzuEP
+         92jIMv0yilr/d9TNlTE24pdzzLfOXhbUBY2+4CCwWPzoc/9Z8jStgSgFeje5S0BQVsK4
+         mnaZb9/MP1YLwOpM/FXJiV3bbiFTsGSs1Ig/krJugRt29b8MhonVv/UbgZaVzI0bgoPo
+         UaFnxHgm54VJHZxJbVXgIlr1oDeXa67mORfOPAxi4cW4uVcu6E8ifHMGy5DBtWFjqJ7c
+         dfXy5gDKpwtmeMHX0zt9Vw19nyFRs6jdlX4Q9V8FiVlTGVLXYdS+KdUDIDyBO9KTFDdU
+         oJBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUIyTVlYVLh8dRyI4iNOqrShWgxe1AUAyeaA5eJHeVVUWKAVFGyBQoEsMx/vNs4pIO7lnwRHnAcNCPehAM=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yx0pC/P7pDzndEQJKfgZlFLlpknuBnouxnWq1y1TSfbi212ffiy
+	X5A7M9DJOnGFkg81trIecNC7ZQIG25Mqu6AN6ihAcNxpuIcpjWWaeAxJmMke9mfj9qm/JbPYFXk
+	yaqSKiSPeFyvG5iVC/WdQWtke4/v2xSPguKtP
+X-Gm-Gg: ASbGncsBX9YXrKZGVnWpa1XiSpv7jdJQyXJdo/YVVOOHzdi3BUZ2X7Rw7BoyZoouV8a
+	QYhFGXxSY0WvFoUA9pOngXVV9Vl3XxrTGLYxrf9BlPILYdsX/TAg3i8ZWPqVTaONGJR6O5ZRVWT
+	rzFvBMgg==
+X-Google-Smtp-Source: AGHT+IF49UOdhW7AncDR6zlzXgWIiZgZ82fGO/cuM4IxirlakdLxFhgx13Nw/fEGzsxv5SZjY6jn6ELtP239ruquB+4=
+X-Received: by 2002:a05:6e02:1a0c:b0:3d2:ae8a:8a47 with SMTP id
+ e9e14a558f8ab-3d30cee04a1mr2633655ab.29.1740458078902; Mon, 24 Feb 2025
+ 20:34:38 -0800 (PST)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -57,156 +76,432 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 1/3] dt-binding: clock: ast2700: modify soc0/1 clock
- define
-To: Ryan Chen <ryan_chen@aspeedtech.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20250224095506.2047064-1-ryan_chen@aspeedtech.com>
- <20250224095506.2047064-2-ryan_chen@aspeedtech.com>
- <f810b8a2-4261-4b68-b59b-4efa0219b5db@kernel.org>
- <OS8PR06MB7541D685A626D300AC730A5BF2C32@OS8PR06MB7541.apcprd06.prod.outlook.com>
- <2b64a9d7-7048-4842-9cc1-fe23f5abdd00@kernel.org>
- <OS8PR06MB75411AE082C9630314966F2AF2C32@OS8PR06MB7541.apcprd06.prod.outlook.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <OS8PR06MB75411AE082C9630314966F2AF2C32@OS8PR06MB7541.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.0
+References: <20250217114831.3225970-1-kevin_chen@aspeedtech.com>
+ <20250217114831.3225970-4-kevin_chen@aspeedtech.com> <e43b5f8f-37e4-4468-b3ca-5059a5e6f3c3@kernel.org>
+ <6fd7cd57261ddf9831f57dc4c637b24e9f8982d9.camel@codeconstruct.com.au>
+ <PSAPR06MB4949C65DF5C034BD6B40C9B589FA2@PSAPR06MB4949.apcprd06.prod.outlook.com>
+ <d4945482509cad0bf3e8cd93c1fb21bac2e0c7f2.camel@codeconstruct.com.au>
+ <TY0PR06MB4960EA7255DF0BDF235F0D9689C52@TY0PR06MB4960.apcprd06.prod.outlook.com>
+ <ba2757fd02b3e7c8f9c862c76f2cfcd2b6bfb41b.camel@codeconstruct.com.au>
+ <PSAPR06MB494947E21AB39369ADFA8C9489C72@PSAPR06MB4949.apcprd06.prod.outlook.com>
+ <f7369d6205e05c7aac3f3de7cbd08c3b08960d75.camel@codeconstruct.com.au>
+In-Reply-To: <f7369d6205e05c7aac3f3de7cbd08c3b08960d75.camel@codeconstruct.com.au>
+From: Mo Elbadry <elbadrym@google.com>
+Date: Mon, 24 Feb 2025 20:34:28 -0800
+X-Gm-Features: AQ5f1JqSHGfS2SMxhD4cUpRq7HcZ5M03mBDp9wnAJ9v5zfAVqgRyzEobOcV18AM
+Message-ID: <CAOO6b=udHyXx3QXyUE=siuuJopanUxzbFeBujtqWRy=j2ut4fw@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] soc: aspeed: lpc-pcc: Add PCC controller support
+To: Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: Kevin Chen <kevin_chen@aspeedtech.com>, "joel@jms.id.au" <joel@jms.id.au>, 
+	Z-ChiaWei Wang <chiawei_wang@aspeedtech.com>, 
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tomer.maimon" <tomer.maimon@nuvoton.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, "lee@kernel.org" <lee@kernel.org>, "robh@kernel.org" <robh@kernel.org>, 
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
+	Jenmin Yuan <jenmin_yuan@aspeedtech.com>, BMC-SW <BMC-SW@aspeedtech.com>
+Content-Type: multipart/alternative; boundary="0000000000008a8759062eeff9f2"
+X-Spam-Status: No, score=-15.7 required=5.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,ENV_AND_HDR_SPF_MATCH,
+	HTML_MESSAGE,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-On 25/02/2025 10:49, Ryan Chen wrote:
->>>> Subject: Re: [PATCH v9 1/3] dt-binding: clock: ast2700: modify soc0/1
->>>> clock define
->>>>
->>>> On 24/02/2025 10:55, Ryan Chen wrote:
->>>>> -remove redundant SOC0_CLK_UART_DIV13:
->>>>> SOC0_CLK_UART_DIV13 is not use at clk-ast2700.c, the clock source
->>>>> tree is uart clk src -> uart_div_table -> uart clk.
->>>>>
->>>>> -Change SOC0_CLK_HPLL_DIV_AHB to SOC0_CLK_AHBMUX:
->>>>> modify clock tree implement.
->>>>> older CLK_AHB use mpll_div_ahb/hpll_div_ahb to be ahb clock source.
->>>>> mpll->mpll_div_ahb
->>>>>                   -> clk_ahb
->>>>> hpll->hpll_div_ahb
->>>>
->>>>
->>>> I can barely understand it and from the pieces I got, it does not
->>>> explain need for ABI break.
->>>>
->>>
->>> #1. SCU0_CLK_UART_DIV13 is redundant, it does not impact ABI break
->>
->> You did not explain how it does not impact. Clock was exported, there was a
->> user and now there is no clock. User stops working. ABI break.
->>
-> 
-> Sorry, SCU0_CLK_UART_DIV13 was defined, but was never referenced in any upstream device trees.
+--0000000000008a8759062eeff9f2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Andrew,
 
-That's incomplete definition of ABI
+I agree that a small layer of abstraction is needed to provide common
+chardev semantics to userspace. I think that effort can come where both
+Nuvoton and Aspeed unify their design and agree on a common abstraction
+layer.
 
-> Since there is no in-tree usage of `SCU0_CLK_UART_DIV13`, its removal does not cause an ABI break.
+I think such efforts may take some time for both to unify, is it possible
+to get this upstreamed (after addressing all other comments) while both
+parties work on an agreed unified abstraction layer?
 
+Thank you,
+Mo
 
-You ignored out of tree users. Please read carefully ABI docs.
+On Mon, Feb 24, 2025 at 8:27=E2=80=AFPM Andrew Jeffery <andrew@codeconstruc=
+t.com.au>
+wrote:
 
+> On Fri, 2025-02-21 at 00:51 +0000, Kevin Chen wrote:
+> > > On Wed, 2025-02-19 at 11:59 +0000, Kevin Chen wrote:
+> > > > > On Tue, 2025-02-18 at 11:11 +0000, Kevin Chen wrote:
+> > > > > > > On Mon, 2025-02-17 at 13:00 +0100, Krzysztof Kozlowski wrote:
+> > > > > > > > On 17/02/2025 12:48, Kevin Chen wrote:
+> > > > > > > > > +
+> > > > > > > > > +       pcc->mdev.parent =3D dev;
+> > > > > > > > > +       pcc->mdev.minor =3D MISC_DYNAMIC_MINOR;
+> > > > > > > > > +       pcc->mdev.name =3D devm_kasprintf(dev, GFP_KERNEL=
+,
+> > > > > > > > > "%s%d",
+> > > > > > > > > DEVICE_NAME,
+> > > > > > > > >
+> > > > > > >
+> > > > >
+> > > +                                       pcc->mdev_id);
+> > > > > > > > > +       pcc->mdev.fops =3D &pcc_fops;
+> > > > > > > > > +       rc =3D misc_register(&pcc->mdev);
+> > > > > > > > > +       if (rc) {
+> > > > > > > > > +               dev_err(dev, "Couldn't register misc
+> > > > > > > > > device\n");
+> > > > > > > > > +               goto err_free_kfifo;
+> > > > > > > > > +       }
+> > > > > > > >
+> > > > > > > > You cannot expose user-space interfaces from SoC drivers. U=
+se
+> > > > > > > > appropriate subsystem for this with proper ABI documentatio=
+n.
+> > > > > > > >
+> > > > > > > > See:
+> > > > > > > >
+> https://lore.kernel.org/all/bc5118f2-8982-46ff-bc75-d0c71475e9
+> > > > > > > > 09@a
+> > > > > > > > pp.f
+> > > > > > > > astmail.com/
+> > > > > > > > and more discussions on LKML
+> > > > > > >
+> > > > > > > Further, drivers/misc/aspeed-lpc-snoop.c already exists:
+> > > > > > >
+> > > > > > >
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g
+> > > > > > > it/c
+> > > > > > > ommit/?id=3D
+> > > > > > > 9f4f9ae81d0affc182f54dd00285ddb90e0b3ae1
+> > > > > > >
+> > > > > > > Kevin: Did you consider reworking it?
+> > > > > > Andrew: No, I do not rework it but add the post code capture
+> > > > > > driver using the SNOOP registers. As a result, I add some code =
+in
+> > > > > > aspeed_a2600_15 to check the SNOOP enable bit. PCC driver probe
+> > > > > > abort if snoop is enabled.
+> > > > >
+> > > > > Hmm, I think OpenBMC's history regarding POST code support caused
+> > > > > some confusion on my part. For whatever reason, the snoop device
+> was
+> > > > > used as a source of POST codes despite the existence of the
+> > > > > dedicated POST code hardware since at least the AST2400, but...
+> > > > What I know about the dedicated POST code hardware in ASPEED should
+> be
+> > > > the same one in LPC module.
+> > > >
+> > > > >
+> > > > > > PCC is used for port I/O byte snooping over eSPI.
+> > > > >
+> > > > > ... it seems that they're largely interchangeable, just with
+> > > > > different hardware features (PCC has DMA)? My impression is that
+> the
+> > > > > snoop device could also be used over eSPI?
+> > > > Yes, PCC has DMA to capture the POST code.
+> > > > And snoop device also can be used over eSPI.
+> > > >
+> > > > These two devices of PCC and snoop use the same port I/O of 80h and
+> > > > 81h.
+> > > > But, in current usage of PCC, it can support a continuous, 4-bytes
+> > > > maximum region from port I/O 80h to 83h.
+> > > > What I know about PCC or snoop usage, depends on INTEL platform or
+> AMD
+> > > > platform.
+> > > >
+> > > > For ASPEED, we want to upstream the PCC driver for the PCC usage.
+> > >
+> > > Yeah, that's fine, but I think some work needs to be done to provide
+> coherence
+> > > in the devicetree binding and userspace APIs across both the ASPEED
+> snoop
+> > > and PCC bits, as well as the Nuvoton BPC. Bespoke designs create pain=
+.
+> >
+> https://lore.kernel.org/linux-kernel//7661de74-f68c-6617-6a4e-3b0eb76a2a2=
+e@linaro.org/T/
+> > Andrew, I find the "NPCM BPC driver" to get the link. Are these patches
+> match what you mentioned?
+>
+> That looks about right.
+>
+> Note Rob's response there about disparate bindings:
+>
+>
+> https://lore.kernel.org/linux-kernel//20221130193014.GA2645083-robh@kerne=
+l.org/
+>
+> >
+> > >
+> > > The PCC driver above reads the data out of the DMA ring-buffer
+> straight into
+> > > the kfifo hooked up the the miscdev read callback. The datasheet
+> > > notes: "the data structure of the FIFO is mode dependent" in the
+> description of
+> > > PCCR3, but no in-band or out-of-band mechanism (sysfs,
+> > > ioctl) is provided for userspace to query whether it's 1B, 2B, 4B or
+> "full" mode.
+> > For the data structure in PCCR3, I checked with designer. We only need
+> 2B mode to get the information about data and related addresses.
+> > For example, from espi master send the port 80h~83h with first data
+> 0x11223344 and second data 0x55667788. The PCC kfifo would be written in
+> the following output from hexdump.
+> > # hexdump  /dev/aspeed-lpc-pcc0
+> > 0000000 4044 4133 4222 4311 4088 4177 4266 4355
+>
+> Right, but that's different to how the Aspeed snoop chardev behaves.
+> Both the snoop and PCC features can be used to present the same data
+> (POST codes) to userspace. There should be a unified chardev behaviour
+> for POST codes so we don't end up with a mess in userspace to deal with
+> the differences in hardware capabilities.
+>
+> If we've got a chardev it would feel idiomatic to me to have ioctls to
+> configure the hardware to the required capture mode for the platform.
+>
+> > >
+> > > The situation with the snoop driver is similar (1 or 2 1B channels
+> multiplexed
+> > > into the one data stream). It also looks a bit quirky with multiple
+> channels
+> > > enabled, as what userspace reads will depend on the host access
+> patterns, but
+> > > no metadata is provided to userspace about what it's reading.
+> > Yes, for the snoop driver and PCC driver, some mechanism is the same.
+> But snoop only supports 2 bytes data from the 2 1B channels multiplexed.
+> > So, we need to add PCC driver to upstream for customer's 4 Bytes POST
+> code capture usage even the PCC driver needs to check the snoop enabled o=
+r
+> not.
+>
+> I understand.
+>
+> > Or, could you please give us come comments about how I can upstream the
+> PCC driver.
+>
+> Essentially I don't think it's okay that each driver implement a
+> bespoke chardev, or that the devices don't share a common devicetree
+> binding. I think what's needed is a small abstraction that provides
+> common chardev semantics to userspace (e.g. /dev/postcodeN) that can be
+> connected to the different backends provided by the hardware (Aspeed
+> snoop and PCC, Nuvoton BPC) and act on the needs of userspace (1, 2, 4-
+> byte POST codes, configured using ioctls).
+>
+> Andrew
+>
 
-> 
->>> #2. Change SOC0_CLK_HPLL_DIV_AHB to SOC0_CLK_AHBMUX Older
->> implement
->>> where `mpll_div_ahb` and `hpll_div_ahb` were **hardcoded dividers** for
->> AHB.
->>> In **the new approach (v8)**, I refactored the clock tree to clock tree.
->>
->> I still cannot parse sentences like "refactoring A to A". It's meaningless to me.
->>
->>> It should be ABI-safe change
->>
->> No, you do not understand the ABI. You removed a clock ID, that's the ABI
->> change.
->>
->> Otherwise explain how this is not changing ABI.
->>
->>
->>>
->>> Or you want to keep original SOC0_CLK_HPLL_DIV_AHB define and then add
->> SOC0_CLK_AHBMUX.
->>> To be 1st patch, then 2n patch remove redundant
->> SOC0_CLK_HPLL_DIV_AHB?
->>
->> If you break the ABI you need to clearly explain why. We have long
->> conversations and you still did not say why.
->>
-> Sorry, my point will be following steps to avoid potential ABI issues, 
-> I can modify the patch series as follows:
-> 1. **Patch 1:** Add `SOC0_CLK_AHBMUX` without removing `SOC0_CLK_HPLL_DIV_AHB`.
-> 2. **Patch 2:** Finally remove `SOC0_CLK_HPLL_DIV_AHB`.
+--0000000000008a8759062eeff9f2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hi Andrew,<div><br></div><div>I agree that a small layer o=
+f abstraction is needed to provide common chardev semantics to userspace. I=
+ think that effort can come where both Nuvoton and Aspeed unify their desig=
+n and agree on a common abstraction layer.=C2=A0</div><div><br></div><div>I=
+ think such efforts may take some time for both to unify, is it possible to=
+ get this upstreamed (after addressing all other comments) while both parti=
+es work on an agreed unified abstraction layer?=C2=A0</div><div><br></div><=
+div>Thank you,</div><div>Mo</div></div><br><div class=3D"gmail_quote gmail_=
+quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 24, 2025=
+ at 8:27=E2=80=AFPM Andrew Jeffery &lt;<a href=3D"mailto:andrew@codeconstru=
+ct.com.au">andrew@codeconstruct.com.au</a>&gt; wrote:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">On Fri, 2025-02-21 at 00:51 +0000, Ke=
+vin Chen wrote:<br>
+&gt; &gt; On Wed, 2025-02-19 at 11:59 +0000, Kevin Chen wrote:<br>
+&gt; &gt; &gt; &gt; On Tue, 2025-02-18 at 11:11 +0000, Kevin Chen wrote:<br=
+>
+&gt; &gt; &gt; &gt; &gt; &gt; On Mon, 2025-02-17 at 13:00 +0100, Krzysztof =
+Kozlowski wrote:<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; On 17/02/2025 12:48, Kevin Chen wrote:<b=
+r>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; +<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0pcc-&gt;mdev.parent =3D dev;<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0pcc-&gt;mdev.minor =3D MISC_DYNAMIC_MINOR;<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0pcc-&gt;<a href=3D"http://mdev.name" rel=3D"noreferrer" target=3D"=
+_blank">mdev.name</a> =3D devm_kasprintf(dev, GFP_KERNEL,<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &quot;%s%d&quot;,<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; DEVICE_NAME,<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0pcc-&gt;mdev_id);<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0pcc-&gt;mdev.fops =3D &amp;pcc_fops;<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0rc =3D misc_register(&amp;pcc-&gt;mdev);<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0if (rc) {<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dev_err(dev, &quot=
+;Couldn&#39;t register misc<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; device\n&quot;);<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0goto err_free_kfif=
+o;<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0}<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; You cannot expose user-space interfaces =
+from SoC drivers. Use<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; appropriate subsystem for this with prop=
+er ABI documentation.<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; See:<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; <a href=3D"https://lore.kernel.org/all/b=
+c5118f2-8982-46ff-bc75-d0c71475e9" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://lore.kernel.org/all/bc5118f2-8982-46ff-bc75-d0c71475e9</a><br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; 09@a<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; pp.f<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; <a href=3D"http://astmail.com/" rel=3D"n=
+oreferrer" target=3D"_blank">astmail.com/</a><br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; and more discussions on LKML<br>
+&gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; &gt; Further, drivers/misc/aspeed-lpc-snoop.c alre=
+ady exists:<br>
+&gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; &gt; <a href=3D"https://git.kernel.org/pub/scm/lin=
+ux/kernel/git/torvalds/linux.g" rel=3D"noreferrer" target=3D"_blank">https:=
+//git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g</a><br>
+&gt; &gt; &gt; &gt; &gt; &gt; it/c<br>
+&gt; &gt; &gt; &gt; &gt; &gt; ommit/?id=3D<br>
+&gt; &gt; &gt; &gt; &gt; &gt; 9f4f9ae81d0affc182f54dd00285ddb90e0b3ae1<br>
+&gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; &gt; Kevin: Did you consider reworking it?<br>
+&gt; &gt; &gt; &gt; &gt; Andrew: No, I do not rework it but add the post co=
+de capture<br>
+&gt; &gt; &gt; &gt; &gt; driver using the SNOOP registers. As a result, I a=
+dd some code in<br>
+&gt; &gt; &gt; &gt; &gt; aspeed_a2600_15 to check the SNOOP enable bit. PCC=
+ driver probe<br>
+&gt; &gt; &gt; &gt; &gt; abort if snoop is enabled.<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; Hmm, I think OpenBMC&#39;s history regarding POST code =
+support caused<br>
+&gt; &gt; &gt; &gt; some confusion on my part. For whatever reason, the sno=
+op device was<br>
+&gt; &gt; &gt; &gt; used as a source of POST codes despite the existence of=
+ the<br>
+&gt; &gt; &gt; &gt; dedicated POST code hardware since at least the AST2400=
+, but...<br>
+&gt; &gt; &gt; What I know about the dedicated POST code hardware in ASPEED=
+ should be<br>
+&gt; &gt; &gt; the same one in LPC module.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; PCC is used for port I/O byte snooping over eSPI.<=
+br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; ... it seems that they&#39;re largely interchangeable, =
+just with<br>
+&gt; &gt; &gt; &gt; different hardware features (PCC has DMA)? My impressio=
+n is that the<br>
+&gt; &gt; &gt; &gt; snoop device could also be used over eSPI?<br>
+&gt; &gt; &gt; Yes, PCC has DMA to capture the POST code.<br>
+&gt; &gt; &gt; And snoop device also can be used over eSPI.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; These two devices of PCC and snoop use the same port I/O of =
+80h and<br>
+&gt; &gt; &gt; 81h.<br>
+&gt; &gt; &gt; But, in current usage of PCC, it can support a continuous, 4=
+-bytes<br>
+&gt; &gt; &gt; maximum region from port I/O 80h to 83h.<br>
+&gt; &gt; &gt; What I know about PCC or snoop usage, depends on INTEL platf=
+orm or AMD<br>
+&gt; &gt; &gt; platform.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; For ASPEED, we want to upstream the PCC driver for the PCC u=
+sage.<br>
+&gt; &gt; <br>
+&gt; &gt; Yeah, that&#39;s fine, but I think some work needs to be done to =
+provide coherence<br>
+&gt; &gt; in the devicetree binding and userspace APIs across both the ASPE=
+ED snoop<br>
+&gt; &gt; and PCC bits, as well as the Nuvoton BPC. Bespoke designs create =
+pain.<br>
+&gt; <a href=3D"https://lore.kernel.org/linux-kernel//7661de74-f68c-6617-6a=
+4e-3b0eb76a2a2e@linaro.org/T/" rel=3D"noreferrer" target=3D"_blank">https:/=
+/lore.kernel.org/linux-kernel//7661de74-f68c-6617-6a4e-3b0eb76a2a2e@linaro.=
+org/T/</a><br>
+&gt; Andrew, I find the &quot;NPCM BPC driver&quot; to get the link. Are th=
+ese patches match what you mentioned?<br>
+<br>
+That looks about right.<br>
+<br>
+Note Rob&#39;s response there about disparate bindings:<br>
+<br>
+<a href=3D"https://lore.kernel.org/linux-kernel//20221130193014.GA2645083-r=
+obh@kernel.org/" rel=3D"noreferrer" target=3D"_blank">https://lore.kernel.o=
+rg/linux-kernel//20221130193014.GA2645083-robh@kernel.org/</a><br>
+<br>
+&gt; <br>
+&gt; &gt; <br>
+&gt; &gt; The PCC driver above reads the data out of the DMA ring-buffer st=
+raight into<br>
+&gt; &gt; the kfifo hooked up the the miscdev read callback. The datasheet<=
+br>
+&gt; &gt; notes: &quot;the data structure of the FIFO is mode dependent&quo=
+t; in the description of<br>
+&gt; &gt; PCCR3, but no in-band or out-of-band mechanism (sysfs,<br>
+&gt; &gt; ioctl) is provided for userspace to query whether it&#39;s 1B, 2B=
+, 4B or &quot;full&quot; mode.<br>
+&gt; For the data structure in PCCR3, I checked with designer. We only need=
+ 2B mode to get the information about data and related addresses.<br>
+&gt; For example, from espi master send the port 80h~83h with first data 0x=
+11223344 and second data 0x55667788. The PCC kfifo would be written in the =
+following output from hexdump.<br>
+&gt; # hexdump=C2=A0 /dev/aspeed-lpc-pcc0<br>
+&gt; 0000000 4044 4133 4222 4311 4088 4177 4266 4355<br>
+<br>
+Right, but that&#39;s different to how the Aspeed snoop chardev behaves.<br=
+>
+Both the snoop and PCC features can be used to present the same data<br>
+(POST codes) to userspace. There should be a unified chardev behaviour<br>
+for POST codes so we don&#39;t end up with a mess in userspace to deal with=
+<br>
+the differences in hardware capabilities.<br>
+<br>
+If we&#39;ve got a chardev it would feel idiomatic to me to have ioctls to<=
+br>
+configure the hardware to the required capture mode for the platform.<br>
+<br>
+&gt; &gt; <br>
+&gt; &gt; The situation with the snoop driver is similar (1 or 2 1B channel=
+s multiplexed<br>
+&gt; &gt; into the one data stream). It also looks a bit quirky with multip=
+le channels<br>
+&gt; &gt; enabled, as what userspace reads will depend on the host access p=
+atterns, but<br>
+&gt; &gt; no metadata is provided to userspace about what it&#39;s reading.=
+<br>
+&gt; Yes, for the snoop driver and PCC driver, some mechanism is the same. =
+But snoop only supports 2 bytes data from the 2 1B channels multiplexed.<br=
+>
+&gt; So, we need to add PCC driver to upstream for customer&#39;s 4 Bytes P=
+OST code capture usage even the PCC driver needs to check the snoop enabled=
+ or not.<br>
+<br>
+I understand.<br>
+<br>
+&gt; Or, could you please give us come comments about how I can upstream th=
+e PCC driver.<br>
+<br>
+Essentially I don&#39;t think it&#39;s okay that each driver implement a<br=
+>
+bespoke chardev, or that the devices don&#39;t share a common devicetree<br=
+>
+binding. I think what&#39;s needed is a small abstraction that provides<br>
+common chardev semantics to userspace (e.g. /dev/postcodeN) that can be<br>
+connected to the different backends provided by the hardware (Aspeed<br>
+snoop and PCC, Nuvoton BPC) and act on the needs of userspace (1, 2, 4-<br>
+byte POST codes, configured using ioctls).<br>
+<br>
+Andrew<br>
+</blockquote></div>
 
-I do not understand what changed here. You remove exported clock which
-is ABI, so how is this answering my question.
-
-You keep dodging my questions. Here I asked "why". I do not see any
-answer why.
-
-Best regards,
-Krzysztof
+--0000000000008a8759062eeff9f2--
 
