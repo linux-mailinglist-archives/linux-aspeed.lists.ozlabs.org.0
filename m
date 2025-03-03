@@ -1,58 +1,77 @@
-Return-Path: <linux-aspeed+bounces-897-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-899-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18357A4B580
-	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Mar 2025 00:31:39 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 972DDA4C182
+	for <lists+linux-aspeed@lfdr.de>; Mon,  3 Mar 2025 14:18:48 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Z5dVq02qCz30CF;
-	Mon,  3 Mar 2025 10:31:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Z5zsc4BWZz3bgV;
+	Tue,  4 Mar 2025 00:18:44 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1740927842;
-	cv=none; b=YxTTvk0hxBfY4P2P5JiCGzuH1JrTpIgNmvDzDtVQWmApOwBn7DGnB4HvnEpoUXNOq21a9+mdoSoHNFRrTsv+cltrQHomYHCrTYilVQGS9LUPbtjVH1F9w3tnXL4YS7uhpz1LkNEYhUFXVZVdpnEr18qf1ujc9C2P7pTVZbyqVFsEH7T4jy8G9rFP2xs4BrUm3CcP1iCPX8sIwpauMm2P+fIZVi3qjaWANGbJT5pQO9lfJqEpTO6lZ86qAGR7M7ct2IXgnJn/zdZbiCYHYuRhnBSpf0lwsGl/p+oiE0wNFZFxFoJOiCVzOQgwCxDsCphuzsWgy00APoILlnxEEvr34A==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::330"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1741007924;
+	cv=none; b=STKgI7ROcC7690DsL7mBiaGO+bP9llwlMYCEj+7ijqRutNhR0kvhq5Y2ZDtV8E++pGjBX2xQLo8hHmekIn8h52GROfebM3D+JOlUADqtiCVrN2myYw+p1lVDZqZoWXJLM0qgZZCd0IkhDGQ4NUx3OaImsg89+8qVekyiFC7FCZ9ygjKJ363FopBjIo0Sk3O4w0pII7/f6XlbYrc5spZ+oVsm0B4oueAgv7zE0+NQL2hXh3ZJjquiibqeqOwvcfVVsfzPAhUs/hO0MNSHjbXG7Ow/n1cId3jgkUQ98nyi0XWkioWMU6Q6BMH6MacDNkIPVLCgQUL9MKWaC+J7nDaK5A==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1740927842; c=relaxed/relaxed;
-	bh=Spp3gOCqzWQkKFg4If2ezbjE6G7cx/0DkHwb1iEwulM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TE9ZBtBqeEJ/6Qa+/AatkCijTrluRTztfLAcCUHfAT9zyRbjd5CdETNOm8OxV9RUKHvlZpCWXC2r6SHHvlmA6DKLdA/+0VLiRPaP+nzePVRomBqO+h0MlYD2nZqV6BbTry8HkTk8ZM2uiinwojMkUW0FAL85UDsLugtKkanPyss4SZYkanqsFc92MwOwzV8SHnfhw3u+63PsG2AlRgm1zA8hnuNR9D6mhUZfDobBVsqt6PRLJpxZPtr/FWgAmGseo6t+kCSb1hN6b8Mh4pawlOB6wOmcbsfl2eM15RrMa2VyNAep3/CGMyc7oyjF8CpWmxTuhTpsFsSGC1VY1HhbOw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Oit0yzTA; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=chunkuang.hu@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1741007924; c=relaxed/relaxed;
+	bh=yy1JVRlXR6nmaQaZdHV5up9VNNk75+ZYeI4CrMOgdUU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lk/daY6UYrrFtT3uYSIbxS+BUIU2R/zuH/LRW67QQ2ybSHiJ/NRHvV6GmkMHqtMMOj6q2SHAOjD8YQ3bUxQCcHF65WfzTDF6yl+nfhVlhSj/4he+LHrE07j1B2cEzjKRRAWHOdQh5pm11bS7sifCPw+xvLfEXeQGuSkMt/FDowhjEvQYf02rSf5oOl3dRlQkUxHQoPfhiWSvASarsYACPT21NF7O5y7oiIgR4UqcW8VlHD4gbEX2GWLLkwFrmqCU29S536s4ugyymfuPv4VLnuT+xz7r1J8PksUyydUcVlq4y1+hJH1HNTqIBx7T6MNY/g9I7Dd+3ZYM2eaTvbNycQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=IGvfnyLZ; dkim-atps=neutral; spf=none (client-ip=2a00:1450:4864:20::330; helo=mail-wm1-x330.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org) smtp.mailfrom=bgdev.pl
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Oit0yzTA;
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=IGvfnyLZ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=chunkuang.hu@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=bgdev.pl (client-ip=2a00:1450:4864:20::330; helo=mail-wm1-x330.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Z5QFY4Drsz2yvv
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  3 Mar 2025 02:04:01 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id DD06F611C3
-	for <linux-aspeed@lists.ozlabs.org>; Sun,  2 Mar 2025 15:03:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF469C4CEE7
-	for <linux-aspeed@lists.ozlabs.org>; Sun,  2 Mar 2025 15:03:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740927837;
-	bh=yKEyjVjrcZ07H0H/l2fXaHH3kRT0mUTfx7ZYWTJvsrs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Oit0yzTAjWNos6k95e+wJt5ygitkBY3DVcVfWTNQUmn4gOOcCeZEV49ENb2jHGS+G
-	 iEaY20cNhDTLryLjvuKT5aV0ZQboIAVDfSKVyEMmY5Oy1wCHBCFCLkEnB6Hy2fftwR
-	 oh/XWr06mgrjQ4D/OEiuy0CDEKGmW8NMqrUjMAVlcg+eXVepeleqceUxjJBG8LBAlA
-	 wvc6OeqcytVWMJNcFvZTbahxPJTIk6IMUzLvRnODRTDP2XRDixvTP37ibDG5x56Dga
-	 3wzlkb4kwCA/QS177fbNjce5WPT7jro7iqHcZfDI/X5CDaR5v+walzFAlXt38K9/yH
-	 U8CPmi53L05Tw==
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2feb1d7a68fso6030599a91.1
-        for <linux-aspeed@lists.ozlabs.org>; Sun, 02 Mar 2025 07:03:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWgzCR4seLxQYajopwd4qcJG8MuotA9zQNrAdURs2wrAdacwlOeht9hK4QZcrh1P8+jqD6IrBuvlaTWzMc=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Ywatzkj9IMtKtTbJi26E/Tsiv8WAh7mN3C4hMpVgJ9I1RvklcYp
-	yujIjQB8ky60Y7qiNkC1TZauH6JS6VRypMo6xqk88Yrb8Jqn5G4ey2jIu7qUwjNxsu3dJG4x/rF
-	ba/VYNmsMRwFjpLWutzKX7CA7FQ==
-X-Google-Smtp-Source: AGHT+IFcggPNuy4DXBSberKRtq5j3TpP8ycVDoZHKl3XBUqSRO6lbtiDAuC4ZtjulRmLzqaolJxpQyXzSIZZGSZq2Ew=
-X-Received: by 2002:a17:90b:3c02:b0:2fa:1029:f169 with SMTP id
- 98e67ed59e1d1-2febabf406cmr17371736a91.33.1740927837148; Sun, 02 Mar 2025
- 07:03:57 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Z5zsZ2T7Nz30WQ
+	for <linux-aspeed@lists.ozlabs.org>; Tue,  4 Mar 2025 00:18:41 +1100 (AEDT)
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-43998deed24so42056715e9.2
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 03 Mar 2025 05:18:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1741007918; x=1741612718; darn=lists.ozlabs.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yy1JVRlXR6nmaQaZdHV5up9VNNk75+ZYeI4CrMOgdUU=;
+        b=IGvfnyLZQhvSTd1cuMSTUI12BWV+c/4kig6SkPok/dw13AIwwifSFc6rUB8Xpo32Vt
+         tOvVjlzLoWERd3HSFTanemnGmGUvzphbyaVtgA2p9/+jvmyj/QqGvEw7n7rKQTicpL+Z
+         XTIF8+ifvvs4HEzrzTQwIkLDokBkf073eZ438E7pwacHwKOxSNO6nZnMzCraomw/gMeM
+         aYgycYR0ngUqYMKrCXOQ8IMLJzRmR0YVmudT5hGjItzpPdNHyiz1M4t8x6k0Wtos0Yly
+         H7Ui9JK+K7Q5lxi8Q9u5/fRSTxBJM+scJK0mbCPZT6tLRbcfACrdt3cmalvhmM2ToLWP
+         R+eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741007918; x=1741612718;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yy1JVRlXR6nmaQaZdHV5up9VNNk75+ZYeI4CrMOgdUU=;
+        b=wAkDRUU7X6vxuvM+RueVGf7LqTpmO1rjEdBecvsfjNh7WN2y00IjKOmPkhtHghfozT
+         Cvg9WM/2uuUPRclQ2vcBa99M4mUf1mdELHpEVmd7LLnT5miXukEu8Rip4NZmqQ3y1cns
+         DDHrRXtz8ec4RtTPcAzkXW4lEuoOYXw6ficYHIokBZKDuMdqSDUDr7Mr6e3KhJwBKoEw
+         rGjE19StbRMtI5aUgO/QEXZ1rHc36a9CapANAwkdlSn4UkMmmiGHABs8PAzbFEr/2l9J
+         yXaZ1IWfko+xrNOWJKR1n1IfqWQJc447UkeBsePrH65QJo14p8gaopkKtUMylYZL3AWn
+         OhGg==
+X-Forwarded-Encrypted: i=1; AJvYcCVVYar459OeikglnKIqmMN2yyav4rjBSak/WU35y0iH9BSd2aye+EhbhyPO22LA6pgBwqsYvdxJMcUd1Hg=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Ywjpe9WJ9FA2qGXBy+fqc1GJ4guFEbc20USnKuNmphj5jTRIcMv
+	N+rN/AcfmTOrG9exEeC3up81Ca5F9rVYfR7NutEgvlepPCb9sTS8eTDCrmKQNrs=
+X-Gm-Gg: ASbGncvE+azzyC3gH5KLANZ/PtZt3eprlgG0JNw//xr9i/PGK5Ik/hAk3UPA+tyML3D
+	dOLwFyeqUvTiS4+ozZAk4eB6j/7s2jcoN6ZdKAvliLLRQyMPtn8GvdfM9PrYg4UZJ86mBhhLm0a
+	jh6mO4/EXCN6QK55NbLBSNWcv3OyCqnOmU3tDFXz7goviZgeRcP7vQUH+9iDwooNyj2qH2NnjAW
+	uFCwN2ReG6Z725nYr+SpJLHyDuh5+TxDArbWGxBZ9FoqeTWvhvKgaOd1oYmFAVK7MyAZZTCTJfv
+	59RxKRCNCKeqlDENreR0tu2lTqiHcMiiaGGQ6A==
+X-Google-Smtp-Source: AGHT+IEYSoFbgh9Yo6fzCpbmc4OD7ixVh8/Qc+gBT9GOh1lnAk3c6PmzNiyXxz2KhEi+3a6qb7fiqw==
+X-Received: by 2002:a05:600c:44d6:b0:43b:c0fa:f9cd with SMTP id 5b1f17b1804b1-43bc0fb007dmr31862825e9.7.1741007917860;
+        Mon, 03 Mar 2025 05:18:37 -0800 (PST)
+Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:664a:9e92:6aa8:6007])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43aba538b9fsm194821915e9.17.2025.03.03.05.18.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Mar 2025 05:18:37 -0800 (PST)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: [PATCH 00/15] gpio: convert more drivers to using the new value
+ setters
+Date: Mon, 03 Mar 2025 14:18:25 +0100
+Message-Id: <20250303-gpiochip-set-conversion-v1-0-1d5cceeebf8b@linaro.org>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -65,308 +84,90 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-References: <20250213-mem-cocci-v3-v1-0-93466d165349@redhat.com> <20250213-mem-cocci-v3-v1-4-93466d165349@redhat.com>
-In-Reply-To: <20250213-mem-cocci-v3-v1-4-93466d165349@redhat.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sun, 2 Mar 2025 23:04:44 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9vqSTQBa2EkdBRiznxKG0nphisen1aCipQYN1qgHzrfg@mail.gmail.com>
-X-Gm-Features: AQ5f1Jow8xnYudaM1cpXtjCz7_kHiw0p--GeKhar_Us_V5O0D7c-NQScsqvu7NU
-Message-ID: <CAAOTY_9vqSTQBa2EkdBRiznxKG0nphisen1aCipQYN1qgHzrfg@mail.gmail.com>
-Subject: Re: [PATCH 04/12] drm/mediatek: move to devm_platform_ioremap_resource()
- usage
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Joel Stanley <joel@jms.id.au>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Stefan Agner <stefan@agner.ch>, 
-	Alison Wang <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>, 
-	Tian Tao <tiantao6@hisilicon.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
-	John Stultz <jstultz@google.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Marek Vasut <marex@denx.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Raphael Gallais-Pou <rgallaispou@gmail.com>, Yannick Fertre <yannick.fertre@foss.st.com>, 
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
-	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	=?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
-	linux-doc@vger.kernel.org, CK Hu <ck.hu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACGsxWcC/x3MTQqAIBBA4avErBuwTPu5SrQom2w2KhoRRHfPW
+ r7F925IFJkSDMUNkU5O7F2OqizA7LOzhLzmhlrUSkgh0Qb2ZueAiQ403p0UP4Ot1NuiVdP1rYK
+ sQ6SNr/88Ts/zAth7bp9pAAAA
+To: Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, 
+ Michael Hennerich <michael.hennerich@analog.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mun Yew Tham <mun.yew.tham@intel.com>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2063;
+ i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
+ bh=FTj6xoyS39LnNrJXGLhXAeRS3nQ1U42Zly5B+pL7Yio=;
+ b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBnxawlRSaTKbF/S2ubujlU+T5mOtA2wT+5FfqLz
+ f0O24SM9OuJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCZ8WsJQAKCRARpy6gFHHX
+ ckWGD/9u+ceNcDwkzEAzs9WbMfq5vXhzHtIGaKqnxBBxx8KhWYFPKP7Se3MIVRL9v0JnhQ87GKy
+ HDgBiwVyHynXsOKVlQw0APVr2LPRIaJaggMbPEmN6tfFWYJFXsseLQH6tF86XmqyVRZFj6c3Ony
+ a2Ji8lD8KdpKO/hTUEHaEk1Y7QRzZR3e8sgS3FMq9xzd5GWdbGNLbVCi3bIcPaowv+oqGTsktY8
+ IxJz2cM8pV89YbZvcWD4mJlhwti/GUcqKMlzqaiaGYSviLcYsgCdCp7UsOjsNZa9+BRiFp6+u2G
+ HEc+at4+FRdvN14vwP083vAkOasL2iFM66uCpowT/QcpOV7uFMZsOYtaq9yzbx78N6FWFdahWYh
+ 9JwMY5WrPG9p4eUzMdEsDKKQN6u8tgZk1LUGg/uq3c4jH4NXUarz+uzydzMFxqXfRi/AoL9g+60
+ VUkNIpSaLu1JefQwXm4VOq72a8rl9Ko95MHqVnuwKQJFNCyOieV5D07Lg6VTQwq3189BSB8faoi
+ zlWMU1AEuEHIsLPV5ccoXeZEXD+S2JuM4av48cV6RU4YuT+xCqSPmjnhzwnl4JOxdJ7CFu72AsK
+ SoU70k9bxmFIe9uGlfJiCdi28nlSkLv3bW09urYrHNMjhGHjTXNTOdEJ32yXwu8R2VpkIqc9rs2
+ 0+3p2O8qDdv/SiQ==
+X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=disabled
+	version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-Hi, Anusha:
+New variants of set() and set_multiple() callbacks allow drivers to
+indicate failures back to callers. Convert more GPIO drivers to using
+them as the old ones are now deprecated.
 
-Anusha Srivatsa <asrivats@redhat.com> =E6=96=BC 2025=E5=B9=B42=E6=9C=8814=
-=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=888:20=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> Replace platform_get_resource + devm_ioremap_resource
-> with just devm_platform_ioremap_resource()
->
-> Used Coccinelle to do this change. SmPl patch:
-> @rule_1@
-> identifier res;
-> expression ioremap_res;
-> identifier pdev;
-> @@
-> -struct resource *res;
-> ...
-> -res =3D platform_get_resource(pdev,...);
-> -ioremap_res =3D devm_ioremap_resource(...);
-> +ioremap_res =3D devm_platform_ioremap_resource(pdev,0);
+This series also contains some additional refactoring to the affected
+drivers wherever it makes the conversion easier.
 
-Applied to mediatek-drm-next [1], thanks.
+To: 
 
-[1] https://web.git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.=
-git/log/?h=3Dmediatek-drm-next
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+---
+Bartosz Golaszewski (15):
+      gpio: 74x164: use new line value setter callbacks
+      gpio: adnp: use lock guards for the I2C lock
+      gpio: adnp: use devm_mutex_init()
+      gpio: adnp: use new line value setter callbacks
+      gpio: adp5520: use new line value setter callbacks
+      gpio: adp5585: use new line value setter callbacks
+      gpio: altera-a10sr: use new line value setter callbacks
+      gpio: altera: use new line value setter callbacks
+      gpio: amd8111: use new line value setter callbacks
+      gpio: amd-fch: use new line value setter callbacks
+      gpio: arizona: use new line value setter callbacks
+      gpio: aspeed: use lock guards
+      gpio: aspeed: use new line value setter callbacks
+      gpio: aspeed-sgpio: use lock guards
+      gpio: aspeed-sgpio: use new line value setter callbacks
 
-Regards,
-Chun-Kuang.
+ drivers/gpio/gpio-74x164.c       |  16 ++---
+ drivers/gpio/gpio-adnp.c         | 136 +++++++++++++++++----------------------
+ drivers/gpio/gpio-adp5520.c      |  12 ++--
+ drivers/gpio/gpio-adp5585.c      |  10 +--
+ drivers/gpio/gpio-altera-a10sr.c |  14 ++--
+ drivers/gpio/gpio-altera.c       |   6 +-
+ drivers/gpio/gpio-amd-fch.c      |   7 +-
+ drivers/gpio/gpio-amd8111.c      |   6 +-
+ drivers/gpio/gpio-arizona.c      |   9 +--
+ drivers/gpio/gpio-aspeed-sgpio.c |  82 +++++++++--------------
+ drivers/gpio/gpio-aspeed.c       | 108 ++++++++++++-------------------
+ 11 files changed, 177 insertions(+), 229 deletions(-)
+---
+base-commit: 9778568dede2166c7bd124d473f9ec365f782935
+change-id: 20250303-gpiochip-set-conversion-736fb6548975
 
->
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_disp_color.c | 4 +---
->  drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 4 +---
->  drivers/gpu/drm/mediatek/mtk_disp_merge.c | 4 +---
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c   | 4 +---
->  drivers/gpu/drm/mediatek/mtk_disp_rdma.c  | 4 +---
->  drivers/gpu/drm/mediatek/mtk_dsi.c        | 4 +---
->  drivers/gpu/drm/mediatek/mtk_hdmi.c       | 4 +---
->  drivers/gpu/drm/mediatek/mtk_mdp_rdma.c   | 4 +---
->  8 files changed, 8 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_color.c b/drivers/gpu/drm/=
-mediatek/mtk_disp_color.c
-> index dd8433a38282a9ba1bcc3a4ddd01dd89738ccb60..39c7de4cdcc16b56a5a1d046a=
-aabaf5580227ed2 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_color.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_color.c
-> @@ -96,7 +96,6 @@ static int mtk_disp_color_probe(struct platform_device =
-*pdev)
->  {
->         struct device *dev =3D &pdev->dev;
->         struct mtk_disp_color *priv;
-> -       struct resource *res;
->         int ret;
->
->         priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> @@ -108,8 +107,7 @@ static int mtk_disp_color_probe(struct platform_devic=
-e *pdev)
->                 return dev_err_probe(dev, PTR_ERR(priv->clk),
->                                      "failed to get color clk\n");
->
-> -       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       priv->regs =3D devm_ioremap_resource(dev, res);
-> +       priv->regs =3D devm_platform_ioremap_resource(pdev, 0);
->         if (IS_ERR(priv->regs))
->                 return dev_err_probe(dev, PTR_ERR(priv->regs),
->                                      "failed to ioremap color\n");
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c b/drivers/gpu/drm/=
-mediatek/mtk_disp_gamma.c
-> index b17b11d93846f2019d8c4afb294375333e22dc42..8afd15006df2a21f3f52fe00e=
-ca3c5501f4fb76a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> @@ -256,7 +256,6 @@ static int mtk_disp_gamma_probe(struct platform_devic=
-e *pdev)
->  {
->         struct device *dev =3D &pdev->dev;
->         struct mtk_disp_gamma *priv;
-> -       struct resource *res;
->         int ret;
->
->         priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> @@ -268,8 +267,7 @@ static int mtk_disp_gamma_probe(struct platform_devic=
-e *pdev)
->                 return dev_err_probe(dev, PTR_ERR(priv->clk),
->                                      "failed to get gamma clk\n");
->
-> -       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       priv->regs =3D devm_ioremap_resource(dev, res);
-> +       priv->regs =3D devm_platform_ioremap_resource(pdev, 0);
->         if (IS_ERR(priv->regs))
->                 return dev_err_probe(dev, PTR_ERR(priv->regs),
->                                      "failed to ioremap gamma\n");
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c b/drivers/gpu/drm/=
-mediatek/mtk_disp_merge.c
-> index 563b1b248fbbb38ef03bb3e3ceecdd265961df60..b174dda091d3fbd16796e8e12=
-8b030fccf5b902c 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-> @@ -306,7 +306,6 @@ static const struct component_ops mtk_disp_merge_comp=
-onent_ops =3D {
->  static int mtk_disp_merge_probe(struct platform_device *pdev)
->  {
->         struct device *dev =3D &pdev->dev;
-> -       struct resource *res;
->         struct mtk_disp_merge *priv;
->         int ret;
->
-> @@ -314,8 +313,7 @@ static int mtk_disp_merge_probe(struct platform_devic=
-e *pdev)
->         if (!priv)
->                 return -ENOMEM;
->
-> -       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       priv->regs =3D devm_ioremap_resource(dev, res);
-> +       priv->regs =3D devm_platform_ioremap_resource(pdev, 0);
->         if (IS_ERR(priv->regs))
->                 return dev_err_probe(dev, PTR_ERR(priv->regs),
->                                      "failed to ioremap merge\n");
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/me=
-diatek/mtk_disp_ovl.c
-> index df82cea4bb79c472acbb66e0df27fbad3e70bd20..d0581c4e3c999cf865fdd0aaf=
-4c2f38dd404926e 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> @@ -604,7 +604,6 @@ static int mtk_disp_ovl_probe(struct platform_device =
-*pdev)
->  {
->         struct device *dev =3D &pdev->dev;
->         struct mtk_disp_ovl *priv;
-> -       struct resource *res;
->         int irq;
->         int ret;
->
-> @@ -621,8 +620,7 @@ static int mtk_disp_ovl_probe(struct platform_device =
-*pdev)
->                 return dev_err_probe(dev, PTR_ERR(priv->clk),
->                                      "failed to get ovl clk\n");
->
-> -       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       priv->regs =3D devm_ioremap_resource(dev, res);
-> +       priv->regs =3D devm_platform_ioremap_resource(pdev, 0);
->         if (IS_ERR(priv->regs))
->                 return dev_err_probe(dev, PTR_ERR(priv->regs),
->                                      "failed to ioremap ovl\n");
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/m=
-ediatek/mtk_disp_rdma.c
-> index bf47790e4d6be5d60070c63c15c75fa201cc4b27..c9d41d75e7f2a3af5820921b7=
-e563da377ce8d0d 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-> @@ -313,7 +313,6 @@ static int mtk_disp_rdma_probe(struct platform_device=
- *pdev)
->  {
->         struct device *dev =3D &pdev->dev;
->         struct mtk_disp_rdma *priv;
-> -       struct resource *res;
->         int irq;
->         int ret;
->
-> @@ -330,8 +329,7 @@ static int mtk_disp_rdma_probe(struct platform_device=
- *pdev)
->                 return dev_err_probe(dev, PTR_ERR(priv->clk),
->                                      "failed to get rdma clk\n");
->
-> -       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       priv->regs =3D devm_ioremap_resource(dev, res);
-> +       priv->regs =3D devm_platform_ioremap_resource(pdev, 0);
->         if (IS_ERR(priv->regs))
->                 return dev_err_probe(dev, PTR_ERR(priv->regs),
->                                      "failed to ioremap rdma\n");
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediate=
-k/mtk_dsi.c
-> index 40752f2320548fbf6c7de96b18e8a636ac9c31be..f298293471de49473dd059733=
-83dc22f7d3b6c23 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -1192,7 +1192,6 @@ static int mtk_dsi_probe(struct platform_device *pd=
-ev)
->  {
->         struct mtk_dsi *dsi;
->         struct device *dev =3D &pdev->dev;
-> -       struct resource *regs;
->         int irq_num;
->         int ret;
->
-> @@ -1217,8 +1216,7 @@ static int mtk_dsi_probe(struct platform_device *pd=
-ev)
->         if (IS_ERR(dsi->hs_clk))
->                 return dev_err_probe(dev, PTR_ERR(dsi->hs_clk), "Failed t=
-o get hs clock\n");
->
-> -       regs =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       dsi->regs =3D devm_ioremap_resource(dev, regs);
-> +       dsi->regs =3D devm_platform_ioremap_resource(pdev, 0);
->         if (IS_ERR(dsi->regs))
->                 return dev_err_probe(dev, PTR_ERR(dsi->regs), "Failed to =
-ioremap memory\n");
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediat=
-ek/mtk_hdmi.c
-> index ca82bc829cb96446d4d34eeef45848df03bd716b..d729c13590cb5ec176f15b680=
-c262a26b677e6aa 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> @@ -1425,7 +1425,6 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi =
-*hdmi,
->         struct device_node *cec_np, *remote, *i2c_np;
->         struct platform_device *cec_pdev;
->         struct regmap *regmap;
-> -       struct resource *mem;
->         int ret;
->
->         ret =3D mtk_hdmi_get_all_clk(hdmi, np);
-> @@ -1471,8 +1470,7 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi =
-*hdmi,
->         }
->         hdmi->sys_regmap =3D regmap;
->
-> -       mem =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       hdmi->regs =3D devm_ioremap_resource(dev, mem);
-> +       hdmi->regs =3D devm_platform_ioremap_resource(pdev, 0);
->         if (IS_ERR(hdmi->regs)) {
->                 ret =3D PTR_ERR(hdmi->regs);
->                 goto put_device;
-> diff --git a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c b/drivers/gpu/drm/me=
-diatek/mtk_mdp_rdma.c
-> index fc69ee38ce7d6a245a7460cfde8de426e83b2e80..7982788ae9df51f1a378d8d53=
-8737f38af7299f2 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
-> @@ -291,7 +291,6 @@ static const struct component_ops mtk_mdp_rdma_compon=
-ent_ops =3D {
->  static int mtk_mdp_rdma_probe(struct platform_device *pdev)
->  {
->         struct device *dev =3D &pdev->dev;
-> -       struct resource *res;
->         struct mtk_mdp_rdma *priv;
->         int ret =3D 0;
->
-> @@ -299,8 +298,7 @@ static int mtk_mdp_rdma_probe(struct platform_device =
-*pdev)
->         if (!priv)
->                 return -ENOMEM;
->
-> -       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       priv->regs =3D devm_ioremap_resource(dev, res);
-> +       priv->regs =3D devm_platform_ioremap_resource(pdev, 0);
->         if (IS_ERR(priv->regs))
->                 return dev_err_probe(dev, PTR_ERR(priv->regs),
->                                      "failed to ioremap rdma\n");
->
-> --
-> 2.47.0
->
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+
 
