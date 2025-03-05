@@ -1,74 +1,78 @@
-Return-Path: <linux-aspeed+bounces-959-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-962-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2387FA50E5C
-	for <lists+linux-aspeed@lfdr.de>; Wed,  5 Mar 2025 23:10:22 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7193FA53E4E
+	for <lists+linux-aspeed@lfdr.de>; Thu,  6 Mar 2025 00:20:02 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Z7RZ3070Rz3bnx;
-	Thu,  6 Mar 2025 09:10:19 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4Z7T6S0QSPz30XR;
+	Thu,  6 Mar 2025 10:20:00 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2001:4b98:dc4:8::228"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1741212618;
-	cv=none; b=b0yhsrbsen9UD0OH/v6iYm5WlQsGXrJuHd912wUCJb4/4DnNmBJLKxZWZO/F/WcS+OIdooQSxBNgfRAc5W63FlZuTh9LpFGtmM5aghh3MGdMWksMAUTLDMVYe3MdzklmRdlYlM5E0wtRCRKpO4KD16JKhRktqjwSpvRpLtJjJs9U0ERnBlODaIfNwmMY124oMxO5GFt/aEe+/3PBQNdvh+IC8Evp7E2tGIy3r39/9usWk9AiUpibXmdgz5e5OUhANgn8VHEI4qnOp2CwBPFrneLrz4O9xejjOGA0F1yH/Kix0IdUvOHHwoeSbk4asGIA8NL2einIo+S1cqsN9bhj8Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=198.175.65.10
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1741216799;
+	cv=none; b=BnE+zcxPnsqzCKIsu/1VWgC8O/0RO6qykwUERowH4peKJ+iXD1KRJEulZaBd6brzp02Zpzqq3mThscm7+c/ZLvMkVjy0RXeeFQkPlAUOJNs0dJ5whI01tMjGwtEsp570PNMzxxKZKevKDAt9xSAZmD5JZXl8QjlXqNXsis5J7Tga9IPHAiSIlOfDJ64vxJbGTgG2R/biNh3IQpJcjdXfI4hyZRIT7qdnZ/OCMCn1W5F5/KZ/YUsYG97Oo3CUnoQ9gWYH8eH1qe5PRQ8DOtZytfGTDn3Yiux+cardyQHnH6PtJn4pi9j3jXnxjbo7j2Wwc2eG2zjzuY+Yw5q/vUGXRQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1741212618; c=relaxed/relaxed;
-	bh=AIx1VQixGZHJpDEIrcnLOu+mYSZBxUUbpmpOdkPkxX8=;
+	t=1741216799; c=relaxed/relaxed;
+	bh=Fo7blU2Bz0ygJPtG4Wn+lGih/daURM9cZ9yeAGPof3Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cQdwOewui8hLSo+VfLRWoHLPlELnTJaSIRgf1qPd9r9ij1ix8wCHbzthL4JSOOy1p1wDLSPxiB6IakBUZeuRf+MGyPY0HW7kdZwyAIWatrSMpu4LMR8i2p28d7XRQTGZ7DLcWnTiu5Pr311px1sK0HCigxunE/r2Y7IOVt615e8SHcdo/uJzDPm71ayxZb3L01x6Mth2c4ts0nu82zwbh1SmzKKy3yJEFPodJJfhvQ6SR1yuUPh7/u30Iq4IMYYmajMewYcAKdWrQBWtFhPlvbR3LhK4wlHTkqf/hoUzupRmEGlTiL1+vaoWDyzlZ65n8Gu9sgYSOU+Zc7yNyvhwVw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=BURAVwy3; dkim-atps=neutral; spf=pass (client-ip=2001:4b98:dc4:8::228; helo=relay8-d.mail.gandi.net; envelope-from=alexandre.belloni@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=aPVYCvYpHboNhtpC6iNwteVpFC0C1tPVLKdLkAQV690zDXOfCxbqpLdR6vDFX8/FQFbRuGwp88O+MuzrxHAbyFKl+DS0AIF8IT+vgVSwY7F0kH7JxTPgfJWoE79ELvWUyUf1JCyGDDNFunRsII5Y/zhet26okIzd4q/Jl6DEUOfyVAhkZ19EzqPKpDh9mArwGOu5DIoUJnmQGMp/opBqpXbti0E6ZPo1oObh9GMWgWLC3haEgXokBKaSn9/hEDLhSxnjjBJ4SgNahqYhvnC/8If6HNQibsfMaUcg2CmTo3My5gG0Up4LNHFwLokV/Ug2bMFoRh8ZzyZNM3jeZWj5Qg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WKWIv5Rc; dkim-atps=neutral; spf=pass (client-ip=198.175.65.10; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=BURAVwy3;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WKWIv5Rc;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=2001:4b98:dc4:8::228; helo=relay8-d.mail.gandi.net; envelope-from=alexandre.belloni@bootlin.com; receiver=lists.ozlabs.org)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.10; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Z7RZ12qH8z30Jc
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Mar 2025 09:10:17 +1100 (AEDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0AA2D44469;
-	Wed,  5 Mar 2025 22:10:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1741212604;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AIx1VQixGZHJpDEIrcnLOu+mYSZBxUUbpmpOdkPkxX8=;
-	b=BURAVwy3hip3jon9IM98b5vAbuZx8dmIVhljcBdpP9XPooBB9x17yAD7mn/0M2kAn1p8By
-	woFRKzD245+DnNCjtQ7o6LF0PX0S+BASIoZ3EG9eHGaSS6+ZEBYcAQJ78thkXVkUtB3BzK
-	1fd6X+OUiIUBCG3V5Ht/wQ7VyXWg3QLgNXNCUgj5cfxx673xa69fxR4P/SB0QwSK51Vnbk
-	43t7fjIwRIkYEyQt3ZAkt9kg4DaTd2AJ5hZycFk8ZNUVahz0ml0z7nJE20eLLgLqkFMu9H
-	PUen+OK6ikHnvbPugQHCGpZSoR9V6SsZM+DOwn8jbGVfSNi2odFfmCi09ey7bw==
-Date: Wed, 5 Mar 2025 23:10:01 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	=?iso-8859-1?Q?T=F3th_J=E1nos?= <gomba007@gmail.com>,
-	Dianlong Li <long17.cool@163.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-amlogic@lists.infradead.org, llvm@lists.linux.dev,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 00/16] a few rtc driver cleanups
-Message-ID: <174121255394.1152777.11765502116426784970.b4-ty@bootlin.com>
-References: <20250304-rtc-cleanups-v2-0-d4689a71668c@linaro.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4Z7T6N70Ylz30Jc
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Mar 2025 10:19:54 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741216797; x=1772752797;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jNjm1cYUFMQZ9mfrDQzo9hhp7ND5yA4DLzm1+XAQYrg=;
+  b=WKWIv5Rcd+rdW3dNUri03P+kCmtGkRcjzvn2dkcY9gPle6mXVdJYBU37
+   48DpfOBuUWKtQZkr15/ie8+90ZPWZoDQf47JdtzVqCu3H850GCq10cVqa
+   fZE5IjrNwpoC8wqpsCVvqmwwN/CLNihJK3uLUAwN0i6b/x+Ac66MtSJw5
+   2HLHiV3V9aZ258MUveLqzlSbjR7yc72UmrPHHFJU4UyhcGIfKRkRcaYqQ
+   uriFt8nysFcBBk2XtfxFnBm7gUKh5M2hc9vXdsLLJsdE2bWaeQu+EPOcQ
+   IIyUEz+HmPMu4CWKH9oPQDPcNLHTC3IhUJdM4vYh5E5SzmYpq+cDkD5Nw
+   g==;
+X-CSE-ConnectionGUID: pz2jGJ3pRqu3wdN+yRbKTg==
+X-CSE-MsgGUID: XQO5MhkSQDeKjW2QOyGsbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="59613114"
+X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; 
+   d="scan'208";a="59613114"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 15:19:52 -0800
+X-CSE-ConnectionGUID: HlxSlCs0TSCIaan0QpIjmA==
+X-CSE-MsgGUID: jCEax0NNT1Cswvrw3DHVZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,224,1736841600"; 
+   d="scan'208";a="149607166"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 05 Mar 2025 15:19:48 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tpy1h-000MJ6-2W;
+	Wed, 05 Mar 2025 23:19:45 +0000
+Date: Thu, 6 Mar 2025 07:19:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kevin Chen <kevin_chen@aspeedtech.com>, lee@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
+	andrew@codeconstruct.com.au, derek.kiernan@amd.com,
+	dragan.cvetic@amd.com, arnd@arndb.de, gregkh@linuxfoundation.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Kevin Chen <kevin_chen@aspeedtech.com>
+Subject: Re: [PATCH v2 3/3] soc: aspeed: lpc-pcc: Add PCC controller support
+Message-ID: <202503060750.pkwFWR24-lkp@intel.com>
+References: <20250304104434.481429-4-kevin_chen@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -81,69 +85,44 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250304-rtc-cleanups-v2-0-d4689a71668c@linaro.org>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdeitddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomheptehlvgigrghnughrvgcuuegvlhhlohhnihcuoegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgffeiiefffeefvdegtdejvdfhvdehfedtuddtteeffedvleehieevkeeguedtudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppeejjedrudehtddrvdegiedrvdduheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeejjedrudehtddrvdegiedrvdduhedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomheprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdehpdhrtghpthhtoheptgiftddtrdgthhhoihesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhovghlsehjmhhsrdhiugdrrghupdhrtghpthhtoheprghnughrvgifsegtohguvggtohhnshhtrhhutghtrdgto
- hhmrdgruhdprhgtphhtthhopehulhhlihdrkhhrohhllhesghhoohhglhgvmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhhordhorhhgpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehkhhhilhhmrghnsegsrgihlhhisghrvgdrtghomh
-X-GND-Sasl: alexandre.belloni@bootlin.com
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.0
+In-Reply-To: <20250304104434.481429-4-kevin_chen@aspeedtech.com>
+X-Spam-Status: No, score=-2.7 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+	SPF_PASS autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
-On Tue, 04 Mar 2025 17:05:28 +0000, André Draszik wrote:
-> While looking at RTC, I noticed that various drivers are keeping
-> pointers to data that they're not using themselves throughout their
-> lifetime.
-> 
-> So I took the liberty to drop these pointers and this series is the
-> result.
-> 
-> [...]
+Hi Kevin,
 
-Applied, thanks!
+kernel test robot noticed the following build warnings:
 
-[01/16] rtc: max77686: drop needless struct max77686_rtc_info::rtc member
-        https://git.kernel.org/abelloni/c/6c9405fd2581
-[02/16] rtc: s5m: drop needless struct s5m_rtc_info::i2c member
-        https://git.kernel.org/abelloni/c/afe5f9f94d11
-[03/16] rtc: aspeed: drop needless struct aspeed_rtc::rtc_dev member
-        https://git.kernel.org/abelloni/c/d19111dff9c2
-[04/16] rtc: ds2404: drop needless struct ds2404::rtc member
-        https://git.kernel.org/abelloni/c/1b625aaf335a
-[05/16] rtc: ep93xx: drop needless struct ep93xx_rtc::rtc member
-        https://git.kernel.org/abelloni/c/5d0ad519f503
-[06/16] rtc: ftrtc010: drop needless struct ftrtc010_rtc::rtc_dev member
-        https://git.kernel.org/abelloni/c/a55d44807b63
-[07/16] rtc: m48t86: drop needless struct m48t86_rtc_info::rtc member
-        https://git.kernel.org/abelloni/c/013df5bdf8b4
-[08/16] rtc: meson: drop needless struct meson_rtc::rtc member
-        https://git.kernel.org/abelloni/c/a0470062748f
-[09/16] rtc: meson-vrtc: drop needless struct meson_vrtc_data::rtc member
-        https://git.kernel.org/abelloni/c/38c7aaeab8b8
-[10/16] rtc: pl030: drop needless struct pl030_rtc::rtc member
-        https://git.kernel.org/abelloni/c/3d5d0fe1cb82
-[11/16] rtc: rx8581: drop needless struct rx8581
-        https://git.kernel.org/abelloni/c/3b87c6872aed
-[12/16] rtc: s35390a: drop needless struct s35390a::rtc member
-        https://git.kernel.org/abelloni/c/cd2a7052482e
-[13/16] rtc: sd2405al: drop needless struct sd2405al::rtc member
-        https://git.kernel.org/abelloni/c/d94bc2bbf8d9
-[14/16] rtc: sd3078: drop needless struct sd3078
-        https://git.kernel.org/abelloni/c/6158c6b82444
-[15/16] rtc: max77686: use dev_err_probe() where appropriate
-        https://git.kernel.org/abelloni/c/e6403ae59ce1
-[16/16] rtc: s5m: convert to dev_err_probe() where appropriate
-        https://git.kernel.org/abelloni/c/0c57c2e72c5d
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus lee-leds/for-leds-next lee-mfd/for-mfd-next robh/for-next lee-mfd/for-mfd-fixes linus/master v6.14-rc5 next-20250305]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Best regards,
+url:    https://github.com/intel-lab-lkp/linux/commits/Kevin-Chen/ARM-dts-aspeed-g6-Add-AST2600-LPC-PCC-support/20250304-194530
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20250304104434.481429-4-kevin_chen%40aspeedtech.com
+patch subject: [PATCH v2 3/3] soc: aspeed: lpc-pcc: Add PCC controller support
+config: s390-kismet-CONFIG_MFD_SYSCON-CONFIG_ASPEED_LPC_PCC-0-0 (https://download.01.org/0day-ci/archive/20250306/202503060750.pkwFWR24-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250306/202503060750.pkwFWR24-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503060750.pkwFWR24-lkp@intel.com/
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for MFD_SYSCON when selected by ASPEED_LPC_PCC
+   WARNING: unmet direct dependencies detected for MFD_SYSCON
+     Depends on [n]: HAS_IOMEM [=n]
+     Selected by [y]:
+     - ASPEED_LPC_PCC [=y]
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
