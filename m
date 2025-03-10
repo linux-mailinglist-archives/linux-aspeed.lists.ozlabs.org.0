@@ -1,28 +1,29 @@
-Return-Path: <linux-aspeed+bounces-972-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-973-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DDFA59307
-	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Mar 2025 12:49:03 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08DE5A59308
+	for <lists+linux-aspeed@lfdr.de>; Mon, 10 Mar 2025 12:49:04 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ZBFXr6fdpz2xyG;
-	Mon, 10 Mar 2025 22:49:00 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ZBFXs4ZYNz2y34;
+	Mon, 10 Mar 2025 22:49:01 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1741607340;
-	cv=none; b=iWPY2o5VpaunpT6UQBC8RDZAsXxDJg+7JeSQPA+oAvpGC9aD7MQGImyh0GbqCiV2JDJ48HR8OrnBwBUWnc1cIScU3BUua6lR5xhJ+v2T7F4DRUxvW9YN9dvFkPX2efijJcLrpvT+9OhirbgwoAMfUJABsDf+G04gEzp5inTH2D0LTZPHVtQatu+c9LnM97Ql9MsojXpyVVi5pxECy518U2dwQJ7pXhQuLUM14RFDuVuREoxxKNjf2ux/aeLiHKFlL5NteJdHC91PPVni1uvW4QwE8lwhPAOrhK2/dYZBHqfa1geahTzS6YsprdYQk/je501JeHeR/IcA1TYzKXrDqA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1741607341;
+	cv=none; b=eI8N87WV+/2PS/oLr0V4DhBPmu8LxwDuAvA7CIl2IdlEVSpRB4Ex0j+mL+jPVxlXpqlFZgDjTFPs/ugQ+l5YgI3FZtO86cLUFC+bNwOZFXs3d4lzMZCwt7BBnYky+YBuxmYX+yAeJmNG2VBe4brG5mXGE7udJ/+pvMVRnrSLeoC3k6HtffxfSrK1Xb85KFeBpDoiAgZmADXaFUQ254DT3V7w87AsEhF0s9j7JmXXdUz2NF7sL3lNeuQSaGObIA/g93+NDMQGx9nzR2LVhn3QepqCYPqjQI4SZZYSBnviWWQ4KNnyJn0QIJiMXT4fs2nf70nPVTTmSP6VrlWoFDEcWg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1741607340; c=relaxed/relaxed;
-	bh=fBgOMPb3sMFF5C54e/DJlgrPzxkt70PrHbFBpQ39Ic0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CfwHRkxcFdZeOArKKdkzPpMXBjnS6UNiIJN1ZH3cFvwS8pbOk6QiKzNZoXMgfwcJDa1bgUjRsTODud2pcnxb6eNkAv+0OWBSpRIZIUJE3262htnIXnwTASHziON2Au3bj4pAOUq16PQg4Ey8M+1Xgr7b+D18llLHTF8uVbk2NTXL6/tNsoq4dDAf27P9klyfJB/oBJENBRzklAX8ij57ucqPZyT/2BxtmewalNFb1250KrFzaeAoSo7FsMiVdmPNN3mDcsCNQ2VDAyDiz/3oyxDuZlQhv2+lNtHx7JwZpG8puNLdoH7TF4XryJUtrMFqtGAnpa1bvOBbx9MEV7+OlA==
+	t=1741607341; c=relaxed/relaxed;
+	bh=ZPeOALh8hvdV7JWB8QVZ8vIgqd6Fip8BkDA60r1vc3s=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SdJeyXIKrGwbCm0RE8YOkG60OZgqO+P+pCuqdsqVWrzzs7v1DomZsfhZPaIbbmA3zhsLkyEjmrjjh4TDZyBIlUIt58Wdg7fCguPdjy2V1NSHnlv0M9XH3IEZbI6x6OSiWyXNXdK12ElBhon+SxR/yNG4S+M3kn7Q2ijaoqEann+bbYRK2B5PTxAIdawWu3xO9z8uy2NHJQpS6yqLXpnXBYhmAcZgjshscVGD4tNppOTH9ITnQr1btaz2TUrCG3Za8fcczRRDIOY+9SoKW18/xSB6EpFGcMTdvtHV9VDkRJmn6Srz5JzShNbACrSIGeqlKD+BI+yumnnxp/lKrqb0sQ==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=kevin_chen@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZBFXq747Vz2xpn
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 10 Mar 2025 22:48:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZBFXs0MtPz2xpn
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 10 Mar 2025 22:49:01 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Mon, 10 Mar
@@ -38,10 +39,12 @@ To: <lee@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
 	<linux-kernel@vger.kernel.org>
 CC: Kevin Chen <kevin_chen@aspeedtech.com>
-Subject: [PATCH v3 0/3] Add AST2600 LPC PCC support
-Date: Mon, 10 Mar 2025 19:48:36 +0800
-Message-ID: <20250310114839.3098148-1-kevin_chen@aspeedtech.com>
+Subject: [PATCH v3 1/3] dt-binding: aspeed: Add LPC PCC controller
+Date: Mon, 10 Mar 2025 19:48:37 +0800
+Message-ID: <20250310114839.3098148-2-kevin_chen@aspeedtech.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250310114839.3098148-1-kevin_chen@aspeedtech.com>
+References: <20250310114839.3098148-1-kevin_chen@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -60,29 +63,69 @@ X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
 	autolearn=disabled version=4.0.0
 X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on lists.ozlabs.org
 
---
-v3
-aspeed-lpc-pcc.c:
- -- Add ida_free and fix the dev usage with removing some debug messages.
-aspeed-lpc.yaml:
- -- Add description about the pcc-ports usage.
+Add dt-bindings for Aspeed for Aspeed LPC POST code capture controller.
 
-v2:
- -- Change driver path to drivers/misc
+Signed-off-by: Kevin Chen <kevin_chen@aspeedtech.com>
+---
+ .../devicetree/bindings/mfd/aspeed-lpc.yaml   | 38 +++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-Kevin Chen (3):
-  dt-binding: aspeed: Add LPC PCC controller
-  ARM: dts: aspeed-g6: Add AST2600 LPC PCC support
-  soc: aspeed: lpc-pcc: Add PCC controller support
-
- .../devicetree/bindings/mfd/aspeed-lpc.yaml   |  38 ++
- arch/arm/boot/dts/aspeed/aspeed-g6.dtsi       |   7 +
- drivers/misc/Kconfig                          |  10 +
- drivers/misc/Makefile                         |   1 +
- drivers/misc/aspeed-lpc-pcc.c                 | 440 ++++++++++++++++++
- 5 files changed, 496 insertions(+)
- create mode 100644 drivers/misc/aspeed-lpc-pcc.c
-
+diff --git a/Documentation/devicetree/bindings/mfd/aspeed-lpc.yaml b/Documentation/devicetree/bindings/mfd/aspeed-lpc.yaml
+index 5dfe77aca167..178c151a19ba 100644
+--- a/Documentation/devicetree/bindings/mfd/aspeed-lpc.yaml
++++ b/Documentation/devicetree/bindings/mfd/aspeed-lpc.yaml
+@@ -149,6 +149,37 @@ patternProperties:
+       - interrupts
+       - snoop-ports
+ 
++  "^lpc-pcc@[0-9a-f]+$":
++    type: object
++    additionalProperties: false
++
++    description:
++      The LPC pcc interface allows the BMC to listen on and record the data
++      bytes written by the Host to the targeted LPC I/O pots.
++
++    properties:
++      compatible:
++        items:
++          - enum:
++              - aspeed,ast2600-lpc-pcc
++
++      reg:
++        maxItems: 1
++
++      interrupts:
++        maxItems: 1
++
++      pcc-ports:
++        $ref: /schemas/types.yaml#/definitions/uint32-array
++        description:
++          As a device handshake with a host using the port-mmaped I/O in x86
++          architecture, need to handle specific which port I/O address for use.
++
++    required:
++      - compatible
++      - interrupts
++      - pcc-ports
++
+   "^uart-routing@[0-9a-f]+$":
+     $ref: /schemas/soc/aspeed/uart-routing.yaml#
+     description: The UART routing control under LPC register space
+@@ -176,6 +207,13 @@ examples:
+         #size-cells = <1>;
+         ranges = <0x0 0x1e789000 0x1000>;
+ 
++        lpc_pcc: lpc-pcc@0 {
++            compatible = "aspeed,ast2600-lpc-pcc";
++            reg = <0x0 0x140>;
++            interrupts = <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>;
++            pcc-ports = <0x80>;
++        };
++
+         lpc_ctrl: lpc-ctrl@80 {
+             compatible = "aspeed,ast2600-lpc-ctrl";
+             reg = <0x80 0x80>;
 -- 
 2.34.1
 
