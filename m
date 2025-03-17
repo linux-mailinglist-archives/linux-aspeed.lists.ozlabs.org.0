@@ -1,29 +1,29 @@
-Return-Path: <linux-aspeed+bounces-1020-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1019-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616C9A66254
-	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Mar 2025 00:01:16 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA79A66253
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Mar 2025 00:01:15 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ZGr7G0krsz2yGY;
-	Tue, 18 Mar 2025 10:01:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ZGr7F54lZz2ygm;
+	Tue, 18 Mar 2025 10:01:13 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
 ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1742180385;
-	cv=none; b=VeTEZPFHWHgD1jolzD6RRQTyNH774jer93/xl4uzeLpJLsV0FnWeYuYQ1/123+pcAPc3iJHg/VMyyAjK6xAStuUIpyholmRVl49fAw1BQgpoYtRlDIBGlD6y8cbs7e1xOmMnSbeyJPUYYtFtCK8VTUzB+lbVY9qO1fnIMjIJp0UWc+w0J+AsNTrkS7xyIdDvQAEjYHSpO7YzaUF7vINM9ZfX2DkIZOivxgMxE79xXSLnKnFJwG3aBLnroTtI0O4FUFuNo7KRiGDzXiNokstznLEZB1cLVZz/p2ikiGsQ3a3lx7VvcNyhlHLkHQrs4mVvXM4Ey79v7TQWsZW+5/yhlA==
+	cv=none; b=kXfcb8G80oosrv8qp6h/lmtfMi0kfly5a1Gddz7PyeK8+oIflJfnkeLsdePahGb+VMuYicYS7GBXEQfVDyukX+4hsqeXPfw0xEtjnzyFdD4L8McXk9NYju0csmTGyymPH3ASYOF/OoloTFVYWO7Ct47YkYyObqleNP+19fgBP0O2L1nh+KP3HVpFx1abZt7tYacDsbc6b5suHIt1lHyX8ewPjPvjhMEYsCG/yOHsDzYNZ25oUuh38LQZgiShojNyDx2kwkXHDXU+WnN151BOyMcOjDFZUlbOVmsCGSvoCXo8jQVW7ed5nqSB6J3sYeLmnGSGfasYhVWt3kPwWB6OQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
 	t=1742180385; c=relaxed/relaxed;
-	bh=hbW5gVH0/GMypEjK6NX6CcK7rWry03g6woQ7It58TtI=;
+	bh=pbcumU2ifuiNtuXVGGwdbDs+0MQ0RaTtxOStGoUTBn8=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Suu/tMxyKGIa8CLDv699uCj/PKqxAiqtLkQEbJmxJtd2UJKUOv8If6girnfbwCdtx2y1TQmGb4Qmw3QTMewBLOivC+8WemSUPcAE/G09F/CcXyPf/sH8Ypy3WYgLWAD1Vf0efb/UWPJNG75762VH32sta3268v7vYovXEpwh0/qZoeYO203JmQVYwuRgbdOcVf6DP6zIDYGo/lh89pi/7tktfBC8yZgNvsYE0sABDhlkI1+cNM1N09VpP6lS7LJrs7QX2mcItbFRIDukOWLX30y35kORjMGiivpxQIx7+ExLgRw2jmvuAVXfaiwqpRv4m+WYj+IcjF9QNWHFcaAYAw==
+	 MIME-Version:Content-Type; b=GI0xri8R4ECYW9hEw1YHpf0vjJeLheELM/sYMp8ptmYZkraqjeWDjIYpvhLLDaHq0kaMSPJ0Uef1cbyLBYDjp+jHaNpVk2zf33sYQoUchpcLexgjOoOStPL4qnwvl8T16J9TyfLSdPGNkV54hXqfG2fcTKa9tTewgrPkf9f1Yzv7UrZLqDHnQDIJapy65Dg5jHyMqLfr8zAeITUtLqBI/Do0vtHGO1Ww0yER+Q8nYRdgoE/RH0bbSoncyE2kvjFZQnI9kTERTPbPz6AUTxeSgZ+eSnjfFevcvQZ3jWYpOqjImk0crh0WXl72vrJvDmEMQ9hj2knt+Bc5KUvMa5sygA==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZGKSw5Y31z2yRl
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Mar 2025 13:59:44 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZGKSx31Sdz2yRl
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Mar 2025 13:59:45 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Mon, 17 Mar
@@ -40,9 +40,9 @@ To: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
 	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-aspeed@lists.ozlabs.org>
 CC: <BMC-SW@aspeedtech.com>
-Subject: [net-next 2/4] ARM: dts: ast2600-evb: add default RGMII delay
-Date: Mon, 17 Mar 2025 10:59:20 +0800
-Message-ID: <20250317025922.1526937-3-jacky_chou@aspeedtech.com>
+Subject: [net-next 3/4] dt-bindings: net: ftgmac100: add rgmii delay properties
+Date: Mon, 17 Mar 2025 10:59:21 +0800
+Message-ID: <20250317025922.1526937-4-jacky_chou@aspeedtech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250317025922.1526937-1-jacky_chou@aspeedtech.com>
 References: <20250317025922.1526937-1-jacky_chou@aspeedtech.com>
@@ -64,61 +64,52 @@ X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Use tx-internal-delay-ps and rx-internal-delay-ps to
-configure the RGMII delay on MAC.
-And add default value for AST2600 MAC in dts.
-Refer to faraday,ftgmac100yaml to know how to configure
-the RGMII delay.
+Add tx-internal-delay-ps and rx-internal-delay-ps to
+configure the RGMII delay for MAC. According to
+ethernet-controller.yaml, they use for RGMII TX and RX delay.
+
+In Aspeed desgin, the RGMII delay is a number of ps as unit to
+set delay, do not use one ps as unit. The values are different
+from each MAC. So, here describes the property values
+as index to configure corresponding scu register.
 
 Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
 ---
- arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ .../bindings/net/faraday,ftgmac100.yaml          | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts b/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts
-index de83c0eb1d6e..1db1f2a02d91 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts
-@@ -126,6 +126,9 @@ &mac0 {
- 	phy-mode = "rgmii-rxid";
- 	phy-handle = <&ethphy0>;
+diff --git a/Documentation/devicetree/bindings/net/faraday,ftgmac100.yaml b/Documentation/devicetree/bindings/net/faraday,ftgmac100.yaml
+index 55d6a8379025..c5904aa84e05 100644
+--- a/Documentation/devicetree/bindings/net/faraday,ftgmac100.yaml
++++ b/Documentation/devicetree/bindings/net/faraday,ftgmac100.yaml
+@@ -66,6 +66,20 @@ properties:
+     type: boolean
+     deprecated: true
  
-+	tx-internal-delay-ps = <16>;
-+	rx-internal-delay-ps = <10>;
++  rx-internal-delay-ps:
++    description:
++       Setting this property to a non-zero number sets the RX internal delay
++       for the MAC. Use this property value as a index not a ps unit to
++       configure the corresponding delay register field. And the index range is
++       0 to 63.
 +
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_rgmii1_default>;
- };
-@@ -137,6 +140,9 @@ &mac1 {
- 	phy-mode = "rgmii-rxid";
- 	phy-handle = <&ethphy1>;
++  tx-internal-delay-ps:
++    description:
++       Setting this property to a non-zero number sets the TX internal delay
++       for the MAC. Use this property value as a index not a ps unit to
++       configure the corresponding delay register field. And the index range is
++       0 to 63.
++
+   mdio:
+     $ref: /schemas/net/mdio.yaml#
  
-+	tx-internal-delay-ps = <16>;
-+	rx-internal-delay-ps = <10>;
-+
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_rgmii2_default>;
- };
-@@ -147,6 +153,9 @@ &mac2 {
- 	phy-mode = "rgmii";
- 	phy-handle = <&ethphy2>;
- 
-+	tx-internal-delay-ps = <8>;
-+	rx-internal-delay-ps = <4>;
-+
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_rgmii3_default>;
- };
-@@ -157,6 +166,9 @@ &mac3 {
- 	phy-mode = "rgmii";
- 	phy-handle = <&ethphy3>;
- 
-+	tx-internal-delay-ps = <8>;
-+	rx-internal-delay-ps = <4>;
-+
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_rgmii4_default>;
- };
+@@ -102,4 +116,4 @@ examples:
+                 reg = <1>;
+             };
+         };
+-    };
++    };
+\ No newline at end of file
 -- 
 2.34.1
 
