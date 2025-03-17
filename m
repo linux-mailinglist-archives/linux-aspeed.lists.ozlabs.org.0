@@ -1,28 +1,29 @@
-Return-Path: <linux-aspeed+bounces-1023-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1016-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2D0A66258
-	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Mar 2025 00:01:23 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F652A6621E
+	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Mar 2025 23:56:22 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ZGr7H6WK7z2yqF;
-	Tue, 18 Mar 2025 10:01:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ZGr1X2zqsz2ygm;
+	Tue, 18 Mar 2025 09:56:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1742180383;
-	cv=none; b=MtgiPQtdL9NJfpC8JfOk8zzPm7c+NZrz+FJfJPqtaEByfrKiSbOS0YB7JuCZNAFdIqRlezqQ7qKhFk/enkhDymUWymUmj1RUM3oiJxeev4uHfRGesOZO2FoyHrV27+UjJDq+Glg6+vQGNUDCPbHNyUvLnm6N5jGzJS2WZI9pX3fSWEZHJ/YDKNNzqKpUZcYAGVtDsSFVC6XcWtqJDjw5hUOYy9WWnhJtZSY5zXVD4YVuT1MkrSDgNF3F89LVhwchuCNQqMNSPHpvaxhUQXTTKYoz5PRVZZ7SEd/dk6MRm7/9QgJ48krQEAONBdx2HEvRLeNk1X6s1PRdCH+LDKqCnA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1742180384;
+	cv=none; b=NNvwXutV0rahNvKAfAydTlMk77rAKXPkbMzZWwuN62dSaJPCKkCBrphc2CVpPC3axUGgMes3lxAjmwGM7vy9BhRKIzq1Q/ohwuwtX30vglN/OYdCmPvd1dhjtO6szE8w15roJOxk3ulAkk5zkDebpZqr7HfKiUOEhaLY39awjVNckhjhEgb+9cXTH2ax/f9xaYHMnDF5i1zuQY9zJYtYjnLz3tntzZeVcPw+SBlsOf9aJAXZgU/wi90SycwsOVid/E/Lz2t6pZwu7UziXKNFYxUWHbppUFmmDsYzwDWgs9y9rKmVtlQMkiO08T+XjBfyIwavN6weosloo+jxTtsQxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1742180383; c=relaxed/relaxed;
-	bh=JrPG3yRXJLnLTaeCCT8HAn+1KswtQvNPBpLJfHiZXPY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iz9aERcqOJtO5OeaYAKxrZ7y8MWTZZNtwVWM4B3Tj54MIoHuxY1lVctuqJ1KjCT3BvkldkDRHTtkhs0rV/70QHZSRDLr51Zpy/1qKmlLeBjv0cI8oelKupVTYlfm8IqK22GKLmt1USTeGiCXimvpw4akMwF/d7BMfcM4A5qXnzo3sAQQ6Z1h1b1+oCMXjTeH63vMC0yB08T7g3RAHXiGnhWQ90ynh9D/4v1Dqx5cJmoT9HyvlFuuRGF6KDCMSrY18vV47vR9EI9wB2zNXqnE3/hdGhR0pNAzzfHhh6W5oKU7kKDl1c3OF+ExrdPOQ0p4+3qFCPsI2yT/ArVQG28avQ==
+	t=1742180384; c=relaxed/relaxed;
+	bh=P2mKceTvgTctEbOYK+iHAPv2MI86TCefahm59dGSwEs=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MI3qNvadNr1MdqC0Gat5BBvihZn0Goxq0I8Sf5pK4+4+kf3cRdIIdM+x5izwxN8RxiOwLb+8iTuV0WcLYdSypClosKahBpKDgSZ1Q0WaLamnz+5F9xXxlQg471z/AyhrGZ+aku7P4q5LY1LPELopX8djXC7Znh0/JRo+LOzDORrcq8ZOcH26SrWY0akYEWodV0RmNk/n7yTbuleNVkh48bicbwc7wbX+7TQcLwh56j7VN1jzlNSNNUjXgngeVtFbfUnHpQ/4TR3r6VIHOBrC0+gIT6zBZjdbN00iA58ZNDmM5d6J4EGm1NhejKSSkN5dw3o39ScplegQqTMkiLGW5g==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZGKSt6YhLz2yGM
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Mar 2025 13:59:39 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZGKSw0yhWz2yRl
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Mar 2025 13:59:44 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Mon, 17 Mar
@@ -39,10 +40,12 @@ To: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
 	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-aspeed@lists.ozlabs.org>
 CC: <BMC-SW@aspeedtech.com>
-Subject: [net-next 0/4] Add AST2600 RGMII delay into ftgmac100
-Date: Mon, 17 Mar 2025 10:59:18 +0800
-Message-ID: <20250317025922.1526937-1-jacky_chou@aspeedtech.com>
+Subject: [net-next 1/4] ARM: dts: aspeed-g6:add scu to mac for RGMII delay
+Date: Mon, 17 Mar 2025 10:59:19 +0800
+Message-ID: <20250317025922.1526937-2-jacky_chou@aspeedtech.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250317025922.1526937-1-jacky_chou@aspeedtech.com>
+References: <20250317025922.1526937-1-jacky_chou@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -61,26 +64,50 @@ X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-In AST2600, the RGMII delay is configured in SCU.
-Add the properties according ethernet-controller.yaml into AST2600 dts
-and dtsi, and add these in the ftgmac100 driver and yaml to configure and
-describe how to use.
-Now, just support for AST2600 and the other platforms will be ignored
-the RGMII delay setting according to compatible.
+The RGMII delay of AST2600 MAC is configured in SCU
+register, so add scu regmap into mac node.
 
-Jacky Chou (4):
-  ARM: dts: aspeed-g6:add scu to mac for RGMII delay
-  ARM: dts: ast2600-evb: add default RGMII delay
-  dt-bindings: net: ftgmac100: add rgmii delay properties
-  net: ftgmac100: add RGMII delay for AST2600
+Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
+---
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- .../bindings/net/faraday,ftgmac100.yaml       | 16 +++-
- .../boot/dts/aspeed/aspeed-ast2600-evb.dts    | 12 +++
- arch/arm/boot/dts/aspeed/aspeed-g6.dtsi       |  4 +
- drivers/net/ethernet/faraday/ftgmac100.c      | 88 +++++++++++++++++++
- drivers/net/ethernet/faraday/ftgmac100.h      | 12 +++
- 5 files changed, 131 insertions(+), 1 deletion(-)
-
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+index 8ed715bd53aa..17e979d616dc 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+@@ -236,6 +236,7 @@ mac0: ethernet@1e660000 {
+ 			reg = <0x1e660000 0x180>;
+ 			interrupts = <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&syscon ASPEED_CLK_GATE_MAC1CLK>;
++			scu = <&syscon>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -244,6 +245,7 @@ mac1: ethernet@1e680000 {
+ 			reg = <0x1e680000 0x180>;
+ 			interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&syscon ASPEED_CLK_GATE_MAC2CLK>;
++			scu = <&syscon>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -252,6 +254,7 @@ mac2: ethernet@1e670000 {
+ 			reg = <0x1e670000 0x180>;
+ 			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&syscon ASPEED_CLK_GATE_MAC3CLK>;
++			scu = <&syscon>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -260,6 +263,7 @@ mac3: ethernet@1e690000 {
+ 			reg = <0x1e690000 0x180>;
+ 			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&syscon ASPEED_CLK_GATE_MAC4CLK>;
++			scu = <&syscon>;
+ 			status = "disabled";
+ 		};
+ 
 -- 
 2.34.1
 
