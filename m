@@ -1,28 +1,28 @@
-Return-Path: <linux-aspeed+bounces-1016-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1020-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F652A6621E
-	for <lists+linux-aspeed@lfdr.de>; Mon, 17 Mar 2025 23:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 616C9A66254
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Mar 2025 00:01:16 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ZGr1X2zqsz2ygm;
-	Tue, 18 Mar 2025 09:56:16 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ZGr7G0krsz2yGY;
+	Tue, 18 Mar 2025 10:01:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1742180384;
-	cv=none; b=NNvwXutV0rahNvKAfAydTlMk77rAKXPkbMzZWwuN62dSaJPCKkCBrphc2CVpPC3axUGgMes3lxAjmwGM7vy9BhRKIzq1Q/ohwuwtX30vglN/OYdCmPvd1dhjtO6szE8w15roJOxk3ulAkk5zkDebpZqr7HfKiUOEhaLY39awjVNckhjhEgb+9cXTH2ax/f9xaYHMnDF5i1zuQY9zJYtYjnLz3tntzZeVcPw+SBlsOf9aJAXZgU/wi90SycwsOVid/E/Lz2t6pZwu7UziXKNFYxUWHbppUFmmDsYzwDWgs9y9rKmVtlQMkiO08T+XjBfyIwavN6weosloo+jxTtsQxA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1742180385;
+	cv=none; b=VeTEZPFHWHgD1jolzD6RRQTyNH774jer93/xl4uzeLpJLsV0FnWeYuYQ1/123+pcAPc3iJHg/VMyyAjK6xAStuUIpyholmRVl49fAw1BQgpoYtRlDIBGlD6y8cbs7e1xOmMnSbeyJPUYYtFtCK8VTUzB+lbVY9qO1fnIMjIJp0UWc+w0J+AsNTrkS7xyIdDvQAEjYHSpO7YzaUF7vINM9ZfX2DkIZOivxgMxE79xXSLnKnFJwG3aBLnroTtI0O4FUFuNo7KRiGDzXiNokstznLEZB1cLVZz/p2ikiGsQ3a3lx7VvcNyhlHLkHQrs4mVvXM4Ey79v7TQWsZW+5/yhlA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1742180384; c=relaxed/relaxed;
-	bh=P2mKceTvgTctEbOYK+iHAPv2MI86TCefahm59dGSwEs=;
+	t=1742180385; c=relaxed/relaxed;
+	bh=hbW5gVH0/GMypEjK6NX6CcK7rWry03g6woQ7It58TtI=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MI3qNvadNr1MdqC0Gat5BBvihZn0Goxq0I8Sf5pK4+4+kf3cRdIIdM+x5izwxN8RxiOwLb+8iTuV0WcLYdSypClosKahBpKDgSZ1Q0WaLamnz+5F9xXxlQg471z/AyhrGZ+aku7P4q5LY1LPELopX8djXC7Znh0/JRo+LOzDORrcq8ZOcH26SrWY0akYEWodV0RmNk/n7yTbuleNVkh48bicbwc7wbX+7TQcLwh56j7VN1jzlNSNNUjXgngeVtFbfUnHpQ/4TR3r6VIHOBrC0+gIT6zBZjdbN00iA58ZNDmM5d6J4EGm1NhejKSSkN5dw3o39ScplegQqTMkiLGW5g==
+	 MIME-Version:Content-Type; b=Suu/tMxyKGIa8CLDv699uCj/PKqxAiqtLkQEbJmxJtd2UJKUOv8If6girnfbwCdtx2y1TQmGb4Qmw3QTMewBLOivC+8WemSUPcAE/G09F/CcXyPf/sH8Ypy3WYgLWAD1Vf0efb/UWPJNG75762VH32sta3268v7vYovXEpwh0/qZoeYO203JmQVYwuRgbdOcVf6DP6zIDYGo/lh89pi/7tktfBC8yZgNvsYE0sABDhlkI1+cNM1N09VpP6lS7LJrs7QX2mcItbFRIDukOWLX30y35kORjMGiivpxQIx7+ExLgRw2jmvuAVXfaiwqpRv4m+WYj+IcjF9QNWHFcaAYAw==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZGKSw0yhWz2yRl
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZGKSw5Y31z2yRl
 	for <linux-aspeed@lists.ozlabs.org>; Mon, 17 Mar 2025 13:59:44 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
@@ -40,9 +40,9 @@ To: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
 	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-aspeed@lists.ozlabs.org>
 CC: <BMC-SW@aspeedtech.com>
-Subject: [net-next 1/4] ARM: dts: aspeed-g6:add scu to mac for RGMII delay
-Date: Mon, 17 Mar 2025 10:59:19 +0800
-Message-ID: <20250317025922.1526937-2-jacky_chou@aspeedtech.com>
+Subject: [net-next 2/4] ARM: dts: ast2600-evb: add default RGMII delay
+Date: Mon, 17 Mar 2025 10:59:20 +0800
+Message-ID: <20250317025922.1526937-3-jacky_chou@aspeedtech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250317025922.1526937-1-jacky_chou@aspeedtech.com>
 References: <20250317025922.1526937-1-jacky_chou@aspeedtech.com>
@@ -64,50 +64,61 @@ X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-The RGMII delay of AST2600 MAC is configured in SCU
-register, so add scu regmap into mac node.
+Use tx-internal-delay-ps and rx-internal-delay-ps to
+configure the RGMII delay on MAC.
+And add default value for AST2600 MAC in dts.
+Refer to faraday,ftgmac100yaml to know how to configure
+the RGMII delay.
 
 Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
 ---
- arch/arm/boot/dts/aspeed/aspeed-g6.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-index 8ed715bd53aa..17e979d616dc 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-@@ -236,6 +236,7 @@ mac0: ethernet@1e660000 {
- 			reg = <0x1e660000 0x180>;
- 			interrupts = <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&syscon ASPEED_CLK_GATE_MAC1CLK>;
-+			scu = <&syscon>;
- 			status = "disabled";
- 		};
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts b/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts
+index de83c0eb1d6e..1db1f2a02d91 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts
+@@ -126,6 +126,9 @@ &mac0 {
+ 	phy-mode = "rgmii-rxid";
+ 	phy-handle = <&ethphy0>;
  
-@@ -244,6 +245,7 @@ mac1: ethernet@1e680000 {
- 			reg = <0x1e680000 0x180>;
- 			interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&syscon ASPEED_CLK_GATE_MAC2CLK>;
-+			scu = <&syscon>;
- 			status = "disabled";
- 		};
++	tx-internal-delay-ps = <16>;
++	rx-internal-delay-ps = <10>;
++
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_rgmii1_default>;
+ };
+@@ -137,6 +140,9 @@ &mac1 {
+ 	phy-mode = "rgmii-rxid";
+ 	phy-handle = <&ethphy1>;
  
-@@ -252,6 +254,7 @@ mac2: ethernet@1e670000 {
- 			reg = <0x1e670000 0x180>;
- 			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&syscon ASPEED_CLK_GATE_MAC3CLK>;
-+			scu = <&syscon>;
- 			status = "disabled";
- 		};
++	tx-internal-delay-ps = <16>;
++	rx-internal-delay-ps = <10>;
++
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_rgmii2_default>;
+ };
+@@ -147,6 +153,9 @@ &mac2 {
+ 	phy-mode = "rgmii";
+ 	phy-handle = <&ethphy2>;
  
-@@ -260,6 +263,7 @@ mac3: ethernet@1e690000 {
- 			reg = <0x1e690000 0x180>;
- 			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&syscon ASPEED_CLK_GATE_MAC4CLK>;
-+			scu = <&syscon>;
- 			status = "disabled";
- 		};
++	tx-internal-delay-ps = <8>;
++	rx-internal-delay-ps = <4>;
++
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_rgmii3_default>;
+ };
+@@ -157,6 +166,9 @@ &mac3 {
+ 	phy-mode = "rgmii";
+ 	phy-handle = <&ethphy3>;
  
++	tx-internal-delay-ps = <8>;
++	rx-internal-delay-ps = <4>;
++
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_rgmii4_default>;
+ };
 -- 
 2.34.1
 
