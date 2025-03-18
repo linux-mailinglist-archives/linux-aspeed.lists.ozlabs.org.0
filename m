@@ -1,96 +1,51 @@
-Return-Path: <linux-aspeed+bounces-1057-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1048-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA70A6806E
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Mar 2025 00:06:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD21A67FBD
+	for <lists+linux-aspeed@lfdr.de>; Tue, 18 Mar 2025 23:26:14 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ZHSBb02bLz2ydl;
-	Wed, 19 Mar 2025 10:06:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ZHRJK4H8dz2yfD;
+	Wed, 19 Mar 2025 09:26:09 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:2413::611" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1742325320;
-	cv=pass; b=MuVBZrHe6+vpKIHhKgp9yETD5ySu60sdaoTNis9QpLjun/oFDHP6S/bYWlVU1jNmx3Sys/ibJ+Zf25sTM6c3TfYBy9GA4gS6Bowe0sRF3jLTxxl7YeVnh8kJQZtJQrmqBJ5TBbemfirCP0W9LNK+kbm0UqZvzMtGSnC8JfEO9cmz6hfPGdkONko9yquB0jkHleSrNZEH01ykWPJtcdIC25GsrGVVWRGSobo/ySgwTfFCNkzeLiFh/kv721CC0YH/opCmMztU7yTqB0UYo8Y2BlP/+1vgbLYtfaVpGEFSbZASCh45BWb8+u9VIan/yZ2HateSdEmnr8BDaB746R9Kig==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1742325320; c=relaxed/relaxed;
-	bh=/5zRHRwCZFkA4jCPjEZYJbooEOe13KKO4TxrGdRKZ20=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BSUkyjtEVngsO1FyrjH9T98W96SBSvteZmGQVd09fWxmeeDnWZCKVCfgwdZg+JgutWXWuffavlKm5si0jevlrZE7jU46TzEgO1gQKUW+oKjbklDjuk76AzPdI4qZmXGW1KWNYcZLGAR7ImvRka7U5mDprGE3qFrvB2gV9/vI94R+R64vzyZtffqB9wg+CPuc9Kfo6b+26OcIb69tQyq17fkDPdEEELe9xCBCwyVNhDtfCD36KICmCP1cX0KKWbxC/UEdo/dBI2su+Pn85bb2C+R0JXqHSefPL48glSMzYTe4tFyDmOjrIin7+HseaeyMq4y9O20SJmFjffaOWIKD4A==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=hDN/gZK+; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:2413::611; helo=nam10-dm6-obe.outbound.protection.outlook.com; envelope-from=wthai@nvidia.com; receiver=lists.ozlabs.org) smtp.mailfrom=nvidia.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1742336769;
+	cv=none; b=n1YAHKSu72q3dTj1Z7DbS3h7NwgcVyBrzSdO2u1eIeImYYrfOGuv19BI4eB+r4UAj7EVAq554EeyTDY42ZLuXoaJj257OOVURn+Idb1zVVJpzLAvo+BAbJ+S3Fr4UtzLTBJ6aG9xqeH9XdJrzdTprrkcr5GnkUB6ftIDD/8pbt07TUFur9ueHxxS5n8+b9rdD3Oc4WCOfUg118asN06XBQmWZUl2jaeEfEkpojZuJKjD00avuyh912gVsLC8sbq3Osy2awssHp4pg2IvnkxvkOpIHY7S5uy9aQ5l9LYHKQprZonMDHMWI6THfFsvpYOAQ2uqkLpuOpuiGmHtvy0u9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1742336769; c=relaxed/relaxed;
+	bh=h3uEdIuRxl+Q+F0FDM8U62MjnbgQpY6QxH2rF42s9Tc=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=EJT8uE9cIbPOhe6lQRvqTpQwCFGI2tId09nbcACOWXusFjSEB6zAZFcBQDNzXhzvIXdbbsLcM2i0EjWG5o4FecMcnuHdZHGpzIedq/KXadvtruvC57Rm8DdGRBgl13BWh/lrbFlVArlYXbqFlLUC/faQewJ/v57QJ99oRAPQ6BNJQ/ZBgprBZR1kfZ0DKhDqaU3pGy82ECWX8enRaUvYja7sfpJkt0LX+b7RJ5j00Zo3IlKby9LTFLTTUAbqWfDa+My2IDeEV5R7YZ85m7rGqBEwcpAuNlo8vOMMty9vjKmcg06xym2sykN0eH4XNv1L93fRXgUIUHTExtumQUUvMA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=vH88LQLf; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=hDN/gZK+;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=vH88LQLf;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=nvidia.com (client-ip=2a01:111:f403:2413::611; helo=nam10-dm6-obe.outbound.protection.outlook.com; envelope-from=wthai@nvidia.com; receiver=lists.ozlabs.org)
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on20611.outbound.protection.outlook.com [IPv6:2a01:111:f403:2413::611])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZHM463wKnz2yMh;
-	Wed, 19 Mar 2025 06:15:18 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Uk9PVS/rPh1c1B5S2VzbAc/opGFs/qOGbKoFvmC+GAhkUlfUAHeJEaTYKCiOe7pkKsl5yKNF1QdON0K+XssZB7oA1WVPUnDtlFG1ymzrKSWo/ht0kDFFi5aoKp0S2lqZcBiQScEAI7+HvuiVesxY/FuCNPzTQFgRY55s3uFBtfZgsYpY9NPrg8L3fbXFu4nEd9tm2YYz0Xk368bx0SE17J8uWIiMYuLG+DlRYyn1YoYc2TJQ/iLrxrvCzaG7JQZf9pe9KdytnXYArA2FL5f2zvE+C2bFk3YbazgDm8MIqmJYavCYsiMLPyDfCTZ269wpz/QbIN6sA7SXWr0SeWnIcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/5zRHRwCZFkA4jCPjEZYJbooEOe13KKO4TxrGdRKZ20=;
- b=xDcXO/9jA5YH5b3rs0ayeI9IaxXI56cchw1TH+WpfiyFmNgkyNwHQoKZG/n6M/B3L/01KcaMGpFcYOjj+KE2469nhmhOgzDtoPRp/pxTprRznAKn7DxkYmiN/M39+6SKcYiobuL5EQKBzCZbjvwrByPS4a3clvauiBneKXwFHZTFmpRDDPQojMA+mmc+OIB+7Y2s59u/AosgYUYIXxvTxf1dnzwY5yrqZUvjvueHzDCBItB5JneJyDIbowR4mA7eNSPTVkQd7gk5/IWav8DzsaJmdvSC62IloUHJ14XGR9AH92DE1dDOv75e8Tun0InvWeeihwBAUIY/XaOUQstVKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=lunn.ch smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/5zRHRwCZFkA4jCPjEZYJbooEOe13KKO4TxrGdRKZ20=;
- b=hDN/gZK+wHEAlxiuBTZ7W7N2QDHS4ZfhYlVA6cqE0mb4LJAMpq1f3p/AxMpmRMAYFChPYA5+I5DafBPmaDjiZYPM8rGTmO4CclplSBNt3u5PT56CN3MlwcyC5g/68Wc2Pm4tRZpzhgEKj21EhWKV/WJ98vMxUTGWtMffH0uLZHeupGew5adjedAT3mq+4I/ToC8A167cxOhRya2IzzI6cp48pTxUCQTEjPDO0N0pgsUzF9n24qHiQev+3fCbw8lcKzuRe8JEetew8QxyGDKjcjZe27kfSNxzWveOQmO+xz66YohQrZHna4X5GpFS+RLqW+5jEeZLqEcICiZKlrZFTQ==
-Received: from BY1P220CA0002.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:59d::6)
- by LV2PR12MB5725.namprd12.prod.outlook.com (2603:10b6:408:14c::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Tue, 18 Mar
- 2025 19:14:52 +0000
-Received: from CY4PEPF0000EDD0.namprd03.prod.outlook.com
- (2603:10b6:a03:59d:cafe::4d) by BY1P220CA0002.outlook.office365.com
- (2603:10b6:a03:59d::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.34 via Frontend Transport; Tue,
- 18 Mar 2025 19:14:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CY4PEPF0000EDD0.mail.protection.outlook.com (10.167.241.196) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8534.20 via Frontend Transport; Tue, 18 Mar 2025 19:14:45 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 18 Mar
- 2025 12:14:25 -0700
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 18 Mar
- 2025 12:14:25 -0700
-Received: from willie-obmc-builder.nvidia.com (10.127.8.10) by mail.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server id 15.2.1544.14 via Frontend
- Transport; Tue, 18 Mar 2025 12:14:24 -0700
-From: Willie Thai <wthai@nvidia.com>
-To: <andrew@lunn.ch>
-CC: <andrew@codeconstruct.com.au>, <conor+dt@kernel.org>,
-	<devicetree@vger.kernel.org>, <dkodihalli@nvidia.com>, <gpiccoli@igalia.com>,
-	<joel@jms.id.au>, <kees@kernel.org>, <krzk+dt@kernel.org>, <krzk@kernel.org>,
-	<leohu@nvidia.com>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-aspeed@lists.ozlabs.org>, <linux-hardening@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <maryang@nvidia.com>,
-	<openbmc@lists.ozlabs.org>, <pmenzel@molgen.mpg.de>, <robh@kernel.org>,
-	<tingkaic@nvidia.com>, <tony.luck@intel.com>, <wthai@nvidia.com>
-Subject: [PATCH v3] ARM: dts: aspeed: Add device tree for Nvidia's GB200NVL BMC
-Date: Tue, 18 Mar 2025 19:14:24 +0000
-Message-ID: <20250318191424.4161850-1-wthai@nvidia.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <9ccc845b-9392-4a37-8bca-4f54997126ce@lunn.ch>
-References: <9ccc845b-9392-4a37-8bca-4f54997126ce@lunn.ch>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZHRJF2BC5z2yKw;
+	Wed, 19 Mar 2025 09:26:05 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 923705C576C;
+	Tue, 18 Mar 2025 22:23:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9641C4CEDD;
+	Tue, 18 Mar 2025 22:26:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742336762;
+	bh=S6b5tIyxlL76u1HOEUbmL4KypMzP2/sfBQnAeEgV4RU=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=vH88LQLf31YVWkb5Yw4PRmYINlIm3tAWuqJCgXRhA4sbkwSx9IHurH2qbOT3s5+jH
+	 ZHjb6d1VzDNf5fiEgUk2x/tBaCP6KNvvCJV2PMpmpLYNC3uDzvVqECJ+JYuvKHN3Tp
+	 /wdeGE2L93vnrUZlqqV3sqkdgM9o5QLyTWqIajdjELmK3/KipC0Trx0af8rwRiMutb
+	 TKF2mNWygZfYbcQhhsbHyz1FZZNYhDOH5o7B4+bi0Uk7X4mHp5Ld914n9Yu/w3GFQ5
+	 8sWJ8emRGJK18PpMXTc0GWuM6hAbHKACNjWhH36X1dM2GfrDi3RWtLipoMtUbCa4s1
+	 EInLireOG+/dw==
+Date: Tue, 18 Mar 2025 17:26:00 -0500
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -103,72 +58,103 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD0:EE_|LV2PR12MB5725:EE_
-X-MS-Office365-Filtering-Correlation-Id: f9522779-8dcd-42a4-66ed-08dd665124bd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|30052699003|1800799024|36860700013|82310400026|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?w6CMQReyxmjbUj6PtdUdrE9y73y4BEZpqVe/j9zxLIRwp8QcpjOYVKtL62Bw?=
- =?us-ascii?Q?kwhU+ifdYS8++ShMVrhhvN8rSIBngI2+kYsNLAScihCZKi2FZHKfVCAG4A3l?=
- =?us-ascii?Q?WKNSbLc03emBvv7W3XGQoDOs/Fn37HZylXhO24oEdbbDcri1JJVpqFXZarMQ?=
- =?us-ascii?Q?HQ8XAPJWtqxECRAWqH8GLqEiz/o82xFmoKIh0Mga6t5PKsyP4G/V3iSePyfx?=
- =?us-ascii?Q?yCTZKSq2H0mqk7hnAjzbLtR5eFwkZ7O7cykwzmO4zO1FTtdM01nH4Q2hPxVT?=
- =?us-ascii?Q?2boCc47lTUmcYcKYu+663iIyQDXKVbScyLYYi+Xv3V7Caz0aegiIZWlAsxNC?=
- =?us-ascii?Q?DMsC00pBOQy75apDFDTDnbnvCbsZPuTBKxoWwpCeuppFuwJobSa6RGkXFle2?=
- =?us-ascii?Q?Afx23teSAKuFo8ricok/eTRp3yoa7z32GOnwnMNuK3POrB5zOE3Bxt9r76ZO?=
- =?us-ascii?Q?hpeBLqsIgbp00JNepJUIaBgm65s7XtPUrBJLeb0m9w/AH7LQ3ghUwGBo3Wmu?=
- =?us-ascii?Q?HLftbjPrYbL8egYtQN+2RjY6ExZy37ALb0TeglVFa4abMHCXOkracxcxuBQx?=
- =?us-ascii?Q?qNgzkEtDdeTQKCDyZejPyvYUAHP+MuOyNBHvnH16vsKORalUBsvNqcNCOIne?=
- =?us-ascii?Q?a50aKmAwqNHNFT5MSPKC7P/Zbdr+HvPxodnQprYyfmk7s7x+PwORpwDRlTO4?=
- =?us-ascii?Q?orY+W5lgx+itBl8dFvd9N/jo3kdmWV7WqCS5U0kvQwT9cowXnMne8+H653y/?=
- =?us-ascii?Q?NZ3kojbZWA/i5elfE3tLxKWlJZ5j8DKa3sZUsq/35aRkwQOP5DHXoS4YQcD8?=
- =?us-ascii?Q?8wLNMxUu8k3DdYmmDif6YlZO4xwAUwT3kAxXgJw9otYpWmhSNfwe6Tc747Do?=
- =?us-ascii?Q?IQf33wUH9tvF1uDfXtJ269mpFRE+S3+r/rT+FXfcjJd8XrB/TMCKLDmBaYMI?=
- =?us-ascii?Q?64YbqI4YU6deOf/UtHoBiU9Ej/QUbZW9vPyNWiC7XmUFqVW4jz+2p48yIJrw?=
- =?us-ascii?Q?Ozt/J9cxzI+GgTzXZdwoM6FfPTLObWHe6Kv22h+7SisxKM1NgKblauBHEsv7?=
- =?us-ascii?Q?71BMx8CSABo2iYD/DadNXDOzKnRBMDkv8zoCdBbULVoTI/XUBJTjtjGzaBPm?=
- =?us-ascii?Q?+FZTwIaf1OcQwbYhiGTPxajYcTLo5fwxbrzOBAVwhlPCnRTpJoDzCElc6DW8?=
- =?us-ascii?Q?ENXk6tAwxCgZPvreeCkBOVivYOM4DfBrjDW/bwy7xQrnL5wbeXIaVrLbD5X6?=
- =?us-ascii?Q?xX59ivHN4aZ5v9WwEogF+XIwFoWbQOobe0nJQUfrhO61IR69+4NJSaMNa3UT?=
- =?us-ascii?Q?U4P6+/7Ltz7vkQYmHSbzLRo/SS1tki63kjoBQ1QF57jCoqZO6g+IPiyw3UZg?=
- =?us-ascii?Q?ujG6CDk+xLJ3d9nGKIOFh0QkzeI4NGpWG76M3XNnctYTScDLu44EsLhsSP0g?=
- =?us-ascii?Q?Wbl+fKEt6DBO7MVrNw5Z+vL3mdpv50FheYtaX2GQ2fcLNsQP+NxuCg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(30052699003)(1800799024)(36860700013)(82310400026)(7416014)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2025 19:14:45.0161
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9522779-8dcd-42a4-66ed-08dd665124bd
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EDD0.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5725
-X-Spam-Status: No, score=-1.3 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	SPF_HELO_PASS,SPF_PASS autolearn=disabled version=4.0.1
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: joel@jms.id.au, andrew@codeconstruct.com.au, robh+dt@kernel.org, 
+ openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, jothayot@amd.com, 
+ linux-aspeed@lists.ozlabs.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ devicetree@vger.kernel.org
+To: Rajaganesh Rathinasabapathi <Rajaganesh.Rathinasabapathi@amd.com>
+In-Reply-To: <20250318174730.1921983-1-Rajaganesh.Rathinasabapathi@amd.com>
+References: <20250318174730.1921983-1-Rajaganesh.Rathinasabapathi@amd.com>
+Message-Id: <174233663954.4094319.18412685456723022993.robh@kernel.org>
+Subject: Re: [PATCH v4 1/2] dt-bindings: arm: aspeed: Add AMD Onyx BMC
+ compatible
+X-Spam-Status: No, score=-6.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+	SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
->> +&mac0 {
->> +     status = "okay";
->> +     pinctrl-names = "default";
->> +     phy-mode = "rgmii";
->> +     phy-handle = <&ethphy3>;
->> +     pinctrl-0 = <&pinctrl_rgmii1_default>; };
 
-> Please read the discussion again. "rgmii" is probably equally wrong as "rgmii-rxid" you had in v1.
+On Tue, 18 Mar 2025 12:47:29 -0500, Rajaganesh Rathinasabapathi wrote:
+> Document new AMD Onyx BMC board compatibles
+> 
+> Signed-off-by: Rajaganesh Rathinasabapathi <Rajaganesh.Rathinasabapathi@amd.com>
+> ---
+>  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-> Please talk with Aspeed and ask them the clean up the mess they made with RGMII delays. Until that happens, adding this node should wait.
 
-Thanks for your feedback !
-Talked with Aspeed SOC vendor, will skip this node in the next patch version till the delay issue get resolved.
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/aspeed/' for 20250318174730.1921983-1-Rajaganesh.Rathinasabapathi@amd.com:
+
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: timer: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: bus@1e600000: compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: syscon@1e6e2000: 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^silicon-id@[0-9a-f]+$', 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: /ahb/apb@1e6e0000/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: /ahb/apb@1e6e0000/syscon@1e6e2000/interrupt-controller@560: failed to match any schema with compatible: ['aspeed,ast2600-scu-ic0']
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: /ahb/apb@1e6e0000/syscon@1e6e2000/interrupt-controller@570: failed to match any schema with compatible: ['aspeed,ast2600-scu-ic1']
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: /ahb/apb@1e6e0000/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: adc@1e6e9000: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: adc@1e6e9100: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: crypto@1e6fa000: 'aspeed,ahbc' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: sdc@1e740000: sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: sdc@1e740000: sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
+	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: /ahb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: /ahb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: /ahb/apb@1e780000/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: lpc@1e789000: lpc-snoop@80: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: lpc@1e789000: reg-io-width: 4 is not of type 'object'
+	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: kcs@24: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: kcs@28: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: kcs@2c: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: kcs@114: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: /ahb/apb@1e780000/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: /ahb/apb@1e780000/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: mbeeprom@50: $nodename:0: 'mbeeprom@50' does not match '^eeprom@[0-9a-f]{1,2}$'
+	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: mbeeprom@50: Unevaluated properties are not allowed ('$nodename' was unexpected)
+	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: fsi@1e79b000: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: /ahb/apb@1e790000/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: fsi@1e79b100: compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
+	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: /ahb/apb@1e790000/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
+arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: /ahb/apb@1e790000/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
+arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-nf5280m6.dtb: /ahb/apb@1e6e0000/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2500-gfx', 'syscon']
+
+
+
+
+
 
