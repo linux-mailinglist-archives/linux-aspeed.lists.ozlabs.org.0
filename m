@@ -1,61 +1,63 @@
-Return-Path: <linux-aspeed+bounces-1090-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1098-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA81BA6B081
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Mar 2025 23:13:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94582A6B25E
+	for <lists+linux-aspeed@lfdr.de>; Fri, 21 Mar 2025 01:39:44 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ZJfwR3yJ2z30Bd;
-	Fri, 21 Mar 2025 09:13:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ZJk9V11Vkz2xmZ;
+	Fri, 21 Mar 2025 11:39:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1742508791;
-	cv=none; b=ZKNksPPGCLMnzIzCyIbrjwDC790EPkzuSgwaxxZzcnMABzqJMoEW109aZ/geAw/0Mwufvvc8HphyCYS7g6WDCYNaR0Bx9iCPGndqBX13FQeSFBgb2RieZGhJC+fRLnjzjcDcFEp3mtljCZeZhIsPdbWCUwSbFf/tNmi5xMy5bT9N6PPKa4JKB4ygc2BZO/86v3ds4pqfSwI+jXEjSWuCuVom08YOJ9x76zrmBOHoJrQ0beOW4wPR7J5BVq8ZxCP+MQoCByQy6ak/D22HvVJot58jQaFIrwc21Y+vM8YXCWdnad0iKUl73ilUoFlX0Pcdv7gGKDm/HJmb1i6A8RvOVQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1742517582;
+	cv=none; b=T3Nh8DqhUFqT08/bM7xALFc7E1njyvkZTXUetdN0X6PDFls2Iw+MzrPzgVP+Typ+GJikT6RlaCkhTQtNNEGX0Dd1aboUG6oT6H88EUzTBnp3Uma2M3WurxfNxvhK2XFdmE4P7+WCCgISevk2NOsICdXZVm6o2DtSY1qIElVn2fC7STMADIp33OwFYZZYieWSh6DPZ1W7J36MgO7cVIskXIAaedQ1l5oToZuyX91eDmCdlfIk25d9MI8doElcS4oW/CguOKbB/h7kAPDKSf8vVk4dNHlajoaj1YowT81so1KfDD0g7NWjKrT2uIdJLss1xN4I4wR+/wYpAysLsrmfzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1742508791; c=relaxed/relaxed;
-	bh=JMPcFOn4UwYXter5dbI+9cINmWX56V1KwEkN69pNmGE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jdb6cpomTqqquPAxMjooGZ5O/V0h06qobDyjDS8CeWXSTSpKpLZUJzvR0acMeSmqP4+Sl6JqU/LShJ7TEfQT+L7bVsSHk4GLjI93DwHTpNOvMvQX9DJ/TdN1z1cmxLyH/F2F3+QL8bmmls2YSAm6MdKsIQwJ00OuN1o/nOEtqGvueIhmXHa4S7VSNS5CQMzZxNwJMH/8xizdLVFqp1m/RKfDKm2emWoX+OPhSMQyvzt3YcssnX3PRv0jcT8DncbpQ+/zhXzE5WNnFAwOIRr178qKzBjsqtRpjNfmwDkF2K6M8QnNX5p3haKS+jnB2LpCEU6ZSWbXQDx0fVaKhoStyw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=IUOSq3fe; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1742517582; c=relaxed/relaxed;
+	bh=81e5U12yQNl/T/++JQb1aWg02Oq1JzXIwoKQeuPOf/Y=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=V//SZ9mUng+is5IYO4GAOVJTXqpgGjv/g7MMUQPq4Y2GH0Nf2pC0PD8cEHfvLpPivatZgLNySS7QdWqzNs1iy7O07W1X7mlyEwWctqwjxpAwq4R8c8q6yH6IjJ2q73wdA/M7pyeg8kj8Ktwhc+mL/1Rm17XzNUnsC8+wtWa087F+eLwVSHj+lH3EjkBTJ4rPyqsTpsaCmzSgDk1jTME/wnS9aqkTM6rzrotG3svGfpm4TI+pf1cYGkWJvnQPEYZTbFwPDFWPHVnBM+HITaQGt14G+qxZnDxPV1C4J3oGQn/W0huUllNUMxsQB609Qimuc6gV0eNj0KsnBfpocuxPnA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=hNvtqjzo; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=IUOSq3fe;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=hNvtqjzo;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=andi.shyti@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZJfwQ6X5kz309v
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Mar 2025 09:13:10 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id E00FF6159E;
-	Thu, 20 Mar 2025 22:13:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5B68C4CEDD;
-	Thu, 20 Mar 2025 22:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742508787;
-	bh=M7qrseV6fB8Hed0ymLja/KLmZm6erUG8Gh3U6YrkLzA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IUOSq3feRUEOLLgSW7vUdrZ3wJPw87ZS4Toe3mUkTuhPH5XGp5YVvt9gMvIKPX1kf
-	 YB7nJQHtbQ5nu9G55CeNT0kxzrAPHXQc6s5EhvFJ1gz2Kkh1uUBY/OTAN2uMsOj8/D
-	 idKvcye6uePTP1C5zBx7UOvTb7aTTKcUFX0H+2gb9MvfDN0ybup9S0jlbU1OwxxALL
-	 QxHt8OlRrBIWUsskCpfVvS/58obwwGLzRf5ks1sVtktni2nzjB/oOZg0xuKogerK2w
-	 bbBC6i+/gQDKT154qksc8V0s86kNMrgFIUxyzzt94+lXxqcL5qzaaya7EV/tYeUcQn
-	 3ufYvYPor93WQ==
-Date: Thu, 20 Mar 2025 23:13:03 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Potin Lai <potin.lai.pt@gmail.com>
-Cc: Brendan Higgins <brendanhiggins@google.com>, 
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, 
-	Rob Herring <robh+dt@kernel.org>, Rayn Chen <rayn_chen@aspeedtech.com>, 
-	Patrick Williams <patrick@stwcx.xyz>, Potin Lai <potin.lai@quantatw.com>, linux-i2c@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] aspeed: i2c: add clock duty cycle property
-Message-ID: <jcznjekoig6n5jtispbgxn6ingzteodwb5lib77evsvvufldoh@ia57mjlvie5k>
-References: <20220610054722.32229-1-potin.lai.pt@gmail.com>
- <20220610054722.32229-2-potin.lai.pt@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZJk9P0G7Tz2xd2;
+	Fri, 21 Mar 2025 11:39:36 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1742517572;
+	bh=81e5U12yQNl/T/++JQb1aWg02Oq1JzXIwoKQeuPOf/Y=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=hNvtqjzoDLk8nMsNRAwLiBQBq+A/jaZLOBJz+AKXu7nVybKAhi3bpWyAN3UwvUAb8
+	 X7W18/K0L0z19l88HAz/Q+IzcU8f5p+yOmbFKNjjC/Vr6SM/ECKFUy1ENppiVPOAp/
+	 ls5fZFHmu4slQdo12PDCxxBwT5rPrsOrlZ17+Ww48dGtZIE59RQ/1bEcHzhclY2HU8
+	 524k15wq+Y3mMZNo+dFMqrzObb2BHGo0BTtsJ1wRv4OL3ScntyzPkIbI6NMg+wO5DT
+	 PuIlnqy0QducLALaoV3cHepsDSaDVxG96w28MCkSn5/NUiqE6ORZLXIuI0PM9Lhd3U
+	 Y+ASm+H464Yfg==
+Received: from [192.168.68.112] (unknown [180.150.112.225])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id B61B17A4E7;
+	Fri, 21 Mar 2025 08:39:30 +0800 (AWST)
+Message-ID: <158f6e8e6c41250d6b88c5f2b5dc6df5d728222b.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v4 1/2] dt-bindings: arm: aspeed: Add AMD Onyx BMC
+ compatible
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Rajaganesh Rathinasabapathi <Rajaganesh.Rathinasabapathi@amd.com>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>, joel@jms.id.au,
+ robh+dt@kernel.org,  openbmc@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org,
+ jothayot@amd.com, linux-aspeed@lists.ozlabs.org,  krzk+dt@kernel.org,
+ conor+dt@kernel.org, devicetree@vger.kernel.org
+Date: Fri, 21 Mar 2025 11:09:29 +1030
+In-Reply-To: <174233663954.4094319.18412685456723022993.robh@kernel.org>
+References: <20250318174730.1921983-1-Rajaganesh.Rathinasabapathi@amd.com>
+	 <174233663954.4094319.18412685456723022993.robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -68,29 +70,53 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220610054722.32229-2-potin.lai.pt@gmail.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Hi Potin,
+On Tue, 2025-03-18 at 17:26 -0500, Rob Herring (Arm) wrote:
+>=20
+> On Tue, 18 Mar 2025 12:47:29 -0500, Rajaganesh Rathinasabapathi wrote:
+> > Document new AMD Onyx BMC board compatibles
+> >=20
+> > Signed-off-by: Rajaganesh Rathinasabapathi <Rajaganesh.Rathinasabapathi=
+@amd.com>
+> > ---
+> > =C2=A0Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+> > =C2=A01 file changed, 1 insertion(+)
+> >=20
+>=20
+>=20
+> My bot found new DTB warnings on the .dts files added or changed in this
+> series.
+>=20
+> Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+> are fixed by another series. Ultimately, it is up to the platform
+> maintainer whether these warnings are acceptable or not. No need to reply
+> unless the platform maintainer has comments.
+>=20
+> If you already ran DT checks and didn't see these error(s), then
+> make sure dt-schema is up to date:
+>=20
+> =C2=A0 pip3 install dtschema --upgrade
+>=20
+>=20
+> New warnings running 'make CHECK_DTBS=3Dy for arch/arm/boot/dts/aspeed/' =
+for 20250318174730.1921983-1-Rajaganesh.Rathinasabapathi@amd.com:
+>=20
+...
+>=20
+> arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: mbeeprom@50: $nodename:=
+0: 'mbeeprom@50' does not match '^eeprom@[0-9a-f]{1,2}$'
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0from schema $id: http://d=
+evicetree.org/schemas/eeprom/at24.yaml#
+> arch/arm/boot/dts/aspeed/aspeed-bmc-amd-onyx.dtb: mbeeprom@50: Unevaluate=
+d properties are not allowed ('$nodename' was unexpected)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0from schema $id: http://d=
+evicetree.org/schemas/eeprom/at24.yaml#
 
-On Fri, Jun 10, 2022 at 01:47:21PM +0800, Potin Lai wrote:
-> Introduce i2c-clk-high-min-percent property for setting a minimum clock
-> high percentage.
-> 
-> This driver calculate clk_high and clk_low with giving duty cycle. If it
-> could not find a suit clk_high and clk_low, it apply default duty cycle
-> 50%.
-> 
-> Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
+Rajaganesh: Please fix these warnings before you send v5.
 
-if you have still interest in getting this patch applied, may I
-ask you to please resubmit it?
-
-Thanks,
-Andi
+Andrew
 
