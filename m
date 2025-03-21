@@ -1,73 +1,75 @@
-Return-Path: <linux-aspeed+bounces-1120-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1117-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB528A6D22D
-	for <lists+linux-aspeed@lfdr.de>; Sun, 23 Mar 2025 23:46:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CEE8A6D22B
+	for <lists+linux-aspeed@lfdr.de>; Sun, 23 Mar 2025 23:46:19 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ZLWWR09M3z2ySm;
-	Mon, 24 Mar 2025 09:46:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ZLWW93L8hz2ySm;
+	Mon, 24 Mar 2025 09:46:13 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::62a"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1742560785;
-	cv=none; b=mz12oViuqIunJ1WHGYZpUy5MBF+z1yHL4/lB/t10VgXQM1TM+yhiZlR/tn1zpyhgjRWRoAXGAp+rfnSKgRavEkMBu9yY6X1/DXHQ+7j+/wfbftffztQzIz+F/1bUywrmM0DsMv9h9RCswLmQ3masbWd6c9vPJ7+iAm44IAjyyuuIquGSIUIwZLaDhiHkrVanDaX1xYfRz3Z1QtwqdV79L70KWyx3y6oU6Aww2KpQ4t9k/H/BtTHgzY1Z54X7Wvmz1KgITnX76z9XTYee3QH1c0ViCwDsNo/7Jqjj4kGiCjtlX27gcmhBLbvR7b41iq1IjIMwPKhx9sWdNFJ7UsacwQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::62c"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1742560884;
+	cv=none; b=cr+QcNCNuC4WYhAbIG2bNtLNci+uWuDJLA409jABAfdN3YCc0xZIJZC2gzgihXaAqlBgKUH+TI1ZRzdzuzenmcMgmjwKp71p+LlkPMFiGPxMgGr4DuUK0ZH8Ttm8B8oLF8vMRPlOKez5RYg4t0N6eVPBlMLmB+V3B3XDeDV7XNzh0xcyV1Z0LEY1wc1Co5FoLbXG2hurgA47/sPTRxA5/MDBoQVYasAjyQWyfZnENPzLwRX1PxSwWYlqiLfRnJYsl+OVXF+MpHFlkh8UVYFnhJu6ogIo+s21r6oPcNLuRGRDD7guZa7YEZivaOx2JP2TqJKm/PoHw+L3QBeq2bEjwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1742560785; c=relaxed/relaxed;
-	bh=lX+j7ZByvLSkPBbGZ8e37EOuRyaPsfVXExUNogWzc3E=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EvtEup7SwZc0Ubeer2Fvv9H6GMiP6sc1kT43yrpSN41llJ4HMM34F28ygB+ZRD2LOey/lteFeh2y3z5Ik89i3JACMrExfieDuAvuFehx8B637cNkhvKzOJ4TUJwPYvdL0SQUtdsDSyFMTdGKEJXPTPJ+y3T2iq/wK93oa+AGUOkRCCF8OnhzIkvSAyS00GwaSRQHMWTpdxuYcYNrhNafulY5nLDZSqyCfoymuP3UMY7AHzRx9gDnecywKnH/3WmNByxmy1wfazGr5kz3YHmPaB2buK3K1CAE/vI9ybKYWETeP3gNu2nSrS/epf+fGzLEVjpGbTxW2QxrYChPBJX31w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JwNoWupV; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::62a; helo=mail-pl1-x62a.google.com; envelope-from=jasonhell19@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+	t=1742560884; c=relaxed/relaxed;
+	bh=Q+NiAZ9mdyZTQmFAQQ+DvuQUzdXkQ4ZbSFQA5qFBOIg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=mDob8qOjr/JhGzJYzn/f3q3tiVPT6SmYtb3E1CzQWXLq0VWCD0HlQlm6uJkHw3ocajwjFBvALiMeGmR2mVZXXNHNlChE/8QaNRYNNfrTj5T6kfFcggodp4rIvE/ekJ11IjWuAE4eCD9c68BE74iCCel8CGcyNNfmM4+Bo4kuilrKtcbe2oOVyujQ7z91CAe66Ab3m/WGU8e2t8wR4lAhromXR9/E0iCmk8LUbWJfBPBBxFHdybwfiPPOvp2MXtDJL7jnfEx3hslN6K7X6UOSzTeEp7ISPXIj7MYDwvuS3d3+868gMCEGtpXtyUajDL+dmqSnSD2VrWv9xofeBvC4IA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ywpk6WU9; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::62c; helo=mail-pl1-x62c.google.com; envelope-from=jasonhell19@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JwNoWupV;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ywpk6WU9;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62a; helo=mail-pl1-x62a.google.com; envelope-from=jasonhell19@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62c; helo=mail-pl1-x62c.google.com; envelope-from=jasonhell19@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZK28H6XXbz2xd2
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Mar 2025 23:39:42 +1100 (AEDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-224019ad9edso45758855ad.1
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Mar 2025 05:39:42 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZK2BC4yKkz304l
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Mar 2025 23:41:23 +1100 (AEDT)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-22435603572so34982855ad.1
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 21 Mar 2025 05:41:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742560781; x=1743165581; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lX+j7ZByvLSkPBbGZ8e37EOuRyaPsfVXExUNogWzc3E=;
-        b=JwNoWupVo22XvHH4SOlkkXo+AoNYlY/Zvq7iwcBxW4UtPreLwxIMyeeAhkyi1A/S6x
-         8MvfGGTZNeSxeC1Mw8Lhj1ugntyaKWR/W+hW8iPOhjMJ/76pz3tI0Y+m9chRMjia98Y1
-         9SeCxI2Sc3CCQEfjlrKbqjhYEMiVuTJbACvcHZI2PG1c3lZu3+nFRa5o08CU3axFkQ8b
-         6C6Ge30sjZiC+XbHFJlKqHuR97NurjIwxCMEHa9KQr939mzfnLxOBImI4tOjL+8jJ6mD
-         3zZnjEm6sglzZpkLv92xTMpqZWJPT4AIOGIP2ci4oSb0coRSbBdwjVhtZpxMGyETepde
-         PmXg==
+        d=gmail.com; s=20230601; t=1742560881; x=1743165681; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q+NiAZ9mdyZTQmFAQQ+DvuQUzdXkQ4ZbSFQA5qFBOIg=;
+        b=Ywpk6WU9I6bzXmZVZfMab3AeR32aSltUByyg6pRfKrupAluSGHDCvHcsIWV3uh0G3u
+         KcffWwHBg7fxKSAkzLC5ehat1C0mmDg2EBVjgg/cKn/JyOZJeuRa5GB/PBHUY0DNk21K
+         fHEqeEYWeuQ+zy7BJdv0JBhfMjCDhmLbKBRLS11D4qWdmRXveiEKBsiA0OSk+4jFkoS7
+         j8vXHxq4osVIp7cw8WjCJoj7QZ7u4qsZTJMk5avSNXO8ZZbKUA0pZ3+zC9UrfXePkJ2O
+         U1kuas9v2najV/piO6jbVuUq/N23lMc/IQmlKpEbx8nVsVBUY6QviHQ2SObFOtCO1KaJ
+         qmVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742560781; x=1743165581;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lX+j7ZByvLSkPBbGZ8e37EOuRyaPsfVXExUNogWzc3E=;
-        b=SfxZi+1frfSGoBJk2KE0/BiO+AN5gQwR1fI6SEqYZaLcYXTLFfnvyJE2LI4PaJ1fxo
-         8cF3+1j9bSBM8ggpi0zyUBElsSbXhrcIEpPcEvI4xOwH9SkypAHBAMSpxgzYfuFBFeHt
-         crfY937t9FvW0QwREmcUkdfy65xniaa+VNp3iZSOLTcMM+QvlCRdVfwuT+m/Z9TvUSx2
-         o9esXr0i1PXqbWfAUnMsjZCP6eUrZfYvHXnLAMbtN1bVWslaXiB+Z4XfaNq5eQiQhv37
-         IoS5CSwjgEk2sXBuEvS6FTdpmW7v807O77AM+aOGtqsW28fRFjA7QXNVJ5wkDGeJrlMC
-         KKOw==
-X-Forwarded-Encrypted: i=1; AJvYcCVZTdqiws86EandBaie5rAr376G0y44dxB8joiTUhvqfne/c3n4XrpNlUjgZpDELLTGjvnoLG72AcOGg0Q=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YzJ8j+LrV8UAVNgc64P9/GvqEa+LRb46PSpllVRGmfYFymBUVZf
-	YgH7D0uHhRBQZvX+jUIWFrA8wZThxODCup3mdyqq3tc2gXlGlsl9
-X-Gm-Gg: ASbGncv8ZVo73WsQNsojuhhuVk+F1tHdZAWfdQu0Eg0C1roHapWr5ntRHz73IwAtg/a
-	SENve29aGVl8DGZK9mOVdq5ySbcSDnsGMfXXUyshbmGpkwiSTTgDvaPbh6RRbGDkKxCskTT6eZh
-	EKE97OMZi3Vk39Rh7NSKGqlEi5PB/IWgPqVvT1DaBsxSMMinBtSX8wnCJJk0vpubrZHbDX4d1U3
-	X1dYxWR3JOezc7CUuNt93ZHqnRsi/JL5+zfjWLSscdKT8b6F1L5dhOI1sh9lfpZs4RPzaAO/Ha8
-	jgQQCjllmrjCaCD/VOOZwC20myT9DhVLdp4viyl0ReJjT+LNGznrt4qetCKo1Zbz4LpCCO6DVkf
-	TkAjdWFEXgxVIx5mOGTuq1XAP5Q/aaH6hmQ5YH38ba6kJmMGuRQDUCLubOSM=
-X-Google-Smtp-Source: AGHT+IHId0CD+P7qvQUeVHlIxcs9d9bWCjTq4tyT+oN5nat9T4lYmUbkwkbTDc4O4exXD2ol31Q6kw==
-X-Received: by 2002:a05:6a21:6e03:b0:1f5:a577:dd10 with SMTP id adf61e73a8af0-1fe43437119mr6748664637.36.1742560780747;
-        Fri, 21 Mar 2025 05:39:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1742560881; x=1743165681;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Q+NiAZ9mdyZTQmFAQQ+DvuQUzdXkQ4ZbSFQA5qFBOIg=;
+        b=lB7iNOChvKcOtVzbIuDsTBbkbfqQG/P59tsiFRjeQRIuX4xOsfwKLNGG1OPODMEnjO
+         fpry4p0zlHCyoCnLKUrT2l7HnfeJduTRgBfPE0C2CqlJKR+n2vv5ZdkcACksPYyCZnyD
+         INKS6Zbr/fDvcUXdkewk/cd4rHM45eR9OjXz/T5SKroqRERYZztG4jYpXYM3odFHae/p
+         bDOENvowvEzl8Du4R8/cNpx/w5ryp4VqLFP0IMWunBobtFrylz+2KX8T+eGI1yi5LAWS
+         uTjh3EvV4jFYHtiEzW6eBsDbJGBkeFRNMQtU4ksZ/YWDKlUuFrd/hLsQOSHbdEAAsRIi
+         /rYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWO5aZMeBMNAYbwdWPqvFPJIhzXAo1TlyqLmeSWTe9hrSmvGq7NNYr4wolL1rHEStfUMncYIbfZWZh9jG4=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzlzRTYOJhky8LtkpL/SjFE+lGsi2Oo/L42YrdC7ZBv1CKPRhaF
+	/7twaGsBP709P0qxQdsV/iybMCnmvWCo7ltK/8/2fEx0FHwGrCRm
+X-Gm-Gg: ASbGncu4i9zkbeM1/gZAKTdcavcrEI5ZfkCOFJgm1TYLCTgCxXdcEcu4W8nbDhkNAMj
+	nhV9EZjLlCnGUIWjcXwQeCHvrBMXyuY/Qoz0WZIZZLhInqAWxgyTNZLVYWUsCuHqc4XoUoYjFWq
+	clQY//IkLiQ4rEKEaoF03IRoJfRSmtKkWJp7ZWzA/1/GoMxmIxgRU3TITiR5WmXxLWblWCSsUMW
+	m5Oth2je8xXVjX30gs7H0t2ev4RPY3uyy3fk9ha3Pc16YHcYwidbQdR1z7iZcEa3Jp2DXO8lbJc
+	M7UQ6V9tQJBUHL5eR0YEPJxNx0ryytoIXtgtUDT+kPPxViiarjxuuWptdcYbz79UKDXXX1OppvS
+	l0+ceGtztP+FJXXQyaX80YgYLNwt3mrCfbVtm10Dek+rR3qnIQJ1FzFyhfwE=
+X-Google-Smtp-Source: AGHT+IExgVZ4q/4fohD2pxnSiano84+Gjnet64GgoejlycI2L+z5k6c8k/m9ePdFfCzgOHfdnbckMg==
+X-Received: by 2002:a05:6a20:7285:b0:1f5:6f61:a0c2 with SMTP id adf61e73a8af0-1fe4300fe40mr7650260637.34.1742560880874;
+        Fri, 21 Mar 2025 05:41:20 -0700 (PDT)
 Received: from jason-System-Product-Name.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73905fd5c90sm1815432b3a.51.2025.03.21.05.39.37
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73905fd5c90sm1815432b3a.51.2025.03.21.05.41.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Mar 2025 05:39:40 -0700 (PDT)
+        Fri, 21 Mar 2025 05:41:20 -0700 (PDT)
 From: Jason Hsu <jasonhell19@gmail.com>
 X-Google-Original-From: Jason Hsu <jason-hsu@quantatw.com>
 To: robh@kernel.org,
@@ -82,12 +84,13 @@ To: robh@kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: yang.chen@quantatw.com,
 	jerry.lin@quantatw.com,
-	Jason Hsu <jason-hsu@quantatw.com>,
-	Jason-Hsu <jasonhell19@gmail.com>
-Subject: [PATCH v5 0/2] Add Meta(Facebook) Ventura BMC(AST2600)
-Date: Fri, 21 Mar 2025 20:37:29 +0800
-Message-Id: <20250321123731.1373596-1-jason-hsu@quantatw.com>
+	Jason Hsu <jason-hsu@quantatw.com>
+Subject: [PATCH v6 1/2] dt-bindings: arm: aspeed: add Meta Ventura board
+Date: Fri, 21 Mar 2025 20:37:30 +0800
+Message-Id: <20250321123731.1373596-2-jason-hsu@quantatw.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250321123731.1373596-1-jason-hsu@quantatw.com>
+References: <20250321123731.1373596-1-jason-hsu@quantatw.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -107,50 +110,27 @@ X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add Linux device tree entry related to Meta(Facebook) Ventura specific
-devices connected to BMC(AST2600) SoC.
+Document the new compatibles used on Meta Ventura.
+Add subject prefix for the patch.
 
+Signed-off-by: Jason Hsu <jason-hsu@quantatw.com>
 ---
-v1:
-    1. Create ventura dts file.
-    2. Add commit msg.
-    3. Use format-patch to generate patch.
-    4. Add subject prefixes matching the subsystem.
----
-v2:
-    1. Modify email content.
----
-v3:
-    1. Add mail list.
----
-v4:
-    1. Apply git send-email --thread option.
-    2. Sort nodes in the dts alphanumerically.
----
-v5:
-    1. Run scripts/checkpatch.pl and fix reported warnings.
-    2. Remove unnecessary 88E6393X CONFIG FRU.
----
-v6:
-    1. Add a new stage for the DTS change.
-    2. Run scripts/checkpatch.pl and fix reported error.
-    3. Fix the issue in a separate patch.
----
-Signed-off-by: Jason-Hsu <jasonhell19@gmail.com>
+ Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Jason Hsu (2):
-  dt-bindings: arm: aspeed: add Meta Ventura board
-  ARM: dts: aspeed: ventura: add Meta Ventura BMC
-
- .../bindings/arm/aspeed/aspeed.yaml           |    1 +
- arch/arm/boot/dts/aspeed/Makefile             |    1 +
- .../aspeed/aspeed-bmc-facebook-ventura.dts    | 1399 +++++++++++++++++
- 3 files changed, 1401 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dts
-
-
-base-commit: b3ee1e4609512dfff642a96b34d7e5dfcdc92d05
--- 
+diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+index 01333ac111fb..a86b411df9a5 100644
+--- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
++++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+@@ -87,6 +87,7 @@ properties:
+               - facebook,greatlakes-bmc
+               - facebook,harma-bmc
+               - facebook,minerva-cmc
++              - facebook,ventura-rmc
+               - facebook,yosemite4-bmc
+               - ibm,blueridge-bmc
+               - ibm,everest-bmc
+--
 2.34.1
 
 
