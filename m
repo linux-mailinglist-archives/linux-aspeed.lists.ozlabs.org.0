@@ -1,49 +1,50 @@
-Return-Path: <linux-aspeed+bounces-1170-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1173-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9227A85105
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93933A85102
 	for <lists+linux-aspeed@lfdr.de>; Fri, 11 Apr 2025 03:09:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ZYdqq6gV8z3bkT;
-	Fri, 11 Apr 2025 11:09:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ZYdqs44Psz2yqT;
+	Fri, 11 Apr 2025 11:09:13 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1744333751;
-	cv=none; b=gm8IrfF5UzCViNMS/tbbQRpPHv+qH6m12nZcbBiREfaoVXdyqIW7PRQbh/XWJlOQtYxnTtmM96oWf5pfrGyqyAL/W0du1z1mA3nWCpIoOvguiaL7chTJ/FwZIMPAGDbPAZr33aMgAhG0lPiVJrPh8rCor3u5ePjYyaj2H7c3z4JF3Fdk0rKLLUNrkD4WMStBGX5/9Kvq1GipxvQMATsB7J6CBrR04P31mjHfxul9RuqeLfnXXHuMwVJRY/fxUVW/E0zeJAKiUvCGN5HMdBCwUa0v63HnvrQUI0qnDYuLDgK4RlbaM0izGg+XDnzbVoFp3HbN41IaS+Vu99/4htU41g==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1744333753;
+	cv=none; b=oivABsbwbk/A260VMd/dqSXLPL9qxkxqwZUdqbe2FR6qPG4QG5HLyB0y/qaFQdbEVFy7/WGZdkYRj5pEefKvGXcqridrk6sgmkDsQDPiFo65mtsHemV4Y3wiQXKtNIIBnMePbIZODSC6CzMl18bt9OWPCy9lRTh6sa2TDg7JWZEZ00EQZR8bPAaphuXp8PBHV8G+6f3wdh5hVJ7oE8E0WyhVbtOluVeVPX+/tc7lICwTeLw1NtOdlQEECig3VvWCIwt8x70rMjLoD7YZsb4fDJnI6ss0/VF2A32VXEmcFYn+E5bm99yr+UJA/vJrNzINHj/4kdFERnoZtXFDkTrKdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1744333751; c=relaxed/relaxed;
-	bh=Kl9cNe70ebuqUBsGg3wclmdapJ/BbYZ4gItW6jHIc7A=;
+	t=1744333753; c=relaxed/relaxed;
+	bh=ABw4ARhNQAkd4rlXFYixFM0InLDEdXfdXSG/4HG1QLQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=blCsC6YAiOlIcQ/eXc82T1U2Z2FAR4QPUtS+CijZDAwrwvL0ZUvkhGe2o0TIRVMmmQP2xc8mzcKPlC+zlolAdLZplInV8/TS6sjEOisxWUqIcPimP0J+YJRLFFvwWLMmWk5Te2R2yyOOvIkGlVFUc6Sx/NZcYkbE0B2yWPRH98OWDmhWZh/ZOx5NK6Sxt+ISHk4zss23vZtwzVhVPYuuVHTumbO9VBGbIJKH3UWDyaxaAEaEz5Hq9gxHo4+Z7oqQFIrqVWERvg/HigRizHLWQRg3Wfy0XDrgfySV7ehF/VEHUOBD9VEOLB3+oiX/7DfYm/j0QjpaBGWd0f0A9tynGA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=KXybtiEp; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+	 In-Reply-To:To:Cc; b=ErmGf0FdZ1FqpNmdgdFVzTav/9r4bN1dCqyrkLX9DjP/Su2Cdz25z/fU1pYfJRIqd7iOyNVic9d69KdB3lT/7lWu5s37DJgzxPuKBQiYu97GeFNJrzJ7InpWmlS5t8w+1N435eEVGY63Q4VQFQzlQytUCHRLQYGJBesuqKz1A1rlTgj5U/D7Ip3xPDJcFU0vdykTA4V2CBg1WJ5s+ksRAxM0Y1HNxSxvlHHAMoH/E7suS3535rxM9IxV+nRNKjp3ZM2/kWoG5qntmS1YnU2n9l3mEi34eSMRiJ1d2ARVbg58jXGXzlbMIoYoVZ+bZ0kO+itdv5h3DkvoACDP8IvWLQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=So5fjgqt; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=KXybtiEp;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=So5fjgqt;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZYdqp47bYz3bh6
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Apr 2025 11:09:10 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZYdqq2Dtwz3bkP
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 11 Apr 2025 11:09:11 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1744333749;
-	bh=Kl9cNe70ebuqUBsGg3wclmdapJ/BbYZ4gItW6jHIc7A=;
+	d=codeconstruct.com.au; s=2022a; t=1744333750;
+	bh=ABw4ARhNQAkd4rlXFYixFM0InLDEdXfdXSG/4HG1QLQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=KXybtiEpVaRs6sAGdOtnmP9rQxsNzrAWJmdNkLK8ew7d8QxZs4QbeawJkPJVvlGYE
-	 kqYN+QPIEr2LOIxkxWgr2NjAowCKjUwCHvNbLmMSyLR7qUkPolYIgpnpWyUpupKQsJ
-	 wxAzji6m4w24QEKZHRAbdORveQcLoi+OWJVPb4BDSrxBYVfHp2JrTWXny7XinCq+Tu
-	 Vcz/WVUl33+nQkgXC1Ji/Zpx2O+G9Fw1dMcujg6GCyxCOXGLc+cChI2/R6Zi+0025x
-	 9OnfmrhQZ2TQTXGqaW6izUHRwuev4+qYKqQQe8ekXqSEjAY3YwmSfMBrtXgZwPtOjP
-	 wq48PWVT/MeMw==
+	b=So5fjgqt9a9pj2mC+YdxESJ/ZFNZh4U8IMB+HEFP0wC04D7yukXU067Ok9Fudgw5m
+	 I/eFeoUIFghXlhYObM+Q0OFIVkjRMLYNiu2/zlSSBu0rnT5+AkmvrCztE7AF2i7Zw5
+	 do7euB8rxbndWNAiuvpLeL807qtoFuGMPdPKWfjbpQQIiH4VUR44T2fyDXmZ3g7Rdp
+	 pzlUl7giYfvNYNWQ9kxC1H7WVwzwln1zHX87DRf4BbF5qbLa4qEzyyvMxHJN06w9Lg
+	 YHZO5UtF2UHjq5jitMgrBk8vBnDhj+T9jKTp1rCFPr8YvrhJUP3ufKJtUftKgK3aep
+	 a9802cCCXkNWg==
 Received: from [127.0.1.1] (unknown [180.150.112.225])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 4EECF7D712;
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 01ECA7D714;
 	Fri, 11 Apr 2025 09:09:09 +0800 (AWST)
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-Date: Fri, 11 Apr 2025 10:38:33 +0930
-Subject: [PATCH 3/7] soc: aspeed: lpc-snoop: Ensure model_data is valid
+Date: Fri, 11 Apr 2025 10:38:34 +0930
+Subject: [PATCH 4/7] soc: aspeed: lpc-snoop: Constrain parameters in
+ channel paths
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -58,7 +59,7 @@ List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250411-aspeed-lpc-snoop-fixes-v1-3-64f522e3ad6f@codeconstruct.com.au>
+Message-Id: <20250411-aspeed-lpc-snoop-fixes-v1-4-64f522e3ad6f@codeconstruct.com.au>
 References: <20250411-aspeed-lpc-snoop-fixes-v1-0-64f522e3ad6f@codeconstruct.com.au>
 In-Reply-To: <20250411-aspeed-lpc-snoop-fixes-v1-0-64f522e3ad6f@codeconstruct.com.au>
 To: linux-aspeed@lists.ozlabs.org
@@ -75,47 +76,48 @@ X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-of_device_get_match_data() can return NULL, though shouldn't in current
-circumstances. Regardless, initialise model_data closer to use so it's
-clear we need to test for validity prior to dereferencing.
+Ensure pointers and the channel index are valid before use.
 
-Fixes: 2dee584bc9e3 ("drivers/misc: (aspeed-lpc-snoop): Add ast2400 to compat")
+Fixes: 9f4f9ae81d0a ("drivers/misc: add Aspeed LPC snoop driver")
 Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 ---
- drivers/soc/aspeed/aspeed-lpc-snoop.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/soc/aspeed/aspeed-lpc-snoop.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-index e9d9a8e60a6f062c0b53c9c02e5d73768453998d..28f034b8a3b7226efe20cbe30a7da0c2b49fbd96 100644
+index 28f034b8a3b7226efe20cbe30a7da0c2b49fbd96..6ab362aeb180c8ad356422d8257717f41a232b3c 100644
 --- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
 +++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
-@@ -186,10 +186,10 @@ static int aspeed_lpc_enable_snoop(struct aspeed_lpc_snoop *lpc_snoop,
+@@ -182,6 +182,7 @@ static int aspeed_lpc_snoop_config_irq(struct aspeed_lpc_snoop *lpc_snoop,
+ 	return 0;
+ }
+ 
++__attribute__((nonnull))
+ static int aspeed_lpc_enable_snoop(struct aspeed_lpc_snoop *lpc_snoop,
  				   struct device *dev,
  				   int channel, u16 lpc_port)
- {
--	int rc = 0;
-+	const struct aspeed_lpc_snoop_model_data *model_data;
+@@ -190,6 +191,8 @@ static int aspeed_lpc_enable_snoop(struct aspeed_lpc_snoop *lpc_snoop,
  	u32 hicr5_en, snpwadr_mask, snpwadr_shift, hicrb_en;
--	const struct aspeed_lpc_snoop_model_data *model_data =
--		of_device_get_match_data(dev);
-+	int rc = 0;
-+
+ 	int rc = 0;
+ 
++	if (channel < 0 || channel >= ARRAY_SIZE(lpc_snoop->chan))
++		return -EINVAL;
  
  	if (lpc_snoop->chan[channel].enabled)
  		return -EBUSY;
-@@ -236,9 +236,10 @@ static int aspeed_lpc_enable_snoop(struct aspeed_lpc_snoop *lpc_snoop,
- 	regmap_update_bits(lpc_snoop->regmap, HICR5, hicr5_en, hicr5_en);
- 	regmap_update_bits(lpc_snoop->regmap, SNPWADR, snpwadr_mask,
- 			   lpc_port << snpwadr_shift);
--	if (model_data->has_hicrb_ensnp)
--		regmap_update_bits(lpc_snoop->regmap, HICRB,
--				hicrb_en, hicrb_en);
-+
-+	model_data = of_device_get_match_data(dev);
-+	if (model_data && model_data->has_hicrb_ensnp)
-+		regmap_update_bits(lpc_snoop->regmap, HICRB, hicrb_en, hicrb_en);
+@@ -252,9 +255,13 @@ static int aspeed_lpc_enable_snoop(struct aspeed_lpc_snoop *lpc_snoop,
+ 	return rc;
+ }
  
- 	lpc_snoop->chan[channel].enabled = true;
++__attribute__((nonnull))
+ static void aspeed_lpc_disable_snoop(struct aspeed_lpc_snoop *lpc_snoop,
+ 				     int channel)
+ {
++	if (channel < 0 || channel >= ARRAY_SIZE(lpc_snoop->chan))
++		return;
++
+ 	if (!lpc_snoop->chan[channel].enabled)
+ 		return;
  
 
 -- 
