@@ -1,62 +1,58 @@
-Return-Path: <linux-aspeed+bounces-1194-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1204-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C5FAB3CEB
-	for <lists+linux-aspeed@lfdr.de>; Mon, 12 May 2025 18:02:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3D2AB4C2E
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 May 2025 08:43:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4Zx4BQ0mnZz2yWK;
-	Tue, 13 May 2025 02:02:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ZxRlC1kx2z2ySl;
+	Tue, 13 May 2025 16:43:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1747065758;
-	cv=none; b=AN2DDIr2RpYJawoNMoIko8t5RB5Qkm1MFYVYRn6Vxxbu/LXTjB1tqduZDKr/juezzGW2eIQtynpOMnQQQmt2FzPFo0flJ3AEjhcVgb5Zs6h6Fvob5ix8ssVqT0ddo+/nI2gN9yyyN4XVNBdgukieRdrf2Uh+FVS1IUgB54UhtMH2C2nXa4Jw2fIScKneRDBbT4c4B/iTdL7edPVrOK0m7KQ1uuefyS+s0t5fjIpIa6+pcDn2ziWxpaQ5SmkGbdVAMFh2uK3OhHv694U4mWBJJSk0m2wA3pfqTAqXVnIsUnRS7hjfsdQrP15wxxoE4CWrLiZ6E4Q92iY5mp+TUJd9rw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=144.6.53.87
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1747118631;
+	cv=none; b=X4WcfY39za3QgyjHfJHPqvwWxYeGTEIMdKDWeYhiIKP3u3BK9FuD16PSOk0P+q3s1WRB9DI++vpQfP4BkCRfAIUI8HxmkUM5+pug8BhIVWzQf2sG+NM47+Hn7RcRoIfeVEDlPSlnVRP/AHCVsqu/0dG8OowdZ7vjDHs2Z1rRCdl2gb3D6IyyDvznjwyVHYa1nbJJdh26Ji9T9dXv5gvsV+AuX8ElNwYMgTRKPylk9MjjjBRTg+wz/8Kdk7e5OlJcD7pAhcnfFUhOZgcpywN2bv7B1KWiXNcwra6OUGRQzxRRZXe9AbI+n+3eBdK/tRftDa+fkg7Is+HuVo5RMAgvLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1747065758; c=relaxed/relaxed;
-	bh=04VoAZX1Pkj/3n7T0vHI9PPCpvGqL4ubX0zX6JWFyfs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AXmCEx4d2GVMjlZZJfTSid+E0JmwjiHcWOi+zqfClMjwqQwC97RtG3g6rfp31OcWg1os+Um/JCuXcWQ7daI2o7JTwa4lQMy/M9ECqFuLW+6TJjn8bP2oXq2W/ghXHpqFg+lvmErPIP0gtvkA7vY0tyZu6IFdrBdGLqTuYq0vw5SxCbQHBMtTZUG5TVm2qdt4wkpIDUdar2Z8WmUNwDjuuQOPIelBaVcRnJJgdOMXe3QyJ+pvXwyU772GVSrmOKEdEPd1tRxu3ZXMX3F8baEwdFL43b+34drj84pZHc1LQ7Dco7AZUYbl+bZq8PSL8BGhUz3OVyuJcPBHAzdFeeVqSg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=q2fAoPc3; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1747118631; c=relaxed/relaxed;
+	bh=gnhH4MKBTnxG4N3owibGYMEInxvdW62epN6YeSvvHb0=;
+	h=Date:Message-Id:From:Subject:To:Cc; b=a32fTpKq3ZEciS38xKCqQCUqzG8kXMWgKZCUus2rGJk55leD65ECWsijO0kKosZBLhQXKo61A9MvKGQQ7s7oZgBjKaDcR8gPzpLc5/Ly6mYEjB3pByZQ87vfNsU7aPmR18a1UOAGuryyHa5xgpuQnrEO1TrgMwQRpFsLcgdf5kBFhIg69J+a+FNcI4rRPgdSKo32V/uQ8V+vkRRUCTfP2ZviN58r3jiZElrQApO+H2ga9A+g7sdzJYNdq3rFzrB3l3riSeoVlwkcSLYxMI5SGg6Faj8i41lnavar5R5ghb/0QolQH6gieN8V0LaMila4pO844mNmU5JZLbRtye13fA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=ZsYoYNhH; dkim-atps=neutral; spf=pass (client-ip=144.6.53.87; helo=abb.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=lists.ozlabs.org) smtp.mailfrom=gondor.apana.org.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=q2fAoPc3;
+	dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=ZsYoYNhH;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gondor.apana.org.au (client-ip=144.6.53.87; helo=abb.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=lists.ozlabs.org)
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4Zx4BP04vHz2yGf
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 13 May 2025 02:02:36 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 5E12A4A212;
-	Mon, 12 May 2025 16:02:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E78F8C4CEE7;
-	Mon, 12 May 2025 16:02:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747065754;
-	bh=TCE6Uw7LiVPLM8NbyISS0pYOwHNQf36YyFcNYjE50+s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q2fAoPc3oOidpqW2oxA1Nde74ERkCSXCK24/ljWYm+Eo+1nRNRqalv9bNLoxASorO
-	 hfGrJOfu78egh50rDYD5YArzBmCDAzs8O0R5lSnJKfUidw2OHNrRVrhbTHWcKgCooY
-	 V1pwpvywTIJuEEPraQRqeXLTcc89FpM8trEfhReW4pJUUwNA23cx7ASD3wF4DoTzAc
-	 Xr7fHguA5SL6YyPl9vRpEunmR9KGkIdhpdWEIUyzmFpiNxLBpM5WCHSQ3wNQzc8v8Y
-	 TPU3SRRPw7+F3XsTT/ebKZ0yvaDYxwcCs/ArxU6IAHcXpea3+9ZlNe6dtB0B5A4JxS
-	 X8oJGBnWh75qQ==
-Date: Mon, 12 May 2025 17:02:29 +0100
-From: Conor Dooley <conor@kernel.org>
-To: leo.jt.wang@gmail.com
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	george.kw.lee@fii-foxconn.com, leo.jt.wang@fii-foxconn.com
-Subject: Re: [dt-bindings: arm: aspeed: add Meta Clemente board] dt-bindings:
- arm: aspeed: add Meta Clemente board
-Message-ID: <20250512-activism-dispute-e2549ab2b210@spud>
-References: <20250512113026.264785-1-LeoWang>
- <6821dbfb.170a0220.3b15e.aba8@mx.google.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZxRlB5lTfz2xd6
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 13 May 2025 16:43:50 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
+	s=formenos; h=Cc:To:Subject:From:Message-Id:Date:Sender:Reply-To:MIME-Version
+	:Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=gnhH4MKBTnxG4N3owibGYMEInxvdW62epN6YeSvvHb0=; b=ZsYoYNhHT5C2TvhqdTySZwpFrG
+	PvBrA/tLe2BXPJikfcVZjL6pQQyjh1R+d9HWw4wGsg9V/5kbPi/KwKdsOFeo7Smtuc0q9yxOR3Ahi
+	RFk08Ndo94H53jxUr6xQ+R4vaDGinsCkun58GjzCe7YEFU7geuCyZcTnbOKKEtgUZeQEj34JNevkg
+	T2qUSEmp9Dt7RLQuesGUKcC496KLfBTQ1lou47KtT/utyt+bemHRFfsyDjlC6FNRWrsRaRzSZ6/bB
+	50eSmkGyj770u4uAbj6smX+JF4v1qxAvQLB3VQo2+pRRuy2IppnqnX/qPRe0gHom6lZ4CAW21UpPs
+	islexMOg==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
+	id 1uEijx-005g48-2K;
+	Tue, 13 May 2025 14:03:46 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Tue, 13 May 2025 14:03:45 +0800
+Date: Tue, 13 May 2025 14:03:45 +0800
+Message-Id: <cover.1747116129.git.herbert@gondor.apana.org.au>
+From: Herbert Xu <herbert@gondor.apana.org.au>
+Subject: [PATCH 00/11] crypto: aspeed/hash - Convert to partial block API
+To: Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
+Cc: Neal Liu <neal_liu@aspeedtech.com>, linux-aspeed@lists.ozlabs.org
+X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -69,69 +65,28 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="EEzvPtStEzaz9LSn"
-Content-Disposition: inline
-In-Reply-To: <6821dbfb.170a0220.3b15e.aba8@mx.google.com>
-X-Spam-Status: No, score=-0.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
-X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
+This series converts aspeed to the partial block API while removing
+hash length limits and making it more robust if dma mapping fails.
 
---EEzvPtStEzaz9LSn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Herbert Xu (11):
+  crypto: aspeed/hash - Remove purely software hmac implementation
+  crypto: aspeed/hash - Reorganise struct aspeed_sham_reqctx
+  crypto: aspeed/hash - Use init_tfm instead of cra_init
+  crypto: aspeed/hash - Provide rctx->buffer as argument to fill padding
+  crypto: aspeed/hash - Move sham_final call into sham_update
+  crypto: aspeed/hash - Move final padding into dma_prepare
+  crypto: aspeed/hash - Remove sha_iv
+  crypto: aspeed/hash - Use API partial block handling
+  crypto: aspeed/hash - Add fallback
+  crypto: aspeed/hash - Iterate on large hashes in dma_prepare
+  crypto: aspeed/hash - Fix potential overflow in dma_prepare_sg
 
-On Mon, May 12, 2025 at 07:30:26PM +0800, leo.jt.wang@gmail.com wrote:
-> From: Leo Wang <leo.jt.wang@fii-foxconn.com>
->=20
-> Document the new compatibles used on Meta Clemente.
->=20
-> Signed-off-by: Leo Wang <leo.jt.wang@fii-foxconn.com>
+ drivers/crypto/aspeed/aspeed-hace-hash.c | 802 ++++++-----------------
+ drivers/crypto/aspeed/aspeed-hace.h      |  28 +-
+ 2 files changed, 207 insertions(+), 623 deletions(-)
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+-- 
+2.39.5
 
-Please fix your subject lines for future submissions.
-[dt-bindings: arm: aspeed: add Meta Clemente board] dt-bindings: arm: aspee=
-d: add Meta Clemente board
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-None of this looks like standard output from git.
-Take a look at what other patches and the kernel docs do.
-
-> ---
->  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/D=
-ocumentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-> index a3736f134130..4416a40dcd86 100644
-> --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-> +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
-> @@ -81,6 +81,7 @@ properties:
->                - asus,x4tf-bmc
->                - facebook,bletchley-bmc
->                - facebook,catalina-bmc
-> +              - facebook,clemente-bmc
->                - facebook,cloudripper-bmc
->                - facebook,elbert-bmc
->                - facebook,fuji-bmc
-> --=20
-> 2.43.0
->=20
-
---EEzvPtStEzaz9LSn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaCIblQAKCRB4tDGHoIJi
-0naYAP0YicZzkSoOLCHibdodAKfacK/bNJ38DYRNkT10N/l7XwD7B0kGA/gb7PRD
-fZiB0rMbZNOPNyKk+FZszA5zj5HCpw4=
-=t6md
------END PGP SIGNATURE-----
-
---EEzvPtStEzaz9LSn--
 
