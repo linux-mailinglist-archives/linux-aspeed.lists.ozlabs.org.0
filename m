@@ -1,56 +1,55 @@
-Return-Path: <linux-aspeed+bounces-1203-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1199-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6799CAB4C2D
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 May 2025 08:43:51 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF01AB4C29
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 May 2025 08:43:43 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ZxRl92yp4z2ypV;
-	Tue, 13 May 2025 16:43:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ZxRl1290dz2ygm;
+	Tue, 13 May 2025 16:43:41 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=144.6.53.87
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1747118629;
-	cv=none; b=ZSu9/ZHdE7XKNadFF1/AyeNbeXDgbXxcULfTAuIbgSJZOi0wcRJP3BhkqvHrNt3IoQuGNLZ1PIlOBSAUf9pSdFAIzyqpqWLhUdE1hh+clOdXMOuIExheR1dMiZC2rsHPX3w9yyDHFPHQaoLzlpRUSl4s8flAaxXHi9w90PTUMZih9kPX1wz+9vyT4qJEKoZ0WwpKGpymmgs/ADoyCdP5kbFMcLRbgIlcm2uyYfH5D0wume5QGONRrd8wnMXxpzYAuBA4lswD+ouv6lWL3j329DQ5/TFDZ0+FQcRgKg2FOXLBezCcAjqLLVmHxA0IKLI0xzezlJyf7VUU35UxINmotA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1747118621;
+	cv=none; b=TtqJKJBQcMVKOfAK/hYuH8UTaPKxdvUSNEFLwwGNNqDpCf9kHHWte5fHNGW4fKh2XB0rCpoOVbASDLbDPRBIfknMn1IhFv2GY5Gst9EmtKpBFKG2ZyDBq7IJYopFJEeRHVP2JRHnzl8sfAA1W3jgSzxBptG4WQPxCBK4DRNBcT1bbOXivVcMHoBWz5YwKXvdJ4jkWOSqiqryUu5jcrVgRQRgJK9DIVxoS9778HvgRcbC6SZwJDPggW8JRWqhIprNr+LB3oICmJCkP3qxPjFpB8HfJEIaKkNAoQnctWnaLqf5/Yg3XRRXo+iKsa/MLPZPWK4c1unl7QPyVlggZmnrQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1747118629; c=relaxed/relaxed;
-	bh=1V2wVUkULAV/+Sb8MCLK5k1wKu01X18xmPR28zR/g40=;
-	h=Date:Message-Id:In-Reply-To:References:From:Subject:To:Cc; b=SjLU4zzMumhmTQpbpcuS56/FPVr/w59re1XZpdfvk2KzBdF4intqNah9a4RjHN4QoIGaEeimjxdFMTQ8Y4P2mEQD9TAUILZ/iIvmj3ZDmFSfSJW4yVDfQtn1A1uZRZAtm686xD3pFQqYfQtCbdD4ztdF0TI/CPJ4GFkdJTB4rQqTbawsLSThxul071aVIJ1vGa0UlGHD8uOU+Qz+D9gW68C4UI4G+vM7gNLxt1xzciBveeD0BOomZJ+uXuENfXqHImLdsEloi68iu1aoafLFqwBcX/I9LkVDnet8wPmjn8bUK8vw58HnmXHdIWyw6HTLrTis4vdUgjQUWtJ2GuL6gg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=r2cSTnvR; dkim-atps=neutral; spf=pass (client-ip=144.6.53.87; helo=abb.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=lists.ozlabs.org) smtp.mailfrom=gondor.apana.org.au
+	t=1747118621; c=relaxed/relaxed;
+	bh=g5TyIwjCBw1+nLoen01HIIVGROBiFVaqY1TIdUAEmyU=;
+	h=Date:Message-Id:In-Reply-To:References:From:Subject:To:Cc; b=b54jU8zHh0YWclzZVNRK/qSLgFosQDgte44GxJN5NYKRSIJ/KLILQ7s2eZ6ga7HXCc9a+I/uOoNzdTLdgSx3u5Z+I1QnVvgGBE1DuHH0oDnJqGrQMe+K+I9en8tvLSuxft5+9AYBpuIkwTAoduIApGbo6fUK4+WdRXEwkIDKEQ1nd+i2dZekILsMVLMap2aVSqipUuU9bNWyd7T2IjFVv9PR75bE6rezUwcpQhF22FcILxS2cBvIpSoPyepemYL8iBs3VNG5ubKiQA/lmN34pQid2kDwFk1w9SI6+nml75Jbu/fnquZDw8HlI2SXEKgAzqKTc5ZYT8Rj1kQEK7Qi0A==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=OYLFLiKe; dkim-atps=neutral; spf=pass (client-ip=144.6.53.87; helo=abb.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=lists.ozlabs.org) smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=r2cSTnvR;
+	dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=OYLFLiKe;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gondor.apana.org.au (client-ip=144.6.53.87; helo=abb.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=lists.ozlabs.org)
 Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZxRl90CsXz2xd6
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 13 May 2025 16:43:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZxRl06C4hz2xd6
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 13 May 2025 16:43:40 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
 	s=formenos; h=Cc:To:Subject:From:References:In-Reply-To:Message-Id:Date:
 	Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=1V2wVUkULAV/+Sb8MCLK5k1wKu01X18xmPR28zR/g40=; b=r2cSTnvRL3br+JM7Y6e+LIw1uV
-	1e39Trn2I1gMcqTkpZmPTVGuBJ+hE5pomHY8ZQJKcUYl29WRF/QEVjci6RZbishGbLRkJQ24ysUEX
-	dERKqIZrXzbBGM9sq81Yg8kvXNgd7wcDJSAPkI0FaXIdyoBG1s6qZExsRsEIIdH+W3slVLlQ7Aztw
-	cA5Gzcus8SlNri4TkExIQ3lEQ0k6iGFoZflurkYjYeZnLxU9R3cO3WPvcigzMQPKsuYFtGhqH31TI
-	8ODrX1BOulELXi49XLPlFx90BvuBWoYWibDZB1QrW3BEYPkkJb9DAR0WfFq3Wp5IctvOJGuH+z2mp
-	7nYab7FA==;
+	bh=g5TyIwjCBw1+nLoen01HIIVGROBiFVaqY1TIdUAEmyU=; b=OYLFLiKeUNWggRDoB/iPzRELlN
+	P7Cjy+3h/SABOv8UFh9KCC+JSt8a+0ZA8PvxCI3eFAoS8xzaUfBPGUzxQTkl2cPFDcP5J9rVl24ZY
+	ftYNv2Qr24c/A6YUL9I2JUuSR97n5w89aEnfg+hDRPA1RxOGnQSxOCj9GUvs6DLo2d+ur7J61s2a1
+	w4y0Z+njJR7M0yHQ+njnte0v4e3yv2dBVgrqvbtwAHmnHv95Xy9LLycTBl81ZNBriZuyladmrSAYF
+	rGpzHtQGDbTJKX/Q9oYgf7zpx0NlV9aJP7eHAN83ddDVA53atc0lvc9LyxKy3z/Ba3BjsD/toOPsK
+	fhLy/wGA==;
 Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
 	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1uEik2-005g4S-1C;
-	Tue, 13 May 2025 14:03:51 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Tue, 13 May 2025 14:03:50 +0800
-Date: Tue, 13 May 2025 14:03:50 +0800
-Message-Id: <710e21ad559adb09d5ec81a9b0d1739dde0c8a00.1747116129.git.herbert@gondor.apana.org.au>
+	id 1uEik4-005g4f-2F;
+	Tue, 13 May 2025 14:03:53 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Tue, 13 May 2025 14:03:52 +0800
+Date: Tue, 13 May 2025 14:03:52 +0800
+Message-Id: <03bd7038c76f33a0cdb76a13ca8b377c0b6c5a3a.1747116129.git.herbert@gondor.apana.org.au>
 In-Reply-To: <cover.1747116129.git.herbert@gondor.apana.org.au>
 References: <cover.1747116129.git.herbert@gondor.apana.org.au>
 From: Herbert Xu <herbert@gondor.apana.org.au>
-Subject: [PATCH 02/11] crypto: aspeed/hash - Reorganise struct
- aspeed_sham_reqctx
+Subject: [PATCH 03/11] crypto: aspeed/hash - Use init_tfm instead of cra_init
 To: Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
 Cc: Neal Liu <neal_liu@aspeedtech.com>, linux-aspeed@lists.ozlabs.org
 X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
@@ -69,52 +68,136 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 
-Move the from-device DMA buffer to the front of the structure.
+Use the init_tfm interface instead of cra_init.
 
-Sort the rest by size and alignment.
-
-Keep the partial block buffer at the end.
+Also get rid of the dynamic reqsize.
 
 Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
 ---
- drivers/crypto/aspeed/aspeed-hace.h | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/crypto/aspeed/aspeed-hace-hash.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/crypto/aspeed/aspeed-hace.h b/drivers/crypto/aspeed/aspeed-hace.h
-index 7ff1798bc198..a34677f10966 100644
---- a/drivers/crypto/aspeed/aspeed-hace.h
-+++ b/drivers/crypto/aspeed/aspeed-hace.h
-@@ -165,6 +165,12 @@ struct aspeed_sham_ctx {
- };
+diff --git a/drivers/crypto/aspeed/aspeed-hace-hash.c b/drivers/crypto/aspeed/aspeed-hace-hash.c
+index 0bcec2d40ed6..4a479a204331 100644
+--- a/drivers/crypto/aspeed/aspeed-hace-hash.c
++++ b/drivers/crypto/aspeed/aspeed-hace-hash.c
+@@ -660,18 +660,15 @@ static int aspeed_sham_digest(struct ahash_request *req)
+ 	return aspeed_sham_init(req) ? : aspeed_sham_finup(req);
+ }
  
- struct aspeed_sham_reqctx {
-+	/* DMA buffer written by hardware */
-+	u8			digest[SHA512_DIGEST_SIZE] __aligned(64);
-+
-+	/* Software state sorted by size. */
-+	u64			digcnt[2];
-+
- 	unsigned long		flags;		/* final update flag should no use*/
- 	unsigned long		op;		/* final or update */
- 	u32			cmd;		/* trigger cmd */
-@@ -181,14 +187,13 @@ struct aspeed_sham_reqctx {
- 	const __be32		*sha_iv;
+-static int aspeed_sham_cra_init(struct crypto_tfm *tfm)
++static int aspeed_sham_cra_init(struct crypto_ahash *tfm)
+ {
+-	struct ahash_alg *alg = __crypto_ahash_alg(tfm->__crt_alg);
+-	struct aspeed_sham_ctx *tctx = crypto_tfm_ctx(tfm);
++	struct ahash_alg *alg = crypto_ahash_alg(tfm);
++	struct aspeed_sham_ctx *tctx = crypto_ahash_ctx(tfm);
+ 	struct aspeed_hace_alg *ast_alg;
  
- 	/* remain data buffer */
--	u8			buffer[SHA512_BLOCK_SIZE * 2];
- 	dma_addr_t		buffer_dma_addr;
- 	size_t			bufcnt;		/* buffer counter */
+ 	ast_alg = container_of(alg, struct aspeed_hace_alg, alg.ahash.base);
+ 	tctx->hace_dev = ast_alg->hace_dev;
  
--	/* output buffer */
--	u8			digest[SHA512_DIGEST_SIZE] __aligned(64);
- 	dma_addr_t		digest_dma_addr;
--	u64			digcnt[2];
-+
-+	/* This is DMA too but read-only for hardware. */
-+	u8			buffer[SHA512_BLOCK_SIZE * 2];
- };
+-	crypto_ahash_set_reqsize(__crypto_ahash_cast(tfm),
+-				 sizeof(struct aspeed_sham_reqctx));
+-
+ 	return 0;
+ }
  
- struct aspeed_engine_crypto {
+@@ -703,6 +700,7 @@ static struct aspeed_hace_alg aspeed_ahash_algs[] = {
+ 			.digest	= aspeed_sham_digest,
+ 			.export	= aspeed_sham_export,
+ 			.import	= aspeed_sham_import,
++			.init_tfm = aspeed_sham_cra_init,
+ 			.halg = {
+ 				.digestsize = SHA1_DIGEST_SIZE,
+ 				.statesize = sizeof(struct aspeed_sham_reqctx),
+@@ -715,9 +713,9 @@ static struct aspeed_hace_alg aspeed_ahash_algs[] = {
+ 								  CRYPTO_ALG_KERN_DRIVER_ONLY,
+ 					.cra_blocksize		= SHA1_BLOCK_SIZE,
+ 					.cra_ctxsize		= sizeof(struct aspeed_sham_ctx),
++					.cra_reqsize		= sizeof(struct aspeed_sham_reqctx),
+ 					.cra_alignmask		= 0,
+ 					.cra_module		= THIS_MODULE,
+-					.cra_init		= aspeed_sham_cra_init,
+ 				}
+ 			}
+ 		},
+@@ -734,6 +732,7 @@ static struct aspeed_hace_alg aspeed_ahash_algs[] = {
+ 			.digest	= aspeed_sham_digest,
+ 			.export	= aspeed_sham_export,
+ 			.import	= aspeed_sham_import,
++			.init_tfm = aspeed_sham_cra_init,
+ 			.halg = {
+ 				.digestsize = SHA256_DIGEST_SIZE,
+ 				.statesize = sizeof(struct aspeed_sham_reqctx),
+@@ -746,9 +745,9 @@ static struct aspeed_hace_alg aspeed_ahash_algs[] = {
+ 								  CRYPTO_ALG_KERN_DRIVER_ONLY,
+ 					.cra_blocksize		= SHA256_BLOCK_SIZE,
+ 					.cra_ctxsize		= sizeof(struct aspeed_sham_ctx),
++					.cra_reqsize		= sizeof(struct aspeed_sham_reqctx),
+ 					.cra_alignmask		= 0,
+ 					.cra_module		= THIS_MODULE,
+-					.cra_init		= aspeed_sham_cra_init,
+ 				}
+ 			}
+ 		},
+@@ -765,6 +764,7 @@ static struct aspeed_hace_alg aspeed_ahash_algs[] = {
+ 			.digest	= aspeed_sham_digest,
+ 			.export	= aspeed_sham_export,
+ 			.import	= aspeed_sham_import,
++			.init_tfm = aspeed_sham_cra_init,
+ 			.halg = {
+ 				.digestsize = SHA224_DIGEST_SIZE,
+ 				.statesize = sizeof(struct aspeed_sham_reqctx),
+@@ -777,9 +777,9 @@ static struct aspeed_hace_alg aspeed_ahash_algs[] = {
+ 								  CRYPTO_ALG_KERN_DRIVER_ONLY,
+ 					.cra_blocksize		= SHA224_BLOCK_SIZE,
+ 					.cra_ctxsize		= sizeof(struct aspeed_sham_ctx),
++					.cra_reqsize		= sizeof(struct aspeed_sham_reqctx),
+ 					.cra_alignmask		= 0,
+ 					.cra_module		= THIS_MODULE,
+-					.cra_init		= aspeed_sham_cra_init,
+ 				}
+ 			}
+ 		},
+@@ -799,6 +799,7 @@ static struct aspeed_hace_alg aspeed_ahash_algs_g6[] = {
+ 			.digest	= aspeed_sham_digest,
+ 			.export	= aspeed_sham_export,
+ 			.import	= aspeed_sham_import,
++			.init_tfm = aspeed_sham_cra_init,
+ 			.halg = {
+ 				.digestsize = SHA384_DIGEST_SIZE,
+ 				.statesize = sizeof(struct aspeed_sham_reqctx),
+@@ -811,9 +812,9 @@ static struct aspeed_hace_alg aspeed_ahash_algs_g6[] = {
+ 								  CRYPTO_ALG_KERN_DRIVER_ONLY,
+ 					.cra_blocksize		= SHA384_BLOCK_SIZE,
+ 					.cra_ctxsize		= sizeof(struct aspeed_sham_ctx),
++					.cra_reqsize		= sizeof(struct aspeed_sham_reqctx),
+ 					.cra_alignmask		= 0,
+ 					.cra_module		= THIS_MODULE,
+-					.cra_init		= aspeed_sham_cra_init,
+ 				}
+ 			}
+ 		},
+@@ -830,6 +831,7 @@ static struct aspeed_hace_alg aspeed_ahash_algs_g6[] = {
+ 			.digest	= aspeed_sham_digest,
+ 			.export	= aspeed_sham_export,
+ 			.import	= aspeed_sham_import,
++			.init_tfm = aspeed_sham_cra_init,
+ 			.halg = {
+ 				.digestsize = SHA512_DIGEST_SIZE,
+ 				.statesize = sizeof(struct aspeed_sham_reqctx),
+@@ -842,9 +844,9 @@ static struct aspeed_hace_alg aspeed_ahash_algs_g6[] = {
+ 								  CRYPTO_ALG_KERN_DRIVER_ONLY,
+ 					.cra_blocksize		= SHA512_BLOCK_SIZE,
+ 					.cra_ctxsize		= sizeof(struct aspeed_sham_ctx),
++					.cra_reqsize		= sizeof(struct aspeed_sham_reqctx),
+ 					.cra_alignmask		= 0,
+ 					.cra_module		= THIS_MODULE,
+-					.cra_init		= aspeed_sham_cra_init,
+ 				}
+ 			}
+ 		},
 -- 
 2.39.5
 
