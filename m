@@ -1,61 +1,50 @@
-Return-Path: <linux-aspeed+bounces-1200-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1207-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999AFAB4C2A
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 May 2025 08:43:43 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27924AB4CF1
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 May 2025 09:42:07 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ZxRl31FGFz2yhG;
-	Tue, 13 May 2025 16:43:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ZxT2N6Ck5z2yFK;
+	Tue, 13 May 2025 17:42:04 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=144.6.53.87
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1747118623;
-	cv=none; b=BSrgeag79W1exn3ukfQuaflV3NorIHlPAQuWGdlry+UOOPrhARJqhqkqmYDav6OpGNHIYwa7DtiF2k8dKTW2LXYbFsZ95QcpM1QKO8PgdDNAVWBh61a+J0O9w0wkEqwF4VTfjNh56SLfKuMGfWf4YZcgFykHXI353fuzoCMJ3bO+irEa1VOxtzGva8cS7upNnQ4RUpitBFGClbCQQL4e7a4sl8B8ZGecbqlLAaaAe4VIde361V9WST4+zKaC9Uef4XBYonua5alxTy7pS2RXPWcEKuQ93LgpyAqXjX1Pj6w5M+16eg+5hoqNK4WzGe3m5n+gGYP+fnKUmeIcpAXsxw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:45d1:ec00::3"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1747122124;
+	cv=none; b=grmzmgsuI9RVA0aRuS0QXJVtoSVGsTPfsXsXVch+eHCbI+ms1aEJhe4PPKPAaiCSyB41qOtg7AiLYeVNyI0SyBZYr3qNLvmhrWDDN7df6QZgfxFW6KigvAVbPdTH+KGVwAByIQmHZTJFDpQtk5ORqi0tkyA9P8y/MmBtlcXIUau3T5QYrfntBUVEpy8xsayifuD7X9oyTE/9lBYLd7UB7rdZ9TgK17E9eAul7yJx9KXRngxoB9WrRbh8XsWi8bkjOyylY2fgKGSj5pxA0HYX/KVNQQ5R7TP/c9LBCoTP3GG+UJezV4SuY4KlRpq2jOFQauyySfzEM6VABkPZhrDZWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1747118623; c=relaxed/relaxed;
-	bh=e0Ab6i77V9pvRivZks+l19R5uBrJGiwyJRdHY4M4Ra4=;
-	h=Date:Message-Id:In-Reply-To:References:From:Subject:To:Cc; b=hGtHtiknhvoSwyWN8OJs/hjySNTnGWGUCAt6rQAB6w095/T1MpFz9QOpqZF9kWW30v/yqZbO4xhSqasCzoFutbBfVrx21sLf92arnLRXU2Lu6xXkyWsI0jei83z86StfnSReUpE1gLA8/Tr4q6zdpepVt32KTK8CUoqTEB6flkkkaclcoUF+YmvlBoaiDMIO4AdWIoPK2+IGBEss3LGVyCUEnR3MUE/JutTsgykWB2GiH3dM9vrY0j+hFmpylwLyDk9KwOwGM7Sn+vCq3f+LyUOi8E4+ogce3QnV7+cgMnZFwupS6JadQVPxCGMUvv5p/fX9ruzlFBZX+2GXN+R69A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=e15yqGdM; dkim-atps=neutral; spf=pass (client-ip=144.6.53.87; helo=abb.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=lists.ozlabs.org) smtp.mailfrom=gondor.apana.org.au
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+	t=1747122124; c=relaxed/relaxed;
+	bh=Nytmb8Alh1RnVaARczqsAx8kDXBxAOiAZx1AP1d4uMc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GxKnUQQCJh3xIeq4a+sbmWM+I0Q67n6tVidkXWXoPrzSXEkf5DhZWDm814FLsmE/1bYQ3JIe+t52p7EOZzUm15t0YUQzM7GZR10Z7ei8jQ2DjVUBGxFRLOE9KL/M03JRPAD54Zk9Cbb2PfPtfqA6AIWXjykuNBvKq0qVmN1qsLHtEtPmnLeXYNDxOyK9NuLC2o0KRw2TUjQeJgLYhxf7EYDt46G7jo4YlcrGnuVIB/dewT5f0Ju/UFPr7RxRGCkcoYtI5JpehA9fnJXGAovMX3wppqXKe3Lb/GLg3k+/VJlZlacAt2V3fx+n+q1urk9igY7Lo7R/KEm01s9hGyd/xA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Wvn5hBf/; dkim-atps=neutral; spf=pass (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=e15yqGdM;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Wvn5hBf/;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gondor.apana.org.au (client-ip=144.6.53.87; helo=abb.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=lists.ozlabs.org)
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:45d1:ec00::3; helo=nyc.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [IPv6:2604:1380:45d1:ec00::3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZxRl254b0z2xd6
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 13 May 2025 16:43:42 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=Cc:To:Subject:From:References:In-Reply-To:Message-Id:Date:
-	Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=e0Ab6i77V9pvRivZks+l19R5uBrJGiwyJRdHY4M4Ra4=; b=e15yqGdM0HXuEMFohzZ9qaPUwJ
-	SQ5UA2NhI4EtzRDpsDQrLxkeKb1fqxECmRHJU3+DivsqI5evv3u57XWJeyVVAcPtG4uW8YFk6McKZ
-	NyIhTw2qMzJc2/JY5DgH+4/NgHQPDGrKY11R4//i5ibm6q8PjEzvPpvLesUYiV4vjI3T+ZvnxCGC/
-	RX98qbdhChl+Pq1JLXe8xKibrMzHnZQqoEtqz61ZbQgADAmuMBSWAkveFkZKn4EXnsJOWsBFjUIvb
-	5zyFxbNIh2RKzHrIf8UwLQ8Y5fnxCpKTCBMMAGb7+IbdzzYZ6iDt6n0qFr/bsOk2JQZNwqFhpU3zL
-	bDxNCHnA==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1uEikN-005g7I-0J;
-	Tue, 13 May 2025 14:04:12 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Tue, 13 May 2025 14:04:11 +0800
-Date: Tue, 13 May 2025 14:04:11 +0800
-Message-Id: <11bdba6fa8b5a76d1fb20ca1a7f004b68716431b.1747116129.git.herbert@gondor.apana.org.au>
-In-Reply-To: <cover.1747116129.git.herbert@gondor.apana.org.au>
-References: <cover.1747116129.git.herbert@gondor.apana.org.au>
-From: Herbert Xu <herbert@gondor.apana.org.au>
-Subject: [PATCH 11/11] crypto: aspeed/hash - Fix potential overflow in
- dma_prepare_sg
-To: Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
-Cc: Neal Liu <neal_liu@aspeedtech.com>, linux-aspeed@lists.ozlabs.org
-X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
-X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZxT2M3cD3z2xYl
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 13 May 2025 17:42:03 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 3FD9CA4C923;
+	Tue, 13 May 2025 07:41:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28123C4CEE4;
+	Tue, 13 May 2025 07:41:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747122118;
+	bh=kKxVFd5/Lny450HTq18gSCKN2yeP+HNi+IlWTPmp39A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Wvn5hBf/fn5+WwHlHZ3vwPyWufR+lIGYZS/NM8gvXF51GkR+JpIzLj9aqtm1BoHMX
+	 RvynBNfqD3p+6DCczvXV1i6g4WXBsrjHBvz5pr0/QUTZw5sITBCjMyVBMiI/0NocIw
+	 Irdq+k20t1aSvMfytI2fCTX7qiZBxoo80byiuZ+R9QJZtPfxh1zRQVJ8xw5aZaDqCk
+	 hRbUjDVbrj14FKJEAyidBLZG1ZtDJtF3VbH6zemUmeI8jn0fn80NQn6E5xu6nvyCBx
+	 rZW/WiaEz+mb7ZMqfKMP+A4JQuSZmUrz80zL+m1T92MynX7t/T63yQpR4z+qyAXL2F
+	 ineNDox31+c7w==
+Message-ID: <824ce42d-d7be-4a86-bfa3-b405d1d7197e@kernel.org>
+Date: Tue, 13 May 2025 09:41:54 +0200
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -68,205 +57,95 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [dt-bindings: arm: aspeed: add Meta Clemente board] dt-bindings:
+ arm: aspeed: add Meta Clemente board
+To: leo.jt.wang@gmail.com, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ george.kw.lee@fii-foxconn.com, leo.jt.wang@fii-foxconn.com
+References: <20250512113026.264785-1-LeoWang>
+ <6821dbfb.170a0220.3b15e.aba8@mx.google.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <6821dbfb.170a0220.3b15e.aba8@mx.google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
+X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-The mapped SG lists are written to hash_engine->ahash_src_addr which
-has the size ASPEED_HASH_SRC_DMA_BUF_LEN.  Since scatterlists are
-not bound in size, make sure that size is not exceeded.
+On 12/05/2025 13:30, leo.jt.wang@gmail.com wrote:
+> From: Leo Wang <leo.jt.wang@fii-foxconn.com>
+> 
+> Document the new compatibles used on Meta Clemente.
+> 
+> Signed-off-by: Leo Wang <leo.jt.wang@fii-foxconn.com>
+> ---
+>  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+> index a3736f134130..4416a40dcd86 100644
+> --- a/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+> +++ b/Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml
+> @@ -81,6 +81,7 @@ properties:
+>                - asus,x4tf-bmc
+>                - facebook,bletchley-bmc
+>                - facebook,catalina-bmc
+> +              - facebook,clemente-bmc
 
-If the mapped SG list is larger than the buffer, simply iterate
-over it as is done in the dma_prepare case.
+where is any user of this binding? Why do you send such patch alone?
+Please look at other patchsets to learn how all such patches are being sent.
 
-Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
----
- drivers/crypto/aspeed/aspeed-hace-hash.c | 84 ++++++++++++------------
- 1 file changed, 43 insertions(+), 41 deletions(-)
-
-diff --git a/drivers/crypto/aspeed/aspeed-hace-hash.c b/drivers/crypto/aspeed/aspeed-hace-hash.c
-index fc2154947ec8..e54b7dd03be3 100644
---- a/drivers/crypto/aspeed/aspeed-hace-hash.c
-+++ b/drivers/crypto/aspeed/aspeed-hace-hash.c
-@@ -146,6 +146,15 @@ static int aspeed_ahash_fill_padding(struct aspeed_hace_dev *hace_dev,
- 	return padlen + bitslen;
- }
- 
-+static void aspeed_ahash_update_counter(struct aspeed_sham_reqctx *rctx,
-+					unsigned int len)
-+{
-+	rctx->offset += len;
-+	rctx->digcnt[0] += len;
-+	if (rctx->digcnt[0] < len)
-+		rctx->digcnt[1]++;
-+}
-+
- /*
-  * Prepare DMA buffer before hardware engine
-  * processing.
-@@ -175,12 +184,7 @@ static int aspeed_ahash_dma_prepare(struct aspeed_hace_dev *hace_dev)
- 		length -= remain;
- 	scatterwalk_map_and_copy(hash_engine->ahash_src_addr, rctx->src_sg,
- 				 rctx->offset, length, 0);
--	rctx->offset += length;
--
--	rctx->digcnt[0] += length;
--	if (rctx->digcnt[0] < length)
--		rctx->digcnt[1]++;
--
-+	aspeed_ahash_update_counter(rctx, length);
- 	if (final)
- 		length += aspeed_ahash_fill_padding(
- 			hace_dev, rctx, hash_engine->ahash_src_addr + length);
-@@ -210,13 +214,16 @@ static int aspeed_ahash_dma_prepare_sg(struct aspeed_hace_dev *hace_dev)
- 	struct ahash_request *req = hash_engine->req;
- 	struct aspeed_sham_reqctx *rctx = ahash_request_ctx(req);
- 	bool final = rctx->flags & SHA_FLAGS_FINUP;
-+	int remain, sg_len, i, max_sg_nents;
-+	unsigned int length, offset, total;
- 	struct aspeed_sg_list *src_list;
- 	struct scatterlist *s;
--	int length, remain, sg_len, i;
- 	int rc = 0;
- 
--	remain = final ? 0 : rctx->total % rctx->block_size;
--	length = rctx->total - remain;
-+	offset = rctx->offset;
-+	length = rctx->total - offset;
-+	remain = final ? 0 : length - round_down(length, rctx->block_size);
-+	length -= remain;
- 
- 	AHASH_DBG(hace_dev, "%s:0x%x, %s:0x%x, %s:0x%x\n",
- 		  "rctx total", rctx->total,
-@@ -230,6 +237,8 @@ static int aspeed_ahash_dma_prepare_sg(struct aspeed_hace_dev *hace_dev)
- 		goto end;
- 	}
- 
-+	max_sg_nents = ASPEED_HASH_SRC_DMA_BUF_LEN / sizeof(*src_list) - final;
-+	sg_len = min(sg_len, max_sg_nents);
- 	src_list = (struct aspeed_sg_list *)hash_engine->ahash_src_addr;
- 	rctx->digest_dma_addr = dma_map_single(hace_dev->dev, rctx->digest,
- 					       SHA512_DIGEST_SIZE,
-@@ -240,10 +249,20 @@ static int aspeed_ahash_dma_prepare_sg(struct aspeed_hace_dev *hace_dev)
- 		goto free_src_sg;
- 	}
- 
-+	total = 0;
- 	for_each_sg(rctx->src_sg, s, sg_len, i) {
- 		u32 phy_addr = sg_dma_address(s);
- 		u32 len = sg_dma_len(s);
- 
-+		if (len <= offset) {
-+			offset -= len;
-+			continue;
-+		}
-+
-+		len -= offset;
-+		phy_addr += offset;
-+		offset = 0;
-+
- 		if (length > len)
- 			length -= len;
- 		else {
-@@ -252,24 +271,22 @@ static int aspeed_ahash_dma_prepare_sg(struct aspeed_hace_dev *hace_dev)
- 			length = 0;
- 		}
- 
-+		total += len;
- 		src_list[i].phy_addr = cpu_to_le32(phy_addr);
- 		src_list[i].len = cpu_to_le32(len);
- 	}
- 
- 	if (length != 0) {
--		rc = -EINVAL;
--		goto free_rctx_digest;
-+		total = round_down(total, rctx->block_size);
-+		final = false;
- 	}
- 
--	rctx->digcnt[0] += rctx->total - remain;
--	if (rctx->digcnt[0] < rctx->total - remain)
--		rctx->digcnt[1]++;
--
-+	aspeed_ahash_update_counter(rctx, total);
- 	if (final) {
- 		int len = aspeed_ahash_fill_padding(hace_dev, rctx,
- 						    rctx->buffer);
- 
--		rctx->total += len;
-+		total += len;
- 		rctx->buffer_dma_addr = dma_map_single(hace_dev->dev,
- 						       rctx->buffer,
- 						       sizeof(rctx->buffer),
-@@ -286,8 +303,7 @@ static int aspeed_ahash_dma_prepare_sg(struct aspeed_hace_dev *hace_dev)
- 	}
- 	src_list[i - 1].len |= cpu_to_le32(HASH_SG_LAST_LIST);
- 
--	rctx->offset = rctx->total - remain;
--	hash_engine->src_length = rctx->total - remain;
-+	hash_engine->src_length = total;
- 	hash_engine->src_dma = hash_engine->ahash_src_dma_addr;
- 	hash_engine->digest_dma = rctx->digest_dma_addr;
- 
-@@ -311,6 +327,13 @@ static int aspeed_ahash_complete(struct aspeed_hace_dev *hace_dev)
- 
- 	AHASH_DBG(hace_dev, "\n");
- 
-+	dma_unmap_single(hace_dev->dev, rctx->digest_dma_addr,
-+			 SHA512_DIGEST_SIZE, DMA_BIDIRECTIONAL);
-+
-+	if (rctx->total - rctx->offset >= rctx->block_size ||
-+	    (rctx->total != rctx->offset && rctx->flags & SHA_FLAGS_FINUP))
-+		return aspeed_ahash_req_update(hace_dev);
-+
- 	hash_engine->flags &= ~CRYPTO_FLAGS_BUSY;
- 
- 	if (rctx->flags & SHA_FLAGS_FINUP)
-@@ -366,36 +389,15 @@ static int aspeed_ahash_update_resume_sg(struct aspeed_hace_dev *hace_dev)
- 	dma_unmap_sg(hace_dev->dev, rctx->src_sg, rctx->src_nents,
- 		     DMA_TO_DEVICE);
- 
--	if (rctx->flags & SHA_FLAGS_FINUP)
-+	if (rctx->flags & SHA_FLAGS_FINUP && rctx->total == rctx->offset)
- 		dma_unmap_single(hace_dev->dev, rctx->buffer_dma_addr,
- 				 sizeof(rctx->buffer), DMA_TO_DEVICE);
- 
--	dma_unmap_single(hace_dev->dev, rctx->digest_dma_addr,
--			 SHA512_DIGEST_SIZE, DMA_BIDIRECTIONAL);
--
- 	rctx->cmd &= ~HASH_CMD_HASH_SRC_SG_CTRL;
- 
- 	return aspeed_ahash_complete(hace_dev);
- }
- 
--static int aspeed_ahash_update_resume(struct aspeed_hace_dev *hace_dev)
--{
--	struct aspeed_engine_hash *hash_engine = &hace_dev->hash_engine;
--	struct ahash_request *req = hash_engine->req;
--	struct aspeed_sham_reqctx *rctx = ahash_request_ctx(req);
--
--	AHASH_DBG(hace_dev, "\n");
--
--	dma_unmap_single(hace_dev->dev, rctx->digest_dma_addr,
--			 SHA512_DIGEST_SIZE, DMA_BIDIRECTIONAL);
--
--	if (rctx->total - rctx->offset >= rctx->block_size ||
--	    (rctx->total != rctx->offset && rctx->flags & SHA_FLAGS_FINUP))
--		return aspeed_ahash_req_update(hace_dev);
--
--	return aspeed_ahash_complete(hace_dev);
--}
--
- static int aspeed_ahash_req_update(struct aspeed_hace_dev *hace_dev)
- {
- 	struct aspeed_engine_hash *hash_engine = &hace_dev->hash_engine;
-@@ -411,7 +413,7 @@ static int aspeed_ahash_req_update(struct aspeed_hace_dev *hace_dev)
- 		resume = aspeed_ahash_update_resume_sg;
- 
- 	} else {
--		resume = aspeed_ahash_update_resume;
-+		resume = aspeed_ahash_complete;
- 	}
- 
- 	ret = hash_engine->dma_prepare(hace_dev);
--- 
-2.39.5
-
+Best regards,
+Krzysztof
 
