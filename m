@@ -1,56 +1,56 @@
-Return-Path: <linux-aspeed+bounces-1198-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1206-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6883AAB4C28
-	for <lists+linux-aspeed@lfdr.de>; Tue, 13 May 2025 08:43:41 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12AF4AB4C30
+	for <lists+linux-aspeed@lfdr.de>; Tue, 13 May 2025 08:43:57 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ZxRkz335Vz2yf1;
-	Tue, 13 May 2025 16:43:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ZxRlG73HFz2ygm;
+	Tue, 13 May 2025 16:43:54 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=144.6.53.87
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1747118619;
-	cv=none; b=RUP8VNUvNbm3/dhnTfO3Fua376Qz+QnV4+6nCgxtiJys0HEQBU2HCXImdNjC5kFdzk/MN0ZTN0mOp3vITvtMgFGIZ588EZ3R3j/vEXqvYSRl3o1yb+YvziyoDpYzrWnS3JEA6X51FEsJK5I5OJAoiWz4yTxURGqEb6huBhgFQBx9fejODBRG3lMyFHBww/faN7jS8nxSDYwcBTsBMhRVTyc9hWz2BHlza0oL1h0GpDKyS0xFHCpuTLGs/C07tP95PI6P6iTBxvKDHV/Bpmok71iLzfcZwgbsHVwnFvbr3WdcDt8swJGSIVmUuPwvFAJDtUFW8hDDGWdLDPExj6v5XA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1747118634;
+	cv=none; b=WCO8Oz5/IFY9/jDMGdUz6W0IZFkmctf3E7ibUuMhW26gWiUYIW7DPli0i4H/rcJ4l3PD2/GYhdf+2s08qd6Ah50ETjooABmVLtbJmaLK7EvkcVoxSOPyMMEqwYP3c8+Z/3XYMVwSiKhOUm405kBuCoSxQxJUb22hf0dw7TZHNolBXeHok9hSt0UZC3ZNWqRYbzs0IEDq9RhYrR1IDu4Oul585ZD20NQ17xG/WEthlH5qK4ExidEwUvCEJLKKqOwLPFriFwLNYt4DGlkxhN5h/T6H9qQTLuTLqz7ZEl7tvplJYhaehCWPFTA5TiLbXFAi7FYBrofO3jF3X38Rwoa1NQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1747118619; c=relaxed/relaxed;
-	bh=HMpZOccRKLHOxt1j9Wb25Ygiudgle05mCvS8XV7VkL4=;
-	h=Date:Message-Id:In-Reply-To:References:From:Subject:To:Cc; b=nyiPq6XdT6HnB07Dfqd6vxPjRVyUiCklptDWLLNHMhP9H3KNFUlOSVn51+xUwUiobdbLVVyYJEVpVxHrhhs3P6JSiiZvhjt8j/9kNNOvok7+RmCPnSi5MjEbE+OXFMC36ChT3YsD2YbagAWWHy2v/qgrp7f7J9TLbT3bn2CkrF8dJkkzIvIebO5/K99HujnG8s/RKvtCDfuaNTOQ+2S/IXiVVMDSs72sEkObz3jIhyFV8AxiKEuWxajwrKYMPV8ftm3KV5s6ZtdmzJp+P0LeUjtCS5Qsuk26NWQVzYlrBu9mnlPGZZ/gTwRHwZhuGqMJR24rOtmz5gI3fkhyFAM1pw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=O7iVStjT; dkim-atps=neutral; spf=pass (client-ip=144.6.53.87; helo=abb.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=lists.ozlabs.org) smtp.mailfrom=gondor.apana.org.au
+	t=1747118634; c=relaxed/relaxed;
+	bh=CD9BMpmVjGPJ6XdNaixWC02LuRV2gzAIiirjItpgEnU=;
+	h=Date:Message-Id:In-Reply-To:References:From:Subject:To:Cc; b=LwaJvx0wiotRpB3a9JmvEHCClxM4anRKJob4PW4nBc37yA1jpYd1gpdKqu4raVMI+iqgkB2KBUHm9Zn3zC/V0WOx8HSAlWWlUoFQfQMvEzm32XONUIH5gC3v0VdIY5mcVPxt/sf7CPdy+StZRnflmAG6Lbzm0ZlUkzYr5bWPN2WiSmO40NUj4UQRV/Ut86KAbqCc57GClSzKdcG+HeMMe40+lNX/ae6bwV26P4kF3fqMpQWVV76Tp8iY2UN5kLU7OtmeVKcBude1gT2wlfrvWflk95+RGkQS4SqIhnCKC1QK0ax1ikhrv5kErDmLWNYiR4uZgVEO7AgtaE0BuRBAcg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=CJjtnEHD; dkim-atps=neutral; spf=pass (client-ip=144.6.53.87; helo=abb.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=lists.ozlabs.org) smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=O7iVStjT;
+	dkim=pass (2048-bit key; unprotected) header.d=hmeau.com header.i=@hmeau.com header.a=rsa-sha256 header.s=formenos header.b=CJjtnEHD;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gondor.apana.org.au (client-ip=144.6.53.87; helo=abb.hmeau.com; envelope-from=herbert@gondor.apana.org.au; receiver=lists.ozlabs.org)
 Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZxRky6Vfdz2xd6
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 13 May 2025 16:43:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ZxRlG3PMlz2xd6
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 13 May 2025 16:43:54 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
 	s=formenos; h=Cc:To:Subject:From:References:In-Reply-To:Message-Id:Date:
 	Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=HMpZOccRKLHOxt1j9Wb25Ygiudgle05mCvS8XV7VkL4=; b=O7iVStjTolbqkytUZCqVPNDQ57
-	hEds29Vg+JmHYMqpgENVxgbOZsjwvJNlO7RcnKPd9jDsdgLEE3ub0BhkPwG13DAKNcox3c0gIMtSu
-	Zi6/0R5efmvXloB26C5QxGMw/BPk/EYlpSJWikTk7rEC6Sjf2j3fu3kl25j2KF9Cd46JN4v9wibnS
-	tGsKaYoQ9imitw74a3l1GvlO2YHc2nzPfer8y4zl0Gr+64AuoZiWHR6ugQf6/4fEplGTGBKA0okw/
-	6NLQt6hr6cYhDJ0W+oue5hakZ3jnYgzxdwz9Vfloj6+0Rg3t8H8XgEUwxto+kc6ICk8sL752Yvd3b
-	IFLPmF8Q==;
+	bh=CD9BMpmVjGPJ6XdNaixWC02LuRV2gzAIiirjItpgEnU=; b=CJjtnEHD8etfMeS4pTaJXvRevV
+	Ml9CemH3NE8Fbdt6XOlj4Q8gCFgT83qx6br72UAfaLyIpPCcO9rq6u1uKVJccNmDQVjB9DaGO9ASs
+	zAss1yO4g3vCyo/H2f24ReZ5Dye5gu4hnKWSc01mZSAN8ouuxhEpJItIkVNUY0pomPPj61WdgtIcs
+	m2U0/rlkMYrnZ7JRw25XaV1yWpN4ZW0pJIOptPoEQnOrihgUc35Ox78wBZHsgfRX4PPgHQns9B9wt
+	QJ+jGWTrBO9udv5Ekp6iUbnRJrO1E29MWiRPXPq1kEfa8A1n+5NvknOXAsPN9zmkwjXL2ISSqC/py
+	FgjptRfw==;
 Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
 	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1uEik9-005g55-0s;
-	Tue, 13 May 2025 14:03:58 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Tue, 13 May 2025 14:03:57 +0800
-Date: Tue, 13 May 2025 14:03:57 +0800
-Message-Id: <889c7e7d5a3e16da52ac39ecafaab2a4a2cf22dc.1747116129.git.herbert@gondor.apana.org.au>
+	id 1uEikB-005g5I-1s;
+	Tue, 13 May 2025 14:04:00 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Tue, 13 May 2025 14:03:59 +0800
+Date: Tue, 13 May 2025 14:03:59 +0800
+Message-Id: <e5f9015032207aea18724b3be618118ed6bceb95.1747116129.git.herbert@gondor.apana.org.au>
 In-Reply-To: <cover.1747116129.git.herbert@gondor.apana.org.au>
 References: <cover.1747116129.git.herbert@gondor.apana.org.au>
 From: Herbert Xu <herbert@gondor.apana.org.au>
-Subject: [PATCH 05/11] crypto: aspeed/hash - Move sham_final call into
- sham_update
+Subject: [PATCH 06/11] crypto: aspeed/hash - Move final padding into
+ dma_prepare
 To: Linux Crypto Mailing List <linux-crypto@vger.kernel.org>
 Cc: Neal Liu <neal_liu@aspeedtech.com>, linux-aspeed@lists.ozlabs.org
 X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
@@ -69,98 +69,76 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 
-The only time when sham_final needs to be called in sham_finup
-is when the finup request fits into the partial block.  Move this
-special handling into sham_update.
+Rather than processing a final as two separate updates, combine
+them into one for the linear dma_prepare case.
 
-The comment about releaseing resources is non-sense.  The Crypto
-API does not mandate the use of final so the user could always go
-away after an update and never come back.  Therefore the driver
-must not hold any resources after an update call.
+This means that the total hash size is slightly reduced, but that
+will be fixed up later by repeating the hash if necessary.
 
 Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
 ---
- drivers/crypto/aspeed/aspeed-hace-hash.c | 44 +++++++++---------------
- 1 file changed, 17 insertions(+), 27 deletions(-)
+ drivers/crypto/aspeed/aspeed-hace-hash.c | 29 ++++++++++++++----------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/crypto/aspeed/aspeed-hace-hash.c b/drivers/crypto/aspeed/aspeed-hace-hash.c
-index 9f776ec8f5ec..40363159489e 100644
+index 40363159489e..ceea2e2f5658 100644
 --- a/drivers/crypto/aspeed/aspeed-hace-hash.c
 +++ b/drivers/crypto/aspeed/aspeed-hace-hash.c
-@@ -508,6 +508,20 @@ static int aspeed_ahash_do_one(struct crypto_engine *engine, void *areq)
- 	return aspeed_ahash_do_request(engine, areq);
- }
- 
-+static int aspeed_sham_final(struct ahash_request *req)
-+{
-+	struct aspeed_sham_reqctx *rctx = ahash_request_ctx(req);
-+	struct crypto_ahash *tfm = crypto_ahash_reqtfm(req);
-+	struct aspeed_sham_ctx *tctx = crypto_ahash_ctx(tfm);
-+	struct aspeed_hace_dev *hace_dev = tctx->hace_dev;
-+
-+	AHASH_DBG(hace_dev, "req->nbytes:%d, rctx->total:%d\n",
-+		  req->nbytes, rctx->total);
-+	rctx->op = SHA_OP_FINAL;
-+
-+	return aspeed_hace_hash_handle_queue(hace_dev, req);
-+}
-+
- static int aspeed_sham_update(struct ahash_request *req)
- {
+@@ -114,29 +114,34 @@ static int aspeed_ahash_dma_prepare(struct aspeed_hace_dev *hace_dev)
+ 	struct aspeed_engine_hash *hash_engine = &hace_dev->hash_engine;
+ 	struct ahash_request *req = hash_engine->req;
  	struct aspeed_sham_reqctx *rctx = ahash_request_ctx(req);
-@@ -533,49 +547,25 @@ static int aspeed_sham_update(struct ahash_request *req)
- 					 rctx->total, 0);
- 		rctx->bufcnt += rctx->total;
+-	int length, remain;
++	bool final = rctx->flags & SHA_FLAGS_FINUP;
++	unsigned int length, remain;
  
--		return 0;
-+		return rctx->flags & SHA_FLAGS_FINUP ?
-+		       aspeed_sham_final(req) : 0;
+ 	length = rctx->total + rctx->bufcnt;
+-	remain = length % rctx->block_size;
++	remain = final ? 0 : length % rctx->block_size;
+ 
+ 	AHASH_DBG(hace_dev, "length:0x%x, remain:0x%x\n", length, remain);
+ 
+ 	if (rctx->bufcnt)
+ 		memcpy(hash_engine->ahash_src_addr, rctx->buffer, rctx->bufcnt);
+ 
+-	if (rctx->total + rctx->bufcnt < ASPEED_CRYPTO_SRC_DMA_BUF_LEN) {
+-		scatterwalk_map_and_copy(hash_engine->ahash_src_addr +
+-					 rctx->bufcnt, rctx->src_sg,
+-					 rctx->offset, rctx->total - remain, 0);
+-		rctx->offset += rctx->total - remain;
+-
+-	} else {
++	if ((final ? round_up(length, rctx->block_size) + rctx->block_size :
++		     length) > ASPEED_CRYPTO_SRC_DMA_BUF_LEN) {
+ 		dev_warn(hace_dev->dev, "Hash data length is too large\n");
+ 		return -EINVAL;
  	}
  
- 	return aspeed_hace_hash_handle_queue(hace_dev, req);
+-	scatterwalk_map_and_copy(rctx->buffer, rctx->src_sg,
+-				 rctx->offset, remain, 0);
++	scatterwalk_map_and_copy(hash_engine->ahash_src_addr +
++				 rctx->bufcnt, rctx->src_sg,
++				 rctx->offset, rctx->total - remain, 0);
++	rctx->offset += rctx->total - remain;
++
++	if (final)
++		length += aspeed_ahash_fill_padding(
++			hace_dev, rctx, hash_engine->ahash_src_addr + length);
++	else
++		scatterwalk_map_and_copy(rctx->buffer, rctx->src_sg,
++					 rctx->offset, remain, 0);
+ 
+ 	rctx->bufcnt = remain;
+ 	rctx->digest_dma_addr = dma_map_single(hace_dev->dev, rctx->digest,
+@@ -423,7 +428,7 @@ static int aspeed_ahash_update_resume(struct aspeed_hace_dev *hace_dev)
+ 			 SHA512_DIGEST_SIZE, DMA_BIDIRECTIONAL);
+ 
+ 	if (rctx->flags & SHA_FLAGS_FINUP)
+-		return aspeed_ahash_req_final(hace_dev);
++		memcpy(req->result, rctx->digest, rctx->digsize);
+ 
+ 	return aspeed_ahash_complete(hace_dev);
  }
- 
--static int aspeed_sham_final(struct ahash_request *req)
--{
--	struct aspeed_sham_reqctx *rctx = ahash_request_ctx(req);
--	struct crypto_ahash *tfm = crypto_ahash_reqtfm(req);
--	struct aspeed_sham_ctx *tctx = crypto_ahash_ctx(tfm);
--	struct aspeed_hace_dev *hace_dev = tctx->hace_dev;
--
--	AHASH_DBG(hace_dev, "req->nbytes:%d, rctx->total:%d\n",
--		  req->nbytes, rctx->total);
--	rctx->op = SHA_OP_FINAL;
--
--	return aspeed_hace_hash_handle_queue(hace_dev, req);
--}
--
- static int aspeed_sham_finup(struct ahash_request *req)
- {
- 	struct aspeed_sham_reqctx *rctx = ahash_request_ctx(req);
- 	struct crypto_ahash *tfm = crypto_ahash_reqtfm(req);
- 	struct aspeed_sham_ctx *tctx = crypto_ahash_ctx(tfm);
- 	struct aspeed_hace_dev *hace_dev = tctx->hace_dev;
--	int rc1, rc2;
- 
- 	AHASH_DBG(hace_dev, "req->nbytes: %d\n", req->nbytes);
- 
- 	rctx->flags |= SHA_FLAGS_FINUP;
- 
--	rc1 = aspeed_sham_update(req);
--	if (rc1 == -EINPROGRESS || rc1 == -EBUSY)
--		return rc1;
--
--	/*
--	 * final() has to be always called to cleanup resources
--	 * even if update() failed, except EINPROGRESS
--	 */
--	rc2 = aspeed_sham_final(req);
--
--	return rc1 ? : rc2;
-+	return aspeed_sham_update(req);
- }
- 
- static int aspeed_sham_init(struct ahash_request *req)
 -- 
 2.39.5
 
