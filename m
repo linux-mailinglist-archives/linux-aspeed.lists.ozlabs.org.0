@@ -1,50 +1,57 @@
-Return-Path: <linux-aspeed+bounces-1226-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1229-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD31ABD5DC
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 May 2025 13:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDCEABDCE9
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 May 2025 16:30:36 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4b1sDj3q6gz3blT;
-	Tue, 20 May 2025 21:06:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4b1xmV4nmQz3bbm;
+	Wed, 21 May 2025 00:30:34 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1747733769;
-	cv=none; b=hPhF+KaiyMv+9K5fgt2TzqdO3j8DLCU8BznzyCnnNh6KjpV3pYP36M6YmqxXogkiTY2ApV5h2zW18/3BIEDDp96hBWKTuQVtDloxRxStvQn9Lf76hCcbdSTO9+KMI+LBwfcipGw/d3n6aIai/RXZWIOah6mNzUxOeEiDjTihVx2S+H2zRYZKYvyrTRYqxqXXHJYqhNKssL6x37p2UMFdA4KfBj+rxwgoaMJdQxyd5x7ndO9gEFlmEx0xpqwTBOvyZyp+Q42Z1LNs/axX8VIoTn6CqiVVt17qjtbw3ImIyneBtVvTnJZT3tXo464lFImnHp/oPzWrx1/6hOwk+MRggw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1747751434;
+	cv=none; b=UwAGoCFgal9eU0YeUeOyesetdGFF/TToiclmF2Ul9zIX/j8+N0Zx/lippcEy/G8L/izhRst0ozZLApOZVVMr0oCzVP0ENHYRkiZDrQLnbNzxrc6c5AqEDxI/ARXBKD0ZwBLoR2SVL1If6Re3Xgk0NNcs4Pn9W1Cg9tg3Q3xmoBev3dvcTo/PkpasKahmKnLex8gfHpmUQ4XVI5C4HswSrYkpEQa7D/Wq/gncJHyI2WX0Uxe9hvLdhfBia76BiRyuNWR1RQsUhzaUuYaf0iIU/RlAackeq/Rwm1eaX8B2J4X74S575x2gIhbMo1cvxbh6gU2/Cp7erN1Vgq9TLNUl9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1747733769; c=relaxed/relaxed;
-	bh=5LKba7DknBhbjPo7db2iJgXAGczza2OID/T8xJSknic=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lldCzjk8NnkOgXGJNCh4JwGHysrLdFRjIkIM1bpIJ0doFaiYDhyqZj8urrhh3ND9nXJXKI16ry9SOfcoeWsbktTIIbQ2ZpOpPfIp2KRjgwfozLM76MI5WLnVSE3DreAZHllFcCU08m40V4jTUlThzdHAQ4tqt9nTfc4cXpNFTKa+4SGzIcwJ6oHfxuB8v2eb/Xx9OTKYJg65/489/RVaVWFGc0LlZjOpbzlb/ZXg7LLD7WwcdND6ZOGfY2wvVz/lO8Z69uX0pWbSITKFtBYXryyogL0e8UWK+U7zUaphTyB/YVLhZSGF8jhBHiltC4gfzAAog8Xtao3CzYyf98ctZA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1747751434; c=relaxed/relaxed;
+	bh=60oYgzAqshuD6yLOKdWI/2Zup0hrKz6aeKRaimHYHAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bNAFdnbsEpujHJRPkKv8G1fzIapTuOs+zH8flD55D9lE9kPNXevy5HlwcnGS8+bAaG9zuGJN4mhSir+9uqQ/eG3U0uFsqZ5I7T0ZUbaqZ9gdwUQkWd7620UPjycdk4fkGeVl8CveVouuXcsyrzuEgVVDje3aq4mkgRamVyNhNgI9hz2HrnJRTwS1N+PJCaRM8BQ1QxVtK18pIE9bjkFFb9fn1RFWeM+iuqvOK2GCUIF88twp4rh5lt8cJD1GSxtT5TrxA9NV7Bn2SgVuSPzSNxA+IJfxQZvm4HlP+K0A6pnvbOozI8N77wTY3U9nZUgrF3hrS2w6g4pERyiDbC8i6A==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=b1+f6y/q; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=b1+f6y/q;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4b1qDn0c0Tz2yrN
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 20 May 2025 19:36:09 +1000 (AEST)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 20 May
- 2025 17:28:49 +0800
-Received: from mail.aspeedtech.com (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Tue, 20 May 2025 17:28:49 +0800
-From: Jacky Chou <jacky_chou@aspeedtech.com>
-To: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
-	<andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <pabeni@redhat.com>, <robh@kernel.org>,
-	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <joel@jms.id.au>,
-	<andrew@codeconstruct.com.au>, <mturquette@baylibre.com>, <sboyd@kernel.org>,
-	<p.zabel@pengutronix.de>, <BMC-SW@aspeedtech.com>
-Subject: [net 4/4] net: ftgmac100: Add optional reset control for RMII mode on Aspeed SoCs
-Date: Tue, 20 May 2025 17:28:48 +0800
-Message-ID: <20250520092848.531070-5-jacky_chou@aspeedtech.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250520092848.531070-1-jacky_chou@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4b1xmS5Fhfz2yr8
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 21 May 2025 00:30:31 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=60oYgzAqshuD6yLOKdWI/2Zup0hrKz6aeKRaimHYHAU=; b=b1+f6y/qH2058NF2o/xrWpwO2L
+	8MoTZG0nKc3MTgGQfRLBEdPRafkGWEK3ijxCQ9bcpbumoeiNLv86XQr9TWXw/ZqLfeeD6OQBg83P1
+	CaOiweBnQ5dCVPAv5On3ryybfKlhWBMlvWfjvQ0OfkUjmAvZBizf7FXaqJj3BJ71oYsM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uHNz0-00D8Jc-Gt; Tue, 20 May 2025 16:30:18 +0200
+Date: Tue, 20 May 2025 16:30:18 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Jacky Chou <jacky_chou@aspeedtech.com>
+Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
+	andrew@codeconstruct.com.au, mturquette@baylibre.com,
+	sboyd@kernel.org, p.zabel@pengutronix.de, BMC-SW@aspeedtech.com
+Subject: Re: [net 0/4] net: ftgmac100: Add SoC reset support for RMII mode
+Message-ID: <cfb44996-ad63-43cd-bbc5-07f70939d019@lunn.ch>
 References: <20250520092848.531070-1-jacky_chou@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
@@ -59,83 +66,26 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
-	autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250520092848.531070-1-jacky_chou@aspeedtech.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Aspeed SoCs, the internal MAC reset is insufficient to fully reset the
-RMII interface; only the SoC-level reset line can properly reset the RMII
-logic. This patch adds support for an optional "resets" property in the
-device tree, allowing the driver to assert and deassert the SoC reset line
-when operating in RMII mode. This ensures the MAC and RMII interface are
-correctly reset and initialized.
+On Tue, May 20, 2025 at 05:28:44PM +0800, Jacky Chou wrote:
+> This patch series adds support for an optional reset line to the
+> ftgmac100 ethernet controller, as used on Aspeed SoCs. On these SoCs,
+> the internal MAC reset is not sufficient to reset the RMII interface.
+> By providing a SoC-level reset via the device tree "resets" property,
+> the driver can properly reset both the MAC and RMII logic, ensuring
+> correct operation in RMII mode.
 
-Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
----
- drivers/net/ethernet/faraday/ftgmac100.c | 26 ++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+What tree is this for? You have net in the subject, but no Fixes:
+tags?
 
-diff --git a/drivers/net/ethernet/faraday/ftgmac100.c b/drivers/net/ethernet/faraday/ftgmac100.c
-index 17ec35e75a65..01c4db6e5b91 100644
---- a/drivers/net/ethernet/faraday/ftgmac100.c
-+++ b/drivers/net/ethernet/faraday/ftgmac100.c
-@@ -9,6 +9,7 @@
- #define pr_fmt(fmt)	KBUILD_MODNAME ": " fmt
- 
- #include <linux/clk.h>
-+#include <linux/reset.h>
- #include <linux/dma-mapping.h>
- #include <linux/etherdevice.h>
- #include <linux/ethtool.h>
-@@ -101,6 +102,8 @@ struct ftgmac100 {
- 
- 	/* AST2500/AST2600 RMII ref clock gate */
- 	struct clk *rclk;
-+	/* Aspeed reset control */
-+	struct reset_control *rst;
- 
- 	/* Link management */
- 	int cur_speed;
-@@ -148,6 +151,23 @@ static int ftgmac100_reset_and_config_mac(struct ftgmac100 *priv)
- {
- 	u32 maccr = 0;
- 
-+	/* Aspeed RMII needs SCU reset to clear status */
-+	if (priv->is_aspeed && priv->netdev->phydev->interface == PHY_INTERFACE_MODE_RMII) {
-+		int err;
-+
-+		err = reset_control_assert(priv->rst);
-+		if (err) {
-+			dev_err(priv->dev, "Failed to reset mac (%d)\n", err);
-+			return err;
-+		}
-+		usleep_range(10000, 20000);
-+		err = reset_control_deassert(priv->rst);
-+		if (err) {
-+			dev_err(priv->dev, "Failed to deassert mac reset (%d)\n", err);
-+			return err;
-+		}
-+	}
-+
- 	switch (priv->cur_speed) {
- 	case SPEED_10:
- 	case 0: /* no link */
-@@ -1968,6 +1988,12 @@ static int ftgmac100_probe(struct platform_device *pdev)
- 
- 	}
- 
-+	priv->rst = devm_reset_control_get_optional_exclusive(priv->dev, NULL);
-+	if (IS_ERR(priv->rst)) {
-+		err = PTR_ERR(priv->rst);
-+		goto err_phy_connect;
-+	}
-+
- 	if (priv->is_aspeed) {
- 		err = ftgmac100_setup_clk(priv);
- 		if (err)
--- 
-2.34.1
+https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html
 
+	Andrew
 
