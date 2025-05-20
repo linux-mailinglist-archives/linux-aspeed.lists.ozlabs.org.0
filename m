@@ -1,64 +1,48 @@
-Return-Path: <linux-aspeed+bounces-1223-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1228-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05BE2ABCBFE
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 May 2025 02:23:54 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1882AABD5DE
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 May 2025 13:06:17 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4b1ZzW4ycFz30Wh;
-	Tue, 20 May 2025 10:23:51 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4b1sDj6c19z3bmH;
+	Tue, 20 May 2025 21:06:13 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1747700631;
-	cv=none; b=UAIx8lk3jEZFNBud9MmmsxMQaAMqzjzLPkiYpJVHJkYaVgodKu7g4iYqsMFNeekEDLGKeIBAFnImCmxV7Y2ib65m16M4xZtP5dwTZ71mW1WeE60qHhnmhMCaX0K5qXTFXoEDvJV8vpqcUhp71s94dImCT8dPQt9FtQVKQhL4z5cW7j8jqhCV4yRsIi8Kr40kIdekmwRS1y7dZi2HW2lUqno6wXpjxoNaz1uk/TwpNKDd3onUg5jF1wNlZV5HF3a1DQiUd+kOAFhb+9MHYnKQ8CFAKe44JQ5VB18nyjm9RIGieG2b7UFTHqt4hACwLh3sGm70sTYZt9fGatGhLMfCDw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1747733770;
+	cv=none; b=elHhtkG/alcMcWGOKXaXx4824ZHdjddTlgiGcYqNiOqH9pZvNiG/dTkpBuFx8n5iJ+aOZ3j8JGa3N0QA7mHmqcV1opy5PPOrJ54HNbnHf2Vlp0fM6c1OFbIA2xT40ljZMAriAWXgHyUNyo/HNYMeOxY5AAZmLPZ+vrLO1VpiaPv5+ojWYgS8vERYP+ZN4sF6VZZPiXMt8aPfWTcTW8r258bzdqj62+Yzj7/UawrcxGzarFlUvn98SrErMWqxvvbnL0J583l1jt+jhdMczmQ6IQGnU6hkYMABf04DL7lg22R+EiYwHYR1t3wtGcmwaVXSLtXhletEc1OjCJ/8QjFeig==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1747700631; c=relaxed/relaxed;
-	bh=jVbDrHX4p3eETAYYbC8E/B38AzMWjZPxZbviRuREGuw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RL5l7qzLR/rxPBf+hQotcXWJekFmQLu0rkiozPLYcTAzy8gOqtd1C64EhSpEnG1O7F9g49ew+CCDV0HSHsbxceSjfnaeJ9M/UEuc4EZBrXB/17ayCHw4OFWrTJkqiNIDkhT2LLRdZH4jddTfxqvGawU8eTwvHvxH+76pl4x7lukubZTpL9C4nceO+noSrQMLVf1OAGBtJlNySj2SIujhv/bsuBVylP0iA2HTJC7CyElhelzyhrATLwfoHqivhRa1nG4K4oJW+2+WL2QOlISJXjyMRU7HI1fy5PbhGTiWkK7VPNFapi1HCEjauRpvr2YBupGjQj/rsOrl8Wq/nPOU5w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=HA7AscUC; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=HA7AscUC;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	t=1747733770; c=relaxed/relaxed;
+	bh=gLHXrGEydNLQezPDQp5GUWXDrkfxB1GnR6UV1efx7Nw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=B6hMfoBF4Wn1yd9+nLbG71fqjO1RAbomvY0m/gpjho64zEnk+sk3l9wRBElSRAgptdXVvCNaO6I6MN7wdFd4LJtBQ7senyoGp+6QgFFxfwRcWgc0BVbvLWuSQua4zbOsvFJ4fRK+Y61Dr1oGjMibcOKxdbeTCgsRjCRUwbiyVXRma3YJgpGx94u/9okC6ahfvTlTruJsWv2PvX77cVCAlY5j8omTKl26/rFanJh/Nh/NwPCnwIha5jqxKiQ+6y7MXI8x0Euou9DFbLRW8HnLSM7vQwMBauLCY2pTtZoo9wzTVld22NagxoUkHeWz9rzJ6GYesiNxdycX9y4MUhP3NA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4b1ZzV4wZ8z30WD
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 20 May 2025 10:23:50 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1747700627;
-	bh=jVbDrHX4p3eETAYYbC8E/B38AzMWjZPxZbviRuREGuw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=HA7AscUCU63hu4pNCk7Z8VKwggRSY1X/g/VPH5PfBXPSY/ysZ6+TnYOGje7OE88wH
-	 jIy20LQ6Gb6hzjna2EODuadUcLPwDYdpKPOM9EDz+dXCvoN2sy98vGNnxSlnbXHQjp
-	 w+FSvaUEbpeVomXLiupz0jt4lRtSL9sgFtL2pdiJQzJ7j5VwBjW1BaR9b/5dy4lp8K
-	 BjH+DM8fBKGKw5qPdTjHNuYZavHiiGBfmvjRL9GOJ5PO4aKQFNrdr/SHVoXHg+F8yR
-	 rQNZuvPlpre4LzYKQWnIR320KkLwsmwodYltopC+jqqHA0jGMVpuY1OfXTLD/9xGQ/
-	 PEFyd/Wuo0gEA==
-Received: from [192.168.68.112] (unknown [180.150.112.166])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 1291A640A1;
-	Tue, 20 May 2025 08:23:45 +0800 (AWST)
-Message-ID: <ac008c13719e2c91d7d377cd7a6151393934d854.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v2] arm: dts: aspeed: yosemite4: add gpio name for uart
- mux sel
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Marshall Zhan <marshall.zhan.wiwynn@gmail.com>, Delphine CC Chiu
-	 <delphine_cc_chiu@wiwynn.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, patrick@stwcx.xyz, Rob Herring
- <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
-Date: Tue, 20 May 2025 09:53:44 +0930
-In-Reply-To: <7a5f60e9-376c-440e-a369-5c8d5e10c72a@kernel.org>
-References: <20250519024850.2894895-1-delphine_cc_chiu@wiwynn.com>
-	 <7a5f60e9-376c-440e-a369-5c8d5e10c72a@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4b1qDn5jDfz2yrN
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 20 May 2025 19:36:09 +1000 (AEST)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 20 May
+ 2025 17:28:48 +0800
+Received: from mail.aspeedtech.com (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Tue, 20 May 2025 17:28:48 +0800
+From: Jacky Chou <jacky_chou@aspeedtech.com>
+To: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <pabeni@redhat.com>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <joel@jms.id.au>,
+	<andrew@codeconstruct.com.au>, <mturquette@baylibre.com>, <sboyd@kernel.org>,
+	<p.zabel@pengutronix.de>, <BMC-SW@aspeedtech.com>
+Subject: [net 0/4] net: ftgmac100: Add SoC reset support for RMII mode
+Date: Tue, 20 May 2025 17:28:44 +0800
+Message-ID: <20250520092848.531070-1-jacky_chou@aspeedtech.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -72,35 +56,42 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Hi Marshall,
+This patch series adds support for an optional reset line to the
+ftgmac100 ethernet controller, as used on Aspeed SoCs. On these SoCs,
+the internal MAC reset is not sufficient to reset the RMII interface.
+By providing a SoC-level reset via the device tree "resets" property,
+the driver can properly reset both the MAC and RMII logic, ensuring
+correct operation in RMII mode.
 
-On Mon, 2025-05-19 at 08:10 +0200, Krzysztof Kozlowski wrote:
-> On 19/05/2025 04:48, Delphine CC Chiu wrote:
-> > WIWYNN PROPRIETARY
-> > This email (and any attachments) contains proprietary or confidential i=
-nformation and is for the sole use of its intended recipient. Any unauthori=
-zed review, use, copying or distribution of this email or the content of th=
-is email is strictly prohibited. If you are not the intended recipient, ple=
-ase notify the sender and delete this email immediately.
->=20
->=20
-> We cannot test proprietary patches. Start working with the community in
-> the open.
+The series includes:
+- Device tree binding update to document the new "resets" property.
+- Addition of MAC1 and MAC2 reset definitions for AST2600.
+- Device tree changes for AST2600 to use the new reset properties.
+- Driver changes to assert/deassert the reset line as needed.
 
-The kernel.org mailing list docs elaborate a little on Krzysztof's
-point:
+This improves reliability and initialization of the MAC in RMII mode
+on Aspeed platforms.
 
-https://subspace.kernel.org/etiquette.html#do-not-include-confidentiality-d=
-isclaimers
+Jacky Chou (4):
+  dt-bindings: net: ftgmac100: Add resets property
+  dt-bindings: clock: ast2600: Add reset definitions for MAC1 and MAC2
+  ARM: dts: aspeed-g6: Add resets property for MAC controllers
+  net: ftgmac100: Add optional reset control for RMII mode on Aspeed
+    SoCs
 
-(It's worth reading the rest of the page too).
+ .../bindings/net/faraday,ftgmac100.yaml       |  5 ++++
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi       |  4 +++
+ drivers/net/ethernet/faraday/ftgmac100.c      | 26 +++++++++++++++++++
+ include/dt-bindings/clock/ast2600-clock.h     |  2 ++
+ 4 files changed, 37 insertions(+)
 
-Cheers,
+-- 
+2.34.1
 
-Andrew
 
