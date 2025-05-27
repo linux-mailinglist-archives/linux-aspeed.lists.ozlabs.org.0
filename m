@@ -1,51 +1,170 @@
-Return-Path: <linux-aspeed+bounces-1243-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1247-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5603AC596E
-	for <lists+linux-aspeed@lfdr.de>; Tue, 27 May 2025 19:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7671CAC5DE2
+	for <lists+linux-aspeed@lfdr.de>; Wed, 28 May 2025 01:52:10 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4b6L0w3wMGz2yK9;
-	Wed, 28 May 2025 03:56:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4b6Ttr49nBz2yDD;
+	Wed, 28 May 2025 09:51:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1748368592;
-	cv=none; b=ONWdT0QRPCJ6K6socWlfOmPARP9IUlGPiz1qC+fjhMo7WorItc1a2ciXzLW4yIsY0rLCoRGxT5WXjfwsAMfNwqqyz58pS5mxHZybXF0JWkvn6cPS4bzoEGgE2TdAqxu2BBqLklprIIgK5LLpTZJCbLaMFhNkpAXtZjyzUKFjgiIvZqnurIWldqAzHn8DGM0hp3jWtP7/j+x0h7y7tb5mzVhhVQ7ftYPt0GloNBXa5bhxJzVm7Gjm8JuB9SFpqvlZ3IBBLLq4E1FpjBHbo8KL1UNuaESSEIvyNMWtdM7lcSpDU+n4CaMsTv6vKsRCS1O0kyDfnHTU94xOx5Pz1apgog==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1748368592; c=relaxed/relaxed;
-	bh=88LFRY1C/sb7IvXkrqrwR7CSLDQ8c0AS0AISh+o3gcU=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=YPWPO2QyRnNMRfaf3ON52KBPdcfn45hAHASPfRjZgm5/FRYBiO4ou9XtjohtL+FR4E8m/VEnAhAMkgAOdWaDI/DAepjpIgH3fu7fl/rQ01brsdsiqQzDf0jgopUGxf1IX/KPnWSleyty35C3IF29acu2CD26njtuSXtj5aAbHKxbRJfJPNFmcaEERkHBCugQC9t3vLVi+DtbUzUABjORb9J8DoHAKQEaJuOA1nDOm4bYCgd59XE6NFDh0+y0bLy8v8CpNG0Obhaw0MR5Khiu1D0mn//0V2wdlQ5XpPwGhTkoS8r0lXZ62UsX7jq/ynxVJWmSvgPDGOF/O8oaMcIdCw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ZGDyc1Tv; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ZGDyc1Tv;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:c40f::7" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1748312283;
+	cv=pass; b=mLJzLQbFYFZRwcREiT6hHEZGNp8m6MlAWUiFXWHcgMBXEfCP7PNQ7CUQJ2KMXq2FeKbAKCG0LcD00plqxtw73oTO97kl3VGMM3DO+fNZRKzW1j8j8b2rx/Ud4bRmAE0tYyeA3AENxnun1ZAYabh62uD/T63jJ5C3pot6nONkjmAJohjia3VNx+QCTJKlx9IwDtrb/1qe3TpIJVxUM85yp7rScGatjHrvUpQvN+YffRLSuc+J3bU852oW92aV8nnzyJX3ExdK/4wLGPFBJ7vKZJu+++geIRiR5b7zugTEHRbEaBCwyzQJYp8xRZhR9jBALNUYs290ySgF97h0qLyTIw==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1748312283; c=relaxed/relaxed;
+	bh=fr5BKm45mwXrCCRUi2IRE03btLWxQMyslfWPYecRBuU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZjLKoijTS+6m+5++AanRmxeLyN5mz+KNg1YX2zlPL7oG9lmMyTRr/uII5TGoNoS5a6IJif32M4lZcWUbujZ2B5GHaDb8ABSV3n5sOSAFTGmG84ge5BEmN5DKcoJUPcxXGht4qpEXmy3O0YJ75ZNeZC6ZTkK2zgTm9DpLC8blX4Al5A/agVYFeIsb4gLqr52vV1bmkEt3y8GximSHgdL9ThpKLsagzANebQRcgDyx3jiaag38wVa9KuNHPQn+jAwBa/H/xkuwr+JLhMImpryc2mcsgbqkcWGLreFWtoGUPIvvHHFc8j4zsYaZd3oFsO89U0iOc9qJomWNrn7cOiwNmg==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=fail (p=quarantine dis=none) header.from=aspeedtech.com; spf=temperror (client-ip=2a01:111:f403:c40f::7; helo=seypr02cu001.outbound.protection.outlook.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=fail (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=temperror (SPF Temporary Error: DNS Timeout) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:c40f::7; helo=seypr02cu001.outbound.protection.outlook.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazlp170130007.outbound.protection.outlook.com [IPv6:2a01:111:f403:c40f::7])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4b6L0v55Spz2xPL
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 28 May 2025 03:56:31 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 0338A49B85;
-	Tue, 27 May 2025 17:56:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8338C4CEE9;
-	Tue, 27 May 2025 17:56:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748368589;
-	bh=TYvcN0FXetMET/yMqKYpyaUprPLsn66NSldFSb6Hm7k=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=ZGDyc1TvlC4v+xPxrJd+uSCgvUHnc+I7dcc37XRScxQwVkQRM5clhDUQJOJ0WEYP5
-	 3hk+RIDgyNxtDi3gjJ6wljWXK0gMfloB5Qc5bglnfG2in7ZbS6H3EPLVB07hUGUL1M
-	 YClwojpcDYcjxt61mjCVvqCoLTbv3IOA0c2cTDIoIOxKIREhkF4cCucs4vcUiPUwR4
-	 kXVXsj6GwZpxUMUpr+a10XMBylHsHpI+g8b2jVqNCd4bQngM8y18okvZXxUbtGjIfr
-	 omOb10xa8Ja5IsYT9TVH873r9IV8hXXLUEYe0QVvlB3fRpz3GTraoc0bGO4Sl7U8BA
-	 XyZGuvPQlJq0Q==
-Date: Tue, 27 May 2025 12:56:28 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4b5x9n3Y8wz2xPc
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 27 May 2025 12:17:28 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o9+NOqzkdm86VGMTNgNkYXxsJWJG6WXANuRtmO/BL6n89RQhAH+hygZKv3w+X0/IPBuva4HCX0nH8L4CCmZMvvmbxMafAlv+S7+vR/QJXb0/CnXQr12CicAhczaEXfcOGbSAi4C2DGkOxA3pQRz0QaVWak3SoRzy+CSrdmQQ2+zjg5xSo1oX/8Yhd5qtRi5o9+xqd+Xd0vB8Ujtl1SdUIaYnICn2iTAaA/FNinmuP5OqnxomEK/IAi6v2GwYi/wb27kx46Ybs87oNMaScInE9mDsnZAoU+j9efndGiNadxH4YZa4Vta+sOfV3GTpr4pkV0H8d6mobaJqDTdRu7CtCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fr5BKm45mwXrCCRUi2IRE03btLWxQMyslfWPYecRBuU=;
+ b=g5wscMn6S5pJWD4hjqqXk8n7C8RzPMLgGNGKRltVJOdg/4IuZPRz1eD54LmhX/MB8c76r6+zkC0PWhitLBay4rx9hhpnetQ8w9dz/vjEK0Pvfklb9n2OHF2smJGPo+k29e9+LyTuUsYgqUKOsai1+clvTqLdNI7EEPwzuaQ6EV85Wbs3YMUMHEq+jn7uyo4+o3oUAmxdemyChBcFpzcVycAr8vh9AlXR3epdZlb/WyH1fGgHcpCrR0smZdDu+EDCi5AFfdwZs+O/vrOuGW0tCjU2A/Uoj1gwXzq8CguXHyi3cavzTFqPYzsP8e4Mk9Totz16ccPkBArGF55v42ZDMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fr5BKm45mwXrCCRUi2IRE03btLWxQMyslfWPYecRBuU=;
+ b=Bqp0s6egcAtXxQjg2Dx1rBeb8tpsY8VNVa4m8kBLoo04NfYG8yHLiT2Jo39z32XADRqc7Wu9ufcHFtrr8q0aB5X8PEq+Wv/PCi8DwmSdNq4oHTKyCd2XZwgTOg2ltxxmhYjNgjBJFUY+LKeK6/4fxbcXmWUViRvsNLAQx7uqeZEL9Rx3Var03BiqOvtleKEpOzHSBlyDMbmzFzsHurAO1jJ+rGMDgih46/y7UqQXUqH7FdDYJdbE9U+AdZbgvmJFkfoaTwZTaghdxbI2ShmzP5g5Jcw6OEzQaXO57jq4B6Bb4MP+dveCK2uinwh4ptq3IHkTHhJQViWB1OpxJsGZDg==
+Received: from SEYPR06MB5134.apcprd06.prod.outlook.com (2603:1096:101:5a::12)
+ by KL1PR06MB6792.apcprd06.prod.outlook.com (2603:1096:820:ff::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.24; Tue, 27 May
+ 2025 02:17:02 +0000
+Received: from SEYPR06MB5134.apcprd06.prod.outlook.com
+ ([fe80::6b58:6014:be6e:2f28]) by SEYPR06MB5134.apcprd06.prod.outlook.com
+ ([fe80::6b58:6014:be6e:2f28%5]) with mapi id 15.20.8769.022; Tue, 27 May 2025
+ 02:17:02 +0000
+From: Jacky Chou <jacky_chou@aspeedtech.com>
+To: Andrew Lunn <andrew@lunn.ch>
+CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "andrew+netdev@lunn.ch"
+	<andrew+netdev@lunn.ch>, "davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>, "kuba@kernel.org"
+	<kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>, "robh@kernel.org"
+	<robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>, "joel@jms.id.au"
+	<joel@jms.id.au>, "andrew@codeconstruct.com.au"
+	<andrew@codeconstruct.com.au>, "mturquette@baylibre.com"
+	<mturquette@baylibre.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
+	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, BMC-SW
+	<BMC-SW@aspeedtech.com>
+Subject:
+ =?big5?B?pl7C0DogW25ldCAwLzRdIG5ldDogZnRnbWFjMTAwOiBBZGQgU29DIHJlc2V0IHN1?=
+ =?big5?Q?pport_for_RMII_mode?=
+Thread-Topic: [net 0/4] net: ftgmac100: Add SoC reset support for RMII mode
+Thread-Index: AQHbyWmaCWjiI1u+ZUqVQN90hno8zrPblJcAgAoyHhA=
+Date: Tue, 27 May 2025 02:17:02 +0000
+Message-ID:
+ <SEYPR06MB5134C11D9A5072465FEF04099D64A@SEYPR06MB5134.apcprd06.prod.outlook.com>
+References: <20250520092848.531070-1-jacky_chou@aspeedtech.com>
+ <cfb44996-ad63-43cd-bbc5-07f70939d019@lunn.ch>
+In-Reply-To: <cfb44996-ad63-43cd-bbc5-07f70939d019@lunn.ch>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR06MB5134:EE_|KL1PR06MB6792:EE_
+x-ms-office365-filtering-correlation-id: b6611c71-7c4f-4a49-e190-08dd9cc4914e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
+x-microsoft-antispam-message-info:
+ =?big5?B?QldlQXVEWnFkcGJuSHFvTFEvbitkVmpBS2Z2Q1lIendoUDkyS0VLODZBT2hJTHRw?=
+ =?big5?B?Yy9aa0dTNkJLSXQwRFJPVXVJVW4wVVVQbEFsWkJMK3ptaEFaWnNPb0YwdXBScUN1?=
+ =?big5?B?NlBFT2VacVVIaWl3eGgxWUpLSXduT3N6L3h2MFhWU0NReDlqZmtEbTdHbDV5NkNY?=
+ =?big5?B?NVZ2ZGxYNlhIcXlDNXEwTEhBNnZxTHNZaEk1Q1FmWnNDSTZLOXluejBIeHFwZmdr?=
+ =?big5?B?NG51SU5FaVpCQTJDeTdGdFlGT3pFUkFVNkZXZFBPaHBiWEhDcDBJZlEvemI4aVYw?=
+ =?big5?B?ZWtUOExFRGZyNTJiN1kxRVFxQ0lvVE5oY253WGFWZHdFRTB3OFdTRGtxUm1xdkhy?=
+ =?big5?B?alk5cmljYlRFclQ2VTJZS1I2WmVleHFzTlhmR0hsYjdIbi84RDNpaFFvSHRYOGFZ?=
+ =?big5?B?RFhRTzdNbWtCeU1EMVdtMkRRS0VMV0V3MFhwQ2NidVA0bUR0cTBvUk41bnRIMkgr?=
+ =?big5?B?eGtRWlYvcFIxbjdYYVF6QnNZRkRwRVZYRW5EcUxxZUNKKzJvcU5YUGpvTkhCdjJH?=
+ =?big5?B?NmRSaXk2Ni8vQjF3QTlIVEQyZ3NKQnowNWJ1dmJiM0NoWDBZMk01ak5WUGNrZDhv?=
+ =?big5?B?TjFpR1YvUURBbGJISk0zVGdGeGpFWWYrMEJUL2NrczJTN2hpaGpvdVVCVHk3Wlpw?=
+ =?big5?B?ZVYvMCt1Z0NCWWpHMWFYdkJGeGJVVE5PY2VhNWdUek9RYmlJQ2ZFUVlVMVErTStB?=
+ =?big5?B?aUo5ZjZqQkx1dzRKbzV0WmY4N0c3VWxXNkNyOHpIRk8rTXlyRWJTQjVUdkZZdFJ3?=
+ =?big5?B?bks5WjBESndIY0JaVlUzc2VyUllrblhtbTFVMXdQLzY1dFlrZU9lUEY5cVRRYmlQ?=
+ =?big5?B?djFUZXZQYWxYMmJaT01MUzkzNXEzdGxPd3d6U0E4VGZCY1V4bG0rWWlEU1VwMG12?=
+ =?big5?B?djd1NVl2dWNaMmdLc3pJbDlDMW9vbHFuUUFubGl4UDB3bWR5VElhd3hxOHFaSTRs?=
+ =?big5?B?ZG4wOWZLVUY5VlFLQ2ZlcGRMeHFLQ1U0RUJPRFFiSGdSWXRQUEpxS2FOUkJ0bUZu?=
+ =?big5?B?L3ZkZTc5d3VIeVZNNkpBSDdKRm9oNXkya24zMlc2bnIxWXhHL0lkdGpHWkpzdmg3?=
+ =?big5?B?M0FZSDN0TFJKNUlZMFkwMXAvL3pBOHlCM1BSR21OSlQ4cjdDa2c1M0o0VDlPQlds?=
+ =?big5?B?d29VcHZ2UklrZGR0OHFiMFFJOVdQdHE2d0lETzNwUHVPbTUvSThLYThBVG90NnNI?=
+ =?big5?B?ekRHVXNHbVZlc1FwcDVBeU15ei8wYVVJV0R2OTZKMG1aQTR2dkhKdGZhaGJscVUw?=
+ =?big5?B?S002R0tsMlRQdU9Qdy9UZGNSQzNhWXN0cUhmU2VXTTlFcUhZYkJuemZRNWFqbU1n?=
+ =?big5?B?aGsrMmVvL1M5YW55bHptM0FiM1dTRTN5ZUFmaENQWW5NT0d5VVJjZWY0NklGR0lG?=
+ =?big5?B?ZExtYnI1amwxaFFHOTZ1bXI3anFuOFdLSW1wWFgzdGpyK05aWmZQeFROcmd2MjdN?=
+ =?big5?B?VlRySGFKVnNVc2YxdmZPdG1XRUJIVU5YemR6NFdPdkdONml1U25NWGRjMHR5UnBO?=
+ =?big5?B?NGwzL0ppOWNvaHdZZWZBZUtCTEx2aVR4bEYzamNQTFZrbURQK0RXTysxM0d1QzQy?=
+ =?big5?B?STUwUjkyOUZyd1hYT2dsZUZ5SUE3b2w5WTJOVEh4MXdYbUtueXJneTBrcHNoQVNn?=
+ =?big5?B?YjB6ZnV6ekt0c3BlNEdaWXlnaVlySUgwVGdlS3VNUFZMcEVtNHZjTzRuWnE4YThN?=
+ =?big5?B?SkIxZ2JYMEEvYVlIZi8yRkxqNmdwdXkrU1g0cWxUVzMwZlRudHZmb1QvQXFjWHJ4?=
+ =?big5?B?ZytyNk5tRmRrSDhSSWo3RHNOb01PTGg4enNFMW00YkdlZnQzc2o3TVFuc1VJNjBk?=
+ =?big5?B?UmZad2lHOGYyeXE4SldUakNzNGYySUxNL1JHTm5LZ2wxOUZmZjU0UkxFREt2UlNS?=
+ =?big5?Q?stFRimJfmuL27+7SPwoeFUCbLwc=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR06MB5134.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?big5?B?eW0wNVZJbE0zRUdCaUJMYzh6QXMrQXFTRDE0YjFOWWFIV2VtKy82TDRibkloaWda?=
+ =?big5?B?Y2gvTEZLMEF4UDhJYnhXaHpXbU1yRUxWZmxmbE9uVFh5bmJlb0JRODhkeGJuYUdr?=
+ =?big5?B?V1ZMMm1SZWYxamRDUDE1dEluOWVvTEJ4L0s3VVJ3YmVmakJMcGdaL2tLNWxLMUtN?=
+ =?big5?B?dkZ6VHlicSs2NnhWK2lDWExjQmRkZVJhNER5WkdKWDVwa3lrbFVqbVNnY3drV0Ru?=
+ =?big5?B?NEg5K3lzWGpkVjJjTzhiUVAzMnIwYjl0cXhRdGR4M0t5R283NHcxV2xaaWh4Um5q?=
+ =?big5?B?TVdpKzVrNm1pQjF3M2prVW5VdTZzTUV2QTk5WDg5Y1Brc3ZDekxwbm5Ualo2aCs2?=
+ =?big5?B?MjA4b3RlZ3pIV00vRXU4M1Z6enlCckFKZE9wN2hQbmN2K1h0SnpFRmlzaHFyRDlp?=
+ =?big5?B?SVdtOG9WQSt5Y0pZTlgyN3B5cGVydVpqUUUzSkFRQllTT25rUXluY0RCUHNXQjds?=
+ =?big5?B?V3Z1UVVnNzFIUHc0akdpNmpYSDljRkhEYmxoYW4vT1pqNUhuUEVyOEZYZmJ0RVFJ?=
+ =?big5?B?eXNXVnh0QjNiUVc5ZlQyUk5lRzcxOFpxS2xsRXBCTVkzeUJHZE1EdmtNWHd3bEZF?=
+ =?big5?B?UGpoREorOXZYTlZFeFJpK3JvK3haaFZFajMxN1FaNzdUZ0pGdFlDMHJLSFFnb0Vn?=
+ =?big5?B?dDRKckUwOEswV1poa1pIckNTTVZRT2RhcDltUkxVc0UyZGpzbWdIWmFHMEhpeDY0?=
+ =?big5?B?aWZ2Qk5ITGY5NlBrVmJzSUZxOXg2eVpOSktCSDdZWml6dEJvdWxDVzVHQXNHbUpV?=
+ =?big5?B?Mlk0aW1zNFJLV2ZZQzk3andwU3RTSTVmNHZEK1gzSHpZcWlCTGhONXhaYUI5TnIy?=
+ =?big5?B?eXk3UzBkM2NuYlNaWUM4bFgxdnBUaHN0eDZZY3dwRUVBQ1BGbVFjOTM2eE5mem9z?=
+ =?big5?B?YWRSOFE4T0o1SU9NWWY1OFVMT0ExRDJFRTFLTCswdHhRSHkzRnJ0NDhuSWl3ajZj?=
+ =?big5?B?VTVSRXJQa1hjajY3a0cvMnV6S2ViZC8yRDdKbEp3YWZHQVB1YzJwVEc2SHZna1gv?=
+ =?big5?B?WHh6U0FjMlIvVXVoazNNNGZiekVYNU5iaG5kQkc4M1hhNW1vKzhZNTZSN0Fnbm1J?=
+ =?big5?B?V2Q3aTJSRzIwQ285NTk3SDBCVmVtUTBaRXkzNVNVMnE0d1hNK0p6TEhJcXVhOFBt?=
+ =?big5?B?YzB1SEZiUUtDYzJUbVZ4MnMwdUF6ZmZ6anp2clhaMVVBZmFIM3Jja2dqcWV4TzNa?=
+ =?big5?B?dE16UFhqbjAzSVc3T1BGSFY3Vyt2ZHhhcnFDdktZOTNGZXJVZnJPeE1PeVZucDdL?=
+ =?big5?B?M3FJS2RsQkx5NndZZ3I1Z0xlcmlVY1BBTUtCMDRsVTdLWEdCakFLS2Noc3ZHbm9v?=
+ =?big5?B?eEp1R2J3MzduRGFBYlhxaHhRaFpLNHNwVTdkZUo0ZXNHRkwxNDVvcG5GenJTT0cr?=
+ =?big5?B?SDZjYmlxejhsZFhrMktLR0hBYndJcHZnUGpTSkYyK1ljT0ZUY2xyWU9sVDZIYUlV?=
+ =?big5?B?L1BYMHoxVzFlMStXMEFTd3hyRml3MlVOY0hBVWFKZDBCUkJncExxY1dGOHJYK0xQ?=
+ =?big5?B?N3ByK0x5VnhRYVo1K1pzUjdHaFJaZmM4cFJvUW5xbm5mdDAzU3Y4OXRFeEQveElk?=
+ =?big5?B?Zm9YQmp1UmxLeTJWVmFlbmNJYjQwaVh6akRUcGVuQ3puWkhDdFBhaWJ5bFRwZzdE?=
+ =?big5?B?V20zbkFrL0NqME9ndWluMFl2cFlwa013VXNZT0ZXYnhIRWEwMmUycDc3bHA4TlJU?=
+ =?big5?B?eTkxU0ZPZWxjSTdzcC9ZNjFzQkhqVExIWXdwcVM4RSs0V0RjR1doc0txbktITWw5?=
+ =?big5?B?TmdQdzFhNnprcG9BaFlXZnh1MVVBTUJscWxseXB4ZTN1SC9hV2hjK2FIdFNkMUxm?=
+ =?big5?B?dUo2OFpXbHRWTTlmRDEwVVR1SXlZZTJSUnkxNm5ZSWJ1cjdmRW1DcEdKbStqWlI0?=
+ =?big5?B?RUY2SXJyNXVSc1pHVitmTndJc1NIQjQwTTZEU3E4Wlg5SndyR1pVOW1ET3B6TEI3?=
+ =?big5?B?WktQYjJJemFKY2k0L2VzOWN5cGYxOE9kenZmNFhJTG96Z2pUcGN4aXpEcGJOM2Rv?=
+ =?big5?Q?LXyIgtO5nxJ4IC4a?=
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -59,170 +178,33 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, george.kw.lee@fii-foxconn.com, 
- leo.jt.wang@gmail.com, Andrew Jeffery <andrew@codeconstruct.com.au>, 
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, leo.jt.wang@fii-foxconn.com, 
- Joel Stanley <joel@jms.id.au>, Conor Dooley <conor+dt@kernel.org>, 
- devicetree@vger.kernel.org
-To: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <c5e16072-e6de-4256-b0e2-3b45e420f0c4@kernel.org>
-References: <6822b851.050a0220.27a24d.d071@mx.google.com>
- <68343bef.170a0220.23efba.1d80@mx.google.com>
- <c5e16072-e6de-4256-b0e2-3b45e420f0c4@kernel.org>
-Message-Id: <174836831148.841003.9353881909107000956.robh@kernel.org>
-Subject: Re: [PATCH V3 2/2] ARM: dts: aspeed: clemente: add Meta Clemente
- BMC
-X-Spam-Status: No, score=-0.8 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB5134.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6611c71-7c4f-4a49-e190-08dd9cc4914e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2025 02:17:02.1292
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wl6V/evyaClzZNpqVzq5JjD7LdPif4zY/R+Can+AnQimsd5Pi6kCSy+/F570NTIB88HmbdGNc/IRweW7nCsQGqp05l+JtDsuMmjOBdIeLXM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR06MB6792
+X-Spam-Status: No, score=0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
+	DKIM_INVALID,DKIM_SIGNED,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+	T_SPF_TEMPERROR autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-
-On Mon, 26 May 2025 14:50:24 +0200, Krzysztof Kozlowski wrote:
-> On 26/05/2025 12:01, leo.jt.wang@gmail.com wrote:
-> > From: Leo Wang <leo.jt.wang@fii-foxconn.com>
-> >
-> > Add linux device tree entry for Meta Clemente compute-tray
-> > BMC using AST2600 SoC.
-> >
-> > Signed-off-by: Leo Wang <leo.jt.wang@fii-foxconn.com>
-> > ---
-> >  arch/arm/boot/dts/aspeed/Makefile             |    1 +
-> >  .../aspeed/aspeed-bmc-facebook-clemente.dts   | 1195 +++++++++++++++++
-> >  2 files changed, 1196 insertions(+)
-> >  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
-> >
-> > diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
-> > index b3170fdd3096..9d0a465cbb36 100644
-> > --- a/arch/arm/boot/dts/aspeed/Makefile
-> > +++ b/arch/arm/boot/dts/aspeed/Makefile
-> > @@ -19,6 +19,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
-> >  	aspeed-bmc-delta-ahe50dc.dtb \
-> >  	aspeed-bmc-facebook-bletchley.dtb \
-> >  	aspeed-bmc-facebook-catalina.dtb \
-> > +	aspeed-bmc-facebook-clemente.dtb \
-> >  	aspeed-bmc-facebook-cmm.dtb \
-> >  	aspeed-bmc-facebook-elbert.dtb \
-> >  	aspeed-bmc-facebook-fuji.dtb \
-> > diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
-> > new file mode 100644
-> > index 000000000000..63b5a13214f1
-> > --- /dev/null
-> > +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
-> > @@ -0,0 +1,1195 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +// Copyright (c) 2021 Facebook Inc.
-> > +/dts-v1/;
-> > +
-> > +#include "aspeed-g6.dtsi"
-> > +#include <dt-bindings/gpio/aspeed-gpio.h>
-> > +#include <dt-bindings/usb/pd.h>
-> > +#include <dt-bindings/leds/leds-pca955x.h>
-> > +#include <dt-bindings/interrupt-controller/irq.h>
-> > +#include <dt-bindings/i2c/i2c.h>
-> > +
-> > +/ {
-> > +	model = "Facebook Clemente BMC";
-> > +	compatible = "facebook,clemente-bmc", "aspeed,ast2600";
-> Missing bindings.
-> 
-> Or your threading is broken because I did not receive 1/2.
-> 
-> Just in case:
-> 
-> Please version your patches (entire patchset!) correctly, e.g. use b4 or
-> git format-patch -vX, and add changelog in cover letter or under '---'
-> of individual patches describing changes from previous version.
-> 
-> Do not attach (thread) your patchsets to some other threads (unrelated
-> or older versions). This buries them deep in the mailbox and might
-> interfere with applying entire sets.
-> 
-> Best regards,
-> Krzysztof
-> 
-> 
-
-
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-This patch series was applied (using b4) to base:
- Base: attempting to guess base-commit...
- Base: tags/next-20250527 (exact match)
-
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
-
-New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/aspeed/' for c5e16072-e6de-4256-b0e2-3b45e420f0c4@kernel.org:
-
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: / (facebook,clemente-bmc): compatible: 'oneOf' conditional failed, one must be fixed:
-	'facebook,clemente-bmc' is not one of ['delta,ahe50dc-bmc', 'facebook,galaxy100-bmc', 'facebook,wedge100-bmc', 'facebook,wedge40-bmc', 'microsoft,olympus-bmc', 'quanta,q71l-bmc', 'tyan,palmetto-bmc', 'yadro,vesnin-bmc']
-	'facebook,clemente-bmc' is not one of ['amd,daytonax-bmc', 'amd,ethanolx-bmc', 'ampere,mtjade-bmc', 'aspeed,ast2500-evb', 'asrock,e3c246d4i-bmc', 'asrock,e3c256d4i-bmc', 'asrock,romed8hm3-bmc', 'asrock,spc621d8hm3-bmc', 'asrock,x570d4u-bmc', 'bytedance,g220a-bmc', 'facebook,cmm-bmc', 'facebook,minipack-bmc', 'facebook,tiogapass-bmc', 'facebook,yamp-bmc', 'facebook,yosemitev2-bmc', 'facebook,wedge400-bmc', 'hxt,stardragon4800-rep2-bmc', 'ibm,mihawk-bmc', 'ibm,mowgli-bmc', 'ibm,romulus-bmc', 'ibm,swift-bmc', 'ibm,witherspoon-bmc', 'ingrasys,zaius-bmc', 'inspur,fp5280g2-bmc', 'inspur,nf5280m6-bmc', 'inspur,on5263m5-bmc', 'intel,s2600wf-bmc', 'inventec,lanyang-bmc', 'lenovo,hr630-bmc', 'lenovo,hr855xg2-bmc', 'portwell,neptune-bmc', 'qcom,centriq2400-rep-bmc', 'supermicro,x11spi-bmc', 'tyan,s7106-bmc', 'tyan,s8036-bmc', 'yadro,nicole-bmc', 'yadro,vegman-n110-bmc', 'yadro,vegman-rx20-bmc', 'yadro,vegman-sx20-bmc']
-	'facebook,clemente-bmc' is not one of ['ampere,mtjefferson-bmc', 'ampere,mtmitchell-bmc', 'aspeed,ast2600-evb', 'aspeed,ast2600-evb-a1', 'asus,x4tf-bmc', 'facebook,bletchley-bmc', 'facebook,catalina-bmc', 'facebook,cloudripper-bmc', 'facebook,elbert-bmc', 'facebook,fuji-bmc', 'facebook,greatlakes-bmc', 'facebook,harma-bmc', 'facebook,minerva-cmc', 'facebook,yosemite4-bmc', 'ibm,blueridge-bmc', 'ibm,everest-bmc', 'ibm,fuji-bmc', 'ibm,rainier-bmc', 'ibm,sbp1-bmc', 'ibm,system1-bmc', 'ibm,tacoma-bmc', 'inventec,starscream-bmc', 'inventec,transformer-bmc', 'jabil,rbp-bmc', 'nvidia,gb200nvl-bmc', 'qcom,dc-scm-v1-bmc', 'quanta,s6q-bmc', 'ufispace,ncplite-bmc']
-	'aspeed,ast2400' was expected
-	'aspeed,ast2500' was expected
-	from schema $id: http://devicetree.org/schemas/arm/aspeed/aspeed.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /: failed to match any schema with compatible: ['facebook,clemente-bmc', 'aspeed,ast2600']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
-	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb@1e6e0000/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb@1e6e0000/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb@1e780000/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@24 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb@1e780000/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb@1e780000/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: fsi@1e79b000 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb@1e790000/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: fsi@1e79b100 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb@1e790000/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dtb: /ahb/apb@1e790000/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
-
-
-
-
-
+SGkgQW5kcmV3LA0KDQpUaGFuayB5b3UgZm9yIHlvdXIgcmVwbHkuDQoNCj4gPiBUaGlzIHBhdGNo
+IHNlcmllcyBhZGRzIHN1cHBvcnQgZm9yIGFuIG9wdGlvbmFsIHJlc2V0IGxpbmUgdG8gdGhlDQo+
+ID4gZnRnbWFjMTAwIGV0aGVybmV0IGNvbnRyb2xsZXIsIGFzIHVzZWQgb24gQXNwZWVkIFNvQ3Mu
+IE9uIHRoZXNlIFNvQ3MsDQo+ID4gdGhlIGludGVybmFsIE1BQyByZXNldCBpcyBub3Qgc3VmZmlj
+aWVudCB0byByZXNldCB0aGUgUk1JSSBpbnRlcmZhY2UuDQo+ID4gQnkgcHJvdmlkaW5nIGEgU29D
+LWxldmVsIHJlc2V0IHZpYSB0aGUgZGV2aWNlIHRyZWUgInJlc2V0cyIgcHJvcGVydHksDQo+ID4g
+dGhlIGRyaXZlciBjYW4gcHJvcGVybHkgcmVzZXQgYm90aCB0aGUgTUFDIGFuZCBSTUlJIGxvZ2lj
+LCBlbnN1cmluZw0KPiA+IGNvcnJlY3Qgb3BlcmF0aW9uIGluIFJNSUkgbW9kZS4NCj4gDQo+IFdo
+YXQgdHJlZSBpcyB0aGlzIGZvcj8gWW91IGhhdmUgbmV0IGluIHRoZSBzdWJqZWN0LCBidXQgbm8g
+Rml4ZXM6DQo+IHRhZ3M/DQo+IA0KPiBodHRwczovL3d3dy5rZXJuZWwub3JnL2RvYy9odG1sL2xh
+dGVzdC9wcm9jZXNzL21haW50YWluZXItbmV0ZGV2Lmh0bWwNCg0KU29ycnkuDQpXZSB3YW50IHRv
+IGFkZCBhIHJlc2V0IGZ1bmN0aW9uIGluIGRyaXZlci4NCkkgd2lsbCBjaGFuZ2UgdG8gbmV0LW5l
+eHQgaW4gbmV4dCB2ZXJzaW9uLg0KDQpUaGFua3MsDQpKYWNreQ0K
 
