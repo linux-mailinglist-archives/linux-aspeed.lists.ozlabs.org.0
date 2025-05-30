@@ -1,51 +1,66 @@
-Return-Path: <linux-aspeed+bounces-1286-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1288-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D652DAC8733
-	for <lists+linux-aspeed@lfdr.de>; Fri, 30 May 2025 06:06:31 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0E3AC89D0
+	for <lists+linux-aspeed@lfdr.de>; Fri, 30 May 2025 10:12:41 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4b7qRY5L8hz2yhX;
-	Fri, 30 May 2025 14:06:17 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4b7wvn2tVfz2xC3;
+	Fri, 30 May 2025 18:12:37 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=114.242.206.163
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1748523620;
-	cv=none; b=kivknYI6jvzj1n/o12XwnNSTeWCJeyTbhqEu37VirH+ScXQn6N08hATyzogcI8wTyZSj1S+ICSJJL9ymrLprES9og1+O1Dg2A2b10VKGgacrcQv/n5QC85oATZL5SimQXkjCwl1+5hsuPzkHwQwHfQ53tRWMr6tq029Cd24oSUOaHypmPgIKpo7qvXduoCUxztlJIGY+xdsEmt1ejH2DsmxWiXA/LvfqvayBm4WB6mn5GCcyN2iFszk61yob894TTiIbsit4qugCGg0Fy29SsuOLEfZNhvNk5388lzngpAf7xJJEqboecGAoMz2w6PkpBX6dhn6bdH5PAws8l3xQFw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=209.85.161.41
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1748592757;
+	cv=none; b=fmJ3uA/L01ljHOQoeJZkPKAVWM/fqpa3rACzntzxwc2XqdP00fwRAFQDzDslB3T8Xi3SmDrrC6Gb/+mzBwpwyV2irtHM4KHzTwFstOxkFKCtMV95JI7A8Y6tjHGyuR3EEYKN6VafkyWzpGgd/03ZKPnkAZ6AqIBkiWD44aOLo10vAr50bHGMu3NPNt1+L3Z8TnLJufotaXwkKTBqCZQdxcyw0ySkB3LYM2+L1Zu6osqY4CoW9IExvPpGgvRvWuikULpWCgJ2JuuKE/4v0npUEDgLZQt9Z2iIzZesg6tlhfoKheyVOY5gCOawjJ912v6bzXSdogZ9hJGA8Q0nmQpxRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1748523620; c=relaxed/relaxed;
-	bh=WPE7h8SihYSwUvVGcaz3/AkA8wVnF35lGJPPT/a2nOE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nVQiIou+TIhun4eEyJHNtxVqwMD5YcqiJs86itHVmILKyLxyM8iZ9vB1Plj5UwF+577pKfbxtFwQ5fsLnKTAOUhjkwokEIilLmbvR7Bja5tkr6breWnv5nTNRxVYTCJvYOi5OvSg9ykDjaZb9TBt+GpYvuiC3MqAi43/1ZfC6xM6iWFoubSZvosTVpB5z+NAI17JQKHdyHIETe/Xg6FXxb8dnTqTDWTrFxDqdBQu87T8/3GSFSR9OtaeWVrdpuligWegZZ/i50tvj1vcqZ/ZwKB7DICv5SdQwmSuHgLDGVfetOfXsunxQzies+aEiQ/Hf0QKWJ/KcCdbhT93pnhrKw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass (client-ip=114.242.206.163; helo=mail.loongson.cn; envelope-from=zhoubinbin@loongson.cn; receiver=lists.ozlabs.org) smtp.mailfrom=loongson.cn
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=loongson.cn (client-ip=114.242.206.163; helo=mail.loongson.cn; envelope-from=zhoubinbin@loongson.cn; receiver=lists.ozlabs.org)
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4b7RLB53w1z2xCC;
-	Thu, 29 May 2025 23:00:18 +1000 (AEST)
-Received: from loongson.cn (unknown [223.64.69.3])
-	by gateway (Coremail) with SMTP id _____8BxnnNgWjhomCsCAQ--.52135S3;
-	Thu, 29 May 2025 21:00:16 +0800 (CST)
-Received: from localhost.localdomain (unknown [223.64.69.3])
-	by front1 (Coremail) with SMTP id qMiowMCx_cZcWjhomLP6AA--.61136S2;
-	Thu, 29 May 2025 21:00:14 +0800 (CST)
-From: Binbin Zhou <zhoubinbin@loongson.cn>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Adrian Hunter <adrian.hunter@intel.com>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
-	linux-mmc@vger.kernel.org,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Joel Stanley <joel@jms.id.au>,
-	linux-aspeed@lists.ozlabs.org,
-	openbmc@lists.ozlabs.org
-Subject: [PATCH v2 18/35] mmc: sdhci-of-aspeed: Drop the use of sdhci_pltfm_free()
-Date: Thu, 29 May 2025 21:00:01 +0800
-Message-ID: <39dcfd913bd2105674b8bbfe34cd2f27c92b3693.1748515612.git.zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1748515612.git.zhoubinbin@loongson.cn>
-References: <cover.1748515612.git.zhoubinbin@loongson.cn>
+	t=1748592757; c=relaxed/relaxed;
+	bh=UODADZBFNNuhdOjNi7w1d1lWaPaCSwIUX58mKie6mVI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bAt27Re+sExD3C/v43k+RGkxGYWICh3RJnXqYpqiHWu6w31jP6HzUX4o4RZoQWHW2Emdpr1ZAskLBEgpjkuZ7ZWotsTrrqVngG0VUUJmSK4nE8eDlGeR9rttHWV+sNUw8KhjUxWjUwI2kRdPXvJQhpVu+yrHNxw4jDAn6NFoay3eCxjiRUaaByhhLQQ5YYxwMtDMNG4C7fVAZ/vmw2FB44hoQngIKHvcE5s0nS40L6iZxL7RkIA1479v3v4+HVRi9lHpYAH4P+GSxZFr5It0x+d+E0DyNqRBvMBQD0Uvy3cjY3rfX0sUtTeZFvNrym4BTOYN0st5/3jcl7hhvE8ZRg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass (client-ip=209.85.161.41; helo=mail-oo1-f41.google.com; envelope-from=geert.uytterhoeven@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.161.41; helo=mail-oo1-f41.google.com; envelope-from=geert.uytterhoeven@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4b7wvl5DXCz2x9N;
+	Fri, 30 May 2025 18:12:34 +1000 (AEST)
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-6066c02cd92so851072eaf.2;
+        Fri, 30 May 2025 01:12:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748592752; x=1749197552;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UODADZBFNNuhdOjNi7w1d1lWaPaCSwIUX58mKie6mVI=;
+        b=Jo81SFSadKvcKrMLx5KufEFTIITCrd2MM2wYzKLRWBl96/1hK7w8MwsdoCmaniruor
+         OzlRY/0fBhtNHBfmoSXarQ+3ebVChSjcv1t+TUO430fsGI5Spe0CWYqLQF9gh3J6o61M
+         mUO8nb0nA0cTR5hN+e55Y/7e8c31sK3BsTLK9+gXIHoKS67Vcv7jGynETmNM9VBNAr8D
+         pc2S0Fa/v8urfL2wSjfGtxYrDIzx4VLo3hkmHWxP3Ap4GBPuJSTRxtMNdgGlcmPiTOFG
+         xI9ODam5dG1geN4ZiyDKbqIKA4g6pa77DUKT8Qty0jGp3vXG4P9nLoLDAFoFRoOdvr5Q
+         F+Aw==
+X-Forwarded-Encrypted: i=1; AJvYcCVLOtaFCRUlI2cOXps1kx3zTqKYUWonxENA2GQ+XGkfq9ljm3A7PGoTY4AYTteXJV3njWM7f5tf5PmC5/A=@lists.ozlabs.org, AJvYcCXQwV410xOj/LLXC6ILpliMHhvnFvetg2bWciGlhJo9TC3Up1bDDKCCUvfBnNujyjEFDHewBj59Ow==@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzpiAVwkm4b1t6ujk0XIbadJ3TUwJB0cQziYrEUPGbikGx7skoZ
+	v2tzOES3dkTfWS1AgbfmPPXkZni6lrJprLU3BrwOTosL16CBqwub5X0GfX5ddYUA
+X-Gm-Gg: ASbGnctPWOlXdAJa4vTD0UrpxnZiR9YzJkmdT/NMWSslujQJIVGTc4vdtxHQYmBW47m
+	uSuOk03VrSMwD4l2EXWsJN5w/xXSps2G87d2xnrzVQt8MI1ohu53eBxy5dvwWCabUQkgaRF6678
+	DK8tckApX0ZcZvYGSKoWWKRhVDcUTUOV8UfYRjqIbN29Wa0zjoS25COtDDOEJCQ5pmilnPk/zi8
+	LAiWh/NDTfTCEU8RjZ1vbigSn+f0V1wM05b1+6TYD1JzicWAZnEuIl3XZG8iu0dG8+kkx3yhxeW
+	SWqPVHUc3apW5DabZrDcGRqL0QWBc0ubcXhwzR+ZJK1qYYJ+swcsVHRKGYeWtG9Aa96I3QTbmc+
+	XTC/xpXoG3zqqwRSP03oceONGrFVSUThWUrBU/zc=
+X-Google-Smtp-Source: AGHT+IHnDAJ+wHE5jBUe7dICHcyJFLnnPKRPwH1THP/L39Tx/JZsfp6LaklIs9jwWXau93nBdKqTFQ==
+X-Received: by 2002:a05:6820:1e03:b0:60a:4cf:a7a0 with SMTP id 006d021491bc7-60c4d714d5fmr1457452eaf.7.1748592751664;
+        Fri, 30 May 2025 01:12:31 -0700 (PDT)
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com. [209.85.167.172])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-60c14c42c3bsm304884eaf.5.2025.05.30.01.12.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 May 2025 01:12:31 -0700 (PDT)
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3f8ae3ed8f4so1171440b6e.3;
+        Fri, 30 May 2025 01:12:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUD4qT2Ir3DgfksZFetQgfnZU+q74kKeZvjlkTF5tYG/HEP0NO7iBEVG88VrThYn+eTlHa55VVZP+A6+aQ=@lists.ozlabs.org, AJvYcCXsCGhzFArlaj7EOa8sooSZX5QbA4GcmPdrft5ZyJJcirwqzjm82aMIb9zHFfvAu1Apm5pZ/XWvrw==@lists.ozlabs.org
+X-Received: by 2002:a05:6122:17aa:b0:530:677b:1e93 with SMTP id
+ 71dfb90a1353d-53080df1088mr2012964e0c.0.1748592388616; Fri, 30 May 2025
+ 01:06:28 -0700 (PDT)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -59,79 +74,102 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMCx_cZcWjhomLP6AA--.61136S2
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7uw4Dtw13WF4kZry5tr1UArc_yoW8Xw4fpa
-	9xJrWrKr47GFWrKrZ8J3Wqv3WUJw4a9ayxKrWUGw1kW3y3KFyYqFsrCFW8tFs5XFy0gw45
-	XF17Jr48Ca98AabCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUm0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAaw2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
-	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Gryq
-	6s0DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x
-	0EwIxGrwACjcxG6xCI17CEII8vrVW3JVW8Jr1lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IY
-	c2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxV
-	Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
-	6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_tr0E3s1lIxAIcVC0I7IYx2IY6x
-	kF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE
-	14v26r4UJVWxJr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0x
-	ZFpf9x07b3iihUUUUU=
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
+References: <20250528-pinctrl-const-desc-v1-0-76fe97899945@linaro.org>
+ <20250528-pinctrl-const-desc-v1-14-76fe97899945@linaro.org>
+ <CAMuHMdUGDf5n_Fg7pwiPumm95nPUXyH15geAy2ULwY3U+OtZJA@mail.gmail.com> <b6b7fb61-878e-4407-b964-564efb3524b1@linaro.org>
+In-Reply-To: <b6b7fb61-878e-4407-b964-564efb3524b1@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 30 May 2025 10:06:16 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUHyLYk0oSN8XDNCXUvLQLe2u0k0noVJLbR+pYWDTB4+w@mail.gmail.com>
+X-Gm-Features: AX0GCFuCNZIpijI8V-LFtD11RdEuCtx09JrM6Rph_c1WT65W3SrLJtlImd30cUI
+Message-ID: <CAMuHMdUHyLYk0oSN8XDNCXUvLQLe2u0k0noVJLbR+pYWDTB4+w@mail.gmail.com>
+Subject: Re: [PATCH 14/17] pinctrl: renesas: Move fixed assignments to
+ 'pinctrl_desc' definition
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Basavaraj Natikar <Basavaraj.Natikar@amd.com>, 
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Joel Stanley <joel@jms.id.au>, Avi Fishman <avifishman70@gmail.com>, 
+	Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>, 
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>, 
+	Benjamin Fair <benjaminfair@google.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Sean Wang <sean.wang@kernel.org>, Jesper Nilsson <jesper.nilsson@axis.com>, 
+	Lars Persson <lars.persson@axis.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, Damien Le Moal <dlemoal@kernel.org>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>, 
+	Emil Renner Berthing <kernel@esmil.dk>, Jianlong Huang <jianlong.huang@starfivetech.com>, 
+	Hal Feng <hal.feng@starfivetech.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	openbmc@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@axis.com, linux-riscv@lists.infradead.org, 
+	linux-rtc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.0 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+	RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Since the devm_mmc_alloc_host() helper is already in use,
-sdhci_pltfm_free() is no longer needed.
+Hi Krzysztof,
 
-Cc: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Joel Stanley <joel@jms.id.au>
-Cc: linux-aspeed@lists.ozlabs.org
-Cc: openbmc@lists.ozlabs.org
-Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
----
- drivers/mmc/host/sdhci-of-aspeed.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+CC wsa
 
-diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-index d6de010551b9..ca97b01996b1 100644
---- a/drivers/mmc/host/sdhci-of-aspeed.c
-+++ b/drivers/mmc/host/sdhci-of-aspeed.c
-@@ -425,10 +425,8 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
- 		return PTR_ERR(pltfm_host->clk);
- 
- 	ret = clk_prepare_enable(pltfm_host->clk);
--	if (ret) {
--		dev_err(&pdev->dev, "Unable to enable SDIO clock\n");
--		goto err_pltfm_free;
--	}
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret, "Unable to enable SDIO clock\n");
- 
- 	ret = mmc_of_parse(host->mmc);
- 	if (ret)
-@@ -445,8 +443,6 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
- 
- err_sdhci_add:
- 	clk_disable_unprepare(pltfm_host->clk);
--err_pltfm_free:
--	sdhci_pltfm_free(pdev);
- 	return ret;
- }
- 
-@@ -461,8 +457,6 @@ static void aspeed_sdhci_remove(struct platform_device *pdev)
- 	sdhci_remove_host(host, 0);
- 
- 	clk_disable_unprepare(pltfm_host->clk);
--
--	sdhci_pltfm_free(pdev);
- }
- 
- static const struct aspeed_sdhci_pdata ast2400_sdhci_pdata = {
+On Wed, 28 May 2025 at 19:55, Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> On 28/05/2025 14:54, Geert Uytterhoeven wrote:
+> >>         .pmxops = &rzn1_pmx_ops,
+> >>         .confops = &rzn1_pinconf_ops,
+> >>         .owner = THIS_MODULE,
+> >> +       .pins = rzn1_pins,
+> >> +       .npins = ARRAY_SIZE(rzn1_pins),
+> >>  };
+> >>
+> >>  static int rzn1_pinctrl_parse_groups(struct device_node *np,
+> >> @@ -878,8 +880,6 @@ static int rzn1_pinctrl_probe(struct platform_device *pdev)
+> >>
+> >>         ipctl->dev = &pdev->dev;
+> >>         rzn1_pinctrl_desc.name = dev_name(&pdev->dev);
+> >
+> > ... if you would replace this assignment by a hardcoded name
+> > like "pinctrl-rzn1".
+>
+> I saw it, but this would not be equivalent. dev_name includes platform
+> bus id, e.g. pinctrl-rzn1.0 which might matter here - conflict of names.
+> Are you sure this would work fine?
+
+There can be only one anyway.
+Most drivers used a fixed name:
+
+drivers/pinctrl/renesas/pinctrl-rza1.c: rza1_pctl->desc.name = DRIVER_NAME;
+drivers/pinctrl/renesas/pinctrl-rza2.c: priv->desc.name = DRIVER_NAME;
+drivers/pinctrl/renesas/pinctrl-rzg2l.c: pctrl->desc.name = DRV_NAME;
+drivers/pinctrl/renesas/pinctrl-rzn1.c: rzn1_pinctrl_desc.name =
+dev_name(&pdev->dev);
+drivers/pinctrl/renesas/pinctrl-rzt2h.c: desc->name = DRV_NAME;
+drivers/pinctrl/renesas/pinctrl-rzv2m.c: pctrl->desc.name = DRV_NAME;
+drivers/pinctrl/renesas/pinctrl.c: pmx->pctl_desc.name = DRV_NAME;
+
+It might change the path in debugfs (/sys/kernel/debug/pinctrl/) though.
+Wolfram?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.47.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
