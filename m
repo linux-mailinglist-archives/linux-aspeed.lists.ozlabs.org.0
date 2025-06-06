@@ -1,51 +1,92 @@
-Return-Path: <linux-aspeed+bounces-1323-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1327-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96066AD02EB
-	for <lists+linux-aspeed@lfdr.de>; Fri,  6 Jun 2025 15:14:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B5E2AD0AE5
+	for <lists+linux-aspeed@lfdr.de>; Sat,  7 Jun 2025 04:06:14 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bDMHB5n4Bz2yfx;
-	Fri,  6 Jun 2025 23:14:46 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bDhPF4wczz3064;
+	Sat,  7 Jun 2025 12:06:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749215686;
-	cv=none; b=mptALHNfGKRIJeWyOckBXw3YJ3iUzBXKggdW/ii/7GKA+yUpVZnGERKIY+OtN9lcqwlci/N8PxqQYDvHp7Gldo83UGjLWoLfWt5+4Rw+vIRvY3oUCGa/p49CQWgPo7Kbn118eB8Pt/ZAozqNqW7MCbt3sm3dM1gUd50T/J9XSa8RvyOCt0MjSdOtWt17EjX5WHdrQClqErurByaOXMYY/7voASpGerRu7I39w+qKxQk526e8JhjjCfJSg+btoPL0nZWRggTa7dxaYY/DandDezXkCTfzv3/Hg9Ecz4gekKoYnW5+zFTNcKRgGjE7LQ7lowioKJ1nShBjTwGOntnfuQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::52b"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749178504;
+	cv=none; b=j3nHPJTsHzuncucuBKFZicmQTciq7izRt1CYOkSGgKHVOliI/KKLkSB6V626qJjY9yDCV74RHRgokVl8eOnVai4i8el/UjETs9sEmb11X5yCSfBxa2wqFW2H39CStLFgDDHIHAbb3I9ugACCo60rMBHdatpmdfhHYJqvQ0MZYaLSFNqUNJ6NBxP4OOIRS9L7GRLBukrDtqxKjj7WitfCXsAp3Px/bIcqPBFmYseBqHc+KgV8aIiylc7IcgDhCmswo9YefnEgzHPCKHYIAPfWMzTeSWn8fn4xT1fSZ9sS8xJkJeNZ4P4mzksh4dbe75mzpphnA/bdv+tgQnv+KEHgww==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1749215686; c=relaxed/relaxed;
-	bh=8NTAaXiWFppY/s017KlgOfT5sJICXX1G54mjL/Bjy4k=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=Cu1Jzwb2xwrEFo6H3WBo7zi9LHlW60k5oGEWoJxGdf2qyPHi2iy49rAoxB9Ckns+Gte8Bcl/BkiuDqKfXJNDXq3V8Y7Z3oo95TOvyhd+b6e9zvBq5V6jppqnyDP1N4dWp3RtffvREQ/hFKMR57HRWBy518VTI9FQqii3pR31CnoUBbs1PqjSFePFXzWGG/DMPTMCF5kqITqWY9xicMdhvP4evTtZRZUWs2cRs6xfP3PFIVsHI02aRBxNm4eBS+9z4nRqVA4gHFAjgQT1sIP4HpjnXnVD/IS5MRuL6OHigh9Zt0qsg8n12IvoNbp3LzgSgCj8H67pkAscJvjrijup9Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ngHWsDE9; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1749178504; c=relaxed/relaxed;
+	bh=JqrGZxZfe4s9xgG/EFT6KkjJVPgG2O2ieIG0K5ZMp14=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QviqmOiaBnbcb7cAxTpNM+vflIybnHfKDabBjd16hSZwgLWJsqQe/tfXh41DfmESTHOLcYWzvkuCzZkQu4YEX95VKjVfDmoJWcLIElGFISraeGgiIcj1pPZS+/pfFM7XN5DFpl567TlkwNrfxAaNQqPDKDktPOAncPgKdb34GoiN4R2wfiJryW6SlwJnQXCQ5UaUxfwROql1yNb6yH7+s0VRWt3vqfsOM7htUoHXMm0GSwSQ8XSYfrVlYIciIiXH28a7Yvepa9Qaonc0eIMGv7B3Wdas2RzIhrfBYeubFuIrmdh0CE8B/7z5lj5gD8dHU1BbJWH4Hgk+zK+oyJiQ2A==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jaydvoYL; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::52b; helo=mail-pg1-x52b.google.com; envelope-from=jasonhell19@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ngHWsDE9;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jaydvoYL;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::52b; helo=mail-pg1-x52b.google.com; envelope-from=jasonhell19@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4bDMH940lwz2xrL
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Jun 2025 23:14:45 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 963F261F1B;
-	Fri,  6 Jun 2025 13:14:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 253D3C4CEED;
-	Fri,  6 Jun 2025 13:14:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749215682;
-	bh=skZemrol5BSMlsi755QNgC4Z7zGGLts5DGe9/yeSbEQ=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=ngHWsDE9PaxzLFKKz3qcppmM5qPl2L+jEB/vDrH7i08LK4/60OmaMlr7yPqQeYd5g
-	 H2me/D6I3xsdEkrE1nwqEZcSowgVnk3RggGX3ELOxBFnq+9M/bAidqNSOJXg3mwdhp
-	 Pbm6dRr5tBmgUo21bLgR6HlaE0qDK27sQNECitvKu9tia/lb4/l17q9sJIVhMlQXBj
-	 I6fwAIsX8W/Y6kT4p8DVI+sunEHvh1Y1uBFMguGtCB4/xcx/N66meg1qxhDqUiuDiQ
-	 0qYFp/xLKRf9bVfvCqUTheXY6IWZrC5zOQ6fd906PlahlZQq6k1Ysor/JILbuMeG5O
-	 p6BQHcucZBWWQ==
-Date: Fri, 06 Jun 2025 08:14:40 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bD5X66W51z2xYl
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  6 Jun 2025 12:55:01 +1000 (AEST)
+Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-b2c4331c50eso1315194a12.3
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Jun 2025 19:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749178499; x=1749783299; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JqrGZxZfe4s9xgG/EFT6KkjJVPgG2O2ieIG0K5ZMp14=;
+        b=jaydvoYL3+4ojeZeoredxVv88RPRv2jJfd+wtsKLr0X7Tdw/3glZWR9E6jOYKRu070
+         q4MrdOnM/WxV0PthUHOWxJK3PQcZFcec7xGPVm99hl4r7thQvlo563v17odRjZI3UDM/
+         4wT2AuRbAvteCjFeTnEz/HEf4fQ9ennIU/VvNsUZNzuhhmCFl8Ued4seRYly4rTBcTYY
+         Ct31dDJv64G7igYL+ckSu70TSNJ0DGihCUjDROztKVIPCd+vXNx7fDSK0N/1W3QZ/Ixe
+         eWyydLwsqGIjuAk2V/Ck1c2bfKU37YOYPCE1ZjlHo9ZBVN7BuZ1EYVFdlNZPgkg9ppBY
+         nl5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749178499; x=1749783299;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JqrGZxZfe4s9xgG/EFT6KkjJVPgG2O2ieIG0K5ZMp14=;
+        b=sFtJYXUT83lhznTs6X9Bd/v1cQ8/6c7KW+ucOc2C9fdtFgkh7r1Ofv2wqQIgdsX6G5
+         JH4f2mY0tPGVAnU1KcfE1VbNKwRDAGdKQsFU3dxPUcPot4vJ5WcrDOx2+6sfGS+GxOKX
+         05YufHT08bgh5QoyDqxACICooHMcR/tM/RpfIrQn+Xrb+PUFviE64XSD/44jzCNropCy
+         Me2ZCDMPoSu/5WRyhMpVUolbb3DL/ebNIgmQ97eUrsRhY6GKNJNjKStFD+A24OHYx7i9
+         oUrE9DLwqSWCBi51wR/Oz2jrBrqmxPNmxuAUrZMRgkbOX5Zf3jMZUjZBWt9pbqn1A0DG
+         WOUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWGTdebpAt9+mUukEC7ZmkOayf6epCdENtF8f4fs/4q7QvGoDLeXMZEBH/AF1aMCGwIhw/x3kGPYjCktwE=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YxfDkHzo+vZIRdvZ9BvsQxvAngA7GTsta96/Xe11NIi9UJhl8ff
+	DyVfqlnKCw66ipDO7i1L9DoJCFmQUDfa8diYZA8AtP6fRkshfYLlg70V
+X-Gm-Gg: ASbGncsASPTwalOaCeB8IvtzRh3wgfzSTnnLVMq7vEx4Uz9Q7Zpiw2L0rrPQEqTn0h7
+	1AJDKxyuREmFNl1q492Kyy9HdcMaZp1a3rMpVEd2DAcyRR6UgRKVY/LpdBkA4p10tdUAEaE8G9w
+	5GvrdoPsDv8k/mH7ZMUnI0PN4pAbwg2+qDtvZjlE8f1FpZ4fL0yQVh4RxSSAhaslf7K7VOIccr0
+	tFYmaNwRPnagQwZsVrmnPgpjtk8+0NGuWhSEHl0OrhGpxofVnvL0HJOLnSS7JfVZarK3dSSj7US
+	7lHkl+0TUP1Ml/xXzeXk4BhsPeGgYIcjiEW2PLZ8hh6vQqti/GYb8tYoQS/dmbIlE0zzkr06Kj5
+	e5vJTUhPnhIZzf6XpKwujkjgLjNOA0zyZtEdXj9iWchMXiMtmwZ4OjBIAGpP4Bm/awOItDDFP/z
+	C0l28K4a3nPw==
+X-Google-Smtp-Source: AGHT+IHB3aHU7n0uaEQbmWTSYTIEsb/YABqewfurUM9yqVpjSkQhfmqbYeHsudldolnne0QyhmNdrw==
+X-Received: by 2002:a17:903:22c6:b0:234:986c:66bf with SMTP id d9443c01a7336-23601e21e73mr25301895ad.11.1749178499573;
+        Thu, 05 Jun 2025 19:54:59 -0700 (PDT)
+Received: from jason-System-Product-Name.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23603077eb7sm2942185ad.39.2025.06.05.19.54.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Jun 2025 19:54:59 -0700 (PDT)
+From: Jason Hsu <jasonhell19@gmail.com>
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	joel@jms.id.au,
+	andrew@codeconstruct.com.au,
+	patrick@stwcx.xyz,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Cc: yang.chen@quantatw.com,
+	jerry.lin@quantatw.com,
+	Jason Hsu <jasonhell19@gmail.com>
+Subject: [PATCH v7 0/2] Add Meta(Facebook) Ventura BMC(AST2600)
+Date: Fri,  6 Jun 2025 10:52:49 +0800
+Message-Id: <20250606025251.887953-1-jasonhell19@gmail.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -59,123 +100,58 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Conor Dooley <conor+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- devicetree@vger.kernel.org, Joel Stanley <joel@jms.id.au>
-To: Fred Chen <fredchen.openbmc@gmail.com>
-In-Reply-To: <20250606102802.1821638-1-fredchen.openbmc@gmail.com>
-References: <20250606102802.1821638-1-fredchen.openbmc@gmail.com>
-Message-Id: <174921562446.1204173.9232925902067845583.robh@kernel.org>
-Subject: Re: [PATCH v1 0/2] Add Meta(Facebook) Santabarbara BMC(AST2600)
-X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NORMAL_HTTP_TO_IP,
-	NUMERIC_HTTP_ADDR,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
+Add Linux device tree entry related to Meta(Facebook) Ventura specific
+devices connected to BMC(AST2600) SoC.
 
-On Fri, 06 Jun 2025 18:27:52 +0800, Fred Chen wrote:
-> Summary:
-> Add linux device tree entry related to Meta(Facebook) Santabarbara
-> specific devices connected to BMC(AST2600) SoC.
-> 
-> Fred Chen (2):
->   dt-bindings: arm: aspeed: add Meta Santabarbara board
->   ARM: dts: aspeed: santabarbara: Add Meta Santabarbara BMC
-> 
->  .../bindings/arm/aspeed/aspeed.yaml           |   1 +
->  arch/arm/boot/dts/aspeed/Makefile             |   1 +
->  .../aspeed-bmc-facebook-santabarbara.dts      | 978 ++++++++++++++++++
->  3 files changed, 980 insertions(+)
->  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dts
-> 
-> --
-> 2.49.0
-> 
-> 
-> 
+---
+v1:
+    1. Create ventura dts file.
+    2. Add commit msg.
+    3. Use format-patch to generate patch.
+    4. Add subject prefixes matching the subsystem.
+---
+v2:
+    1. Modify email content.
+---
+v3:
+    1. Add mail list.
+---
+v4:
+    1. Apply git send-email --thread option.
+    2. Sort nodes in the dts alphanumerically.
+---
+v5:
+    1. Run scripts/checkpatch.pl and fix reported warnings.
+    2. Remove unnecessary 88E6393X CONFIG FRU.
+---
+v6:
+    1. Add a new stage for the DTS change.
+    2. Run scripts/checkpatch.pl and fix reported error.
+    3. Fix the issue in a separate patch.
+---
+v7:
+    1. Fix broken indentation in the device tree file.
+    2. Sort nodes alphabetically, then by address if equal.
+    3. Rename fan sensor nodes from 'hwmon' to 'fan-controller'.
+---
+Jason Hsu (2):
+  ARM: dts: aspeed: ventura: add Meta Ventura BMC
+  dt-bindings: arm: aspeed: add Meta Ventura board
 
+ .../bindings/arm/aspeed/aspeed.yaml           |    1 +
+ arch/arm/boot/dts/aspeed/Makefile             |    1 +
+ .../aspeed/aspeed-bmc-facebook-ventura.dts    | 1481 +++++++++++++++++
+ 3 files changed, 1483 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dts
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-This patch series was applied (using b4) to base:
- Base: attempting to guess base-commit...
- Base: failed to guess base
-
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
-
-New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/aspeed/' for 20250606102802.1821638-1-fredchen.openbmc@gmail.com:
-
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
-	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb@1e6e0000/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb@1e6e0000/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: gpio@1e780000 (aspeed,ast2600-gpio): 'pinctrl-0' is a dependency of 'pinctrl-names'
-	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb@1e780000/timer@1e782000: failed to match any schema with compatible: ['aspeed,ast2600-timer']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: kcs@24 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: kcs@28 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: kcs@2c (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb@1e780000/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb@1e780000/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: fsi@1e79b000 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb@1e790000/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: fsi@1e79b100 (aspeed,ast2600-fsi-master): compatible: ['aspeed,ast2600-fsi-master', 'fsi-master'] is too long
-	from schema $id: http://devicetree.org/schemas/fsi/aspeed,ast2600-fsi-master.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb@1e790000/fsi@1e79b100: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: /ahb/apb@1e790000/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
-arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: /gpio-fsi/cfam@0,0/hub@3400/cfam@1,0/hub@3400: failed to match any schema with compatible: ['fsi-master-hub']
-arch/arm/boot/dts/aspeed/aspeed-bmc-opp-tacoma.dtb: kcs@114 (aspeed,ast2500-kcs-bmc-v2): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-arch/arm/boot/dts/aspeed/aspeed-bmc-inventec-transformers.dtb: /ahb/apb@1e790000/fsi@1e79b000: failed to match any schema with compatible: ['aspeed,ast2600-fsi-master', 'fsi-master']
-arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-blueridge.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
-	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
-
-
-
-
+--
+2.34.1
 
 
