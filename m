@@ -1,77 +1,48 @@
-Return-Path: <linux-aspeed+bounces-1341-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1348-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4420DAD3FF9
-	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Jun 2025 19:04:56 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6128BAD4930
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Jun 2025 05:06:32 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bGwBs5mj6z3blF;
-	Wed, 11 Jun 2025 03:04:53 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bH9Xj3q3Qz30HB;
+	Wed, 11 Jun 2025 13:06:13 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::62d"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749575093;
-	cv=none; b=TYXZIPiSBbP/Zqiao0Ple0pksRuheFvmlNJ8Ec/gVzHYshFusZP0u7/Hvb62924m9tnDe4XboNfPu2WcPjpERASPkpUzSUi+UqUsxTdMWtsJayGQyesa+/B3VEGk51RIUczw+jEIXFNw9eIQiPuir/kz05s4s3G3+A6ERVT0LN0n/6rOT9jNjTyiPgaR6iey/9ixtd6S7exdRg0QHQsfO/nC4UXynl9NtN7hHiZtKYsL7jx96vm8CceDwf5ueB74gL6lkE4XbTLCW0Zi9TST6sl3ZWm32t01FNgXX6EZi+ZWTW9x3wqEbpEpmodTlWHcC9IxDGuncUyieENGn9OD4Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749518669;
+	cv=none; b=Z8Yv3vyIXFOtTMhEczOEI9Nt8hJJl1seMZSzlJQDYWG1XcdwbFBBqFHcg65YXi+wPzFQRUwjpf8SoMEvBPROXjHOptZaB7YkCJzW/SvnN0kzcw/1SgPNjx0AFGmp1rEtR6LcmuE0URZIo2vGt3+VB+sAohVt1Eceb9jca7ITA/yRyHilMoPMnL4WS1tUVfuFYiA+OXPnU9AeidwDcJaa1q6RXc1DHVECrA7R1HM6YinD8NlWDy3407Ol5mhyOBa6xe7HVFes0I9TA5+YNzVnPAKBea8DMuAdRUJhiSVkAfxucWX3UFa2MsC/a2K9wkBL72k13ntSrdP8Hj0kY89FMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1749575093; c=relaxed/relaxed;
-	bh=l1SAMsGs37SGD+chia/RQyRlWwAaxqTB5CEOsEmZAX0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=V9CycaTThUmas2jUh7+3NI4dxtV0rUfLEaEz4UApCB2cOMxez0/GlkZt31r8brEKUPP9HyPjgtctJaOFRAVuaiPYepklDZdQgmf728/BlY+o0V5QnQeZw3ws6cdgLpAPgGJMZU9hb58u/QSEWsJAUMjtyQ4XEa7LERynN57nZU49cNS/gcLoCV4xq2gyAss/CW7/lKOTnA+3KPA0c2DMx9eQcrsqE1P4CvWpIS50+sNbw8PLKykOEXiXKfplfgAnjL8inKvEtJ/4NVLv9bVBzPQuQ1W+9Mff/we+yGBvmBcMzLDgovWXH+FeEd889+xI67nuI0mvnXGo/VxlTdchHA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=evc+1ZJM; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::62d; helo=mail-pl1-x62d.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=evc+1ZJM;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62d; helo=mail-pl1-x62d.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	t=1749518669; c=relaxed/relaxed;
+	bh=NzS5/ITPJn/xFgNJD/PmNPqfpKluXFZGJG0Jw9l2akc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J+oioRVCfSGE6wdC3LsY+W/l8V0tz87UkAVZBNQBtV+7Xh4mkug3Ln0+6frf0opm7nJrcikRa7ccwY31nS5WNYg/xDAcyi01+uHJ/k9UNTBLHFoG9uor0YiYJSsG/oSeCLkCXkMaztDmbhjQaN0NkFOhaMJh22fVOoQ23rLRggZUrw4pFEy8vWACd/yF1lutz0eGG+7oDQI1lJKP86tEeOfKN+0phWrQYpa/IEytymwDyayr16cQes/O5R+KzLN8shaQnUv9Y1AD/R6zZpcJgfZxkvqMKt6XxvWm+o1kiCa+2bWK+IXMo5moxI3WMkOiEpfRoVcciiaQ0SJDLNewFw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4bGwBr3DMPz3bkg
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Jun 2025 03:04:51 +1000 (AEST)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-2353a2bc210so49886585ad.2
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Jun 2025 10:04:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749575088; x=1750179888; darn=lists.ozlabs.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l1SAMsGs37SGD+chia/RQyRlWwAaxqTB5CEOsEmZAX0=;
-        b=evc+1ZJMN4hnX6w29Z6RyHi8M1/DE6SItsDA9Q3RlkFlyhbO0kdcRFA9W0CRPSw0Nn
-         KMeH1JA3VJcytxbFtPnLXJbkR6Qt3K1ato1kkBKuNSCR/aTmI9FNshqLhoYi5hWmK69M
-         /bLjZPh3eT7ndavrUzmjnaykCrequBuUQIuv4br5XDnnjcz0fGhL/KNcfBWxsfQK7dyw
-         SAXAV99LRDKyPKznfBxQNmiLh1TVsW376MIk77e0mjGCI7Y0guN7NlizKG3AraasgsAR
-         0dK05mLHyEgMShUGuMk2daZl+XNVXn/0KtRWFPvCDl8pBsPV/ms8NNaY0nSx2CoD5vhX
-         a2/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749575088; x=1750179888;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l1SAMsGs37SGD+chia/RQyRlWwAaxqTB5CEOsEmZAX0=;
-        b=WRLso8e2N0lN3WiWoZsWf9jUO2LyQxNoXmL5OO5yBpB78NqDRJNQSJ8kpWywIlKayx
-         AIkvGo/lhZkHKkNxM8qdNq3cYHocRzmS65xzvg5m/YHfPYT2+CUE3ZMH/df46o8u0RGu
-         p4+MpKAcDYG8gYzPCynbqx9JE2GidXudrhUMN9w14T2NHk2/p5/KqAz3dbqmVZho60Og
-         ko0C2I1iRkpYv4GEbvsljRqNZsMIh4NvdrRYWI/OR+yCIVBRi8EbK1A3UpNdTJ1CVTvr
-         udY0AOrIb+0mctug9ZCUWP9OMBJsOmSae2mDs5RCMhXZN+qy0iRg8OpoK0KvyTT0NOTi
-         YPVw==
-X-Forwarded-Encrypted: i=1; AJvYcCVFSNVEfB5kot5IqhxW6FUNEmrhchGRq4Cw3Q7Ti5VXYPbjHSWEbL7cAtCqM01rdpGX64ww5mjhpUeRwMo=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yz3XOpqfWYMkEXaHoPmNMoZWdq5ucxXzLijjjAiPQhEihk2V1/R
-	op9vaZTKYmWqxWeryenzAMut7EI37HGdXhb+Nx1MNyZiVSrH9GnrdCsj
-X-Gm-Gg: ASbGncsUpxW6QAR14cE0DpQf/OWyRRzjYzGVdGMc/agTiDqxYcRWOeZODliFHCBDILv
-	VaU0VtitWmyD+GybXcyAT6ZZcrKDsg2Z0iaa0PqKPQ38B/QM3S0waaBgmXcR7PLtAUp86o0EM0H
-	bgAN178pO1Rs3Bge0Gia9xX3HhfsmMBwjNxiLh5YWRWhNxFqLi37n24XhO3GxMWZcCxBtRW6FBF
-	RaesmmHghpWhajheuFSwkAJnlL5qUsWoCgkmNR2h+AE13qp1JezyxrYKiv4wlJCWINdegN1FKJk
-	nhaAC9nnszgkddpnt27g0ZSR1Ew+t3wxtxncvO3s82lJzhdusi9kQywfADdNAkumvo+Ofz/VM57
-	aWokRXKEkGujHXFHbnkIfrkYulIzhGX4ErhwhFOFWKec0zHjcMg==
-X-Google-Smtp-Source: AGHT+IGN8fWm1wd/rYS+vEB4RxNmREuCEW79sACTf92qnjh+StZfwWgh0XTKc+e8n8+kZsmS0X1KRQ==
-X-Received: by 2002:a17:902:c94c:b0:235:81c7:3c45 with SMTP id d9443c01a7336-23641b26eeamr523415ad.46.1749575086817;
-        Tue, 10 Jun 2025 10:04:46 -0700 (PDT)
-Received: from localhost.localdomain (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-236034065edsm72958615ad.185.2025.06.10.10.04.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 10:04:46 -0700 (PDT)
-From: Potin Lai <potin.lai.pt@gmail.com>
-Date: Wed, 11 Jun 2025 01:02:09 +0800
-Subject: [PATCH] ARM: dts: aspeed: catalina: Enable MCTP for frontend NIC
- management
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bGWKk7214z2xJ1
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Jun 2025 11:24:25 +1000 (AEST)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 10 Jun
+ 2025 09:24:06 +0800
+Received: from mail.aspeedtech.com (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Tue, 10 Jun 2025 09:24:06 +0800
+From: Jacky Chou <jacky_chou@aspeedtech.com>
+To: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <pabeni@redhat.com>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <joel@jms.id.au>,
+	<andrew@codeconstruct.com.au>, <mturquette@baylibre.com>, <sboyd@kernel.org>,
+	<p.zabel@pengutronix.de>, <BMC-SW@aspeedtech.com>
+Subject: [net-next v2 0/4] net: ftgmac100: Add SoC reset support for RMII mode
+Date: Tue, 10 Jun 2025 09:24:02 +0800
+Message-ID: <20250610012406.3703769-1-jacky_chou@aspeedtech.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -85,82 +56,47 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250611-catalina-mctp-i2c-10-15-v1-1-2a882e461ed9@gmail.com>
-X-B4-Tracking: v=1; b=H4sIABBlSGgC/x3MSwqAMAwA0atI1gaa4v8q4qLWqAGt0hYRxLtbX
- L7FzAOBvXCALnvA8yVBDpdAeQZ2NW5hlCkZtNKlqojQmmg2cQZ3G08UbZEUUontWHNbFJUa5wZ
- SfXqe5f7P/fC+H35ZZLBpAAAA
-To: Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Patrick Williams <patrick@stwcx.xyz>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- Cosmo Chou <cosmo.chou@quantatw.com>, Potin Lai <potin.lai@quantatw.com>, 
- Potin Lai <potin.lai.pt@gmail.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1749575084; l=1422;
- i=potin.lai.pt@gmail.com; s=20240724; h=from:subject:message-id;
- bh=FeGGqTV3hMLvtuAUwQjWTQyZXr9HDJB5RrZEzdTh77s=;
- b=lRWcKzdCWOshs6fYek3iMrxbKcUD0Q0b2Tn4RqRTi0y+t19th2ZR1mJJ/o5nxpConHX4xZfj9
- M55WJ2w/KdyB4EiBoVxPni3QOtFCBWVk2dtVdkjJqPvrVw6cQn81u4y
-X-Developer-Key: i=potin.lai.pt@gmail.com; a=ed25519;
- pk=6Z4H4V4fJwLteH/WzIXSsx6TkuY5FOcBBP+4OflJ5gM=
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add the `mctp-controller` property and MCTP nodes to enable support for
-frontend NIC management via PLDM over MCTP.
+This patch series adds support for an optional reset line to the
+ftgmac100 ethernet controller, as used on Aspeed SoCs. On these SoCs,
+the internal MAC reset is not sufficient to reset the RMII interface.
+By providing a SoC-level reset via the device tree "resets" property,
+the driver can properly reset both the MAC and RMII logic, ensuring
+correct operation in RMII mode.
 
-Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
----
-Add the mctp-controller property and MCTP nodes to enable support for
-frontend NIC management via PLDM over MCTP.
----
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dts | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+The series includes:
+- Device tree binding update to document the new "resets" property.
+- Addition of MAC1 and MAC2 reset definitions for AST2600.
+- Device tree changes for AST2600 to use the new reset properties.
+- Driver changes to assert/deassert the reset line as needed.
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dts
-index 5fb67ad2d777..8d786510167f 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-catalina.dts
-@@ -797,6 +797,12 @@ eeprom@56 {
- 
- &i2c10 {
- 	status = "okay";
-+	multi-master;
-+	mctp-controller;
-+	mctp@10 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+	};
- 
- 	// OCP NIC0 TEMP
- 	temperature-sensor@1f {
-@@ -926,6 +932,12 @@ io_expander14: gpio@15 {
- 
- &i2c15 {
- 	status = "okay";
-+	multi-master;
-+	mctp-controller;
-+	mctp@10 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+	};
- 
- 	// OCP NIC1 TEMP
- 	temperature-sensor@1f {
+This improves reliability and initialization of the MAC in RMII mode
+on Aspeed platforms.
+
+Jacky Chou (4):
+  dt-bindings: net: ftgmac100: Add resets property
+  dt-bindings: clock: ast2600: Add reset definitions for MAC1 and MAC2
+  ARM: dts: aspeed-g6: Add resets property for MAC controllers
+  net: ftgmac100: Add optional reset control for RMII mode on Aspeed
+    SoCs
+
+ .../bindings/net/faraday,ftgmac100.yaml       | 19 ++++++++++++++
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi       |  4 +++
+ drivers/net/ethernet/faraday/ftgmac100.c      | 26 +++++++++++++++++++
+ include/dt-bindings/clock/ast2600-clock.h     |  2 ++
+ 4 files changed, 51 insertions(+)
 
 ---
-base-commit: 4d75f5c664195b970e1cd2fd25b65b5eff257a0a
-change-id: 20250611-catalina-mctp-i2c-10-15-9b7e94460bf8
+v2:
+  - Added restriction on resets property in faraday,ftgmac100.yaml.
+---
 
-Best regards,
 -- 
-Potin Lai <potin.lai.pt@gmail.com>
+2.34.1
 
 
