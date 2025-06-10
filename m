@@ -1,51 +1,51 @@
-Return-Path: <linux-aspeed+bounces-1330-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1333-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F88AD10EF
-	for <lists+linux-aspeed@lfdr.de>; Sun,  8 Jun 2025 06:22:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 534ACAD2BF8
+	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Jun 2025 04:31:12 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bFMN40gS8z301n;
-	Sun,  8 Jun 2025 14:22:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bGXpf3pp4z2xHT;
+	Tue, 10 Jun 2025 12:31:06 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=114.242.206.163
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749281909;
-	cv=none; b=EUd2EBcoAz5w0l+ZwoMJCUFAvuKpohoh21Tont80ZNucCwL9YtgAZwwBcm1Pw6XurbkhLfh3Nb53quzOrCZOcngoDw225jiG7ao9uoA4V+d2OSkp5txzqjNCaqpcNpOcB2bbh13zO+FyegZ9xxDBOW0GeyizRMwYPwxC+AsLOW2I+xqYfgI/B5HCDjczUVraEm/4fFWwSUFGGqUnYB8kNDJx36zlsbwe1B8sbkJAZ044dHMTOkBBbCwTXz18aADkFZMXWuj0FFXfHhPBRM1lcusVNoaaaW09VSNjvr9nw44ofmBGSu2yv1upMnVawgseGDXGOb9V3TIQeMrVWNWcEQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749522666;
+	cv=none; b=PuHCWddizWR0Olg5h+nObnfg26cJr286J+NXVqF+upmIlbC7cV741/1p5wViepHHbBvvzMn6p2k9UQht76hGWeskWkCfwZEAHcyskfVryvyr3somxY38YhoXI5Z/+6+yu9BX4qj/LenH13SH1EHQxiUwuWCJZG/gQ7CC0rBX5ZKOGGuCjNYfzqR6DG0j3tn4YflJDW7KEohHyWuKVB9Q7GsQ0NkF/S1GFYWKp0/lIrMevysD2qTaWXN7SOeK7LShjQ9Sw0/CLu6VrSh6uYUuGuq8hab/yZEA905ssYLCytfb4r/rPlZIgW0hkVjp6aOUo5S/lagYZ6VtyaPx3NGWwg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1749281909; c=relaxed/relaxed;
-	bh=WPE7h8SihYSwUvVGcaz3/AkA8wVnF35lGJPPT/a2nOE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eaavkdrxkGsqa93P3pRDKOZpb2sLyrnmC83FqmHACD7k2GYv8x7xh37fN3uyUXdGFVrB0DyZA9lR5D03k6FR4/b2mQJ6QJsFdwjitaTyT5Gkc0oKt2ZqDOYAr4tjDGTPF70uqG51ShcsdP90dB/6FAZTTfFlFLRWE4cFJ7JpXX7I7wx/uIh7J3jy9g2wFql86jUQv35utjteq8m93s9MEq22S3qw0/ghEh9zYBtnlvc6qzruRoiFrOavwEcnvGHcBhLqZgDRkr2iuZ3DuCjxQfjL0nQSF0H52uyf3SUdOE2QpJ3pG9DS9xuMcasxJWP1WnlJN0j2PnPSi/1xGv4MoQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass (client-ip=114.242.206.163; helo=mail.loongson.cn; envelope-from=zhoubinbin@loongson.cn; receiver=lists.ozlabs.org) smtp.mailfrom=loongson.cn
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=loongson.cn (client-ip=114.242.206.163; helo=mail.loongson.cn; envelope-from=zhoubinbin@loongson.cn; receiver=lists.ozlabs.org)
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bDqmg4vHjz2xnM;
-	Sat,  7 Jun 2025 17:38:27 +1000 (AEST)
-Received: from loongson.cn (unknown [223.64.69.3])
-	by gateway (Coremail) with SMTP id _____8CxbWty7ENolhYPAQ--.40539S3;
-	Sat, 07 Jun 2025 15:38:26 +0800 (CST)
-Received: from localhost.localdomain (unknown [223.64.69.3])
-	by front1 (Coremail) with SMTP id qMiowMCxbsVu7ENowZ4OAQ--.49969S2;
-	Sat, 07 Jun 2025 15:38:24 +0800 (CST)
-From: Binbin Zhou <zhoubinbin@loongson.cn>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Adrian Hunter <adrian.hunter@intel.com>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
-	linux-mmc@vger.kernel.org,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Joel Stanley <joel@jms.id.au>,
-	linux-aspeed@lists.ozlabs.org,
-	openbmc@lists.ozlabs.org
-Subject: [PATCH v3 18/35] mmc: sdhci-of-aspeed: Drop the use of sdhci_pltfm_free()
-Date: Sat,  7 Jun 2025 15:38:12 +0800
-Message-ID: <117c13ffd2d67a4c7cad980634591c4851f560b5.1749127796.git.zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1749127796.git.zhoubinbin@loongson.cn>
-References: <cover.1749127796.git.zhoubinbin@loongson.cn>
+	t=1749522666; c=relaxed/relaxed;
+	bh=qxT6Nt1Q04hkagtvfdHeoGmiPJWJ7RAPJ/r0KBiCRq0=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=kPTdd5CvmL+CryvJ0AGTXXZLTF7Tp3dfgXBZknltH6exw1oOIPJgW3MINJ1dCZ1Eo7svoSiTYDoESsGCpVerzfTH52h/3PWX4xlTx97odaHq2MzjXUbFV5HUGBs/ln87QCfNxy3bUUQMGKAqm+XQ9holE6QBzhzVRIpAdjcjFwu6rJwonjkzzuEMXfurfXe6rMTMAfFxwRHHJsvML5QQEng0vzVs9emGOl660nZ2EL8HJue+i25jQz68E6dBDC7fNDAITDBosHqAajQp2ckFs5gEPVcjT2YQVVGxcX/6jIH4C5UDpHu5tT4UsbetEdPZLlxi8w0tj5wu4lQoypSqXg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=QtPCtTdA; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=QtPCtTdA;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bGXpZ1Sqwz2xGv
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Jun 2025 12:31:02 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id A06A6614E0;
+	Tue, 10 Jun 2025 02:30:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B1BC4CEEB;
+	Tue, 10 Jun 2025 02:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749522659;
+	bh=MF9eFED5nRvQBjnkQkaYBoOXrlZbPXE3oEhI6hM3hIM=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=QtPCtTdAWiYNrWfnLL1Egie323Tgg630GTtlhtKZVSX9uBqa1Gr88E9RsbxDT91td
+	 g8N2E1mXP6KQ3i2S6j5SfrRj0MaXKnbtvuE83BlJUxGGpTiVbnl2rxiJMDCs4KEyTx
+	 8GoA9PljkQes7HFBNnlOgpA+P9Osn1lcp/7BumzmdOTDsooqKlOoMYKrU0N+NtBleL
+	 XDFNcpnclJnjOq5Ft8al8OYLgep4MJTJBH3B1r74QqveEOOgVHBzBa3R7cBj3KbHtg
+	 aOW4kofCS51lkO8XkZR1GLTWMCjnZ4wICUfyW4BwQFGxs5B6ZFfvE6OYVB/idqhdt2
+	 m/aI3IhosKoyA==
+Date: Mon, 09 Jun 2025 21:30:57 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -59,79 +59,68 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMCxbsVu7ENowZ4OAQ--.49969S2
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7uw4Dtw13WF4kZry5tr1UArc_yoW8Xw4fpa
-	9xJrWrKr47GFWrKrZ8J3Wqv3WUJw4a9ayxKrWUGw1kW3y3KFyYqFsrCFW8tFs5XFy0gw45
-	XF17Jr48Ca98AabCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUmFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAF
-	wI0_Cr1j6rxdM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
-	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVW8
-	Xw0E3s1lYx0Ex4A2jsIE14v26r4UJVWxJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
-	kI7VAKI48JM4x0Y40E4IxF1VCIxcxG6Fyj6r4UJwCY1x0262kKe7AKxVWUAVWUtwCF04k2
-	0xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s
-	026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
-	Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWDJVCq3wCI42IY6xIIjxv20x
-	vEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280
-	aVAFwI0_Gr1j6F4UJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnU
-	UI43ZEXa7IUYyMKtUUUUU==
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: edumazet@google.com, netdev@vger.kernel.org, 
+ linux-aspeed@lists.ozlabs.org, mturquette@baylibre.com, 
+ BMC-SW@aspeedtech.com, linux-kernel@vger.kernel.org, kuba@kernel.org, 
+ krzk+dt@kernel.org, p.zabel@pengutronix.de, sboyd@kernel.org, 
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ davem@davemloft.net, conor+dt@kernel.org, joel@jms.id.au, 
+ andrew+netdev@lunn.ch, devicetree@vger.kernel.org, pabeni@redhat.com, 
+ andrew@codeconstruct.com.au
+To: Jacky Chou <jacky_chou@aspeedtech.com>
+In-Reply-To: <20250610012406.3703769-2-jacky_chou@aspeedtech.com>
+References: <20250610012406.3703769-1-jacky_chou@aspeedtech.com>
+ <20250610012406.3703769-2-jacky_chou@aspeedtech.com>
+Message-Id: <174952265793.3644019.286629373000016480.robh@kernel.org>
+Subject: Re: [net-next v2 1/4] dt-bindings: net: ftgmac100: Add resets
+ property
+X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Since the devm_mmc_alloc_host() helper is already in use,
-sdhci_pltfm_free() is no longer needed.
 
-Cc: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Joel Stanley <joel@jms.id.au>
-Cc: linux-aspeed@lists.ozlabs.org
-Cc: openbmc@lists.ozlabs.org
-Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
----
- drivers/mmc/host/sdhci-of-aspeed.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+On Tue, 10 Jun 2025 09:24:03 +0800, Jacky Chou wrote:
+> Add optional resets property for Aspeed SoCs to reset the MAC and
+> RGMII/RMII.
+> 
+> Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
+> ---
+>  .../bindings/net/faraday,ftgmac100.yaml       | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
 
-diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-index d6de010551b9..ca97b01996b1 100644
---- a/drivers/mmc/host/sdhci-of-aspeed.c
-+++ b/drivers/mmc/host/sdhci-of-aspeed.c
-@@ -425,10 +425,8 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
- 		return PTR_ERR(pltfm_host->clk);
- 
- 	ret = clk_prepare_enable(pltfm_host->clk);
--	if (ret) {
--		dev_err(&pdev->dev, "Unable to enable SDIO clock\n");
--		goto err_pltfm_free;
--	}
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret, "Unable to enable SDIO clock\n");
- 
- 	ret = mmc_of_parse(host->mmc);
- 	if (ret)
-@@ -445,8 +443,6 @@ static int aspeed_sdhci_probe(struct platform_device *pdev)
- 
- err_sdhci_add:
- 	clk_disable_unprepare(pltfm_host->clk);
--err_pltfm_free:
--	sdhci_pltfm_free(pdev);
- 	return ret;
- }
- 
-@@ -461,8 +457,6 @@ static void aspeed_sdhci_remove(struct platform_device *pdev)
- 	sdhci_remove_host(host, 0);
- 
- 	clk_disable_unprepare(pltfm_host->clk);
--
--	sdhci_pltfm_free(pdev);
- }
- 
- static const struct aspeed_sdhci_pdata ast2400_sdhci_pdata = {
--- 
-2.47.1
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/net/faraday,ftgmac100.yaml:82:1: [error] duplication of key "allOf" in mapping (key-duplicates)
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/faraday,ftgmac100.yaml: ignoring, error parsing file
+./Documentation/devicetree/bindings/net/faraday,ftgmac100.yaml:82:1: found duplicate key "allOf" with value "[]" (original value: "[]")
+make[2]: *** Deleting file 'Documentation/devicetree/bindings/net/faraday,ftgmac100.example.dts'
+Documentation/devicetree/bindings/net/faraday,ftgmac100.yaml:82:1: found duplicate key "allOf" with value "[]" (original value: "[]")
+make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/net/faraday,ftgmac100.example.dts] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1519: dt_binding_check] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250610012406.3703769-2-jacky_chou@aspeedtech.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
