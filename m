@@ -1,70 +1,60 @@
-Return-Path: <linux-aspeed+bounces-1392-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1394-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6AD6AD6441
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Jun 2025 02:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AFE3AD6756
+	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Jun 2025 07:32:07 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bHjP60jYtz3bpM;
-	Thu, 12 Jun 2025 10:01:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bHrkY174rz2xHT;
+	Thu, 12 Jun 2025 15:32:05 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::1036"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749644181;
-	cv=none; b=Rd86QCJCeqN7bLqSWRrBYhwXmhl6tRRBPxym+a5sdRNBOiyKVfzQd9L8UJ00RF6cD8AtqGazSxFb4C4mFj7W4tUc/F5CNJIntQjaELUNm7TWF2PDCghE0T6pXlGPu1Gwm+FqznrW86JlmwcnW6IzbGJU4LJ7CS/mM/unZ7Lr60HO8BP1doj2trLZdXWNrqUPK+plH70vfqQaA57QkHbWkd4f0W1LmUsEIyE0JhWg8KpUO1+g+so0QY3LsvUdq2BRS0jdDR/EA8L0zUM+9ovVCn+yUGPA6feH0w3x1GOvRG+gh6GUQ6cGIkHgo7pQkC6qxP9Tfrs6LrJwjjfzQbFLIA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749706325;
+	cv=none; b=W54BhrTVw+n4SBZ7bBVOTPpQPNnD/3RFC/9opiB2s5bCvkue7ndLjeXaUBbQqR/fbTcHSYJbDP0K/6w+xiHPT7GPP6xzzlu+esgjNLGKCpalzhfUUF72z2DplGll4Q2qSgCRwS5HkOD7wjCFsv5WuKIcfCSC5FDzFnn0ibdMdE4JY2LBwQxF1j92covOHIO+KyiXvCCXUhBrVNr2iUFeb8oj4LIQsfMqfZblhlyuwL6zyil9HwKfeE9l+jfld35NgoGv8JOOW+nvDWHVUchBNl97YpM3wUb5oV/ljbnalVImG2ruRAdvi0lTHou/PXCoUwKQK8Xh2dl545YsftPaOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1749644181; c=relaxed/relaxed;
-	bh=i5Kxi63qWoofSavUm+pcIB+Uafiv7oyd/3nL/pRB+eE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IqYx1IcrIfUC8+2tQLbDHvwCRCovh0cmxAL+ZUj3Nzoc4A+huBaD/b1Ueor3eEPqHAmwtul4njaClCNobEFRHdCK2csV1ltImunZ0DwAMvpoKI5K3pV3AkimmPeD+7WRwVFFXLwuNDJdT8LphvdMwdJQKaJxhTp5WiM81HS0P/8sBBMgIP+dR0A8vVHIuYEtVAId0teLLHiYEDcO1gXHLtH54AoH1VQ+6Ez0MuSTCbUEe19NC60oJC/q04sM/V1nKQSnzRqb/rbCwqjP1HyfR7zp7rrS+IG7fWzObaEFS0RpL8BoZZADprENis/cz2kHnHBR5oXznoLZJKgyKZOEkg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FyBH6KwX; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1036; helo=mail-pj1-x1036.google.com; envelope-from=jasonhell19@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1749706325; c=relaxed/relaxed;
+	bh=Hua5sQUgLCroJtEA/gusAW9GCKDx3U8bgUR5LPfnzhw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jKsSaZGbfXbcdaq2yeS+M7Tpw2CPmIGiF/1q6gq0UbBsDj2ZX7Q6/77CM0TqCs28NtA/V1WTzZ1EHIPUN0sAxndGXbGGwmuAgsNflf+ZWzpxctsIVaaO/J+0md3lsZ/HzeWSNgd37sHKdhyEr6RoN2+zwWjaGlQMa2VJSidc+XWXbHFu92y+3U9TDxqnnMTCK8iJZewPOrulpqIAPcvKJ6eUWFSGo84KzcrIhOpC1ispxl7jA0Yc1Qvfd5Ik2qm4JODFK1DWCtFpK58Kn1JDFfAOJ/si1T74fMNeQ/fJV71pLFYke1C9gM+VzzZOgf/5HzjCe4dQwo85QTeuLWP2Ow==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ZyN1xgxD; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FyBH6KwX;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ZyN1xgxD;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1036; helo=mail-pj1-x1036.google.com; envelope-from=jasonhell19@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4bHPlP27y1z2yDH
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Jun 2025 22:16:16 +1000 (AEST)
-Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-313a001d781so1546136a91.3
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 11 Jun 2025 05:16:16 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bHrkX24t5z2xGw
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Jun 2025 15:32:03 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749644174; x=1750248974; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i5Kxi63qWoofSavUm+pcIB+Uafiv7oyd/3nL/pRB+eE=;
-        b=FyBH6KwXH/N80xnPOvo2A+FGGxemd67l7HCal9A8xIKr7hX4DxNV4hWV+58G1RzqOH
-         n6Lh5mYUtci3Dk/kNFqLzhAdK9c/GP0qyYsAhh8WMmXJjI0yi13t3DoO1SUKV/qEYI2M
-         v6hK36ZmRLYc7bWBTNO9SQIh7QvdSFFRkm8oia3r0eyR95873fPbVrXIGe6xWwTExwKT
-         CUZHu9H/8Xg7Zx7+G0t9HniXZDnGTXvDIxwJEDcMOWv6bj1vtB0C+BSc+5LNuHsetqL/
-         QnDlQNQcb+n5wUNvzRHZmXDJgFuHJSiLOvx5Sh0d2s6oILadqIYSPkUPiWHslCaj3Bno
-         Awhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749644174; x=1750248974;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=i5Kxi63qWoofSavUm+pcIB+Uafiv7oyd/3nL/pRB+eE=;
-        b=rle+dxc0uimMgyho0VoMTRImrYwLMsIsib6XJ7tfxPpmgIOsoFPPOBS1Q5cQp0khvc
-         YMpQfSesa+u7ewZHgSoOwrw0ea7XFhuUCJFzsFFbB/EgiO67qdd/6PHWLisDDHYFAdex
-         VFJnXlgC4eFlkF5D0dZmPupG1coVX4LWteBiuFjU/7E6oe10G2egQHsRwK3hekQs7ril
-         uO55x6XB7UTg8AS2QKemiNlstXr/zLFVi8P1/LwGHWrpBpOdWwOiTBp5C2g2lc54n6ve
-         7U/sIsdwfsykffCL543GcyjM23rxvDvvfbvUTnDNn6WRAtwQtiVEbeaBPVE+9r7ApieM
-         9t+g==
-X-Forwarded-Encrypted: i=1; AJvYcCUxom5zaN9FQIKs57Oh4rAaPajL0G7+byoFDNFeBCAd7B9vMSVS9OlyB0o2zEX/ijkvUoZg2k52ss9TA2A=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YzDu3smfGUgZ7B6oK/pa5TpBxB/Ojsytmef7AtO9m/PIx35+0YE
-	9T9d0EXsjxEZFNgjjTmIXITXSUplI1pa+/xcb5IcJfkrZHy3BGYL0guZ3J9OzefjjDeQwiUI4qO
-	AAW4JuEVJ0ctWACVpSnDvdmuCZONLynQ=
-X-Gm-Gg: ASbGncufepX/JpQjwWqxXQVctAH1Pag1ksfspPty18dvOoctKh9089q8Lct5RAMV8K5
-	b9E8E9/lyGu0O/y+uI3KQvKnK41klgW0wwqa7Jy4rNNiTdcC5PhEVUJkRdWDae1tF21uVAq0Cg7
-	wtECltYJWJJLzix5LFiJUghpLAGRVxe7LojkZ3/JabYP7xmPsSn8uffeM=
-X-Google-Smtp-Source: AGHT+IGX+IZijO75twzZ+fvU3wN8yS0J4BDLwNnzMx0C35iseQJIKnNAJ+smyd8hhsrs6cFi35u7iNDE7NOY/g7z/bY=
-X-Received: by 2002:a17:90a:3d09:b0:311:d05c:936 with SMTP id
- 98e67ed59e1d1-313b1fbe78cmr2804206a91.17.1749644174339; Wed, 11 Jun 2025
- 05:16:14 -0700 (PDT)
+	d=codeconstruct.com.au; s=2022a; t=1749706321;
+	bh=Hua5sQUgLCroJtEA/gusAW9GCKDx3U8bgUR5LPfnzhw=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=ZyN1xgxDp+vYZ2LEUoYVDDFhTjjdGrDq9YygHqnUAVRi+XIpSNL9SQn/omT/w8rVq
+	 9SF5ioVDuo+WOuleqE1fkuf2aUlIYRtvj1mnRAWAlkbdj3OIQeR7phkrJEiQ1FXfE0
+	 TXOce0dQb3o1mqIDGojdJrVus6GX+6j6Xaed87t75IvC4dXgcseLPyTBRQYwPzy+W+
+	 VdqofRLHjm+YdIRmTxzzGhLE7gLhhYuqnMpc+OYZ/Snw90F9KuW5dtS70IFtd2hW6L
+	 swnXC3U+xeUnKlF/sV47LLqbIeLI1oGXgKvuSq9TUQe3hTlhPGcvUGJgyBVtHFWHS+
+	 cAsM/qFdkoGdA==
+Received: from [192.168.68.112] (unknown [180.150.112.166])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 1BAAF6699C;
+	Thu, 12 Jun 2025 13:31:59 +0800 (AWST)
+Message-ID: <3fe9885cc54a328932915a63816ac1b7952689a2.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] arm: lanyang: fix lable->label typo for lanyang dts
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Ankit Chauhan <ankitchauhan2065@gmail.com>, Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Date: Thu, 12 Jun 2025 15:01:58 +0930
+In-Reply-To: <20250529-lanyang-lable-fix-v1-1-8a2dcb48bda4@gmail.com>
+References: <20250529-lanyang-lable-fix-v1-1-8a2dcb48bda4@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -78,64 +68,42 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20250606025251.887953-1-jasonhell19@gmail.com>
- <20250606025251.887953-3-jasonhell19@gmail.com> <27c1a3fe-4536-4e6f-a636-ffc0fbd52568@kernel.org>
-In-Reply-To: <27c1a3fe-4536-4e6f-a636-ffc0fbd52568@kernel.org>
-From: =?UTF-8?B?5b6Q5YKR55Sf?= <jasonhell19@gmail.com>
-Date: Wed, 11 Jun 2025 20:16:02 +0800
-X-Gm-Features: AX0GCFt9W87odWQcElyj27DLucsMkiMaKS5cZNd0kp8klMHeN1RPxkibO2hVj1w
-Message-ID: <CAFGtgY35x=QdmvUrvBTZNDeaV4iMefznzc7d-RD6aHj8LgUaVw@mail.gmail.com>
-Subject: Re: [PATCH v7 2/2] dt-bindings: arm: aspeed: add Meta Ventura board
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au, 
-	andrew@codeconstruct.com.au, patrick@stwcx.xyz, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, yang.chen@quantatw.com, jerry.lin@quantatw.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Krzysztof Kozlowski <krzk@kernel.org> =E6=96=BC 2025=E5=B9=B46=E6=9C=886=E6=
-=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=882:52=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On 06/06/2025 04:52, Jason Hsu wrote:
-> > Document the new compatibles used on Meta Ventura.
->
-> This is not what is happening here.
->
-> > Add subject prefix for the patch.
->
-> No clue what is "subject prefix" for a patch.
->
-> >
-> > Signed-off-by: Jason Hsu <jasonhell19@gmail.com>
->
-> Please use subject prefixes matching the subsystem. You can get them for
-> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-> your patch is touching. For bindings, the preferred subjects are
-> explained here:
-> https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-pat=
-ches.html#i-for-patch-submitters
->
->
-> Best regards,
-> Krzysztof
->
->>
->Appreciate the feedback.
->
->> No clue what is "subject prefix" for a patch.
->
->v8 updated the commit message to more accurately describe the changes,
->and removed the unclear note about the "subject prefix".
->
->
->Best regards,
->Jason
->
->
+Hi Ankit, thanks for the fix.
+
+Regarding the subject, can you please use the prefix 'ARM: dts:
+aspeed:'? From there, I'd prefer something like:
+
+   ARM: dts: aspeed: lanyang: Fix 'lable' typo in LED nodes
+
+On Thu, 2025-05-29 at 17:09 +0530, Ankit Chauhan wrote:
+> Fix an obvious spelling error in the dts file for Lanyang BMC.
+> This was reported by bugzilla a few years ago but never got fixed.
+>=20
+> Reported by: Jens Schleusener <Jens.Schleusener@fossies.org>
+
+Please make sure these tags reflect convention:
+
+https://docs.kernel.org/process/submitting-patches.html#using-reported-by-t=
+ested-by-reviewed-by-suggested-by-and-fixes
+
+Rather than spaces, they use `-` to separate words, so:
+
+Reported-by: ...
+
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D205891
+>=20
+> Signed-off-by: Ankit Chauhan <ankitchauhan2065@gmail.com>
+
+Finally, all the tags should go together in the 'trailer' (final
+paragraph). There should not be an empty line between the `Closes:` tag
+and your `Signed-off-by:` tag above.
+
+Cheers,
+
+Andrew
 
