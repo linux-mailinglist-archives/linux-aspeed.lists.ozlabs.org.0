@@ -1,40 +1,85 @@
-Return-Path: <linux-aspeed+bounces-1412-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1410-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897B7AD7EB1
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Jun 2025 01:01:37 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84100AD7EAE
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Jun 2025 01:01:19 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bJJ1911nGz307q;
-	Fri, 13 Jun 2025 09:01:17 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bJJ174h03z308R;
+	Fri, 13 Jun 2025 09:01:15 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=43.154.197.177
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749697725;
-	cv=none; b=V+H0Sr1oP5jkvoxdVJpjrBcfHd5dsgMMfbBNOmk4gCXh5CcAOj3e2vfdPS80+M5mAIx16BRmLRUSGExjL2G12YnawOfSSnyzocec8joSrVTQzYGCD7GodpCpHgOo61eq/Ko4y/VnjyVTnwk1FMD+GCv7T9hl1Phvige0Rh6uQWkKo1hBcqtbdihPbix/E2HmVlAp1QxzxdBkM1T9AuLfUiSZmo1hh2zS3VOj39OxwKkkg5QE/sgceaJnUWY33al8xI8s4774abilLq4SNAwWW94WG776FeiU8iUW0ek7DxmA/p/KrH00G2RKyFMtVVI1ku+69WKuKEe1FCQOuvS2AA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::433"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749712079;
+	cv=none; b=XiUfVMw/kC6MuNXFRBG3Eu+//BQTogLaWxL2mrAKzDnWZbi8O4I5uiuj4NCj3suuROoWCwqTbB0wlX4gPKrpyFTjGMvBHwGyFM6lTVCijD25FuKza/jJ2mKvWVT/C51SzuZUKiIRoQ2C6G7NXAzr3Vb/f+s1tKU6mI0pVBFkeU6O8gE30lfT9coSREiyjWx0RzWl+6yGwmRMAV6mRY8eIo0RX19Ua5bYCnmK4cPniV4bPSgWHDx2lKocoOJPTNNGPMDEO8R0v73zBTirfAmcxAC5nwmzgr2exjqzJWt1u40HeMPedLjIKYByGMH2OLr+usdl8jNC6YMpLuxOVtHj+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1749697725; c=relaxed/relaxed;
-	bh=8wu8wKYmVXyp9b0/2rupkUxVhOmixYJXHEOoxsejcNE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SgW2/AMBidtdnYMbK/3AY5L5XwAuTLNMp+t2MY7wviElmKfznu3x8rZ5SSkqE0bbijyt/nW1w9cG2AMVjOGbe1B/U/jeNox4Um1xNkZUY6GFjcYySeKhVL1eZv0nV5nYrhlkxZKx28dTDpS1ATORSUYmpLXaYR4IeGwFhS6BwDaI6+nTrWp4oHxVi1uOYWQ33UolFAHssXVyMDhEHpNBDKHKPFsQiBJsEXEQ1LJUrWLJ+u0ouuiedCyHn7GLyvjuunhkXqrR/3OnMI6HDXKsvRVHRKqWQSja2y4nB/nOChvcX9l5em50AaSgKNLfw1Bo9ttQ/n7OYKPv1TpivtTZVg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=fail (p=quarantine dis=none) header.from=linux.starfivetech.com; spf=none (client-ip=43.154.197.177; helo=bg5.exmail.qq.com; envelope-from=hal.feng@linux.starfivetech.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.starfivetech.com
-Authentication-Results: lists.ozlabs.org; dmarc=fail (p=quarantine dis=none) header.from=linux.starfivetech.com
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.starfivetech.com (client-ip=43.154.197.177; helo=bg5.exmail.qq.com; envelope-from=hal.feng@linux.starfivetech.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 453 seconds by postgrey-1.37 at boromir; Thu, 12 Jun 2025 13:08:43 AEST
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.197.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1749712079; c=relaxed/relaxed;
+	bh=dAOjJxhCfv8VWKL7BVvY9ZNzsKcaY5YiZqclR7H4/vs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TnbgCbUAnRvFVz7fMPPIYFsg7npcQhMjQI7XPV7fGg4spaN4LkIxQMLNLQI09tXwXtHDV0uFX2r9Qvg96HRnPwEnnsnXZIB0Py0SOfHbfrYWkv6j/qTPU62HORILfNVSr6SCjqy0ieKXG+HNGfapAIh6pW0bH0Q4ktsEO+83PqMsEM6fMKzuxalfVV1k/CLrSmkwHHA373pIio58rRfdbE+0SQW/t6OvJTSgS2CoIlvlbnXPaLXKhNyP5FRWMOVPS9eNjDnKDdL9wCwumAzAIFrNz3zlUDRzffxNB80PGmjZ53sA3yWbc/hLZmQzMYGIFwFTR9f/56GjqkLG9mMq7Q==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=nYYvCaA8; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::433; helo=mail-pf1-x433.google.com; envelope-from=ankitchauhan2065@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=nYYvCaA8;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::433; helo=mail-pf1-x433.google.com; envelope-from=ankitchauhan2065@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4bHnY74Hb4z2xGw;
-	Thu, 12 Jun 2025 13:08:43 +1000 (AEST)
-X-QQ-mid: esmtpgz14t1749697213t65c22161
-X-QQ-Originating-IP: IF1P/oCMu5+Z6gtoOhY0chVmlDO4Lfc/wt6ay8GGmZA=
-Received: from [192.168.125.115] ( [113.104.142.205])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 12 Jun 2025 11:00:10 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7120148681061884487
-Message-ID: <E9D57DC946595F4F+762b7c45-ba5f-4bba-86d3-4eeea7643157@linux.starfivetech.com>
-Date: Thu, 12 Jun 2025 11:00:09 +0800
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bHtsB0qgZz2xGw
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Jun 2025 17:07:57 +1000 (AEST)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-7376dd56f8fso870933b3a.2
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 12 Jun 2025 00:07:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749712075; x=1750316875; darn=lists.ozlabs.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dAOjJxhCfv8VWKL7BVvY9ZNzsKcaY5YiZqclR7H4/vs=;
+        b=nYYvCaA8AuzCoNh2xgip6JOrcHPH9pjg02cW1hBDvmIdHgnnsLxYg0H0Ms1mksDMzv
+         fBnAZsxI1gmerJBr8OdxCCl8+aGyDSaupytcRZKzzmU1nHxlk8+3KXaYDlFo7RH7RQ1K
+         ND2SlBPN7VauvJB1FGtlcyPY/XXcxFTvoeY1DGFWaI0Nn4eMv1iOqzPEkPCdcH+D6JnO
+         NnuEBcZ8IC10qv0B2g30BDH2YrZ7HK9+l0pKUscpG32cETbGRJuZ27pqTC5ARSjMFgcn
+         pxRBgqmG1B6khx5jTMInYM7/SQDEa0DLulWK1lVXn5EXgKoQvDq3ri4OyfJMoEkB4OZF
+         vLVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749712075; x=1750316875;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dAOjJxhCfv8VWKL7BVvY9ZNzsKcaY5YiZqclR7H4/vs=;
+        b=F0zL3oCpoH8jB6zHtKquYVYJ86pjs71LZppUf1ZQ6vQc6jXlfwqQJ5Adc00I8Zh0OJ
+         vsjggn73MjUx3VTvpC1r7md71eUsX64s/XcZDbgeABLLE/mhJoRK2opMYuwH6TNwrETe
+         x4D3U8JsJpvhdJ3AIZayPSIBzMbmy8i4GcW5ALoj1sYQ86kP2565l6V46Z2w9M/vHrbr
+         HqovocaFEFKQD0QbUxiosNzK2Oejozas0Jh7f5Qf32VjCuvPA1GDXMInOL1SEggBCtWh
+         a236FWY8bXreodysA4Zq+ICkxgmv6sLEmGJuPo2PDkvNnafnylQ+NGPEJrzxG8lf2eqa
+         VSSw==
+X-Forwarded-Encrypted: i=1; AJvYcCUYie+FIYjTbZ8L6VUuUqtcanK6zI0Ietffl8YMd7vNcq9QbclztUfabe9KcFu+mAta1mOr35DNrB1WSPk=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzzKuyE4Ye9mqKs+6lPnbR3+Ybnmm3TTjmq1l5OLWKv8p4non/e
+	VQ/HxQCWQELUD17KqgJjFVgTCzJBzRJeMIGp4EIT7ZzZKyO64ZYRCpPfb7k6+v7BsBA=
+X-Gm-Gg: ASbGncuzfiimlgQS1aKqYAM2rPE0H1xrWqU/WdoMwah2vLtEfp572APUl4PLXzwuvFd
+	fkxnW1GY7qoukkNflCrVsNBJHZCElOL3jw67gvVGvUiSNIlTjt8D8ZPjiewwtgA+AxZG8E9JjtQ
+	YxEBStaY+KYLtqECWtXjp5OkSLl2mTC+6mZjk72NIyfQp1GF3e5gMntaawrBjkeifju6HhgsQLi
+	mDqhLzQsmwlcMioiYhWBE/1Ryny1V1k0xR/TbIl7yE1GdLCDBrpcbrVx7sKVZweCC8jmtvNMxoJ
+	J1ZFeNTKMbqLBEuxbCfH5rSYuswG9bwurtze/2F1VNUJFt+DkqixebzhYxPde1JuaqDf9Yx5fQY
+	luFqEv8h5P1jKtNNFbM2E
+X-Google-Smtp-Source: AGHT+IGfi33QMmP2NxREt3lPErfPBTHFxGftgC5xTDBsF/Wzhv8TdBvW48FWIe805inRamkcxDRnzw==
+X-Received: by 2002:a05:6a20:729c:b0:1ee:efa5:6573 with SMTP id adf61e73a8af0-21f86600846mr9497042637.8.1749712064431;
+        Thu, 12 Jun 2025 00:07:44 -0700 (PDT)
+Received: from ankitchauhan-Legion-5-15ITH6 ([2405:201:4042:d128:1895:113a:65dd:3ae0])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74880a06b64sm738064b3a.143.2025.06.12.00.07.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Jun 2025 00:07:43 -0700 (PDT)
+Date: Thu, 12 Jun 2025 12:36:56 +0530
+From: Ankit Chauhan <ankitchauhan2065@gmail.com>
+To: Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm: lanyang: fix lable->label typo for lanyang dts
+Message-ID: <20250612070656.bir2ywkwu27gxs7d@ankitchauhan-Legion-5-15ITH6>
+References: <20250529-lanyang-lable-fix-v1-1-8a2dcb48bda4@gmail.com>
+ <3fe9885cc54a328932915a63816ac1b7952689a2.camel@codeconstruct.com.au>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -48,118 +93,51 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 16/17] pinctrl: Constify static 'pinctrl_desc'
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
- Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
- Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
- Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
- Jesper Nilsson <jesper.nilsson@axis.com>,
- Lars Persson <lars.persson@axis.com>, Damien Le Moal <dlemoal@kernel.org>,
- Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>,
- Emil Renner Berthing <kernel@esmil.dk>,
- Jianlong Huang <jianlong.huang@starfivetech.com>,
- Hal Feng <hal.feng@starfivetech.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com,
- linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org>
- <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
-Content-Language: en-US
-From: Hal Feng <hal.feng@linux.starfivetech.com>
-In-Reply-To: <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.starfivetech.com:qybglogicsvrgz:qybglogicsvrgz5a-1
-X-QQ-XMAILINFO: NAeO0+xU6W76gNbKsV9iaUk/e76/x2UL0YNwMIWRA9ZI56qvKoC6m7wA
-	DvyIJPwt8pkIgpOx83pdDBBlQS5hn1RcZjcJv0+o+Rb6pV0ok6HnIsHTPLg0ADT9X98lXfR
-	KCNttai5JBlV5JWTUEtaeBKe1sfIi0uKnprfmr++Tm9+IPIKbruA1uoNR4icwJsXBeGepin
-	ZA4fexPiJI17BoTOY7c3aLF97iC9oS3MaPwDvT3DVLw1mofDbnIBPXBajO2RC/POyhV9I7/
-	gCzettuqfIv/yyPkeGJPopaFPPnGOZhkDjFUxGOHvG4CNs9tPaMgJI+xJGjoJKz9Mf9/cwq
-	28FudyKnQqqZL79EgaRQUR9qMXowH9N0dPb1DKobuNX/pL+JGtwxvsStaH3R1jNbWVKDR3M
-	/E64qz4wciar/7Q0fNKLfl+LnjCgtiQAswHymlu6kPOppWuX07TJOnjo2LoRFRkkrWYNQ1w
-	kGjJMcLoSoi/nhp5r9UMhuS6SwLd8yhnrW/dTg85geLDH4prgwx4NIB/v7BBob44xJ3UzUR
-	e7ZXxJTt+7DgX3MOKTm7hHmOwYIEVc8fqDn+rzPfircUVUB+nGQsTsR7eAWWVsZmmsQT6V0
-	T5ScBGH7MvuKGmTq3YiA4WLXOZfPcD3ApG2HLLQ/trfq2aa98tFdltP2ydEc5Xne/BPUjJN
-	7b8Vo9N/bDd/E0dLYXm+3XN9rzITDL3Svuw/96JbvZUm9AYcrXkJGTgvMUpDIwvuRjBKm8A
-	Exp4vW98QnSRycEiZ/8M8mVR0l8ROQgO3HHNlimR70QzPivh67GXwWzKqsPIKbfvqymavf5
-	WkcBdApEWEqKqQzGTMmfZg4SOutxdR0/YQLqwtzrgThqayTnUOleotatWdv3nhSmMAkyQQt
-	aJO63fNG1wHGysv+6iTjN6k1uWSDvYgW2H2Qx3kMRKRa85awKSiz1CrN+hGWCeWtS9G5wRv
-	eExuQNQPsEMbQ41+CZg+Inl40Kyc5r7B4cZOTjJguB7Y+Wpqj6nnFQrNy
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-X-QQ-RECHKSPAM: 0
-X-Spam-Status: No, score=1.6 required=5.0 tests=FORGED_MUA_MOZILLA,
-	RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-	SPF_NONE autolearn=disabled version=4.0.1
-X-Spam-Level: *
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3fe9885cc54a328932915a63816ac1b7952689a2.camel@codeconstruct.com.au>
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On 6/11/2025 2:13 PM, Krzysztof Kozlowski wrote:
-> The local static 'struct pinctrl_desc' is not modified, so can be made
-> const for code safety.
+On Thu, Jun 12, 2025 at 03:01:58PM +0930, Andrew Jeffery wrote:
+> Hi Ankit, thanks for the fix.
 > 
-> Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> Acked-by: Jesper Nilsson <jesper.nilsson@axis.com>
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  drivers/pinctrl/berlin/berlin.c                    | 2 +-
->  drivers/pinctrl/cirrus/pinctrl-cs42l43.c           | 2 +-
->  drivers/pinctrl/mediatek/pinctrl-airoha.c          | 2 +-
->  drivers/pinctrl/pinctrl-artpec6.c                  | 2 +-
->  drivers/pinctrl/pinctrl-bm1880.c                   | 2 +-
->  drivers/pinctrl/pinctrl-k210.c                     | 2 +-
->  drivers/pinctrl/pinctrl-lpc18xx.c                  | 2 +-
->  drivers/pinctrl/pinctrl-mlxbf3.c                   | 2 +-
->  drivers/pinctrl/pinctrl-tb10x.c                    | 2 +-
->  drivers/pinctrl/pinctrl-zynq.c                     | 2 +-
->  drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c | 2 +-
->  11 files changed, 11 insertions(+), 11 deletions(-)
+> Regarding the subject, can you please use the prefix 'ARM: dts:
+> aspeed:'? From there, I'd prefer something like:
 > 
-...
-> diff --git a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
-> index 27f99183d994dccb92aac81ca42228bdb9225e87..aeaa0ded7c1e5ee7f9c5e4113bfd208fb844ba7d 100644
-> --- a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
-> +++ b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
-> @@ -898,7 +898,7 @@ static const struct pinconf_ops starfive_pinconf_ops = {
->  	.is_generic = true,
->  };
->  
-> -static struct pinctrl_desc starfive_desc = {
-> +static const struct pinctrl_desc starfive_desc = {
->  	.name = DRIVER_NAME,
->  	.pins = starfive_pins,
->  	.npins = ARRAY_SIZE(starfive_pins),
+>    ARM: dts: aspeed: lanyang: Fix 'lable' typo in LED nodes
 > 
+> On Thu, 2025-05-29 at 17:09 +0530, Ankit Chauhan wrote:
+> > Fix an obvious spelling error in the dts file for Lanyang BMC.
+> > This was reported by bugzilla a few years ago but never got fixed.
+> > 
+> > Reported by: Jens Schleusener <Jens.Schleusener@fossies.org>
+> 
+> Please make sure these tags reflect convention:
+> 
+> https://docs.kernel.org/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
+> 
+> Rather than spaces, they use `-` to separate words, so:
+> 
+> Reported-by: ...
+> 
+> > Closes: https://bugzilla.kernel.org/show_bug.cgi?id=205891
+> > 
+> > Signed-off-by: Ankit Chauhan <ankitchauhan2065@gmail.com>
+> 
+> Finally, all the tags should go together in the 'trailer' (final
+> paragraph). There should not be an empty line between the `Closes:` tag
+> and your `Signed-off-by:` tag above.
+>
 
-Reviewed-by: Hal Feng <hal.feng@starfivetech.com>
+Hi Andrew,
 
-Best regards,
-Hal
+Thanks for the feedback. I will make all the necessary changes and send
+a v2 PATCH.
 
+Kind regards,
+Ankit Chauhan
 
