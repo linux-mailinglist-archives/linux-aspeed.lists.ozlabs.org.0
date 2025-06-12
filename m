@@ -1,51 +1,40 @@
-Return-Path: <linux-aspeed+bounces-1409-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1412-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC911AD7C0A
-	for <lists+linux-aspeed@lfdr.de>; Thu, 12 Jun 2025 22:12:34 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 897B7AD7EB1
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Jun 2025 01:01:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bJDGR5L9Pz306l;
-	Fri, 13 Jun 2025 06:12:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bJJ1911nGz307q;
+	Fri, 13 Jun 2025 09:01:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749759151;
-	cv=none; b=PYNNfwwWfyEoSbT+G+aso47IFXoCey+AEqstpfGEtjY+mUenZv/VH8uTjFUzmZZdxlkWh4yNbpQdvSzx1oUaPj1nzTZiL4FkT7iZKdzrDH2sDFm11DV4HOsxo4tRY4cRUWcHlnYRHOR9MooPYqGwz6xvN0eHiFpqcqOxFpA+ffzUbWvHs6+5zQZluzGazcwDpWHBOHSP4dIQoQADR/pIiym7g78PUX3V+B8u5ch1ih9xtuSmHgJoPz9QN2at2XszNh6sirZ1GaNqdEPhnCGyYI5CjJP8HvUmtyO/TO9MR6r+m3WVCr4dP61vnA6JPHwJf2xdt2Cs+i4ne59zexzxng==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=43.154.197.177
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749697725;
+	cv=none; b=V+H0Sr1oP5jkvoxdVJpjrBcfHd5dsgMMfbBNOmk4gCXh5CcAOj3e2vfdPS80+M5mAIx16BRmLRUSGExjL2G12YnawOfSSnyzocec8joSrVTQzYGCD7GodpCpHgOo61eq/Ko4y/VnjyVTnwk1FMD+GCv7T9hl1Phvige0Rh6uQWkKo1hBcqtbdihPbix/E2HmVlAp1QxzxdBkM1T9AuLfUiSZmo1hh2zS3VOj39OxwKkkg5QE/sgceaJnUWY33al8xI8s4774abilLq4SNAwWW94WG776FeiU8iUW0ek7DxmA/p/KrH00G2RKyFMtVVI1ku+69WKuKEe1FCQOuvS2AA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1749759151; c=relaxed/relaxed;
-	bh=n8UmY+DjVICQvkxkV5qowXtXkSU++ghDZkpNVcnAI3M=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=ENTdlu9kmJebtBjxr8zbQW1GNExjo9Umgyy7IGa9gwyFHjY8XIA2p4DPSc0CBVljGsVxGszYIgWv8mrUzjRt/Wk+ah/BoBole0t8V22AbV0wX7Cf8bxE2oaElE4GsSO1ihveTrMFzf7YDs9wUyFUr78Mcb82Kq8+RRTL1zMS73ZjmEUGGFgMqOsBQ2Y0VlD24HhpqM0RNe8XCmTkFEvMvDPooVh31GmbY1ptq7Y7ELc23c1CC0W3taSz0Rq5c/tDhfID4J527hE3yuk51NVA8URTb4U9g72pHDGH/aodMt5Y+2sV7KmGXsrL/w9bn/gZQRJVFSXZk1JxjSpWnkBdCA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=UC5n9LvW; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=UC5n9LvW;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	t=1749697725; c=relaxed/relaxed;
+	bh=8wu8wKYmVXyp9b0/2rupkUxVhOmixYJXHEOoxsejcNE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SgW2/AMBidtdnYMbK/3AY5L5XwAuTLNMp+t2MY7wviElmKfznu3x8rZ5SSkqE0bbijyt/nW1w9cG2AMVjOGbe1B/U/jeNox4Um1xNkZUY6GFjcYySeKhVL1eZv0nV5nYrhlkxZKx28dTDpS1ATORSUYmpLXaYR4IeGwFhS6BwDaI6+nTrWp4oHxVi1uOYWQ33UolFAHssXVyMDhEHpNBDKHKPFsQiBJsEXEQ1LJUrWLJ+u0ouuiedCyHn7GLyvjuunhkXqrR/3OnMI6HDXKsvRVHRKqWQSja2y4nB/nOChvcX9l5em50AaSgKNLfw1Bo9ttQ/n7OYKPv1TpivtTZVg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=fail (p=quarantine dis=none) header.from=linux.starfivetech.com; spf=none (client-ip=43.154.197.177; helo=bg5.exmail.qq.com; envelope-from=hal.feng@linux.starfivetech.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.starfivetech.com
+Authentication-Results: lists.ozlabs.org; dmarc=fail (p=quarantine dis=none) header.from=linux.starfivetech.com
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=linux.starfivetech.com (client-ip=43.154.197.177; helo=bg5.exmail.qq.com; envelope-from=hal.feng@linux.starfivetech.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 453 seconds by postgrey-1.37 at boromir; Thu, 12 Jun 2025 13:08:43 AEST
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.197.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4bJDGQ65G3z2xQ6
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Jun 2025 06:12:30 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 2E48E42B84;
-	Thu, 12 Jun 2025 20:12:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8910C4CEEA;
-	Thu, 12 Jun 2025 20:12:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749759148;
-	bh=bIZ8HFvB6OMgNNW2NXkcAGo3Nhl2JK11AbarG/O5N+Y=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=UC5n9LvWLL3JZhvYwMX5kxSKsoXED94YidpkOLAjq+oMTeoMB8cpXOP1D7c/rczip
-	 9aGAul3sQjIBUsgNebjAZae9a18D3eY8afIPf/74C7jrJ4ihLDwAGe73XAXMKSS98f
-	 8NBKQero4YKp3/5mekWKhXl/5zmXkEiIYRr3aTUtJmJY25j5gN1oHuRtp2Wq38ejxT
-	 mZBLjGzUGHI9o2OnMG8dyU/9jduusKQeUuQrvUJCek9mbj7A70IMyEqP+v7QOTZpiu
-	 VjXyc872zaqo9YngpIo/MPl5Yh0DkBcNSToFJ5OvK9lD2KJchsyvbLrIhmFtn5BLrB
-	 DB6v1/rDDUyiw==
-Date: Thu, 12 Jun 2025 15:12:26 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bHnY74Hb4z2xGw;
+	Thu, 12 Jun 2025 13:08:43 +1000 (AEST)
+X-QQ-mid: esmtpgz14t1749697213t65c22161
+X-QQ-Originating-IP: IF1P/oCMu5+Z6gtoOhY0chVmlDO4Lfc/wt6ay8GGmZA=
+Received: from [192.168.125.115] ( [113.104.142.205])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 12 Jun 2025 11:00:10 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 7120148681061884487
+Message-ID: <E9D57DC946595F4F+762b7c45-ba5f-4bba-86d3-4eeea7643157@linux.starfivetech.com>
+Date: Thu, 12 Jun 2025 11:00:09 +0800
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -59,115 +48,118 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, soc@lists.linux.dev, 
- Mo Elbadry <elbadrym@google.com>, Arnd Bergmann <arnd@arndb.de>, 
- William Kennington <wak@google.com>, Taniya Das <quic_tdas@quicinc.com>, 
- linux-kernel@vger.kernel.org, spuranik@nvidia.com, 
- Eric Biggers <ebiggers@google.com>, Joel Stanley <joel@jms.id.au>, 
- linux-aspeed@lists.ozlabs.org, Will Deacon <will@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Nishanth Menon <nm@ti.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- nfraprado@collabora.com, linux-arm-kernel@lists.infradead.org, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Rom Lemarchand <romlem@google.com>, devicetree@vger.kernel.org, 
- Geert Uytterhoeven <geert@linux-m68k.org>, leohu@nvidia.com, 
- Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>, 
- Yuxiao Zhang <yuxiaozhang@google.com>, dkodihalli@nvidia.com, 
- wthai@nvidia.com
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-In-Reply-To: <20250612100933.3007673-1-ryan_chen@aspeedtech.com>
-References: <20250612100933.3007673-1-ryan_chen@aspeedtech.com>
-Message-Id: <174975871838.2916138.1953670783794758715.robh@kernel.org>
-Subject: Re: [PATCH v0 0/5] Add initial AST2700 SoC support
-X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 16/17] pinctrl: Constify static 'pinctrl_desc'
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
+ Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>,
+ Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>,
+ Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Lorenzo Bianconi <lorenzo@kernel.org>, Sean Wang <sean.wang@kernel.org>,
+ Jesper Nilsson <jesper.nilsson@axis.com>,
+ Lars Persson <lars.persson@axis.com>, Damien Le Moal <dlemoal@kernel.org>,
+ Vladimir Zapolskiy <vz@mleia.com>, Michal Simek <michal.simek@amd.com>,
+ Emil Renner Berthing <kernel@esmil.dk>,
+ Jianlong Huang <jianlong.huang@starfivetech.com>,
+ Hal Feng <hal.feng@starfivetech.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Manivannan Sadhasivam <mani@kernel.org>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@axis.com,
+ linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20250611-pinctrl-const-desc-v2-0-b11c1d650384@linaro.org>
+ <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
+Content-Language: en-US
+From: Hal Feng <hal.feng@linux.starfivetech.com>
+In-Reply-To: <20250611-pinctrl-const-desc-v2-16-b11c1d650384@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:linux.starfivetech.com:qybglogicsvrgz:qybglogicsvrgz5a-1
+X-QQ-XMAILINFO: NAeO0+xU6W76gNbKsV9iaUk/e76/x2UL0YNwMIWRA9ZI56qvKoC6m7wA
+	DvyIJPwt8pkIgpOx83pdDBBlQS5hn1RcZjcJv0+o+Rb6pV0ok6HnIsHTPLg0ADT9X98lXfR
+	KCNttai5JBlV5JWTUEtaeBKe1sfIi0uKnprfmr++Tm9+IPIKbruA1uoNR4icwJsXBeGepin
+	ZA4fexPiJI17BoTOY7c3aLF97iC9oS3MaPwDvT3DVLw1mofDbnIBPXBajO2RC/POyhV9I7/
+	gCzettuqfIv/yyPkeGJPopaFPPnGOZhkDjFUxGOHvG4CNs9tPaMgJI+xJGjoJKz9Mf9/cwq
+	28FudyKnQqqZL79EgaRQUR9qMXowH9N0dPb1DKobuNX/pL+JGtwxvsStaH3R1jNbWVKDR3M
+	/E64qz4wciar/7Q0fNKLfl+LnjCgtiQAswHymlu6kPOppWuX07TJOnjo2LoRFRkkrWYNQ1w
+	kGjJMcLoSoi/nhp5r9UMhuS6SwLd8yhnrW/dTg85geLDH4prgwx4NIB/v7BBob44xJ3UzUR
+	e7ZXxJTt+7DgX3MOKTm7hHmOwYIEVc8fqDn+rzPfircUVUB+nGQsTsR7eAWWVsZmmsQT6V0
+	T5ScBGH7MvuKGmTq3YiA4WLXOZfPcD3ApG2HLLQ/trfq2aa98tFdltP2ydEc5Xne/BPUjJN
+	7b8Vo9N/bDd/E0dLYXm+3XN9rzITDL3Svuw/96JbvZUm9AYcrXkJGTgvMUpDIwvuRjBKm8A
+	Exp4vW98QnSRycEiZ/8M8mVR0l8ROQgO3HHNlimR70QzPivh67GXwWzKqsPIKbfvqymavf5
+	WkcBdApEWEqKqQzGTMmfZg4SOutxdR0/YQLqwtzrgThqayTnUOleotatWdv3nhSmMAkyQQt
+	aJO63fNG1wHGysv+6iTjN6k1uWSDvYgW2H2Qx3kMRKRa85awKSiz1CrN+hGWCeWtS9G5wRv
+	eExuQNQPsEMbQ41+CZg+Inl40Kyc5r7B4cZOTjJguB7Y+Wpqj6nnFQrNy
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+X-QQ-RECHKSPAM: 0
+X-Spam-Status: No, score=1.6 required=5.0 tests=FORGED_MUA_MOZILLA,
+	RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+	SPF_NONE autolearn=disabled version=4.0.1
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-
-On Thu, 12 Jun 2025 18:09:28 +0800, Ryan Chen wrote:
-> This patch series introduces initial support for the Aspeed AST2700 SoC
-> and the AST2700 Evaluation Board (EVB) to the Linux kernel. The AST2700
-> is the 7th generation Baseboard Management Controller (BMC) SoC from Aspeed,
-> featuring improved performance, enhanced security, and expanded I/O
-> capabilities compared to previous generations.
+On 6/11/2025 2:13 PM, Krzysztof Kozlowski wrote:
+> The local static 'struct pinctrl_desc' is not modified, so can be made
+> const for code safety.
 > 
-> The patchset includes the following changes:
-> - Device tree bindings for AST2700 boards.
-> - Addition of the AST2700 platform to the Kconfig menu.
-> - Basic device tree for the AST2700 SoC.
-> - Device tree for the AST2700-EVB.
-> - Updated defconfig to enable essential options for AST2700.
+> Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
+> Acked-by: Jesper Nilsson <jesper.nilsson@axis.com>
+> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/pinctrl/berlin/berlin.c                    | 2 +-
+>  drivers/pinctrl/cirrus/pinctrl-cs42l43.c           | 2 +-
+>  drivers/pinctrl/mediatek/pinctrl-airoha.c          | 2 +-
+>  drivers/pinctrl/pinctrl-artpec6.c                  | 2 +-
+>  drivers/pinctrl/pinctrl-bm1880.c                   | 2 +-
+>  drivers/pinctrl/pinctrl-k210.c                     | 2 +-
+>  drivers/pinctrl/pinctrl-lpc18xx.c                  | 2 +-
+>  drivers/pinctrl/pinctrl-mlxbf3.c                   | 2 +-
+>  drivers/pinctrl/pinctrl-tb10x.c                    | 2 +-
+>  drivers/pinctrl/pinctrl-zynq.c                     | 2 +-
+>  drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c | 2 +-
+>  11 files changed, 11 insertions(+), 11 deletions(-)
 > 
-> Ryan Chen (5):
->   dt-bindings: arm: aspeed: Add AST2700 board compatible
->   arm64: Kconfig: Add Aspeed SoC family (ast2700) platform option
->   arm64: dts: aspeed: Add initial AST2700 SoC device tree
->   arm64: dts: aspeed: Add AST2700 EVB device tree
->   arm64: configs: Update defconfig for AST2700 platform support
-> 
->  .../bindings/arm/aspeed/aspeed.yaml           |   5 +
->  arch/arm64/Kconfig.platforms                  |   6 +
->  arch/arm64/boot/dts/Makefile                  |   1 +
->  arch/arm64/boot/dts/aspeed/Makefile           |   4 +
->  arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi     | 380 ++++++++++++++++++
->  arch/arm64/boot/dts/aspeed/ast2700-evb.dts    |  54 +++
->  arch/arm64/configs/defconfig                  |   1 +
->  7 files changed, 451 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/aspeed/Makefile
->  create mode 100644 arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi
->  create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-evb.dts
-> 
-> --
-> 2.34.1
-> 
-> 
+...
+> diff --git a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
+> index 27f99183d994dccb92aac81ca42228bdb9225e87..aeaa0ded7c1e5ee7f9c5e4113bfd208fb844ba7d 100644
+> --- a/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
+> +++ b/drivers/pinctrl/starfive/pinctrl-starfive-jh7100.c
+> @@ -898,7 +898,7 @@ static const struct pinconf_ops starfive_pinconf_ops = {
+>  	.is_generic = true,
+>  };
+>  
+> -static struct pinctrl_desc starfive_desc = {
+> +static const struct pinctrl_desc starfive_desc = {
+>  	.name = DRIVER_NAME,
+>  	.pins = starfive_pins,
+>  	.npins = ARRAY_SIZE(starfive_pins),
 > 
 
+Reviewed-by: Hal Feng <hal.feng@starfivetech.com>
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
-
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
-
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
-
-  pip3 install dtschema --upgrade
-
-
-This patch series was applied (using b4) to base:
- Base: attempting to guess base-commit...
- Base: tags/v6.16-rc1 (exact match)
-
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
-
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/aspeed/' for 20250612100933.3007673-1-ryan_chen@aspeedtech.com:
-
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: serial@14c33b00 (ns16550a): 'pinctrl-0' is a dependency of 'pinctrl-names'
-	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: interrupt-controller@100 (aspeed,ast2700-intc-ic): interrupts-extended: [[6, 0, 3844]] is too short
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: interrupt-controller@110 (aspeed,ast2700-intc-ic): interrupts-extended: [[6, 1, 3844]] is too short
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: interrupt-controller@120 (aspeed,ast2700-intc-ic): interrupts-extended: [[6, 2, 3844]] is too short
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: interrupt-controller@130 (aspeed,ast2700-intc-ic): interrupts-extended: [[6, 3, 3844]] is too short
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: interrupt-controller@140 (aspeed,ast2700-intc-ic): interrupts-extended: [[6, 4, 3844]] is too short
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
-arch/arm64/boot/dts/aspeed/ast2700-evb.dtb: interrupt-controller@150 (aspeed,ast2700-intc-ic): interrupts-extended: [[6, 5, 3844]] is too short
-	from schema $id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
-
-
-
-
+Best regards,
+Hal
 
 
