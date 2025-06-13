@@ -1,60 +1,51 @@
-Return-Path: <linux-aspeed+bounces-1424-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1432-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EF6AD81F2
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Jun 2025 05:44:25 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C8FAD8254
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Jun 2025 07:11:14 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bJQHp0ngLz2yNB;
-	Fri, 13 Jun 2025 13:44:22 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bJSCz5P13z30MY;
+	Fri, 13 Jun 2025 15:11:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749786262;
-	cv=none; b=LUabA/x5no8jjAhCqtCgmPGKWUYr7wOl2M1ulq1sDFkWFSWYXQ7buGX8cVMHXvrE6NKEuDkbbcLES2aOl8huF7tbR2RZvSWLlCEqrMYux2BHsJaIOG2MRe1xPK0noAobhuzCuqjfJMj/oie6WVtqzIJ2O/dehJZ9dKCyrpFN0ViurX3x+TNDhNPHc0ouepbWvaYhHm1D5J5gjwJo9PZVQ95Wgvr1kN7UIRC7PjLYud6tATrgHEbocH3H6SJfOU/hJkWAGKSJm/utgtoDmhDFY0XdHOHJN1aFsmdLPBtOwUGj18o6hYKSttjZ3wwYBcPPz5rU0D+EBbGJUvUbcEm2rg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1749785422;
+	cv=none; b=lTVb00Av8hHaMFa6D9JljCTw4VgFlsaki62S/6NL3+FltA4dt++ZX48dgOhzTasngluhzjPfk7ouR/mk9QuYXVwABM0kaQqFxbvaaSvyzKp3HAlMyKC5c7gPqwjRzcY7W6uOXVEbIf09NhWCK45b16inz5e/7lZKjvALBxOhWst9lKGXwtAlUeI48mm4RVaM4dp0n/bxQDZtPna+NulSeuy84IKjeuNutuChUPZGKTaF5qAr5ViimSXTexDJQb3rlwOdJTy/cjq0j+P7fby90dbSuT6odyLXV+/TsoQPTeAIAi1u1n5ZrAhGPkaqjssiFcn72fHR0v+WTUvjqBLkWw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1749786262; c=relaxed/relaxed;
-	bh=e1p6/5wXJ3cC6mmHN/REy+JAlhOgHjO6oA0FGENkSaM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=iCQ2SOXkNgXzQsdWeHMBhTgv/MIMK3o1XylX8YpiwUIxKY01kKxZXk80x+PHZJNXI4CL8IyW4SrrpXASMOHlrr9kIJTtkFnj9hWE2/4vPOK7TSsSPG+YRUKITR7SD5WGzJzhXOXuxvJBR/lmPt/sZ25Rx/EQtvESGteWYaD5mKNrppdSQ0qzhlDrL0BYS7uYaoIIjZIsEjSuxXOW4AIgPGHtEUr9Hth8E5tFPlAE2FgjCAB2AutuHQN0qckNUnvtXS0lc8FulXbMzA9eJN6Unt5H42AwCs72hi87uvsAnStKmTuYPzbcVIBVYKNdI3B9rInw9pgvXyQ+hdG2sSFg5g==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=kh0xw04V; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=kh0xw04V;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	t=1749785422; c=relaxed/relaxed;
+	bh=QOTEEcWVIiz6O+GToF2cpyo+TZ3hUNgZ0JY3xul8rTA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mnF55ceXV4bfBmJdznCy3Sa4dZV/U86hxAePA4pptphT0zGooAN4VFTVDxp+wBZIm9cyv4JuivZ60l/w2MdXNRqxHCMx85ElAaIMVCnWaQbn0qpsXm3AegIp7kKGzcJagnKUd25QNuPm50gASe9WVj9uSHAdw+E07R7uTfrruuxuhSS5eIar/D0rvjvTwYumD5Bom99dio/I8NLYuBln3YwIlutgBOci8vQn3125nUsRO9xYLrazhHJd1ojPLeM/b2C92f6iEt94bb33z2Wgky4CJ+hyfn4BaYNBscs5fg+polbb7KUrkmsonU4ScZedh4tYP6FB2aZTvHzqVDIAPg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4bJQHn34w8z2xKN
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Jun 2025 13:44:21 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1749786259;
-	bh=e1p6/5wXJ3cC6mmHN/REy+JAlhOgHjO6oA0FGENkSaM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=kh0xw04Vx0uKRUojByFDJGN96V6mQZJEqdgMb+sFZJrRXPR0k/Sg2AOzZJ9BmhQnz
-	 ZymbgSXTWizHqtKlgh3VnX1QbxpDEHjEQRxh1mYWC4OFD9sDiwuIraTJ07M8GcuseX
-	 x+hTeBuRnU5+IdVQwQenGCtRXg2BQynYziyLe4bbX+/hUSrlDChe+APzcnpTQ7H5ky
-	 mLvboB8v6SZluNolUQ9O+b5dhWdHaySADQll+syYIRWIvzvWrxytIl7ob8jjULD2od
-	 8sq31tiLWR80BcymTcBgJeOL2+EY+UAlnvz7fqqn1/1DVedrXC2LqHCi/6xcvSoeqX
-	 xlQJ+/Qioix+g==
-Received: from [127.0.1.1] (unknown [180.150.112.166])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id EF2926699C;
-	Fri, 13 Jun 2025 11:44:16 +0800 (AWST)
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Patrick Williams <patrick@stwcx.xyz>, Potin Lai <potin.lai.pt@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- Cosmo Chou <cosmo.chou@quantatw.com>, Potin Lai <potin.lai@quantatw.com>
-In-Reply-To: <20250611-catalina-mctp-i2c-10-15-v1-1-2a882e461ed9@gmail.com>
-References: <20250611-catalina-mctp-i2c-10-15-v1-1-2a882e461ed9@gmail.com>
-Subject: Re: [PATCH] ARM: dts: aspeed: catalina: Enable MCTP for frontend
- NIC management
-Message-Id: <174978625629.315392.14738595529417409352.b4-ty@codeconstruct.com.au>
-Date: Fri, 13 Jun 2025 13:14:16 +0930
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bJPzd21pTz2xKN
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Jun 2025 13:30:18 +1000 (AEST)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 13 Jun
+ 2025 11:30:01 +0800
+Received: from mail.aspeedtech.com (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Fri, 13 Jun 2025 11:30:01 +0800
+From: Jacky Chou <jacky_chou@aspeedtech.com>
+To: <bhelgaas@google.com>, <lpieralisi@kernel.org>, <kwilczynski@kernel.org>,
+	<mani@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+	<conor+dt@kernel.org>, <joel@jms.id.au>, <andrew@codeconstruct.com.au>,
+	<vkoul@kernel.org>, <kishon@kernel.org>, <linus.walleij@linaro.org>,
+	<p.zabel@pengutronix.de>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-pci@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-phy@lists.infradead.org>, <openbmc@lists.ozlabs.org>,
+	<linux-gpio@vger.kernel.org>
+CC: <elbadrym@google.com>, <romlem@google.com>, <anhphan@google.com>,
+	<wak@google.com>, <yuxiaozhang@google.com>, <BMC-SW@aspeedtech.com>
+Subject: [PATCH 0/7] Add ASPEED PCIe Root Complex support
+Date: Fri, 13 Jun 2025 11:29:54 +0800
+Message-ID: <20250613033001.3153637-1-jacky_chou@aspeedtech.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -68,23 +59,55 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Wed, 11 Jun 2025 01:02:09 +0800, Potin Lai wrote:
-> Add the `mctp-controller` property and MCTP nodes to enable support for
-> frontend NIC management via PLDM over MCTP.
-> 
-> 
+This patch series adds support for the ASPEED PCIe Root Complex,
+including device tree bindings, pinctrl support, and the PCIe host controller
+driver. The patches introduce the necessary device tree nodes, pinmux groups,
+and driver implementation to enable PCIe functionality on ASPEED platforms.
 
-Thanks, I've applied this to be picked up through the BMC tree.
+Summary of changes:
+- Add device tree binding documents for ASPEED PCIe PHY, PCIe Config, and PCIe RC
+- Update MAINTAINERS for new bindings and driver
+- Add PCIe RC node and PERST control pin to aspeed-g6 device tree
+- Add PCIe RC PERST pin group to aspeed-g6 pinctrl
+- Implement ASPEED PCIe Root Complex host controller driver
+
+This series has been tested on AST2600/AST2700 platforms and enables PCIe device
+enumeration and operation.
+
+Feedback and review are welcome.
+
+Jacky Chou (7):
+  dt-bindings: phy: Add document for ASPEED PCIe PHY
+  dt-bindings: pci: Add document for ASPEED PCIe Config
+  dt-bindings: pci: Add document for ASPEED PCIe RC
+  ARM: dts: aspeed-g6: Add AST2600 PCIe RC PERST ctrl pin
+  ARM: dts: aspeed-g6: Add PCIe RC node
+  pinctrl: aspeed-g6: Add PCIe RC PERST pin group
+  pci: aspeed: Add ASPEED PCIe host controller driver
+
+ .../bindings/pci/aspeed-pcie-cfg.yaml         |   41 +
+ .../devicetree/bindings/pci/aspeed-pcie.yaml  |  159 +++
+ .../bindings/phy/aspeed-pcie-phy.yaml         |   38 +
+ MAINTAINERS                                   |   10 +
+ .../boot/dts/aspeed/aspeed-g6-pinctrl.dtsi    |    5 +
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi       |   53 +
+ drivers/pci/controller/Kconfig                |   13 +
+ drivers/pci/controller/Makefile               |    1 +
+ drivers/pci/controller/pcie-aspeed.c          | 1039 +++++++++++++++++
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g6.c    |   12 +-
+ 10 files changed, 1370 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/aspeed-pcie-cfg.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/aspeed-pcie.yaml
+ create mode 100644 Documentation/devicetree/bindings/phy/aspeed-pcie-phy.yaml
+ create mode 100644 drivers/pci/controller/pcie-aspeed.c
 
 -- 
-Andrew Jeffery <andrew@codeconstruct.com.au>
+2.43.0
 
 
