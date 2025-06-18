@@ -1,55 +1,62 @@
-Return-Path: <linux-aspeed+bounces-1484-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1486-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB66ADBDD7
-	for <lists+linux-aspeed@lfdr.de>; Tue, 17 Jun 2025 01:52:48 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86059ADE0FF
+	for <lists+linux-aspeed@lfdr.de>; Wed, 18 Jun 2025 04:14:11 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bLmyk0Vljz305n;
-	Tue, 17 Jun 2025 09:52:46 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bMS3P0dRrz30RJ;
+	Wed, 18 Jun 2025 12:14:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1750117966;
-	cv=none; b=bcervOyFNTVVhQRN8NFsCcQBg0NIXZr7HfSWXZtrynQnd6t1hGfyNPSjnlX/RkULCLlQvrmM7DiMOhyK/izC7nJTcrcFFYe3MS7ZXmvC/J1Q2HxWoln6s4HOZyzFfHFS+HjQrVK2IA3SFkClinXCUF+cTJzkX805LL5vP5Se4/ymYFurHKVFeJH644ck0641BMfci31bm5n6sIkm9F7u7/I1YxfFopnTS7viHhMo/FrtbFHESA0tE+uAqOcchGibbjCxpxE9IvdglyYW/EySi3TZYs7gfeeyy1X9H0035g9iNitdOWZSXR6X8BOk7Iut5nLWuf1ENXOqXpyGOWGxcg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1750212849;
+	cv=none; b=iCFjSq4QUPGbohD8v1KWxY5iuSpMq+lQ9whx0aCEoLvtGZ8iIaQnvsUjeKfoM10mC4M7gVefzSaklL6JuTu6IeMdfMLWDnF4S2lKov5IQ+ZYkXz3oRzRGhnUzt7kX/bqwOig283lq+XsOonjFdS1DmUJuglDdVuSZ+7/g3V1rO9TXq3vcUEJudwbh0Bbx45OqOo5Evgx99eoFQz39TyOVQC3DZ31eCWZsDT1c6TBYW7H13SiNi/WPJtvyX3Xzn5WTM3kOW1aC/0ZMjWMySTU7mYFxKyUX8zBCUBt5HhMyEOPDRbzUgdHGOBN6KZRH6jMQj9K1q3GUf1/yEnpetzM+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1750117966; c=relaxed/relaxed;
-	bh=Nx2VXidiB5UsT2nnGwnvJjTlLUfXLsHpiKrWVggKhyM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DmtyiRei/pw0arCfMfHJPLVlX6x/VSQN/w+6brnA6n1DbwhuM61Tz5jF18MOqlUdpOpduAo+wIiSwG38QHEZzcBZXbxhRwPPpOu4XTNZl2728LKUwWlLv6bPnQ8RYV6g8oS5Xm9ZaYqx/AzZOJ/IV/uEYZ9+RzAvnL/YjBJLaQCz+6un0iuMw0x2CWwKse8CSU4SRX2la4pNmOcBqwxtrDvNlrJa+E91rcR3Gfp7aE7IaI80JFPLcmYbac7BlB6ZdcLGCvLswbqegaFSFN0wczLFhIDahp836aCfJJzVjUrzTK3vYzTyhz+1DPNrjJinijInD/5ySErNXKzmTFsHYg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=oAeIQ271; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+	t=1750212849; c=relaxed/relaxed;
+	bh=A7Q/S+Nx1wYLfgyCrhVZ0O/ymo4GU3rPfbiJPyENwJc=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Pe5bPYx2CApG8lG8631VEMG7T8OGS0bre2j04fSE0ETtpRG/fD9m/Xn1m8/6FMbZBZNDHrSZJY4hjd6hY1cVqJUEH2oBcq2MAkbFv+I4qO0ADIgA6sCoodjXkFyYEQ/8L34LiBNbTtLgOKjWXJkKquAWEHLGa1cC/ZVkgBVBTZpAtN7UfK0y4iHu9o6/32Vm0UstOYZR+/QviQW8SwXRxnGSp8EU5UXBAF+R/BsvGNMA9qw9qJrgfA9ikkG3zpgI4+NTQ1xhqN0jjiMSyBZAyYu9DVSgLIglfhjJzfRq0iUtDRkDlL0gU03Ms1v4jTZ+OE3V6+A8VkrXrq7ZBAtMUQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=aEfMq3/d; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=oAeIQ271;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=aEfMq3/d;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4bLmyg5X38z2xKh
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 17 Jun 2025 09:52:43 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=Nx2VXidiB5UsT2nnGwnvJjTlLUfXLsHpiKrWVggKhyM=; b=oAeIQ271lYVhYBQevrGYAx60dK
-	aMJQ5JVPKwVEyOWyncFuLKaa0JHTZ98Ge2aK4dPo4TZ3Cw0nB45mojyvV9K6xU1QOrbLhJMv4xLlL
-	KCysaQDLjz40DQBjvJyoYTenAAyXY0f7V+8AB0UOx0QMRU3o5KwYhpNVtMfYF/MdvnJ8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uRJcq-00G6c1-5V; Tue, 17 Jun 2025 01:52:28 +0200
-Date: Tue, 17 Jun 2025 01:52:28 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Donald Shannon <donalds@nvidia.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	joel@jms.id.au, andrew@codeconstruct.com.au,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ARM: dts: aspeed: Add device tree for Nvidia's GB200
- UT3.0b platform BMC
-Message-ID: <34be8ac4-8414-423e-a6e3-a566ad1e9f11@lunn.ch>
-References: <20250603203241.727401-1-donalds@nvidia.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bMS3K4RtZz309v;
+	Wed, 18 Jun 2025 12:14:05 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1750212843;
+	bh=A7Q/S+Nx1wYLfgyCrhVZ0O/ymo4GU3rPfbiJPyENwJc=;
+	h=Subject:From:To:Date:In-Reply-To:References;
+	b=aEfMq3/d5xXncv7VxHYw9N0VLETx4q+lDyOtHB1lysvwZ73V7Ewb3boNFxW5F4iY6
+	 XdAafWnssaYKsjvwByysgAvBkU6YegbIC04PNbQ8dWMCNOK+IM7h90YBQwPatnmKVH
+	 ReDEBOFFfE9lZgmOg3DvgdUYQb+023RF/bkYIDAAhuhuFkP0o0+rXowae5iNVia/DK
+	 wnWEMlxJ2Cx9EyFAUnLAN66PrISzNBp3bPfUhbbR7/Qz24wHrzS1fGpw4OB0IQEX5L
+	 g9DOrniK2/Sn1QJ8lG1OPDciD1NCMO5cF2eAGOb15UH1S32Y/2vdPvOymaUemmEups
+	 vuDk8gWcHJ+lw==
+Received: from [192.168.68.112] (unknown [180.150.112.166])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 2962B640A0;
+	Wed, 18 Jun 2025 10:14:01 +0800 (AWST)
+Message-ID: <80f56269175d8658ba1ab4a1fe9a43d18294ca60.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 1/8] mmc: sdhci-of-aspeed: Fix sdhci software reset
+ can't be cleared issue.
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Cool Lee <cool_lee@aspeedtech.com>, adrian.hunter@intel.com, 
+	ulf.hansson@linaro.org, joel@jms.id.au, p.zabel@pengutronix.de, 
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 18 Jun 2025 11:44:00 +0930
+In-Reply-To: <20250615035803.3752235-2-cool_lee@aspeedtech.com>
+References: <20250615035803.3752235-1-cool_lee@aspeedtech.com>
+	 <20250615035803.3752235-2-cool_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.46.4-2 
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -63,25 +70,99 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250603203241.727401-1-donalds@nvidia.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-> +&mac0 {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	phy-mode = "rgmii-rxid";
-> +	max-speed = <1000>;
+SGksCgpPbiBTdW4sIDIwMjUtMDYtMTUgYXQgMTE6NTcgKzA4MDAsIENvb2wgTGVlIHdyb3RlOgo+
+IFJlcGxhY2Ugc2RoY2kgc29mdHdhcmUgcmVzZXQgYnkgc2N1IHJlc2V0IGZyb20gdG9wLgo+IAo+
+IFNpZ25lZC1vZmYtYnk6IENvb2wgTGVlIDxjb29sX2xlZUBhc3BlZWR0ZWNoLmNvbT4KCkNhbiB5
+b3UgcGxlYXNlIGFkZCBhIEZpeGVzOiB0YWc/Cgo+IC0tLQo+IMKgZHJpdmVycy9tbWMvaG9zdC9z
+ZGhjaS1vZi1hc3BlZWQuYyB8IDU1ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrLQo+IMKg
+MSBmaWxlIGNoYW5nZWQsIDU0IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9tbWMvaG9zdC9zZGhjaS1vZi1hc3BlZWQuYyBiL2RyaXZlcnMvbW1j
+L2hvc3Qvc2RoY2ktb2YtYXNwZWVkLmMKPiBpbmRleCBkNmRlMDEwNTUxYjkuLjAxYmM1NzQyNzJl
+YiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL21tYy9ob3N0L3NkaGNpLW9mLWFzcGVlZC5jCj4gKysr
+IGIvZHJpdmVycy9tbWMvaG9zdC9zZGhjaS1vZi1hc3BlZWQuYwo+IEBAIC0xMyw2ICsxMyw3IEBA
+Cj4gwqAjaW5jbHVkZSA8bGludXgvb2YuaD4KPiDCoCNpbmNsdWRlIDxsaW51eC9vZl9wbGF0Zm9y
+bS5oPgo+IMKgI2luY2x1ZGUgPGxpbnV4L3BsYXRmb3JtX2RldmljZS5oPgo+ICsjaW5jbHVkZSA8
+bGludXgvcmVzZXQuaD4KPiDCoCNpbmNsdWRlIDxsaW51eC9zcGlubG9jay5oPgo+IMKgCj4gwqAj
+aW5jbHVkZSAic2RoY2ktcGx0Zm0uaCIKPiBAQCAtMzksNiArNDAsNyBAQAo+IMKgc3RydWN0IGFz
+cGVlZF9zZGMgewo+IMKgwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgY2xrICpjbGs7Cj4gwqDCoMKgwqDC
+oMKgwqDCoHN0cnVjdCByZXNvdXJjZSAqcmVzOwo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCByZXNl
+dF9jb250cm9sICpyc3Q7Cj4gwqAKPiDCoMKgwqDCoMKgwqDCoMKgc3BpbmxvY2tfdCBsb2NrOwo+
+IMKgwqDCoMKgwqDCoMKgwqB2b2lkIF9faW9tZW0gKnJlZ3M7Cj4gQEAgLTMyOCwxMyArMzMwLDU4
+IEBAIHN0YXRpYyB1MzIgYXNwZWVkX3NkaGNpX3JlYWRsKHN0cnVjdCBzZGhjaV9ob3N0ICpob3N0
+LCBpbnQgcmVnKQo+IMKgwqDCoMKgwqDCoMKgwqByZXR1cm4gdmFsOwo+IMKgfQo+IMKgCj4gK3N0
+YXRpYyB2b2lkIGFzcGVlZF9zZGhjaV9yZXNldChzdHJ1Y3Qgc2RoY2lfaG9zdCAqaG9zdCwgdTgg
+bWFzaykKPiArewo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBzZGhjaV9wbHRmbV9ob3N0ICpwbHRm
+bV9wcml2Owo+ICvCoMKgwqDCoMKgwqDCoHN0cnVjdCBhc3BlZWRfc2RoY2kgKmFzcGVlZF9zZGhj
+aTsKPiArwqDCoMKgwqDCoMKgwqBzdHJ1Y3QgYXNwZWVkX3NkYyAqYXNwZWVkX3NkYzsKPiArwqDC
+oMKgwqDCoMKgwqB1MzIgc2F2ZV9hcnJheVs3XTsKPiArwqDCoMKgwqDCoMKgwqB1MzIgcmVnX2Fy
+cmF5W10gPSB7U0RIQ0lfRE1BX0FERFJFU1MsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqBTREhDSV9CTE9DS19TSVpFLAo+ICvCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgU0RIQ0lfQVJHVU1FTlQsCj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBTREhDSV9IT1NUX0NPTlRST0ws
+Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBTREhDSV9D
+TE9DS19DT05UUk9MLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgU0RIQ0lfSU5UX0VOQUJMRSwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoFNESENJX1NJR05BTF9FTkFCTEV9Owo+ICvCoMKgwqDCoMKgwqDCoGlu
+dCBpOwo+ICvCoMKgwqDCoMKgwqDCoHUxNiB0cmFuX21vZGU7Cj4gK8KgwqDCoMKgwqDCoMKgdTMy
+IG1tYzhfbW9kZTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgcGx0Zm1fcHJpdiA9IHNkaGNpX3ByaXYo
+aG9zdCk7Cj4gK8KgwqDCoMKgwqDCoMKgYXNwZWVkX3NkaGNpID0gc2RoY2lfcGx0Zm1fcHJpdihw
+bHRmbV9wcml2KTsKPiArwqDCoMKgwqDCoMKgwqBhc3BlZWRfc2RjID0gYXNwZWVkX3NkaGNpLT5w
+YXJlbnQ7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGlmICghSVNfRVJSKGFzcGVlZF9zZGMtPnJzdCkp
+IHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZm9yIChpID0gMDsgaSA8IEFSUkFZ
+X1NJWkUocmVnX2FycmF5KTsgaSsrKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgc2F2ZV9hcnJheVtpXSA9IHNkaGNpX3JlYWRsKGhvc3QsIHJlZ19hcnJh
+eVtpXSk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0cmFuX21vZGUgPSBz
+ZGhjaV9yZWFkdyhob3N0LCBTREhDSV9UUkFOU0ZFUl9NT0RFKTsKPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgbW1jOF9tb2RlID0gcmVhZGwoYXNwZWVkX3NkYy0+cmVncyk7Cj4gKwo+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXNldF9jb250cm9sX2Fzc2VydChhc3Bl
+ZWRfc2RjLT5yc3QpOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBtZGVsYXkoMSk7
+Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlc2V0X2NvbnRyb2xfZGVhc3NlcnQo
+YXNwZWVkX3NkYy0+cnN0KTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgbWRlbGF5
+KDEpOwoKU2VlIGNvbW1lbnQgYmVsb3cgcmVnYXJkaW5nIGNsb2NrL3Jlc2V0IGJlaGF2aW91ciBh
+bmQgaW1wbGVtZW50YXRpb24uCgo+ICsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+Zm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUocmVnX2FycmF5KTsgaSsrKQo+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc2RoY2lfd3JpdGVsKGhvc3QsIHNh
+dmVfYXJyYXlbaV0sIHJlZ19hcnJheVtpXSk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqBzZGhjaV93cml0ZXcoaG9zdCwgdHJhbl9tb2RlLCBTREhDSV9UUkFOU0ZFUl9NT0RF
+KTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgd3JpdGVsKG1tYzhfbW9kZSwgYXNw
+ZWVkX3NkYy0+cmVncyk7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBhc3Bl
+ZWRfc2RoY2lfc2V0X2Nsb2NrKGhvc3QsIGhvc3QtPmNsb2NrKTsKPiArwqDCoMKgwqDCoMKgwqB9
+Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoHNkaGNpX3Jlc2V0KGhvc3QsIG1hc2spOwoKR2l2ZW4gdGhh
+dCB3ZSBkbyB0aGlzIGFmdGVyIHRoZSBTQ1UgcmVzZXQgYWJvdmUsIHdoYXQgZXhhY3RseSBpcyB0
+aGUKU0NVIHJlc2V0IGZpeGluZz8gQ2FuIHlvdSBwcm92aWRlIG1vcmUgZGV0YWlscz8KCj4gK30K
+PiArCj4gwqBzdGF0aWMgY29uc3Qgc3RydWN0IHNkaGNpX29wcyBhc3BlZWRfc2RoY2lfb3BzID0g
+ewo+IMKgwqDCoMKgwqDCoMKgwqAucmVhZF9sID0gYXNwZWVkX3NkaGNpX3JlYWRsLAo+IMKgwqDC
+oMKgwqDCoMKgwqAuc2V0X2Nsb2NrID0gYXNwZWVkX3NkaGNpX3NldF9jbG9jaywKPiDCoMKgwqDC
+oMKgwqDCoMKgLmdldF9tYXhfY2xvY2sgPSBhc3BlZWRfc2RoY2lfZ2V0X21heF9jbG9jaywKPiDC
+oMKgwqDCoMKgwqDCoMKgLnNldF9idXNfd2lkdGggPSBhc3BlZWRfc2RoY2lfc2V0X2J1c193aWR0
+aCwKPiDCoMKgwqDCoMKgwqDCoMKgLmdldF90aW1lb3V0X2Nsb2NrID0gc2RoY2lfcGx0Zm1fY2xr
+X2dldF9tYXhfY2xvY2ssCj4gLcKgwqDCoMKgwqDCoMKgLnJlc2V0ID0gc2RoY2lfcmVzZXQsCj4g
+K8KgwqDCoMKgwqDCoMKgLnJlc2V0ID0gYXNwZWVkX3NkaGNpX3Jlc2V0LAo+IMKgwqDCoMKgwqDC
+oMKgwqAuc2V0X3Voc19zaWduYWxpbmcgPSBzZGhjaV9zZXRfdWhzX3NpZ25hbGluZywKPiDCoH07
+Cj4gwqAKPiBAQCAtNTM1LDYgKzU4MiwxMiBAQCBzdGF0aWMgaW50IGFzcGVlZF9zZGNfcHJvYmUo
+c3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqBzcGlu
+X2xvY2tfaW5pdCgmc2RjLT5sb2NrKTsKPiDCoAo+ICvCoMKgwqDCoMKgwqDCoHNkYy0+cnN0ID0g
+ZGV2bV9yZXNldF9jb250cm9sX2dldCgmcGRldi0+ZGV2LCBOVUxMKTsKPiArwqDCoMKgwqDCoMKg
+wqBpZiAoIUlTX0VSUihzZGMtPnJzdCkpIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgcmVzZXRfY29udHJvbF9hc3NlcnQoc2RjLT5yc3QpOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqByZXNldF9jb250cm9sX2RlYXNzZXJ0KHNkYy0+cnN0KTsKPiArwqDCoMKgwqDC
+oMKgwqB9Cj4gKwoKVGhlIGNsb2NrIGRyaXZlciBmb3IgdGhlIEFTVDI0MDAsIEFTVDI1MDAgYW5k
+IEFTVDI2MDAgbWFuYWdlcyB0aGUgcmVzZXQKYXMgcGFydCBvZiBtYW5hZ2luZyB0aGUgY2xvY2tb
+MV1bMl0uCgpbMV06IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwv
+Z2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90cmVlL2RyaXZlcnMvY2xrL2Nsay1hc3BlZWQuYz9oPXY2
+LjE2LXJjMiNuNzEKWzJdOiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2Vy
+bmVsL2dpdC90b3J2YWxkcy9saW51eC5naXQvdHJlZS9kcml2ZXJzL2Nsay9jbGstYXNwZWVkLmM/
+aD12Ni4xNi1yYzIjbjIwOQoKV2hhdCB5b3UgaGF2ZSBoZXJlIGFza3MgZm9yIGEgcmVzZXRzIHBy
+b3BlcnR5LCBidXQgdGhhdCdzIG5vdCBjdXJyZW50bHkKc3BlY2lmaWVkIGluIHRoZSBkZXZpY2V0
+cmVlIGJpbmRpbmcuCgpTbzogaXMgdGhlIGNsb2NrIGRyaXZlciBub3QgZG9pbmcgdGhlIHJpZ2h0
+IHRoaW5nIGdpdmVuIHdlIGVuYWJsZSB0aGUKY2xvY2sgZGlyZWN0bHkgYmVsb3cgdGhpcyBodW5r
+PyBJZiBub3QsIHNob3VsZCB3ZSBmaXggdGhhdCBpbnN0ZWFkPwoKV2UgY2FuIGFkZCB0aGUgcmVz
+ZXRzIHByb3BlcnR5IHRvIHRoZSBiaW5kaW5nLCBidXQgSSdkIGFsc28gbGlrZSBhCmJldHRlciBl
+eHBsYW5hdGlvbiBvZiB0aGUgcHJvYmxlbS4KCkFuZHJldwo=
 
-Yet more broken aspeed DT. Don't you monitor other patches sent to for
-aspeed BMCs, see what has been rejects as wrong and avoid the same
-mistake yourself?
-
-Please search the list for why these last two lines are wrong.
-
-	Andrew
 
