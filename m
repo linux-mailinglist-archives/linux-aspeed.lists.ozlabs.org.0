@@ -1,92 +1,91 @@
-Return-Path: <linux-aspeed+bounces-1635-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1634-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFDADAF95F7
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Jul 2025 16:48:43 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A897AF95E6
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Jul 2025 16:46:50 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bYc2d19Nqz30WS;
-	Sat,  5 Jul 2025 00:48:41 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bYc0P3qX2z30WS;
+	Sat,  5 Jul 2025 00:46:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=195.135.223.130
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1751640521;
-	cv=none; b=ZNWau6/4/UlEI7AJ3vKhPNb67FdlhqrHotM4cf6UgSnt7vdoKms+ZSedX6WyM0sKJsh8lmsnRt2PR1ZuXRxDws3x/cZ57obQ02xRwr/tiJ+Gv+qxh2ETHFFwFJGpnQOBCCXkvHF/WOWS7T2V82ei3DrMY6WSSZJub19AoVEXRt4p2/FAcARRC/nl8SwsMiYSvRqQ24NKW9oXNlwEngyTofX/tmucqLa9U3JXIsZqx38PwqyVV/IElccPoFJT7kislwi4wqtCrMA1lM35m5QtzYcFs1q3X5V1CSokYnIHpVEZ79zhCH1imePHjhE5tNeYUGrCs5XIEjiaOLhAkwSi8g==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=195.135.223.131
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1751640405;
+	cv=none; b=NouxPJakotSlYdwnPI8YlimTFON7m2a1JolKKaFYovpNsT2yLZ0wDhpRQqywnM2zMH5N0FyJUS8ltkJqk6v6/xDmQg9VQ4SccVlm2R/sK5zPPdq94vNr+D47ul047mXgz3pt8nxfAz5lyfocdS3zvrthkntx9Q6Qi74+j6gfnBFaz3cOOVPmbGiHwp41q7tGXXXkQkt1xHuOxG0p0kn1qKV6HnWz54W5c5zxrwZWwpaJWU+aPEWerGrCcKuV5NmuoWw95CSTDQIpcBnU/2In6iaFCsQvf+UNSmfViw667cTMHahBDp2yWaFmC2gVGsrhuZrKLcSi0IHl2NYiItur/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1751640521; c=relaxed/relaxed;
-	bh=jDuinaPR64zVqK1kEHxNBJvXQ3xp9ELmQCqfHweGrhI=;
+	t=1751640405; c=relaxed/relaxed;
+	bh=9frsXWKqJUycEBgjpx/MaijERGDr4YZunJ3meZeytu8=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lBPISNQ9Z51LbpiofKmqRXI5F4sN7OHQ3q31lJqyzXNTvG20i3NU5eZj2s5wT2icTN08J9XJM5Et//DaDiN4mWqTCO6VuDiq4MfZ31Fl7OEB5tnbSj22ft6cwD0aGop+V8MWE1by3nMSTkix+I7ou01fQ/PCRNi67lmfkZ/YECHek7T0G7PUu1eI2GbOlqy17v70gZsPd9Kp2ZYwRmhYngarvrez2dHSOIPRju51LHgjV8SZ1sMlDyHnhi+gHyUX1OUPj0Evb1eGBnBOdlk4fKlKsLhfDwz0QeuXeVDfyOjIit2wYazKVCAaOA5pt6s+/jZtiDfiQTLDGooA/yy9Iw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=suse.de; dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=JI5jseJB; dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=fsbL5TB5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Yi8oHM7s; dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=oRK85OcJ; dkim-atps=neutral; spf=pass (client-ip=195.135.223.130; helo=smtp-out1.suse.de; envelope-from=jdelvare@suse.de; receiver=lists.ozlabs.org) smtp.mailfrom=suse.de
+	 MIME-Version:Content-Type; b=a0yjjYc5i8RZHogxYNIZW0hoT3R+Cw9IiEXHlchueP83xp/VwWRDZ4ZdtM5QxbOHM8VsN9z9CDI1w2nUcEKG5VygesFA+ZjW1PdLpwvSzPXNlGerYlIO0NYs+HHJeUtCo2edAHrWNOI5J09YlVdymvyDZ8gcxEcJ419ypI+p0jHULMqLRQKTFtTgzztgdK8vT7S9hhqb3mhR+EXIlrpWRiod1YDS+G77YirweOYLU4xgTKCfFaeJyz6XzuMsMsNjqQxu1AMcMHunK3xDL/6mogGgDyx9joxZCR1Zs535903JdokAhuyDquo7HL8jYrsRVvkqwCcDQ6cvmZUKalDOFw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=suse.de; dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MwoDi5jf; dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PbRxcG5H; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MwoDi5jf; dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PbRxcG5H; dkim-atps=neutral; spf=pass (client-ip=195.135.223.131; helo=smtp-out2.suse.de; envelope-from=jdelvare@suse.de; receiver=lists.ozlabs.org) smtp.mailfrom=suse.de
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=JI5jseJB;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=fsbL5TB5;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Yi8oHM7s;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=oRK85OcJ;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MwoDi5jf;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PbRxcG5H;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MwoDi5jf;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PbRxcG5H;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=suse.de (client-ip=195.135.223.130; helo=smtp-out1.suse.de; envelope-from=jdelvare@suse.de; receiver=lists.ozlabs.org)
-X-Greylist: delayed 334 seconds by postgrey-1.37 at boromir; Sat, 05 Jul 2025 00:48:39 AEST
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=suse.de (client-ip=195.135.223.131; helo=smtp-out2.suse.de; envelope-from=jdelvare@suse.de; receiver=lists.ozlabs.org)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4bYc2b5sLVz30Vr
-	for <linux-aspeed@lists.ozlabs.org>; Sat,  5 Jul 2025 00:48:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bYc0M707kz30Vr
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  5 Jul 2025 00:46:43 +1000 (AEST)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 63573211BA;
-	Fri,  4 Jul 2025 14:42:55 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 80AE21F74A;
+	Fri,  4 Jul 2025 14:46:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751640176; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1751640401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jDuinaPR64zVqK1kEHxNBJvXQ3xp9ELmQCqfHweGrhI=;
-	b=JI5jseJB7B/YhYbzYvXeagZZyF9c2hIdxNnfDIAW81eDpL5Fh/FbdYyV1HQLlHupvjMZEm
-	TuNDP87VhVyizcXbU82dRdXBdfedgny0GvnBrpKzvM02uoCb1kZKVPvi2Igyi+1YFM8Oyt
-	nHob6ZxJv7v3u3FsZYTE7jB3A+HpMd8=
+	bh=9frsXWKqJUycEBgjpx/MaijERGDr4YZunJ3meZeytu8=;
+	b=MwoDi5jfNMsodAI3nT0YzR6nvL1Y9cRkMEjofNm9HKPW3caZHqykzpmA/5NA/ftgFRk6YN
+	+wNSZ09IVl3Yicw1X9TgFliZ/76h4hAwSbjyk1A55R2koTDhHzoWf+D9fpY9LKtdWoUPgK
+	yFrnvLKkh8nlLUHwTBblirGrs2elv7U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751640176;
+	s=susede2_ed25519; t=1751640401;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jDuinaPR64zVqK1kEHxNBJvXQ3xp9ELmQCqfHweGrhI=;
-	b=fsbL5TB5hLciuclaRNawX3H/a+4dnOFecIz/fIv8nHU9mXV28LDI85ld/cM29kx1wKMnVv
-	l8W6RlSuxeUVdtDw==
-Authentication-Results: smtp-out1.suse.de;
+	bh=9frsXWKqJUycEBgjpx/MaijERGDr4YZunJ3meZeytu8=;
+	b=PbRxcG5H+BrclZAkVhcDcgKdloJq30AiW6NzL1KHqfXhkHjKadsmymhPSFfO2sllLg14Xm
+	GGO1uZGHLgm053Dg==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751640175; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1751640401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jDuinaPR64zVqK1kEHxNBJvXQ3xp9ELmQCqfHweGrhI=;
-	b=Yi8oHM7sUV41hh65wylwSGn80poGIh+0wbgJiLwo71CYjFFYLS5dUczUKrxY23tcrK/Ko4
-	XwR2rgINKNPiMQTrv5HPF2NrW20PN+GUhg1Ta03GzTPjS70waIhZxC/i6NOUD63i4KUFXa
-	c0uvuPiVLMIfR1nUgsuX++dRDybcnpI=
+	bh=9frsXWKqJUycEBgjpx/MaijERGDr4YZunJ3meZeytu8=;
+	b=MwoDi5jfNMsodAI3nT0YzR6nvL1Y9cRkMEjofNm9HKPW3caZHqykzpmA/5NA/ftgFRk6YN
+	+wNSZ09IVl3Yicw1X9TgFliZ/76h4hAwSbjyk1A55R2koTDhHzoWf+D9fpY9LKtdWoUPgK
+	yFrnvLKkh8nlLUHwTBblirGrs2elv7U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751640175;
+	s=susede2_ed25519; t=1751640401;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jDuinaPR64zVqK1kEHxNBJvXQ3xp9ELmQCqfHweGrhI=;
-	b=oRK85OcJA+qB91kIW95y3wnR5u/gfiEy7ES/IzngxEcncAypzncFteNHuzXF0dPNZ6dLoT
-	v3HaT6ILvYDYKwDw==
+	bh=9frsXWKqJUycEBgjpx/MaijERGDr4YZunJ3meZeytu8=;
+	b=PbRxcG5H+BrclZAkVhcDcgKdloJq30AiW6NzL1KHqfXhkHjKadsmymhPSFfO2sllLg14Xm
+	GGO1uZGHLgm053Dg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E1BA613A71;
-	Fri,  4 Jul 2025 14:42:54 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1330513A71;
+	Fri,  4 Jul 2025 14:46:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CgyCNG7oZ2hIfAAAD6G6ig
-	(envelope-from <jdelvare@suse.de>); Fri, 04 Jul 2025 14:42:54 +0000
-Date: Fri, 4 Jul 2025 16:42:39 +0200
+	id SWC5AlHpZ2hgfQAAD6G6ig
+	(envelope-from <jdelvare@suse.de>); Fri, 04 Jul 2025 14:46:41 +0000
+Date: Fri, 4 Jul 2025 16:46:37 +0200
 From: Jean Delvare <jdelvare@suse.de>
 To: Andrew Jeffery <andrew@codeconstruct.com.au>
 Cc: linux-aspeed@lists.ozlabs.org, Joel Stanley <joel@jms.id.au>, Henry
@@ -95,12 +94,12 @@ Cc: linux-aspeed@lists.ozlabs.org, Joel Stanley <joel@jms.id.au>, Henry
  Ninad Palsule <ninad@linux.ibm.com>, Patrick Venture <venture@google.com>,
  Robert Lippert <roblip@gmail.com>, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 07/10] soc: aspeed: lpc-snoop: Switch to
- devm_clk_get_enabled()
-Message-ID: <20250704164239.2f3a7d62@endymion>
-In-Reply-To: <20250616-aspeed-lpc-snoop-fixes-v2-7-3cdd59c934d3@codeconstruct.com.au>
+Subject: Re: [PATCH v2 08/10] soc: aspeed: lpc-snoop: Use dev_err_probe()
+ where possible
+Message-ID: <20250704164637.3552933a@endymion>
+In-Reply-To: <20250616-aspeed-lpc-snoop-fixes-v2-8-3cdd59c934d3@codeconstruct.com.au>
 References: <20250616-aspeed-lpc-snoop-fixes-v2-0-3cdd59c934d3@codeconstruct.com.au>
-	<20250616-aspeed-lpc-snoop-fixes-v2-7-3cdd59c934d3@codeconstruct.com.au>
+	<20250616-aspeed-lpc-snoop-fixes-v2-8-3cdd59c934d3@codeconstruct.com.au>
 Organization: SUSE Linux
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
@@ -118,9 +117,8 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
 X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_RHS_NOT_FQDN(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
@@ -141,21 +139,21 @@ X-Spamd-Result: default: False [-3.80 / 50.00];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,codeconstruct.com.au:email,suse.de:email]
+X-Spam-Level: 
 X-Spam-Score: -3.80
 X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Hello Andrew,
-
-On Mon, 16 Jun 2025 22:43:44 +0930, Andrew Jeffery wrote:
-> Simplify clock handling as done in other drivers.
+On Mon, 16 Jun 2025 22:43:45 +0930, Andrew Jeffery wrote:
+> Exploit that it returns the provided error to eliminate some lines, and
+> return the actual error involved rather than -ENODEV.
 > 
 > Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 > ---
->  drivers/soc/aspeed/aspeed-lpc-snoop.c | 20 ++++----------------
->  1 file changed, 4 insertions(+), 16 deletions(-)
+>  drivers/soc/aspeed/aspeed-lpc-snoop.c | 15 +++++----------
+>  1 file changed, 5 insertions(+), 10 deletions(-)
 > (...)
 
 LGTM.
