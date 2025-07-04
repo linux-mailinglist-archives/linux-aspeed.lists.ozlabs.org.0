@@ -1,90 +1,62 @@
-Return-Path: <linux-aspeed+bounces-1624-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1627-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87773AF832E
-	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Jul 2025 00:15:56 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 423A1AF84A4
+	for <lists+linux-aspeed@lfdr.de>; Fri,  4 Jul 2025 02:06:40 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bYB161f6hz2xJ1;
-	Fri,  4 Jul 2025 08:15:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bYDSs6lWyz2yFQ;
+	Fri,  4 Jul 2025 10:06:37 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::42c"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1751580954;
-	cv=none; b=eMkqeSWsukGEyFpRTpmqE4sc4PJzDHomBD+iNrG55BPzzJSa/pWpjb72oypBQOapN1TYDYqzhjj/0n549GFnzISUWnazNwGzxHLq1TV6gCtWL2y8o+GEuc8QWgEQXyknDyyFeIWy1kkTyyfkDOuwPVTYmOliJCZsqBFnRb4dbx3toh9+CU868maAzeDed96XGL78jGsPOKHDDQwIm62tzHLyaUjcBs7BBMAD8k1cEQs923E78J3BaCuTlL3J0QChO2Y8ZKhUPmaGqPJKf+YWVeBagJnW5wegyQPbw4Tm2MHzOUqbVPvt5K8t9KsKWug8kWJDAMhkAK64Ox3cbt5b4g==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1751587597;
+	cv=none; b=WxN4INCJcpFa1aMDJY9akFxZZft48fBE0wrssf7zqH8jlAZWnFxcMeMfBPc6XSCmBzHSjG8Dzynh/a7us90eZged+OeA+6hYGdFLGuro1PC9esNwbVxPMqqJYGS8IT8EN7nWeBDadz0rwjDsg+ra0tGLA8JjJQpFNrqonlKm9xgqTNikQAU2KAf/RyWke8+ivi0lqpT3xl8eEdfRJDf1P2BqR4gPSXtMsBMCa46lve7HPbtVRG70QgK7eI8bo+JXfk+RK3udPQ7ZHdJNfWeU7iXSX6DaUWqzqF+i/Gl/mPzGgCXaUL2eQX2ANnNJZJIjbNplGqDV3oQjyxFQ0SNQzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1751580954; c=relaxed/relaxed;
-	bh=LdVEyliI7CI2o2rNcOBW/maFK6t06bm6iyL8o0UQrKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oelCVx+j/BgAuRQ1tZ6Nb+KZeCufG6OfO5nkDgb/IcX3lPwHapJyZnogQitdS5y/uc9aam5DiWS3M2qSve28wf2gUO6oDnvoDOLgd4s+vgBAD74mw1sUtSGg9vJgXn9yzNTeg+wrDKbJlypj6IFa0Udo8JalN3e0tEgtPb4SKAkgjs/FaqPrvSs3I/gM64zQhMjLT96whUQvcS5ij5i1hDGhKA5PiamO06dYXCHY7OiKqPGLvLn3jIadFmwYwf2Y5m3+D0ZL6ikX1ioDHHueKBh5EfnpTCAHUTNfgbi4KMxOvCn3jU/jCLOtFEzsb8BLJHYsVpZqVPUeUW+KB+V3GA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JDe/iKIt; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::42c; helo=mail-pf1-x42c.google.com; envelope-from=rentao.bupt@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1751587597; c=relaxed/relaxed;
+	bh=4HvshWDHlLlPvbXK9Y83KcYdKVX+YX4UjkJdPlQODCg=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UcY7dNfFEG/cVBtbDUf0cHN9gTtChukr05qnGI0Kk7uSnYmU8HExRNIl1MRKr+598CTaacgl0bt30Hu2YZukjQtVcERdqwkGvIS3kLae7sc5use5ETnPh3FJDfDE5tCWlKpoQdpOfMHRP5WRxigD8uUQZcbJJEYRtfcPaRgjmJgJeF6G8Bxo+mXkX+VUEWQ6ATtR5+hqgPNc/ZkuyN9gm4BiLnLH+vZ4UA/br8Y5JCzumMTXPIi58vtHgea/HOhMLu7w8wGbueyiCrBQxHrdbyzg4ZHBaxx+oYwf5zyk6O0s7SyDOVAovM6UZ5jV+rGuskkYduZRzfX155XXuV6xeg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=bd8cK7MY; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JDe/iKIt;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=bd8cK7MY;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42c; helo=mail-pf1-x42c.google.com; envelope-from=rentao.bupt@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4bYB140X2qz2xCd
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Jul 2025 08:15:50 +1000 (AEST)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-749068b9b63so320292b3a.0
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 03 Jul 2025 15:15:50 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bYDSr0ykfz2xJ1
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  4 Jul 2025 10:06:35 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751580948; x=1752185748; darn=lists.ozlabs.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LdVEyliI7CI2o2rNcOBW/maFK6t06bm6iyL8o0UQrKM=;
-        b=JDe/iKItt3hZTCE/mL7/ZfsvjIVTPakO4un36WCrsW1m7g0oNAxjDVqRRAToLhJsA3
-         AUtV1UrhHPrbN5FGa0i03sqPoWS4N6i/X6YYihLR2Aqey28sxCrcf8+yGZ/Bpry/dLV8
-         QV0QBqHnIrLHI4TlPLXVQq2VCoaruQ0GjOSTe98POaguUoejzwtrRXThiQvK9+9N7OjF
-         sIyNpS8D0cxHyNNoAdfMqlhW4YlBhZMY3Pe8s62M0TXrL7lVVafhgTcaooSNgPl0sSiM
-         kSfR+GiV6fN3LWW8jZPLPbLMhDv0fjM2N6WYy3klvNMw2UeN/J6M5Cs3tq/iSQrUZ8ub
-         KmZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751580948; x=1752185748;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LdVEyliI7CI2o2rNcOBW/maFK6t06bm6iyL8o0UQrKM=;
-        b=IgnYwb+iEbRrV7hz7QYIF96E0/0voRLJeDBVKLCa4iKQbaAkcIamuYee820H3sOCPy
-         pfpYRhRKd+nbRqhwSZ/yzWeEqp3Q0H5oUb+ockfxr82DmZSutiU3bAfSy0TmwbPi2YKN
-         tNjFKlREAPtuO3HweZQjuhVcTVzakDdkIhW+egTpgfFaqWeHg4f/r2pv8CSmDJbtCM1B
-         uPDXqItipDAKbmSowofUiCc/hhbxr5egJIjcfnz+/YW3FUGgY536hU+J7xgA/rdC9WfE
-         rQ9sl0oIq4ixn5kI9ZyzvE1PsFZKEOFuZB1yK1L6sapWdH5rYXUQjPt91x4Fs7ZhWH5k
-         evsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWyfdlTUzGjNnWL7nUS2YU6B0XXU63muY9+4swk2orxAhusi+h11G7/syVCxi0KHFystcn4wIWjYEEX6u8=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yx2agRCc/rlA0PXHJK4qHK62oKxppbVU39z8y5pmSA55WU6s+21
-	Vtjo6mu/ZxMK7NrDWpC6f6XAs/LodX2FHXUBo62BMhTKUjM7+1pD2ITg
-X-Gm-Gg: ASbGnctWMCV9d9pXFWZ8kD5D8FGpshauiv1E/SYDI/Gl0cr8d8wn5TTijeKairYdp3L
-	8f32i9oqETc1/zoybFl4bnemu19kxClvOBIQjrJ33RXG0YhMEssRCqHe7m7H+ZDmX7GwgwFqi+h
-	g44KMs02b324DlaHku4nkO3vtnEGHrnraYpFF7SKb216XvB8fAFEA4xLPfYXRkxaTv/VCdLvJv6
-	a0ml0ihtjznXROF0zAGC78JEoAX8KM3zfWwdgjpha2FgrSik1x1yNGOFEfD5pfAnBvMEZC4lYIO
-	U5KD5nFdxNhMFiB/P8HnNndssppa5/7vkHqPFB91HSx/Y4JIOL1T8b7jEjt5MquGPc+z4JqB7mL
-	M1khvA0v0fD4xvlnKtM7OxNr+Ts6sON57fyM9pmT4SJYxOAXVRQ==
-X-Google-Smtp-Source: AGHT+IGUk7PwRYq/uESipZTr5l7TnZjN4IATKVV7k9iHCae7JNaUFn05U63lEW19hVmJQS8UvmDn3w==
-X-Received: by 2002:a05:6a20:72a3:b0:220:33ae:dabb with SMTP id adf61e73a8af0-225c0de25fdmr530119637.29.1751580948326;
-        Thu, 03 Jul 2025 15:15:48 -0700 (PDT)
-Received: from localhost.localdomain (c-76-133-73-115.hsd1.ca.comcast.net. [76.133.73.115])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74ce429b34dsm423082b3a.120.2025.07.03.15.15.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Jul 2025 15:15:47 -0700 (PDT)
-Date: Thu, 3 Jul 2025 15:15:44 -0700
-From: Tao Ren <rentao.bupt@gmail.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	Tao Ren <taoren@meta.com>
-Subject: Re: [PATCH 5/5] ARM: dts: aspeed: Add Facebook Darwin (AST2600) BMC
-Message-ID: <aGcBEHMEyQJuzmjj@localhost.localdomain>
+	d=codeconstruct.com.au; s=2022a; t=1751587594;
+	bh=4HvshWDHlLlPvbXK9Y83KcYdKVX+YX4UjkJdPlQODCg=;
+	h=Subject:From:To:Date:In-Reply-To:References;
+	b=bd8cK7MYknGTS0lOj+U8WZ6K9i1+iL4/RcZ+73L+lPeLQ+/miHT1MDVXHrbVf1To8
+	 C5X6XpLEK6MffQ1s78rE7Y+heB8kXVhyjtBf6eeD0nQ8XtD2zZE4rseor3xURQ8SFV
+	 72jk/KMostVgC9EsC9AB7NasfNH/i0p1kfQnXVOaoWjelDS5zw0CuMm5FXdMtAR2b5
+	 FCbJTrOhbAlt9ZUnCaFUajIcfRUuCOVeRNxN3yh5SpDAZXKGKwJqY5228nsOnzo5W/
+	 hs3108j+Sw3AywZrDMEKTvq1sFY3CDCMMdOPU2vUqFTVgVLF+Fl1EGuPoBN+imQkG8
+	 TK9ry16QRj3Kg==
+Received: from [192.168.68.112] (unknown [180.150.112.153])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 431E36443C;
+	Fri,  4 Jul 2025 08:06:33 +0800 (AWST)
+Message-ID: <78f9fcbc58261064f248e95eb7740549e338bc78.camel@codeconstruct.com.au>
+Subject: Re: [PATCH 1/5] ARM: dts: aspeed: Expand data0 partition in
+ facebook-bmc-flash-layout-128.dtsi
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: rentao.bupt@gmail.com, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel
+ Stanley <joel@jms.id.au>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, Tao Ren <taoren@meta.com>
+Date: Fri, 04 Jul 2025 09:36:29 +0930
+In-Reply-To: <20250702050421.13729-2-rentao.bupt@gmail.com>
 References: <20250702050421.13729-1-rentao.bupt@gmail.com>
- <20250702050421.13729-6-rentao.bupt@gmail.com>
- <a6f6966b-50ee-4b4f-9422-96c6ac9391a2@lunn.ch>
- <aGW8Nm8ZWMwRYVOo@localhost.localdomain>
- <220ac6c2-8373-4742-86fa-f322d6ada624@lunn.ch>
+	 <20250702050421.13729-2-rentao.bupt@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.46.4-2 
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -98,50 +70,48 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <220ac6c2-8373-4742-86fa-f322d6ada624@lunn.ch>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Thu, Jul 03, 2025 at 09:58:48AM +0200, Andrew Lunn wrote:
-> > > How do RGMII delays work? Connections to switches have to be handled
-> > > different to PHYs, to avoid double delays. But is there extra long
-> > > clock lines? Or are you expecting the switch to add the delays?
-> > > 
-> > >       Andrew
-> > 
-> > Hi Andrew,
-> > 
-> > The delays are introduced in BMC MAC by setting SCU control registers in
-> > u-boot. The delays on the switch side are disabled.
-> 
-> Sorry, but not acceptable. This is something i've been NACKing Aspeed
-> DT patches for. You need the MAC driver to interpret the phy-mode and
-> program the SCU control register as needed.
-> 
-> Since you have the MAC introducing the delays, you want phy-mode
-> 'rgmii-id'.
-> 
-> If you want to submit some DT now, drop the ethernet node. This is
-> what others have been doing while waiting for Aspeed to fix their MAC
-> driver. Having said that, i've not seen any progress from Aspeed, so
-> it either needs their customers to apply more pressure, or somebody in
-> the community to just fix it and submit patches.
-> 
->     Andrew
+T24gVHVlLCAyMDI1LTA3LTAxIGF0IDIyOjA0IC0wNzAwLCByZW50YW8uYnVwdEBnbWFpbC5jb20g
+d3JvdGU6Cj4gRnJvbTogVGFvIFJlbiA8cmVudGFvLmJ1cHRAZ21haWwuY29tPgo+IAo+IEV4cGFu
+ZCBkYXRhMCBwYXJ0aXRpb24gdG8gNjRNQiBpbiBmYWNlYm9vay1ibWMtZmxhc2gtbGF5b3V0LTEy
+OC5kdHNpIGZvcgo+IGxhcmdlciBwZXJzaXN0ZW50IHN0b3JhZ2UuCj4gCj4gU2lnbmVkLW9mZi1i
+eTogVGFvIFJlbiA8cmVudGFvLmJ1cHRAZ21haWwuY29tPgo+IC0tLQo+IMKgLi4uL2Jvb3QvZHRz
+L2FzcGVlZC9mYWNlYm9vay1ibWMtZmxhc2gtbGF5b3V0LTEyOC5kdHNpIHwgMTAgKysrKystLS0t
+LQo+IMKgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKPiAK
+PiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVkL2ZhY2Vib29rLWJtYy1mbGFz
+aC1sYXlvdXQtMTI4LmR0c2kgYi9hcmNoL2FybS9ib290L2R0cy9hc3BlZWQvZmFjZWJvb2stYm1j
+LWZsYXNoLWxheW91dC0xMjguZHRzaQo+IGluZGV4IDdmMzY1MmRlYTU1MC4uZWZkOTIyMzJjZGEy
+IDEwMDY0NAo+IC0tLSBhL2FyY2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC9mYWNlYm9vay1ibWMtZmxh
+c2gtbGF5b3V0LTEyOC5kdHNpCj4gKysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVkL2ZhY2Vi
+b29rLWJtYy1mbGFzaC1sYXlvdXQtMTI4LmR0c2kKPiBAQCAtMzIsMTkgKzMyLDE5IEBAIGltYWdl
+LW1ldGFAZjAwMDAgewo+IMKgwqDCoMKgwqDCoMKgwqB9Owo+IMKgCj4gwqDCoMKgwqDCoMKgwqDC
+oC8qCj4gLcKgwqDCoMKgwqDCoMKgICogRklUIGltYWdlOiAxMTkgTUIuCj4gK8KgwqDCoMKgwqDC
+oMKgICogRklUIGltYWdlOiA2MyBNQi4KPiDCoMKgwqDCoMKgwqDCoMKgICovCj4gwqDCoMKgwqDC
+oMKgwqDCoGZpdEAxMDAwMDAgewo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZWcg
+PSA8MHgxMDAwMDAgMHg3NzAwMDAwPjsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+cmVnID0gPDB4MTAwMDAwIDB4M2YwMDAwMD47Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqBsYWJlbCA9ICJmaXQiOwo+IMKgwqDCoMKgwqDCoMKgwqB9Owo+IMKgCj4gwqDCoMKgwqDC
+oMKgwqDCoC8qCj4gLcKgwqDCoMKgwqDCoMKgICogImRhdGEwIiBwYXJ0aXRpb24gKDhNQikgaXMg
+dXNlZCBieSBGYWNlYm9vayBCTUMgcGxhdGZvcm1zIGFzCj4gK8KgwqDCoMKgwqDCoMKgICogImRh
+dGEwIiBwYXJ0aXRpb24gKDY0TUIpIGlzIHVzZWQgYnkgRmFjZWJvb2sgQk1DIHBsYXRmb3JtcyBh
+cwo+IMKgwqDCoMKgwqDCoMKgwqAgKiBwZXJzaXN0ZW50IGRhdGEgc3RvcmUuCj4gwqDCoMKgwqDC
+oMKgwqDCoCAqLwo+IC3CoMKgwqDCoMKgwqDCoGRhdGEwQDc4MDAwMDAgewo+IC3CoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqByZWcgPSA8MHg3ODAwMDAwIDB4ODAwMDAwPjsKPiArwqDCoMKg
+wqDCoMKgwqBkYXRhMEA0MDAwMDAwIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+cmVnID0gPDB4NDAwMDAwMCAweDQwMDAwMDA+Owo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgbGFiZWwgPSAiZGF0YTAiOwo+IMKgwqDCoMKgwqDCoMKgwqB9Owo+IMKgCgpUd28gZXhp
+c3Rpbmcgc3lzdGVtcyB1c2UgdGhpcyBkdHNpOgoKICAgPiBnaXQgZ3JlcCBmYWNlYm9vay1ibWMt
+Zmxhc2gtbGF5b3V0LTEyOC5kdHNpCiAgIGFyY2gvYXJtL2Jvb3QvZHRzL2FzcGVlZC9hc3BlZWQt
+Ym1jLWZhY2Vib29rLXdlZGdlNDAwLmR0czojaW5jbHVkZSAiZmFjZWJvb2stYm1jLWZsYXNoLWxh
+eW91dC0xMjguZHRzaSIKICAgYXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVkL2FzdDI2MDAtZmFjZWJv
+b2stbmV0Ym1jLWNvbW1vbi5kdHNpOiNpbmNsdWRlICJmYWNlYm9vay1ibWMtZmxhc2gtbGF5b3V0
+LTEyOC5kdHNpIgoKVGhpcyBjaGFuZ2UgcmVxdWlyZXMgYSBmdWxsIHJlZmxhc2ggb2YgdGhvc2Ug
+ZGV2aWNlcywgd2hpY2ggaXMgcHJldHR5CmRpc3J1cHRpdmUuCgpJdCBzZWVtcyBtb3JlIGFwcHJv
+cHJpYXRlIHRvIG1lIHRvIGNyZWF0ZSBhIHNlcGFyYXRlIGR0c2kgZm9yIHRoZSBuZXcKZmxhc2gg
+bGF5b3V0IHRvIHVzZSBpbiBuZXcgc3lzdGVtcy4KCkFuZHJldwo=
 
-Hi Andrew,
-
-Got it, and thanks for sharing the context.
-
-I will reach out to ASPEED offline to see if they are actively working
-on the MAC fix, or if I have enough knowledge to work out the patch.
-
-
-Thanks,
-
-Tao
 
