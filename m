@@ -1,36 +1,36 @@
-Return-Path: <linux-aspeed+bounces-1680-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1677-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44725B02906
-	for <lists+linux-aspeed@lfdr.de>; Sat, 12 Jul 2025 04:50:00 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06877B02903
+	for <lists+linux-aspeed@lfdr.de>; Sat, 12 Jul 2025 04:49:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bfCjf1c4sz2y8W;
-	Sat, 12 Jul 2025 12:49:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bfCjB4GKFz2y8W;
+	Sat, 12 Jul 2025 12:49:34 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1752044915;
-	cv=none; b=gSXVst69ATTBbmPCflMmbfe5knYMf558kh2r4YQoXTOlKZD3Nj23Fkgr7WpANMO/ohDH16cXLWZWmmRvdZ+yEoCQRctbdogHz9yM4tW5sAY+Jy9Z2QUXC4rRx6n9lcAD7mabjWcOcWLjChUqnltixb2qkdOPii/0Tny608klZDvtxpQZAYD8w3ruAZL476eypFQKi+krDtgaR29A0+iH8ktInZFlmdIY0OsyLBM89sPFOkSij9iiw4G8jUYJslo81kZF8OTEvoEkicQyMtAi1Q2ZlrJbAZJrIjOzNtUyTHJ74so2Bxyiy+ADFt/WEUTVYV0l1XUHhZOxM3oE/xsQ6w==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1752044916;
+	cv=none; b=MIPhJr5G0SOPa9uUKnToR6R5YMOG9UfE2eIBvYIL+kvrOCc6FY+awVAcvN1BfQLNoIZk4R9VX5XudbUIdnk6Wh+UmiKiRnFR0rixgQXrGl9VSD1Zpxr0bKiXixUG2gQK0ztmrsLAt3sslDHTEt8kXGVesNS4f6DjY9dALjbLWYjrtZLUmSKqxiT6/fl+NQIUq/McooHNcLkEPGqSoo2XrNKXbulgR14DasB6CMkiY0SO/R3zn+Ihb/8GstdG3QaXwdipPA4bcUU/iVQQg+bdvhfUBSKDwoz5jrgOTYXRaPBb3yTatIwAqaX515QjkTI4nJ7UMxbogpywEbuRfWL0XA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1752044915; c=relaxed/relaxed;
-	bh=JbSp3peXdCYNTVSglrOvDustK5E9hdfInY7j/gm6Ntk=;
+	t=1752044916; c=relaxed/relaxed;
+	bh=WEv+ejLgluG2KK+a80vQYjLIFkKXgegHsi+Qlx0dVhQ=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YMjF2X5jzTjCunk+Q+2HWPQqewmBOIO1XTbqsDsBKmOCL+Av15MRzgADotrYhCRKrm6oHFeY3zHs4XpHu92BvPCzFEnIg/Vyt77cUK1IxkjazMnQ2oHCPFge1mGrvNLv0CY1x6SnQCwSwE6K+sC5uUi8oXyKSyAXSd80/nAuyIWuWHfJjLr71R0g7G2pwD7GO9PVGrYAISYcVf1xSyvKqFIpiR7pUT+efZ4Lrjm7PbCViVS8cBeGgo710Y3+mKXslVjRcrY5wPlxQhfna5ZV3X/7p6xgY5Wrq22HzCGrdBkqAz4WJ5cs2PXMa0DwKMzaIq7u+0EofVtNWtH8PsGV+A==
+	 MIME-Version:Content-Type; b=IvEzBgzgCu5MivJloWp7YCfPxA+FRPlH1yUrnW7+mzT0pofswPFFswjLehxOXttF+XWfuNtg1vRDfwtJ6FMg9qL1HajzniBCHJ9/hZiqeG0P+6yX5V68hLlyydy/yrSqN+FhF7eV8FUgVCxQKKrUUOG7YrJ3sqIMw1Ksf8k84fvti6WFon1HPdSXYgcqsdd36fXsQtZyyN2m5RcD7uK2mV7lUwpgBU6ZjtEHt+JCwGH4dfVGFI9h2shyJSaqc8kgIHq9RgNrk3E5nOz5LUascgtfY2CkqUMnDeH+y5eqfj+OolZoKu2pJMfh18DiL9DvThFJ5p2ju8FE8MvW+10RPA==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4bcTbQ4YbLz2xQ5
-	for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Jul 2025 17:08:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bcTbR3NLWz2xQ5
+	for <linux-aspeed@lists.ozlabs.org>; Wed,  9 Jul 2025 17:08:35 +1000 (AEST)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 9 Jul
- 2025 15:08:09 +0800
+ 2025 15:08:10 +0800
 Received: from mail.aspeedtech.com (192.168.10.13) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Wed, 9 Jul 2025 15:08:09 +0800
+ Transport; Wed, 9 Jul 2025 15:08:10 +0800
 From: Jacky Chou <jacky_chou@aspeedtech.com>
 To: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <linux-clk@vger.kernel.org>,
@@ -42,9 +42,9 @@ To: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<p.zabel@pengutronix.de>, <horms@kernel.org>, <jacob.e.keller@intel.com>,
 	<u.kleine-koenig@baylibre.com>, <hkallweit1@gmail.com>
 CC: <BMC-SW@aspeedtech.com>
-Subject: [net-next v4 3/4] ARM: dts: aspeed-g6: Add resets property for MAC controllers
-Date: Wed, 9 Jul 2025 15:08:08 +0800
-Message-ID: <20250709070809.2560688-4-jacky_chou@aspeedtech.com>
+Subject: [net-next v4 4/4] net: ftgmac100: Add optional reset control for RMII mode on Aspeed SoCs
+Date: Wed, 9 Jul 2025 15:08:09 +0800
+Message-ID: <20250709070809.2560688-5-jacky_chou@aspeedtech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250709070809.2560688-1-jacky_chou@aspeedtech.com>
 References: <20250709070809.2560688-1-jacky_chou@aspeedtech.com>
@@ -67,50 +67,76 @@ X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add the "resets" property to the MAC nodes in the AST2600 device tree,
-using the appropriate ASPEED_RESET_MACx definitions.
+On Aspeed SoCs, the internal MAC reset is insufficient to fully reset the
+RMII interface; only the SoC-level reset line can properly reset the RMII
+logic. This patch adds support for an optional "resets" property in the
+device tree, allowing the driver to assert and deassert the SoC reset line
+when operating in RMII mode. This ensures the MAC and RMII interface are
+correctly reset and initialized.
 
 Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
 ---
- arch/arm/boot/dts/aspeed/aspeed-g6.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/net/ethernet/faraday/ftgmac100.c | 26 ++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-index 8ed715bd53aa..f9fe89665e49 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-@@ -236,6 +236,7 @@ mac0: ethernet@1e660000 {
- 			reg = <0x1e660000 0x180>;
- 			interrupts = <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&syscon ASPEED_CLK_GATE_MAC1CLK>;
-+			resets = <&syscon ASPEED_RESET_MAC1>;
- 			status = "disabled";
- 		};
+diff --git a/drivers/net/ethernet/faraday/ftgmac100.c b/drivers/net/ethernet/faraday/ftgmac100.c
+index a98d5af3f9e3..05b8e3743a79 100644
+--- a/drivers/net/ethernet/faraday/ftgmac100.c
++++ b/drivers/net/ethernet/faraday/ftgmac100.c
+@@ -9,6 +9,7 @@
+ #define pr_fmt(fmt)	KBUILD_MODNAME ": " fmt
  
-@@ -244,6 +245,7 @@ mac1: ethernet@1e680000 {
- 			reg = <0x1e680000 0x180>;
- 			interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&syscon ASPEED_CLK_GATE_MAC2CLK>;
-+			resets = <&syscon ASPEED_RESET_MAC2>;
- 			status = "disabled";
- 		};
+ #include <linux/clk.h>
++#include <linux/reset.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/etherdevice.h>
+ #include <linux/ethtool.h>
+@@ -101,6 +102,8 @@ struct ftgmac100 {
  
-@@ -252,6 +254,7 @@ mac2: ethernet@1e670000 {
- 			reg = <0x1e670000 0x180>;
- 			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&syscon ASPEED_CLK_GATE_MAC3CLK>;
-+			resets = <&syscon ASPEED_RESET_MAC3>;
- 			status = "disabled";
- 		};
+ 	/* AST2500/AST2600 RMII ref clock gate */
+ 	struct clk *rclk;
++	/* Aspeed reset control */
++	struct reset_control *rst;
  
-@@ -260,6 +263,7 @@ mac3: ethernet@1e690000 {
- 			reg = <0x1e690000 0x180>;
- 			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&syscon ASPEED_CLK_GATE_MAC4CLK>;
-+			resets = <&syscon ASPEED_RESET_MAC4>;
- 			status = "disabled";
- 		};
+ 	/* Link management */
+ 	int cur_speed;
+@@ -148,6 +151,23 @@ static int ftgmac100_reset_and_config_mac(struct ftgmac100 *priv)
+ {
+ 	u32 maccr = 0;
  
++	/* Aspeed RMII needs SCU reset to clear status */
++	if (priv->is_aspeed && priv->netdev->phydev->interface == PHY_INTERFACE_MODE_RMII) {
++		int err;
++
++		err = reset_control_assert(priv->rst);
++		if (err) {
++			dev_err(priv->dev, "Failed to reset mac (%d)\n", err);
++			return err;
++		}
++		usleep_range(10000, 20000);
++		err = reset_control_deassert(priv->rst);
++		if (err) {
++			dev_err(priv->dev, "Failed to deassert mac reset (%d)\n", err);
++			return err;
++		}
++	}
++
+ 	switch (priv->cur_speed) {
+ 	case SPEED_10:
+ 	case 0: /* no link */
+@@ -1968,6 +1988,12 @@ static int ftgmac100_probe(struct platform_device *pdev)
+ 
+ 	}
+ 
++	priv->rst = devm_reset_control_get_optional_exclusive(priv->dev, NULL);
++	if (IS_ERR(priv->rst)) {
++		err = PTR_ERR(priv->rst);
++		goto err_phy_connect;
++	}
++
+ 	if (priv->is_aspeed) {
+ 		err = ftgmac100_setup_clk(priv);
+ 		if (err)
 -- 
 2.34.1
 
