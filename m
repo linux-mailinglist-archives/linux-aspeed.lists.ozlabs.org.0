@@ -1,51 +1,79 @@
-Return-Path: <linux-aspeed+bounces-1710-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1706-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9DC7B06A23
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jul 2025 01:56:52 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DED4B0694B
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jul 2025 00:30:19 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bhbg55KnWz3bn8;
-	Wed, 16 Jul 2025 09:56:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bhYm75SRXz2xd6;
+	Wed, 16 Jul 2025 08:30:15 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1752551029;
-	cv=none; b=D3VqhexIi7bn1nwLWFlDxbQIJlHNay7C7zSvVG66aaUTQ73QupbBLRoOOeDmHWijMpzYp+sGyOnK7yyI9VbzeR/nyygMv9jpFtJoZbk0z+9JdHfJgSwMxVzRaKvRz0VnOm0oEsL3IDr8L9+93uGrzVv+ZD0wQFzhR1qMVRYCyam20m6XQxEPMl8yDjMD19NBHCevisKJme9VTRvzlXv7UMz+PjJO8Ef05VrBFMMiLzn+whNwnbiQMyQeU/am79xzmHEffwKCYuHv1KWixjaVb2f+1ulGlSIHw7onYJ/Aq8Rh7P4s/qDMlU4ZRU1Yui5dixAc1QbL9KFfeK8Wio7TcA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=198.175.65.20
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1752618615;
+	cv=none; b=KdadWGiT7ox2M2v4PTyuW4tg2U2Tzo1G9WfI52kxQq6Ee7jPmGK4+cWfZSEnd8t+mNB9cUTY8HtyCzQmJjQQHPn+bJkEvQOhq0yLB5GN2+tKZ6m24GEcOJyFh4qa6J+nFsdjbJJmN2Uyo12ghQRpkRnfmlfFRKradSSwllKrUjE6qxNyj/lKTLlMYkHAsjj5G0A07mYWfmK/v7K8QkURdwitlDlPoNpE+l4fioDoo5HQVNQRjijqAg1GEXZS36z5I7sSy2rzxs+eubLLMDGZpgjsQIhTDnO7gD+3HxJLvuDs670wy+QK3FikcGNe9/0bJ77VnSg3wv03fCMO2idooA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1752551029; c=relaxed/relaxed;
-	bh=aMhHpk3FLl0dttTIgPrVeG6ZNiZ1kfm/TXpgwtc9uJE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CzLk15BZ0A94eH7+9dPs3TQgn1CpwmEySSELJ/FumfxcOWqnoHcTDG9gevTt0gvvnIRQ2m4YUKwBE3D4qotwGIpjGd0iLrPGjc63o3nfXJPAUo2OsVGAJ6uZBRmIHKRhnMvl02wOaNcmvuaSqm0nXvQ7rhszX1/9gAH6Iuu+KT+1iYKDn/MkxxMOpvBW8hNSZAclVJfhkIOYmzoSxlyj7BLjtqkBFpLIT+sG9B/+3um67olfSRXGKlaeiIf+M0JEtb08YLtPAsVIROPeAFbB7dKBxg9hP6RbHahyJ31Lw3H9f37gWtoqVtb8XZM+FDp4M3+Ddv+ranC+DRkg+pBgSg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	t=1752618615; c=relaxed/relaxed;
+	bh=P4z0UilpwOeP3VuXbpZflhcYtGlNIMIy++fBOMiI2QU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fnQoRrfz+fYdWp95JJVeQlp6AcY0v7xR5J9snXXQ/1Icc09s5l6aobjmy1oAk5gGd0RZZLBhcd9FUHoliLfPcTWe/Bk++etVsNmmgDBTEcT4WUy5ikUaLUg7fxIFzLlZhrQgjGwLkLCupTuQ3x0XPfuSMICWOiSuoPc7TP3O4ol9mUWkxbbwuQe8jBpoZy0G2LA0Cee7vwpdAMOvcy2ektsqE0QvBmQ6pfDLwOH2iWpDSCNEee0rtoCRcj4RieREFsd+6ySNjCPu0EBvHj4fU8+8PerKfp3lPj/LsqMH0hlBSAR4HO1+5txSdQxdmQAiEkkS/dkH/t7+pcT5hb3Xyg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HbXyRZy+; dkim-atps=neutral; spf=pass (client-ip=198.175.65.20; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HbXyRZy+;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.20; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 64 seconds by postgrey-1.37 at boromir; Wed, 16 Jul 2025 08:30:12 AEST
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4bh4mN5N4Qz3c8Y;
-	Tue, 15 Jul 2025 13:43:48 +1000 (AEST)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 15 Jul
- 2025 11:43:21 +0800
-Received: from mail.aspeedtech.com (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Tue, 15 Jul 2025 11:43:21 +0800
-From: Jacky Chou <jacky_chou@aspeedtech.com>
-To: <bhelgaas@google.com>, <lpieralisi@kernel.org>, <kwilczynski@kernel.org>,
-	<mani@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-	<conor+dt@kernel.org>, <joel@jms.id.au>, <andrew@codeconstruct.com.au>,
-	<linux-aspeed@lists.ozlabs.org>, <linux-pci@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>
-CC: <openbmc@lists.ozlabs.org>, <linux-gpio@vger.kernel.org>,
-	<linus.walleij@linaro.org>, <p.zabel@pengutronix.de>, <BMC-SW@aspeedtech.com>
-Subject: [PATCH v2 10/10] MAINTAINERS: Add ASPEED PCIe RC driver
-Date: Tue, 15 Jul 2025 11:43:20 +0800
-Message-ID: <20250715034320.2553837-11-jacky_chou@aspeedtech.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250715034320.2553837-1-jacky_chou@aspeedtech.com>
-References: <20250715034320.2553837-1-jacky_chou@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bhYm41Sqdz2xQ5;
+	Wed, 16 Jul 2025 08:30:11 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752618613; x=1784154613;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G7+Ffs9WIWMcBynLHK1Sql++GiExP0QoYD+fUsrCxEU=;
+  b=HbXyRZy+SN4HwIAnxoGH2oJOGGEIYtxj8cZSLdHkIRYWucMvifRes/Xg
+   h0DTAvqOEceXYN26XD02U0q4Alg17/OxKG1iNYal/ILDoNfbwR8RktLtw
+   OIHapuZtKGP8BkTyTbqZs3U2HePjreiebP+aXXE0SNgXlgO6sCgy60WCh
+   u/ivKAJpUY4yzWOfihycdjN3oh5nwRl/zehegiNsO3cSYrH2oKA9yNEqV
+   b+kDHwpj3Ko7Mvsk9pKaD+L4LgeyZscIHCNT0ahqkry5tgjOBiB8Hega0
+   vAgwduAYtEFMMgDHGX0Nx93j5P1ZsZgMPsEZqJkzLbRiqxRud0ptf9/Es
+   A==;
+X-CSE-ConnectionGUID: hyzZf5YnSdOG+EiT/VXHaQ==
+X-CSE-MsgGUID: GJqDDvHGTYi4IiAJVrvVkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54562885"
+X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
+   d="scan'208";a="54562885"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 15:28:53 -0700
+X-CSE-ConnectionGUID: 43scBKa2Q+GlwkjRdyCeQg==
+X-CSE-MsgGUID: nj7Vi7qCQFKk7YaTE34tRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
+   d="scan'208";a="181023525"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 15 Jul 2025 15:28:49 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ubo8k-000Bbf-0v;
+	Tue, 15 Jul 2025 22:28:46 +0000
+Date: Wed, 16 Jul 2025 06:28:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jacky Chou <jacky_chou@aspeedtech.com>, bhelgaas@google.com,
+	lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	joel@jms.id.au, andrew@codeconstruct.com.au,
+	linux-aspeed@lists.ozlabs.org, linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, openbmc@lists.ozlabs.org,
+	linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
+	p.zabel@pengutronix.de, BMC-SW@aspeedtech.com
+Subject: Re: [PATCH v2 09/10] PCI: aspeed: Add ASPEED PCIe RC driver
+Message-ID: <202507160642.yzIrPY1i-lkp@intel.com>
+References: <20250715034320.2553837-10-jacky_chou@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -59,41 +87,43 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
-	autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250715034320.2553837-10-jacky_chou@aspeedtech.com>
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+	SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add maintainer for ASPEED PCIe RC driver.
+Hi Jacky,
 
-Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
----
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3ecb44458a7e..e1839dc240bc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3696,6 +3696,16 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
- F:	drivers/media/platform/aspeed/
- 
-+ASPEED PCIE CONTROLLER DRIVER
-+M:	Jacky Chou <jacky_chou@aspeedtech.com>
-+L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
-+L:	linux-pci@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/pci/aspeed,ast2600-pcie.yaml
-+F:	Documentation/devicetree/bindings/soc/aspeed/aspeed,pcie-cfg.yaml
-+F:	Documentation/devicetree/bindings/soc/aspeed/aspeed,pcie-phy.yaml
-+F:	drivers/pci/controller/pcie-aspeed.c
-+
- ASUS EC HARDWARE MONITOR DRIVER
- M:	Eugene Shalygin <eugene.shalygin@gmail.com>
- L:	linux-hwmon@vger.kernel.org
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus robh/for-next linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.16-rc6 next-20250715]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacky-Chou/dt-bindings-soc-aspeed-Add-ASPEED-PCIe-Config-support/20250715-114814
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250715034320.2553837-10-jacky_chou%40aspeedtech.com
+patch subject: [PATCH v2 09/10] PCI: aspeed: Add ASPEED PCIe RC driver
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250716/202507160642.yzIrPY1i-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160642.yzIrPY1i-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507160642.yzIrPY1i-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/pci/controller/pcie-aspeed.c:179 struct member 'pciephy' not described in 'aspeed_pcie_port'
+   Warning: drivers/pci/controller/pcie-aspeed.c:179 Excess struct member 'phy' description in 'aspeed_pcie_port'
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
