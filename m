@@ -1,79 +1,60 @@
-Return-Path: <linux-aspeed+bounces-1706-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1718-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DED4B0694B
-	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jul 2025 00:30:19 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EAF7B0704F
+	for <lists+linux-aspeed@lfdr.de>; Wed, 16 Jul 2025 10:21:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bhYm75SRXz2xd6;
-	Wed, 16 Jul 2025 08:30:15 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bhptj1Hj9z2ySY;
+	Wed, 16 Jul 2025 18:21:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=198.175.65.20
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1752618615;
-	cv=none; b=KdadWGiT7ox2M2v4PTyuW4tg2U2Tzo1G9WfI52kxQq6Ee7jPmGK4+cWfZSEnd8t+mNB9cUTY8HtyCzQmJjQQHPn+bJkEvQOhq0yLB5GN2+tKZ6m24GEcOJyFh4qa6J+nFsdjbJJmN2Uyo12ghQRpkRnfmlfFRKradSSwllKrUjE6qxNyj/lKTLlMYkHAsjj5G0A07mYWfmK/v7K8QkURdwitlDlPoNpE+l4fioDoo5HQVNQRjijqAg1GEXZS36z5I7sSy2rzxs+eubLLMDGZpgjsQIhTDnO7gD+3HxJLvuDs670wy+QK3FikcGNe9/0bJ77VnSg3wv03fCMO2idooA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=139.178.84.217
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1752654109;
+	cv=none; b=XUbvJCxGv7b2SEb/pKj/IBEsJuZREj+GkiE1cq1SGN1loqnsT+MWD05Rv8HBKW9L7Zv+uUmIDHjD7xF0cA4LtagGILCarCKbL9Q8TtewPTX2sclu9l5ngyRrb30fRk6i98MWd3XWIKGddVNTiIQBEWhNPilwKsQZ++c0SRhF+knOyogilkxLeaIy9+taDtCAXaeq3RF2YfUr0AihHfniUxKiSEDCP0xYNsdHjOkGIM7an47fwLmdgQPq1Du2zLrclF0+xoFbczJVSK3TAyfCTfjFKyma/gBzdrc+qTcy9XLVAk1vtZwm3g9y+WcaU2t0Gt0n+pdFA8Bsf5TTLIVEGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1752618615; c=relaxed/relaxed;
-	bh=P4z0UilpwOeP3VuXbpZflhcYtGlNIMIy++fBOMiI2QU=;
+	t=1752654109; c=relaxed/relaxed;
+	bh=UOMv9U+gZm7+x1wwzDGRIybFy75nzUPgfcsvemOAtO0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fnQoRrfz+fYdWp95JJVeQlp6AcY0v7xR5J9snXXQ/1Icc09s5l6aobjmy1oAk5gGd0RZZLBhcd9FUHoliLfPcTWe/Bk++etVsNmmgDBTEcT4WUy5ikUaLUg7fxIFzLlZhrQgjGwLkLCupTuQ3x0XPfuSMICWOiSuoPc7TP3O4ol9mUWkxbbwuQe8jBpoZy0G2LA0Cee7vwpdAMOvcy2ektsqE0QvBmQ6pfDLwOH2iWpDSCNEee0rtoCRcj4RieREFsd+6ySNjCPu0EBvHj4fU8+8PerKfp3lPj/LsqMH0hlBSAR4HO1+5txSdQxdmQAiEkkS/dkH/t7+pcT5hb3Xyg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HbXyRZy+; dkim-atps=neutral; spf=pass (client-ip=198.175.65.20; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=nFeHOU+uKSIC6hNe7KdPuKumJtfdiClCZ/CiC9NCxWZfXBh/VGBZomWAqSy+4xpeoZ5y6he4nBupztlS/O5lGfcuFav0CBdU0yorE450yH6+4EQA4mQsLILVatI5dtCJYU74nFavB5aYeqBVd5gGWDHevBnYIYUbzNd8PO0Qc6pxjjhfys66vt3lCh5PztRsG3dfAs/BSR05/YitWW5hq1X2nGZlkcwoGeJS5Mm4UeY2P+inIPTafz4HHRFRVZwJrmbQa6iFYkZVMIcj4PDvYKZrM10arbRR9O27+ibPROlPGpF9QTmsuvlfIKDfwv+2jLnMNwioey2qC85sG9fdnw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HDcIb0sR; dkim-atps=neutral; spf=pass (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=HbXyRZy+;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HDcIb0sR;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.20; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 64 seconds by postgrey-1.37 at boromir; Wed, 16 Jul 2025 08:30:12 AEST
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4bhYm41Sqdz2xQ5;
-	Wed, 16 Jul 2025 08:30:11 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752618613; x=1784154613;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=G7+Ffs9WIWMcBynLHK1Sql++GiExP0QoYD+fUsrCxEU=;
-  b=HbXyRZy+SN4HwIAnxoGH2oJOGGEIYtxj8cZSLdHkIRYWucMvifRes/Xg
-   h0DTAvqOEceXYN26XD02U0q4Alg17/OxKG1iNYal/ILDoNfbwR8RktLtw
-   OIHapuZtKGP8BkTyTbqZs3U2HePjreiebP+aXXE0SNgXlgO6sCgy60WCh
-   u/ivKAJpUY4yzWOfihycdjN3oh5nwRl/zehegiNsO3cSYrH2oKA9yNEqV
-   b+kDHwpj3Ko7Mvsk9pKaD+L4LgeyZscIHCNT0ahqkry5tgjOBiB8Hega0
-   vAgwduAYtEFMMgDHGX0Nx93j5P1ZsZgMPsEZqJkzLbRiqxRud0ptf9/Es
-   A==;
-X-CSE-ConnectionGUID: hyzZf5YnSdOG+EiT/VXHaQ==
-X-CSE-MsgGUID: GJqDDvHGTYi4IiAJVrvVkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54562885"
-X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
-   d="scan'208";a="54562885"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 15:28:53 -0700
-X-CSE-ConnectionGUID: 43scBKa2Q+GlwkjRdyCeQg==
-X-CSE-MsgGUID: nj7Vi7qCQFKk7YaTE34tRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
-   d="scan'208";a="181023525"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Jul 2025 15:28:49 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubo8k-000Bbf-0v;
-	Tue, 15 Jul 2025 22:28:46 +0000
-Date: Wed, 16 Jul 2025 06:28:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jacky Chou <jacky_chou@aspeedtech.com>, bhelgaas@google.com,
-	lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	joel@jms.id.au, andrew@codeconstruct.com.au,
-	linux-aspeed@lists.ozlabs.org, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, openbmc@lists.ozlabs.org,
-	linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-	p.zabel@pengutronix.de, BMC-SW@aspeedtech.com
-Subject: Re: [PATCH v2 09/10] PCI: aspeed: Add ASPEED PCIe RC driver
-Message-ID: <202507160642.yzIrPY1i-lkp@intel.com>
-References: <20250715034320.2553837-10-jacky_chou@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bhpth1p4cz2xd6
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 16 Jul 2025 18:21:48 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id D77945C5658;
+	Wed, 16 Jul 2025 08:21:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0254BC4CEF0;
+	Wed, 16 Jul 2025 08:21:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752654105;
+	bh=WFDobUiu1Nd43r6dikjiTbbFv38dHAAytYCHWG5v6TI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HDcIb0sR0K8DHNBwuF3l6zfjuhEd+srpTrUcNN5vM26ynlP8Rapji7XnX3ituaxfv
+	 yhHLARSCd4vO8do4/x/xokvvPcPsagYw8XC8YZMWS86u/kZzf0uL+lS0ldVPJI9pGs
+	 BcdTW0baB8Y7WwPzvSqC39dhwz6XGPDWwtwPat0/ZA2I7F6qnDMi6YLXwNp4ENPiGa
+	 hzuDBsZLIr2l4AdyYD8CrCiGXzPiUI+M1r/nxsfSpG88+LwyYqN3qrn7J7b2bvBJeH
+	 mfMjVJOFMAQlyeMGOHnSb9T/9y2gdK1pLfJ+CI4mc8FQ+zKbaDAdY9CfN+IWEiCBDE
+	 HNp8KE63b6YwQ==
+Date: Wed, 16 Jul 2025 10:21:42 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Ryan Chen <ryan_chen@aspeedtech.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Kevin Chen <kevin_chen@aspeedtech.com>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
+Subject: Re: [PATCH v2] dt-bindings: interrupt-controller: aspeed: Add parent
+ node compatibles and refine documentation
+Message-ID: <20250716-spotted-spirited-axolotl-c94e0b@krzk-bin>
+References: <20250715024258.2304665-1-ryan_chen@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -87,43 +68,45 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250715034320.2553837-10-jacky_chou@aspeedtech.com>
-X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+In-Reply-To: <20250715024258.2304665-1-ryan_chen@aspeedtech.com>
+X-Spam-Status: No, score=-8.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
 	SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Hi Jacky,
+On Tue, Jul 15, 2025 at 10:42:58AM +0800, Ryan Chen wrote:
+> - Add 'aspeed,ast2700-intc0' and 'aspeed,ast2700-intc1' compatible
+> strings for parent interrupt controller nodes, in addition to the
+> existing 'aspeed,ast2700-intc-ic' for child nodes.
+> - Clarify the relationship and function of INTC0, INTC1, and the GIC.
+> - Update and clarify documentation, block diagram, and examples
+> to reflect the hierarchy and compatible usage.
+> - Documentation and example refine.
 
-kernel test robot noticed the following build warnings:
+So 7 lines describing obvious - what you did and three lines below
+describing non-obvious, why you did it. It should be reversed.
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus robh/for-next linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.16-rc6 next-20250715]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> This change allows the device tree and driver to distinguish between
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacky-Chou/dt-bindings-soc-aspeed-Add-ASPEED-PCIe-Config-support/20250715-114814
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250715034320.2553837-10-jacky_chou%40aspeedtech.com
-patch subject: [PATCH v2 09/10] PCI: aspeed: Add ASPEED PCIe RC driver
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250716/202507160642.yzIrPY1i-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160642.yzIrPY1i-lkp@intel.com/reproduce)
+Why driver needs would matter here?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507160642.yzIrPY1i-lkp@intel.com/
+> parent (top-level) and child (group) interrupt controller nodes,
+> enabling more precise driver matching SOC register space allocation.
 
-All warnings (new ones prefixed by >>):
+This just does not make sense. You do not change "precise driver
+matching" via bindings. You fix driver. Especially that there is no
+driver patch here at all and aspeed,ast2700-intc0 are totally unused!
+Don't add ABI which has no users.
 
->> Warning: drivers/pci/controller/pcie-aspeed.c:179 struct member 'pciephy' not described in 'aspeed_pcie_port'
-   Warning: drivers/pci/controller/pcie-aspeed.c:179 Excess struct member 'phy' description in 'aspeed_pcie_port'
+Again, you need to start describing the hardware and the REASONS BEHIND
+from the hardware point of view. Not drivers.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This change alone based on above explanation makes no sense at all.
+
+Best regards,
+Krzysztof
+
 
