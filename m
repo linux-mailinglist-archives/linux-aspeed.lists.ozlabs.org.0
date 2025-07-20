@@ -1,71 +1,75 @@
-Return-Path: <linux-aspeed+bounces-1755-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1753-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF74B0B941
-	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Jul 2025 01:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406E3B0B87F
+	for <lists+linux-aspeed@lfdr.de>; Mon, 21 Jul 2025 00:22:39 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4blfzw48Q4z2xgp;
-	Mon, 21 Jul 2025 09:36:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bldLz1LcSz2xTh;
+	Mon, 21 Jul 2025 08:22:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::22c"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1753041080;
-	cv=none; b=OlbCfJrlh/xEygEajKop+ehEguFPoNcs9uP1RduBNG/bdxmncUxm6GH9J4KZisAJ3E37xMMqCecjSJd1HGEC5Dg7bd1Qg/j8UryN7jwhz+Wrg+kmbj6GdOxmuv+99spQ5xEjL8ydzrsBtXaDvNYLOqY4m6CcWDsu/wAgHoGIC+AhWDw/WA7M2UX+zbrtGD6t89WEankSdcOYtH2iovpvnp8UC28YKw31Qe8vDV5PwflAPRS7zEuGzC4i+CNUy83NaVmIXnOLvdpCmXG4UyufFB40legpq1vWEl39oog7Bma/KfgmdG5LFuJodgFsv9B3dydBpEjYLnKyW5QkcYoR7w==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=147.75.193.91
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1753050155;
+	cv=none; b=b4PRVgKLxgDMrmu3iw1jUsb1UjjCQTEcRvshjhxRoOwTbCktSPNZk0lVBDgpLAfZFBfPYmmz01AdGzXMapRUQ7fjf7LXzfol1XUi0RXZnnxDoJbqS0iG15Ud9AQ6+SmsH4s4qX72dfvK3aUwaDDn0a1Z31PVq0/DZzXthsZBpG+G8HUqb3vER/rJpCXJkFHGO60P86DQ8tIBKfHC82GS6EHPNTPsBqeHdKQb2M1F6JeyCURtS9CyMpQBNwbCDZbuW6aPx8Abi/GwJSd+SljMGz8UlAcM4sUivF8dOf5LaYelAfbGTAORqB6Qt68vL39TzMbIQ/IKz1LrhjSGji1uaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1753041080; c=relaxed/relaxed;
-	bh=8pdUiGWbsgg0CJ4pLUwtMgPfW72vVxz6DKVN1oZBlnk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CLw0/ZMO5jSnZuKA04wtGjFFRpXfZi029pTjcO1m+J1J38yyuLmo1c2aNzrCNxI/GBY1S1JK62KxzEM1Er74hv17IK/a6zw0T31WUCeOM6QDe5cyaXI0zB7A+2CgdqfSX4bn94APRY/H20vz1sPz1pGQWonVlMc/pDoWFRs/kb5RO7qSODy60ftC8ukDA0kPlxbLA3C41AMjscpX/Rl0EzzfGzaPn6tCOhRoBDPx4J7XE8wZrjksM+jI6BS6/S9SLF4UmYfrJC8agb2TNv3xnRHQLtTZWa8ZZ0SpxP0ci5V0bgFdUN2+OvieSSrIX9YNxS3aGaMauHq73jzvIq+LCg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dB8OpqM1; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::22c; helo=mail-oi1-x22c.google.com; envelope-from=jassisinghbrar@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1753050155; c=relaxed/relaxed;
+	bh=Dy3ph5LeZ3K3tRPIlbLysXDL6/dfRRaBQzPEoQMbemU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iC10Ar8hpBscmKYk3p1iIrpohIfRB5FRCf69xdgQL/ntMrqxxCYeNlExe/96dHxf7K5Sx3qEMokp0KSkPFkbsJlr4J4uSJjfYmvccM9nnHBcRC+l3h+as9gTTG0PqbDZ6Q5nWw1qjnPmcOYN48jtNj96SKfdxbWLQQ2nNSHV8bkoxBlYZ9DsacEjs0JJfgUJgv9Xcpd2bjq+f0rNiTHPR0RxPM9hNZ1PIwNQaoMARqnGNcKKefaAU3iOI+uTOVW00lArIIm68BsxogIXp55X+RQGUdtDjv9jp4ObD8RmVbS02z2UmyKEFRLFh53SrOGasPn/GXFW2YSH7Qv87UhUHQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=X4vBWyG5; dkim-atps=neutral; spf=pass (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dB8OpqM1;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=X4vBWyG5;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::22c; helo=mail-oi1-x22c.google.com; envelope-from=jassisinghbrar@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=147.75.193.91; helo=nyc.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4blZ0Q0fv1z305v
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 21 Jul 2025 05:51:16 +1000 (AEST)
-Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-41eaf97412eso1972107b6e.3
-        for <linux-aspeed@lists.ozlabs.org>; Sun, 20 Jul 2025 12:51:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753041074; x=1753645874; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8pdUiGWbsgg0CJ4pLUwtMgPfW72vVxz6DKVN1oZBlnk=;
-        b=dB8OpqM1WkgSBb7X7jJAsok4NSRWqvS66sgdHdCz0ued9tEyHP3/KgtTKLqOrIscYZ
-         XzyawvsQ/lEwWh4I6YnXUz4hT2SmzfCmxqeLqUX7t3GF+1u00ggSSt9onOqUHYbOPI57
-         BaL/m/22vtsgGOuJoWV4+45boo+kE1K8C9al2XPqtskmVymLrLniYP4XkVwDmfU75iPm
-         YJjE8bc0X76yFuVEx+t7oQ4jisPBwv+i7cZqwgDl06bbXav8Di50K93E1Il3QpW/VTiU
-         7AfYnfTxdt4znDnr1lqbbNOrJwGsIcN0rpQ15w4tOz7kl0nF897Jz27QASdjwlnmnjO8
-         qYaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753041074; x=1753645874;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8pdUiGWbsgg0CJ4pLUwtMgPfW72vVxz6DKVN1oZBlnk=;
-        b=GAVFpxTtDwimsHi5BaN2sQWuWQw8NM2blryhetHkGijWbn++8jS1pYtqMa6A4qvf5n
-         QuzqJ5p4+VIpGW7TMHYySjAzBujxMkrHU/eLOpDJSIhM4mUnga02745sys+tjCJm5KmZ
-         dWPJ65fK4g7l6q1pFmK8LmSQYEczYumlQ3Q41OGhDMmkzzauOHJ+mzl6a+XU19pprNK7
-         cYhLPiGgngzzcS1fCp/jiKQ66sQn5bMcxCcWrblE2JWnmrpIqSieNdfO6Y0dkrd0FGvp
-         P2JPOaki5NJoHwGsjm9rcNljqveVQCY1+qtC7cxBuImldbKdKqmRFVDzcdktLVMdKVgv
-         wy8w==
-X-Forwarded-Encrypted: i=1; AJvYcCVfTP4pbByLcbWSi1SFSh96S8K5trkLjnie17wfxppJpuUbXCsrXymm1MImp5ZHAeOqFqzEhFUIXOFL22Q=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YzxDOn+0GGUVf43RSOdBFUMsaukbtWLCapjz3gEeXrSBIbAne+T
-	A1HO4YJv1c/A5Dlu5qZy7Yb3hS3ofX2OBSljWt+i/8j02iEnmjZadtgRBGYR6c8BZdWQhLt6Fqh
-	z+HdIPkrVQrIborT9yi1i6WcLg4F6Pas=
-X-Gm-Gg: ASbGnctnf0GOnUa/DQdJkrJxQ/1K6b0EI7lCNiweYvHLjKhoqCdqctvx+Qr7zNkm1xC
-	1T7Mg//SX4fL4vh2ZbHvYtvvyV6BsyHGRZZAo5QxNdCM9gBQC37JQ40lRSGVuOM+e34ystIuyPZ
-	YLjUW7JW8yAfHe7bfo3868fRPJwBV+/1HEheUOyScfv0iAE1cfMKZ7+Eq7XM31yUX3gGgI9X99J
-	5ErEI3ljw/8oYHjdD4=
-X-Google-Smtp-Source: AGHT+IHt9uAWCHbIYGEdJFOU/DaDUPPXZITgD+rBr+XvH6npb6aGodI/kJwOtF692HkZTJVuU0Kx7GBVi3i4oDGR0Dk=
-X-Received: by 2002:a05:6808:2226:b0:41b:f2a0:28f7 with SMTP id
- 5614622812f47-41d05756050mr10790464b6e.36.1753041073815; Sun, 20 Jul 2025
- 12:51:13 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bldLy2g9zz2xRw;
+	Mon, 21 Jul 2025 08:22:34 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id BAC12A5276C;
+	Sun, 20 Jul 2025 22:22:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49802C4CEE7;
+	Sun, 20 Jul 2025 22:22:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753050151;
+	bh=bM5zL7tOJogVkxC/dBJDYgKh+3nVk9kFwkbmG9c9IYc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X4vBWyG5vYZwDD4v2i65ZI4jQq15qc+dO83q2BtBhpT8khyJea2edi80gvwCjdceK
+	 rVvzMuoo5dguYkK7l33e59cKcnmQnmwC3cLPs8NEx/EwhpPwlGjhlHU1f49uuSuaGw
+	 Y9zyAoOUeZ4oruAML2zbIcz1nQwCmW530rt0I/Y7bZkT3y6/I8Q4Gw8Ax7SzTf2nRD
+	 uoltJpkQZcGDywtPuKMPvKQZaryHCNXQNy1siQfPmiEypjDkTSFZna8idcQLfh64Wl
+	 w7th2aSsgrAX6dzEtrww2rquC1AaugyP6S2V6tHsuk5SPMlPY1TBdVwom3UQ67WxNi
+	 6p+5Yv/wbVEMA==
+Date: Sun, 20 Jul 2025 17:22:30 -0500
+From: Rob Herring <robh@kernel.org>
+To: Jacky Chou <jacky_chou@aspeedtech.com>
+Cc: "bhelgaas@google.com" <bhelgaas@google.com>,
+	"lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+	"kwilczynski@kernel.org" <kwilczynski@kernel.org>,
+	"mani@kernel.org" <mani@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"joel@jms.id.au" <joel@jms.id.au>,
+	"andrew@codeconstruct.com.au" <andrew@codeconstruct.com.au>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+	BMC-SW <BMC-SW@aspeedtech.com>
+Subject: Re: [PATCH v2 06/10] ARM: dts: aspeed-g6: Add PCIe RC node
+Message-ID: <20250720222230.GA2842356-robh@kernel.org>
+References: <20250715034320.2553837-1-jacky_chou@aspeedtech.com>
+ <20250715034320.2553837-7-jacky_chou@aspeedtech.com>
+ <CAL_JsqJ4yeYGAyCwHi=4CBurxGOc5oAqTQqun+5+Ps4hxwDU9Q@mail.gmail.com>
+ <SEYPR06MB5134EB5D018F8518E88495FF9D56A@SEYPR06MB5134.apcprd06.prod.outlook.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -79,41 +83,110 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20250702011956.47479-1-jammy_huang@aspeedtech.com> <20250702011956.47479-3-jammy_huang@aspeedtech.com>
-In-Reply-To: <20250702011956.47479-3-jammy_huang@aspeedtech.com>
-From: Jassi Brar <jassisinghbrar@gmail.com>
-Date: Sun, 20 Jul 2025 14:51:02 -0500
-X-Gm-Features: Ac12FXwcwYnjAjxqqsPWb8Z6fZqKu8-qloc1mBHuXxX-CpWSK48rSruJh4ba31s
-Message-ID: <CABb+yY1kyZdMqcMRUEdqCYByQE=DurfnejtvuQsMf9wfLiij2g@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] mailbox: aspeed: add mailbox driver for AST27XX
- series SoC
-To: Jammy Huang <jammy_huang@aspeedtech.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au, 
-	andrew@codeconstruct.com.au, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SEYPR06MB5134EB5D018F8518E88495FF9D56A@SEYPR06MB5134.apcprd06.prod.outlook.com>
+X-Spam-Status: No, score=-5.4 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+	SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Tue, Jul 1, 2025 at 8:19=E2=80=AFPM Jammy Huang <jammy_huang@aspeedtech.=
-com> wrote:
+On Wed, Jul 16, 2025 at 03:51:11AM +0000, Jacky Chou wrote:
+> Hi Rob,
+> 
+> Thank you for your reply.
+> 
+> > >                                 quality = <100>;
+> > >                         };
+> > >
+> > > +                       pcie_phy1: syscon@1e6ed200 {
+> > > +                               compatible = "aspeed,pcie-phy",
+> > "syscon";
+> > > +                               reg = <0x1e6ed200 0x100>;
+> > 
+> > This looks like part of something else? It should be a child of that.
+> > 
+> > If this is the controls for the PCIe PHY, then use the PHY binding instead of your
+> > own custom phandle property.
+> > 
+> 
+> Our PCIe design has multiple functions. And the series of patches are submitted for
+> PCIe RC. The other PCIe functions also use this phy node.
+> I traced the PHY driver interface, it cannot meet our usage.
 
-.....
-> +               /* Read the message data */
-> +               for (data_reg =3D mb->rx_regs + IPCR_DATA + mb->msg_size =
-* n,
-> +                    word_data =3D chan->con_priv,
-> +                    num_words =3D (mb->msg_size / sizeof(u32));
-> +                    num_words;
-> +                    num_words--, data_reg +=3D sizeof(u32), word_data++)
-> +                       *word_data =3D readl(data_reg);
-> +
-Please clean this for loop.
+Why not?
 
-Thanks
--Jassi
+There is also no requirement that using the DT PHY binding means you 
+have to use the Linux PHY subsystem.
+
+> Therefore, the RC driver uses the phandle property to configure.
+> And this syscon also is used by the other PCIe functions.
+
+Like what?
+
+> > > +                       };
+> > > +
+> > > +                       pcie_cfg: syscon@1e770000 {
+> > > +                               compatible = "aspeed,pcie-cfg",
+> > "syscon";
+> > > +                               reg = <0x1e770000 0x80>;
+> > 
+> > Looks like this is really part of the PCIe block as a h/w block isn't going to start
+> > at offset 0xc0.
+> > 
+> > 
+> 
+> Actually.
+> There are two PCIe bus in AST2600
+> We use the other one PCIe to EP mode, here I call PCIe A.
+> I call the pcie0 node as PCIe B.
+> We do not provide PCIe A to RC mode for usage, just EP mode.
+> But, when PCIe A is used as RC, it reg mapping is starting from 0x1e770080.
+> I list there mapping.
+> 
+> 0x1e77_0000 ~ 0x1e77_007f : common usage
+> 0x1e77_0080 ~ 0x1e77_00bf : PCIE A
+> 0x1e77_00C0 ~ 0x1e77_00ff : PCIE B
+> 
+> So, it is why we create one node to describe common usage for PCIe A and B.
+> And, why the pcie0 reg mapping is starting from 0x1e77_00c0.
+
+In that case, maybe you need a common parent node with 2 child nodes for 
+each bus.
+
+Rob
+
+> 
+> > > +                       };
+> > > +
+> > > +                       pcie0: pcie@1e7700c0 {
+> > > +                               compatible = "aspeed,ast2600-pcie";
+> > > +                               device_type = "pci";
+> > > +                               reg = <0x1e7700c0 0x40>;
+> > > +                               linux,pci-domain = <0>;
+> > 
+> > No need for this. You only have 1 PCI host.
+> > 
+> 
+> Agreed.
+> We only provide one RC.
+> 
+> > > +                               #address-cells = <3>;
+> > > +                               #size-cells = <2>;
+> > > +                               interrupts = <GIC_SPI 168
+> > IRQ_TYPE_LEVEL_HIGH>;
+> > > +                               bus-range = <0x80 0xff>;
+> > 
+> > Does this h/w not support bus 0-0x7f for some reason?
+> > 
+> 
+> List:
+> PCIE A: 0-0x7f
+> PCIE B: 0x80-0xff
+> 
+> It is our design on PCIe B to use bus-range 0x80-0xff.
+
+That's a policy or h/w limitation?
+
+Rob
 
