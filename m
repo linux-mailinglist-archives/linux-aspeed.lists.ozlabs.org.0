@@ -1,57 +1,51 @@
-Return-Path: <linux-aspeed+bounces-1856-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1861-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2DCB14ED7
-	for <lists+linux-aspeed@lfdr.de>; Tue, 29 Jul 2025 15:56:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52AE3B15614
+	for <lists+linux-aspeed@lfdr.de>; Wed, 30 Jul 2025 01:40:41 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4brxhW3pTQz2yLB;
-	Tue, 29 Jul 2025 23:56:11 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bsBft6JGsz30WT;
+	Wed, 30 Jul 2025 09:40:38 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1753797371;
-	cv=none; b=VgFIq+GNsa4W2i+tAu9zzv3qjsLZbG2FTixrNx1JRlir6BY5hA154WAYaVrjJ2EWajXvMOKcGbPMl1End3Wp7OOwr55KM6TO7xYmCbnHbOAsGnPOByvhlYAqQ+RlkjY4mpICpCf94er1GJzmVxCUkzOW3VUytyipdozq1FJdUb4JtKhiBVatLQd/oTjkVP0Co3Z4h1Ak5Cc8W8ttTot7yEwqizezq/3hBJoF3HRxZTqCb+pOBk93F1hfkreXtxyViCJcE319X3kvhDDEqpxCBAkLPrCy4Mmt92nzuo5NlRmAw983orGrvGmA08DQvoyc6uFuqTFfRmuxCvXIGXg7uQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1753832438;
+	cv=none; b=jTSkp6HtSwotzaVnERmKuA8nenPMrpPQFzvSf41qfmkltBYEEUdWGAFEbYegoNFRCxvtB8rIsD0cVl4jGDXUD6ZEI4b63OrtDtXCqK81pl9WdmTjMt3Sat1a4B8Vl1QFpSzyAo0Li+PFg+WfJLsSDdDgwe9Wq0d9p7nl5+1dIaYM0hT8qLxtShH2pGQcnZxpNDpSfbBb5LERfLsNB3O7UwFmHoEBFc//hAZo0Oga/4EwE0BaS3LuQ99k1+Pfuy0d/Vjh1jw3U87CY7yRz8deyIyf1qPxOKTVvNNzbL02tPzRQu95VTPkLKyZa6ByA/OGcK14YZsF/V/IpVO8bXJuAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1753797371; c=relaxed/relaxed;
-	bh=TQdxKKVZ1GM7fhQqDu7S5KrsXU0ul66dbGYdSM5AmB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KpaJ1mp9n1MPljrBMJZo47X45P7BNzmidUilQESA3m0580fhk3IQ5/BZHUg5irsTFoLfJ+GRyTgZbouLvtWnLmuioZG/Jrmw9yz2FNq5SecrNTadwSGEYIKDz9O74fojXC0buwXLsvRo9K6LZ0N5Jmd3ApKxchOa5U99mAPof6gYzvT97jRFmAk/GjNzf0CNTzYnG2CB4uQ9//lZ0lt/1hSRo93kumuyUcwN8iKO92m+bJKQbMd7mu7zHryEaeZsCeJgXwBbInNyUrfXTZno1J1vvs1oHKmHOEP4PxslQGrDBKEFfeIpVY48T90g7kdfw9JIUEtPEBfshL1YpZKlwg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=JCYskDSC; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+	t=1753832438; c=relaxed/relaxed;
+	bh=KHqgFY+gayy2GZvTyvV7FSRSsazhmou5VtCdHkpvFGY=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=NQy85f0HzCC5VaFoaGJ3J9QVHn9jA9QMnnGO3E0do1m5ShfN7YwQDLqFdslfdkZ1Gf4rkatjJgchKPBhoIRETxionz4l/Rv+VY9gvKNxRvkwMkbPBKk1ay2upWMKGkEDZUVXlQrsVdit1uHa87V0PlhnmBq/Y6WmHdhOxqFKB4SVtKXLj9gM0aV8dBstFirjYGXAbS31HkKDzblKhikw2X9x6EAjPYG4YTpjNSBiluHBEzTHn7jyy7cg9OVBhGkQcdyIpGlf8iR+l748OQNNYPwdbGepVoIeshsVadYn5cqxuTN5AW949ssThLbjGWtBVQISeFpIdgziJmHL0IyuNw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pUJn1kRf; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=JCYskDSC;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pUJn1kRf;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4brxhR5TtLz2xRt
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 29 Jul 2025 23:56:06 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=TQdxKKVZ1GM7fhQqDu7S5KrsXU0ul66dbGYdSM5AmB8=; b=JCYskDSCGBuSczNjpjsQY5I19S
-	KpaMTZOPRKIXZthIe0Ra+XbS+f14yNgQyF8RpCcM5UssF9/mKrNKvv3Fb3Yyv+m+qDKbiJsklw8zE
-	eSBvljolvU6qo5fWYda0ckU8D4odrrnb81PLnQ48bG2eMZqCjwGD/vxbOl+vXSTo2Qq8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1ugko2-003CMb-PD; Tue, 29 Jul 2025 15:55:50 +0200
-Date: Tue, 29 Jul 2025 15:55:50 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Fred Chen <fredchen.openbmc@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] ARM: dts: aspeed: santabarbara: Adjust LED
- configuration
-Message-ID: <bc6b2174-e7b9-44c2-8232-51a3accff2d0@lunn.ch>
-References: <20250729091351.3964939-1-fredchen.openbmc@gmail.com>
- <20250729091351.3964939-4-fredchen.openbmc@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bsBfs6jX7z2yKw
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 30 Jul 2025 09:40:37 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 1894D60008;
+	Tue, 29 Jul 2025 23:40:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1FC0C4CEF6;
+	Tue, 29 Jul 2025 23:40:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753832434;
+	bh=wyEt2fkgpUhHTrACpazhdhQaWVGoe9NGCw65Llk9rNA=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=pUJn1kRfSR10kP/BkVHd3TvO+QCQMODJt9U6F5ONDV+SNQ7RSSrJwHhdFE0fT2p5g
+	 BpcXDnJkXvLsX/+U9KuUqjKurQzqqrs4x81WaZxxB9ogLEphNaylOuXA1mFdjJZpSR
+	 VIpO0HkHSDuA8FYdU9/ol0OVtXTSJXbRcY587YqkyS1Wcu+5Lh0PE6nOxcSjx/eCVA
+	 l1jAVEwNocNnVdCdxW0mIBENV/JYWJV2sEi9Sn++FyZ9Yn6DFlXNm0i5m6uK/kBLjs
+	 C+0fuj3tpbLFzVhDTBb8BH+EHS3/ocK9GujUpV8ae8L1wh2+li3p5prShi618b/ted
+	 YxAQB4i+7n2LA==
+Date: Tue, 29 Jul 2025 18:40:34 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -65,21 +59,74 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250729091351.3964939-4-fredchen.openbmc@gmail.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Joel Stanley <joel@jms.id.au>, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Fred Chen <fredchen.openbmc@gmail.com>
+In-Reply-To: <20250729091351.3964939-1-fredchen.openbmc@gmail.com>
+References: <20250729091351.3964939-1-fredchen.openbmc@gmail.com>
+Message-Id: <175383135828.1119152.922768974777985804.robh@kernel.org>
+Subject: Re: [PATCH v1 0/3] Revise Meta Santabarbara devicetree
+X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Tue, Jul 29, 2025 at 05:13:45PM +0800, Fred Chen wrote:
-> Add a new power fault LED on GPIOB5 and relocate the ID LED to GPIOQ4.
-> The ID LED is now driven by the CPLD, allowing it to reflect multiple
-> system states depending on CPLD logic.
 
-It would be good to add a comment about why this is not an ABI
-breaking change.
+On Tue, 29 Jul 2025 17:13:42 +0800, Fred Chen wrote:
+> Summary:
+> Revise linux device tree entry related to Meta (Facebook) Santabarbara.
+> - add sensor nodes for extension board
+> - add mctp node for NIC
+> - adjust LED configuration
+> Base on branch for-next
+> 
+> Fred Chen (3):
+>   ARM: dts: aspeed: santabarbara: add sensor support for extension
+>     boards
+>   ARM: dts: aspeed: santabarbara: Enable MCTP for frontend NIC
+>   ARM: dts: aspeed: santabarbara: Adjust LED configuration
+> 
+>  .../aspeed-bmc-facebook-santabarbara.dts      | 840 +++++++++++++++++-
+>  1 file changed, 839 insertions(+), 1 deletion(-)
+> 
+> --
+> 2.49.0
+> 
+> 
+> 
 
-	Andrew
+
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: attempting to guess base-commit...
+ Base: tags/next-20250729 (exact match)
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/aspeed/' for 20250729091351.3964939-1-fredchen.openbmc@gmail.com:
+
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dtb: mctp@10 (mctp-i2c-controller): 'label' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/net/mctp-i2c-controller.yaml#
+
+
+
+
+
 
