@@ -1,51 +1,51 @@
-Return-Path: <linux-aspeed+bounces-1870-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1872-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2F3B178F0
-	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Aug 2025 00:12:52 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 014EDB178F2
+	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Aug 2025 00:12:54 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4btNcZ3Fqmz2yZ6;
-	Fri,  1 Aug 2025 08:12:46 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4btNcc0508z2xRs;
+	Fri,  1 Aug 2025 08:12:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1753999966;
-	cv=none; b=ZsSqB9i953IgPVZLI96gSSNbBgccyD/QqS/DgBLHRoDmErla5gpjLTzSXAmND6OAhdlPgETYRj2hj/GvwiFu5rzFNTNY8eb26SBiJDsS10MlC5PM9FUv02BLEA88iEe54RvQzEpuUrwsNYKxfN+IOKq1j+Bwt5meK3ANUxlsQ9OklEqpQhSH8t0iKxm5KZexEW2ed5YIhpPgRYybRu7cXUtv1ZsSUNopVgOfR71gk8FTjzxWBeboOGFUpRUrlsQDWuL4/L9z/Ee0+SL0+fhJmqjkOZ7Ve32XGYoiMbgacVywmfQwlVOic5Wi3Kv2vTss20a78r+1qGd9zZoWk3wr/g==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1753999967;
+	cv=none; b=oTd9zY0PPzgN9kQMo9DhqQWTCaAkgZUZNVbNnnyKNyhWr23o18/w7B69R7HL9kXL3ihkksK6Ff+Do4VvSlNrAIFR1qqJax9gvNoQ8VtXaAdEGyPAwGo6fR5SFlm8l1mmdwBKUhstYFFX5VqKLTSBsi19ZrPQrzdHowvawjctNTPySYyE/Urtg+sLcFVXeWZFntNxgUz+rtdpPFSQ+1tu6buy40DUYvecM209Rzc6R+pB5GxJFZpDA1pjzfF41yCCFMDIeo+joEOQGh5wkbsY8LE2CQq84ctxfNGy5A5Dx3iAfcFcg88Or2PADQom/RZ9Xms/fjHoorcfNsne4we37A==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1753999966; c=relaxed/relaxed;
-	bh=kHj91cBJP4UCmkQVDHlswFtyp58W2+u6yWfvVBawNZs=;
+	t=1753999967; c=relaxed/relaxed;
+	bh=3NZ6SufYrkjXdgD6YyUWmxuMnyEMDpHdR4fnqfnN0PY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Rh+p11/4wmnPBKim0HnXtrcHp8rsYyQpgB7zmIbe3kOM8Ekc9BBlQ6lhWw7TRdLfQTFc3a8rCFixbJMCyj9EQL+PqYiDJZicYL9+CX3pzqHvuaSppOAEB8hRgAW0ZEOkHIgWFiS/2BBMMnVKGBMv4d3VpzKSKDbrSnsMyzn26/LxdfIbB2bkwANck4duGHRXfsTTFcQ1/QjDSU24yukpCDe8KI4YyYkUUad9dpJtvm+Aywv0WiyrA83scTL41oM9Gff9pNkgtAWsMkONaNLtwt2x86QU0TEPdt9gfm7sAeIftXgcNMq5cerQwWQj8bKRIo8GEE7hgACTHsOLB8NMsA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=iCvpK9I8; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 In-Reply-To:To:Cc; b=hLVSd2JZL+Be1qd5ZbRH4+gPasa89Kg2VtzCXvzzsxoAlI2/BKcEe/+e7dThjwsTQAKSa9YMrnK3ltLKvO1/iSAB9nVGjn+E5CmAKG2lnjXuu+R1l8Bo2JzGDhwqJXvIwXQ9eE3qBjuvFwj9hxOXETRXuq0n2VzEhrpYa5TnBGsRYfgy+wVFCKr2TfDumsHP/0u/x/7IZ6Aj2TiMqIk3r2KjyXdD9KP4P8mnEPT8vKaa7ytJktlimQyZ8w3bNyKtv+FMAnOVyRB+VPmAJVi3dq7NsCSl6ntYNMRfWLHt5cRiCUsUJDzcdWbhUn/HDIJdkjE4LdrAl/Dq32R4xU88Cg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NSufTE42; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=iCvpK9I8;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NSufTE42;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
 Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4btNcY2KNkz2y06;
-	Fri,  1 Aug 2025 08:12:45 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4btNcZ0Hg8z2yD5;
+	Fri,  1 Aug 2025 08:12:46 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 8225143A42;
-	Thu, 31 Jul 2025 22:12:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50176C4CEF8;
-	Thu, 31 Jul 2025 22:12:43 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 5DE32463F8;
+	Thu, 31 Jul 2025 22:12:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DE92C4CEEF;
+	Thu, 31 Jul 2025 22:12:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753999963;
-	bh=hPXs+VvV1Z0lvnVsLb9P/CrQ7tEFhXZWjhaO05I861c=;
+	s=k20201202; t=1753999964;
+	bh=0kFL/C/HEWZ7M63kG+iOdTn4GO2S1xBbGOGTtJ8z7AU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=iCvpK9I82kPhEpK8t1h0Ne7/It67WKDWjCgnmWYXCS/tRB8rDtmureWGGG9qIRa8R
-	 Mj87Ii6KoBomAr9zGp3jVH8ws2BgF0nXYrQQSOcRxe7pZUQmtNh0Mz9NiiZK+7vG2i
-	 iiCJPiHuoiCmz/VY+BLz5EsGGj5wVQrnM4yjo+s+EWWCpZWytDQRTj+3kIKJE8NTwc
-	 YxuhxrvavW3NHcI6J+fmgoSeKmDvCxaFoVF7IgE0HNEEiLyTCHeFDbu8JrOg3CHx7c
-	 DziRGP44pSyglPL5umjP3Fd4W77aCbZCJox7ncqdJd5F63fpMBYK5fh0zKT4LvD7/C
-	 bXxP3k5x87i9g==
+	b=NSufTE42qvM3qg+eoMVzRekmq5HV2zU9DsPTV8PcbUnk49s3/opccp9/r9nRriXgw
+	 DfePqI1+sRuRDtI6hXXQcIBcbwMOHQ84oVunKRVMq/mWGjhaU6WVRgrAt9DEZld6k/
+	 yJFyW0NhLIZqoU+FBDxvijhVyqZfVn+Ah31oNJyjfyJjpxLHRZkbFGrydB0fLx+vFI
+	 i2bB+B/Bt8a1qxDu3NSZjDYrlqTwZh1q3DO1AqQiAJPMufBUI7qDBvfzlg3z3ItNLu
+	 FBKPrtcbhMbI+VmIpBxNI68r85IMFrhmBbRFQ8ZamDDj90JEmJq0tc/ZeeeRO3Yn7o
+	 NjnK6AoKUlPOg==
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Date: Thu, 31 Jul 2025 17:12:21 -0500
-Subject: [PATCH 4/6] MAINTAINERS: Add FSI bindings to FSI subsystem entry
+Date: Thu, 31 Jul 2025 17:12:22 -0500
+Subject: [PATCH 5/6] dt-bindings: fsi: Convert fsi-master-gpio to DT schema
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -61,7 +61,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250731-dt-fsi-cleanups-v1-4-e7b695a29fc3@kernel.org>
+Message-Id: <20250731-dt-fsi-cleanups-v1-5-e7b695a29fc3@kernel.org>
 References: <20250731-dt-fsi-cleanups-v1-0-e7b695a29fc3@kernel.org>
 In-Reply-To: <20250731-dt-fsi-cleanups-v1-0-e7b695a29fc3@kernel.org>
 To: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -78,27 +78,120 @@ X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Maintainers of a subsystem should also be the maintainer for
-corresponding DT bindings. Add the FSI bindings to the FSI subsystem
-entry.
+Convert the GPIO-based FSI master binding to DT schema format.
+
+Drop the "fsi-master" compatible as it has not be used consistently and
+doesn't represent anything.
 
 Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/fsi/fsi-master-gpio.txt    | 28 ----------
+ .../devicetree/bindings/fsi/fsi-master-gpio.yaml   | 63 ++++++++++++++++++++++
+ 2 files changed, 63 insertions(+), 28 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a92290fffa16..4a7b4656822c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9810,6 +9810,7 @@ R:	Ninad Palsule <ninad@linux.ibm.com>
- L:	linux-fsi@lists.ozlabs.org
- S:	Supported
- Q:	http://patchwork.ozlabs.org/project/linux-fsi/list/
-+F:	Documentation/devicetree/bindings/fsi/
- F:	drivers/fsi/
- F:	include/linux/fsi*.h
- F:	include/trace/events/fsi*.h
+diff --git a/Documentation/devicetree/bindings/fsi/fsi-master-gpio.txt b/Documentation/devicetree/bindings/fsi/fsi-master-gpio.txt
+deleted file mode 100644
+index 1e442450747f..000000000000
+--- a/Documentation/devicetree/bindings/fsi/fsi-master-gpio.txt
++++ /dev/null
+@@ -1,28 +0,0 @@
+-Device-tree bindings for gpio-based FSI master driver
+------------------------------------------------------
+-
+-Required properties:
+- - compatible = "fsi-master-gpio";
+- - clock-gpios = <gpio-descriptor>;	: GPIO for FSI clock
+- - data-gpios = <gpio-descriptor>;	: GPIO for FSI data signal
+-
+-Optional properties:
+- - enable-gpios = <gpio-descriptor>;	: GPIO for enable signal
+- - trans-gpios = <gpio-descriptor>;	: GPIO for voltage translator enable
+- - mux-gpios = <gpio-descriptor>;	: GPIO for pin multiplexing with other
+-                                          functions (eg, external FSI masters)
+- - no-gpio-delays;			: Don't add extra delays between GPIO
+-                                          accesses. This is useful when the HW
+-					  GPIO block is running at a low enough
+-					  frequency.
+-
+-Examples:
+-
+-    fsi-master {
+-        compatible = "fsi-master-gpio", "fsi-master";
+-        clock-gpios = <&gpio 0>;
+-        data-gpios = <&gpio 1>;
+-        enable-gpios = <&gpio 2>;
+-        trans-gpios = <&gpio 3>;
+-        mux-gpios = <&gpio 4>;
+-    }
+diff --git a/Documentation/devicetree/bindings/fsi/fsi-master-gpio.yaml b/Documentation/devicetree/bindings/fsi/fsi-master-gpio.yaml
+new file mode 100644
+index 000000000000..21bfbad595b3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/fsi/fsi-master-gpio.yaml
+@@ -0,0 +1,63 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/fsi/fsi-master-gpio.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: fsi-master-gpio
++
++maintainers:
++  - Eddie James <eajames@linux.ibm.com>
++
++allOf:
++  - $ref: /schemas/fsi/fsi-controller.yaml
++
++properties:
++  compatible:
++    items:
++      - const: fsi-master-gpio
++
++  clock-gpios:
++    description: GPIO for FSI clock
++    maxItems: 1
++
++  data-gpios:
++    description: GPIO for FSI data signal
++    maxItems: 1
++
++  enable-gpios:
++    description: GPIO for enable signal
++    maxItems: 1
++
++  trans-gpios:
++    description: GPIO for voltage translator enable
++    maxItems: 1
++
++  mux-gpios:
++    description: GPIO for pin multiplexing with other functions (eg, external
++      FSI masters)
++    maxItems: 1
++
++  no-gpio-delays:
++    description:
++      Don't add extra delays between GPIO accesses. This is useful when the HW
++      GPIO block is running at a low enough frequency.
++    type: boolean
++
++required:
++  - compatible
++  - clock-gpios
++  - data-gpios
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    fsi-master {
++        compatible = "fsi-master-gpio";
++        clock-gpios = <&gpio 0>;
++        data-gpios = <&gpio 1>;
++        enable-gpios = <&gpio 2>;
++        trans-gpios = <&gpio 3>;
++        mux-gpios = <&gpio 4>;
++    };
 
 -- 
 2.47.2
