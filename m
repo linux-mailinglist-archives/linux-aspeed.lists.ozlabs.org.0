@@ -1,51 +1,52 @@
-Return-Path: <linux-aspeed+bounces-1868-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1871-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF76B178EE
-	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Aug 2025 00:12:49 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id F08BAB178F1
+	for <lists+linux-aspeed@lfdr.de>; Fri,  1 Aug 2025 00:12:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4btNcX66fxz2yGY;
-	Fri,  1 Aug 2025 08:12:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4btNcb073Pz30MY;
+	Fri,  1 Aug 2025 08:12:47 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.234.252.31
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1753999964;
-	cv=none; b=YWkVJm6dC5bHsbmhFX2HkYcZbhMMT0SgdrllDFw/IIY2KXL+OdKil/Hz1KCHxs1xJTAvegHIdziYU3Yf242D6M09x2x/wTKW3+qPb+ioyVTnWEuP5SXQhil31j43hfDGv87d9ZCxSkWzx6GT5Oms26GgjFf7WMx0GUP+0rBTuec9+s1PYawigcJsFAUkFIJHagJA9UCXey1/aD5e135P+YZ7pEsVsa/0yjsa521NnQXwxVxuyS2WKMSJpl9kOVYTiWLMBY4ImvVTaz6zLm93BACJ1NHFcOiZrGCQufOZINLGKz/fPM1Uo6BNhDDEsmACsT1EZmNk8KPDghlt3AXabw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1753999966;
+	cv=none; b=JR093YtKnZVot3U/o1W41OpxhClFTfcY+Hj1Nv3UXq0i2TAfGBOykMFpWrQOdcscb+8ypI+kNo0GMVycNgim0ssjF1ZLdYEOdH2DNpp8xqT/xxPM7LWcPU03lcma8XvBXHONmdme+B9St6t9sXhm5jpLki3nLszeRZVYd4FGckatdYTRmLaigOinY7mqRapp/3sHKtTPqAs7PwrVV6wWUxYtsvatvWIqAr7Yc1t+vtQjCqVxMhOVMvjtRTSuXEcM7DRrh0i55e8X0iLiDKL/utgHlm/q6eiYac3HKT/nLl7G4r3HIh6ZIMlXfWqYJEwpfYVmYhGCB3PBytB1wea2Ew==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1753999964; c=relaxed/relaxed;
-	bh=LNB/USS/uG0h39FDRpJoXVY7f/FrpKXXBu/8vBC1B2U=;
+	t=1753999966; c=relaxed/relaxed;
+	bh=IqTotNiAOWcLbU9JFvPO9h9wcM3uvNLK5yQIugKJtOA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ivN+FAzdlZMDjxTSjLjzxaxNDuzewLieO+tMnD5ZwGaI2FmquWfoaox3NOQ3n19V0+xCXq5rIG6zjTKRSp9RRdDEDK3kCqyC0IBoXDISOe9HqWel1evKIzrooF4iLstN26Q2tD6E26BcELHWzOCmKF2RyVZpokzTck990zCwA4UVDNmMrYCY1fcvEossxQZh+yvTiFj9pj5HHTIhxOiJBcNVMIdRyT2k9QTNhP3xDPXa0QFk/guqzrNpU18Y2nzFtnuVpC094xHJTu+hZcMzEiMOjmMCE6fWOdxDz4hiCtSlbxigUSNe04ruM7DjG1m4m3gG44PHgb6P4c682s9/PA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Z+a4eReZ; dkim-atps=neutral; spf=pass (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 In-Reply-To:To:Cc; b=bqWjXWvIUTS9+YH95RQVWlZ7leragi3H2pC5KXSM7NeTQycAOoS/FOREfQSj3hzQkVQndhT4EzIOEVQL4SHV9E3f0V2mzrv5y0U8cbWNK/E8J+sS2iLCDxTVdzVSnN6MytMl8eFqym68DdAJGEEG1RaM+C59V8W0o7JBEbq053DtnFEQlnHmDQxlZQoJ6IDvdxxr7hB42HgYG/te01ZQ1ID9IKMvFAy4tZs7b7yL977jLE82Ph1AWOu8IYrSRKY7d/WrXycXYFaCvpsAw7MZyPbLjt6EwXv2kO0xWIy9LbeaygzS7R9CH9aFh8oLDjUudDPOz+VC1DBoXfCEAw+LMw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=g35nxxeU; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Z+a4eReZ;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=g35nxxeU;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4btNcW3FcMz2y06;
-	Fri,  1 Aug 2025 08:12:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4btNcY1Htbz2xRs;
+	Fri,  1 Aug 2025 08:12:44 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id BDAF3462CB;
-	Thu, 31 Jul 2025 22:12:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CDCAC4CEF4;
-	Thu, 31 Jul 2025 22:12:41 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id BA9DF61135;
+	Thu, 31 Jul 2025 22:12:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 714F7C4CEF4;
+	Thu, 31 Jul 2025 22:12:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753999961;
-	bh=iCHNz13YFPJI2rv/3E+irLxUkOjyMiI3w+ZxRLbSXwE=;
+	s=k20201202; t=1753999962;
+	bh=tdDkXmNUX4O3VWO9zUljpRGtZvcgIcgJ0oBAw1ujc0A=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Z+a4eReZzye57rk5zFrxJ5GDtFDgGuQS/b9abZkgO+BdyRHsuYPzE3WLL+dcYEgru
-	 j94N2eV/OcsgxYGafKlFM8lOU3JadX0QQEkZiuWyE6lgUeZ1+bOeGeEmbNxBMt0CVt
-	 uwmxI8ja/wfpgU9w4/Es+PrIBob98dsT/GF9BSZGI3zACQ8psN6q0fwQ+SUedklnQX
-	 Gf2iafV3MT9EgGbciiO9e2EaDtdOBQ+7KjMnHg7y9TxeN0WLxtoJUSS+TgJT4xmAf9
-	 +bpMzIsYhbggtOZf4FpksBsDiXD0p7C8FhGuc8aYO/f1w1fpaXkj+UCgMbBdsUwu4n
-	 eWSjQ+BzkpLMg==
+	b=g35nxxeUbz4f/mQmvW8Q5iBzd6861+826jXm8MYGFoj1apAVSoWQCnKon2dnihV44
+	 lj10o/xd8zFe7SyTPXXwnm+1m3cXx8nOf+yOXNE8GQulwcpVymZTTnrs+PMch7p4EJ
+	 pslA2XsT3ik9C1pZU/kju+bPppN2G3sad396d38wo3yqZsFrtYyY1jBmobbRt9mGHI
+	 r23bvPynjzG/Y6Fuo6nuTsNtEpePsji9uRj51gVF8YEKilo7U3S0rYPEu/wGxvbsjh
+	 W7JlyjmEaacyN+qJtBzQsx2EAGAcgYXLAEKZig6a5omNNzZ3E+S5vKI487twBQtf6n
+	 b05zlMAaGn8lA==
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Date: Thu, 31 Jul 2025 17:12:19 -0500
-Subject: [PATCH 2/6] ARM: dts: aspeed: Drop "fsi-master" compatibles
+Date: Thu, 31 Jul 2025 17:12:20 -0500
+Subject: [PATCH 3/6] ARM: dts: aspeed: Add missing "ibm,spi-fsi"
+ compatibles
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -61,7 +62,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250731-dt-fsi-cleanups-v1-2-e7b695a29fc3@kernel.org>
+Message-Id: <20250731-dt-fsi-cleanups-v1-3-e7b695a29fc3@kernel.org>
 References: <20250731-dt-fsi-cleanups-v1-0-e7b695a29fc3@kernel.org>
 In-Reply-To: <20250731-dt-fsi-cleanups-v1-0-e7b695a29fc3@kernel.org>
 To: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -78,164 +79,317 @@ X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-The "fsi-master" compatible has been used inconsistently on FSI masters.
-It doesn't have any real use or meaning, so it's easier to drop it
-everywhere than add it where missing. It is also not documented by any
-schemas (only .txt bindings).
+The "ibm,spi-fsi" compatible is missing or incorrect in various nodes.
+The incorrect cases used the "ibm,fsi2spi" compatible by mistake which
+is the parent node of the actual SPI controller nodes.
 
 Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dts | 2 +-
- arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dts     | 2 +-
- arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dts      | 2 +-
- arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dts      | 2 +-
- arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dts    | 2 +-
- arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dts     | 2 +-
- arch/arm/boot/dts/aspeed/aspeed-bmc-opp-swift.dts       | 2 +-
- arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dts | 2 +-
- arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dts       | 2 +-
- arch/arm/boot/dts/aspeed/aspeed-g6.dtsi                 | 4 ++--
- 10 files changed, 11 insertions(+), 11 deletions(-)
+ .../arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts | 24 ++++++++++++++--------
+ arch/arm/boot/dts/aspeed/ibm-power10-dual.dtsi     | 12 +++++++----
+ arch/arm/boot/dts/aspeed/ibm-power10-quad.dtsi     | 12 +++++++----
+ 3 files changed, 32 insertions(+), 16 deletions(-)
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dts
-index f42254ba6aeb..79c6919b3570 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-inspur-fp5280g2.dts
-@@ -54,7 +54,7 @@ video_engine_memory: jpegbuffer {
- 	};
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
+index 9961508ee872..52a044b1e454 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
+@@ -2808,6 +2808,7 @@ fsi2spi@1c00 {
+ 			#size-cells = <0>;
  
- 	fsi: gpio-fsi {
--		compatible = "aspeed,ast2500-cf-fsi-master", "fsi-master";
-+		compatible = "aspeed,ast2500-cf-fsi-master";
- 		#address-cells = <2>;
- 		#size-cells = <0>;
+ 			cfam4_spi0: spi@0 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x0>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -2824,6 +2825,7 @@ eeprom@0 {
+ 			};
  
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dts
-index 370738572a55..87acbfc0a1b7 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-lanyang.dts
-@@ -63,7 +63,7 @@ sys_err {
- 	};
+ 			cfam4_spi1: spi@20 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x20>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -2840,8 +2842,8 @@ eeprom@0 {
+ 			};
  
- 	fsi: gpio-fsi {
--		compatible = "fsi-master-gpio", "fsi-master";
-+		compatible = "fsi-master-gpio";
- 		#address-cells = <2>;
- 		#size-cells = <0>;
+ 			cfam4_spi2: spi@40 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x40>;
+-				compatible = "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
  
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dts
-index 31ff19ef87a0..6c8b966ffccc 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-mowgli.dts
-@@ -165,7 +165,7 @@ fan4 {
- 	};
+@@ -2857,8 +2859,8 @@ eeprom@0 {
+ 			};
  
- 	fsi: gpio-fsi {
--		compatible = "fsi-master-gpio", "fsi-master";
-+		compatible = "fsi-master-gpio";
- 		#address-cells = <2>;
- 		#size-cells = <0>;
- 		no-gpio-delays;
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dts
-index e5b8d07e7622..1b7c25e307bc 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-nicole.dts
-@@ -77,7 +77,7 @@ attention {
- 	};
+ 			cfam4_spi3: spi@60 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x60>;
+-				compatible = "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
  
- 	fsi: gpio-fsi {
--		compatible = "aspeed,ast2500-cf-fsi-master", "fsi-master";
-+		compatible = "aspeed,ast2500-cf-fsi-master";
- 		#address-cells = <2>;
- 		#size-cells = <0>;
+@@ -3181,6 +3183,7 @@ fsi2spi@1c00 {
+ 			#size-cells = <0>;
  
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dts
-index 45631b47a7b3..c7aa14034dc0 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-palmetto.dts
-@@ -55,7 +55,7 @@ identify {
- 	};
+ 			cfam5_spi0: spi@0 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x0>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -3197,6 +3200,7 @@ eeprom@0 {
+ 			};
  
- 	fsi: gpio-fsi {
--		compatible = "aspeed,ast2400-cf-fsi-master", "fsi-master";
-+		compatible = "aspeed,ast2400-cf-fsi-master";
- 		#address-cells = <2>;
- 		#size-cells = <0>;
+ 			cfam5_spi1: spi@20 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x20>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -3213,8 +3217,8 @@ eeprom@0 {
+ 			};
  
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dts
-index 2180fa9b6f24..3c03204869e7 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-romulus.dts
-@@ -68,7 +68,7 @@ power {
- 	};
+ 			cfam5_spi2: spi@40 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x40>;
+-				compatible = "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
  
- 	fsi: gpio-fsi {
--		compatible = "aspeed,ast2500-cf-fsi-master", "fsi-master";
-+		compatible = "aspeed,ast2500-cf-fsi-master";
- 		#address-cells = <2>;
- 		#size-cells = <0>;
+@@ -3230,8 +3234,8 @@ eeprom@0 {
+ 			};
  
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-swift.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-swift.dts
-index a0e8c97e944a..39d0fe46fd9e 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-swift.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-swift.dts
-@@ -200,7 +200,7 @@ rear-id {
- 	};
+ 			cfam5_spi3: spi@60 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x60>;
+-				compatible = "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
  
- 	fsi: gpio-fsi {
--		compatible = "fsi-master-gpio", "fsi-master";
-+		compatible = "fsi-master-gpio";
- 		#address-cells = <2>;
- 		#size-cells = <0>;
- 		no-gpio-delays;
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dts
-index 8b1e82c8cdfe..89907b628b65 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dts
-@@ -173,7 +173,7 @@ power-button {
- 	};
+@@ -3554,6 +3558,7 @@ fsi2spi@1c00 {
+ 			#size-cells = <0>;
  
- 	fsi: gpio-fsi {
--		compatible = "fsi-master-gpio", "fsi-master";
-+		compatible = "fsi-master-gpio";
- 		#address-cells = <2>;
- 		#size-cells = <0>;
- 		no-gpio-delays;
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dts
-index 9904f0a58cfa..9b49b0aa8b35 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-zaius.dts
-@@ -96,7 +96,7 @@ hdd_fault {
- 	};
+ 			cfam6_spi0: spi@0 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x0>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -3570,6 +3575,7 @@ eeprom@0 {
+ 			};
  
- 	fsi: gpio-fsi {
--		compatible = "fsi-master-gpio", "fsi-master";
-+		compatible = "fsi-master-gpio";
- 		#address-cells = <2>;
- 		#size-cells = <0>;
- 		no-gpio-delays;
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-index 8ed715bd53aa..acdb6ae74b27 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-@@ -847,7 +847,7 @@ i2c: bus@1e78a000 {
+ 			cfam6_spi1: spi@20 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x20>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -3586,8 +3592,8 @@ eeprom@0 {
+ 			};
  
- 			fsim0: fsi@1e79b000 {
- 				#interrupt-cells = <1>;
--				compatible = "aspeed,ast2600-fsi-master", "fsi-master";
-+				compatible = "aspeed,ast2600-fsi-master";
- 				reg = <0x1e79b000 0x94>;
- 				interrupts = <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>;
- 				pinctrl-names = "default";
-@@ -859,7 +859,7 @@ fsim0: fsi@1e79b000 {
+ 			cfam6_spi2: spi@40 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x40>;
+-				compatible = "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
  
- 			fsim1: fsi@1e79b100 {
- 				#interrupt-cells = <1>;
--				compatible = "aspeed,ast2600-fsi-master", "fsi-master";
-+				compatible = "aspeed,ast2600-fsi-master";
- 				reg = <0x1e79b100 0x94>;
- 				interrupts = <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>;
- 				pinctrl-names = "default";
+@@ -3603,8 +3609,8 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam6_spi3: spi@60 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x60>;
+-				compatible = "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
+@@ -3927,6 +3933,7 @@ fsi2spi@1c00 {
+ 			#size-cells = <0>;
+ 
+ 			cfam7_spi0: spi@0 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x0>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -3943,6 +3950,7 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam7_spi1: spi@20 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x20>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -3959,8 +3967,8 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam7_spi2: spi@40 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x40>;
+-				compatible = "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
+@@ -3976,8 +3984,8 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam7_spi3: spi@60 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x60>;
+-				compatible = "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
+diff --git a/arch/arm/boot/dts/aspeed/ibm-power10-dual.dtsi b/arch/arm/boot/dts/aspeed/ibm-power10-dual.dtsi
+index 07ce3b2bc62a..06fac236773f 100644
+--- a/arch/arm/boot/dts/aspeed/ibm-power10-dual.dtsi
++++ b/arch/arm/boot/dts/aspeed/ibm-power10-dual.dtsi
+@@ -82,6 +82,7 @@ fsi2spi@1c00 {
+ 			#size-cells = <0>;
+ 
+ 			cfam0_spi0: spi@0 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x0>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -98,6 +99,7 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam0_spi1: spi@20 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x20>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -114,8 +116,8 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam0_spi2: spi@40 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x40>;
+-				compatible =  "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
+@@ -131,8 +133,8 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam0_spi3: spi@60 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x60>;
+-				compatible =  "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
+@@ -249,6 +251,7 @@ fsi2spi@1c00 {
+ 			#size-cells = <0>;
+ 
+ 			cfam1_spi0: spi@0 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x0>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -265,6 +268,7 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam1_spi1: spi@20 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x20>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -281,8 +285,8 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam1_spi2: spi@40 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x40>;
+-				compatible =  "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
+@@ -298,8 +302,8 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam1_spi3: spi@60 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x60>;
+-				compatible =  "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
+diff --git a/arch/arm/boot/dts/aspeed/ibm-power10-quad.dtsi b/arch/arm/boot/dts/aspeed/ibm-power10-quad.dtsi
+index 57494c744b5d..9501f66d0030 100644
+--- a/arch/arm/boot/dts/aspeed/ibm-power10-quad.dtsi
++++ b/arch/arm/boot/dts/aspeed/ibm-power10-quad.dtsi
+@@ -733,6 +733,7 @@ fsi2spi@1c00 {
+ 			#size-cells = <0>;
+ 
+ 			cfam2_spi0: spi@0 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x0>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -749,6 +750,7 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam2_spi1: spi@20 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x20>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -765,8 +767,8 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam2_spi2: spi@40 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x40>;
+-				compatible =  "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
+@@ -782,8 +784,8 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam2_spi3: spi@60 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x60>;
+-				compatible =  "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
+@@ -1106,6 +1108,7 @@ fsi2spi@1c00 {
+ 			#size-cells = <0>;
+ 
+ 			cfam3_spi0: spi@0 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x0>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -1122,6 +1125,7 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam3_spi1: spi@20 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x20>;
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+@@ -1138,8 +1142,8 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam3_spi2: spi@40 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x40>;
+-				compatible =  "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
+@@ -1155,8 +1159,8 @@ eeprom@0 {
+ 			};
+ 
+ 			cfam3_spi3: spi@60 {
++				compatible = "ibm,spi-fsi";
+ 				reg = <0x60>;
+-				compatible =  "ibm,fsi2spi";
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+ 
 
 -- 
 2.47.2
