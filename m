@@ -1,44 +1,63 @@
-Return-Path: <linux-aspeed+bounces-1928-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1929-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DABBEB1CFE2
-	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Aug 2025 02:52:29 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B31B1D90E
+	for <lists+linux-aspeed@lfdr.de>; Thu,  7 Aug 2025 15:29:11 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4by7t33wLxz3bh6;
-	Thu,  7 Aug 2025 10:52:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4bySg94cn5z3cRp;
+	Thu,  7 Aug 2025 23:29:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1754527947;
-	cv=none; b=gbyeP3Zmt2ZbrwqTBk8rITDSG98YD9u9Dj8i7Ha7C0ZSE8xGuF0WmmUCQCI+y/wc3prToU0/RFkGeNx5D+aDDbWptzgpBA+3t7hJA2gjmaXoh/tWVG3DKm5W/O8aE3U4KNcizGTyWQyOFqiGjdsEFCYP64ElUngs4Ae2QYvoYCyqdF5+QmLx/YpsiSJieL8FrIHodh05KqmAmBDJzyp6oLREcyAj5K5urKZAokPLrDlH2YF31J0e7sWE8YGSBOWXSoAojGabmgUh8FVpluXq3u2WdgsBl0brEFAE9f6dZAF5SXkj7oFkebRYIEOZMfvrrZ618eCOvw0wimCw12SDmA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:4641:c500::1"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1754573349;
+	cv=none; b=lZKMFEZGSml+ZYWnLe6Tmj1AS8zolJy9wlcUL7MeT/FVGH/9RAI9g1h+56qRWYdgnPdAoP6KDTjfUI2/Hnu10YDw9Gc+/odkLSPRpqpeoppTNs41a2hyuIWXS2N+Lpm6EYNRhSQTBNSB8sB60Qgrlzf1vNPx3PB52RdT9NPG9Sdl0IuimMk8/BT0TQupYhyf5yZ4yaVafvIw+Yr+6vY4jQtrp8Sl7/1o1+vlvT4LtB5RJ9HvLvDn9nQNEVm8R2JyIcvbAOaZwVB481JaYK8zoEz/GY+Jl1IQNDvQPqlT2ZJapPZb+BjzL1hgnNnfIUYiK1hW/HYJl4P3CEnXTGy/pw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1754527947; c=relaxed/relaxed;
-	bh=Ks5Ss7YFpXjhTGqITcgROMJeqC0PUPoFAPcO/JIUk6c=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fvo79BuVBasoHcG1joezf6WUyW/8l4Af72Y9R0B8/iDGpUqcGjklW0d67u0TLK4uCZrbYRKeIqF2FP0X1bGqei1L+OOzkZ/8Q9eNujItooBEgYC+mfzHt1mgfMolvC4Una631RD/CcwAkfOZ92mPkC0ycOCXRuK4bHHFej9V/KIXZ/UmHU+Q1kqTazJdanrGHWozLwNgJRSdrlFFKbn4rJiq8vz0R9J05EblyrhOfWvjGRQFOsuu8UXtmqUepod402ammFPES1JQTr2PmJAJYByqNnx+2mgnYurjFmrNIigqn94Yna9lhCj7zyQe6j6M9rV0uJAYNq3+JlBL7MvOsA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1754573349; c=relaxed/relaxed;
+	bh=mWJZVh45JxWEpjMzzyOEhDUy8kia50rucaLKoGuxy+8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Bdm3GxrxaSgyAPrhUnfufP4LkNq0+bSBt2OTjdvFESTmbhYl+4J6vToOYkqsmqaXFtkt8kQuSF8vPN1o1Gx0QfkCBXr/AW/HXzsH8XqpI/mT+BrSuvhUbGSipaCTXTLQOl34fFyaeYK8+5+cXY81mdj0XRceuNkPRtj9VBB1MnGoVatVyP4L3qhqNuozcDyUSXyBOjmUjagUgTeUvl9OIpp9WGKletWJrc9IK62YkHgwlmbbJbS01/lGJQ+mEkBxFWndJF6sVZIGffW87bvipp6o6gIOg6Djcotbtb8lji04OJ3fYCj1Th3h+9gQGQQiIIlHIP1gE6/K0Bo3lKrNrw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Wl8h/3jS; dkim-atps=neutral; spf=pass (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Wl8h/3jS;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4by7t25djkz3bgw
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Aug 2025 10:52:26 +1000 (AEST)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 7 Aug
- 2025 08:52:08 +0800
-Received: from twmbx02.aspeed.com (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Thu, 7 Aug 2025 08:52:08 +0800
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: ryan_chen <ryan_chen@aspeedtech.com>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] soc: aspeed: socinfo: Add AST27xx silicon IDs
-Date: Thu, 7 Aug 2025 08:52:08 +0800
-Message-ID: <20250807005208.3517283-1-ryan_chen@aspeedtech.com>
-X-Mailer: git-send-email 2.34.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4bySg90ZJvz3cRn
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  7 Aug 2025 23:29:09 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id EC0275C5E69;
+	Thu,  7 Aug 2025 13:29:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72BCCC4CEEB;
+	Thu,  7 Aug 2025 13:29:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754573346;
+	bh=1VQ4CEYYvmVtvSuzcssa91RQvPgNCUSDeA69SoGr7Ds=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Wl8h/3jSD4YRguyd//yDPsjdV6kNSuDDUKJ5SfvtAJWCBJhkiE4QSNjMLu0MnWC1y
+	 vMv4m852bgEVvnxbYtV2fLcZwEZB1pardhns//wJcH6XgzgCo/Ii0aVcQmQXpYnFzM
+	 vQxVaZU3fbt/hY1p8+lm4KYYBgvcuL1SJkF2ohQhH7tcMYP90pnv/Hv3EyWIXILp+i
+	 NgzbkISs+NzJ75baFVEHXjRzeDJVQtrQjzP4OpMG9NrWq6fCxDMjoFTRE/wKwEUfjQ
+	 hbH2B8klSdMxyBsIx5oQ4p5f1th1cbJqjs7bykynKcBt2Op9EOzcfhyAjm14Q7DwvN
+	 jq9+oS/MStvEA==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Corey Minyard <corey@minyard.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+	openipmi-developer@lists.sourceforge.net,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] dt-bindings: ipmi: aspeed,ast2400-kcs-bmc: Add missing "clocks" property
+Date: Thu,  7 Aug 2025 08:28:51 -0500
+Message-ID: <20250807132852.3291305-1-robh@kernel.org>
+X-Mailer: git-send-email 2.47.2
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -53,39 +72,36 @@ List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Extend the ASPEED SoC info driver to support AST27XX silicon IDs.
+The ASpeed kcs-bmc nodes have a "clocks" property which isn't
+documented. It looks like all the LPC child devices have the same clock
+source and some of the drivers manage their clock. Perhaps it is the
+parent device that should have the clock, but it's too late for that.
 
-Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 ---
+ .../devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml       | 3 +++
+ 1 file changed, 3 insertions(+)
 
-v2:
- Update subject title from driver/soc/aspeed -> soc: aspeed: socinfo:
-
----
- drivers/soc/aspeed/aspeed-socinfo.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/soc/aspeed/aspeed-socinfo.c b/drivers/soc/aspeed/aspeed-socinfo.c
-index 3f759121dc00..67e9ac3d08ec 100644
---- a/drivers/soc/aspeed/aspeed-socinfo.c
-+++ b/drivers/soc/aspeed/aspeed-socinfo.c
-@@ -27,6 +27,10 @@ static struct {
- 	{ "AST2620", 0x05010203 },
- 	{ "AST2605", 0x05030103 },
- 	{ "AST2625", 0x05030403 },
-+	/* AST2700 */
-+	{ "AST2750", 0x06000003 },
-+	{ "AST2700", 0x06000103 },
-+	{ "AST2720", 0x06000203 },
- };
+diff --git a/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml b/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml
+index 129e32c4c774..610c79863208 100644
+--- a/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml
++++ b/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-kcs-bmc.yaml
+@@ -40,6 +40,9 @@ properties:
+       - description: ODR register
+       - description: STR register
  
- static const char *siliconid_to_name(u32 siliconid)
++  clocks:
++    maxItems: 1
++
+   aspeed,lpc-io-reg:
+     $ref: /schemas/types.yaml#/definitions/uint32-array
+     minItems: 1
 -- 
-2.34.1
+2.47.2
 
 
