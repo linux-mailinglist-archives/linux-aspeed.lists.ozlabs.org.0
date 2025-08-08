@@ -1,64 +1,60 @@
-Return-Path: <linux-aspeed+bounces-1933-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1934-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4663B1E034
-	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Aug 2025 03:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57BC8B1E03D
+	for <lists+linux-aspeed@lfdr.de>; Fri,  8 Aug 2025 03:46:35 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4bymyV417sz30WY;
-	Fri,  8 Aug 2025 11:43:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4byn210KGcz30WY;
+	Fri,  8 Aug 2025 11:46:33 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1754617410;
-	cv=none; b=fmt6vE8VXmzjC8PlfC0Us0oJJw1Rq05wo84+hcu4srzJU5su+tZ8Wf6pm9kenbkCHp1ATNFCSopBQ1Cvt35PayjPupIu4oIqpxPyqbR1k7whGP6DrbDH+Y3e12X0KAnDDICEOpkKMojmi9GIFMdGqkqZwFTQ5r4sEmtL6fkeUwv59Ugn7zEdFk7OkOxO034ImA6yh78Dnw4N2Wkey5AgcrTB8GcQoePo4VEpE//bsUv2bV6aUOzFFOq0e92lH1rc3Ypm4vrYAHquEipRWDzVJQnmKhDvBIuioGLF/Yrre1zw3VyuVpzCDtvH42LqwB4Qlc9HeEKSdkxWB/F3GLriPg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1754617592;
+	cv=none; b=LKgIERTpeqCJOwzUpwiuDpp4rGZ1SDGPMAw5Pg8X1/1VYfwGGVZ5YscfDYhfVnpny2dCTpCYFHdw5s8pjy0cIphf1huVzL8qnQkv0YnOqlFDwE+Buan3bDB2kXSy0Gngh1qOE6BhSJB/iG7hVd/cNmekJuPSl5ShiAObavJ5jd64Ok0Wk2TgmKWCALSKNr1q3iFm6t+MvXNXXqpvoNciS8Q+QdpFvvxOeWyrFl4yn1+ETicxy6Izdmh+D5myAi7gXiXAtJjcvWbSgsIgJHDPr8kcpKWByAWBkKuUQu9eVPM6+/BbXK3ezxCgLLp7rH2JFVQO3aIXCtxvCe6d7OvraA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1754617410; c=relaxed/relaxed;
-	bh=Ts1zobpCK/euzxoCBpLogZaK0KIVWRAOk6N20EwhcMI=;
+	t=1754617592; c=relaxed/relaxed;
+	bh=yVp+q0OXEFKzrgZ3sx/tEBHw0oQFJlRYZK/S98YsvoQ=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mnf4krfSXGj9s+EiEzlGngTq818BSHi4pQIU38/VL0m7pb8Vdr6EUQ2SRPO4ePytKQpRcnOkOHPEAHqnDXKPa9kBAhm3vWkd/jV5UIDWc+S29KL+5awUyYTGIqWoNNDTulKAXbCFrTD1vmdrJ4QPIlxIVorZNFMI3ZLijvg03fVL3b/4gNUY6SGO5A/Pb+OfGf1j9x7cUYSp14xVaj+XEEoyk4QtKkkQjaqEuTBKRqtQjyIEIDAC1vpjYLOMUSY9NXWyBV/eppMjkbE7cswGGXZzhl2NEms7CNBIxFZzdIdiLUJENLr2JYCET9QfJ0/vfobKS4vz1aYnZ9+SSJ+USg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=FHNEVcw7; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+	 Content-Type:MIME-Version; b=koL9Zu7lrzOW1WggVDncIkviyt99OYzg34mpRJiEnaA0B9xUvdEOcpaBjFm/VGE6r9WvKwrhJReqVsWMWbFV7bR8DVy8RGHLiln0BIXLqG0KP5adZKHq2tyCmwTKoxQn0ATapWFdULKjYjySxy0RbYVjtuvepQeJ7AylSqGjMPx1NYIG8XnAwnY0anA/WOzGIZjL7P5JR/dw7CUW2aA+r8H8MLURiX70yS4l3nONfBduLg/1nlAnBx8+75zcDuC53F7X5AXVou7I7r2xDRey3zdNDhANwEQrpUsjDCkUbqy11dA5mThSmhiTEFDcmv7dWQLpSy3YT2hHfc5lZ3fz1w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=hUqof9Hb; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=FHNEVcw7;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=hUqof9Hb;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4bymyT1qfLz30Vl
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  8 Aug 2025 11:43:29 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4byn202pxfz30Vl
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  8 Aug 2025 11:46:32 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1754617407;
-	bh=Ts1zobpCK/euzxoCBpLogZaK0KIVWRAOk6N20EwhcMI=;
+	d=codeconstruct.com.au; s=2022a; t=1754617591;
+	bh=yVp+q0OXEFKzrgZ3sx/tEBHw0oQFJlRYZK/S98YsvoQ=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=FHNEVcw7jWORt5mo5EgNeEBRd3dIcoL/5kB5U83zUl1HwD6KeiVLYcBokMPbHCaRg
-	 6ou1vmExWaWE4rBAJGHNlNxdP3/FMMFy90TxLwoalnTh6qt5N5xhvfW772Dm9NGC9d
-	 LUBTPFp8nDLlQHHPmoJM6lu+4PIc3rxgXNdLYBdqWwaUEtNqZ5Qo3eVBeffXksgC3F
-	 0Z2/E8U0GKsbHniDdgYZF/c7JarjK8Tjz6YjeeEOiJ8RpiJRu2c+un7bYjU2vKKh+j
-	 pEgcpXsLnrXnhuezZEdoX5wCWvLrAPO1L03W15Rq/jxkmRhcasVvZp19MKTZiLKvHc
-	 +iHss2W0MA6DA==
+	b=hUqof9HbnGjzHizOMdz7dyj5F//rbpBuUZZzrwVb8zd823QbWdNCY2r0GbjAXV8Q0
+	 ByI3u6/6ZvmCtcUTIltp0jeanALrnF5bYC3PHSYtQ8LNm/cRGRD/v0lwe9Plo18U3/
+	 PTsElkZRTkzZWwEU6aewBeD4jJqO990eQUKZCkxYv7CepGBFq6KaN6svE2woaEae9g
+	 1e6bqZHGQeRgaOSczGvPzVhow3jfDV+flGn0hHo97KicVebuOKBaIUF3ajZ9DlH3qm
+	 YQmX4vdiKDzINFtflGxbHekmmAIv/+3mkKDVJS/W+a3np5EIjXa/k1WPzgYytYlCzK
+	 PU+viEaUta1bQ==
 Received: from [192.168.68.112] (unknown [180.150.112.70])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 8234A6AF39;
-	Fri,  8 Aug 2025 09:43:22 +0800 (AWST)
-Message-ID: <f1aaeb371eb0c753e6ace45e5e1ce5ccd73a0f76.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v10 0/3] ARM: dts: Add support for Meta Clemente BMC
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 8A4786AF39;
+	Fri,  8 Aug 2025 09:46:30 +0800 (AWST)
+Message-ID: <54e07d5e67b2d15810d79bc196e92c8bacabf789.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] dt-bindings: mfd: aspeed-lpc: Add missing "clocks"
+ property on lpc-snoop node
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Leo Wang <leo.jt.wang@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Kees Cook
- <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,  "Guilherme G. Piccoli"
- <gpiccoli@igalia.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus
- Damm <magnus.damm@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	leo.jt.wang@fii-foxconn.com, george.kw.lee@fii-foxconn.com, 
-	bruce.jy.hung@fii-foxconn.com, Conor Dooley <conor.dooley@microchip.com>
-Date: Fri, 08 Aug 2025 11:13:21 +0930
-In-Reply-To: <20250801-add-support-for-meta-clemente-bmc-v10-0-c1c27082583d@fii-foxconn.com>
-References: 
-	<20250801-add-support-for-meta-clemente-bmc-v10-0-c1c27082583d@fii-foxconn.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Krzysztof Kozlowski
+	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley
+	 <joel@jms.id.au>, Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org
+Date: Fri, 08 Aug 2025 11:16:30 +0930
+In-Reply-To: <20250807132909.3291770-1-robh@kernel.org>
+References: <20250807132909.3291770-1-robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.46.4-2 
@@ -80,25 +76,16 @@ X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Hi Leo,
-
-On Fri, 2025-08-01 at 16:22 +0800, Leo Wang wrote:
-> This series adds initial support for the Meta Clemente BMC based on
-> the
-> ASPEED AST2600 SoC.
+On Thu, 2025-08-07 at 08:29 -0500, Rob Herring (Arm) wrote:
+> The ASpeed lpc-snoop nodes have a "clocks" property which isn't
+> documented. It looks like all the LPC child devices have the same clock
+> source. Perhaps it is the parent device that should have the clock, but
+> it's too late for that. The driver for lpc-snoop requires a clock to be
+> present.
 >=20
-> Patch 1 documents the compatible string.
-> Patch 2 adds the device tree for the board.
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
-There are now three patches :)
+Thanks Rob.
 
-However, the main concern is that these do not apply without fuzz.
-
-Can you please rebase them on the following branch and re-send?
-
-https://git.kernel.org/pub/scm/linux/kernel/git/bmc/linux.git aspeed/dt
-
-Thanks,
-
-Andrew
+Acked-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 
