@@ -1,76 +1,76 @@
-Return-Path: <linux-aspeed+bounces-1966-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1963-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5B4B27325
-	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Aug 2025 01:51:14 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8541CB27318
+	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Aug 2025 01:42:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4c327h3Z92z3bTf;
-	Fri, 15 Aug 2025 09:51:12 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4c31xl3Hhdz3bTf;
+	Fri, 15 Aug 2025 09:42:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::629"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1755177440;
-	cv=none; b=ZLTdTtNXmr9glNo6HLddFGWLPE6WuVgDAGiYNjXq1EZnQstO7A18I7Se11MaRwLKi8VobjzVeAJzRAVucfEpQwUEAHQL/+Lb/q+3H5qGcjOZlU+NltJrbFjXsZSqdDtDKtWQMKpxflOfkHqRHrXoCu4b4/wQpNuSsCQwsUp+IoFai+tcB/GkBiCMt5Uie+qHDn0X+82LmIRyuzm4Ohn1AKBx5JWBGiTlJr0wkvMsXHNxHQxPYdPb0ie+yMmLMsDmy8v11PYQn5zp6XSmpCT1JexfAW7gN18itTCaPYnQYVY4ItRaw0YLhuVdCY5nc6/30W5P+lbnjArHP1/NzY2SGQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::432"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1755177442;
+	cv=none; b=jdW6Yo8Iae15mMopvtQA5T87SqGlWN8OA2fL3i2X5nIxyTo/oFd1RNjPw54NPlWYCMgpmBBA9yGDXemi7ctuXm+e+jdA70AJwOyLZxGD34CZ85rLkUglARzwzJ6S3g+rKz3Uy8e7TzQBfVwCpS7mRFMqZJRZN8ROzdOhShf3mHe9Cr6R9QlntumDEh8JJ1Hasl7Slf7h0e1wvhCmcpnfAm+us4cLGiHmBl1C05++lrb9b9HihOhBdFAFHkKHVOpE9J+oQa30UoxDdN+N26A6u539mXUmokZ9/Qsl6NZBD3EQTq9pq6emM3k/kbXRrb9REpiLXB28GLkTOBg5qe8ytg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1755177440; c=relaxed/relaxed;
-	bh=c7EPaE2bHAD0ecNNc0XMu907yYWecMKnydM+hyTx2ZA=;
+	t=1755177442; c=relaxed/relaxed;
+	bh=mTeugc1mw8AJhG/UkyxA6QZakbeowukdRimSYseE0MI=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IUvXmiCfj8f3sSIhLRSZVfK+VWkWEI9/8Fv3vM7/h/7GRANaUHPVlWQ0MQULB8Opngs4p7ZrsCaTZSGWZTSxWq7yF561mfLC/QX+2GPXcqKfe+sDP6DxuKzGRotGzLylDqmP2HK4DuZ2BC7YSZrXs7pOz3gX130GWrjYAfn4GWh0QXOnt4YK+uCEuS7JJ0lX1hCGYwzPQeUsWgUp26N1Vd2i0L8UjwoHTOEz0X4H99fTTc6gfNA5P9k3FLXEpeoArueCGLZz8UmM2kaL7Nx4TgzRU0v/Xq0wdCYtYvgU4ESFYpRryb3R4TQfQG1eNZ/1eDImATqx00td6LtEmRG7Uw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OgHY/55I; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::629; helo=mail-pl1-x629.google.com; envelope-from=fredchen.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+	 MIME-Version; b=HumI+Za+NSKY7BreuiiqxA2qln+NfWwwOwTX8cMx3az2t/Wx/Hc+nxEqRdFVNUzkJStINzTC23XElAuMdnXMxfMxAOIoJx1Dk2wOtLSuGlJ0TuVa7nlxFj7182HZGRni+uF79qGj7H/PShPqxNLbfq5ZiWFNnicdJEfmtT5EcaFbzW1+uFo2xjsfH/TLPdHHx2lfgKVf0vIyRbUU9E9l0n8qtiHwBi6qa/VBQp+th2MSCIckYVT29O7Fh7ZIKalr9Kv2exwuIs7/a42iwdB87AFMagbUCkrBq/qiWl9IEuo/62WfRjxsQbdnR0+5393c33tYaJy0slCjq8MXGeX3vQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=EXMHPHaz; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::432; helo=mail-pf1-x432.google.com; envelope-from=fredchen.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OgHY/55I;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=EXMHPHaz;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::629; helo=mail-pl1-x629.google.com; envelope-from=fredchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::432; helo=mail-pf1-x432.google.com; envelope-from=fredchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4c2m4H6yTcz30W5
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Aug 2025 23:17:19 +1000 (AEST)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-24457f47000so7344185ad.0
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Aug 2025 06:17:19 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4c2m4L3Jb4z30W5
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Aug 2025 23:17:22 +1000 (AEST)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-76e2e5c0d4fso782314b3a.0
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 14 Aug 2025 06:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755177438; x=1755782238; darn=lists.ozlabs.org;
+        d=gmail.com; s=20230601; t=1755177441; x=1755782241; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=c7EPaE2bHAD0ecNNc0XMu907yYWecMKnydM+hyTx2ZA=;
-        b=OgHY/55IoECPUmEl1UdqFCxPrKWDNNJ7ZQbTujN5BIIqz6fMcZngIF6g8HcpxYoFpD
-         Mmom93WPqgkxYrFvwQQevBSMhEeMDEnjV0kOLAoF7460IW2UVMfxqQupbuhZ+WFJajxh
-         rSrLpZ7MdYSZKdMPVmBSkVBXbZXzGVlaTdYQLZIRgCDRF9TpB2OreyXY7FOkvTxke5Pu
-         sdMc/dpL0u6kEyE9JJ4U9b2ooY73zqtAvSQVjlUrLc5viL7uVi5+t1Q7GdUo6qs2FDk6
-         mzzVBKVJy0VU7wPhJ+QYw66tuHuiJdf5dEFtejy0hRN4Sa23U5l2rGcGsl/HUcPKYSw8
-         HnWg==
+        bh=mTeugc1mw8AJhG/UkyxA6QZakbeowukdRimSYseE0MI=;
+        b=EXMHPHazA4DdHMM7mFkQHS8sgf34U7eE4XYKi7FSM7Y3IPAR2aE2ntmd9URXDXQsss
+         7tJIEzEUWq92XbMo8T0FmolSXKNSEOyykzkyaNmtuJ3pkKhCFgVRZSi/kz/3e2TmB3sS
+         pg49oM9of8dcE2r7GA6FEUfuGCmb+XcDxbzO1oms4+2ONN6GB5mBmoh65beY5SB8gMTy
+         jI9mV5JdRi9ccc+KvfPUzR9Cjr15MIVmdYwRSoQTwsCU3/W1z1xcvx9CBDdBmcHBG2OT
+         Zxt/QiSNX4NqW0bLuGucLsqQNOLIxq4emT92mXwAgfEn99q2H0W02PZnBqYzsxm7yP96
+         MAtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755177438; x=1755782238;
+        d=1e100.net; s=20230601; t=1755177441; x=1755782241;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=c7EPaE2bHAD0ecNNc0XMu907yYWecMKnydM+hyTx2ZA=;
-        b=j4/HCtzYyi8yNbkbSPCetM+hVycndQ/QfbjRCGpftVO1WI0dn5TZsmSgv/hw36qnvv
-         aGS69OQu+8u8uarcg4d0naiKNnhb18w9E5W0w+Sij+v8l99HNX/XlDuskrVZH3ivkV9e
-         TRGBDmBPrNP19po1mYVTrWr7JNgI801HSt6gCfWBfjpBdS6vvWz0/MNS7+0VoakScAdi
-         QZKQ7GEv4It7Msw/rLYqJMvALuNLx75gABcHQbnWb4Ala225OxmRFeu3MSEuDXORlhG5
-         Xieqb4JG7etMUXkKRZ30QQnT2QCzYqtqmivU/FOd8IWsVYaBrVOo2eDgrOkNQQdWH4Jy
-         gL9A==
-X-Forwarded-Encrypted: i=1; AJvYcCXhMfnvJ3Nbs27JbrcaE7IRgm6yZZzR34A0aC+D/JM2m9wTMd5XjraQLDgIt7iCll0os/SKcoyjtCN27Hk=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yy5Bjs+CohkYnNywyDiGUAXsv6B1kJ4eQFk7O5dJ1jsOaGCbHaJ
-	5ot1UW/R2ekTQonjiPuxCMrEztJxEVZ1ZEsvs4M7EkhSSl5jYiW0+mgWiu51Bg==
-X-Gm-Gg: ASbGnct14G5e15mhkS7F9OHRLFrr//HpgaJ8zYA8kqCDXKeYCPeX/cg/VFI5h/EDD9A
-	UN4WGJU00En09XpfgucnhdHSsCAOVaxS/Vs/SAEhtmE3Gs2E4QpyEWJ6xBDr2Z8Gh6bHShYhLF6
-	He1ejQWtL1d21CNc9X50LiTT8jR6FN7I1U/YsMEf5hhVIoqvCASZiYJyFfnNXWec+9mz1ePPW+1
-	Iblbmds6K5cGH+ZugQWaaE4L2fZ05miCPd+a3s85kZHSUGi5Ej1QAFkWLDmH6a7SVWhZ5CYy+Nc
-	7DJ0saOnUPLYNnQfv2K+674CCiGIL5MjTNMD8q+ZsNIqM9xvoEy58chogQN9U1nxRNqKcn89/X9
-	8xXDhiBatZgDTRmxjHOL/gAJDiIYvoZ1fyH3McJpmTITkphnrpixd9oBrXEMOzymZTjJ6vseZXC
-	6tAxLtUoRDE8M=
-X-Google-Smtp-Source: AGHT+IHJTBWuxjynBe00sfTNegD+JzVwhghLenRNVmzvPfO9IQgdbzp+OP9LwO/SXZV/Xcl6IoJ+jQ==
-X-Received: by 2002:a17:903:3c2f:b0:240:3e40:43b0 with SMTP id d9443c01a7336-244586c262fmr43696825ad.43.1755177437402;
-        Thu, 14 Aug 2025 06:17:17 -0700 (PDT)
+        bh=mTeugc1mw8AJhG/UkyxA6QZakbeowukdRimSYseE0MI=;
+        b=O26dKa6xbzrNo0Qx93+kyqehR8FvRWI2tRlDTfZ5w+64+CxsVOAJ+dYj93GJF1QOGW
+         L1cvEjV5jmPe0XyfAdY3AIR5oND4wB/87fX0991Rqqj9oRekdhNq1pXB0T3WG7OTjz+T
+         L5Q23dJ659cgFc70/1EpA4TM7Wn1Y0OFCjJMacO6nM6ykzxfWtkV9LnFLJMLZjObO5Ac
+         PGlaTKhjkeG7NhiTvT/w1rkliPHGEFW2InJjxGCqcWLw5kHnpfD5BJ+HEXQVmN62/niB
+         X7GySAtGrT5VBNC3ljXhufqy+/l/1o8VMRXMkt+Uxgd2XbQxGvNr6wCtc/ZPViOvSkPJ
+         IqUg==
+X-Forwarded-Encrypted: i=1; AJvYcCW6pRzd0NJtTg2hbkua2BiI939VPqOZrQaJ5lcJlvKopEGtkI1KdmQT8JQZkEhFYWd1Ec5ik5n51oOBUO0=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YyN0QdJFbCBJT1KOVRCl4TzkkfUNu6ZYOwYn808ewRVxnxRMwY0
+	0mDPo3KuT0N1fB2M+g3TcOs2G3uits+vNEv/rZFQUPUmRuf4uQckVImK
+X-Gm-Gg: ASbGncv08ZpstVtcMoNDIf3K0oV+8H79bE8s2Gmwj62z0YiihVC+OKICvVafoQMoSMY
+	kUNHwGWEFaLulT0sB3pAxbE85nCnqT6lcbZLmNo44mV6GaW6zaw3DMQkRodmJhPS50+riQzAT6G
+	EdvxEGTVF/p5YcmaNHytnYfqK8Qmo5l+69RvL6mKKYXy6sXlNbhQTe7ww2XLONOOQVyOA0HP8Lf
+	ZTPLNg9h99RExjz0L9SbR41R/XJVaznqEHVq4Ry28RBc4iqBJ3BtATDG8JKmGXNDrGONkjSPRbR
+	8V2VES0901f8ggmlU8EwciVAgjd1H29KXT/grfO7ug833sHdVL9mAuAmWxl1iv+ZYG3+jWn+ejE
+	ZOtr54DS5ZcVPmSbWGBxzLFhZ62EfZ2rLZZNvcF1CUAWCRZE2fBaP6dTQ0Yd8sXiJJ1ibNj7NuB
+	ZmTxH76K75eFI=
+X-Google-Smtp-Source: AGHT+IEi9Cd4/1A3g4Nl0M2mQgj+9WahbmP+8Rb1RXtow/Y3VwIO6BsjihtLcR9sqiy3LmjE4+Qh7Q==
+X-Received: by 2002:a17:903:2acb:b0:23f:d861:bd4b with SMTP id d9443c01a7336-244584b8f07mr42768455ad.5.1755177440508;
+        Thu, 14 Aug 2025 06:17:20 -0700 (PDT)
 Received: from fred-System-Product-Name.. (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24218d8413asm335652995ad.63.2025.08.14.06.17.15
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24218d8413asm335652995ad.63.2025.08.14.06.17.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Aug 2025 06:17:17 -0700 (PDT)
+        Thu, 14 Aug 2025 06:17:20 -0700 (PDT)
 From: Fred Chen <fredchen.openbmc@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -81,9 +81,9 @@ To: Rob Herring <robh@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/4] ARM: dts: aspeed: santabarbara: Enable MCTP for frontend NIC
-Date: Thu, 14 Aug 2025 21:16:58 +0800
-Message-ID: <20250814131706.1567067-3-fredchen.openbmc@gmail.com>
+Subject: [PATCH v2 3/4] ARM: dts: aspeed: santabarbara: Adjust LED configuration
+Date: Thu, 14 Aug 2025 21:16:59 +0800
+Message-ID: <20250814131706.1567067-4-fredchen.openbmc@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250814131706.1567067-1-fredchen.openbmc@gmail.com>
 References: <20250814131706.1567067-1-fredchen.openbmc@gmail.com>
@@ -106,35 +106,52 @@ X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add the mctp-controller property and MCTP node to enable frontend NIC
-management via PLDM over MCTP.
+Update LED definitions to match changes in the hardware spec. Add a
+power-fault LED on GPIOB5 and relocate the ID LED to GPIOQ4 via the
+CPLD. The ID LED now shares the power LED: it blinks when ID is active
+and otherwise indicates power state with logic controlled by the CPLD.
+Retain the 'fp_id_amber' label so /sys/class/leds/fp_id_amber remains
+valid for existing users.
+
+Add a 'bmc_ready_noled' LED on GPIOB3 with GPIO_TRANSITORY to ensure its
+state resets on BMC reboot.
 
 Signed-off-by: Fred Chen <fredchen.openbmc@gmail.com>
 ---
- .../boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dts  | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../dts/aspeed/aspeed-bmc-facebook-santabarbara.dts | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dts
-index 2f5712e9ba9f..ed30f3bf61a4 100644
+index ed30f3bf61a4..ed2432f37609 100644
 --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dts
 +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dts
-@@ -1248,8 +1248,16 @@ temperature-sensor@49 {
- };
+@@ -94,7 +94,7 @@ led-0 {
+ 		};
  
- &i2c11 {
-+	multi-master;
-+	mctp-controller;
- 	status = "okay";
- 
-+	mctp@10 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+		label = "mb_nic0_mctp";
-+	};
+ 		led-1 {
+-			label = "fp_id_amber";
++			label = "power_fault";
+ 			default-state = "off";
+ 			gpios = <&gpio0 ASPEED_GPIO(B, 5) GPIO_ACTIVE_HIGH>;
+ 		};
+@@ -104,6 +104,17 @@ led-2 {
+ 			default-state = "off";
+ 			gpios = <&gpio0 ASPEED_GPIO(P, 4) GPIO_ACTIVE_HIGH>;
+ 		};
 +
- 	// OCP NIC TEMP
- 	temperature-sensor@1f {
- 		compatible = "ti,tmp421";
++		led-3 {
++			label = "fp_id_amber";
++			default-state = "off";
++			gpios = <&gpio0 ASPEED_GPIO(Q, 4) GPIO_ACTIVE_HIGH>;
++		};
++
++		led-4 {
++			label = "bmc_ready_noled";
++			gpios = <&gpio0 ASPEED_GPIO(B, 3) (GPIO_ACTIVE_HIGH|GPIO_TRANSITORY)>;
++		};
+ 	};
+ 
+ 	memory@80000000 {
 -- 
 2.49.0
 
