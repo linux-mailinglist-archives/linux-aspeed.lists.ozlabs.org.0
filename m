@@ -1,63 +1,66 @@
-Return-Path: <linux-aspeed+bounces-1961-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1967-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99900B2719E
-	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Aug 2025 00:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D11B27431
+	for <lists+linux-aspeed@lfdr.de>; Fri, 15 Aug 2025 02:44:30 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4c30M44sJ1z2xQt;
-	Fri, 15 Aug 2025 08:30:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4c33K75rqRz3bTf;
+	Fri, 15 Aug 2025 10:44:27 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1755210656;
-	cv=none; b=YYPI473tluVj3wBu8ydWE9J2FGowv+xmCE0Z0U3W3imKf0yBYVeemOVA5q2Cr2W8+xVA9s7qDFpAJxo8O8azBaeXgc4xHM/RcFREP2+IOer+DhgPYp6OJuLUstDn2PDTkGE9Q/pCIjaPX06IiKHz4uXyNO9xNd8Q+gCRyfVssMYe9IyxyAXU97usOXrkmOFW/bQ1gMPIKOwAwF0+BqxaoZmwrNg2Dwu1ODgdQ2PnQSRNnbdKp9kldB72jNps23VDFsYh6AMH/S+UNjfBb5szRlOMcSpCe615HWXi1LeE69JpOO+RQGv15OTOB2Ok9vEeuSkb8Z7Yynwnd6qRZrb0cg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2604:1380:4641:c500::1"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1755218667;
+	cv=none; b=dDiiC7fsn1s/p3cfYPbSXYYdgkF7TWUvMfQWnT2wH4C3v7ahmq+J6h+QQeuJny/x3ltgZ9hHQwU64c0SKwPoCx/baBUnhwXU3zMsZbhgQZcipe6y6RgSSLGgROSWsmepWnCTCh2Q3AeVb6OvGJdHpT26A0FtSwZaEKMDtxMB0G9TSTF9HZ9wvE1LAoG9Ug53iMpnaTAtBv9VdHMzPk9TZePIk9P1amuibP2Q6H9xg3CoRFzBLUyK/czN+gxhRAXfBhBXp07Xtdn/Y0TmEkrg3ZOe7LENLcLq0J+Z2Q90r6ORYG/R+2xgla0IeGwGmt+4uoN9krLaReM41K9B2UpYUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1755210656; c=relaxed/relaxed;
-	bh=vIFp7ebVwT9oleEhOGII0IqB6tGpNR9cpd6TYV5Jql0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B0A0AJyXv8fXswooOOS6t2Z37m2tWUHvt1A3IwADeQpsBHZEFWTZopaUN8AEaOq/ZpMUWmtGwhjjb9sz0Z/nfJXesOs/pCk3V+0azzbmSdhA9RSyhYaRV65MtADsYx67Gb1xoA3v6BfA2IieEjFc99wc/HNiKHY5oxAecRneFxbsvFNQzFaNKfeBr42wjv0pXQ5eZG+YfqWQKvRu1Nj0gJ3mXJIuzlEJT5DIjeVoTVdc4VfsNuZM6qvfR6Bqlr4/2gBLxIgcnGAjZBKFO9KXtJ9pjK3l7pWOhQo6TImQZZZJ9nu/xqscrPEFSoObO70ZM7AsNdbiJFEFNIHJa8szwA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=c8NZu8Q2; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	t=1755218667; c=relaxed/relaxed;
+	bh=JSAGEycEpcf5H7+zsKm3/4zBAwQ5+Zk/RKqQOluMe7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=B+qg9tFqPaRS/JUi5scr7Nx+1GKn77M2vEfLsZCucYdpn0knBS1XqNzFja0ehDPkHdpvw4FB4JVDqOXm414uIv0wJH8QsKweJ2QtoZu5upubrLaFXbSFo+KM8/Sp3R6VGVOem/cXM+T6J0mjchKCyILTnFA9U2s9EG1OjECVZkNLhEq00YrRdParAnON1YQGkzpmPVTDq7MZ8gt42dtI8Ne1J7rPKUYOvFTr7W4eFDl5fnThXPYry0OGgiv4KGt/LgyfXZ2s3gIt1VshZ+pnE9h2z/6qAHTmL3iuKkenOFoUM731pP0zrBsHd7K4ZXQnwY/m4rDJrMo+BXmPAltwiA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ql1GX3OS; dkim-atps=neutral; spf=pass (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=kuba@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=c8NZu8Q2;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ql1GX3OS;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=kuba@kernel.org; receiver=lists.ozlabs.org)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4c30M36WcVz2xQ6;
-	Fri, 15 Aug 2025 08:30:55 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4c33K660wLz30Yb
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 15 Aug 2025 10:44:26 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 3D4D945C0A;
-	Thu, 14 Aug 2025 22:30:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC6FBC4CEED;
-	Thu, 14 Aug 2025 22:30:52 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id BBCFC5C585C;
+	Fri, 15 Aug 2025 00:44:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E822C4CEED;
+	Fri, 15 Aug 2025 00:44:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755210653;
-	bh=N5VWGitysz6JFmoe9n2FhghAKkO8HINQCHJY2U2kRIs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c8NZu8Q23AcSpDXYfCjfS+nijpycYbRazO8ud7muK7v/NQSmnieFRpVKZ9HpE+Se3
-	 ihK/DheTyy0oiRrb1M1422BzweCx9GFLH23gWJEy8hhRFRngUNMiGhj74MtotNPhtF
-	 yqrUOurUhDDUC58YxblyH88j6+KNNTcK/igm+HoklMSc/qyxQ5KQz0I5OYmUnqEyQb
-	 hSHC3P59PHrQpHRwdNhYBEJf+FY2XgcEMPuuTzqg6Z4f866bnKk9VJKWj+onG9pmFj
-	 gWnmU3joyDUmkrHXStOUAiu75Y3Os4fO4BMRMQVIFbAidL1DN8rkqKZOMOECpHF6et
-	 Ltq0O6AyGRRpQ==
-Date: Thu, 14 Aug 2025 17:30:52 -0500
-From: Rob Herring <robh@kernel.org>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Cc: benh@kernel.crashing.org, joel@jms.id.au, andi.shyti@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	andrew@codeconstruct.com.au, p.zabel@pengutronix.de,
-	andriy.shevchenko@linux.intel.com, naresh.solanki@9elements.com,
-	linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v17 1/3] dt-bindings: i2c: aspeed,i2c.yaml: add
- transfer-mode and global-regs properties and update example
-Message-ID: <20250814223052.GA4004307-robh@kernel.org>
-References: <20250814084156.1650432-1-ryan_chen@aspeedtech.com>
- <20250814084156.1650432-2-ryan_chen@aspeedtech.com>
+	s=k20201202; t=1755218664;
+	bh=tCgQh7vbWR7GLS7Dvxp6J8vUAFhtzPpoYfT8KURAxSI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ql1GX3OSEWLcHuef9Y/XLmAFF8GNU+IRpSHY6fPST9UZ2gaW5ApaCUmrNuHofKuB3
+	 BHILxtW7lF1O8KHMxdED1TAS+rBqswRL80IgOb+dm4vAGzHVBRx/df6Ir03mHIj0tV
+	 ktDXMAoQf7sxieDkiYn72DxwZnfo8RPb9JDV8KkH22j3Ewkzv6LGA4O1VUHa/ctnzj
+	 AdGzYXdM+hqWUNuklri7btaTItUT76daFmXaaQ56FkwWOUEl9AUOpKaAqlq1lWLFNx
+	 gjBuU0cEcjbcwISsa2ohBLm3FUQJQH7OIq7eYQZKpzFOHmd1fwTZu/ExmdF4A6khJg
+	 8X8av7VnZDnwg==
+Date: Thu, 14 Aug 2025 17:44:22 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jacky Chou <jacky_chou@aspeedtech.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley
+ <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, Simon
+ Horman <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>, Po-Yu
+ Chuang <ratbert@faraday-tech.com>, <netdev@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+ <taoren@meta.com>, <bmc-sw2@aspeedtech.com>
+Subject: Re: [net-next v2 0/4] Add AST2600 RGMII delay into ftgmac100
+Message-ID: <20250814174422.17ed3e32@kernel.org>
+In-Reply-To: <20250813063301.338851-1-jacky_chou@aspeedtech.com>
+References: <20250813063301.338851-1-jacky_chou@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -71,111 +74,23 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250814084156.1650432-2-ryan_chen@aspeedtech.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Thu, Aug 14, 2025 at 04:41:54PM +0800, Ryan Chen wrote:
-> - Add property "aspeed,global-regs" to get phandle set global
-> register, for register mode selection and clock divider control.
-> - Add an optional property "aspeed,transfer-mode" to
-> allow device tree to specify the desired transfer method used
-> by each I2C controller instance.
-> - Update example to demonstrate usage of 'aspeed,global-regs' and
-> 'aspeed,transfer-mode' for AST2600 I2C controller.
+On Wed, 13 Aug 2025 14:32:57 +0800 Jacky Chou wrote:
+> This patch series adds support for configuring RGMII internal delays for the 
+> Aspeed AST2600 FTGMAC100 Ethernet MACs. It introduces new compatible strings to 
+> distinguish between MAC0/1 and MAC2/3, as their delay chains and configuration 
+> units differ.
+> The device tree bindings are updated to restrict the allowed phy-mode and delay 
+> properties for each MAC type. Corresponding changes are made to the device tree 
+> source files and the FTGMAC100 driver to support the new delay configuration.
 
-All of this is evident reading the patch. Explain here why you need this 
-change.
-
-> 
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
-> ---
->  .../devicetree/bindings/i2c/aspeed,i2c.yaml   | 39 +++++++++++++++++++
->  1 file changed, 39 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml b/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
-> index 5b9bd2feda3b..2a9f7d1d2ea1 100644
-> --- a/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/aspeed,i2c.yaml
-> @@ -44,6 +44,34 @@ properties:
->      description: frequency of the bus clock in Hz defaults to 100 kHz when not
->        specified
->  
-> +  aspeed,transfer-mode:
-> +    description: |
-> +      ASPEED ast2600 platform equipped with 16 I2C controllers each i2c controller
-> +      have 1 byte transfer buffer(byte mode), 32 bytes buffer(buffer mode), and
-> +      share a DMA engine.
-> +      Select I2C transfer mode for this controller. Supported values are:
-> +        - "byte": Use 1 byte for i2c transmit (1-byte buffer).
-> +        - "buffer": Use buffer (32-byte buffer) for i2c transmit. (default)
-> +                    Better performance then byte mode.
-
-If no 'aspeed,transfer-mode' property defaults to buffer mode, you never 
-need 'aspeed,transfer-mode = "buffer"'.
-
-When would you ever use "byte" mode? Sometimes you want worse 
-performance? That makes no sense.
-
-I feel like we already discussed this, but I'm not going to dig thru 17 
-versions to see.
-
-> +        - "dma": Each controller DMA mode is shared DMA engine. The AST2600 SoC
-> +                 provides a single DMA engine shared for 16 I2C controllers,
-> +                 so only a limited number of controllers can use DMA simultaneously.
-> +                 Therefore, the DTS must explicitly assign which controllers are
-> +                 configured to use DMA.
-> +      Only one mode can be selected per controller.
-
-The only thing that really makes sense is dma, and you need 1 boolean 
-property for that. IOW, what you had on v10 which we gave reviewed-by 2+ 
-years ago.
-
-Do you have any actual test results or usecase that show DMA is useful 
-here? Typical I2C xfers are not streaming large amounts of data to 
-justify the setup costs of DMA. It wouldn't surprise me if DMA was 
-actually slower.
-
-> +      On AST2600, each controller supports all three modes.
-> +      If not specified, buffer mode is used by default.
-> +    enum:
-> +      - byte
-> +      - buffer
-> +      - dma
-> +
-> +  aspeed,global-regs:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: |
-
-Don't need '|'. Read the documentation about when it is needed or not 
-needed.
-
-> +      The phandle of i2c global register node, For control the i2c register
-> +      define selection, clock divider mode selection and clock divider control.
-> +
->  required:
->    - reg
->    - compatible
-> @@ -66,3 +94,14 @@ examples:
->        interrupts = <0>;
->        interrupt-parent = <&i2c_ic>;
->      };
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    i2c1: i2c@80 {
-> +      compatible = "aspeed,ast2600-i2c-bus";
-> +      reg = <0x80 0x80>, <0xc00 0x20>;
-> +      aspeed,global-regs = <&i2c_global>;
-> +      clocks = <&syscon ASPEED_CLK_APB>;
-> +      resets = <&syscon ASPEED_RESET_I2C>;
-> +      interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
-> +      aspeed,transfer-mode = "buffer";
-> +    };
-> -- 
-> 2.34.1
-> 
+First patch doesn't apply cleanly, please respin.
+-- 
+pw-bot: cr
 
