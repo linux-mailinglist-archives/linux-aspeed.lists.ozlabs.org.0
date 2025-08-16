@@ -1,56 +1,50 @@
-Return-Path: <linux-aspeed+bounces-1988-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-1993-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FB53B28988
-	for <lists+linux-aspeed@lfdr.de>; Sat, 16 Aug 2025 03:03:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B1BB28BC0
+	for <lists+linux-aspeed@lfdr.de>; Sat, 16 Aug 2025 10:15:18 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4c3gh24Tk9z3cl3;
-	Sat, 16 Aug 2025 11:02:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4c3sGq2ZgGz3cmP;
+	Sat, 16 Aug 2025 18:15:15 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1755306178;
-	cv=none; b=VHCwUsSZvx7PD1x+8BhHxTshUu6dN/T5WEesJwZa6qGkbE/h+PskokAmv8QktGW+gcagpPbJgVh4HrAQr0ZPBj2SS/OH9Ur6ldFB27/vXDHg1skltyGTQIRLSDifpMyGAxKdXiZB/YP+tkC/ExisaPVUwCkJBdBWUbYDznG+N60Mld+emHBd5LB9+ULJg/71to36mRBX9lHzFlCUGuAD8Re/gq2LJCbFqYmCrWid3RWYEmAg9t2icHT1SvTiGvl0D12DkDk35eT752f0HzgDv1YxS9vwKlj1E6tdF+4CJzgQ5kn4tV42r5XPyEapvC7FyPi1oT95v/n5GxSE7pljGg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1755332115;
+	cv=none; b=BEatECpf6SdzpedYTUCtZRBxzRwVk7BInyRSimA2y0JykjiNNUZQh/J9hAK7wtWFmj5QZGGEJ5d5CY3JSJSlRgwSIjWndz1wNXwoWsqsOfVC7WYQ3uTWhoBCgDdfEG/J4fo4lbpQVz48u73EC+KVRD41A7PTsyDtJipxoQcmlOe0KnqS+X/1Hb842ZJbBpKIKGhesYrDGB5YEFtVMXlHup2lIIGN15QloQV4+86xXcj84R8Z1pnOEcIBivHJUC600JbMEoVEMqlo52NKm1Pi04bxCzvq+Rb/aee05WbmkxYURSqdlaIFfrhjZX9KQYI7BjbjeZ0gBZDWaYc5r0YR/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1755306178; c=relaxed/relaxed;
-	bh=uL1GIBvtGp9qBxNEgGd9zVR3Ww4bteJizXBxx4LVKvs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EhumhdJmQWsD9brSEl9jGNY0wYu6LvgtRRgrHEHQV0lXYSny4gjJ5FDXeZFJkplRoShJGU98dQXiQ7W6X0zLQ76PTkdQM/aa6F/BgbKmaCNqgUsBVT+jmUKqjBiXVBYrbLusATtMdDwHeG0gjG6somfKXkorh9AdnaS4rLemeU/hGronZvQr64wEyGeOsigPHbG0YtPt75Kkbnatpk9HvZROgJzWEt5XSFeVumjEArtWMthqqC4ARBloqAcoDZ5npq94rVQ1gQcwcz1ydKzl/aCYDn+XiUwUozkGxhju1vOyGwdNNhdREGY1ScHB0Db8MWIfnQNFOtALlis8/xJB8Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=DtwVebt2; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+	t=1755332115; c=relaxed/relaxed;
+	bh=oEZRhNobuQwT1clzqpxUc/7xS3MNE9Yta/+P3o9/YN0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LdbRbMAYiA97uHwwgZyrDiae8WC2hS70IP8i22h5jn/E+1/dWd5N1H8LUtKTFqYnf60dbRERVjqzj5zVaPAUf7BGIWqYx1tXtSkhLDGpn1uc8MM16ZAzm5IiAPh1NUdl6qOFO8gJS5I3LxayJsV20NlpctPiS4i6KpNPUwojiMpCiqcsGgfSR69EgvXxkqvCgonZ9Ml7P8ken4S7VnxD1pEm22ryrxZMQxkIZ6Hm2cyP/54/ru5P1GRRk37lUZ9CfWdIejG6IZT/og/SmBu02Y+YdzktzKRV1jO2klsEkRY0vbNLx1HvX9wp8QW4timw9knoR+PLFUB6oyGDpV0I1Q==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HtgHZh5S; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=DtwVebt2;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HtgHZh5S;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4c3gh15N5Sz3cYN
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 16 Aug 2025 11:02:57 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=uL1GIBvtGp9qBxNEgGd9zVR3Ww4bteJizXBxx4LVKvs=; b=DtwVebt2cPukDWsmBxLRl1g78u
-	DqhE4zATJgulz++m6XYvVtziVYvIva8IqXNIVL6e6nusqUoAoBwIoj/VEzHq9WN2Rva18nFtm3oTj
-	n3MCpOlxE4z5lVZVRqcm/Y0gGM8bsjyo9Yr5/AbOcelka9ZkhUb1JFNC7PxJywNOKj44=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1un5Jf-004sU0-Qg; Sat, 16 Aug 2025 03:02:39 +0200
-Date: Sat, 16 Aug 2025 03:02:39 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Marc Olberding <molberding@nvidia.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] ARM: dts: aspeed: Add device tree for mgx4u BMC
-Message-ID: <21ee5045-632f-486c-962e-9e2963f60ed4@lunn.ch>
-References: <20250815-mgx4u_devicetree-v1-0-66db6fa5a7e4@nvidia.com>
- <20250815-mgx4u_devicetree-v1-3-66db6fa5a7e4@nvidia.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4c3sGp3vfKz3clq
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 16 Aug 2025 18:15:14 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 00EA9601D7;
+	Sat, 16 Aug 2025 08:15:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD583C4CEEF;
+	Sat, 16 Aug 2025 08:15:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755332111;
+	bh=ZFhBY7xvjThXbN1xgDjZz544ykM0RfOlwLp1iy2FJOQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HtgHZh5Scobix5jmRtucG3zsTvKYG8Irs0fiN0Dr1meO1Y5qqctzV8Fb7Ec21eQMf
+	 HsBr5ua0IvHq03x9BA+yAmHqz8dgd7JWu+EaKFYMkXdUWmCwXnUB+ynaK2wZCnukUt
+	 T+gNOTpBFeAy5if95dtQxR6kqeCVqd4kESEjghDLwBp7tNSlXzgBIsemy6WnRr2pMh
+	 ZZubk3Gnl3ixFr8w382R6yxGM2KDTyFG9qKtFoUsXdEgLFhf0ZjRjjE2MrefwwpGyw
+	 lriT1rr3MlZOMAfgyGs0t0/jDToo9My30s/ddR26etZRlCpweurcSK1Q5CSEKL0uQN
+	 508h5ZDumR+EQ==
+Message-ID: <271d4a9e-5ccd-42dd-9828-5d34fb2c0a11@kernel.org>
+Date: Sat, 16 Aug 2025 10:15:06 +0200
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -64,18 +58,79 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250815-mgx4u_devicetree-v1-3-66db6fa5a7e4@nvidia.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: arm: aspeed: Add Nvidia's mgx4u BMC
+To: Marc Olberding <molberding@nvidia.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+References: <20250815-mgx4u_devicetree-v1-0-66db6fa5a7e4@nvidia.com>
+ <20250815-mgx4u_devicetree-v1-1-66db6fa5a7e4@nvidia.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250815-mgx4u_devicetree-v1-1-66db6fa5a7e4@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-> +&mac3 {
-> +	phy-mode = "rgmii";
+On 15/08/2025 21:45, Marc Olberding wrote:
+> Adds a compatible string for Nvidia's mgx4u BMC board.
+> 
+> Signed-off-by: Marc Olberding <molberding@nvidia.com>
+> ---
+>  Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-Does the PCB have extra long clock lines to impose the 2ns delay?
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-	Andrew
+Best regards,
+Krzysztof
 
