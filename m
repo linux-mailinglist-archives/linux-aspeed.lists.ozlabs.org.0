@@ -1,71 +1,87 @@
-Return-Path: <linux-aspeed+bounces-2006-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2008-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6DB9B2E5B9
-	for <lists+linux-aspeed@lfdr.de>; Wed, 20 Aug 2025 21:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C68E0B2EAB7
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Aug 2025 03:33:35 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4c6cHb6jh1z300M;
-	Thu, 21 Aug 2025 05:40:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4c6m710gTdz3091;
+	Thu, 21 Aug 2025 11:33:33 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.156.1
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1755718827;
-	cv=none; b=dWfM9KfLSO/GmsswfmAmQtEljeNt556/r7pScYlexbfeUvTx300o3WjMzMv2dC5QwlVJaAWmbF3ohlpb3JuYHR6XDAIjut/RdnazFvezKEgXhvN98T2ZSdg03rC+ByOnsCv0oRxwnz5bn0IKnS1ShtKCFXC9NN8HVPVGZ/IQuBWttVEK08wlh4CyBIJ4UTVUKK0c1gZMNgUwbNxUyKcHWjU+MTDOTcmiOzcA9S/74weCcEPjkIGmQlEN3gcNoO/2Ull7xWeOSSuuvWc4F4t756cQzt9ra2AJUPvmEs2GTW1Prw3r+koThP1Nh91WbKRpjZlNokmsXWwCP/6Ap/z/eQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1755718827; c=relaxed/relaxed;
-	bh=9/KVphgfiv6IwABh1dktxL7uQw8uHuB00Gx8L/er2GQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S3HIxUB3zok9cU/wbu4Zl0uKRUO4SiZbZ4KdXaacrO2/LCVeekKx79s1P3cTVEVy1Xpf1TJVIqmHuOtGxzeOb0tNF6t8V4VPuYrlPfj6haNJ4lmakrXYX7YFytlDEwz0Ne3DD0cChjJjM6mQ4G9940X92kZDgxgVZ6nqQ9NuW5gc5fwzusFNVjw4EpEqVKxrPRSH9Ko71LrfMYQN43hzkosMLcVlATWJlVG2VkHijxTqmMv2YiMrLI142BU4MjDtbOcQmZtTDPW3QnO2D01TQNBwMpoK1f8tPVvwKFV7ESCrfrpnmeRiwTwy7TOfcNFBQ7l83aQR4MSDGoXGL4kDvw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=i6mqZjP1; dkim-atps=neutral; spf=pass (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:2418::60d" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1755740013;
+	cv=pass; b=CXV4DcZajhRVal5lhH6Z7463Spthr3nSiu+ZRkcsYrnI/jx+I6i0Ez144KiXfhmYg2FU8dq5Z1ikkXc/bMV5k1jgq8hjAZmSOutAPz5Nqg+6t0jEtDrRJDOBzgkzwb7kK4HCUzqPuIdfmd5vox8BiY1vPJswN/Ed9JlyAZhAfwxZha83AoRCs8GrQ1lWlP4K2Mfci17M5A8kp82e2BAzis9/YkB2nS5Wim8s/AICMeBY8ItZIlrcX1JsIUPg5wJthvtF/Uc41bGLKvY6b3/gv/XpoLqRz7BNMd+BzKuk09O9oWyhbdKEWVhuY/134AFKvNJRWgftCeO0JapXIGVyLA==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1755740013; c=relaxed/relaxed;
+	bh=rBoBoUG1r6ueyCnwBGxtAXmpf0EkMXCa1pKPW8+7OpE=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=bk3Toj/OE+zIid2Az6jfdnMRItUyYbatRzhfLtsMDjjywdLtOdmaKAJPP2TUOW0owbq6J92RftckBpISOqccIffij3FtPHV4Vlku09vmzgcdLKeNKLmKnIfg8IPlXmc/GP9uA6OJjAClvjr3HxhXRZ2KJ/yheWwL6DUaqctCPAO6oOZZiSj25/YNI41KjdD/xUfqk5oLbtdcMV3LB8QRdM45AwvsfIbMI10Bah7iInjmnjV9gGzxAB7F8qvX8o8py0kx6uzXmCWwMW4lYdaRkVd7e7CQY7aP2ZI+9YVYvak+XaFbLOEH2U7ZSRXtJcTPwRpeI4euPZNlCaoknBrmpw==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=QqL72jok; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:2418::60d; helo=nam12-bn8-obe.outbound.protection.outlook.com; envelope-from=molberding@nvidia.com; receiver=lists.ozlabs.org) smtp.mailfrom=nvidia.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=i6mqZjP1;
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=QqL72jok;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=nvidia.com (client-ip=2a01:111:f403:2418::60d; helo=nam12-bn8-obe.outbound.protection.outlook.com; envelope-from=molberding@nvidia.com; receiver=lists.ozlabs.org)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2060d.outbound.protection.outlook.com [IPv6:2a01:111:f403:2418::60d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4c6cHZ5y1tz2yZ6
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Aug 2025 05:40:26 +1000 (AEST)
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57KJPjAJ027437;
-	Wed, 20 Aug 2025 19:40:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=9/KVph
-	gfiv6IwABh1dktxL7uQw8uHuB00Gx8L/er2GQ=; b=i6mqZjP18rMHSwwBr6UgkT
-	Ty4StOalb2IsaGlX2Vg3iTEeu0++pOTX9NJa8Fp7T1h1tT6bFopii2N6Id86/kb2
-	hqJrePPREFpQC9hv/dzTv0vIJ+/PHwZw/qghsUHHhEa3Z86I2+eXxDgYZjCidZqf
-	ePWdrB1aREks7Bx1iW0sdjmyMUwDko1RKKPnt7+9lMgPXegztGXwBtFimBG5H7lC
-	zYvL27J/Qi+g0O7oZQoTYY+yHWwlOdGn7/L5bo71r4Fv6mBf6lBp3kVMjUmjTtrn
-	pjXGeEatSEWxnMrW50Mu83eNbK9oWz/wMvwi0x4Mkq0tVARH8GwzNQsUBBqaPSPw
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 48n38vd01s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Aug 2025 19:40:17 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 57KHUgte015619;
-	Wed, 20 Aug 2025 19:40:16 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 48my424wcm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Aug 2025 19:40:16 +0000
-Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 57KJeGmV29491724
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 20 Aug 2025 19:40:16 GMT
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id ECCB958043;
-	Wed, 20 Aug 2025 19:40:15 +0000 (GMT)
-Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9A19258059;
-	Wed, 20 Aug 2025 19:40:15 +0000 (GMT)
-Received: from [9.61.87.76] (unknown [9.61.87.76])
-	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 20 Aug 2025 19:40:15 +0000 (GMT)
-Message-ID: <f366aedf-0231-43f1-8416-994ca4b91342@linux.ibm.com>
-Date: Wed, 20 Aug 2025 14:40:15 -0500
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4c6m6z74z7z2yGf
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 21 Aug 2025 11:33:31 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jbzEfVAUM+1MhFTHB/okyOjlqp3o0WuD2oTvcffzf5NokNMQaGAfsfUkKJg9Am6nkAiGD1LOcu1VymYdA8vQOrxkjFn5XXvK339z33cSQwq/3jKB1E8nUFMztkLv3uxu3GeHmkVDOH8eH/R+nGgRYvhHCXp4Tk+01XyeSejHJWii89ioU5jt3UqA5AyRx9rhsOthYmVq+kAeFvx8Chh/O0ZIUJxiT5xB6lqO18EnkfbA5gDLwwf8sPSMmY9JP+IBr9vzHx/qoXPpyKMOl6uveUONNzA+avE8p+yucF3/J89TCv7ILCTBygkNknT1sBhZxLGIKg7Fwb3T7g2ipavtJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rBoBoUG1r6ueyCnwBGxtAXmpf0EkMXCa1pKPW8+7OpE=;
+ b=O1rDA0hI8j2ew/n1S28O7jqAoGgB1GtPZDcJuYbdE5I0QUcctZZKxJot3wZlxmaBUyBXIhban4xlmRbp3yilzAhc9ypFfFP/tYW1nn/TCZlXjPBsR6wtuKJE3YFLTeeqdNpbkRpWXONI6BV4W2kwerPV8hihuQKGUWANv2fKyAoITyooTReXM1PE3WU8FCVgbI2H9+A0sehXworoVW/YcWDV57I8eHYssg6tNdUhrHzUZ06ww57KVOeiXenARn9TM2kcENsEhQXBw0v4+NxUmbr5Y00SEchn5qvdhe8XI2AC5Hh7v39e8eCo15ukYDLtRiOT7OKdl5/fya4pShPA4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rBoBoUG1r6ueyCnwBGxtAXmpf0EkMXCa1pKPW8+7OpE=;
+ b=QqL72jokY5CMQz76Xra+pG9KnYsZ5F6/38Ye/TNBSNISYVCLi9lEo076mLoa0hC/QJD61FrwwZzNHT7nT/J6Ysbj+bo4K9AZecNdKnEilB0FDyxBQoGEGbg4CcDXO2EZsOj/4Y7NvFRgEtdrawoDdhTemYnKmseoxKPhc8glbAmgv9JBK1bJenoerhlAhV8zMxd0i2yh2sQebuCAnVjOJKADp+cEVFPgyGTDCJjalvzxGCnnj6fpxwXpZnVn9D2t2uRHCFWm/ZYnzSsGLmr9wl6mj22ONULIvVWoi4czJE3i+eL9+cnca4HnaZ3bEXecXm9hjaKeWWpK8bzft6K9hA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS5PPFEAC589ED8.namprd12.prod.outlook.com
+ (2603:10b6:f:fc00::667) by CH1PPF946CC24FA.namprd12.prod.outlook.com
+ (2603:10b6:61f:fc00::61c) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Thu, 21 Aug
+ 2025 01:33:11 +0000
+Received: from DS5PPFEAC589ED8.namprd12.prod.outlook.com
+ ([fe80::fd4e:4c62:b756:96da]) by DS5PPFEAC589ED8.namprd12.prod.outlook.com
+ ([fe80::fd4e:4c62:b756:96da%5]) with mapi id 15.20.9031.014; Thu, 21 Aug 2025
+ 01:33:10 +0000
+From: Marc Olberding <molberding@nvidia.com>
+Subject: [PATCH v2 0/2] Adding device tree and binding for Nvidia mgx cx8
+ switchboard
+Date: Wed, 20 Aug 2025 18:32:50 -0700
+Message-Id: <20250820-mgx4u_devicetree-v2-0-ccd2831b29ac@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEN3pmgC/2WNQQ6CMBREr0L+2pq20IKuvIchprYf+AsKabHBE
+ O5uJXHl8k1m3mwQMRBGuBYbBEwUafIZ5KkAOxjfIyOXGSSXijeiZGO/Vq+Hy1WLS0BkVqIoueY
+ 1by6QZ3PAjtZDeW8zDxSXKbyPhyS+6U+m/mVJMM60dk/dGWVqrG4+kSNzttMI7b7vHxVELzyxA
+ AAA
+X-Change-ID: 20250813-mgx4u_devicetree-c2e130607089
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ Marc Olberding <molberding@nvidia.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755739989; l=1503;
+ i=molberding@nvidia.com; s=20250815; h=from:subject:message-id;
+ bh=EAB9UvfjeKMWXy/CPRYZ39i01YhHc1ZVVaSjRa/fBS8=;
+ b=HA0qsQP3ZC0QuPRmJk5sg5ahRA9hrz4lnhLjZMSm8J8AP/E7FF/UlW5eoZOqbE3Gc3bw4gOeE
+ z0OBhVSlbksA1+Lxc4TTibsSEQprjfxe0fLBGlB/DW12EsyEI/K0xct
+X-Developer-Key: i=molberding@nvidia.com; a=ed25519;
+ pk=qCpZ1WFEf5YiaL88PDdYhG+A/bKk7rHp7KF2K3GmkH0=
+X-ClientProxiedBy: MW4PR03CA0360.namprd03.prod.outlook.com
+ (2603:10b6:303:dc::35) To DS5PPFEAC589ED8.namprd12.prod.outlook.com
+ (2603:10b6:f:fc00::667)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -79,176 +95,138 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/4] ARM: dts: aspeed: Add Balcones system
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-aspeed@lists.ozlabs.org, conor+dt@kernel.org,
-        devicetree@vger.kernel.org, andrew@codeconstruct.com.au,
-        krzk+dt@kernel.org
-References: <20250815194730.41695-1-eajames@linux.ibm.com>
- <175530106096.3523003.10423924922951806073.robh@kernel.org>
-Content-Language: en-US
-From: Eddie James <eajames@linux.ibm.com>
-In-Reply-To: <175530106096.3523003.10423924922951806073.robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODE5MDIyMiBTYWx0ZWRfXxovrEBVRkjcE
- 6LrcuSAdP1xnLVrJMmnPHeG09rdK7TnLxHfbKc9AxNsGCE288WQTRsSBHDD4eeffsPUcKKSo+EW
- /a7zqJBqawkxaBsZRGDhkuvyPvBflSamIrJq0Jjxor0Ox5dpMVhDjQkDqjexr9OLWl109HtdvnF
- NWefepUmyUj6w5OxT07+auXe/UbKMYJeEkKbROEjSWWosFviiyyo7gclqL/ZWLEiumAWDrwfrM5
- 8G5tWWJxisyQiYZoHn6m4inlE/81l9ERH7EWevWJQH6xjUSSfg2v/+Y4Ygg3uBfjwm9feVFZn55
- okxUNZaMKXhFaXwW0pafvmFPOuJJBo6bO4oPmtsC8F9VSlLZai6HcEgDLUVh/hHO/FBzGdLfRUO
- 7EDowsrx7hPeYJK+8SvIEgIBb1cL7Q==
-X-Authority-Analysis: v=2.4 cv=PMlWOfqC c=1 sm=1 tr=0 ts=68a624a1 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=gEfo2CItAAAA:8 a=VnNF1IyMAAAA:8
- a=ii2Ap2AerDCMVg_UhdYA:9 a=QEXdDO2ut3YA:10 a=sptkURWiP4Gy88Gu7hUp:22
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: 1d5YrVc__SnDGy5PXZyIItfcX5WxeyY-
-X-Proofpoint-ORIG-GUID: 1d5YrVc__SnDGy5PXZyIItfcX5WxeyY-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-20_04,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 adultscore=0 priorityscore=1501
- lowpriorityscore=0 malwarescore=0 spamscore=0 phishscore=0 suspectscore=0
- clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2508110000
- definitions=main-2508190222
-X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS5PPFEAC589ED8:EE_|CH1PPF946CC24FA:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8aaae6ea-2122-4172-f3ca-08dde052b040
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?NTVqK0gvRklkOGF5UzhWL29BdW84b1hMbGFFb243NjIrazVHdHkwVWNvbWp1?=
+ =?utf-8?B?Mk01Z0lUVXZGL1FXdUdpNVBSNUc1UG1hWEdjdkNJMkxkSXBiN1RMSmZQSlNZ?=
+ =?utf-8?B?bmxGSWE0T3lVZUdKaUV6UFYraUxHaS9ySWQvNHpraUllbFVxYlVRY2gzeFl5?=
+ =?utf-8?B?cUo5d2lPRkZGSHdLZndycXh1QkZWcmFRMVE1QVN2bzdEVGZhU25qL0hUZVhm?=
+ =?utf-8?B?cDZRREJMNDN1NmRqNEhTQlJVblJUVjI4NzNxZUdLZ3JsdWxFcFFzdjU3SE41?=
+ =?utf-8?B?YlFtKzAxbkdGUXh2RTBqUGlqYm8yMFF1RUpHMHBoMzN6a1NsQ0F6RG4xNHlJ?=
+ =?utf-8?B?Ry80RWRIM2JmUUlyK255ZUJoUmFqNWpvbjg1V0FHRUpPS3Z3VEkyQWpKV3NM?=
+ =?utf-8?B?YnBWSCtYTXArd2xLQWhTVXU5cnllNlg4Y3RBT1BIQ2tsNkpRa3czeFNFNGFk?=
+ =?utf-8?B?ZVB5RjFvNXg4OFdaTXBxMTFlUFRFc0lOeTR2SGVUUFVEdCtPcHVTdXdSZGZn?=
+ =?utf-8?B?akVEQUkrOU1XL3NpSUtucGFIeDlBcGgyQmxTUXdwT1RiMFJhQlQxdVpUaXo5?=
+ =?utf-8?B?MlB4am55M20zZm5LVGpIdVc4U1RaQXRpRlFTbTJpbzN4d0h4Q0VUcnVJekNG?=
+ =?utf-8?B?d3BlVlVsczhRSUc5bzVTOVE1enZUaHdJaDdETXlnS3RBQnBtajRnb085UERJ?=
+ =?utf-8?B?K08zUEJZYTZ4aXdBemRnM20rTnpRUCtqMXBPbjRUUUdzS3V2ZVovZ0hBd2VK?=
+ =?utf-8?B?Vk1KdEZMWFY3UXRCcy83YzFRYjdzaG51LzgwUDdkVFltVGVTdnRvS2NNajVk?=
+ =?utf-8?B?ZklnQlpzNjJ6M1NGWmovd0xUV0xsT1N3aVIrTVNGZFVJb3Yvc1JRS09zYUh5?=
+ =?utf-8?B?NURNWEhuRXZjeVBTWVQwbWQxQnA2cEV5WU9WN1lmK3czUXJzcUxyMGlXQkUv?=
+ =?utf-8?B?ZEE5aXlScUVZdnZLQ0JyODJydktWWDYycHA4UGJtRDJlYW1XVnZKSjRYckE1?=
+ =?utf-8?B?c3BXRlNFREc3ZFRBbUY3eUV2SERlZm5SWEhiNkhGeDhHNnhrSVl6WEJTUWFz?=
+ =?utf-8?B?Qi9LUVpLaDFsMzBmVXBGQlRLSW1kQnRvVUpjeUZlZnd2TXhNL3VQUmdyMU92?=
+ =?utf-8?B?Tm5jR0VlM3VINnlIS1RaOFJCTXhVWHlQR21abXFHWXNpVDBrZVloVDZsdlls?=
+ =?utf-8?B?aHFPN00wZkJvcHMwdXZ1ZlVSRTlYWHl0dDcycUVKNUhIeUNxcmpzdUpEcmlt?=
+ =?utf-8?B?blRjN2ROZHVVL3lJR1U3MWZDR2hKU0c3MVc2MndrTHBNK05Oa2lDQUpXUHJE?=
+ =?utf-8?B?NEw2eHhWNjRtb1hIZlF3THJ3U2NIaU9GYnpwSGtzQUtHVnYzc0puM2szRDNQ?=
+ =?utf-8?B?KzBuTjNhcHZCN1FGMHpaeXJRNElXY1hTUzZEeWJYRUQ4NEZjTHdzOWRqUTR1?=
+ =?utf-8?B?dmhJVXZuQ3hwSzJFcmtOZGtNTzV6ZHVGRDRDK1FzUzFMY2h0TEtYTFR6MHlz?=
+ =?utf-8?B?b0dZeGpBK2xqUUw0RENLcXZ3WEJ1bytIRW5UR1FYa0Y4NGZQT3hIT0FZWkdN?=
+ =?utf-8?B?MWg2NUJ3ekpQNU5DQ2tYditzOExKQkxNTkxGQ3pkY090ODF6QzR1QTlkUnpl?=
+ =?utf-8?B?OXdXMzcxNndhcFNJcmRscHJxOXUyVEszcldhcjFWM2VnVG5rZnFkZlp3b1ht?=
+ =?utf-8?B?Uld1Rjl3MjJLa09QQ3h5ZUxtV3c0bzU2a081V3JhL3ZUb1ZhRUQrUVVRNC94?=
+ =?utf-8?B?a3lvamVMUlBqMVF6cWhmd294NlBWV0U1Q0ZKSlQyTitmTlVwS1hLcUhDV0cr?=
+ =?utf-8?B?QUVvNFM1M0xWQ0FwREt3QzdWWDNVVUxrdVR5d09CWENGMytnTDFsY2x1YVA0?=
+ =?utf-8?B?eFpFMTJnbHc2bjMxQkxIL0VibndaUVJYNmI4RGROYjZyaXJ2T2h2MzY3Z3Rw?=
+ =?utf-8?Q?9GiB0vesEkM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS5PPFEAC589ED8.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?STAvOWU4WXZGMWsvWStnSWdxOGZ6VW5DTnE1UUIzNHA1SEFqVnV4VEE4Mml3?=
+ =?utf-8?B?RU9JUTQzZUo4NUlTemVZYVBPYXRFeGhDWi8vTWMxc21MUHY4M2kwbWZHWTRH?=
+ =?utf-8?B?QnAvdGlxZkcrZTBCNVA1alMxQXNVWE91WHlCT3A1QSs5elFCM2NSYlZQZHFm?=
+ =?utf-8?B?dkF6andQS3ZVc3hLakZCSzlXZ0hZTXR0a3pnYk9FOFYzaEN2bllTN1Y3ejZF?=
+ =?utf-8?B?SUEwbTVKeFRuMktyUUVIY0k0Mk1NSUNMWjM5K2o1MFdMM2IzeWJTRmdJS0Zi?=
+ =?utf-8?B?VEdQVU85OGxZUlV5MTA3SU1OdGV6dzRnZXZ5akw3N2E3Yi96QkU2KzBCUHEr?=
+ =?utf-8?B?Rkd6dFJ1NFFuek1IWkJOK1QraWE2QndBbzF6ZG4yZU8wcGRONStkVTFZYzFa?=
+ =?utf-8?B?ZTl3dDllMXJNbUJFT0ZJWGMyMGdEY0QvcC9PNTNxdDNqSjEyM1pKWEFhVFF1?=
+ =?utf-8?B?UzM1NlFYVGFMRzh0NUI5TUlvTjZBVmU4cEpDYTVsS3UydWxLUEo5L2c0WE01?=
+ =?utf-8?B?RVJ2ZHVoOEVwbGZuaEUyYUZ6MDJTZm1ReTZnWGlkT3BteC80SWVqakY3Z2Qz?=
+ =?utf-8?B?RHN6bHIwQjhwQ0pzYWZOQVFUb2h0YmE4QzFaK20vbjlIUnJpZGZSM3dTZzB1?=
+ =?utf-8?B?RkpQUWVxMlc5a2VIaEw4UXp2VTF5MmR5NVBDRGdkU0p5Z3R6d0ZGbHVERUcw?=
+ =?utf-8?B?cDR2dUZ4b0dwWXIydzJ3cnBRS2pDaG91U3F5WnZ5U0VFMCtHa2VLWGJzL1Vn?=
+ =?utf-8?B?UnlFQVFQZWNiOTZ5ZVJ1K2tFM2Y0c010a3pCMk1Oenh6bXIxaktHNXNOcWN2?=
+ =?utf-8?B?L3hmdEhqa3NyZ2ZrOVgrTG5XOWxJN0FyV25hMWpwZjlWVHcwS0lvZ0k4MG9m?=
+ =?utf-8?B?LzFUSVBGQVFzdGxLN3JtbjBQTFZDek1RNEo0aFNRNkllWmNBeDdyT0tzbENv?=
+ =?utf-8?B?OGVaUHVFQzEzQjl2MUozZm8zRnZtdHlQcUQ0SWNKWmlkTm1FVVpZN2dPUFAw?=
+ =?utf-8?B?YzZuU1RLVUlZSm8zRXN6MmEzVzZDQXhjVUhUNitZTWNTaW11bHBnTVcrNTdz?=
+ =?utf-8?B?V0tUWDlQS3ZNSU9IZjBJaXl2M3RzZXJVSDBtV1VVa3hzZ2hnelpCWUVNTTFz?=
+ =?utf-8?B?eTJoRWN6UEZmM3BKTjRCVGdMd3FneHVicnM0LzU0ZTZ6Y0xMalVYcUNZTWhT?=
+ =?utf-8?B?Z2psSnZSeU0rUytoSGFFb01PUXN1bjhvai9TRnZZZ1U4ck5rZG9lMTc5YjZJ?=
+ =?utf-8?B?ckZoVXphRmdFMkNESFpELytFZ1FZQ0RxZ0NPUXV0S2c1cFlwVGZrSWx2dFE2?=
+ =?utf-8?B?TkVYWmFwYVNvb2JRZENER0R4dWQ3ZERyS1pXWThscndsZ0RJU1JkZ1BEWXdt?=
+ =?utf-8?B?T043ck5WcXVDNFFQcFJONzU5alZGMmxvMTl2RVg0T3RySjFUejQvQXd4TmMv?=
+ =?utf-8?B?bG9MbzB6OUdZbEpzWnh5Z3JHYzQxdUo5djgra2NKazBIMmtkQTFDQ3pqbThI?=
+ =?utf-8?B?UXpZK2htaG5Pazh5TmNjUEFpWHNVWXlhdlNqNUsxZlJWK0VnNTcweHFJU3BG?=
+ =?utf-8?B?b1pMY3hwQm1uRE1VZ1lqLzZkN1BLOUxocnF4bTVhcW92NGJwTk5tamJvNkNF?=
+ =?utf-8?B?cDl5MEJXOFViUysyeTBJWnovd1dQVHhRZ251S2RLYis5SnI3Z1FVMVErS3Nn?=
+ =?utf-8?B?WVNuSTNLeE5UK2lKdWRra2VYa0xhZmNYNWsvdng1b0FyZFA5ci9jc2RkUEYx?=
+ =?utf-8?B?U3FlS3dzOGd1SC9jU1hxU2swRUtLL21Bd0YrS2FybEtSbnFGRXJpZFpsU29P?=
+ =?utf-8?B?U252Y3J0S0NHSVk2ampreXphUzR3L1VTWkRKWUoyMGkyTWhIM2dISldFQUhX?=
+ =?utf-8?B?NjczMTY5Z3N3V0xFSmk2UWFNNHhIc1hRMVpNWU1qNkd1ZVFLTHRhbHVrNTJa?=
+ =?utf-8?B?bHJaNmNGTlpzVHlaa0VUUnh4MDhQQ1AxNmJPcWhIK0oyMGU3SGhOUDNzcGtq?=
+ =?utf-8?B?cWZ6bDJjUEJKY0hLcitpUGJzV01BTEMvRmVGTkM4SyszQ1lRaUZtSnVIaEwv?=
+ =?utf-8?B?VWFmb3YweWhxSEx2S1d1elBEajFzZGdoOHFONkRIQy9yVmJzS1VjVW8vNzJQ?=
+ =?utf-8?Q?fT6OzuYa3Em39F2Go1ZCUVrOU?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8aaae6ea-2122-4172-f3ca-08dde052b040
+X-MS-Exchange-CrossTenant-AuthSource: DS5PPFEAC589ED8.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 01:33:10.8029
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /OVMDGmoPwQd8fw5aHxq+eOCZdkwtlVXEDwEdfhBKkKJf0PVbkjfhEXL9FeqSz7+tiw/JH/gO14tckiIE76OtQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPF946CC24FA
+X-Spam-Status: No, score=-3.1 required=5.0 tests=ARC_SIGNED,ARC_VALID,
+	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	SPF_HELO_PASS,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
+Patch 1 Adds the binding for the Nvidia mgx cx8 switchboard
+Patch 2 Adds the dts for the mgx cx8 switchboard motherboard reference implementation.
 
-On 8/15/25 6:38 PM, Rob Herring (Arm) wrote:
-> On Fri, 15 Aug 2025 14:47:26 -0500, Eddie James wrote:
->> The Balcones system is similar to Bonnell but with a POWER11 processor.
->>
->> Changes since v3:
->>   - Add max31785 to the max31790 document instead of to trivial-devices
->>   - Fix minor formatting in dps310 document
->>
->> Changes since v2:
->>   - Fix a couple of incorrect i2c addresses
->>   - Document dps310 and max31785 properly
->>   - Drop the UCD binding documentation update, it's been fixed
->>
->> Changes since v1:
->>   - Add all the ucd9000 driver supported compatible strings
->>   - Fix node ordering in Balcones device tree
->>   - Improve commit message to explain addition of ibm-power11-dual.dtsi
->>
->> Eddie James (4):
->>    dt-bindings: arm: aspeed: add IBM Balcones board
->>    dt-bindings: iio: Add Infineon DPS310 sensor documentation
->>    dt-bindings: hwmon: Move max31785 compatibles to max31790 document
->>    ARM: dts: aspeed: Add Balcones system
->>
->>   .../bindings/arm/aspeed/aspeed.yaml           |   1 +
->>   .../devicetree/bindings/hwmon/max31785.txt    |  22 -
->>   .../bindings/hwmon/maxim,max31790.yaml        |   6 +-
->>   .../iio/pressure/infineon,dps310.yaml         |  44 +
->>   .../devicetree/bindings/trivial-devices.yaml  |   2 -
->>   MAINTAINERS                                   |   1 +
->>   arch/arm/boot/dts/aspeed/Makefile             |   1 +
->>   .../dts/aspeed/aspeed-bmc-ibm-balcones.dts    | 609 ++++++++++++++
->>   .../arm/boot/dts/aspeed/ibm-power11-dual.dtsi | 779 ++++++++++++++++++
->>   .../arm/boot/dts/aspeed/ibm-power11-quad.dtsi | 769 +----------------
->>   10 files changed, 1442 insertions(+), 792 deletions(-)
->>   delete mode 100644 Documentation/devicetree/bindings/hwmon/max31785.txt
->>   create mode 100644 Documentation/devicetree/bindings/iio/pressure/infineon,dps310.yaml
->>   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dts
->>   create mode 100644 arch/arm/boot/dts/aspeed/ibm-power11-dual.dtsi
->>
->> --
->> 2.50.1
->>
->>
->>
+This is an Aspeed AST2600 based reference implementation for a BMC
+managing an Nvidia mgx cx8 switchboard.
+ 
+Reference to Ast2600 SoC [1].
 
-Andrew, are these warnings acceptable?
+Link: https://www.aspeedtech.com/server_ast2600/ [1]
 
+Signed-off-by: Marc Olberding <molberding@nvidia.com>
+---
+Changes in v2:
+- Made all node names generic [Krzysztof]
+- Rebased the series ontop of 6.17-rc1 [Rob]
+- Merged contents of the cx8 switchboard dtsi's into the main dts and dropped the dtsi [Krzysztof]
+- Fixed license on dts to be gpl2 [Krzysztof]
+- Changed phy-mode property to be rgmii-id to correctly reflect that delay compensation happens on the PHY [Andrew]
+- Changed chosen node to use stdout instead of bootargs [Krzysztof]
+- Link to v1: https://lore.kernel.org/r/20250815-mgx4u_devicetree-v1-0-66db6fa5a7e4@nvidia.com
 
-Thanks,
+---
+Marc Olberding (2):
+      dt-bindings: arm: aspeed: Add Nvidia's mgx4u BMC
+      ARM: dts: aspeed: Add device tree for mgx4u BMC
 
-Eddie
+ .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
+ arch/arm/boot/dts/aspeed/Makefile                  |    1 +
+ .../boot/dts/aspeed/aspeed-bmc-nvidia-mgx4u.dts    | 1452 ++++++++++++++++++++
+ 3 files changed, 1454 insertions(+)
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250813-mgx4u_devicetree-c2e130607089
 
+Best regards,
+-- 
+Marc Olberding <molberding@nvidia.com>
 
->
-> My bot found new DTB warnings on the .dts files added or changed in this
-> series.
->
-> Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-> are fixed by another series. Ultimately, it is up to the platform
-> maintainer whether these warnings are acceptable or not. No need to reply
-> unless the platform maintainer has comments.
->
-> If you already ran DT checks and didn't see these error(s), then
-> make sure dt-schema is up to date:
->
->    pip3 install dtschema --upgrade
->
->
-> This patch series was applied (using b4) to base:
->   Base: attempting to guess base-commit...
->   Base: tags/next-20250815 (exact match)
->
-> If this is not the correct base, please add 'base-commit' tag
-> (or use b4 which does this automatically)
->
-> New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/aspeed/' for 20250815194730.41695-1-eajames@linux.ibm.com:
->
-> arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dtb: max31785@52 (maxim,max31785a): '#address-cells', '#size-cells' do not match any of the regexes: '^fan-[0-9]+$', '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-opp-tacoma.dtb: max31785@52 (maxim,max31785a): '#address-cells', '#size-cells', 'fan@0', 'fan@1', 'fan@2', 'fan@3' do not match any of the regexes: '^fan-[0-9]+$', '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: /sdram@1e6e0000: failed to match any schema with compatible: ['aspeed,ast2600-sdram-edac', 'syscon']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
-> 	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
-> 	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: /ahb/apb/display@1e6e6000: failed to match any schema with compatible: ['aspeed,ast2600-gfx', 'syscon']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): reg-io-width: 4 is not of type 'object'
-> 	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: lpc@1e789000 (aspeed,ast2600-lpc-v2): lpc-snoop@80: 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/mfd/aspeed-lpc.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740100:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-> 	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: sdc@1e740000 (aspeed,ast2600-sd-controller): sdhci@1e740200:compatible: ['aspeed,ast2600-sdhci', 'sdhci'] is too long
-> 	from schema $id: http://devicetree.org/schemas/mmc/aspeed,sdhci.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740100: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: /ahb/apb/sdc@1e740000/sdhci@1e740200: failed to match any schema with compatible: ['aspeed,ast2600-sdhci', 'sdhci']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-fuji.dtb: pwm@52 (maxim,max31785a): '#address-cells', '#size-cells' do not match any of the regexes: '^fan-[0-9]+$', '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dtb: max31785@52 (maxim,max31785a): '#address-cells', '#size-cells', 'fan@0', 'fan@1', 'fan@2', 'fan@3' do not match any of the regexes: '^fan-[0-9]+$', '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-balcones.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dtb: max31785@52 (maxim,max31785a): '#address-cells', '#size-cells', 'fan@0', 'fan@1', 'fan@2', 'fan@3', 'fan@4', 'fan@5' do not match any of the regexes: '^fan-[0-9]+$', '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: /: failed to match any schema with compatible: ['ibm,bonnell-bmc', 'aspeed,ast2600']
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-4u.dtb: max31785@52 (maxim,max31785a): '#address-cells', '#size-cells', 'fan@0', 'fan@1', 'fan@2', 'fan@3', 'fan@4', 'fan@5' do not match any of the regexes: '^fan-[0-9]+$', '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier-1s4u.dtb: max31785@52 (maxim,max31785a): '#address-cells', '#size-cells', 'fan@0', 'fan@1', 'fan@2', 'fan@3', 'fan@4', 'fan@5' do not match any of the regexes: '^fan-[0-9]+$', '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml#
-> arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dtb: max31785@52 (maxim,max31785a): '#address-cells', '#size-cells', 'fan@0', 'fan@1' do not match any of the regexes: '^fan-[0-9]+$', '^pinctrl-[0-9]+$'
-> 	from schema $id: http://devicetree.org/schemas/hwmon/maxim,max31790.yaml#
->
->
->
->
->
->
 
