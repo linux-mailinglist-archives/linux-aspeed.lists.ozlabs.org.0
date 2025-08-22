@@ -1,60 +1,55 @@
-Return-Path: <linux-aspeed+bounces-2025-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2031-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D2AB301C4
-	for <lists+linux-aspeed@lfdr.de>; Thu, 21 Aug 2025 20:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5603B30A15
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 Aug 2025 02:12:22 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4c7BHl46MJz3bVW;
-	Fri, 22 Aug 2025 04:12:35 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4c7LGr1Dg5z3bb6;
+	Fri, 22 Aug 2025 10:12:20 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1755799955;
-	cv=none; b=ncoMv4/f9IIPW0OKkXppcUjeeQVFKxH9r18msrrHu9zCOAbBSXDfyerq6Ifbhgu+AB+4cq3/Kw+J+oOW7GqgbcAgTBcLU8fzObw9ysWPCGObo9jkSXIQYZXfs1qlD5OUTJ0mAo515mZcM7yPxDHi0YTgjy2hwTyVjPXN5b05rNYnVlq/3k2wL0g4MlvG8iWsmJQnYpalhmZfTeZZxaBZV6vswt9oVWAZRxWZwVeQzkajquaQou2GStPUFoJDCTH22Kz5+UoFbfAVdfaOIbtpzV2LNs5gf7iJaJSbm/QO4/uN/4MeEBx3Y0a5vWZOWTRNtNqEm+oJFa9HgUgSpTGnJg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1755821540;
+	cv=none; b=KXLHz5aQDULuUslTj02T4YYrLekinKS+MQFac0vjBNabFNcoNMW9HJzybNu1hPirPdneQAacGObTGYkytUwozHNEg6JkV/WAgVX45IyhIVMcr9PIqFG9+ahHe6eIR+gTX8vesOo7MbkSstwbI5WqElqrWOhLLfdtIza294bSZxWCf7Sk1NqUulrw/rYPKJHGAn01EAbrdF0dhgZ0rB/iit2UyehXyZS9iDX4+AsFb9RPk50jK8Z8cvnbo5ZmP4Qom8LS1xblWY+E2ThtmhxoAD/y71OijaGWTFIyAXpdYgGfRAKwUXVH6SsQukvoXkIW+KX2LuCmOo8jDxB++tM7Yg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1755799955; c=relaxed/relaxed;
-	bh=IwkemSw4Vx24EVbbSX7QEvQKVtin90a3h15SG3fkg6Y=;
+	t=1755821540; c=relaxed/relaxed;
+	bh=0V9vnhvl7kfzNO/a9uciBu9rFyDt7meyaj/wnJfH86E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NNjHm8qTJpTtQFrPFSLdLHKyffevFwIeZEVRsiri26TtnNNQrk/cCOuOw8uPtG2NX2J8UxbI6VBhCYZnZqY7CzS3lkl9yt+WTFY5mK3bAKzE6t6FDWzPmKHk21vGHBwImUnJf01Fm8atAeWEuvYCsjx7mo6yWKEOukuNbynMzbDEzneJFcurLjcfg02IljBTGsmldYfQfA7ZjS4kE/kerzErQLvkKTYEdulChSWp/UsNxLln2imZDsio+4cbprkoUHwtcwO95PHP3kIv/3AlnaS6DAjgtQz1nHLHGGlL+dyWFoaXHUallJmxSsLgqMRfObLriDG8Fs6Gy9uiPYvnLw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jrbldMhW; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=n4urzghflsmqffu0zTFSjV+YL+p6jcPBr1AOy4HDdCiGPmet8IPHdSHYm1SNfxbK1NZCLa31nZsy/5PjzCak/CJ1fRk+93uok3NqzdDLg4qARl48V0lOEu3e9XLkYFd4q1VBc6lKDEfxa0t2epIsFS27+nIGXYENQMiiGudl0baEfK9iQnhhS/cUhLYcqcyCI512Nmdtk5GCc/hLi9PwSbOR7EHA8MmfDH11VwN3R1svA0/5IP+pMg7xHsjFUUI+6Fx1lwr/8VZehQamGPGnC880T3ZiwRTHeBAmlM15TnJNMFUh2ADUND5FVVDUHiDrYivHAI0WTcM6W2/Hye0pzw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=hE9vcDcv; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jrbldMhW;
+	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=hE9vcDcv;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4c7BHk6y0fz30T9;
-	Fri, 22 Aug 2025 04:12:34 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 54F2A601F8;
-	Thu, 21 Aug 2025 18:12:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79B2DC4CEEB;
-	Thu, 21 Aug 2025 18:12:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755799952;
-	bh=tyZZ+il8BMFYTQkAPqh2zWtcW1YYUU3DlFkhMHgu0cs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jrbldMhWX5CiMxOc8iQ+3bFUFDSo2J7QvQoVDX5+d2TS/S4+JogfQay5R7re4KtMX
-	 4raE5FpjqgERfbc5DUol18xjsccrX+F4mjJvwJcPcFYo9wLbe25hV++timmdwvbtCc
-	 xNCrh6GKumyWk8LSextmRdyKWgyNiFIxOWyKIt5XeyAipeIIzsqAXdcIS77zfYBvrX
-	 sLQcrvKhsbtwrvaDl7AQbGn2s+DTlReSPgE9h5S5O6pCNuz4GEruNpq8wmrhoASfUI
-	 5lDe9xaOMaCMZcr38WASAKZ83RIBIONE1ppqPBE2OA6tZ+rGoMOvbxfTmU+5KnrJ/i
-	 YzWMANvgvwPcg==
-Date: Thu, 21 Aug 2025 19:12:27 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Donald Shannon <donalds@nvidia.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4c7LGp32S8z3bb2
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 22 Aug 2025 10:12:17 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=0V9vnhvl7kfzNO/a9uciBu9rFyDt7meyaj/wnJfH86E=; b=hE9vcDcvu8i7v5Uh6vAfLCZ32i
+	GZ7mT1gdrfNFREwtqr88Ijj/ipJHSsfGjhcO4A/ygORSA94FThY1eRtgRDRs+TwVM7ZECF6tkQiYK
+	ynhgDpw8MDLJIG2eN0nJmK6tDak86IkvU19ggl9pv62PQBr1tAgtNSHTvObueR06Nt3s=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1upFNr-005W4E-6y; Fri, 22 Aug 2025 02:11:55 +0200
+Date: Fri, 22 Aug 2025 02:11:55 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Jacky Chou <jacky_chou@aspeedtech.com>
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
 	joel@jms.id.au, andrew@codeconstruct.com.au,
+	howard_chiu@aspeedtech.com, arnd@arndb.de, andrew+netdev@lunn.ch,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	openbmc@lists.ozlabs.org, etanous@nvidia.com
-Subject: Re: [PATCH 2/2] ARM: dts: aspeed: Add NVIDIA VR144NVL board
-Message-ID: <20250821-baffling-immersion-e86971edb6e0@spud>
-References: <20250821051047.3638978-1-donalds@nvidia.com>
- <20250821051047.3638978-3-donalds@nvidia.com>
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: Re: [net] ARM: dts: aspeed: ast2600-evb: Correct phy-mode to rgmii-id
+Message-ID: <6a3d7eb4-c091-437f-98f8-2b8577e539a7@lunn.ch>
+References: <20250821052555.298860-1-jacky_chou@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -68,100 +63,32 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="I8HKQZSFF8kf2/3M"
-Content-Disposition: inline
-In-Reply-To: <20250821051047.3638978-3-donalds@nvidia.com>
-X-Spam-Status: No, score=-3.1 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
-X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-
-
---I8HKQZSFF8kf2/3M
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250821052555.298860-1-jacky_chou@aspeedtech.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.1
+X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Wed, Aug 20, 2025 at 10:10:47PM -0700, Donald Shannon wrote:
-> +// I2C2
-> +// Baseboard 0 Management 1
-> +&i2c1 {
-> +	clock-frequency = <400000>;
-> +	status = "okay";
-> +
-> +	i2c-mux@70 {
-> +		compatible = "nxp,pca9548";
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		reg = <0x70>;
-> +		i2c-mux-idle-disconnect;
-> +		vdd-supply = <&reg_3v3_stby>;
-> +
-> +		c0uphy0: i2c@0 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		reg = <0>;
+On Thu, Aug 21, 2025 at 01:25:55PM +0800, Jacky Chou wrote:
+> According to the latest ethernet-controller.yaml.
+> Since there is no RGMII delay on AST2600 EVB, the phy-mode property of all
+> MACs change to "rgmii-id" mode.
 
-Incorrect indent.
+> @@ -123,7 +123,7 @@ ethphy3: ethernet-phy@0 {
+>  &mac0 {
+>  	status = "okay";
+>  
+> -	phy-mode = "rgmii-rxid";
+> +	phy-mode = "rgmii-id";
+>  	phy-handle = <&ethphy0>;
 
-> +		};
-> +
-> +		c0uphy2: i2c@1 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <1>;
-> +		};
-> +
-> +		c0unused2: i2c@2 {
+How does this change actually work?
 
-If these are unused, why are they here?
+I could imaging such a change as part of a patchset which changes the
+MAC driver, and how it handles RGMII delays. But on its own, how does
+this not break the board?
 
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <2>;
-> +		};
-> +
-> +		c0unused3: i2c@3 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <3>;
-> +		};
-> +
-> +		c0unused4: i2c@4 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <4>;
-> +		};
-> +
-> +		c0unused5: i2c@5 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <5>;
-> +		};
-> +
-> +		c0unused6: i2c@6 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <6>;
-> +		};
-> +
-> +		c0unused7: i2c@7 {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +			reg = <7>;
-> +		};
-> +	};
-
---I8HKQZSFF8kf2/3M
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaKdhiwAKCRB4tDGHoIJi
-0m2xAP4wGIl/Es2Bp6NAxJ+HV4Tf8VzTJK8IeGd3GjtpjTwM/gD/QRt1hUb5Xf9D
-jc00evZQh79KWiMdlVcfo/aTExP+xws=
-=y2Po
------END PGP SIGNATURE-----
-
---I8HKQZSFF8kf2/3M--
+	Andrew
 
