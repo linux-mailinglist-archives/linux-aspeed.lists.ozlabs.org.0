@@ -1,92 +1,47 @@
-Return-Path: <linux-aspeed+bounces-2165-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2157-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FF6B48164
-	for <lists+linux-aspeed@lfdr.de>; Mon,  8 Sep 2025 01:53:25 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9273DB46816
+	for <lists+linux-aspeed@lfdr.de>; Sat,  6 Sep 2025 03:49:08 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cKn353hPTz2ytV;
-	Mon,  8 Sep 2025 09:53:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cJbjX6fQWz2yrP;
+	Sat,  6 Sep 2025 11:49:04 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::436"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1757073209;
-	cv=none; b=CVjudJir9TCXLJ77Mr9o70EAML+Biowg+RCGu5/tEaK78J25pzFpIAH5SeFgWNvOhqOGaPr+59BOg7lyhgPwKEvTVVHdcdzsDeDNtPYE7UqwNQ8CqmklalRBASeO2KM7foEQ7ZVlglDSTgRuXXf6FD4QIlzYodyI/UpcKzYC9IBJYI1tRmPEJqQ9Q33lcDXS0ABQcqQePjnfBN/jih0lfFgD9h6JUbEcKHd9k5vOgE+DoiYLBivOJjpmm0orZ1l8Fywjn+jWEU2iRgPuksL9xJpmM6q7pKo/0dFmD6hpHSgcIjWRXfe2SDZLfqtwcnD7z5HE0DY8wk8PVUEvSUqcww==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1757123344;
+	cv=none; b=fjznXTAT74KFJfMsSanaieZRoNXT/YhV0B1GCta55MZW5gaquaRRBJuLiCKfb5JTypVEkRdbVzLazaNy6a2VrkslMcKdcA/zo3Zm8+ci9dVq0PCy/a8l0sfLU3rjne4JD0UB03hECStsN/P4HwyYw2Q8HAxP7S0SVqXfakkQ8+B5phOQWmI5Sf+cxLtBzQFN9B4R5b+lJn5n8xsb0B4ZjJEm11iX8bLY4augYy2eOytx96R1yo8fH3xNNVCNhdNC+BGmES5PLv/9S99ETcSnpxVYTCCBTdZZzykxsBO8pjsuWLmioKRRxNZdMxrOaa9SuwvWZtSS+S9QF5+TgC/1nw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1757073209; c=relaxed/relaxed;
-	bh=ibSd1EIrnlf1T65R99x8NmkSqz8ymnGekDTIZaoFiU0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UYM9xcGEO2Vm8HVgd71yxlqa8Bz5iKjsN8xLP1Smy4V3w3Y+82M2aVKDmS9WFgDkXPvuLFZ9iZnR88IMY4lf6DKER9yqocthK7eGkXJxPl83Xx2tED+2oA4U0xjUzQdukXTiTcKj+MficgFr7Ojgk8/fdurwJtazZfqCCck8Ubv0iJSwtJuavufq2+Nz0TUiHHmFdKBF7Tms4mbSP5RYQlutNnkKRoc6SNG72VRsLUlUCYbFxGf2JD6XowC5u5pelq9Ysfx8zdHx3f6twHpHUjppYekWZk0tBdvHvpd+9epXcjuzzU+lH9gdRZEoUlBTrtrpoTXjuSkhqew1ytK1rg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=btnl4tWl; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::436; helo=mail-wr1-x436.google.com; envelope-from=fourier.thomas@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=btnl4tWl;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::436; helo=mail-wr1-x436.google.com; envelope-from=fourier.thomas@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	t=1757123344; c=relaxed/relaxed;
+	bh=UzDVRuCah7NxKez4DJgHs0IE76L3D8WM+eGIV7r7Tcc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J8voV2JEoih3izQbTIvi9MmpfiWjdo/S03PN9HRTHf5ANMqZ2cCF6Sj2byiil+6yAVCSLoy/eXbBLB43e39CoMZy3Eq4cA2PzIBawOM7Uz783QSYsgNxvAuUhT5IS3as+WZyqyg1wssXpcnOeJhtIsVvc+JmtCWd/YvWKyRWPJsKDRdqj/OSPJDXC90ytUDA9lzXe0F670zIh394f8yTQCVZ4gNzk42smlFBvdOO0QpUJZXzynWmamRxygR4hx6xoPzxyPOmPdmtWVEehWj2Q21uWAgYqXv0iVHYMVhgB0+496J+3y0K7H32/gmMpZ5GlJfFVv0YBLRDv2dr4lc5lA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cJF9M1JRRz3c3w
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  5 Sep 2025 21:53:26 +1000 (AEST)
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-3e1a31c692bso33802f8f.1
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 05 Sep 2025 04:53:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757073201; x=1757678001; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ibSd1EIrnlf1T65R99x8NmkSqz8ymnGekDTIZaoFiU0=;
-        b=btnl4tWljHmsSxdFvl0Qy/bvdnCZsVuJIzLqQ2KaJ0PjSzz8SyszyQ6rxWt4Jf6o3j
-         S8RQrpHNizlgSMyqi3tfHyIaZWQN17NkN/zVCwYQr8sX5ZlZ3E82EPxBtfjqUZ+WUGMB
-         axWH5iAMkpqJdG2tUjEUBTJxr21pazEmWa2boBVtM4GAPsxgJar8M/mJUCGYgxco2h3p
-         x0J6L1PIhW3AOW2bx/HqNl7+kY6qJVYI+yhLy8nFN/hw7pjPgKvETjDVwcWUP9VjGMdn
-         oBrK4SOxq/ckmyavF+p5fu6KPsVu7odEBxvvmbe4BO/zdFkuOfSEASs6cXQPrzdXAUzC
-         DjeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757073201; x=1757678001;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ibSd1EIrnlf1T65R99x8NmkSqz8ymnGekDTIZaoFiU0=;
-        b=IOJAOLSEkmX5P3xwAi2qZZ+9ufpD5bEMMhVl4OVWles2HDMjYvZL896VnPUqvTdnHS
-         1KUEi54m7IVCsJ1jHoOc7wzfFQ/J+f4HBfeAfkNdWQ6PWdHDmrU+IcqvRWEvj9dSn6Dp
-         WCJ03VbmuO2Tdj3AFC8l6uPsnNvQqjz3ox9KEDN75xVRQmbOi70SEQTAQxziEvaUb9Cn
-         q7IyQpcLCgyL/sUYogrj+bu8TC9r6BzDGVRLesd+SwHnZV7Oe0tESLeMUX1QdVhvHpyU
-         V2OoKFztJ6H8lcOqjQFDQjneUvZrWvVac8Lp4lHRxTjq4XIY1HiUT883kI0UEYNvE5a2
-         h41A==
-X-Forwarded-Encrypted: i=1; AJvYcCVAilw78cGn6CJHOy7tAla7SinbC3cEbRPlvwGHCIx8KlAw4KyvEHwpoTGb4bxwJlyUzIR3Dp4WWx2YHH4=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yy8K9xg0cTpSh7G235X2JX8Q71yw4oWCM6PR+zgjcWm3Fab3zAJ
-	OZpvIEX36qnmHd+0Q0SjAdF2t4/qNkcKS8wOTLuOCoH/M727ZhBqJSi2
-X-Gm-Gg: ASbGncv3x0SGm8tYeJ5+seh0J+G5p5DbONK8ZQuW3wjvdSvF1nxW+HNORykqSTsFhEq
-	db9UZswycg34hhXAzuFtRQhMp6MKbhYd8P6iiFNDwoEcOP746E7N5Cb5TYvBITEWvE67sPZpQTt
-	LB3q3bT7A2ApcuDjpzoyP7qjbtvO74zGKsjBFJZcefJEX9Fl/uN81Kt4sMioHdiSZpCm3L6/ADy
-	zk5MxbLQhm3cHYHYkqgqPgYJg/KXaiIjQkQeaq822Hest9NKyYw3Tl38sDOivSv8FkKwPoewGQr
-	pkabJSNTd5FYU6ddUgXOcfpPigx1pZ30bdGf+p1QWvZKMYiPVes8SQAq2SZG5/tKwoHAPdckCV/
-	fwivByh7E79zcjXGolhjTqeH2aUHCDpK1NbBs/JOKrC/dfdpevPR01lslqNBvxcF32zwAyTSd
-X-Google-Smtp-Source: AGHT+IFgyUVRsNnagZ84Pf1RIyYo5EbfYhRyDK79C1hAlhHc/Tz4Dui23mAaHaZv4EihvJszPYZfqQ==
-X-Received: by 2002:a05:600c:3110:b0:45c:b659:6fd8 with SMTP id 5b1f17b1804b1-45cb6597198mr40677645e9.3.1757073200933;
-        Fri, 05 Sep 2025 04:53:20 -0700 (PDT)
-Received: from thomas-precision3591.imag.fr ([2001:660:5301:24:999e:a0c8:e30c:983a])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3e411219ddfsm1903897f8f.57.2025.09.05.04.53.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Sep 2025 04:53:20 -0700 (PDT)
-From: Thomas Fourier <fourier.thomas@gmail.com>
-To: 
-Cc: Thomas Fourier <fourier.thomas@gmail.com>,
-	stable@vger.kernel.org,
-	Neal Liu <neal_liu@aspeedtech.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Dhananjay Phadke <dphadke@linux.microsoft.com>,
-	Johnny Huang <johnny_huang@aspeedtech.com>,
-	linux-aspeed@lists.ozlabs.org,
-	linux-crypto@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] crypto: aspeed - Fix dma_unmap_sg() direction
-Date: Fri,  5 Sep 2025 13:51:11 +0200
-Message-ID: <20250905115112.26309-2-fourier.thomas@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cJbjW6hYFz2xWc
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  6 Sep 2025 11:49:02 +1000 (AEST)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Sat, 6 Sep
+ 2025 09:48:46 +0800
+Received: from twmbx02.aspeed.com (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Sat, 6 Sep 2025 09:48:46 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: ryan_chen <ryan_chen@aspeedtech.com>, Eddie James <eajames@linux.ibm.com>,
+	Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Lee Jones <lee@kernel.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v3 0/4] irqchip: Add support for Aspeed AST2700 SCU interrupt controller
+Date: Sat, 6 Sep 2025 09:48:42 +0800
+Message-ID: <20250906014846.861368-1-ryan_chen@aspeedtech.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -101,36 +56,55 @@ List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+Content-Type: text/plain
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-It seems like everywhere in this file, when the request is not
-bidirectional, req->src is mapped with DMA_TO_DEVICE and req->src is
-mapped with DMA_FROM_DEVICE.
+This series adds support for the SCU (System Control Unit) interrupt
+controllers on the Aspeed AST2700 SoC.
 
-Fixes: 62f58b1637b7 ("crypto: aspeed - add HACE crypto driver")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Thomas Fourier <fourier.thomas@gmail.com>
----
- drivers/crypto/aspeed/aspeed-hace-crypto.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+AST2700 follows the same multi-instance SCU interrupt controller design
+as AST2600, with four independent interrupt domains (scu-ic0 to 3).
+However, unlike previous SoCs that use a single register for both enable
+and status bits, AST2700 splits them into separate IER (Interrupt Enable)
+and ISR (Interrupt Status) registers.
 
-diff --git a/drivers/crypto/aspeed/aspeed-hace-crypto.c b/drivers/crypto/aspeed/aspeed-hace-crypto.c
-index a72dfebc53ff..fa201dae1f81 100644
---- a/drivers/crypto/aspeed/aspeed-hace-crypto.c
-+++ b/drivers/crypto/aspeed/aspeed-hace-crypto.c
-@@ -346,7 +346,7 @@ static int aspeed_sk_start_sg(struct aspeed_hace_dev *hace_dev)
- 
- 	} else {
- 		dma_unmap_sg(hace_dev->dev, req->dst, rctx->dst_nents,
--			     DMA_TO_DEVICE);
-+			     DMA_FROM_DEVICE);
- 		dma_unmap_sg(hace_dev->dev, req->src, rctx->src_nents,
- 			     DMA_TO_DEVICE);
- 	}
+To support this, the driver is refactored to use a variant-based init
+structure, selected by compatible string. Register access is also
+converted from regmap to MMIO (via `of_iomap()`), and a per-variant
+IRQ handler is used depending on register layout.
+
+v3:
+- irq-aspeed-scu-ic.c
+ - update for bracket-rules.
+ - update TAB not spaces to align.
+ - remove stray TAB.
+ - update end up aligned.
+ - add missing _ier, _isr in SCU_VARIANT.
+ - add two different mask/unmask/ functions for split and combined.
+
+v2:
+- Refactor SCU IC driver to support variant-based initialization
+- Add AST2700 compatible strings to YAML and header files
+- Extend DT bindings in mfd and irqchip for AST2700
+- Add IRQ handler logic for separate IER/ISR layout
+
+Ryan Chen (4):
+  irqchip/aspeed-scu-ic: Refactor driver to support variant-based
+    initialization
+  dt-bindings: mfd: aspeed: Add AST2700 SCU compatibles
+  dt-bindings: interrupt-controller: aspeed: Add AST2700 SCU IC
+    compatibles
+  irqchip/aspeed-scu-ic: Add support AST2700 SCU interrupt controllers
+
+ .../aspeed,ast2500-scu-ic.yaml                |   6 +-
+ .../bindings/mfd/aspeed,ast2x00-scu.yaml      |   4 +
+ drivers/irqchip/irq-aspeed-scu-ic.c           | 242 +++++++++++-------
+ .../interrupt-controller/aspeed-scu-ic.h      |  14 +
+ 4 files changed, 173 insertions(+), 93 deletions(-)
+
 -- 
-2.43.0
+2.34.1
 
 
