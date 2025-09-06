@@ -1,29 +1,29 @@
-Return-Path: <linux-aspeed+bounces-2159-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2160-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4827B46817
-	for <lists+linux-aspeed@lfdr.de>; Sat,  6 Sep 2025 03:49:08 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00543B46819
+	for <lists+linux-aspeed@lfdr.de>; Sat,  6 Sep 2025 03:49:10 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cJbjZ2mtvz2yrV;
-	Sat,  6 Sep 2025 11:49:06 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cJbjb3HG0z2yrX;
+	Sat,  6 Sep 2025 11:49:07 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1757123346;
-	cv=none; b=fg7qKV5eNGIsgj/NOho+XW1I2FDJnsJ7jvIVEt2SU3/mPJf6AvNqEsU+2nb1K+6benYg4OZLDuldkhmAlbiKI0NWKhkrLeoGbJLy6fnmOQlK0uoBSDt6swVKUpGT4HjAxFmSuOJfKGTzs6ytmCL8Ww3cTQSmV3uBcUjZrIKbk6ISle6uGACWLbv7+6Pj4TkzT9uXLMFlfygA9Fq3PO5tvjjTdPPUeDJVjC/111V3hN4k8MNGPrYC9IVUaL4UTY973Lm2+xyTewwotvH8H6IwQSniTd+HKZiDMbFeyOwV13jMTRlW6TAtH548iEC1OG/i7VmiVMBOdaeumuAphHEK0A==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1757123347;
+	cv=none; b=PjaYCt5VUu8O88sfSdKStyFZrNBOJHCJHAJmBLX3kHY5Yu6pjtb9UWyiw96ZsPZut7hKmiMEe3LzA/ljICx3rFO0AcrhI20j36U/pYnXJ+MlFumpgwBDCczykszeBXOREo7x/uXbWwPYXE5BWPdxsF7NDLfz+v1BfQjQIFGEHyJoPHEwvduaWw63FoIyVvvNk9dmMqa5v/0W9DVILieTvBODQVcm0uZPp4onOM6rcVduN66I8UmUU5BrNCX7EcNVtc59EOcuphFSsBlIwt2C1JBO8bTqJedbjW61YLFIaSFqwtIZDpRDyHvKOstSgkTuUum9DS6o+rfAB0/p9UqlAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1757123346; c=relaxed/relaxed;
-	bh=xUkwLhvxo+qlP8q48NozHmrayNsql7bqJa9Izys7F4Q=;
+	t=1757123347; c=relaxed/relaxed;
+	bh=oc9QtlnivrmyRdWiEc2S9LYTB9UqgUtEatt5XHUCLvY=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hs8JtUllkBPL1FeowRMRaetr7FY5S14y50GOTYDmF5MFXnLZx6dwGB9Lyo1kKK+lPFpgXB8Lg/7oJH0fc4t4gWdbidGL2lAShUiOTrjmvVMt2rSv7n3xEHK5NgNZQEnTynFxVcADARnKFG0/ii4+6WgDWQBmyJ18TnFZJCjuOji4RdX+h9JagwTtAL9/aE2+Pnv6bZlqvdR+rEZtf5tDNmN7/d46HzjiZ99BABde6QPfMrk2H4GVKETSi0mAmzNXCDkfC6OCzxjFJydC7uH95dKq5PhnNVGeyH15bluNCZITJeP/9K8L2bgmjo2uwIWNSYhv/fCAH2Iv9Nh6P7Qk3g==
+	 MIME-Version:Content-Type; b=FHjb8X8sVPNx9JhoKFse6rVjUKnekqD9zD6LcRDM00DJQOpWYppbDdiLS3oM+a48VG4ctYMSUxV/fN+xcnOPmw3JJ67zWExvRhmt8SAydYLcvlV0WjeOOHbh3gED2/sUlp7kfjtbD3T0KUjQkhq1WtLJEztFeXzMMHEC3NdhoRubhOJP/eL1+jeag+XFvi4/lknBpTrWchcYzZUJALduQ0MjOnR2Yjl0Bkc1L8Wss/v5qj+VKdUoq2MWd/eGqnqbQxRpOpP3Y9804dx6PoTIHNvCjzkZPcQXnLfsLR/dWAXsfPRTxCJkmMNGikg6Rh70XB9VB9Y5sKn8BK3kw7jkRw==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cJbjY6HkSz2xWc
-	for <linux-aspeed@lists.ozlabs.org>; Sat,  6 Sep 2025 11:49:05 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cJbjZ44h2z2xWc
+	for <linux-aspeed@lists.ozlabs.org>; Sat,  6 Sep 2025 11:49:06 +1000 (AEST)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Sat, 6 Sep
@@ -39,9 +39,9 @@ To: ryan_chen <ryan_chen@aspeedtech.com>, Eddie James <eajames@linux.ibm.com>,
 	Lee Jones <lee@kernel.org>, <linux-aspeed@lists.ozlabs.org>,
 	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v3 2/4] dt-bindings: mfd: aspeed: Add AST2700 SCU compatibles
-Date: Sat, 6 Sep 2025 09:48:44 +0800
-Message-ID: <20250906014846.861368-3-ryan_chen@aspeedtech.com>
+Subject: [PATCH v3 3/4] dt-bindings: interrupt-controller: aspeed: Add AST2700 SCU IC compatibles
+Date: Sat, 6 Sep 2025 09:48:45 +0800
+Message-ID: <20250906014846.861368-4-ryan_chen@aspeedtech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250906014846.861368-1-ryan_chen@aspeedtech.com>
 References: <20250906014846.861368-1-ryan_chen@aspeedtech.com>
@@ -64,31 +64,66 @@ X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add SCU interrupt controller compatible strings for the AST2700 SoC:
-scu-ic0 to 3. This extends the MFD binding to support AST2700-based
-platforms.
+Add compatible strings for the four SCU interrupt controller instances
+on the AST2700 SoC (scu-ic0 to 3), following the multi-instance model used
+on AST2600.
+
+Also define interrupt indices in the binding header.
 
 Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../aspeed,ast2500-scu-ic.yaml                     |  6 +++++-
+ .../interrupt-controller/aspeed-scu-ic.h           | 14 ++++++++++++++
+ 2 files changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
-index 5eccd10d95ce..67be6d095fe4 100644
---- a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
-+++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
-@@ -75,6 +75,10 @@ patternProperties:
-             - aspeed,ast2500-scu-ic
-             - aspeed,ast2600-scu-ic0
-             - aspeed,ast2600-scu-ic1
-+            - aspeed,ast2700-scu-ic0
-+            - aspeed,ast2700-scu-ic1
-+            - aspeed,ast2700-scu-ic2
-+            - aspeed,ast2700-scu-ic3
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2500-scu-ic.yaml b/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2500-scu-ic.yaml
+index d5287a2bf866..d998a9d69b91 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2500-scu-ic.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2500-scu-ic.yaml
+@@ -5,7 +5,7 @@
+ $id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2500-scu-ic.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
  
-   '^silicon-id@[0-9a-f]+$':
-     description: Unique hardware silicon identifiers within the SoC
+-title: Aspeed AST25XX and AST26XX SCU Interrupt Controller
++title: Aspeed AST25XX, AST26XX, AST27XX SCU Interrupt Controller
+ 
+ maintainers:
+   - Eddie James <eajames@linux.ibm.com>
+@@ -16,6 +16,10 @@ properties:
+       - aspeed,ast2500-scu-ic
+       - aspeed,ast2600-scu-ic0
+       - aspeed,ast2600-scu-ic1
++      - aspeed,ast2700-scu-ic0
++      - aspeed,ast2700-scu-ic1
++      - aspeed,ast2700-scu-ic2
++      - aspeed,ast2700-scu-ic3
+ 
+   reg:
+     maxItems: 1
+diff --git a/include/dt-bindings/interrupt-controller/aspeed-scu-ic.h b/include/dt-bindings/interrupt-controller/aspeed-scu-ic.h
+index f315d5a7f5ee..7dd04424afcc 100644
+--- a/include/dt-bindings/interrupt-controller/aspeed-scu-ic.h
++++ b/include/dt-bindings/interrupt-controller/aspeed-scu-ic.h
+@@ -20,4 +20,18 @@
+ #define ASPEED_AST2600_SCU_IC1_LPC_RESET_LO_TO_HI	0
+ #define ASPEED_AST2600_SCU_IC1_LPC_RESET_HI_TO_LO	1
+ 
++#define ASPEED_AST2700_SCU_IC0_PCIE_PERST_LO_TO_HI	3
++#define ASPEED_AST2700_SCU_IC0_PCIE_PERST_HI_TO_LO	2
++
++#define ASPEED_AST2700_SCU_IC1_PCIE_RCRST_LO_TO_HI	3
++#define ASPEED_AST2700_SCU_IC1_PCIE_RCRST_HI_TO_LO	2
++
++#define ASPEED_AST2700_SCU_IC2_PCIE_PERST_LO_TO_HI	3
++#define ASPEED_AST2700_SCU_IC2_PCIE_PERST_HI_TO_LO	2
++#define ASPEED_AST2700_SCU_IC2_LPC_RESET_LO_TO_HI	1
++#define ASPEED_AST2700_SCU_IC2_LPC_RESET_HI_TO_LO	0
++
++#define ASPEED_AST2700_SCU_IC3_LPC_RESET_LO_TO_HI	1
++#define ASPEED_AST2700_SCU_IC3_LPC_RESET_HI_TO_LO	0
++
+ #endif /* _DT_BINDINGS_INTERRUPT_CONTROLLER_ASPEED_SCU_IC_H_ */
 -- 
 2.34.1
 
