@@ -1,79 +1,47 @@
-Return-Path: <linux-aspeed+bounces-2164-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2168-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0F7B4776F
-	for <lists+linux-aspeed@lfdr.de>; Sat,  6 Sep 2025 23:26:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C876B481E7
+	for <lists+linux-aspeed@lfdr.de>; Mon,  8 Sep 2025 03:18:35 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cK5rG74Wnz3cYR;
-	Sun,  7 Sep 2025 07:26:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cKpxN391sz2yvv;
+	Mon,  8 Sep 2025 11:18:32 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.18
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1757193998;
-	cv=none; b=YVQILoE1kzbvRV3HXtBee6tZW4IhOwDUfAK5Tgur4rKb0/6FDnlB54taJyvK7j70ti5B0WsxUpXK3IMDwyIjaMjFKKpNt9wqBF0s3v27Z7HINFc6/XSFhexiD3q/SMTANaSbhEXo/8A3ujWEcJx0tFQdKMROL7vybgAawblBhprX8LbkzWAhJCjTdPHBHywU4jYeAA3I5N3H8IxN541WgBtQdduwbhdGrTYO6mCnghUG4bXRooewUAzTQxeoSpggsnb2AA0+rzLsdXsx2L+5KnN7/3Qk3FsMz/dF4y/Q2pZMHHvuQbjAgly6U6CAcyMlC2H11+Qu+PpVzbUcp2J2MA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1757294312;
+	cv=none; b=RiOhaD6/v0LNHcri470zlGE7hybq8nC9gswz4N7KLYQ1mQsraHckTECi7uc741/yVJYC4ITVctKtXh4vrvKEb+uC5F8iuyUUfSJEYTY43d4TJBGD9/7VSX5keSyCJE/7tBI/Xjh0OqEB4lk5McYPb1np6zXzwserBDuLzeo1AxgRwg1s8cHVfu01sP5JWGhJ1/lgIIN1CpQn61DcSTtN/NNnYD1ZwRuI+RHuy8Gh9srIDVNgpVaorSAfRmxRXMKggb6hK2M3zDR8TExxViCtLck7EaSj0CkVdlfyoZ7nZI16i6JbkAS7p7uUGLFlfMMJns+ErrnXfmLT+nqh5BsoTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1757193998; c=relaxed/relaxed;
-	bh=bpGvdDDzxeb87tuqFs6ccwLx+keES1rnW17BWnp2DKI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HjR3Mil0WDMvGrzalDc9JuId+xx2wEHZY7Nn8bQjZjazNAPN3b2YCLLg6x6g5QNJMYeLuWTtYpmOYJ4UtNPNkI3RcNRN/V6LjTIrn46fTMuRrxigU+lCHZweVCS2KW/sIiUQFHuC9gdBT6Dhl5B4G9Lq/GwiIaFgZa524zjAb/n71ah0ODGMvVStOecMsPIrG+JChniGKpN0hLeIR5GX4/2jwYek6Gr73cBbYiBWxaQpBfmDixeKb9rkKayNGFUqQKxC02cFTa4doa3fFBXXNHAW15O+aZYEQMHSjDHB+AERT1xpNS4hpwU/ONXUSA88JfNN6L3Gq87EM5FUe5I8Pw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jKsZEYKU; dkim-atps=neutral; spf=pass (client-ip=192.198.163.18; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=jKsZEYKU;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.198.163.18; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	t=1757294312; c=relaxed/relaxed;
+	bh=a9z27UVsU1jEb4XL5ZPmznsWnoATR9aoTY0tW7aWwAE=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FTI9jPYF006du1LW1kIiH2/70RAHLqn7heQXwMnSUB4qZQsk1X6eTrFtDsufzklmRQv0vGvWcJaqp51JBAemGeyf1NDCoGMosSENQyJ59O02h0S3Aj1HBWRKdsZD4uHTty7cv6XNZQmryzTqjJeoq8euvCLRFJX6LBvS2x0pwyUYgLWH807oWj+2fM3oAo1Zn9/p1jEPMV5zWB8wncUWD6vN48sAGanrUWYhHRNRDFAMsxMnk6JRVfCp0I8ezV/5ANcsyiSQV0ML5CIAdgofO6kTiusdT8rX/Mpp6POoRkobT0sDSTexiLyYFkJUHhCHRG0RkAlfjY3gblq9FMUcEQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cK5rD6tlTz3cYL
-	for <linux-aspeed@lists.ozlabs.org>; Sun,  7 Sep 2025 07:26:35 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757193997; x=1788729997;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CMGs8i3Y8nSpfA6lMpvHldw8w4ip7mYjXqWISfeH/PM=;
-  b=jKsZEYKUkWeIXNG+zwcdZdg+3YehNi+ogS09PFpRkTKsnr3UtmJZ4avb
-   U8sBjbFI0VQZLZ5k4HBB/rtyp2GMGcC2NdIlszEnDb5FFQs5pGWn/elg1
-   eI967CicoEpyY4tOgNuwDC01+ZeuCgmTrlOFtbfXHkdXLsMq4zKQJQvGn
-   3B/sptJnZgtMAV2kvK6ppI+p+71xFBwPlcs1zUIp5DTJMG9lghRkE15J/
-   ppQYJaGXelZQrWtqR7XfcjCEch+6aUtthgQQKsONp+nPtsWpTrZ2gD/4d
-   CZnPHTiZaLTapbHRFSIVFMdB+sKQpkvAhiuSIH5S+my8izdxGwuz8PhmB
-   Q==;
-X-CSE-ConnectionGUID: 1ZuuVKbtSBySASaWUYevKA==
-X-CSE-MsgGUID: 0UKCGShSQjSb5Qgs/VjcsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11545"; a="58715848"
-X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
-   d="scan'208";a="58715848"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2025 14:26:31 -0700
-X-CSE-ConnectionGUID: VbX9FkwRSrCKGheZZSUk1w==
-X-CSE-MsgGUID: XHIZwNXBQuyDKp8oVdJh6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,245,1751266800"; 
-   d="scan'208";a="172009225"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 06 Sep 2025 14:26:27 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uv0QT-0001np-1W;
-	Sat, 06 Sep 2025 21:26:25 +0000
-Date: Sun, 7 Sep 2025 05:26:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>,
-	Eddie James <eajames@linux.ibm.com>,
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cKpxL5bBDz2ytg
+	for <linux-aspeed@lists.ozlabs.org>; Mon,  8 Sep 2025 11:18:29 +1000 (AEST)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Mon, 8 Sep
+ 2025 09:18:12 +0800
+Received: from twmbx02.aspeed.com (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Mon, 8 Sep 2025 09:18:12 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: ryan_chen <ryan_chen@aspeedtech.com>, Eddie James <eajames@linux.ibm.com>,
 	Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Lee Jones <lee@kernel.org>, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 4/4] irqchip/aspeed-scu-ic: Add support AST2700 SCU
- interrupt controllers
-Message-ID: <202509070538.5HcCJf2T-lkp@intel.com>
-References: <20250906014846.861368-5-ryan_chen@aspeedtech.com>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Lee Jones <lee@kernel.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH v4 0/4] irqchip: Add support for Aspeed AST2700 SCU interrupt controller
+Date: Mon, 8 Sep 2025 09:18:08 +0800
+Message-ID: <20250908011812.1033858-1-ryan_chen@aspeedtech.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -87,83 +55,60 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250906014846.861368-5-ryan_chen@aspeedtech.com>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Hi Ryan,
+This series adds support for the SCU (System Control Unit) interrupt
+controllers on the Aspeed AST2700 SoC.
 
-kernel test robot noticed the following build warnings:
+AST2700 follows the same multi-instance SCU interrupt controller design
+as AST2600, with four independent interrupt domains (scu-ic0 to 3).
+However, unlike previous SoCs that use a single register for both enable
+and status bits, AST2700 splits them into separate IER (Interrupt Enable)
+and ISR (Interrupt Status) registers.
 
-[auto build test WARNING on tip/irq/core]
-[also build test WARNING on robh/for-next lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes linus/master v6.17-rc4 next-20250905]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+To support this, the driver is refactored to use a variant-based init
+structure, selected by compatible string. Register access is also
+converted from regmap to MMIO (via `of_iomap()`), and a per-variant
+IRQ handler is used depending on register layout.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/irqchip-aspeed-scu-ic-Refactor-driver-to-support-variant-based-initialization/20250906-095043
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20250906014846.861368-5-ryan_chen%40aspeedtech.com
-patch subject: [PATCH v3 4/4] irqchip/aspeed-scu-ic: Add support AST2700 SCU interrupt controllers
-config: arm-randconfig-001-20250906 (https://download.01.org/0day-ci/archive/20250907/202509070538.5HcCJf2T-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7fb1dc08d2f025aad5777bb779dfac1197e9ef87)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250907/202509070538.5HcCJf2T-lkp@intel.com/reproduce)
+v4:
+- irq-aspeed-scu-ic.c
+ - fixed missing inital mask = scu_ic->irq_enable << ASPEED_SCU_IC_STATUS_SHIFT;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509070538.5HcCJf2T-lkp@intel.com/
+v3:
+- irq-aspeed-scu-ic.c
+ - update for bracket-rules.
+ - update TAB not spaces to align.
+ - remove stray TAB.
+ - update end up aligned.
+ - add missing _ier, _isr in SCU_VARIANT.
+ - add two different mask/unmask/ functions for split and combined.
 
-All warnings (new ones prefixed by >>):
+v2:
+- Refactor SCU IC driver to support variant-based initialization
+- Add AST2700 compatible strings to YAML and header files
+- Extend DT bindings in mfd and irqchip for AST2700
+- Add IRQ handler logic for separate IER/ISR layout
 
-   drivers/irqchip/irq-aspeed-scu-ic.c:93:34: warning: variable 'mask' is uninitialized when used here [-Wuninitialized]
-      93 |                 writel((readl(scu_ic->base) & ~mask) |
-         |                                                ^~~~
-   drivers/irqchip/irq-aspeed-scu-ic.c:69:24: note: initialize the variable 'mask' to silence this warning
-      69 |         unsigned int sts, mask;
-         |                               ^
-         |                                = 0
->> drivers/irqchip/irq-aspeed-scu-ic.c:106:20: warning: variable 'mask' set but not used [-Wunused-but-set-variable]
-     106 |         unsigned int sts, mask;
-         |                           ^
-   2 warnings generated.
+Ryan Chen (4):
+  irqchip/aspeed-scu-ic: Refactor driver to support variant-based
+    initialization
+  dt-bindings: mfd: aspeed: Add AST2700 SCU compatibles
+  dt-bindings: interrupt-controller: aspeed: Add AST2700 SCU IC
+    compatibles
+  irqchip/aspeed-scu-ic: Add support AST2700 SCU interrupt controllers
 
-
-vim +/mask +106 drivers/irqchip/irq-aspeed-scu-ic.c
-
-   100	
-   101	static void aspeed_scu_ic_irq_handler_split(struct irq_desc *desc)
-   102	{
-   103		struct aspeed_scu_ic *scu_ic = irq_desc_get_handler_data(desc);
-   104		struct irq_chip *chip = irq_desc_get_chip(desc);
-   105		unsigned long bit, enabled, max, status;
- > 106		unsigned int sts, mask;
-   107	
-   108		chained_irq_enter(chip, desc);
-   109	
-   110		mask = scu_ic->irq_enable;
-   111		sts = readl(scu_ic->base + scu_ic->isr);
-   112		enabled = sts & scu_ic->irq_enable;
-   113		sts = readl(scu_ic->base + scu_ic->isr);
-   114		status = sts & enabled;
-   115	
-   116		bit = scu_ic->irq_shift;
-   117		max = scu_ic->num_irqs + bit;
-   118	
-   119		for_each_set_bit_from(bit, &status, max) {
-   120			generic_handle_domain_irq(scu_ic->irq_domain, bit - scu_ic->irq_shift);
-   121			writel(BIT(bit), scu_ic->base + scu_ic->isr); // clear interrupt
-   122		}
-   123	
-   124		chained_irq_exit(chip, desc);
-   125	}
-   126	
+ .../aspeed,ast2500-scu-ic.yaml                |   6 +-
+ .../bindings/mfd/aspeed,ast2x00-scu.yaml      |   4 +
+ drivers/irqchip/irq-aspeed-scu-ic.c           | 243 +++++++++++-------
+ .../interrupt-controller/aspeed-scu-ic.h      |  14 +
+ 4 files changed, 174 insertions(+), 93 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
 
