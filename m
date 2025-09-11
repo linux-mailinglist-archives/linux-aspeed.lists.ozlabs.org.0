@@ -1,80 +1,100 @@
-Return-Path: <linux-aspeed+bounces-2199-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2202-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E706DB51E22
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Sep 2025 18:47:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6020B5259E
+	for <lists+linux-aspeed@lfdr.de>; Thu, 11 Sep 2025 03:12:48 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cMRRs1jkDz3cxn;
-	Thu, 11 Sep 2025 02:47:05 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cMfgJ48yTz2xnx;
+	Thu, 11 Sep 2025 11:12:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:2418::60a" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1757522825;
-	cv=pass; b=Qbk244N+OfZ5uUilhDBa1qCZ+7zhE6IHgLdIRmQpfNjXolQ4tyoTqjUVrtLPH/3+deZweCzXhI75b5MKm499XxQXQ70Y4yg6Tw+wKDow0Fl0hBolT2pg5gsWax72OIlV2FPFa26MbarA3LdYg0rMH5Qly7W63RGIFcYny2Z/AGEHIkiQJURneFIMcxi36Dij8chAuUxyjk39wqcasb7hxO2RVReo7pgJc7deC9wkHX0IjZWx2NCmdOk/X1UTe0yK88P4ret8i5Wo5K6pCd7/tUcJ3MwCbGZIDDdcc7dD+aVum7W6DFNTjeTFYgGMH+faUrnCX/a0hdA0+yJixtuO6g==
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip=148.163.145.158 arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1757553164;
+	cv=pass; b=XKQZYMr1yfvjgsMDvsJVnQlPyVWwh0pljyjXXhWi66QRL09dcSWGYukhr5hihrArLYLCg08gvNzfdFxBiwRvf2aom3CSFqUsQoWPob1Nm+9oHXRqA6ZZEbuK0T5gdnVLWtR2VaigZ0oEv9SPNGMeJasPrw5vgL32oeV9GRBRzbJT+aT9bD1/LdKzoHE4wIeAjDCUK+yfh3kjjlFj33EGArXGY054YWB60VNrjgloknpxtwGikAsNyBNuPuffB482Qi/XadOSrLpXCM0H5nsd8rMZ1ZvHJFvbfXRqvTph0bvV/CppKkygMr+Q7vTE7OAzIREkDv341EcMO2/ThwR3bg==
 ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1757522825; c=relaxed/relaxed;
-	bh=wgyXfohafEVWnvUNtbplW9NjjPdVY9kTrIhSlSSYMvs=;
-	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Ju2kGrNhYPLGaVatZqSJK5HKKvAwNbzZua8HvsQKuQtLmBTW6e482/ry7P1I/1sdJqTIQPqrzBbDL4kXBjRKW+QsOPNH/gA9Rrn+gOSWca70kQJLHS19zaBNsKdaB8tTyjcgfgJkCPiIyRyZceQETTI4aYFsBPr7L2knH8CxAkPjjYRFATjDWSpA/AMPIqbn3jFgu8mt7bizLMa8rC/7brB0bYJ0n5s5cYTr8FbqGRWfSiO2bFfEmWq/4jg5jnF5PFzuVigZrTVWHxh+MJL8a6+yXUjEfXYz1MpnxBANx58FudUH21BB92vAfzQliONjkEqCKE+7wJFuq3V943GoUg==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=S6JSYCS0; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:2418::60a; helo=nam12-bn8-obe.outbound.protection.outlook.com; envelope-from=donalds@nvidia.com; receiver=lists.ozlabs.org) smtp.mailfrom=nvidia.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+	t=1757553164; c=relaxed/relaxed;
+	bh=ZPKQ07RAwabGyk5JJ+I+Ceq/mwkbIDQjsLM6juhzhqk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ZHk5fjQUNFeHCZMy/vEzDgo8+NYzC2SNru/1+P6ekJQL5B4KTJVr0HeXqRk0XRVcuXMvBQ453Y4LkZ2ij2xE3WaJAGIMYSZ+iuwWY9k00duWj0ZR7wDE4T12qdTvZT5dFZPY9os24RC0xCHdfuQGtL2TndJCZaTAfv25r+lwO2kvQXK+6Ib+icX/WVMr651AW9AicvSQ25R908S9bBtzq9B5rCUpK8XbFT62FypHTMPkl74I7U3GbbNXQ+hG9wO2TjZzSy2tw18IEXO/T9EjbPP/Tvi7fI/KTBHRaNqiGo5oLKdyo3ik05Zc68ZQwy3Z+c+CAeZQbgNv9loCo319lg==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com; dkim=pass (2048-bit key; secure) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=20250420 header.b=YP2ek7cB; dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=XZyZTbjG; dkim-atps=neutral; spf=pass (client-ip=148.163.145.158; helo=mx0a-009a6c02.pphosted.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org) smtp.mailfrom=wiwynn.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=wiwynn.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=S6JSYCS0;
+	dkim=pass (2048-bit key; secure) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=20250420 header.b=YP2ek7cB;
+	dkim=pass (2048-bit key; unprotected) header.d=wiwynn.com header.i=@wiwynn.com header.a=rsa-sha256 header.s=selector2 header.b=XZyZTbjG;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=nvidia.com (client-ip=2a01:111:f403:2418::60a; helo=nam12-bn8-obe.outbound.protection.outlook.com; envelope-from=donalds@nvidia.com; receiver=lists.ozlabs.org)
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2060a.outbound.protection.outlook.com [IPv6:2a01:111:f403:2418::60a])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=wiwynn.com (client-ip=148.163.145.158; helo=mx0a-009a6c02.pphosted.com; envelope-from=delphine_cc_chiu@wiwynn.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 1289 seconds by postgrey-1.37 at boromir; Thu, 11 Sep 2025 11:12:43 AEST
+Received: from mx0a-009a6c02.pphosted.com (mx0a-009a6c02.pphosted.com [148.163.145.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cMRRq1R77z30Pl;
-	Thu, 11 Sep 2025 02:47:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cMfgH20j4z2xnn
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 11 Sep 2025 11:12:42 +1000 (AEST)
+Received: from pps.filterd (m0462404.ppops.net [127.0.0.1])
+	by mx0a-009a6c02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 58AIqLOW3388628;
+	Thu, 11 Sep 2025 08:50:39 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=20250420; bh=ZPKQ07RAwabGyk5JJ+I+Ceq
+	/mwkbIDQjsLM6juhzhqk=; b=YP2ek7cB7/H2dexp7J+3J7fOi+OlMxOwARBHDgg
+	kCFA5ozaIlKAJpgsEkeGsFpJsTn29a8OI3KM5CYPvwCNL5/iosDuiiHieGVV1FiF
+	E1rnp5X0l1DFYx32xaEn7yDXFSESjYqqaeLZY4o+SEaJz+ojdJFUUrqEo770tHGY
+	s6DHha0xODcas3F3cT+bfwLBOgulz7BRQfG5ooGDamuLakDHnS5Pd5Sd7A3MSWjG
+	VfGcsU/A0DtJV+gRtBaR6xl+9xCWD2BHzKnjp0B+qdfxIC10Ub4OgNv1asm4I8KH
+	7+ThyRtrcuunuPly5X6sJOQDe0p0IddW6Ytt4OYDmEbMUlw==
+Received: from tydpr03cu002.outbound.protection.outlook.com (mail-japaneastazon11013025.outbound.protection.outlook.com [52.101.127.25])
+	by mx0a-009a6c02.pphosted.com (PPS) with ESMTPS id 493f08raee-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 11 Sep 2025 08:50:39 +0800 (WST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SCHOU3ojqKY8hSNC8a7QyAVK2gW9yr8/cS5ksW5xgsIECy4COj9XGP7xEZqSR5cwS64zmzIaQuywGVZosCiA6tM/dTCM1XcCnldzug1MrYjE/JBctJA0jDL2n7QIVgBYkM4uobR+dPpitilUZYmCdrkEeDu94RdBFpbT7FCcOsliR9NcDY6b0Luaj1NCEbf6gjBFv4FAYWtA3GTSu27bjFyVqkVqn3iZEed2sOWRyngXcV76kNPH05SUFJrxeZaEkVkS9mbHhYR+EKCPk5F8qSHAKFMdutGWNmY0sUmttvhS34ESMLl8fR4niu1SRQAXHynxzLn1U8u8dNAg31uW3w==
+ b=ZXVAJ1jOnIF+uvhPqSSgDzIsTi7WvFYtL+vOMWcwowoZWWBQWUB7/qY1Ue5jZV8+cbJmsqEyzULk+d+u4aoRVd8q73448flNJkJgigXWYBK5sHnzcoGI8TW9dTPSvxI8cBX3bkW19DJPd2SGTRRNhGI75yiH97QQcYdrkqFiKyWnrkufky6jzY1ZzKgYJ9NTwibHqbg4Rm4IyYsUzlBdtSEqGRJ8311oqb7oi4qNfLZyBlmMPAfqQVQVDq5lEkFulP2gW4wW8RAQWa7ZwCZXHyu4JPUKnTERYrQLXD+e/Itq37+4gOc/HcfsP6zIIV38Oge2nNvjDucLgnQqVCSGOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wgyXfohafEVWnvUNtbplW9NjjPdVY9kTrIhSlSSYMvs=;
- b=kNdfGbDljj5uXYNugXHwJZMgN3k4+RxzDukA955d7S82P3cbBZQTGIk4Q2OrSFvoFkeoa41RD8Ev089MJSNFkyxUbbbii9xl1ugPwdkYK0WCCE1azsVpvrmzBKqhOKs+sqYWXsPG8NmebvTH7YRBsTbBvMSe61pEO1JzD2n/1ZroDoB64UlEmv+EDjCzhSy+pphzM1MyEyyUc6o3WYYn57V2xdfOi/z19kTV7MahggdarqCYjPUUe860ZQCp1drdT0jcMAPN6ac0RErxwudg2BeEDm/tngTp0BhVjbYsNDDRe86W/CEJNZAAdSXbQGLdCoH5vVOKBZSEwaL4HuVzRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ bh=ZPKQ07RAwabGyk5JJ+I+Ceq/mwkbIDQjsLM6juhzhqk=;
+ b=E6NqceHc2ieGyqaZmNyu90vkTC6sCe+4RQIJePnIzlQyEpErg1S9VA955XtojIzaP18AtTSoViWL48T1X/69Y/Dc39NVnjobeSedfRfH9O8zYFb1i4fcwLjWB3YNa5ZO53HM0vcm3mIw/0qegMXm//NgxNlEJks2V++yJJr01640j9M7mSeejliZoARbmPDwfUeiMBQh5r+dU/aDaO5zWkXamxqcw2Q/7pQdBRpbOt4pbKsuqchoByPBhAMQQupxTz/BRmmZwqdxRyJpVv3ym2BI2JYp89TjKaptaw2aXtScOdIcyBcjO/aXvTj9BbiPFT73xTq9MlNVn0URC78d/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 211.20.1.79) smtp.rcpttodomain=stwcx.xyz smtp.mailfrom=wiwynn.com; dmarc=fail
+ (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=wiwynn.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiwynn.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wgyXfohafEVWnvUNtbplW9NjjPdVY9kTrIhSlSSYMvs=;
- b=S6JSYCS0rm0Rwvhr8+F/r4bTdBBtHdEswA9PC1sRROEfIkFhoEtD/muCONack9tD+z5UeKd3XE3MEU1YK8K7aaoRgrhTrSE0wuj1P0iAPM4H0Uxnky+bYphbWmxw8H0uGvl91ucaGKcaRmK5eqtJM1F6/uniSpsbKeziAazUiPJipz/sPVwKKVCNmGhrL9xPA/3lteJbdPE+2+YjJBVcglQGPZzlWXhZdEyKX6FQWBafRDh6JLHhuidg1zoNhj7wtyROcwgWDEMJ7tUw2IAdvF56zg70DJ2YzRTy9467fcLyAcWgxzvwsQA+xppm8TehT83LXsBhPcZoXsVXgFTXMA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH7PR12MB7282.namprd12.prod.outlook.com (2603:10b6:510:209::7)
- by IA1PR12MB8221.namprd12.prod.outlook.com (2603:10b6:208:3f0::19) with
+ bh=ZPKQ07RAwabGyk5JJ+I+Ceq/mwkbIDQjsLM6juhzhqk=;
+ b=XZyZTbjG1Umb/ZCp+KgolqPyXsdl1+ls+0cw9y3shItXQ8aBcorTXQshOoNZRvJxBA14h5BFAMcJ5YYQt9W9yRizvVFE7dFlP/21n+VU6J2ecbwh0SJd/DzfIrGjh4ZmZthCCKkuZ2EVScst6K/n1wEpl8k3brkR/PEnhaWWT9luYt6O6BAnwsp/jSzdiGgWzE6Ex2C7TwdbW0PVS/iusJ8DXzU6WWb4bxO2HgPiaGmQU2By8hGkBWiwUwkJVSLviEpUDhJBp8rWVWWiDxcdrlHfherAilFTYH/ZQhbdRCd7OGPVZ0dMw4J9OhtQoCF/dArZMORUSsbTwfnFjHhkDw==
+Received: from SE2P216CA0205.KORP216.PROD.OUTLOOK.COM (2603:1096:101:2c3::12)
+ by SG2PR04MB5820.apcprd04.prod.outlook.com (2603:1096:4:1b8::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Wed, 10 Sep
- 2025 16:46:40 +0000
-Received: from PH7PR12MB7282.namprd12.prod.outlook.com
- ([fe80::6f03:f851:7f6c:c68d]) by PH7PR12MB7282.namprd12.prod.outlook.com
- ([fe80::6f03:f851:7f6c:c68d%3]) with mapi id 15.20.9094.021; Wed, 10 Sep 2025
- 16:46:37 +0000
-Message-ID: <f0b75151-d355-4d03-a356-dfbfb7a9e803@nvidia.com>
-Date: Wed, 10 Sep 2025 09:46:35 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] ARM: dts: aspeed: Add NVIDIA VR144NVL board
-From: Donald Shannon <donalds@nvidia.com>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, Andrew Lunn <andrew@lunn.ch>
-Cc: joel@jms.id.au, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, etanous@nvidia.com
-References: <20250822203818.4062595-1-donalds@nvidia.com>
- <20250822203818.4062595-3-donalds@nvidia.com>
- <f9cd6015c47d390eef9c689d2cb4fcd301c4d123.camel@codeconstruct.com.au>
- <fcd64668-4232-4d7b-98ec-5326d40d19d7@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <fcd64668-4232-4d7b-98ec-5326d40d19d7@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0341.namprd03.prod.outlook.com
- (2603:10b6:a03:39c::16) To PH7PR12MB7282.namprd12.prod.outlook.com
- (2603:10b6:510:209::7)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Thu, 11 Sep
+ 2025 00:50:34 +0000
+Received: from TY2PEPF0000AB85.apcprd03.prod.outlook.com
+ (2603:1096:101:2c3:cafe::cf) by SE2P216CA0205.outlook.office365.com
+ (2603:1096:101:2c3::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.17 via Frontend Transport; Thu,
+ 11 Sep 2025 00:50:35 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 211.20.1.79)
+ smtp.mailfrom=wiwynn.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=wiwynn.com;
+Received-SPF: Fail (protection.outlook.com: domain of wiwynn.com does not
+ designate 211.20.1.79 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.20.1.79; helo=localhost.localdomain;
+Received: from localhost.localdomain (211.20.1.79) by
+ TY2PEPF0000AB85.mail.protection.outlook.com (10.167.253.5) with Microsoft
+ SMTP Server id 15.20.9115.13 via Frontend Transport; Thu, 11 Sep 2025
+ 00:50:33 +0000
+From: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+To: patrick@stwcx.xyz, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@codeconstruct.com.au>,
+        Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+        "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc: Zane Li <zane_li@wiwynn.com>, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: [PATCH v1 1/1] ARM: dts: aspeed: yosemite4: allocate ramoops for kernel panic
+Date: Thu, 11 Sep 2025 08:50:31 +0800
+Message-Id: <20250911005031.106393-1-Delphine_CC_Chiu@wiwynn.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -88,406 +108,120 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB7282:EE_|IA1PR12MB8221:EE_
-X-MS-Office365-Filtering-Correlation-Id: c16e9618-f91e-46e2-a2e5-08ddf0899be4
+X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB85:EE_|SG2PR04MB5820:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 9a9026f0-d154-487a-229e-08ddf0cd3720
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|82310400026|376014|36860700013|61400799027;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MFVjYWtHcUE5MCtCTGtpRmdXaVkrbU1Id0FyZGhud3lYVXNLem9tc3NrZHFw?=
- =?utf-8?B?ak5GMVJqTWpOMVlJUlp6R1gzMVc3TzZpR2I0OEVKM01lSlV4eUNUY3NQWEhx?=
- =?utf-8?B?cUtHd3ZpQys4aGxjSUZNbnNrRFJQZlNnSmYwV044aEp4dGpwVWYxRGp6MG5w?=
- =?utf-8?B?U2FLM2l4QlVFZmpkbEtuRmtVQ0ZxbExzbFNZUFc2S3ZRNmE0cGRVaW9Zb0Uw?=
- =?utf-8?B?b0ViNXRzNDhOSkZZMnhtSUUwY1dkMTVMN3FSdHZENzJxQXJIN2lDL2xWSXZL?=
- =?utf-8?B?dEY1eHl1ZzFCMHNDM0tncWEzci9UbTc3Tm1VY0VUQ2txa3AxOUY2U0IwM1Ro?=
- =?utf-8?B?Q1B5ZEFtTUZBYjBKZnVnejFYUThxUmk0VkhnMTRONU92YXRiSE9Od25QVlFI?=
- =?utf-8?B?NHVnQU1ITVhaYS9FUSt6cSsrWG1KdlU5Q3RReVEzUWNsQUxoa1dIMGswRU15?=
- =?utf-8?B?dHpCSFErazZQZHlVNi9obXc2RW1tTXY0ZFdnRVFSZzhJUGNudXE4ZHRKNVRo?=
- =?utf-8?B?bUJ0Q0FPZ3Zzb3ZLbzNmQnlKVmFWUkh2SS9rNHdCc2lDNkR0SFEyUTBNbkFj?=
- =?utf-8?B?UnpPNDlid0RjeHRURnpNVVdjeHpwS3FiaWR0NjV1ajVUdHppZEZGcWp5OENF?=
- =?utf-8?B?TnEyY3hxL3BmajdybmMzdU1nS2dubzFyYzcyK1RSZUhMSnd5MnBtWE1ockJn?=
- =?utf-8?B?TFN1N1BDTVhhNWhrU1VUeGZqUm5ZdlVXVnhKa0hHd3ZOdXphYnBHRWpGVHR0?=
- =?utf-8?B?ZGxQVmtlOGl6dmZWNm1WZnhaRDZBTkd2U1RDd2JEL3RFOUhyUUlncUVOeWJh?=
- =?utf-8?B?b29IMUZBeXJTRGR2eUhQakVORDVYK1BuU251Q1Q4Vzg1MDdJbHpheXdodkVm?=
- =?utf-8?B?Y2c2aU81OGl5T3NXNndnSjluVG1MZm5ac0tZenFrZFJxbXUyMVRnNG8xaktK?=
- =?utf-8?B?eEd5cUt2cjZFYzNCanRhVU5aZnNsVWRiVWUvUlFrUTc2UWdRSE1WanFPei9D?=
- =?utf-8?B?UWlLYmVzdWdzcWNqVEJwZTN5OWxmWnBhejVEdlB2YTJ2NWlnbDlyYWg5UUg2?=
- =?utf-8?B?Sy9jMHRXNzBjUk5wRFlsazF2WDBrS3kyNW0vQ3Zld1MrNWRBOGRiZzBpUGJ2?=
- =?utf-8?B?RVRSc2ZEVEhLa1B2VXVZTDRKZytvSDQ3dDlzNVVqbEhVUm9Gdko5LzJ2aHFq?=
- =?utf-8?B?cWM1dVpPdnI0cDR2bExJUk1JcEF4SU1Rb2ZGNlBVdmFoWVE3dmh4aTdjSlZU?=
- =?utf-8?B?RWpOQUdYSnEyVnE5VERtNVh4Z292VXdYaVF5ZjRuR3BWUU55OGJreThrMVBX?=
- =?utf-8?B?RDloVEIxZ0EvTy9TZzF1QVpIUklSVEFreFZnUDMyNC9RRDdVY2xpNlQ1ZjFI?=
- =?utf-8?B?eFhkbExLdHBuRzJEaFFqQmNxcVZWQ3FYVE9wNnJLSk5zZU5KQ2E3eFh6L3Nk?=
- =?utf-8?B?ai8rTkpVUmF1WExLSEJjd2xyKyt3VmVaSFBTU01SR0h0ZnV1QzZtaXJCTHQ5?=
- =?utf-8?B?SUlUQXBvNjBqK0xVMFowZXB2cFFWUGhHQWZkdFFRNEIyYnk2VkdacHdZOFkv?=
- =?utf-8?B?SnptYXkzUFZjWGNERVdLVXpIRXcyT1B0M2l2dHppZnh1dTdnSzFnR2UyUWhW?=
- =?utf-8?B?N0lGc3JDbmljaGd4RldxNklGM1hsTTFaQk9DS1lES2dORDZycFVxNTFjSDJF?=
- =?utf-8?B?UXc1SnN5VWFZTzFQWm1pVXcxSkNoWW9PV3JFRFZVNXpVRDFEdFRjTnBXSGow?=
- =?utf-8?B?Kyt5SnQ2WjJpaDNkSWEyakdndklkMUhaK1NyR1NoSzR6TFd2QVJBVXVjMzJs?=
- =?utf-8?B?T05FMnNnRCtNdjBtcHJKemVlV0JoTndJSDJnYVFiYU16NC9HZmlFbXZsTXE2?=
- =?utf-8?B?d1dDb1pEdWFHUmZYVGxUVThUR2hpbWYrRkJ3c1NuS1ZEam9Wbkd6Z0lHc2FI?=
- =?utf-8?Q?YJf+sKbkiYc=3D?=
+	=?us-ascii?Q?bHMdwlUfZST3Mp7vyQMFEg0Q1WRw+DFqoMiPE+CfMayMwCJRvqFIzXXfEg08?=
+ =?us-ascii?Q?c/EGt1GFfYIT6CGgFWk5Ta430DZG9D/9GGOYtWeOtic4hqsDk9oOE6A3RyX0?=
+ =?us-ascii?Q?kJIKe4ccs7svdPtoAup55u7hgzedO0vuGtl+N6GXlUcL1v5UeuWJL7Z7enm/?=
+ =?us-ascii?Q?c4E3GcJvwxFPiAa7l1OZXakLxCXMm7E/anjBV95mNHFPmBcaQ3d+mRlYEKqq?=
+ =?us-ascii?Q?6pO60N3Me0A6Nz6jZEC+AkXkGyPD+Jt53dTIIai5szNyig5jmrAQy2LWD8iI?=
+ =?us-ascii?Q?cirJnb+ywRTVJ1FKQHdxaUVcKcOtK5GweGAyOpwInsf2KM69HZJCbx9uz7sk?=
+ =?us-ascii?Q?eGQdpONwGu1uL0CUJT3UiWgESPW/EHVC1QrxnVFLewsJJQBNnIDAxhRqpaYh?=
+ =?us-ascii?Q?vknXqoGqPGk6+4uAGKmVfR39CPvxhWikC1JDV8pSnEtukiH5LfHJqKTGW45Y?=
+ =?us-ascii?Q?wBJziSEQHqHWpC7qTvSIi+p//xre8aqcuUlNzA8xaJe05UDoAlVi0xYdCkiT?=
+ =?us-ascii?Q?cfs8+mFGo2+Ej/ueeVjbrDQEbpoVZQkCFiwLN6tTZ+HoY54LlmGIkTflj9sR?=
+ =?us-ascii?Q?RWTMQdWn1eLivAbyJpaDp4cQ+m5M/ka5jq/rHfaOD6QPjZhOW+FGb9xJMR5h?=
+ =?us-ascii?Q?1pzE0TOYD94I8nIqWnS4umLyamp8dgcMrpnH0pcjS0W/3bbuXQQUmUEJzjBw?=
+ =?us-ascii?Q?enQQ2GD1dyMHcNDYmZgnII3bZAqK5nYKboy+rPUJxovI4j2iqQ4GbqJqt1AR?=
+ =?us-ascii?Q?mPUH55ibdThW0yuJqzEoaBQ6fOlsvZgef84tfWUXMo1whuFb86oVc1Pdh7sp?=
+ =?us-ascii?Q?xY1Eh2pmK5hnELOUprZoKhY8B19UIqzxGJKJDEIUpKTQKwAOQeDmYUv3uUD3?=
+ =?us-ascii?Q?8/AGEhIDlFF2I3e8EtLOrFMQ0j3VC0ouOSdJfXBPZmAfa/qoZWCFM3+q10KD?=
+ =?us-ascii?Q?nbt7yWM2mI0xC4ijaaAM/KNFkKfVOOevkT82GFRQSbMJ1NLiJzoVMUiyas/p?=
+ =?us-ascii?Q?y8mUwUYQNRlAi0QgzUBXJS1LNLTe1rdK8LIGtQ+pN7xZnjmgH6OKnS/cU5YD?=
+ =?us-ascii?Q?KgobMJ+eKWGVPc+xJRg6SsUmbQFCXKB+zYdX9p7pqrcgiILPYMeg8UxDfYu6?=
+ =?us-ascii?Q?ZKY5pIb2iFLKhS2TabPdXdt6SlDOb3CoAjjuckQRPHrWH00+Uqswn1Yn+f7e?=
+ =?us-ascii?Q?sATjKoz6HNchHqO8D/hReNLUws+hLJAxr+mpeqGSJFEHWCi1hQb9W/hPx33I?=
+ =?us-ascii?Q?bsfORaEnXgXxF5/J67X5RqgAExZh8KQKoLc82gmXAx6vP5rDoeS+L7t/uZP7?=
+ =?us-ascii?Q?xACi37IHM4PJqtnrJXdB76ac/EAB1H26vG2Qvwi9uMKxhItqiGAVZu1A30im?=
+ =?us-ascii?Q?qphMGn/qzF3m/fa9FggJSQtI2rAk516x9QRzPT7U832KtS/5GTSpRgxPUXHW?=
+ =?us-ascii?Q?GVLFfpaIdz2dY/BiZrLJCUcMGfIXVKLLdA0WETux+sjDNREEp4tI4cMqoduY?=
+ =?us-ascii?Q?I3yz3J9JOsfQ7DFAjBQnmJcBLXkVzZDWsmtD?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB7282.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UlIxejc1MUZOSjJMNHNudHpvSml3R3VQRWtubkkwWTBYUjZqejk0ejR3UUdI?=
- =?utf-8?B?cHl4S3lkSnpaT3dDQ2NZSzRtbGt5ZjBqRnZWaXhmVEV0MG9oNE80c3BQR2hy?=
- =?utf-8?B?STFpRVVEL09OM1VraDRWQkk3aGY1L1diT1dUYUozSXhnTElDdHM4R3FQelZn?=
- =?utf-8?B?U29sRXVaSmRCTlBhaDZrTWhGaTB4b3I3ZTI4YzFqTmtiVDltR0FjVitFcHhm?=
- =?utf-8?B?LzkzN2RsVGFNRExtNzMvWlV2cm9xMkpveDBZbks1d3NxaDlkSmJhRUY4b0s5?=
- =?utf-8?B?Yzc4MWF6MVNpdHVUQTdxVWNPbENkcExYd0gwOE1WRTJUUzRLV3RZS3BnTXVh?=
- =?utf-8?B?N2t6Y2ZWTFNYemppZHVxZHhGNGIzN0ZJMHhsTG8xNGgxYlczK2lqeUlIRHVM?=
- =?utf-8?B?NWs3WFBRSDlXeXFVSjdYczFWWDRYWlBQcGNjRGR0b3ZGblI0dUJsZVNSWDlw?=
- =?utf-8?B?NFlzaitZcnR4WW1CRHlxMjFKdDZoV1FNM2g4RFFrK0FuczJVS1VHdDM5bnpT?=
- =?utf-8?B?ZWc3ak9xaytDMWVMM2ZRZGxKcmZyOUFaQU1iYVFPbGxzVFlvKytHS0RiNEhV?=
- =?utf-8?B?SVpqdTZ5YmdPZVdUU0VIUzlrQWlqekg5SzB5bmFJNmh3SXhzcDl2TWpiY0FU?=
- =?utf-8?B?YXJEUmkzbzF3WXR5RTJENjA0MlhPbGxOV3Q4WldBdXhUMVlQYmdHbzRBT1RO?=
- =?utf-8?B?SGRWQ2UxRHl0VWp1MWQ4UVRpYjQwZXJNMFY4V25ydjZtN2hhSnp4T3Rmc2d4?=
- =?utf-8?B?RHRxSmJVTE9ZSGEvUWtRRG13b3UyNXRNcUd1NUxCZWpaNmNVVUR4NU5OamRs?=
- =?utf-8?B?TFFYRW9WNEU3eklWNXFaVGI1bEhwNS9aaUNDWE5wRCtXSUZqYVhQY1diUzVL?=
- =?utf-8?B?MHRMQTNQenpQd2dtSXdWS01pbk9ORk9mY2Z5b3Q0ZDF5RGduaE1md0RlajdE?=
- =?utf-8?B?amxPRGpiMUljSFVlOTA0MXRMdVVhNDBXd1RPZXVhbDhPSDVGTVBCU1Z3eFVa?=
- =?utf-8?B?NHp5ZDlUTzNMbmdvd3ZCVFh0eFVjTzZUTVRYN3Jlak1XWUtmbGw5dWRWZ2JX?=
- =?utf-8?B?NXE0TVM1d2wxMFZIRFQwelltUFN1UC8xNVJNOWhqWEFtUDFpQTg2YzFQQjBt?=
- =?utf-8?B?TmxHUS96Y3g3TVErS0h1ZFdKd0tFYmo3Vk1MVDRwMG11L2VhRzFoUXk4K1pB?=
- =?utf-8?B?VmVEaHZUZnI4cnRSNWgrcFpIelhQNmR5UFB4RjJKbDBqNEowUC9qd2dWeTNp?=
- =?utf-8?B?ckJLL2hMQTdMcm8xdjlkNGlNU2dxbWdHZFRURUNrWkV1MkFpL1pBREtUVFBM?=
- =?utf-8?B?ZlZMYks1aDRpUTY2ZUhaajFscDBXVmRITDRMbXZuSUxUdnJWU0I1VkZNbDNp?=
- =?utf-8?B?U0dIQ1BPT040d2thTDg5MzZnS1ZNNGlHSUR6cVlldWNpekxQaVRiSGNOcVB6?=
- =?utf-8?B?dGVhdHhZR3NaMVlBUTIzeE5USjJROVVhTU8zbWtadXE0Yi95dXRIbGVOcnk3?=
- =?utf-8?B?R2lOVFQxVjloVU9sRUJtRkd3NEpWUWoyUUlTNjJ0c1lDY1ZIU0VLS0VYb3Zx?=
- =?utf-8?B?T0o3UjMyNDhmWTlMWHJoenpiQzBaelJVcDNhSEdFbUlNV2RITlRZampsdnAy?=
- =?utf-8?B?emJlVEg0TDFWK2QrOWpWUVNzd1hJOVVVV3M3a3FDZ01pU1J6VGR5QXRtSG0z?=
- =?utf-8?B?ZkhnQ296SHh4MXppWHdRTVkwaFA3SW8rckZDSkI0bERiTlkzWlBKUTZSVzdY?=
- =?utf-8?B?aFBwdFNyK2ZRSnV4OG9ES3ArYms3UkdRNkd5UTJUVWRuMnBTMzRyWGFsc1lq?=
- =?utf-8?B?b0FjVTJNbC9nNmRoWTREblNuK0dUYURneTBwYThjSlQzWjlrUzl6WE5Sa1hX?=
- =?utf-8?B?Y3RTTFZqSXRaWk1sdE9STDhhMjhUdmVlRVYwSHZBd3NXK2hodDhUN0R2WklI?=
- =?utf-8?B?OXFxZUo0d1dDOFBEUHJ1dWpRY01nQTNXZ3lzZ1ZiK3ZIWm12Nkx6ZTY2THJ1?=
- =?utf-8?B?MDFKUHFISnlGK2hVd2NMZjVBWDJZaDRITmJxRVRqOHNSM1g3ejlneWh3WFZv?=
- =?utf-8?B?TUZzS0hESmYzVCtEbW81ak9FZXFsRnpvU0Iva21hTnd3SDZSeUZEQnVSZjY4?=
- =?utf-8?Q?ohmvjiw0SDGhoILH2jF2ywDSb?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c16e9618-f91e-46e2-a2e5-08ddf0899be4
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB7282.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2025 16:46:37.5336
+	CIP:211.20.1.79;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:localhost.localdomain;PTR:211-20-1-79.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(376014)(36860700013)(61400799027);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	rk73RPT87GO6zUHStUJdcQZr0wDrOn2wdL+MlLxxIG9c6zhTV1im8c66+khpo5GUgxpMqBCkxA5lAcjyVTSwbvQttg0UeQg+kFD/M9s4FuotvFK9gIYfm5v80sUTYtfrpzRXCcYEFALE8ThabQMNwZPLiXw/Iq7wauZlXea/DzrSZTZGbRsS+Cbhtgg2dAgP9BKvfl4u5tdi/t3qKs5rXmYhIhK2/089sqbsT6hhNWSmFuSxxl2f6pCNWasJ1uaEXIzkRXaUR5dzDez19+vwYH9yj1vBmuJlZ6n74ZGFXBy4c/iJ4suy35wnGoIi1G/qVU2wmE4lUB144c+jhmkmrAy7q2b5w7QgbJ3pMhPPKwOLhhUJBQhGMfNqIQTscuK4tfH7XCMJjtN51f9YI/a/xZdf6o911QDRr/bxkAUwFjOjxK+cKqBCUnwTnbjXU5G5N13o+zUdy4v+adDZBv5Opyf71mEx72QXju6+HKgyWzmaaMiYBB0IvGyBa7Of0D/rodh8UIBnbR6euYAbjFBd5dF7U+nTi2PRGHS1jDq/26yXP5NS73ewIaooAjlXMdRzK+P9Wmfl5qJYuEZteJLpRzap9b795Tq6icsLFJ+DnfgGCrAttZZEz11uG6+ncNbH
+X-OriginatorOrg: wiwynn.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 00:50:33.4638
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z3cZSMU5FPqUp8r6Z/RipuTH5GD7lkVZZjRew/ewwsnLPyptFp94yC/aiGHCRXpobRQi1eXta9JKMhxjxrqBIQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8221
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a9026f0-d154-487a-229e-08ddf0cd3720
+X-MS-Exchange-CrossTenant-Id: da6e0628-fc83-4caf-9dd2-73061cbab167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=da6e0628-fc83-4caf-9dd2-73061cbab167;Ip=[211.20.1.79];Helo=[localhost.localdomain]
+X-MS-Exchange-CrossTenant-AuthSource:
+	TY2PEPF0000AB85.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR04MB5820
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTExMDAwNSBTYWx0ZWRfX56m4zyTX6y4u
+ cTMAm3v9pcvhjG0VyV/svSzQ2x9j96belVoZzS9Fw2h6vRLxfzw1hFpP4KfWNemLA7mfIXX1a30
+ F5ucplmfIH1wS4IQrNboE7OHPeZ5dRz4Cv2QldWwwMxOk/VMod6RAXffVRrjmm25utfvpjKPCaU
+ 2SsszjSxwbAkBGSmowgoAcIhpVp8MXXI3cJDl7VDhViip1ksWLiptbj6pFkIAGhVXO7HqpE+2X9
+ 3El2nZz/X1214b3NACyFfKRydvThC9mwkkShHgp70au+Mn5jjwdAmET4LfWO7wTU8vLUZPcUURb
+ fcr9Jcvh8c4fpgPOZtiJDbyYOs0+i9cLNvjmTqMAJ98fzL6ftQZKkCiS2X/ypw=
+X-Proofpoint-ORIG-GUID: An46KwUAR4FalNKCGQNti75L8RY_uJx6
+X-Proofpoint-GUID: An46KwUAR4FalNKCGQNti75L8RY_uJx6
+X-Authority-Analysis: v=2.4 cv=BPKzrEQG c=1 sm=1 tr=0 ts=68c21cdf cx=c_pps
+ a=S6QD7gy098v9jWutmuivGw==:117 a=6rDDh2uRNVCE5HFPCIqeAA==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=yJojWOMRYYMA:10 a=4AL28aEVfeMA:10
+ a=cPYzWk29AAAA:8 a=EWjN2FjsdnYFZB9OOiMA:9 a=oSR2DF9YFqZEN4IGatwP:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-10_04,2025-09-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 spamscore=0 adultscore=0 impostorscore=0
+ phishscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2507300000 definitions=firstrun
 X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	SPF_HELO_PASS,SPF_PASS autolearn=disabled version=4.0.1
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On 9/9/25 16:05, Donald Shannon wrote:
-> On 9/3/25 00:07, Andrew Jeffery wrote:
->
->> Hi Donald,
->>
->> On Fri, 2025-08-22 at 13:38 -0700, Donald Shannon wrote:
->>> This is an Aspeed AST2600 based BMC board for the NVIDIA VR144NVL
->>> Platform.
->>>
->>> Reference to Ast2600 SOC [1].
->>> Reference to DC-SCM Spec [2].
->>>
->>> Link: https://www.aspeedtech.com/server_ast2600/ [1]
->>> Link: https://www.opencompute.org/w/index.php?title=Server/MHS/DC-SCM-Specs-and-Designs [2]
->>>
->>> Signed-off-by: Donald Shannon <donalds@nvidia.com>
->>> ---
->>>   arch/arm/boot/dts/aspeed/Makefile             |   1 +
->>>   .../dts/aspeed/aspeed-bmc-nvidia-vr144nvl.dts | 779 ++++++++++++++++++
->>>   2 files changed, 780 insertions(+)
->>>   create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-vr144nvl.dts
->>>
->>> diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
->>> index 8062c685f7e8..b479824c434b 100644
->>> --- a/arch/arm/boot/dts/aspeed/Makefile
->>> +++ b/arch/arm/boot/dts/aspeed/Makefile
->>> @@ -55,6 +55,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
->>>          aspeed-bmc-lenovo-hr855xg2.dtb \
->>>          aspeed-bmc-microsoft-olympus.dtb \
->>>          aspeed-bmc-nvidia-gb200nvl-bmc.dtb \
->>> +       aspeed-bmc-nvidia-vr144nvl.dtb \
->>>          aspeed-bmc-opp-lanyang.dtb \
->>>          aspeed-bmc-opp-mowgli.dtb \
->>>          aspeed-bmc-opp-nicole.dtb \
->>> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-vr144nvl.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-vr144nvl.dts
->>> new file mode 100644
->>> index 000000000000..5984984b5109
->>> --- /dev/null
->>> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-vr144nvl.dts
->>> @@ -0,0 +1,779 @@
->>> +// SPDX-License-Identifier: GPL-2.0+
->>> +/dts-v1/;
->>> +
->>> +#include "aspeed-g6.dtsi"
->>> +#include <dt-bindings/gpio/aspeed-gpio.h>
->>> +#include <dt-bindings/input/input.h>
->>> +#include <dt-bindings/leds/common.h>
->>> +
->>> +/ {
->>> +       model = "AST2600 VR144NVL BMC";
->>> +       compatible = "nvidia,vr144nvl-bmc", "aspeed,ast2600";
->>> +
->>> +       aliases {
->>> +               serial2 = &uart3;
->>> +               serial4 = &uart5;
->>> +               i2c16 = &c0uphy0;
->>> +               i2c17 = &c0uphy2;
->>> +               i2c24 = &c1uphy0;
->>> +               i2c25 = &c1uphy2;
->>> +               i2c32 = &i2c_usb_hub;
->>> +               i2c33 = &i2c_tpm;
->>> +               i2c34 = &i2c_dp;
->>> +               i2c35 = &i2c_rtc;
->>> +       };
->>> +
->>> +       buttons {
->>> +               compatible = "gpio-keys";
->>> +               button-power {
->>> +                       label = "power_btn";
->>> +                       linux,code = <KEY_POWER>;
->>> +                       gpios = <&exp7 9 GPIO_ACTIVE_LOW>;
->>> +               };
->>> +               button-uid {
->>> +                       label = "uid_btn";
->>> +                       linux,code = <KEY_FN_1>;
->>> +                       gpios = <&exp7 11 GPIO_ACTIVE_LOW>;
->>> +               };
->>> +       };
->>> +
->>> +       chosen {
->>> +               stdout-path = &uart5;
->>> +       };
->>> +
->>> +       leds {
->>> +               compatible = "gpio-leds";
->>> +               hb-led {
->>> +                       gpios = <&gpio0 127 GPIO_ACTIVE_LOW>;
->>> +                       function = LED_FUNCTION_HEARTBEAT;
->>> +                       color = <LED_COLOR_ID_GREEN>;
->>> +                       label = "bmc-hbled";
->>> +                       linux,default-trigger = "heartbeat";
->>> +                       default-state = "on";
->>> +                       retain-state-suspended;
->>> +                       retain-state-shutdown;
->>> +               };
->>> +               pwr-led {
->>> +                       gpios = <&exp7 8 GPIO_ACTIVE_LOW>;
->>> +                       function = LED_FUNCTION_POWER;
->>> +                       color = <LED_COLOR_ID_WHITE>;
->>> +                       label = "pwr-led";
->>> +                       linux,default-trigger = "default-on";
->>> +                       default-state = "on";
->>> +                       retain-state-suspended;
->>> +                       retain-state-shutdown;
->>> +               };
->>> +               uid-led {
->>> +                       gpios = <&exp7 10 GPIO_ACTIVE_LOW>;
->>> +                       function = LED_FUNCTION_INDICATOR;
->>> +                       color = <LED_COLOR_ID_BLUE>;
->>> +                       label = "uid-led";
->>> +                       default-state = "off";
->>> +                       retain-state-suspended;
->>> +                       retain-state-shutdown;
->>> +               };
->>> +               fault-led {
->>> +                       gpios = <&exp7 12 GPIO_ACTIVE_LOW>;
->>> +                       function = LED_FUNCTION_PANIC;
->>> +                       color = <LED_COLOR_ID_WHITE>;
->>> +                       label = "fault-led";
->>> +                       default-state = "off";
->>> +                       retain-state-suspended;
->>> +                       retain-state-shutdown;
->>> +                       panic-indicator;
->>> +               };
->>> +               warn-led {
->>> +                       gpios = <&exp7 15 GPIO_ACTIVE_LOW>;
->>> +                       function = LED_FUNCTION_PANIC;
->>> +                       color = <LED_COLOR_ID_RED>;
->>> +                       label = "warn-led";
->>> +                       default-state = "off";
->>> +                       retain-state-suspended;
->>> +                       retain-state-shutdown;
->>> +               }; 
->> To be consistent with my request on your other devicetree series, can
->> you please order nodes that either have no unit address or reference a
->> label alphabetically, in line with the DTS style guide?
->>
->>> +       };
->>> +
->>> +       memory@80000000 {
->>> +               device_type = "memory";
->>> +               reg = <0x80000000 0x80000000>;
->>> +       };
->>> +
->>> +       reg_3v3_stby: regulator-3v3-standby {
->>> +               compatible = "regulator-fixed";
->>> +               regulator-name = "3v3-standby";
->>> +               regulator-min-microvolt = <3300000>;
->>> +               regulator-max-microvolt = <3300000>;
->>> +               gpio = <&gpio0 ASPEED_GPIO(M, 3) GPIO_ACTIVE_HIGH>;
->>> +               enable-active-high;
->>> +               regulator-always-on;
->>> +       };
->>> +
->>> +       reserved-memory {
->>> +               #address-cells = <1>;
->>> +               #size-cells = <1>;
->>> +               ranges;
->>> +
->>> +               vga_memory: framebuffer@9f000000 {
->>> +                       no-map;
->>> +                       reg = <0x9f000000 0x01000000>; /* 16M */
->>> +               };
->>> +
->>> +               ramoops@a0000000 {
->>> +                       compatible = "ramoops";
->>> +                       reg = <0xa0000000 0x100000>; /* 1MB */
->>> +                       record-size = <0x10000>; /* 64KB */
->>> +                       max-reason = <2>; /* KMSG_DUMP_OOPS */
->>> +               };
->>> +
->>> +               gfx_memory: framebuffer {
->>> +                       compatible = "shared-dma-pool";
->>> +                       reusable;
->>> +                       size = <0x01000000>;
->>> +                       alignment = <0x01000000>;
->>> +               };
->>> +
->>> +               video_engine_memory: jpegbuffer {
->>> +                       compatible = "shared-dma-pool";
->>> +                       reusable;
->>> +                       size = <0x02000000>;    /* 32M */
->>> +                       alignment = <0x01000000>;
->>> +               };
->>> +       };
->>> +};
->>> +
->>> +// Enable Primary flash on FMC for bring up activity
->>> +&fmc {
->>> +       status = "okay";
->>> +       flash@0 {
->>> +               compatible = "jedec,spi-nor";
->>> +               label = "bmc";
->>> +               spi-max-frequency = <50000000>;
->>> +               status = "okay";
->>> +               partitions {
->>> +                       compatible = "fixed-partitions";
->>> +                       #address-cells = <1>;
->>> +                       #size-cells = <1>;
->>> +
->>> +                       u-boot@0 {
->>> +                               // 896KB
->>> +                               reg = <0x0 0xe0000>;
->>> +                               label = "u-boot";
->>> +                       };
->>> +
->>> +                       kernel@100000 {
->>> +                               // 9MB
->>> +                               reg = <0x100000 0x900000>;
->>> +                               label = "kernel";
->>> +                       };
->>> +
->>> +                       rofs@a00000 {
->>> +                               // 55292KB (extends to end of 64MB SPI - 4KB)
->>> +                               reg = <0xa00000 0x35FF000>;
->>> +                               label = "rofs";
->>> +                       };
->>> +               }; 
->> This isn't using one of the usual OpenBMC flash layouts? Can you add a
->> comment as to why?
->>
->>> +       };
->>> +};
->>> +
->>> +&spi2 {
->>> +       pinctrl-names = "default";
->>> +       pinctrl-0 = <&pinctrl_spi2_default>;
->>> +       status = "okay";
->>> +       // Data SPI is 64MB in size
->>> +       flash@0 {
->>> +               compatible = "jedec,spi-nor";
->>> +               label = "config";
->>> +               spi-max-frequency = <50000000>;
->>> +               status = "okay";
->>> +               partitions {
->>> +                       compatible = "fixed-partitions";
->>> +                       #address-cells = <1>;
->>> +                       #size-cells = <1>;
->>> +
->>> +                       u-boot-env@0 {
->>> +                               // 256KB
->>> +                               reg = <0x0 0x40000>;
->>> +                               label = "u-boot-env";
->>> +                       };
->>> +
->>> +                       rwfs@40000 {
->>> +                               // 16MB
->>> +                               reg = <0x40000 0x1000000>;
->>> +                               label = "rwfs";
->>> +                       };
->>> +
->>> +                       log@1040000 {
->>> +                               // 40MB
->>> +                               reg = <0x1040000 0x2800000>;
->>> +                               label = "log";
->>> +                       };
->>> +               };
->>> +       };
->>> +};
->>> +
->>> +&mdio0 {
->>> +       status = "okay";
->>> +       ethphy0: ethernet-phy@0 {
->>> +               compatible = "ethernet-phy-ieee802.3-c22";
->>> +               reg = <0>;
->>> +       };
->>> +};
->>> +
->>> +&mac0 {
->>> +       pinctrl-names = "default";
->>> +       phy-mode = "rgmii-id"; 
->> Is this correct, in the context of the query here?
->>
->> https://lore.kernel.org/all/6a3d7eb4-c091-437f-98f8-2b8577e539a7@lunn.ch/
->>
->> If not, please drop the node from the patch until the MAC driver is
->> fixed with respect to the RGMII delays.
->>
->> Andrew 
->
-> Hi Andrew,
->
-> I will change this to alphabetical order.
->
-> The extra space in our flash is for root of trust application. I will note this in the next patch.
->
-> I see that the ftgmac100 drivers do not use the phy-mode parameter so I will leave it out.
->
-> Thanks,
-> Don
->
+Reserve a ramoops memory region in the Yosemite4 device tree so that
+kernel panic logs can be preserved across reboots. This helps with
+post-mortem debugging and crash analysis.
 
-Hi Andrew,
+Signed-off-by: Zane Li <zane_li@wiwynn.com>
+---
+ .../dts/aspeed/aspeed-bmc-facebook-yosemite4.dts   | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-I am getting conflicting messages in my v3 patch series and want to confirm what the consensus
-is for removing or keeping the unused phy-mode parameter. There is some inconsistency in
-the existing dts-es as well.
-
-Our board phy implements tx and rx delay, so -id would be the appropriate one to use if we
-decide to use it.
-
-Should I keep it or remove it?
-
-Thanks,
-Don
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+index aae789854c52..4ec1abae1175 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dts
+@@ -49,6 +49,20 @@ memory@80000000 {
+ 		reg = <0x80000000 0x80000000>;
+ 	};
+ 
++	reserved-memory {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++		ramoops@b8dfa000 {
++			compatible = "ramoops";
++			reg = <0xb8dfa000 0x6000>;
++			record-size = <0x2000>;
++			console-size = <0x2000>;
++			pmsg-size = <0x2000>;
++			max-reason = <1>;
++		};
++	};
++
+ 	iio-hwmon {
+ 		compatible = "iio-hwmon";
+ 		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
+-- 
+2.25.1
 
 
