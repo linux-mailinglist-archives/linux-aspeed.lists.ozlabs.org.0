@@ -1,77 +1,60 @@
-Return-Path: <linux-aspeed+bounces-2231-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2230-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23708B58906
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Sep 2025 02:19:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F486B57B14
+	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Sep 2025 14:32:39 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cQjFR1WWSz2yrF;
-	Tue, 16 Sep 2025 10:19:23 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cQPYx0KDVz3dS6;
+	Mon, 15 Sep 2025 22:32:37 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::42e"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1757929663;
-	cv=none; b=hzjqN6pzglb6OmuTK0gT8BX0Y0360CHNIsBlfXDaFhW70jdWgZnQV5YtUQuTrHcweIfwpnQn9F79OlG5X4a7S6hiTJa+xy0Nxbeoc40n4IFxv4I+RWENQsSd9m4YsldvXBsxgPOShL5BLnh/VO2nBu9SYD7RVn/4bQtHUzNigBHgUl0JjdRbc2/9kdcWbF/o4G30czFu8O27xL/O0MUzjJvBIBdCxR4MdYP0pPVHwFUYRVf0Gr4DaFXElprU6MRSur5hDQHWN6woQRyg+7Zne5or3uL5dcJCTQA3grCwLp4qgaX+8m6mfao9tq+ERotMto8JAJibrliijmL1FiLpQw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1757939556;
+	cv=none; b=YoApJylODjoCfE+TEJeAQD05LwNCm2OgKBRndpG95AnB6R3s8Ebw4cYs3I6y7bJ7xyIGhYwUm1t3tCSDECjgraaIEY+H7xSQxXsAzMUPQ7q7uKonvsPSftFq/fEDOm7HRqTbaYM9WuwOmN39MpoBaNEbBb7fMkEDKj5geE4fiANuJjz5L3CTK3CdORj0vcz/L8YiNpoEc1TknxkP8XE/j8hbXYqG6VtMcRa8R+78Qp93UKWbZ33SICg8INxbwLJ5EV3ZuIhfipkZBovp4IquNMXCd1xUI+wr1luVxlUxHjwNAj/c5pWv4SPj1oMWTVcjviwl4p3gvRtOjsNaXLJKqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1757929663; c=relaxed/relaxed;
-	bh=puq/QVPjJHJaaP1wqvS4Jd4MbGPB7yk1PKVylU/wUU8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=IInxMBcQyOiPiN+w4qNi1DONziThi0E4S0ej3lfX9A3ULykvzVjOU3GgtjhqXQUbV9enx3taya+QazGzszwEmYHuRnf3TeYRvnlgvZJsM/qAkfafsejzMBmRRnZNDPnqsHAi8E9gN6u4ABqf0Pr3B1HuVWsrf+09B904/WXnjKCEIBbDwMwM10A9LZsXPK73ksXzX82LCgPg4rzLveHA+wB8xTXfIhSRhCQiWqOKoD3lX4lrJ3EMYHWti2R0kP8Y4zodARyGab51da0MEqH4pOt7PCn+KxOWP9W4ZUHyTabxDesFdlWiZgUfzV8uSsNblQDWt6NRQAm8ErSF+iVTZA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DmfRUOLF; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::42e; helo=mail-pf1-x42e.google.com; envelope-from=leo.jt.wang@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1757939556; c=relaxed/relaxed;
+	bh=L+qwPhZJSfWWFHa/0JQ9FLyPYdavHmaBAX9ONZmEHB4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kywrInoXag0Cb6L1A2ygaCXsgD2aeU1BpwZZ4Qrb5J3HgJPnXQk2RMXKwd2HIhwIk8lZP2gyKD26ax6QwMyx4QQCaKqjpiq05Gtjc7uUGASigV6x1SsXBfJj17VFHEsobSYfUzK1tz1R+xhMDno0EC5+y4OEMV3gSAsQ45jOyj6obBrlPWvCAieRTDy3JnVG2M5NzjozGOGf3TDI5nIGFHOZ17USnYNANMzL6w79hiKWgc0+CaxodfcQprVJxITEQu84RfWe3n6WNJytGp/0MhZu2B4yV/sfS6dVyg9hM8vFOsmGwM0NGLhM6wCaegcOD8E+2Z9ms0bMduUeTtt5SA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=BA16kbce; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DmfRUOLF;
+	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=BA16kbce;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::42e; helo=mail-pf1-x42e.google.com; envelope-from=leo.jt.wang@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cQKvf6d29z3dGr
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 15 Sep 2025 19:47:41 +1000 (AEST)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-77786498b5fso767412b3a.1
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 15 Sep 2025 02:47:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757929659; x=1758534459; darn=lists.ozlabs.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=puq/QVPjJHJaaP1wqvS4Jd4MbGPB7yk1PKVylU/wUU8=;
-        b=DmfRUOLF2l8r+zJJSdcs+1fDkD1+A6DacTpQrXWKNKus21vyehNoFE33cg4ETioHE3
-         /iEcIv2qSjHoB+Gpk45GBlJARfE5GIFGbAxbg+ywt5IXnia4zOKISiMNu776BPGXYqM5
-         nD+NRn6+Ny2IT9DxWUfyR+KF514mTOGfujg9yWrlsyH0Ajfy2OVL27JqLRzrZ2n24Syb
-         ulC0z710JEmTxMC2b7NkmUVXqh5lO7mXf0dtgrcJBn0hUzi5Tt4lfAH054VAeOH6FU5B
-         7wVrewHEBwqzcTQcPG7d3ZW7DtBV2wak2xS045DkboWdf0MgTQwVLGkr+yLpf4RDr9Tz
-         C5sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757929659; x=1758534459;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=puq/QVPjJHJaaP1wqvS4Jd4MbGPB7yk1PKVylU/wUU8=;
-        b=NHWgrB85Cnn9/OcT1IwJmpqlPNQckRZAGy5m70dKG36TVPhFCwotd/fbj9RjKRYTFd
-         ndz9dDOua7dErR6e+e3bFZLwmt/yqYnK37wcolZ3cZlzHOa9a7+Vvxrjtwlc1+puQMdx
-         NvLHulkUd0ilLcmcR6Z2niAlE9AhsQCStn4UsEnzH7pwX6u6kUo000VgCtSWw943NQID
-         iLm/ZajENFFiitVLZkPUGbPth4ahVG2YcoS8+a7mWoxUGOj++QXVCCTYXlD8dJpX++eA
-         tsyvCBPU60xzkgoX8qS8bhe7+Hd0ittBER4PGWx3EHBHq4TT23kTreGoySDhAk6nfL53
-         QPww==
-X-Forwarded-Encrypted: i=1; AJvYcCW+p1fcgPJTnGx3GE497OqYF0pnurNgJzLAv//NItut1EL2tENOEg/4MebFnYi/WWgcNBHtmbWyHSU+RZs=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yyag40+U/MVwbI3jxMQiOTIqfek9Az33jUu+bkOKjxCRdaRju4v
-	dFONQevItYxVYg1EOd0Dua3ClyU4G7Gez0K4kJNAfVTJYbD0BgCw5ImE
-X-Gm-Gg: ASbGncu9Ej+eNnxIBoE+YRijuhw+c3jvZXVqzhGsmYzJh8n88LRHHHh2aQZnX0VxcIL
-	ZGM49zuWwTxuikf/gj99qG+UHk4bvB6WZAB+vrz2w/daRrrlH3znEbPtTFVqRhWY6360OnGYVew
-	pkj5eQuGD4+Ri8AnGl07VnlW5Te90JAgOz8F0mdNlx/yagZuCD07cdPt+Nly+AJsu1TPzg3nsQu
-	dc/TAk/hKHceMu+JlalY7wojd/jJMJi7ZE4Y16ZxwMILu1ArMAlRiXtSXrtjLn3tLNfWdLhoxDz
-	ZvScP9OV9wWXpyT2ryk/vjIgaEweJfhcgLzP2Jxbq98LfwkAxXRbMolw2XGuDgqh9bPxlL86E/P
-	AyJMdqT2PLDrspiy03nsTaTDAcK2OvaST8/pl0yRkfR0R3QRQ6iETJFRDbEI=
-X-Google-Smtp-Source: AGHT+IGkXts2jRdzrIsnTzuf0gryCyKv7pwYxHT8stwUeB3vyz3wWYX7tzBsHMaYizcHXmUk5+6mwA==
-X-Received: by 2002:a05:6a20:432b:b0:245:fb85:ef58 with SMTP id adf61e73a8af0-2602c90cbe2mr16311805637.40.1757929659394;
-        Mon, 15 Sep 2025 02:47:39 -0700 (PDT)
-Received: from [172.17.0.3] (125-227-29-20.hinet-ip.hinet.net. [125.227.29.20])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607b184f4sm12997210b3a.62.2025.09.15.02.47.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Sep 2025 02:47:38 -0700 (PDT)
-From: Leo Wang <leo.jt.wang@gmail.com>
-Date: Mon, 15 Sep 2025 17:47:23 +0800
-Subject: [PATCH] ARM: dts: aspeed: clemente: add shunt-resistor-micro-ohms
- for LM5066i
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cQPYt40vYz3dM1;
+	Mon, 15 Sep 2025 22:32:33 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=L+qwPhZJSfWWFHa/0JQ9FLyPYdavHmaBAX9ONZmEHB4=; b=BA16kbceQ0CW2l1BGcmB7I60Ya
+	QnN81//wbpw8quKuMH6/dnUkOgJEKiQRUZqo2vg5uMwODqj2BFBbDfb6tacvlyba3eyRndm4qgcmz
+	m3umrb5pHfC90FqVjq/If662ZML4vhaE6WCfO5tab3MsZReSECjUY8H6hDgUxpR7uSZk=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uy8NQ-008RD7-1w; Mon, 15 Sep 2025 14:32:12 +0200
+Date: Mon, 15 Sep 2025 14:32:12 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: Donald Shannon <donalds@nvidia.com>, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	openbmc@lists.ozlabs.org, etanous@nvidia.com
+Subject: Re: [PATCH v2 2/2] ARM: dts: aspeed: Add NVIDIA VR144NVL board
+Message-ID: <6b50e9fb-ce59-406b-bab6-6cfa4eb44e3e@lunn.ch>
+References: <20250822203818.4062595-1-donalds@nvidia.com>
+ <20250822203818.4062595-3-donalds@nvidia.com>
+ <f9cd6015c47d390eef9c689d2cb4fcd301c4d123.camel@codeconstruct.com.au>
+ <fcd64668-4232-4d7b-98ec-5326d40d19d7@nvidia.com>
+ <f0b75151-d355-4d03-a356-dfbfb7a9e803@nvidia.com>
+ <ae46aa8e57d01208deb56a8fd01f26a9a0bf359b.camel@codeconstruct.com.au>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -85,68 +68,28 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250915-leo-dts-add-shunt-resistor-v1-1-d65389148a3d@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAKrgx2gC/x3MwQrDIAwA0F8pOTfQylpmf2X0IBprYGhJXBlI/
- 32y47u8BkrCpLANDYQuVi65Yx4H8Mnlg5BDN5jJLJOdF3xTwVAVXQio6ZMrCilrLYLPaFdvHz4
- aZ6EHp1Dk7z9/7ff9A4VGMn5sAAAA
-X-Change-ID: 20250915-leo-dts-add-shunt-resistor-8f96c94cf2a9
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- george.kw.lee@fii-foxconn.com, bruce.jy.hung@fii-foxconn.com, 
- leo.jt.wang@fii-foxconn.com, Leo Wang <leo.jt.wang@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1757929656; l=1194;
- i=leo.jt.wang@gmail.com; s=20250618; h=from:subject:message-id;
- bh=cxAqupFOX5uFq92Avu8qu3m3xhpolK/5U494g4n1Fko=;
- b=GRx+rMoPC+Ks8u7cyFLnZgiZtR2njjInKSWufNm641lfB01ZSutgDpAepPQNVYxa1v3HucGVm
- CXu/0vJgogXDF0XZGPSB2GXDvlJT6dGy7IwENtdjSa5g1twGsK3oMQP
-X-Developer-Key: i=leo.jt.wang@gmail.com; a=ed25519;
- pk=x+DKjAtU/ZbbMkkAVdwfZzKpvNUVgiV1sLJbidVIwSQ=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ae46aa8e57d01208deb56a8fd01f26a9a0bf359b.camel@codeconstruct.com.au>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add the 'shunt-resistor-micro-ohms' property to the LM5066i power
-monitors on I2C1 for the Meta Clemente BMC board. This accurately
-describes the hardware and is required for proper power monitoring.
+> > 
+> > Our board phy implements tx and rx delay, so -id would be the appropriate one to use if we
+> > decide to use it.
 
-Signed-off-by: Leo Wang <leo.jt.wang@gmail.com>
----
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts | 2 ++
- 1 file changed, 2 insertions(+)
+I'm curious. How do you achieve this? Have you hacked the bootloader?
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
-index ecef44d8997775b26cac10353b42b03dc644f033..a614f947dafc9a6628c3f3d45b62ff3ca9d2b618 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
-@@ -642,12 +642,14 @@ &i2c1 {
- 	power-monitor@12 {
- 		compatible = "ti,lm5066i";
- 		reg = <0x12>;
-+		shunt-resistor-micro-ohms = <183>;
- 	};
- 
- 	// PDB
- 	power-monitor@14 {
- 		compatible = "ti,lm5066i";
- 		reg = <0x14>;
-+		shunt-resistor-micro-ohms = <183>;
- 	};
- 
- 	// Module 0
+> Right, so long as there's no delay configured for the MAC in the SCU
+> (see SCU340-35C) and networking functions for your board then I think
+> it's fine to keep the node and specify `phy-mode = "rgmii-id";`.
 
----
-base-commit: 3708a165a98c23cc83216deda88bc7d64ba85527
-change-id: 20250915-leo-dts-add-shunt-resistor-8f96c94cf2a9
+Yes, this is how it is supposed to work. But please add a comment to
+the commit message about how this actually works, e.g. if you have a
+hacked bootloader, please make that clear, in case somebody wants to
+run the mainline version on this hardware.
 
-Best regards,
--- 
-Leo Wang <leo.jt.wang@gmail.com>
-
+	Andrew
 
