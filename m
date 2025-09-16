@@ -1,61 +1,93 @@
-Return-Path: <linux-aspeed+bounces-2235-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2238-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6608AB5A0F6
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Sep 2025 21:07:59 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44CF8B7EFFE
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Sep 2025 15:10:32 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cRBHc5xfFz30N8;
-	Wed, 17 Sep 2025 05:07:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cRHW546K6z306S;
+	Wed, 17 Sep 2025 09:03:13 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1758049676;
-	cv=none; b=b9UvK2R3hNsYYmOqQyEqYIuMj5xlQ63W08q7hv1hnsSyqDjdPiijnabBtDazT5q5Xiwvf+dXthVI1NNpN4IfkafktkDwcpxiI6BoekVwpQETnFDxe6HbKTxMo3pacMJEJ9d9s+T/dP2KuD8aTmCDILhC2PswfngSO4skoFtWo6k/tM9CYINr43ENSoWkvmU5ozByFAsWQcma4LpuOICDqVnkIsVBjQBVoyr0Ie7VEO5OkJaRWo4diFfX/9i6t/02Pwn38p9RnytU8FUdnqWZvQ0bxMwyqWbowwNO1u/Yh0arBg1a6roCj+GAM4ppfjgjL6yl13Zc3GU0PRG4xjp7ug==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=202.12.124.145
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1758057734;
+	cv=none; b=C+B2EA1lqJABUAuKhyfIhBlHxDZDoHiIoJoAczSx5N2e68sbwfu2kwuC+hrsnzaYf36oh6nhLMvuziIPWStNwSMmywJejyG13jvI/E7YUYDKVV0mAN6z/wHVR7Gcxdt2FQFKi1zk+SHvsMR5WcKV+9DcztbbYViH/8NOtQPOefkGkuDIGB1JvHWxXSueWxaOR6/9ATK6GizLYtWNC5CIt8BLyOEAGWgcMy3tgsdmo8fTjaTHfaCx4Hurx1sJtEW8bgGjNna4YAcvwZ09Qz9udjj6zahVwzHPiHOc6O0h6Z7xIzxedIt+CjTrwAOU6c4LTRQ9mP6OBYxTClZtxdEqYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1758049676; c=relaxed/relaxed;
-	bh=EXaqcsYENogvAnvlB2KNNelAI84J4RkeUSRS8e50eXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WpzC9q+cpzXT0EY3GBnG8NwT9HS1dtvIMyegOujO7202f6XXtosdNzPVQgtH2PUpx2ykUdogJw4mabN9yn/+0MFwGkbIidBlUUq72siXwPdIcxl1jWgrswwV+6I83cTHe3C4kmZW8n6EJW4FtserdrEsbeNPEDr4gzcn/c8Aruh9hX9tVMNcdad+pTUH7hTu3BEyiLNFttqWr8gvcM3z3WN2KDBJwEBINkmW1qAXFctSLZDRTr9OwVpPVcegjllGPcrlIXCgOZkA9iYjjXT/ot3oM9TjnCkqE8Oc3G5fDeIT2SSpwlSvr2aghhgAwJ2/ewqP//Ywh4attBfsz3gNQw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=L0qSGYez; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+	t=1758057734; c=relaxed/relaxed;
+	bh=FNr3jSgck4Jl1pEEorXXSsO/QSdN0TeOX27XjWwmQk4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Is2L3QeEUZ+rnWeqPTEcglF4MMli+7RFDir3ZHxtHjklHuYa+AEz4oU+k0Dx+nSLLn2gfdKhOaLx8BFIQHONCjo3+lgwFF6yEfox5SnwU9KI/DWDzVaROzkKe/9Jo9oGcT6Mb7XlWXBO0seNsjgzYjM3ApmmtBJDpU5kaRD1QQ7QU6ap54H5JZKs9OBzRdjkOyBt7eXvolsSfr/tnpdJVWyHzegHC1TqOdQkhGyEye955l/WsYxG4iNbWUplCjoIb6z5GUvYOSN+MNrmVVNRxKnqkVaAo7083XpQonftEtfELnql9Q6v5Z/pyo9gtSRONPLME6VhlEz1kjGpaOhRWw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bsdio.com; dkim=pass (2048-bit key; unprotected) header.d=bsdio.com header.i=@bsdio.com header.a=rsa-sha256 header.s=fm2 header.b=UaKh37wl; dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=EZ7tx/gM; dkim-atps=neutral; spf=pass (client-ip=202.12.124.145; helo=fout-b2-smtp.messagingengine.com; envelope-from=rebecca@bsdio.com; receiver=lists.ozlabs.org) smtp.mailfrom=bsdio.com
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bsdio.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=L0qSGYez;
+	dkim=pass (2048-bit key; unprotected) header.d=bsdio.com header.i=@bsdio.com header.a=rsa-sha256 header.s=fm2 header.b=UaKh37wl;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=EZ7tx/gM;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bsdio.com (client-ip=202.12.124.145; helo=fout-b2-smtp.messagingengine.com; envelope-from=rebecca@bsdio.com; receiver=lists.ozlabs.org)
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cRBHZ4Cpqz2ygH
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Sep 2025 05:07:53 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=EXaqcsYENogvAnvlB2KNNelAI84J4RkeUSRS8e50eXg=; b=L0qSGYez+AX/bZrlmzh1BNLW0E
-	EtKNdzLn0IOSUqLJ95hkAkKr/WHGXbRVqtBgnw6ggf6aJDSJttdau3MVJyP/oD0PcpfSqDKX7qm0E
-	CVa8efe7MTJIwxmBA6mnF+ERrenn5O8SrFw7wUx2vWKbMVm/U76tRW8JqQwbgcR5PZts=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uyb1b-008bIv-HR; Tue, 16 Sep 2025 21:07:35 +0200
-Date: Tue, 16 Sep 2025 21:07:35 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Rebecca Cran <rebecca@bsdio.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ARM: dts: aspeed: add device tree for ASRock Rack
- ALTRAD8 BMC
-Message-ID: <3f5e82ec-d96e-4258-b117-9876313f5402@lunn.ch>
-References: <20250911051009.4044609-1-rebecca@bsdio.com>
- <20250911051009.4044609-3-rebecca@bsdio.com>
- <58a092c5-5dd0-4718-831a-e25ecb184087@lunn.ch>
- <5ccc4945-87f6-4325-b034-ca3f2f90257a@bsdio.com>
- <74e68c53-2696-4f86-97d3-c0b0a74d4669@lunn.ch>
- <92bcdac9-44b1-4fc8-892a-01ef0ed0b7e0@bsdio.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cRFGX2DpMz2ygH
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Sep 2025 07:22:11 +1000 (AEST)
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id E98EC1D00013;
+	Tue, 16 Sep 2025 17:22:07 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Tue, 16 Sep 2025 17:22:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsdio.com; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1758057727;
+	 x=1758144127; bh=FNr3jSgck4Jl1pEEorXXSsO/QSdN0TeOX27XjWwmQk4=; b=
+	UaKh37wlbPKHlBiGONx3UjBj5NgdojVqfo8d3QxGRsauJnwIXj2jgGCNgDCp25qa
+	/B5KIWykoM13chpDfbneih6g5Zo+29Z/NtOgFFLKU0uJ4w7GtvepB2ul7AAQFB8p
+	1+kvgKyD/JhPoojC2vUD/N5GPwIh9/7Lu6unmB3nhtDa0KWYVkdKBoXb5Y0s0w/a
+	4WyXyWKs2RX3KC1rb66QyV1+xy6uHucOrU/iCLu+wMjBaZIApHT97VMbYdiN7IlW
+	95YVLa2XxiJOGf2BYtLS89u6ElOGY+o8cr2+fyA5nEmaRc/UxmhD3jV5hYBEfV+s
+	eyDA4UT/XOQN6QlG3nOS0Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1758057727; x=
+	1758144127; bh=FNr3jSgck4Jl1pEEorXXSsO/QSdN0TeOX27XjWwmQk4=; b=E
+	Z7tx/gMX+JHnfBo28xUh1LQhXMbww/GQURpZbheyiYKUde1AonfnGScS0+OYzFOv
+	jzWuH0Lb28j67bJBhujQVR488bNfaWAu3EVAE9UL4pioiV5gv2ZF8/1SsnyMozGs
+	acHErhAmLXUYwHlFYhBAeuCRkVz4KGg+08Ez5JOs2XPSJfIjhtI0rAbwY+iY+ybV
+	pIXrasuNQRa8RkY57Gt/X11jQtj5TWkotsGWF3cNqJiX/I+VHJASeIJNCeIL6sh3
+	BfsJiY4WTZSj0YvWDuSPeqieYXK4dWB9UMRWDPhPxyMajBwQCmb3BFfdNZQSQetH
+	i9IqCVJ9LzbHqQJv6Sv3w==
+X-ME-Sender: <xms:_tTJaAKQKp7Zx4a7W-0SuIKbrn4Bbn4qt7HlFyGLUFnS45Hr4me-3A>
+    <xme:_tTJaPU3JOP9QYcDrO8NSjeqRuXYaH48mIe0V78puLRtATa_7psA-UUwPLauP5PJh
+    noT7ED6IlmZQ4CLDow>
+X-ME-Received: <xmr:_tTJaDZcvwkXms7lKTTYJvyhdOqy2qX2s3qBXipxcxf9KCGMawsg2CXnOsjjfkAgjI3F4gQR>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdegudeigecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomheptfgvsggvtggt
+    rgcuvehrrghnuceorhgvsggvtggtrgessghsughiohdrtghomheqnecuggftrfgrthhtvg
+    hrnhephfekvdekvdfhtddvteehueeuleetjefhieehjeeuhfdtuddtvdeguddtkeevlefh
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhgvsg
+    gvtggtrgessghsughiohdrtghomhdpnhgspghrtghpthhtohepuddtpdhmohguvgepshhm
+    thhpohhuthdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhope
+    hrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhn
+    vghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprh
+    gtphhtthhopehjohgvlhesjhhmshdrihgurdgruhdprhgtphhtthhopegrnhgurhgvfies
+    tghouggvtghonhhsthhruhgtthdrtghomhdrrghupdhrtghpthhtohepuggvvhhitggvth
+    hrvggvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrghr
+    mhdqkhgvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoh
+    eplhhinhhugidqrghsphgvvggusehlihhsthhsrdhoiihlrggsshdrohhrgh
+X-ME-Proxy: <xmx:_tTJaGwAbLGEIWQxH1_sErMKpB4r7kcgnDzjmrYpHY9WofmhEt3joA>
+    <xmx:_tTJaD1zm9G09z0Bz4RuXAMs5vHrs9mDe4HL6Wkg2Q8vOtRzv0togQ>
+    <xmx:_tTJaHl1f1GFfbgnQKogxvFKOQk8RaHDvyUO4u5Jt2wfqTCugEdmPQ>
+    <xmx:_tTJaC-MWptvSdycC-vRg_NaG9Rd3YNHQsUMXVLnP6c_P9DPQgbnPw>
+    <xmx:_9TJaPLRa3mNp1XgIDDKwGqhASuZQIht9nOJpR7B8O5flWLDdlVBYBJi>
+Feedback-ID: i5b994698:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 16 Sep 2025 17:22:05 -0400 (EDT)
+Message-ID: <e9b0d9c8-9117-4c75-93a7-1c334d823d99@bsdio.com>
+Date: Tue, 16 Sep 2025 15:22:04 -0600
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -69,54 +101,58 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <92bcdac9-44b1-4fc8-892a-01ef0ed0b7e0@bsdio.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] ARM: dts: aspeed: add device tree for ASRock Rack
+ ALTRAD8 BMC
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+References: <20250911051009.4044609-1-rebecca@bsdio.com>
+ <20250911051009.4044609-3-rebecca@bsdio.com>
+ <58a092c5-5dd0-4718-831a-e25ecb184087@lunn.ch>
+ <5ccc4945-87f6-4325-b034-ca3f2f90257a@bsdio.com>
+ <74e68c53-2696-4f86-97d3-c0b0a74d4669@lunn.ch>
+ <92bcdac9-44b1-4fc8-892a-01ef0ed0b7e0@bsdio.com>
+ <3f5e82ec-d96e-4258-b117-9876313f5402@lunn.ch>
+Content-Language: en-US
+From: Rebecca Cran <rebecca@bsdio.com>
+In-Reply-To: <3f5e82ec-d96e-4258-b117-9876313f5402@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Tue, Sep 16, 2025 at 12:40:15PM -0600, Rebecca Cran wrote:
-> On 9/15/25 18:37, Andrew Lunn wrote:
-> 
-> > And does it have a PHY? On an MDIO bus? Unless i'm mistaken, you don't
-> > describe the PHY, a phy-handle pointing to the PHY, and don't have
-> > phy-mode = 'rgmii-id'.
-> 
-> I've been trying to figure this out. Yes, it's connected to a PHY (an
-> RTL8211E).
-> 
-> At the moment it's being detected by OpenBMC as:
-> 
-> ftgmac100 1e680000.ethernet: Read MAC address 9c:6b:00:43:0b:bd from device
-> tree
-> RTL8211E Gigabit Ethernet 1e680000.ethernet--1:00: attached PHY driver
+On 9/16/25 13:07, Andrew Lunn wrote:
 
-So what is probably happening is that the ftgmac100 is creating an
-MDIO bus. It does not matter if there is no node for it, it still
-creates the bus, and the PHYs on the bus are found. You should be able
-to see this in /sys/class/mdio_bus/. Then, since there is no
-phy-handle, it uses phy_find_first() to find the first PHY on the bus,
-and binds to that.
+> Now, it looks like all other aspeed-g5 boards also don't link to the
+> PHY. But the driver does seem to support adding an 'mdio' node within
+> the ethernet node, and listing the PHYs. Something like:
+>
+>         mdio {
+>                  #address-cells = <1>;
+>                  #size-cells = <0>;
+>
+>                  ethphy0: ethernet-phy@0 {
+>                          reg = <0>;
+>                  };
+>          };
+>
+> And then you can add a phy-handle to point to it.
+>
+> Then the question is, did Aspeed mess up the RGMII delays for g5? You
+> can try phy-mode = 'rgmii-id' and see if it works.
 
-Now, it looks like all other aspeed-g5 boards also don't link to the
-PHY. But the driver does seem to support adding an 'mdio' node within
-the ethernet node, and listing the PHYs. Something like:
+I can't get that to work, with either 'rgmii-id' or 'rgmii'.
 
-       mdio {
-                #address-cells = <1>;
-                #size-cells = <0>;
+It says "Failed to connect to phy".
 
-                ethphy0: ethernet-phy@0 {
-                        reg = <0>;
-                };
-        };
 
-And then you can add a phy-handle to point to it.
+-- 
+Rebecca Cran
 
-Then the question is, did Aspeed mess up the RGMII delays for g5? You
-can try phy-mode = 'rgmii-id' and see if it works.
-
-    Andrew
 
