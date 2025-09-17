@@ -1,79 +1,57 @@
-Return-Path: <linux-aspeed+bounces-2253-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2257-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68209B8021E
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Sep 2025 16:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B00B806CA
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Sep 2025 17:12:31 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cRhLy43thz2yPd;
-	Thu, 18 Sep 2025 00:42:34 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cRj1S40h1z2yDr;
+	Thu, 18 Sep 2025 01:12:28 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.156.1
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1758120154;
-	cv=none; b=aFYW0Kq4QoiTf/dzolEgFPlSucWx49ukWhNEY3gE88/VPxyFIrxoWkygvM2xdgsngUP7G3ypq71F5W5nADoPFmwfFWVtJ9moVyIwjFK9DqtJjCxMRgdI73bKhx0tGBLEn2sMJItgmmOLAc+2ktER3N+wjdMi6jWYv3/YNJ7nHteXd7MHkz+V1fu6diiioqlKHbgYIIBotYzqKsZjBVC1k9Yxnjj0ixq+p66qt2EFuxJ5/se6g8XTUT2JYzEUoNoR6W8bYlllH20UpyHNOH5+CiJd6rU8amu4Gd8yHx5TZLM0SSpPwRbySa2wlNh/ttJgedSIp3u5GGUoKiIBgsMgyw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1758121948;
+	cv=none; b=LIlaaNSV4uE936RHspHwLV18q/UfqeVK8hd1O11x5I6n6X1z/Dx02xfAoNDyVn/Rkp28gn/R9R/NwLJ329nACAzqwW9MMf0MALByjl1wpwG8HllfrIwf+HNEcJwjspaUAX5Al7vwShPFy9uSN5Ci58/wrdCj2APgAINKrjUvt3CUoppD51Z0Rk0o91Zq+tIgRI6VnfYEM6W/0ww1xz7f99Bs2WnOjLlxevZXw9AyJjlXEGV2T6WaM3KVeNH7LM++Ajl0/9N95bBEIhGahV7mcxnfRz4M7Vq40yEs1Ufrn5/9FQu5TFM1RnNDP3yEWQiGLcx92AXdgVpNM0SkUg2hpw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1758120154; c=relaxed/relaxed;
-	bh=2AD27kb5haOmAxU9zWX1KW7fT8y6pGthn8ll6T0se5w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EJQGFdIKpEtP3xu762NAHn04yXFlptad7Eoha4mATuoTLPBD9V578lo57UOygoxv5wiTj70n8gxf/Wp/F8ETi2Z4GsH/j+xSK5PnVacPDd7VGRQK3rNNaRfiH/33+mY7OfDNOwj9K9aL9pXrkz7sAwCZvqT7JrPMFT+7UFoBNg/SZL4D3PwXTzQeIWm21k1URQhS9HcgfkRH5axbhx1QGRlGsjiHqwZ1TCB7ljUnoaUzwnj9UZ497zrsrDgLHYcZbnAuwI56LMjM17XcaGIBY4NbY3DLoPhnVsswkuiRD1d4775fGsyDTN2XnNW1rq4CX684DHmG0DS9dP8tTGbUDA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=PnaiyZ4F; dkim-atps=neutral; spf=pass (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+	t=1758121948; c=relaxed/relaxed;
+	bh=SbUH+ytp/I7r/qS0bTCYNaSJzrM2N4H+oZ5XzytcBc8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lxj2PjAOdt57DPf8VlsPvJsTelB20ATgmgn0SiUcw6BcnKDmz3qIQkbMqb+wWrTT/sf8g1zn64LUPMgO1HBOBbbEAGRZLTeJXyIYKt8zeghn7fI8ZxU9UybOGsEQ1ETiTePeLWH/BnCBnt/tYO5UAY7CXgPS03CiF/TmG7tOPjqIIGGbF8uUgvIM10JizgA5HC55TMaDoYI8brGo8VjPkent8x7DB1MV5ClHTEp53K+fI90NEMK7P9sW5efDsuowDdVoS7/tbjq5MjftL8gpTB1AZS3DaNYYGsuxZc9sCh2lE/p5BEQK//jkxQPFaZjm3uYXDqcDU9LYVO9aZJ/j9w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=GI2hr8NU; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=PnaiyZ4F;
+	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=GI2hr8NU;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cRhLx4zljz2xgQ
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Sep 2025 00:42:33 +1000 (AEST)
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58H9iVTE011459;
-	Wed, 17 Sep 2025 14:42:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=2AD27kb5haOmAxU9z
-	WX1KW7fT8y6pGthn8ll6T0se5w=; b=PnaiyZ4FJ4sQiTK4SFfqqjNzEq1EZa6Eb
-	Yi+1iq3nTKOC3d0vOD2g9C2GmkJDL4MnYBA48LK+5YyoxJ1PMiSsmMUOMhxCLw1j
-	Aa902EU5beMVPuNntU2N4MBCaeLqpeWoyA1uvSa/w4TnXt2DI3+mZu5KDpz+jYA2
-	3C56akKuhbkWP/8SnQTw2h0r0zkf2JcFTXN5mo0m2C3AGEe+qS94Snvh4y9X56mZ
-	xLOVEaAxzeJKuef2/7cvuQIKeV3o1lzbVfeXEPz20HilhQ3p1qhtSasuI+8D9fT/
-	GJv2o0zV2yvTi44Dhnrgdk7vcH+9i1LfI5Sa8rUmWltFaN9krZvlQ==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 497g4j4ckp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Sep 2025 14:42:27 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 58HE6v26022328;
-	Wed, 17 Sep 2025 14:42:25 GMT
-Received: from smtprelay05.dal12v.mail.ibm.com ([172.16.1.7])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 495kxpsrs7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 17 Sep 2025 14:42:25 +0000
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay05.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58HEgPVZ30474824
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 17 Sep 2025 14:42:25 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2577F58043;
-	Wed, 17 Sep 2025 14:42:25 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6462A5805D;
-	Wed, 17 Sep 2025 14:42:24 +0000 (GMT)
-Received: from slate16 (unknown [9.61.98.41])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 17 Sep 2025 14:42:24 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-aspeed@lists.ozlabs.org
-Cc: devicetree@vger.kernel.org, andrew@codeconstruct.com.au,
-        conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
-        eajames@linux.ibm.com
-Subject: [PATCH v5 6/6] ARM: dts: aspeed: Fix max31785 fan node naming
-Date: Wed, 17 Sep 2025 09:42:10 -0500
-Message-ID: <20250917144210.160051-7-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250917144210.160051-1-eajames@linux.ibm.com>
-References: <20250917144210.160051-1-eajames@linux.ibm.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cRj1R4vR1z2xnk
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Sep 2025 01:12:27 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=SbUH+ytp/I7r/qS0bTCYNaSJzrM2N4H+oZ5XzytcBc8=; b=GI2hr8NUA/wBoWosZZr4g/4/8R
+	lh/GHsVJEfQBe1JCCzTQcDmOYfx8xG4Lb9qNRvwPqQmVv8MP8Qgy7rc/DDVgKctW/899gLrFqCP/t
+	VLGWtcNnnByIsFzV8Ahz0ux9ZpaNZ8sCdyE1SgnOcJj3s0pCJLVe4JZoNmBVJKweRSrM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uytpK-008hZD-5s; Wed, 17 Sep 2025 17:12:10 +0200
+Date: Wed, 17 Sep 2025 17:12:10 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Kevin Tung <kevin.tung.openbmc@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v1 0/2] Add Meta (Facebook) Yosemite5 BMC (AST2600)
+Message-ID: <9bb9929a-8130-48da-983e-2901a7c3da36@lunn.ch>
+References: <20250917074812.4042797-1-kevin.tung.openbmc@gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -87,228 +65,31 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=Qf5mvtbv c=1 sm=1 tr=0 ts=68cac8d3 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=yJojWOMRYYMA:10 a=VnNF1IyMAAAA:8 a=Sq8nXUOxSZhkBh-L9C0A:9
-X-Proofpoint-ORIG-GUID: xehVstPslCnna2RlRnRQcFNP_5N5uOHB
-X-Proofpoint-GUID: xehVstPslCnna2RlRnRQcFNP_5N5uOHB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDIwNCBTYWx0ZWRfX7NK+7wxOAzck
- 1YBpZRgUEoh6axQvaramYYWoQdPxlMMeti8rD1rX++A8sNTG9SNdE30Rq1KiGE+pXaVXUypDveu
- yBDb9bnUDWEKtxWI1pGivy1RjR8YO1gaMNCbjqNtQzldUNwmYtYWHAh9uUOzHLQSSBJ7whBPX9q
- C776jXM0+cCOoURrvLgU5VQ8ee777RW9SxTwOkwYhR9r7SRTIBojCWTNUxtqG2J3bzaSLz0oUdg
- ZEK0E23URvnazDjxcAlNRlzkcjzkMIeVa9ATPNOezGp7ZdAG4egShRORJRPvMibKs5Xkj0SriP4
- hPSU9Tolk9F51zwYpkLa5VEYlqP2ZndbUgtdm2VveOd5jzfTSESWKdT3bRwyb8IJKtHV19rY5Hd
- gLtDKGOW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-17_01,2025-09-17_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 phishscore=0 suspectscore=0 adultscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509160204
-X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250917074812.4042797-1-kevin.tung.openbmc@gmail.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Now that the max31785 is properly documented, fix up the uses of
-it in the Aspeed dts.
+On Wed, Sep 17, 2025 at 03:48:08PM +0800, Kevin Tung wrote:
+> Summary:
+> Add device tree for the Meta (Facebook) Yosemite5 compute node,
+> based on the AST2600 BMC.
+> 
+> The Yosemite5 platform provides monitoring of voltages, power,
+> temperatures, and other critical parameters across the motherboard,
+> CXL board, E1.S expansion board, and NIC components. The BMC also
+> logs relevant events and performs appropriate system actions in
+> response to abnormal conditions.
+> 
+> Kevin Tung (2):
+>   dt-bindings: arm: aspeed: add Meta Yosemite5 board
+>   ARM: dts: aspeed: yosemite5: Add Meta Yosemite5 BMC
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
----
- .../arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts |  6 ++----
- .../arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts | 10 ++++------
- arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-fuji.dts   |  2 --
- .../arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts | 14 ++++++--------
- arch/arm/boot/dts/aspeed/aspeed-bmc-opp-tacoma.dts | 10 ++++------
- .../boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dts |  2 --
- 6 files changed, 16 insertions(+), 28 deletions(-)
+The threading between your patches are broken? How did you send them?
+git send-email? b4 send?
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts
-index 2f5d4075a64ad..36e6bbfdeb30a 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts
-@@ -273,16 +273,14 @@ eeprom@51 {
- 	max31785@52 {
- 		compatible = "maxim,max31785a";
- 		reg = <0x52>;
--		#address-cells = <1>;
--		#size-cells = <0>;
- 
--		fan0: fan@0 {
-+		fan0: fan-0 {
- 			compatible = "pmbus-fan";
- 			reg = <0>;
- 			tach-pulses = <2>;
- 		};
- 
--		fan1: fan@1 {
-+		fan1: fan-1 {
- 			compatible = "pmbus-fan";
- 			reg = <1>;
- 			tach-pulses = <2>;
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
-index 9f144f527f03b..db20a3b740836 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
-@@ -2061,29 +2061,27 @@ i2c14mux0chn3: i2c@3 {
- 
- 			max31785@52 {
- 				compatible = "maxim,max31785a";
--				#address-cells = <1>;
--				#size-cells = <0>;
- 				reg = <0x52>;
- 
--				fan@0 {
-+				fan-0 {
- 					compatible = "pmbus-fan";
- 					reg = <0>;
- 					tach-pulses = <2>;
- 				};
- 
--				fan@1 {
-+				fan-1 {
- 					compatible = "pmbus-fan";
- 					reg = <1>;
- 					tach-pulses = <2>;
- 				};
- 
--				fan@2 {
-+				fan-2 {
- 					compatible = "pmbus-fan";
- 					reg = <2>;
- 					tach-pulses = <2>;
- 				};
- 
--				fan@3 {
-+				fan-3 {
- 					compatible = "pmbus-fan";
- 					reg = <3>;
- 					tach-pulses = <2>;
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-fuji.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-fuji.dts
-index 9a43fc7bcebe9..e312bfc2c5bda 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-fuji.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-fuji.dts
-@@ -2053,8 +2053,6 @@ i2c14mux0chn3: i2c@3 {
- 			pwm@52 {
- 				compatible = "maxim,max31785a";
- 				reg = <0x52>;
--				#address-cells = <1>;
--				#size-cells = <0>;
- 			};
- 
- 			led-controller@60 {
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts
-index c5fb5d410001b..8a5f4131787f1 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts
-@@ -1076,40 +1076,38 @@ tmp275@48 {
- 	max: max31785@52 {
- 		compatible = "maxim,max31785a";
- 		reg = <0x52>;
--		#address-cells = <1>;
--		#size-cells = <0>;
- 
--		fan0: fan@0 {
-+		fan0: fan-0 {
- 			compatible = "pmbus-fan";
- 			reg = <0>;
- 			tach-pulses = <2>;
- 		};
- 
--		fan1: fan@1 {
-+		fan1: fan-1 {
- 			compatible = "pmbus-fan";
- 			reg = <1>;
- 			tach-pulses = <2>;
- 		};
- 
--		fan2: fan@2 {
-+		fan2: fan-2 {
- 			compatible = "pmbus-fan";
- 			reg = <2>;
- 			tach-pulses = <2>;
- 		};
- 
--		fan3: fan@3 {
-+		fan3: fan-3 {
- 			compatible = "pmbus-fan";
- 			reg = <3>;
- 			tach-pulses = <2>;
- 		};
- 
--		fan4: fan@4 {
-+		fan4: fan-4 {
- 			compatible = "pmbus-fan";
- 			reg = <4>;
- 			tach-pulses = <2>;
- 		};
- 
--		fan5: fan@5 {
-+		fan5: fan-5 {
- 			compatible = "pmbus-fan";
- 			reg = <5>;
- 			tach-pulses = <2>;
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-tacoma.dts
-index b31eb8e58c6b4..bc83605bdf497 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-tacoma.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-tacoma.dts
-@@ -477,10 +477,8 @@ bmp: bmp280@77 {
- 	max31785@52 {
- 		compatible = "maxim,max31785a";
- 		reg = <0x52>;
--		#address-cells = <1>;
--		#size-cells = <0>;
- 
--		fan@0 {
-+		fan-0 {
- 			compatible = "pmbus-fan";
- 			reg = <0>;
- 			tach-pulses = <2>;
-@@ -493,7 +491,7 @@ fan@0 {
- 			maxim,fan-fault-pin-mon;
- 		};
- 
--		fan@1 {
-+		fan-1 {
- 			compatible = "pmbus-fan";
- 			reg = <1>;
- 			tach-pulses = <2>;
-@@ -506,7 +504,7 @@ fan@1 {
- 			maxim,fan-fault-pin-mon;
- 		};
- 
--		fan@2 {
-+		fan-2 {
- 			compatible = "pmbus-fan";
- 			reg = <2>;
- 			tach-pulses = <2>;
-@@ -519,7 +517,7 @@ fan@2 {
- 			maxim,fan-fault-pin-mon;
- 		};
- 
--		fan@3 {
-+		fan-3 {
- 			compatible = "pmbus-fan";
- 			reg = <3>;
- 			tach-pulses = <2>;
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dts
-index 89907b628b655..f26df3c8cc261 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-witherspoon.dts
-@@ -360,8 +360,6 @@ bmp: bmp280@77 {
- 	max31785@52 {
- 		compatible = "maxim,max31785a";
- 		reg = <0x52>;
--		#address-cells = <1>;
--		#size-cells = <0>;
- 	};
- 
- 	dps: dps310@76 {
--- 
-2.51.0
-
+	Andrew
 
