@@ -1,63 +1,60 @@
-Return-Path: <linux-aspeed+bounces-2236-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2239-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E61B5BEF3
-	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Sep 2025 00:05:28 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F14DB7D591
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Sep 2025 14:25:32 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cRGDP2fmlz2ySP;
-	Wed, 17 Sep 2025 08:05:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cRKbF57Zpz30Kg;
+	Wed, 17 Sep 2025 10:36:57 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1758060325;
-	cv=none; b=Pj6OpcamPIWx1ZnF0c/qTDtAd1twgDIdw1nkgDj6xoUw+9W20Wxw1XsLvqXeWcOZ/rNK1CLl6IrbXK1DeKH6SdTBPsyHlvb/cK2QxwhMNPv1tPNtmxhA6LoTFIhxF7aI+wZzeB6ahSHCntk8Ac8DKPrTyB+lLmXcrvVNeL0+Hem3pdP/QQasqC7Nkj0x2Lkz0uFtKhtMMWFHlgr/oUqU6/l3gUP2RzG1mufXaNNfxoJEQpglkdjAdTtjSQ12Pk5vD6RDhVXBZtI3cWfvgWfADVGEBNuWOnDWUVg6qFct+G5JiRQPr0ufsISLbjx0cVSgNpCHTQlaXKrIklTX2Hl8lQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1758069417;
+	cv=none; b=inPYhKyvemTf/MMoh6BiPxMg7NruDLdGxs3BpOhb00P9kEHM2tgTvRVfpOpfZkR0tyIXL8gZSMSpoZnLP0iW8ghRmR9YBAuamQ1uxwx+dh3g4U15Kco8SXI1fndsJi7VgvJsx/kj0EjRtR5Frqb3/vJoiBIzsz4fLKFaaj2fS1pJUV2aO3HX5tZK0+GKTb/En3t6x0zyHkOjWjud9SFqfPcACW2+7kH6NYbd1x1W4JZ4LV3c8sSK2LYQwORXUDOqpr6tBmuZlgKK5iKN05cS1E+aqUYEYtROlEXhgQYZ8R0BJJCGi/WwT99VTsUacCGt19I/m9qCu/gmKiS5cX6/Vg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1758060325; c=relaxed/relaxed;
-	bh=0NhlOmwwkbZxCW85MLAxOa0IFUPYAvjNPwpAMzd4f7U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fEzseTn4BRWcroGoD24u8LSGzXsPKxZW4VlK/W+L2wYM1IfpsEVnoiIj3CygS7t5Hg2USPKJnJNggg95iI8qnS5oPW/ka89M0WU6dUrihY/ieDBHw/t8cMvNEnwOq/USg/4alTdx9wIkeg2Pki9hgubfEROwbSprEpyJ1ePfQVgdL+hDh1Gd7I90PLefa5e8p5RGJU3YlaKP/vX5swcoXNrbcOBWlFrMQ6997eZh74yEdK6jPekz3Rmg2oBCDKKCl329o/5T0beD2tC1rKMcmtLIWnx+AM9cdjpoXGFATTBvMocJBZ6g/Z5pm0Y7t0gadFhbNApUvO5ATqJC7yJE6Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=TmB0SquX; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+	t=1758069417; c=relaxed/relaxed;
+	bh=2aQQfGbAOvDVkwEgS59kc/rR3ZeQC8NQMOe0HdHu520=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=R7cQQw7AA4XGIVtZ7z5laP14OMXWBvLdVl1E61xuPG1z0jGwbi69seHCTngDwt69/cmv1PqzK48f5Ig5e4j7p7IeHWphR0oRJXQYcHEXUIfuQJBDAq2wEABoJRxpFvOZKXhnQ+ja+FH5iPaO6yBeKj8Gi6Qk5cG1DubYtMvil+9aW/zzwfizMEI53NJYVC7EFtipqaRSrVtf03TQ+SOQnR8J+k4XEmDUrdETWfoM+/XC4o64OBcD60X/Fp9BLXHZ19ah94PTbWjVC0rpiSFlCbFAU9PSG+t0G8cLKcadcIKelFcbKQOKXIThLJYEuKnqBIgmfgrIOIuG9o0tLvyl9Q==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=XFiZ6dWq; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=TmB0SquX;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=XFiZ6dWq;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cRGDN55r4z2yRZ
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Sep 2025 08:05:24 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=0NhlOmwwkbZxCW85MLAxOa0IFUPYAvjNPwpAMzd4f7U=; b=TmB0SquXq7T6jSiGvoN6t1GMKP
-	WCDhj8wDFT/A5PtG/BREIkNIGFYYAxh0o98TF9TGgB45iejGzcgjHgrDRf8QbExubYbvnSsGTo7iM
-	HkqW4BWHrciZDw7mdTmFDRUGMUNxD6s20rxchpp0SM9C518HluqC8mgPS09hTXWLXCuo=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1uydnP-008cU8-I7; Wed, 17 Sep 2025 00:05:07 +0200
-Date: Wed, 17 Sep 2025 00:05:07 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Rebecca Cran <rebecca@bsdio.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ARM: dts: aspeed: add device tree for ASRock Rack
- ALTRAD8 BMC
-Message-ID: <cc00cc74-778f-45ae-b48f-be26c91f78c7@lunn.ch>
-References: <20250911051009.4044609-1-rebecca@bsdio.com>
- <20250911051009.4044609-3-rebecca@bsdio.com>
- <58a092c5-5dd0-4718-831a-e25ecb184087@lunn.ch>
- <5ccc4945-87f6-4325-b034-ca3f2f90257a@bsdio.com>
- <74e68c53-2696-4f86-97d3-c0b0a74d4669@lunn.ch>
- <92bcdac9-44b1-4fc8-892a-01ef0ed0b7e0@bsdio.com>
- <3f5e82ec-d96e-4258-b117-9876313f5402@lunn.ch>
- <e9b0d9c8-9117-4c75-93a7-1c334d823d99@bsdio.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cRKbD0zrsz30BW
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Sep 2025 10:36:55 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1758069414;
+	bh=2aQQfGbAOvDVkwEgS59kc/rR3ZeQC8NQMOe0HdHu520=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=XFiZ6dWqlEq5JjXJDc3jTkzqlLjsXOYeOEaYvqx3w+QWmoF02AibYhO/0qogfCNoA
+	 6Cw8Hgj15YSEAeqDI+FNe1jTCivXry3hZqLkFLRKe67f794gwcj+kqahWzefuFRmXZ
+	 VbzTWtHHL1k9NEf4dA0n4guxa6IZ6qQlojXlRKLUioC+GWSKANFEZ0gkGKnjxiRmql
+	 7II0uBU+85pghCodofZ0T0srNeTCav74b6daG1tWJNFl8I30RCnLa2mc5CXgsOl29a
+	 qH3Jwa3gqfmPQDK2kR5PQ/eS1AQdbeWTM4i2PEVwNtTImtr1qoEhQilX7o4+BAeCjX
+	 23gXItncK/V9Q==
+Received: from [127.0.1.1] (unknown [120.20.76.56])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 09EDF6F070;
+	Wed, 17 Sep 2025 08:36:50 +0800 (AWST)
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Leo Wang <leo.jt.wang@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ george.kw.lee@fii-foxconn.com, bruce.jy.hung@fii-foxconn.com, 
+ leo.jt.wang@fii-foxconn.com
+In-Reply-To: <20250915-leo-dts-add-shunt-resistor-v1-1-d65389148a3d@gmail.com>
+References: <20250915-leo-dts-add-shunt-resistor-v1-1-d65389148a3d@gmail.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: clemente: add
+ shunt-resistor-micro-ohms for LM5066i
+Message-Id: <175806941070.498785.13666236370278646492.b4-ty@codeconstruct.com.au>
+Date: Wed, 17 Sep 2025 10:06:50 +0930
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -71,42 +68,24 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e9b0d9c8-9117-4c75-93a7-1c334d823d99@bsdio.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Tue, Sep 16, 2025 at 03:22:04PM -0600, Rebecca Cran wrote:
-> On 9/16/25 13:07, Andrew Lunn wrote:
+On Mon, 15 Sep 2025 17:47:23 +0800, Leo Wang wrote:
+> Add the 'shunt-resistor-micro-ohms' property to the LM5066i power
+> monitors on I2C1 for the Meta Clemente BMC board. This accurately
+> describes the hardware and is required for proper power monitoring.
 > 
-> > Now, it looks like all other aspeed-g5 boards also don't link to the
-> > PHY. But the driver does seem to support adding an 'mdio' node within
-> > the ethernet node, and listing the PHYs. Something like:
-> > 
-> >         mdio {
-> >                  #address-cells = <1>;
-> >                  #size-cells = <0>;
-> > 
-> >                  ethphy0: ethernet-phy@0 {
-> >                          reg = <0>;
-> >                  };
-> >          };
-> > 
-> > And then you can add a phy-handle to point to it.
-> > 
-> > Then the question is, did Aspeed mess up the RGMII delays for g5? You
-> > can try phy-mode = 'rgmii-id' and see if it works.
 > 
-> I can't get that to work, with either 'rgmii-id' or 'rgmii'.
-> 
-> It says "Failed to connect to phy".
 
-That probably means i have the wrong reg value. Try 1, 2, ... 31.
+Thanks, I've applied this to the BMC tree.
 
-Or put a printk() in phy_find_first() to print the value of addr.
+-- 
+Andrew Jeffery <andrew@codeconstruct.com.au>
 
-	Andrew
 
