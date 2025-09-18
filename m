@@ -1,79 +1,77 @@
-Return-Path: <linux-aspeed+bounces-2278-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2282-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5309EB865CA
-	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Sep 2025 20:04:32 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 326D3B874B0
+	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Sep 2025 00:56:36 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cSNnN1VjRz2xnr;
-	Fri, 19 Sep 2025 04:04:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cSWG93RGcz2xns;
+	Fri, 19 Sep 2025 08:56:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=148.163.156.1
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1758218664;
-	cv=none; b=kmkAI6SgEou3LBwzqfItoprU/RHIUpm5aPvdXtpKApKuZdoW9RErFiD0PvzXAh7vEWEH04v+vUwKIqaa0i4+g7a0EeGpeVTuCUJsDqsSdMIpXFbJg6dcVCpoz41PIpWVsRl/zpyJLXLBgsWOFYauOkiwRj2avDX0uzM/6pYsqLIjTeRCwb6CBVuuxDutuFnug8G7KWVPtq4oE2+PO8Gs7E/nOHHJQluK994enIll65ywU0Avs5WpbPpKJUZ9qoL8nrqWr86ipTsNwuBpnkDpGSHNTEul4yhrXsXekwv6ow8u07KAvyrybgaR+Edx+xHKM325Nih+avODCLsh6A+Wkg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::1029"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1758188627;
+	cv=none; b=D1p5en95v/Eqqy0HkObmXsF6ZMwJwdsVt7y6usOgv6aNIPseN1d5fWG3q8lHxTNTR//U/C21nDbQvuXYSMaj3KyylnWyS+ag6NJQCJwX0aZjXcw3X+WTzjwhA3pBUwm2bEcRVb9GQSe3N81QtB30LLgJQXX4Swkq0P0quDX6IhK9Zc7mHhVDDmFcIzxaCYRRq+GIuHZGayL/ryJuyO1JB5i5G0OrVzBTDAIOhvkcZmV6lqv498n9JYWgQ96W7Z5kVNxIxTl5Ii8x7CAaFEm1fN1xHRg4WkRc6/15CHOd/LiJOCLMuVNwbsq1fq/ZieLfUKGup88yxFilKQmnqy7/ww==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1758218664; c=relaxed/relaxed;
-	bh=cb2+xvNavcqXeO9RxuwMzm6yHui/7LQoZ3Dz4AcaNIc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jDpAqDk6jdoStK7K2yZQC38V1Bv/ZN+Qa1KjUY+15t9qrCebrCbkPlN4qe9w5aljg9j+gt1Y3mdcettGRXxh4V1WGTta4IIGIDwXq7F9OdsXp2sFyYunIIvr7ggP9dwyFy2t3UyLNS8/725hyDqyB9M8CdT+DObao/XW/OVDOvzaEKAWNCZjPw38sCaUR5XZSvzT69mI5DxjGqLuBdpQzsZdCMmr5dSiyhdvpB0ReMvCdVVk0lpEcGQZbhqW/kqhmhEaUuPuGepNzYW8pqHl1LtpWhkkrHrziu7RWiOmNPdazacyYZfcDD9kcFb5AfSiiLEf/3n+1a6nqFWP6nKf/A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=AAjfBPEn; dkim-atps=neutral; spf=pass (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.ibm.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+	t=1758188627; c=relaxed/relaxed;
+	bh=kk2Hrw+IHUis21BiwjLiEv7+4Iu+IibQiFHb8JNRLIM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=GJ7GOOsLcvzDiuEAvtwrYTAmeYK9PTaMuwyMaQiwdbm3zwi8KHMMjOrz+HMeRXsSZaG4PLcTXn1xGSRyOtctzWeMDZOTN/9azcn5ZfMtkEQxtd2wmQeyAHOeciGKNFqJFh9ccWY7nhUC0jeMl3baziJzWWyWi2CCtF4ZMANFPTEoFB+ND9pAPk8yaCqOdcRmps2R+ivgbKItzfOFhiN/LyfkV9o+szS/5U7Er7Y/vF9HpOvQP4GyAfOVuyxQVqRpHMM9aPiCvgj1UPwj58l4dHaKvmGPTCJpXBSsgCxgDCpyY3d8pbRZ7n5U6lcr4kul0L8MSm53ExBxn/QqywTdsw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=eJVq9Jso; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1029; helo=mail-pj1-x1029.google.com; envelope-from=leo.jt.wang@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=AAjfBPEn;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=eJVq9Jso;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.ibm.com (client-ip=148.163.156.1; helo=mx0a-001b2d01.pphosted.com; envelope-from=eajames@linux.ibm.com; receiver=lists.ozlabs.org)
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1029; helo=mail-pj1-x1029.google.com; envelope-from=leo.jt.wang@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cSNnL3j5Yz2yqR
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 19 Sep 2025 04:04:22 +1000 (AEST)
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58IEL1oY011501;
-	Thu, 18 Sep 2025 18:04:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=cb2+xvNavcqXeO9Rx
-	uwMzm6yHui/7LQoZ3Dz4AcaNIc=; b=AAjfBPEnewRI1l0OGIdmsOcE0RY69t98D
-	3zR8A13oz0xTHy/yqGMUHGGYxs9xwfoK3Y36I1KjX8lYs0JC1g1sUeMO4L8Eq4cJ
-	xS/EsqyCqqq+3EMlFLFf85wzBwjLtDK5+JzjMYf4ZuIhikhJ+ROEK+pqw1F/cUyf
-	5MdAKqFimpAS3p54lVsNjajjvYGmoebu0rhedCGHlXRtpUwnXfpdtO4N+3leQl08
-	MWnsxDTDFXGQLLiwRQ8dpxr3hkLNlkKfikXy80kI78/3JG2bO0SL18H9QbYii0pd
-	SrtlhKTuXXFSRh/oKeKOT+BT7UbDfvl/W52IQdglPEZAFTPdlz65A==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 497g4jc1qf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Sep 2025 18:04:15 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 58IFA93j009382;
-	Thu, 18 Sep 2025 18:04:13 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 495nn3qrag-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 18 Sep 2025 18:04:13 +0000
-Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58II4CQ119661474
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 18 Sep 2025 18:04:12 GMT
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 12C2758068;
-	Thu, 18 Sep 2025 18:04:12 +0000 (GMT)
-Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DED7D58063;
-	Thu, 18 Sep 2025 18:04:11 +0000 (GMT)
-Received: from slate16 (unknown [9.61.169.208])
-	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 18 Sep 2025 18:04:11 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: linux-aspeed@lists.ozlabs.org
-Cc: devicetree@vger.kernel.org, andrew@codeconstruct.com.au,
-        conor+dt@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
-        eajames@linux.ibm.com
-Subject: [PATCH v6 7/7] ARM: dts: aspeed: Fix max31785 fan node naming
-Date: Thu, 18 Sep 2025 13:04:02 -0500
-Message-ID: <20250918180402.199373-8-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250918180402.199373-1-eajames@linux.ibm.com>
-References: <20250918180402.199373-1-eajames@linux.ibm.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cS9gk2hLSz2yGM
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Sep 2025 19:43:45 +1000 (AEST)
+Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-329b760080fso583600a91.1
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Sep 2025 02:43:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758188623; x=1758793423; darn=lists.ozlabs.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kk2Hrw+IHUis21BiwjLiEv7+4Iu+IibQiFHb8JNRLIM=;
+        b=eJVq9Jso23R29JKTy1WT6F4Qvh8u/hkbsL1MjZp/fSOPz8xlKWVOPNLzRQLNMJ7yU/
+         gaXMr1JMPZRTH00xSjSjzf50iMTpZmGTnwvgEra43p0fwAf/vI1FxxFz/kTLmbtx1+4d
+         tSIt4HctjmfW/2/NQAXgSWBeLbBfa3o6g+/D64bLQ+jMuP3tNWnyW4WM0VkhZH7nf2ox
+         bDb7q6VH/MWti1H37kpFGbZNcPZ2JlAxGM0PfCmRm2jgoCy4HP+YtwHjsefc/I9sPKlp
+         Eg8BVFFMNvQQCeZbtd9KGkrfwSKd+4kIzP3G13WBNb5hmmSeXd/tMQybzkp5OIE+smxY
+         0mMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758188623; x=1758793423;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kk2Hrw+IHUis21BiwjLiEv7+4Iu+IibQiFHb8JNRLIM=;
+        b=lSfs8gruz+lYAY61hQMJkqor/VAQGNMZl+KaFekJScZWBzNaCHP2z7yyQz17ixDPs8
+         fY5yZNa9QCyM3q5USn/j/5dmXk2rXRm9eqv5evnT1dXDcC5qiz5+AHDFAF2OzN1WLQcG
+         9ZN/NWGf7/7JReMQw9A+C09qS3JXFdthu4IRLZ/qwrXzp/iTpo8N5LQ/uD1yLl5+uUHY
+         zshlLhZQuB/sX+LKwlbphuPzvkNLYreCb/MOPYemRK7F4sq5TkZ+5v8aqWs/dvKPcx+j
+         H+YO5Ki+Au3WO3jlhTAbLVXLa7IGq/Gs5e0P2rC1VEIzXGiUMyOR6vfhq/CVx3mJe1Oe
+         C0rw==
+X-Forwarded-Encrypted: i=1; AJvYcCVmKEq7NscR10Q/ZwYyByyOGm7eihkH1Ux5a7EGXd3XgfFV5Xno9La5D7n8WTJ8S9APTvQIO/iv5BY5+bI=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yw+fJVfIW2rSYz1GM03r9nlWuhIyGMdp4wDpxIMH0r0E0t5CiUz
+	lfGKgu9yjvrdYw+oSJM+r+mLI7AIbtRZtL6dU1H5Xe18o3RQ2DmeeuYP
+X-Gm-Gg: ASbGncvXUpXGpTiDkIz2vGLoqiYHZPG4fjDVotHG2u1FWr1bBRg5Y/zamDOJJ0lGwjX
+	5OrHWYX7Kc/L7R9ZRkMSuf1bJuU5X0TnP5l74fsEi4NcVRVE+dn/nGgKA6NeaOkx+KbmY86GQny
+	mFmefibZvjnBPYI1tGsiA3Tns4uEJPtiKzhE1qFbeIkEg/CWrPrMxvvyeN3bvEyH8eSQgh7cs2b
+	MpBeLx8FYRNMuwA7DKqa+xxw64SLLY+ntZPMbb3WVxbVd5ebHwTTaFaZmxTviqh9bhwIv/eXgT5
+	TaW24z2haVVT3aWZGCXNY4QqwiLPZczOcythPURhKmhFNHmpjPJXfaTrIZryC9X0h/KVjwuG30U
+	4X48x79/iBqkDju2Zznw9ZQ8CiOAOSzf7Jqooju1JFcofzmg4UJgtLHkMcmey3MFup9YQuFiO9k
+	2x8Q==
+X-Google-Smtp-Source: AGHT+IEgGE0BeH1F+4LDtstgR4GzT3dQ/vnKSyQ7aIVQt/aTAyZb2ZsVJWml9L1MieY7rFzbad5a2A==
+X-Received: by 2002:a17:90b:4c12:b0:32e:5b07:15dd with SMTP id 98e67ed59e1d1-32ee3ec22b6mr6516497a91.1.1758188623083;
+        Thu, 18 Sep 2025 02:43:43 -0700 (PDT)
+Received: from [172.17.0.3] (125-227-29-20.hinet-ip.hinet.net. [125.227.29.20])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32ed276d2f8sm4886810a91.24.2025.09.18.02.43.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Sep 2025 02:43:42 -0700 (PDT)
+From: Leo Wang <leo.jt.wang@gmail.com>
+Date: Thu, 18 Sep 2025 17:43:06 +0800
+Subject: [PATCH] ARM: dts: aspeed: clemente: add MCTP over I2C support
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -87,187 +85,113 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=Qf5mvtbv c=1 sm=1 tr=0 ts=68cc499f cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=yJojWOMRYYMA:10 a=VnNF1IyMAAAA:8 a=u3jscfC60MhvLZHegIcA:9
-X-Proofpoint-ORIG-GUID: BJINxADZ-jmk3YdlgEmMUm1w5moFaovy
-X-Proofpoint-GUID: BJINxADZ-jmk3YdlgEmMUm1w5moFaovy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDIwNCBTYWx0ZWRfXwcYzEoYmJfHO
- yeu49He4YhH8VvVYjDVrF6Dknnmk+D+PtjK/mN3aDGg+fz3uXYqMkGOB7azIe/WubCeCtU1zLLU
- ErVY8bQf+vkAppzkvh+4HkamaMlJHBdJBNBZ8GYrB1ggPoy/JpQyyGpAylqJ0V/TL0W7QZoEYjH
- bQpl3qk4nKsEn0tQ6wAWiG8PIb4wSMyTcsU2RghYLInuLSWL+WSpq1XrOoPNUM7qo0n0IQ+Z5Vj
- hgxyFv4DxBItUB05/+j8sLGX7JThTayfo2b1RAT8Yf3Dv+EJe7tNTTqUjkeVEqS86D5mPf3P6LT
- xwbMVMavf+YDe1rmgU+jPZkjab03ig2cG+HkYcTeaUSCGGu/M7BwiPMYl0F3OQGKg3H7w+zNPKm
- iDIYNgAx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-18_02,2025-09-18_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 phishscore=0 suspectscore=0 adultscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509160204
-X-Spam-Status: No, score=-0.7 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	RCVD_IN_DNSWL_LOW,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250918-leo-dts-transceiver-v1-1-3e2580325edc@gmail.com>
+X-B4-Tracking: v=1; b=H4sIACnUy2gC/x3MQQqEMAxG4atI1gZsZWD0KuKitL8zAamSiAjSu
+ 1tcfov3bjKowGhsblKcYrLlCtc2FP8h/8CSqsl3/tMN7ssrNk6H8aEhW4ScUEaKvUMfvQsL1XJ
+ XLHK912ku5QHFt0+wZQAAAA==
+X-Change-ID: 20250918-leo-dts-transceiver-edc31e3c21af
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ george.kw.lee@fii-foxconn.com, bruce.jy.hung@fii-foxconn.com, 
+ leo.jt.wang@fii-foxconn.com, Leo Wang <leo.jt.wang@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758188620; l=2154;
+ i=leo.jt.wang@gmail.com; s=20250618; h=from:subject:message-id;
+ bh=nVDRdbCkjgVW2Hem9dJFdrSJ8lRD2Z2Fl11Ez5/qXTc=;
+ b=gGwy/tJbdh92kaL3iGxdJ0l55f8lVj/pdra8VUU6oBnNsmqeDhiUPxiVekZn/UwIGlSAduWaT
+ s65s9f5gLsNBz2gYwdLOzqRJ9FmS9d3xS2QLQLwQXoz1a7on5CCimYt
+X-Developer-Key: i=leo.jt.wang@gmail.com; a=ed25519;
+ pk=x+DKjAtU/ZbbMkkAVdwfZzKpvNUVgiV1sLJbidVIwSQ=
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Now that the max31785 is properly documented, fix up the uses of
-it in the Aspeed dts.
+Enable MCTP communication on the Meta Clemente BMC board:
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
+- Add an MCTP I2C controller node at address 0x10 on I2C0
+- Mark selected I2C mux channels as MCTP controllers
+- Remove unused "i2c-mux-idle-disconnect" properties
+
+This allows MCTP devices to be discovered and used for
+management communication on the Clemente platform.
+
+Signed-off-by: Leo Wang <leo.jt.wang@gmail.com>
 ---
- arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts |  4 ++--
- arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts |  8 ++++----
- arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts | 12 ++++++------
- arch/arm/boot/dts/aspeed/aspeed-bmc-opp-tacoma.dts  |  8 ++++----
- 4 files changed, 16 insertions(+), 16 deletions(-)
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts
-index 2f5d4075a64ad..c2a4153bdcf49 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-bonnell.dts
-@@ -276,13 +276,13 @@ max31785@52 {
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
+index a614f947dafc9a6628c3f3d45b62ff3ca9d2b618..a2f0ed6e7bbefbdcec33f7ddebdf2de62adec164 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
+@@ -269,18 +269,23 @@ &gpio1 {
+ 
+ &i2c0 {
+ 	status = "okay";
++	multi-master;
++	mctp@10 {
++		compatible = "mctp-i2c-controller";
++		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
++	};
+ 
+ 	i2c-mux@71 {
+ 		compatible = "nxp,pca9546";
+ 		reg = <0x71>;
  		#address-cells = <1>;
  		#size-cells = <0>;
+-		i2c-mux-idle-disconnect;
  
--		fan0: fan@0 {
-+		fan0: fan-0 {
- 			compatible = "pmbus-fan";
+ 		i2c0mux0ch0: i2c@0 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
  			reg = <0>;
- 			tach-pulses = <2>;
++			mctp-controller;
  		};
  
--		fan1: fan@1 {
-+		fan1: fan-1 {
- 			compatible = "pmbus-fan";
- 			reg = <1>;
- 			tach-pulses = <2>;
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
-index 9f144f527f03b..2f42482d98df2 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-everest.dts
-@@ -2065,25 +2065,25 @@ max31785@52 {
- 				#size-cells = <0>;
- 				reg = <0x52>;
- 
--				fan@0 {
-+				fan-0 {
- 					compatible = "pmbus-fan";
- 					reg = <0>;
- 					tach-pulses = <2>;
- 				};
- 
--				fan@1 {
-+				fan-1 {
- 					compatible = "pmbus-fan";
- 					reg = <1>;
- 					tach-pulses = <2>;
- 				};
- 
--				fan@2 {
-+				fan-2 {
- 					compatible = "pmbus-fan";
- 					reg = <2>;
- 					tach-pulses = <2>;
- 				};
- 
--				fan@3 {
-+				fan-3 {
- 					compatible = "pmbus-fan";
- 					reg = <3>;
- 					tach-pulses = <2>;
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts
-index c5fb5d410001b..bbe26f950821e 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-rainier.dts
-@@ -1079,37 +1079,37 @@ max: max31785@52 {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
- 
--		fan0: fan@0 {
-+		fan0: fan-0 {
- 			compatible = "pmbus-fan";
- 			reg = <0>;
- 			tach-pulses = <2>;
- 		};
- 
--		fan1: fan@1 {
-+		fan1: fan-1 {
- 			compatible = "pmbus-fan";
- 			reg = <1>;
- 			tach-pulses = <2>;
- 		};
- 
--		fan2: fan@2 {
-+		fan2: fan-2 {
- 			compatible = "pmbus-fan";
+ 		i2c0mux0ch1: i2c@1 {
+@@ -332,6 +337,7 @@ i2c0mux0ch2: i2c@2 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
  			reg = <2>;
- 			tach-pulses = <2>;
++			mctp-controller;
  		};
  
--		fan3: fan@3 {
-+		fan3: fan-3 {
- 			compatible = "pmbus-fan";
- 			reg = <3>;
- 			tach-pulses = <2>;
- 		};
- 
--		fan4: fan@4 {
-+		fan4: fan-4 {
- 			compatible = "pmbus-fan";
- 			reg = <4>;
- 			tach-pulses = <2>;
- 		};
- 
--		fan5: fan@5 {
-+		fan5: fan-5 {
- 			compatible = "pmbus-fan";
- 			reg = <5>;
- 			tach-pulses = <2>;
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-tacoma.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-tacoma.dts
-index b31eb8e58c6b4..91d514567cba5 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-tacoma.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-tacoma.dts
-@@ -480,7 +480,7 @@ max31785@52 {
+ 		i2c0mux0ch3: i2c@3 {
+@@ -457,12 +463,12 @@ i2c-mux@75 {
+ 		reg = <0x75>;
  		#address-cells = <1>;
  		#size-cells = <0>;
+-		i2c-mux-idle-disconnect;
  
--		fan@0 {
-+		fan-0 {
- 			compatible = "pmbus-fan";
+ 		i2c0mux3ch0: i2c@0 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
  			reg = <0>;
- 			tach-pulses = <2>;
-@@ -493,7 +493,7 @@ fan@0 {
- 			maxim,fan-fault-pin-mon;
++			mctp-controller;
  		};
  
--		fan@1 {
-+		fan-1 {
- 			compatible = "pmbus-fan";
- 			reg = <1>;
- 			tach-pulses = <2>;
-@@ -506,7 +506,7 @@ fan@1 {
- 			maxim,fan-fault-pin-mon;
- 		};
- 
--		fan@2 {
-+		fan-2 {
- 			compatible = "pmbus-fan";
+ 		i2c0mux3ch1: i2c@1 {
+@@ -514,6 +520,7 @@ i2c0mux3ch2: i2c@2 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
  			reg = <2>;
- 			tach-pulses = <2>;
-@@ -519,7 +519,7 @@ fan@2 {
- 			maxim,fan-fault-pin-mon;
++			mctp-controller;
  		};
  
--		fan@3 {
-+		fan-3 {
- 			compatible = "pmbus-fan";
- 			reg = <3>;
- 			tach-pulses = <2>;
+ 		i2c0mux3ch3: i2c@3 {
+
+---
+base-commit: c65261717599d419e9c683d85f515d3ca2261549
+change-id: 20250918-leo-dts-transceiver-edc31e3c21af
+
+Best regards,
 -- 
-2.51.0
+Leo Wang <leo.jt.wang@gmail.com>
 
 
