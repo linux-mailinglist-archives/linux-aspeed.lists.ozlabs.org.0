@@ -1,29 +1,29 @@
-Return-Path: <linux-aspeed+bounces-2415-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2416-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4A6BCC0D4
-	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Oct 2025 10:03:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E57BCC0D7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Oct 2025 10:03:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cjfPw48tQz2ygD;
-	Fri, 10 Oct 2025 19:03:32 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cjfPx2H7Lz2yqR;
+	Fri, 10 Oct 2025 19:03:33 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760083412;
-	cv=none; b=IF8UwmTA0CVR8Wh8WRPn2wNhiTj7KgT4Ni914Z3016EFPrMsrUUpt9XXyFD/Xc0aVTvHavNGAzBP4Gvh8ga9tOnIDg52Gq3b4Ov7ncC9O1YPSlY5XGwfm7fyMNeR7XwhL98QLQ/DXlal8EpUwtLk7XIpEyNCFTwH1hNEdYHhiAUztG5jjZs8+SdR9lOQGAiv7Vd1Mb86BFD+Ye55W3t3AoIIv5+4448g09XX3r4KyHIlcr/z7Z6mP87NPEhllLFQVuG9+syfqT2wHv2nzi+Tfjf/z4bVnEJW0qDZGV2+W1gFP1TRVq52u+S7wcHbs6dPL14LXzEYSmKn8RVXKcbEYQ==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760083413;
+	cv=none; b=TmjITC+BJ6YJIa3aL+WScTODp8J/4VYKm8EWi6fqpecUjMG7Eg5/EcAsRWnvcWl1YhWQAu3ZYm8qwu7FESjgcd3yr6ZMh+lNpppeyk+NAEGE7GRVMqn3LJ042yA8gYeEjJWcyeeW6ylkiubw3Gu1cHDJB/qMAB8udWjf/ErGgh/KV9tWAX4crDCoqsdCJdnXftbIj674Oc5KnIMGqmyam6c27lyH4mwRzquUZZEGQB9yyVyRjJZswbDbtiz62L0VMB7x85L9NRacn+3RBrdtiO3Ei6VM+ITlHu5sHFjc3nLw07R0p7J4ZJFIByCrw/T9NfLPsaIn11fBrru2yhe86A==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1760083412; c=relaxed/relaxed;
-	bh=rJVi14E8XRnSSxAt3OwyC3hAxV0rJS0jDjEfs2Iwd5c=;
+	t=1760083413; c=relaxed/relaxed;
+	bh=zxfMRrE8il0yOnAObNAwbxVxFL1j9FZ+kXpHdeGoTLA=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nsWyLCJCzKy+IeqSmGL2S8wtEKFx/CwPLWxIcXfcskiXt48FqBOiubO6We8z4AgQwdXIrPjNKbsHHnpG3H/BY8SSmB4Syfhf9e9LX1+ZzKxNemHbwHwiwlN5zI+gaCwGKtJmjWNie5mWIuDm81KNUeNdRcMZdbcoF4dpXjYPezrporeSwT652OZ/wXmCWxVSgcqCogcKpaD/xTjy40wj7WVAW5Szw21Pfsaskl1Aq6PcQqag720+nrmRlOoOF86llJAWk2+9fC4ta2Y42DPLLnN2wMiJoHWB6WBsHQX6ENiYTMwnpxmsFHJgoQ4VdTkN/AsEZE/7SkqKKceWBKVrZA==
+	 MIME-Version:Content-Type; b=aUUG6kRDEA8nSg6YefN+IwKnM5Hf02iOruyPb2lHq4rTUDzWRWA3Tf98RmFqjRyH2cPlWhUzkgi0i2YHnWpU3TqcCc7fHG4nQXmnUcAE33Ca56whtjML903/0bZ/mllyYKtLu7CbUcQph0F05r3NTZo4GZp1EU9+i0a39+juidd8HneWe8Q1HTsmVmXlKWBmJhTHP1Qg//GicPY/8bVj5txTzEhk4ssieQa1bfBt+pRrzcZJYRQMX/DlynXYLeYmE/0Zc9ydZkHsnIMREtUYa8Pqkv4XVZOfHmMvIMI5R1UMx0aloPoMyz+l1Zm74+BJJNLq8RS17/OCBphfRl8v4w==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cjfPv6vN9z2xK1
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Oct 2025 19:03:31 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cjfPw5G2bz2xK1
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Oct 2025 19:03:32 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 10 Oct
@@ -38,9 +38,9 @@ To: <wim@linux-watchdog.org>, <linux@roeck-us.net>, <robh@kernel.org>,
 	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
 	<BMC-SW@aspeedtech.com>
-Subject: [PATCH v2 2/3] watchdog: aspeed: Support variable number of reset mask registers
-Date: Fri, 10 Oct 2025 16:03:14 +0800
-Message-ID: <20251010080315.816628-3-chin-ting_kuo@aspeedtech.com>
+Subject: [PATCH v2 3/3] watchdog: aspeed: Add support for AST2700 platform
+Date: Fri, 10 Oct 2025 16:03:15 +0800
+Message-ID: <20251010080315.816628-4-chin-ting_kuo@aspeedtech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251010080315.816628-1-chin-ting_kuo@aspeedtech.com>
 References: <20251010080315.816628-1-chin-ting_kuo@aspeedtech.com>
@@ -63,73 +63,53 @@ X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Starting from the AST2600 platform, the SoC design has become more
-complex, with an increased number of reset mask registers.
-To support this, introduce a new field 'num_reset_masks' in the
-'aspeed_wdt_config' structure to specify the number of reset mask
-registers per platform. This change removes the need for hardcoded
-platform-specific logic and improves scalability for future SoCs.
+Add AST2700 platform support to the ASPEED watchdog driver. This includes
+a new per-platform configuration with SCU reset status register at
+SCU1_070 and support for 5 reset mask registers.
 
 Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
 ---
- drivers/watchdog/aspeed_wdt.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/watchdog/aspeed_wdt.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/watchdog/aspeed_wdt.c b/drivers/watchdog/aspeed_wdt.c
-index 837e15701c0e..d23e565f30a8 100644
+index d23e565f30a8..c9e79851504c 100644
 --- a/drivers/watchdog/aspeed_wdt.c
 +++ b/drivers/watchdog/aspeed_wdt.c
-@@ -35,6 +35,7 @@ struct aspeed_wdt_config {
- 	u32 irq_shift;
- 	u32 irq_mask;
- 	struct aspeed_wdt_scu scu;
-+	u32 num_reset_masks;
+@@ -83,10 +83,24 @@ static const struct aspeed_wdt_config ast2600_config = {
+ 	.num_reset_masks = 2,
  };
  
- struct aspeed_wdt {
-@@ -66,6 +67,7 @@ static const struct aspeed_wdt_config ast2500_config = {
- 		.wdt_reset_mask = 0x1,
- 		.wdt_reset_mask_shift = 2,
- 	},
-+	.num_reset_masks = 1,
- };
- 
- static const struct aspeed_wdt_config ast2600_config = {
-@@ -78,6 +80,7 @@ static const struct aspeed_wdt_config ast2600_config = {
- 		.wdt_reset_mask = 0xf,
- 		.wdt_reset_mask_shift = 16,
- 	},
-+	.num_reset_masks = 2,
- };
- 
++static const struct aspeed_wdt_config ast2700_config = {
++	.ext_pulse_width_mask = 0xfffff,
++	.irq_shift = 0,
++	.irq_mask = GENMASK(31, 10),
++	.scu = {
++		.compatible = "aspeed,ast2700-scu0",
++		.reset_status_reg = 0x70,
++		.wdt_reset_mask = 0xf,
++		.wdt_reset_mask_shift = 0,
++	},
++	.num_reset_masks = 5,
++};
++
  static const struct of_device_id aspeed_wdt_of_table[] = {
-@@ -479,11 +482,11 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
- 		set_bit(WDOG_HW_RUNNING, &wdt->wdd.status);
+ 	{ .compatible = "aspeed,ast2400-wdt", .data = &ast2400_config },
+ 	{ .compatible = "aspeed,ast2500-wdt", .data = &ast2500_config },
+ 	{ .compatible = "aspeed,ast2600-wdt", .data = &ast2600_config },
++	{ .compatible = "aspeed,ast2700-wdt", .data = &ast2700_config },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, aspeed_wdt_of_table);
+@@ -483,7 +497,7 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
  	}
  
--	if ((of_device_is_compatible(np, "aspeed,ast2500-wdt")) ||
--		(of_device_is_compatible(np, "aspeed,ast2600-wdt"))) {
-+	if (!of_device_is_compatible(np, "aspeed,ast2400-wdt")) {
- 		u32 reset_mask[2];
--		size_t nrstmask = of_device_is_compatible(np, "aspeed,ast2600-wdt") ? 2 : 1;
-+		size_t nrstmask = wdt->cfg->num_reset_masks;
+ 	if (!of_device_is_compatible(np, "aspeed,ast2400-wdt")) {
+-		u32 reset_mask[2];
++		u32 reset_mask[5];
+ 		size_t nrstmask = wdt->cfg->num_reset_masks;
  		u32 reg = readl(wdt->base + WDT_RESET_WIDTH);
-+		int i;
- 
- 		reg &= wdt->cfg->ext_pulse_width_mask;
- 		if (of_property_read_bool(np, "aspeed,ext-active-high"))
-@@ -503,9 +506,8 @@ static int aspeed_wdt_probe(struct platform_device *pdev)
- 
- 		ret = of_property_read_u32_array(np, "aspeed,reset-mask", reset_mask, nrstmask);
- 		if (!ret) {
--			writel(reset_mask[0], wdt->base + WDT_RESET_MASK1);
--			if (nrstmask > 1)
--				writel(reset_mask[1], wdt->base + WDT_RESET_MASK2);
-+			for (i = 0; i < nrstmask; i++)
-+				writel(reset_mask[i], wdt->base + WDT_RESET_MASK1 + i * 4);
- 		}
- 	}
- 
+ 		int i;
 -- 
 2.34.1
 
