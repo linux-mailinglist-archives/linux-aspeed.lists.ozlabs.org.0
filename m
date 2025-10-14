@@ -1,46 +1,62 @@
-Return-Path: <linux-aspeed+bounces-2444-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2449-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50317BDB842
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Oct 2025 23:59:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0CCBDB8D7
+	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Oct 2025 00:04:16 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cmSmT1b4lz2xdg;
-	Wed, 15 Oct 2025 08:59:21 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cmSt61HH0z2yGM;
+	Wed, 15 Oct 2025 09:04:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=95.215.58.181
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760442475;
-	cv=none; b=DyPNQBEnqlnFOqp617T0eovV/2JNs3thUu+EN4kKu+tTxy34hS3YLYDYZ/TEe6ISKIlOWYnQ6ib29TfGW5kp9p1mfh5FZ/HxTUppS5RQY7qWxiPvak+9tpchpjyt2OATJNRthpiBGUSzN9hvTczKt4CA3Sh38oR/Lev5Q78Jt0FMlE5SlikN8NA/yNjxAZUAcsLw1ijG5oxL/HUwLO9+TWEtNo0v+1ZIjTr4s4T3AVVCmt7ryfKLPAeXtXH/Yt38ReV/IawcxRtH88mhjOl4x6qXIvsk8cf8GQlMoZoTaJsOVJ5jXNHwVH23NHQQE2zDYDLvxmD2Xljce7tXDJrgkg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760479454;
+	cv=none; b=VBIHSrGZ7g6E8NVwp7XsUXQIqoeUHT+wTGZrvY8mKiTuQ0bxplqnRkC7O3+IUgY53rPVZi7DcmSXiV3UCqatQ4fAEkStFvDTlJOX9bbI4KA12yDL8LmMXOxFJfq5r0yB5VGq3et2GGYQMpdU6AV2xW81eOBV+hWgR8pAvrw6STTZ0FaxoCG+jBrDdiSv3sTT0YD7Wzk1Np4NQPS6Cp7UxsEoe9by/hlTyc8p1+puyBxll2wv3GHbYsIqm/GXK+udZanL7SIKW+7FAQyewOFUOqHAbI9RPBWZSPK5DGQVP+RExMmDk1S2IZWfppxHxKOrfcEfgk7SuU3q7ByzNgVG+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1760442475; c=relaxed/relaxed;
-	bh=Hd2PoIE+rPMCr6jd3OwU3he0uZl4CmPgrMZ61+ge710=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HW9XYRKrM9ulF4RS0uAeRw+dM/FmAInKUPFX2pTas3GRpTVZtr8qGmpFhMlGGRkAgglDpAX1GO7Dvv3wolDb2AvhF6kmQQhhL4YcktRiVsN6L7PyvipXneTX6e/24eT/XwaXHYLhf0xLC6R68l6fwCgOmHUdPUrmh2cIBsSoCKe8eTWZirPIuUJDyz45/dpPmB6uLFB3fkBec+om7lfRyx6CBn9RgemJkqJgMKCXzfcf8g4HnqO6/5vJIthTka411TYCl7iAitot3Mwkxz6dbQOMeVzVH5Uo2H7Hoc1jNfQP2pypNp+tcEvbRkqSaEhpzaNm4jNp5aGWQmEpBaQAig==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.dev; dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=VK9bY4Lu; dkim-atps=neutral; spf=pass (client-ip=95.215.58.181; helo=out-181.mta1.migadu.com; envelope-from=lance.yang@linux.dev; receiver=lists.ozlabs.org) smtp.mailfrom=linux.dev
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+	t=1760479454; c=relaxed/relaxed;
+	bh=3ib1iU3Qxw19Ut1WEzRnfFFufKNvW6qoaUWizLUq11Q=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=PsJ/PL73BvqAQjtQE6bs3o8JvzQJ5PakSxnYPA/YpJkb/Yoj+MqCdX6y3pUjv1u0pE8pVztvTnQTwWEFi2ReK6dzpU/z6MBB2KTNr2W8sDINH3gjf9lgmNaFkwCXZ3u2nOE8wLb6FqnWgFMTz7K6dhuOWI5zq6xnWxCT1Aav9wWJfI+1OkjEPiVvsNzLLURJeUcSNAQ1NCIQ1/5SlewHwM+EyPSfFPT1sCWR7H/0V9swsuqKijpXZSsRSTo33l+DquvyXlbrLcsLAGZtVXSMmgcSSvnCZvpVDRR4R64omPCHsD0cX9wxeXI3mix9MHn5pSUiEIv1qD88q4UPo2JkWA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=RFfXKzkL; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=VK9bY4Lu;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=RFfXKzkL;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.dev (client-ip=95.215.58.181; helo=out-181.mta1.migadu.com; envelope-from=lance.yang@linux.dev; receiver=lists.ozlabs.org)
-X-Greylist: delayed 380 seconds by postgrey-1.37 at boromir; Tue, 14 Oct 2025 22:47:52 AEDT
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cmCBw6Xbvz3020
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Oct 2025 22:47:52 +1100 (AEDT)
-Message-ID: <096168a6-8687-4dae-a774-0741d3e5a891@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1760442070;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hd2PoIE+rPMCr6jd3OwU3he0uZl4CmPgrMZ61+ge710=;
-	b=VK9bY4LuIi4ji669KYN12TIOH35WJDu8pKASGIJSdi9qQhdHcSOS9ZOqAwGKpQPsCsa/MC
-	Any8FgOqFuOI1eRpcwlhhwocJFbU9rKLsGQh3WYropHOaMHnqd5PxuOYzCW6qqbWxTyanS
-	cCDvtJaYV62OHRnEZ5m/iARM6dBj9oQ=
-Date: Tue, 14 Oct 2025 19:40:58 +0800
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cmSt51W63z2xdg
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Oct 2025 09:04:13 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1760479451;
+	bh=3ib1iU3Qxw19Ut1WEzRnfFFufKNvW6qoaUWizLUq11Q=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=RFfXKzkLQtwUueDyCrkSuazpG44SGbxqEHdEVqA6yRD7EsZxBZcdlMsE+zAhISIeA
+	 2pxWVSQWI3POKOY1yaS+c0Zmq0hVWF0BVwVLUcSKkuOjxEo4du64sz0+3f8eqc8ppV
+	 9AFbkGKLp8TAGcRnlg29Nb57Ax2cf4tly1tUNCp6wHzoTby0gn4Zc5FM/9vfsm7t1l
+	 za6awf81wSsV/ZXamUjdMf98iKiPeYBa1IdjJn5R+9qgvbk0a4e15gdnLjv+wr8NEP
+	 BrwCGW/HlU/YsqccXVvyIqWJGK/d6eOLB3gkZ+g9cXYT/o+uTQNdCQAnSpo6UrGbI1
+	 0uj+NvXVHyfuA==
+Received: from [192.168.68.113] (unknown [180.150.112.213])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 974387699E;
+	Wed, 15 Oct 2025 06:04:09 +0800 (AWST)
+Message-ID: <b387257937922d62fbf6bf6377470cfa8a46da2f.camel@codeconstruct.com.au>
+Subject: Re: [PATCH] dt-bindings: ipmi: Convert aspeed,ast2400-ibt-bmc to DT
+ schema
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: "Rob Herring (Arm)" <robh@kernel.org>, Corey Minyard
+ <corey@minyard.net>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Joel Stanley	 <joel@jms.id.au>
+Cc: openipmi-developer@lists.sourceforge.net, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 15 Oct 2025 08:34:05 +1030
+In-Reply-To: <20251014152948.3782738-1-robh@kernel.org>
+References: <20251014152948.3782738-1-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1 
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -54,103 +70,18 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Subject: =?UTF-8?B?UmU6IFvlpJbpg6jpgq7ku7ZdIFJlOiBbUEFUQ0hdW3YzXSBodW5nX3Rh?=
- =?UTF-8?Q?sk=3A_Panic_after_fixed_number_of_hung_tasks?=
-Content-Language: en-US
-To: "Li,Rongqing" <lirongqing@baidu.com>, Petr Mladek <pmladek@suse.com>
-Cc: "wireguard@lists.zx2c4.com" <wireguard@lists.zx2c4.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- David Hildenbrand <david@redhat.com>, Randy Dunlap <rdunlap@infradead.org>,
- Stanislav Fomichev <sdf@fomichev.me>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
- Russell King <linux@armlinux.org.uk>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Shuah Khan <shuah@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>,
- Joel Granados <joel.granados@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Phil Auld <pauld@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
- Simon Horman <horms@kernel.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Florian Westphal <fw@strlen.de>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- "Paul E . McKenney" <paulmck@kernel.org>,
- Feng Tang <feng.tang@linux.alibaba.com>,
- "Jason A . Donenfeld" <Jason@zx2c4.com>
-References: <20251012115035.2169-1-lirongqing@baidu.com>
- <588c1935-835f-4cab-9679-f31c1e903a9a@linux.dev>
- <aO4boXFaIb0_Wiif@pathway.suse.cz>
- <3acdcd15-7e52-4a9a-9492-a434ed609dcc@linux.dev>
- <38af4922ca44433fa7cd168f7c520dc9@baidu.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <38af4922ca44433fa7cd168f7c520dc9@baidu.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_PASS
-	autolearn=disabled version=4.0.1
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
+On Tue, 2025-10-14 at 10:29 -0500, Rob Herring (Arm) wrote:
+> Convert the aspeed,ast2400-ibt-bmc binding to DT schema format. It's a
+> straight-forward conversion.
+>=20
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 
+Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
 
-On 2025/10/14 19:18, Li,Rongqing wrote:
->>>>> Currently, when 'hung_task_panic' is enabled, the kernel panics
->>>>> immediately upon detecting the first hung task. However, some hung
->>>>> tasks are transient and the system can recover, while others are
->>>>> persistent and may accumulate progressively.
->>>
->>> My understanding is that this patch wanted to do:
->>>
->>>      + report even temporary stalls
->>>      + panic only when the stall was much longer and likely persistent
->>>
->>> Which might make some sense. But the code does something else.
->>
->> Cool. Sounds good to me!
->>
->>>
->>>>> --- a/kernel/hung_task.c
->>>>> +++ b/kernel/hung_task.c
->>>>> @@ -229,9 +232,11 @@ static void check_hung_task(struct task_struct
->> *t, unsigned long timeout)
->>>>>     	 */
->>>>>     	sysctl_hung_task_detect_count++;
->>>>> +	total_hung_task = sysctl_hung_task_detect_count -
->>>>> +prev_detect_count;
->>>>>     	trace_sched_process_hang(t);
->>>>> -	if (sysctl_hung_task_panic) {
->>>>> +	if (sysctl_hung_task_panic &&
->>>>> +			(total_hung_task >= sysctl_hung_task_panic)) {
->>>>>     		console_verbose();
->>>>>     		hung_task_show_lock = true;
->>>>>     		hung_task_call_panic = true;
->>>
->>> I would expect that this patch added another counter, similar to
->>> sysctl_hung_task_detect_count. It would be incremented only once per
->>> check when a hung task was detected. And it would be cleared (reset)
->>> when no hung task was found.
->>
->> Much cleaner. We could add an internal counter for that, yeah. No need to
->> expose it to userspace ;)
->>
->> Petr's suggestion seems to align better with the goal of panicking on
->> persistent hangs, IMHO. Panic after N consecutive checks with hung tasks.
->>
->> @RongQing does that work for you?
-> 
-> 
-> In my opinion, a single task hang is not a critical issue, fatal hangs—such as those caused by I/O hangs, network card failures, or hangs while holding locks—will inevitably lead to multiple tasks being hung. In such scenarios, users cannot even log in to the machine, making it extremely difficult to investigate the root cause. Therefore, I believe the current approach is sound. What's your opinion?
-
-Thanks! I'm fine with either approach. Let's hear what the other folks 
-think ;)
-
+Thanks Rob.
 
