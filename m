@@ -1,76 +1,76 @@
-Return-Path: <linux-aspeed+bounces-2467-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2465-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACFE8BE0F5E
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Oct 2025 00:36:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D254BE0F4C
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Oct 2025 00:36:48 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cn5YP4CT2z305M;
-	Thu, 16 Oct 2025 09:36:57 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cn5YB1LCGz30M0;
+	Thu, 16 Oct 2025 09:36:46 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::52e"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760539166;
-	cv=none; b=CqHXfBHxSmJwsUR3oYbG224wnXX4HilHLGzs2T4S+BRSUe17fOfmUBBFAHUrK3mVDRW/OFL+jNrw72S6I8xH2CFh1kaxBAYr440DFGgrIo+/HrvDzwEbbTjdkfzaBGiZpb/R/Qu1pfITjWKuoQsSJ5muxBMGExSvJkp5v0MQLe6rRDkGTmY8J8JCVP+ScJD0LCEuX8MhpHniaAmHUceDma+X22ovYecc5q7ikOcgz2UBZpwGJtrAvNGViz0Uhk12QVC6Q106gsAH0me9cEGU3eOZZxsvdSGirsROCNxHpHU9vDxZuSMCP+41ZZO9ZqDvXV+Gdr2Hd/MBSWxJUtpRmQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::636"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760539170;
+	cv=none; b=bAzRvkzNc9KMqb4r92FAb/kjbQOS6bgRF0DM3Nmo9sFDcY4kvY0krLTVnJikujXkkfO3kAcavSpt5HSqBEXKbwlSeQYrToqm3FsMHAM7vTBTyzNlIll7fHqNTYcxgdlKulnkoVuxmfIXMufVHBEUme2fmtX3Tycc7E6fKDzq7/8NB5wnp90dzuKCD1x2lBsHuiV6y2EXEiwJFgtbo15oZV/p4gIycdNWAlS0ILcGMcgL3rf1d5Xv7U60ZpviuLpCVVD+zSgzt0gakb5oEQkoFrVZLpeqREUimpIgAVyXQtm/MtfzJWo/HRuCGYsM4DYLRbFjx3L4FLSVb7elBGLxsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1760539166; c=relaxed/relaxed;
-	bh=J1qkiZNzj4i8upyPOuFU9biKPD/HSZhrQR/i5BB3FsY=;
+	t=1760539170; c=relaxed/relaxed;
+	bh=5sLS/7OJ3KrJepwqjgBxtuuDCZFBrwgME/cIiK9U9WA=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MshqGamjmWmoyqE7AwaTwa0CSl5LCB8DAAT5qeMkybiKCGbnByUR1Za2F9kmbNPz3UiUhRkjh8CMQURZvFJ3mrRADVq6fR9wb3mtnJTUbQrvmXXqYePL28ee5y5QS73gAztWY94h0VmOzHys7x5/gGGTUD78Bb5GM2KBAS2ISI1A3RklTXDnZTm6jRLIgwv0r9wwFZS6JhLtoUjaEtbbXkLhabe22IY5fr15Cn8eWmBgZzi4gu2jZ2OJA42/bcvhJoOLNf7jWIvoiu5rVcwqG0i5+wU1nUbLFnItpCoRGjmymOx4cqxMevaVY1aDxbf1Oq0hD8VFp9/zQGYdydoHiw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=kIxmKn6P; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::52e; helo=mail-pg1-x52e.google.com; envelope-from=fredchen.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+	 MIME-Version; b=df6o/WD+bhpBmmuMteTpIuCbEcMY3K39jOHE8ZWRHPk84IW6/cH8ZEQhUV4r4Jqkc8otULJ9svSM5EEKhj8y1AfkfG1EMU/sijl0maT3MWbIV35m1ExJPaFgrj1B7lzviWeqqONinkl6BDiwa7FoJEGBmU6AJSVUa5P8fvPoytVAERGYOo3YPMJCCBHVFuvIf5AM08JAk1moL8IxdyKiJG/pPp9E7c2pyaA/NOBlN5K8XxUQYBWEA42GwZ5W0fNRgO0A/jObgu5h1hS1QAKPv++eEsKHh7jdKDMVcuTxi0pNBqDpcSOyXYlFdvQhGrvV3RTVriR76J4UhDgH5/Fg7w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=LgzuUwbH; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::636; helo=mail-pl1-x636.google.com; envelope-from=fredchen.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=kIxmKn6P;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=LgzuUwbH;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::52e; helo=mail-pg1-x52e.google.com; envelope-from=fredchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::636; helo=mail-pl1-x636.google.com; envelope-from=fredchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cmtyP56SLz3dHf
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Oct 2025 01:39:25 +1100 (AEDT)
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-b67ae7e76abso3039327a12.3
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Oct 2025 07:39:25 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cmtyT4c4Bz3dHf
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Oct 2025 01:39:29 +1100 (AEDT)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-28e7cd34047so52122355ad.2
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Oct 2025 07:39:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760539164; x=1761143964; darn=lists.ozlabs.org;
+        d=gmail.com; s=20230601; t=1760539168; x=1761143968; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J1qkiZNzj4i8upyPOuFU9biKPD/HSZhrQR/i5BB3FsY=;
-        b=kIxmKn6PDxxER851/Z9JeLdhxjsTwBOHUDHVoPejVZxCGT8BH6xcvPRMo7l/9eJvU3
-         y83rJsUMBUCezVM/Yh+SSY5O7m1F5t/94Gtk8WIdBh65rNCZTQWlf355kbohBou6Rxo2
-         Zi2MOcTbTSdCqDk8GdmtgYpH+tMZzMoIEQlXWM2+VmqCeQaFHlNnGq8b5eF6IwOcXTWz
-         Hs39ishMxjFGrSwdcO8+VCmyCaMR7CVNloV6rK0tXGlV0tBDT8MlvKXRJffhh9VNE1Im
-         8ws5WlUHUEXyyChhkCRAV9sCMdSrGiEe3NR9woTGv/FMPzNO9472MIvTYV/e2ncr6ITN
-         K80A==
+        bh=5sLS/7OJ3KrJepwqjgBxtuuDCZFBrwgME/cIiK9U9WA=;
+        b=LgzuUwbHDETwR10nuKEKF5y/wzjMy+s3WvqMktJ5vgwZAThxstKx7K/W2d7uIF8Sor
+         F2CkmdN39qnlJyQ6Vjs7DiD80NmVMpu38BYPsbX2MxJA9ku/XQCMybMGh0q2assXax7b
+         b6O3GkKf42kAfzAPLRwTXZZVP+i6xBwftYoQkqPt7tTnQRbQGCGdsbhqnhKTHvCqi/28
+         oLL1+mZfxS7fCAxCRZrPZH9gHvvX25Mlx4v4O39XRbRiPnueqPUF7ZW7qyQUbqfuAzbt
+         aiwa3DW59hRR2WR1RNe54PjpRj45ji7jP4SSESlvOl6TrKksye0/SpCnSurcndv2L7Ll
+         bunw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760539164; x=1761143964;
+        d=1e100.net; s=20230601; t=1760539168; x=1761143968;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=J1qkiZNzj4i8upyPOuFU9biKPD/HSZhrQR/i5BB3FsY=;
-        b=d4rzZTqWfHjkmWsgWim2tbSJ31cIzwANlcTPbE8Zae7n7zIzOB1yctp2Dfj3lMTbjH
-         m3R+8f8Wb8npVIkC2aZ4kCcwtN0zN12gtFYooRIBL7cVjWgjAVsGlAsQi0X+q/99cREf
-         0N/FWinemDE7rRsIFHuzds5+jMx+8zhyiDPw/hLhtcIXO/fOYqb7KRdMcYLsU7RvzPsE
-         Bx4Uiis3+hy6Z9dDmcJ2ShgMvl+4I8LONSy9IupuNEz+Ohn/74YbV56OeAqi7AFaHCV8
-         7fcpIwKEnybQWuSkJNi4Mo4OsQDDu918ZgJGSpnFredIApTIZtq3Ms61aMBxH1WSROBz
-         D3hQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWnJJVnJsEDkKyPA0XYRpNNrEO2VT+oa91lqJwRCdBOrbgJ4v2Pu64mjsIEXNW9LsNFKh3g014Ezb8Wzmc=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YzAD9TEffa9ICWb43nhmizNnPBhttmhhRtiJcCMy48al8RyMiE9
-	Jbjrp7L+3i5fRZyooQdabt/QsrIXcasnn2sTvaq96Fo13iZ2WkkyhGB4
-X-Gm-Gg: ASbGnctkWTrI4fIEA4B9AcPpm+Bv6briH8Jh+JGHiWjJPkhmV0uZlXAlgYYIa81a2mv
-	+XV/WUhr1o5LimuqkFL2YOjViamxzni4z0I/PXpHgpJP5IgMg2AXnzvqgoahhQJx601p33JKvs1
-	oYgDBOA0YJ6j4AeSt6rE2Gdt1D0TGpPeYj0h2vQTTty/OIM+f5CfQazpwv1kwA0eyOJi/BYAeTA
-	PJON83PXLt7t+519HIIUmE74hWL6d0Ecd35qmUsDx/uS3d4R5TzO4ae/hbDDXtF7S7G/eIIVWqk
-	nOGiGBCCGfZ6Rzz3yFYFRnCS+Bb6mhB+DAWarjwYHcI6/8hixB1vm0mTbzvN7XN1FxTf3Z8k++F
-	ENxr4R7RxoiBS0pat6lhSj2InnfLvV8UdW0+AnAagRvTe1EKfWsxFSRH7xnBhkkUSTradlDSQv/
-	ufaZXV5bh+u9HbdWlXVxVhaPaLpPOAYVTT2v/lVKcE
-X-Google-Smtp-Source: AGHT+IGhJSIQPh1cVrCpB8ckttgUHuHIw4pB+GNjrgyyBubcVdnekxYCkMTZnEV3Ov7tT/KZdg62EA==
-X-Received: by 2002:a17:903:286:b0:276:842a:f9a7 with SMTP id d9443c01a7336-290273a1725mr344577015ad.57.1760539163812;
-        Wed, 15 Oct 2025 07:39:23 -0700 (PDT)
+        bh=5sLS/7OJ3KrJepwqjgBxtuuDCZFBrwgME/cIiK9U9WA=;
+        b=tFdnNzhfzzhzFxA5IHtZ5Of8rRqkigE97tMezGDCUpq6xvSEtkynLyOI7CNPthguTZ
+         QGaokIFflU1ts9HGLWveheJxP1ONQaVfEoZkUIG6lT9p40Gqz1gBSroYu4a/L/LUV6Xf
+         62lTubsPp7PKMYf0CNNgPD3cZg9G4Gocz2tPBL3QpGF+AkbWKQK/1JNIQntHwRbqEwjh
+         DpC6a4dIGsIGs/yu2RmefW2uRxpqITbY4FDcSCnVyNN06nhm0W2909UPhkKWDuE1hTbF
+         fZSl0XCGZYDgbtFrKtoGR76jqxVfJ+3rjUkwpCOFotPi6SZ7H/kkY8ZdZseJP5GfTz2h
+         k+9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVYFbTVhAxcgWCvcpRIYPOSAISNAI1gDUQnVrxVbSSmVHgp7wGLZQAr1QlMxOrGuGjXlheTfpGrYjE8Ung=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YytGexyfkrPE5IqexnlWphqpPsHL9bJ88NjiGPfoiNfCMTUcQkX
+	YhigmBYoTlcR8dgJiydp71AK3tbPs21OfiWUtiDRV5i/Vz58pi3WccjY
+X-Gm-Gg: ASbGncuwuvsLkm/7EiqHL7DIOpQuqQ3fdiYCzJ/82N9qrD6c99Ae+TcoZbVUtyvRU+L
+	KalnOEkQRiRvEQKJbNwKqCh4/7J+3bth0Au6BWq9vfk2RSiGlCn10sW8en6bJY87suLRxbTEvPR
+	eXCCJlV4Y1ur4m7bbIhvogiWTDrOz9B3jqRTuNA+7rXKwcDHG/KLlMmZSc9Uld/178o3GXlKES/
+	3yAUfUa9wIYlbqnQkrc3T7hqwyedQcQ/aCRdNEhiNNWZ6Ztbq9qanfSavBL+P6MgtcUj4Bpkeme
+	hesX8a/bGipDYnYgHXyQtJm5i6qcZkzegfpXo8OhDC8Ol9v71V1eEoMWhXD+If/UhcqT6TrxiwA
+	OBjNiX5sh79siEnp8cU8JTmdYagvIZDXRhYL4LvSs6lYx+UJdJDFYXuFi6BfBjeNl4tHyYRC+6/
+	yDkPjXKXtNbn5gVDqC5mvg2vbH/FdSholDoOEcDyBm
+X-Google-Smtp-Source: AGHT+IG7ZSNoJJU7iL5Imk3GZc5UvVD3Y979Q/+ww2/TYt1I9njPfsXVfhlSquYbugRikLqOVOP2xw==
+X-Received: by 2002:a17:902:d50f:b0:278:9051:8ea9 with SMTP id d9443c01a7336-290272dc4a7mr399589875ad.40.1760539167657;
+        Wed, 15 Oct 2025 07:39:27 -0700 (PDT)
 Received: from fred-System-Product-Name.. (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f36738sm199853455ad.87.2025.10.15.07.39.21
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f36738sm199853455ad.87.2025.10.15.07.39.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 07:39:23 -0700 (PDT)
+        Wed, 15 Oct 2025 07:39:27 -0700 (PDT)
 From: Fred Chen <fredchen.openbmc@gmail.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -81,9 +81,9 @@ To: Rob Herring <robh@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/7] ARM: dts: aspeed: santabarbara: Add blank lines between nodes for readability
-Date: Wed, 15 Oct 2025 22:38:57 +0800
-Message-ID: <20251015143916.1850450-2-fredchen.openbmc@gmail.com>
+Subject: [PATCH v4 2/7] ARM: dts: aspeed: santabarbara: Add sensor support for extension boards
+Date: Wed, 15 Oct 2025 22:38:58 +0800
+Message-ID: <20251015143916.1850450-3-fredchen.openbmc@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251015143916.1850450-1-fredchen.openbmc@gmail.com>
 References: <20251015143916.1850450-1-fredchen.openbmc@gmail.com>
@@ -106,164 +106,901 @@ X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add missing blank lines between DT nodes to follow the devicetree coding
-style and improve readability.
-
-No functional changes.
+add power monitor and temperature sensors for extension boards in bus 6,
+8, 10 and 13.
 
 Signed-off-by: Fred Chen <fredchen.openbmc@gmail.com>
 ---
- .../aspeed-bmc-facebook-santabarbara.dts      | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ .../aspeed-bmc-facebook-santabarbara.dts      | 848 ++++++++++++++++++
+ 1 file changed, 848 insertions(+)
 
 diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dts
-index 72c84f31bdf6..4adbf15d913f 100644
+index 4adbf15d913f..89b18afe2b00 100644
 --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dts
 +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dts
-@@ -319,16 +319,19 @@ eeprom@53 {
- 				reg = <0x53>;
- 			};
- 		};
+@@ -39,6 +39,38 @@ aliases {
+ 		i2c37 = &i2c12mux0ch5;
+ 		i2c38 = &i2c12mux0ch6;
+ 		i2c39 = &i2c12mux0ch7;
++		i2c48 = &i2c6mux0ch0;
++		i2c49 = &i2c6mux0ch1;
++		i2c50 = &i2c6mux0ch2;
++		i2c51 = &i2c6mux0ch3;
++		i2c52 = &i2c8mux0ch0;
++		i2c53 = &i2c8mux0ch1;
++		i2c54 = &i2c8mux0ch2;
++		i2c55 = &i2c8mux0ch3;
++		i2c56 = &i2c10mux0ch0;
++		i2c57 = &i2c10mux0ch1;
++		i2c58 = &i2c10mux0ch2;
++		i2c59 = &i2c10mux0ch3;
++		i2c60 = &i2c13mux0ch0;
++		i2c61 = &i2c13mux0ch1;
++		i2c62 = &i2c13mux0ch2;
++		i2c63 = &i2c13mux0ch3;
++		i2c64 = &i2c6mux1ch0;
++		i2c65 = &i2c6mux1ch1;
++		i2c66 = &i2c6mux1ch2;
++		i2c67 = &i2c6mux1ch3;
++		i2c68 = &i2c8mux1ch0;
++		i2c69 = &i2c8mux1ch1;
++		i2c70 = &i2c8mux1ch2;
++		i2c71 = &i2c8mux1ch3;
++		i2c72 = &i2c10mux1ch0;
++		i2c73 = &i2c10mux1ch1;
++		i2c74 = &i2c10mux1ch2;
++		i2c75 = &i2c10mux1ch3;
++		i2c76 = &i2c13mux1ch0;
++		i2c77 = &i2c13mux1ch1;
++		i2c78 = &i2c13mux1ch2;
++		i2c79 = &i2c13mux1ch3;
+ 	};
+ 
+ 	chosen {
+@@ -587,6 +619,210 @@ eeprom@52 {
+ 		compatible = "atmel,24c256";
+ 		reg = <0x52>;
+ 	};
 +
- 		i2c4mux0ch1: i2c@1 {
- 			reg = <1>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 		};
++	i2c-mux@71 {
++		compatible = "nxp,pca9546";
++		reg = <0x71>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		i2c-mux-idle-disconnect;
 +
- 		i2c4mux0ch2: i2c@2 {
- 			reg = <2>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 		};
++		i2c6mux0ch0: i2c@0 {
++			reg = <0>;
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
- 		i2c4mux0ch3: i2c@3 {
- 			reg = <3>;
- 			#address-cells = <1>;
-@@ -380,16 +383,19 @@ temperature-sensor@4e {
- 				reg = <0x4e>;
- 			};
- 		};
++			temperature-sensor@64 {
++				compatible = "microchip,mcp9600";
++				reg = <0x64>;
++			};
 +
- 		i2c4mux0ch4: i2c@4 {
- 			reg = <4>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 		};
++			temperature-sensor@65 {
++				compatible = "microchip,mcp9600";
++				reg = <0x65>;
++			};
 +
- 		i2c4mux0ch5: i2c@5 {
- 			reg = <5>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 		};
++			temperature-sensor@67 {
++				compatible = "microchip,mcp9600";
++				reg = <0x67>;
++			};
 +
- 		i2c4mux0ch6: i2c@6 {
- 			reg = <6>;
- 			#address-cells = <1>;
-@@ -424,6 +430,7 @@ voltage-sensor@48 {
- 				reg = <0x48>;
- 			};
- 		};
++			i2c-mux@72 {
++				compatible = "nxp,pca9546";
++				reg = <0x72>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				i2c-mux-idle-disconnect;
 +
- 		i2c4mux0ch7: i2c@7 {
- 			reg = <7>;
- 			#address-cells = <1>;
-@@ -469,16 +476,19 @@ i2c5mux0ch0: i2c@0 {
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 		};
++				i2c6mux1ch0: i2c@0 {
++					reg = <0>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++				};
 +
- 		i2c5mux0ch1: i2c@1 {
- 			reg = <1>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 		};
++				i2c6mux1ch1: i2c@1 {
++					reg = <1>;
++					#address-cells = <1>;
++					#size-cells = <0>;
 +
- 		i2c5mux0ch2: i2c@2 {
- 			reg = <2>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 		};
++					voltage-sensor@48 {
++						compatible = "ti,ads7830";
++						reg = <0x48>;
++					};
 +
- 		i2c5mux0ch3: i2c@3 {
- 			reg = <3>;
- 			#address-cells = <1>;
-@@ -503,6 +513,7 @@ voltage-sensor@48 {
- 				reg = <0x48>;
- 			};
- 		};
++					voltage-sensor@49 {
++						compatible = "ti,ads7830";
++						reg = <0x49>;
++					};
 +
- 		i2c5mux1ch1: i2c@1 {
- 			reg = <1>;
- 			#address-cells = <1>;
-@@ -513,6 +524,7 @@ temperature-sensor@48 {
- 				reg = <0x48>;
- 			};
- 		};
++					temperature-sensor@4a {
++						compatible = "ti,tmp175";
++						reg = <0x4a>;
++					};
 +
- 		i2c5mux1ch2: i2c@2 {
- 			reg = <2>;
- 			#address-cells = <1>;
-@@ -542,6 +554,7 @@ power-monitor@45 {
- 				shunt-resistor = <2000>;
- 			};
- 		};
++					temperature-sensor@4b {
++						compatible = "ti,tmp175";
++						reg = <0x4b>;
++					};
 +
- 		i2c5mux1ch3: i2c@3 {
- 			reg = <3>;
- 			#address-cells = <1>;
-@@ -663,6 +676,7 @@ temperature-sensor@48 {
- 				reg = <0x48>;
- 			};
- 		};
++					eeprom@56 {
++						compatible = "atmel,24c256";
++						reg = <0x56>;
++					};
++				};
 +
- 		i2c12mux0ch1: i2c@1 {
- 			reg = <1>;
- 			#address-cells = <1>;
-@@ -678,6 +692,7 @@ power-monitor@43 {
- 				reg = <0x43>;
- 			};
- 		};
++				i2c6mux1ch2: i2c@2 {
++					reg = <2>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++				};
 +
- 		i2c12mux0ch2: i2c@2 {
- 			reg = <2>;
- 			#address-cells = <1>;
-@@ -695,6 +710,7 @@ power-monitor@41 {
- 				shunt-resistor = <2000>;
- 			};
- 		};
++				i2c6mux1ch3: i2c@3 {
++					reg = <3>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++				};
++			};
++		};
 +
- 		i2c12mux0ch3: i2c@3 {
- 			reg = <3>;
- 			#address-cells = <1>;
-@@ -712,6 +728,7 @@ power-monitor@45 {
- 				shunt-resistor = <2000>;
- 			};
- 		};
++		i2c6mux0ch1: i2c@1 {
++			reg = <1>;
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
- 		i2c12mux0ch4: i2c@4 {
- 			reg = <4>;
- 			#address-cells = <1>;
-@@ -722,16 +739,19 @@ voltage-sensor@49 {
- 				reg = <0x49>;
- 			};
- 		};
++			potentiometer@2c {
++				compatible = "adi,ad5272-020";
++				reg = <0x2c>;
++			};
 +
- 		i2c12mux0ch5: i2c@5 {
- 			reg = <5>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 		};
++			potentiometer@2e {
++				compatible = "adi,ad5272-020";
++				reg = <0x2e>;
++			};
 +
- 		i2c12mux0ch6: i2c@6 {
- 			reg = <6>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 		};
++			potentiometer@2f {
++				compatible = "adi,ad5272-020";
++				reg = <0x2f>;
++			};
 +
- 		i2c12mux0ch7: i2c@7 {
- 			reg = <7>;
- 			#address-cells = <1>;
++			power-monitor@40 {
++				compatible = "ti,ina238";
++				reg = <0x40>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@44 {
++				compatible = "ti,ina238";
++				reg = <0x44>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@45 {
++				compatible = "ti,ina238";
++				reg = <0x45>;
++				shunt-resistor = <1000>;
++			};
++		};
++
++		i2c6mux0ch2: i2c@2 {
++			reg = <2>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			potentiometer@2c {
++				compatible = "adi,ad5272-020";
++				reg = <0x2c>;
++			};
++
++			potentiometer@2e {
++				compatible = "adi,ad5272-020";
++				reg = <0x2e>;
++			};
++
++			potentiometer@2f {
++				compatible = "adi,ad5272-020";
++				reg = <0x2f>;
++			};
++
++			power-monitor@40 {
++				compatible = "ti,ina238";
++				reg = <0x40>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@44 {
++				compatible = "ti,ina238";
++				reg = <0x44>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@45 {
++				compatible = "ti,ina238";
++				reg = <0x45>;
++				shunt-resistor = <1000>;
++			};
++		};
++
++		i2c6mux0ch3: i2c@3 {
++			reg = <3>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			voltage-sensor@1d {
++				compatible = "ti,adc128d818";
++				reg = <0x1d>;
++				ti,mode = /bits/ 8 <1>;
++			};
++
++			voltage-sensor@37 {
++				compatible = "ti,adc128d818";
++				reg = <0x37>;
++				ti,mode = /bits/ 8 <1>;
++			};
++
++			power-monitor@40 {
++				compatible = "ti,ina238";
++				reg = <0x40>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@45 {
++				compatible = "ti,ina238";
++				reg = <0x45>;
++				shunt-resistor = <1000>;
++			};
++
++			temperature-sensor@48 {
++				compatible = "ti,tmp175";
++				reg = <0x48>;
++			};
++
++			temperature-sensor@49 {
++				compatible = "ti,tmp175";
++				reg = <0x49>;
++			};
++		};
++	};
+ };
+ 
+ &i2c7 {
+@@ -601,6 +837,210 @@ eeprom@52 {
+ 		compatible = "atmel,24c256";
+ 		reg = <0x52>;
+ 	};
++
++	i2c-mux@71 {
++		compatible = "nxp,pca9546";
++		reg = <0x71>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		i2c-mux-idle-disconnect;
++
++		i2c8mux0ch0: i2c@0 {
++			reg = <0>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			temperature-sensor@64 {
++				compatible = "microchip,mcp9600";
++				reg = <0x64>;
++			};
++
++			temperature-sensor@65 {
++				compatible = "microchip,mcp9600";
++				reg = <0x65>;
++			};
++
++			temperature-sensor@67 {
++				compatible = "microchip,mcp9600";
++				reg = <0x67>;
++			};
++
++			i2c-mux@72 {
++				compatible = "nxp,pca9546";
++				reg = <0x72>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				i2c-mux-idle-disconnect;
++
++				i2c8mux1ch0: i2c@0 {
++					reg = <0>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++				};
++
++				i2c8mux1ch1: i2c@1 {
++					reg = <1>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					voltage-sensor@48 {
++						compatible = "ti,ads7830";
++						reg = <0x48>;
++					};
++
++					voltage-sensor@49 {
++						compatible = "ti,ads7830";
++						reg = <0x49>;
++					};
++
++					temperature-sensor@4a {
++						compatible = "ti,tmp175";
++						reg = <0x4a>;
++					};
++
++					temperature-sensor@4b {
++						compatible = "ti,tmp175";
++						reg = <0x4b>;
++					};
++
++					eeprom@56 {
++						compatible = "atmel,24c256";
++						reg = <0x56>;
++					};
++				};
++
++				i2c8mux1ch2: i2c@2 {
++					reg = <2>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++				};
++
++				i2c8mux1ch3: i2c@3 {
++					reg = <3>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++				};
++			};
++		};
++
++		i2c8mux0ch1: i2c@1 {
++			reg = <1>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			potentiometer@2c {
++				compatible = "adi,ad5272-020";
++				reg = <0x2c>;
++			};
++
++			potentiometer@2e {
++				compatible = "adi,ad5272-020";
++				reg = <0x2e>;
++			};
++
++			potentiometer@2f {
++				compatible = "adi,ad5272-020";
++				reg = <0x2f>;
++			};
++
++			power-monitor@40 {
++				compatible = "ti,ina238";
++				reg = <0x40>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@44 {
++				compatible = "ti,ina238";
++				reg = <0x44>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@45 {
++				compatible = "ti,ina238";
++				reg = <0x45>;
++				shunt-resistor = <1000>;
++			};
++		};
++
++		i2c8mux0ch2: i2c@2 {
++			reg = <2>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			potentiometer@2c {
++				compatible = "adi,ad5272-020";
++				reg = <0x2c>;
++			};
++
++			potentiometer@2e {
++				compatible = "adi,ad5272-020";
++				reg = <0x2e>;
++			};
++
++			potentiometer@2f {
++				compatible = "adi,ad5272-020";
++				reg = <0x2f>;
++			};
++
++			power-monitor@40 {
++				compatible = "ti,ina238";
++				reg = <0x40>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@44 {
++				compatible = "ti,ina238";
++				reg = <0x44>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@45 {
++				compatible = "ti,ina238";
++				reg = <0x45>;
++				shunt-resistor = <1000>;
++			};
++		};
++
++		i2c8mux0ch3: i2c@3 {
++			reg = <3>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			voltage-sensor@1d {
++				compatible = "ti,adc128d818";
++				reg = <0x1d>;
++				ti,mode = /bits/ 8 <1>;
++			};
++
++			voltage-sensor@37 {
++				compatible = "ti,adc128d818";
++				reg = <0x37>;
++				ti,mode = /bits/ 8 <1>;
++			};
++
++			power-monitor@40 {
++				compatible = "ti,ina238";
++				reg = <0x40>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@45 {
++				compatible = "ti,ina238";
++				reg = <0x45>;
++				shunt-resistor = <1000>;
++			};
++
++			temperature-sensor@48 {
++				compatible = "ti,tmp175";
++				reg = <0x48>;
++			};
++
++			temperature-sensor@49 {
++				compatible = "ti,tmp175";
++				reg = <0x49>;
++			};
++		};
++	};
+ };
+ 
+ &i2c9 {
+@@ -632,6 +1072,210 @@ eeprom@52 {
+ 		compatible = "atmel,24c256";
+ 		reg = <0x52>;
+ 	};
++
++	i2c-mux@71 {
++		compatible = "nxp,pca9546";
++		reg = <0x71>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		i2c-mux-idle-disconnect;
++
++		i2c10mux0ch0: i2c@0 {
++			reg = <0>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			temperature-sensor@64 {
++				compatible = "microchip,mcp9600";
++				reg = <0x64>;
++			};
++
++			temperature-sensor@65 {
++				compatible = "microchip,mcp9600";
++				reg = <0x65>;
++			};
++
++			temperature-sensor@67 {
++				compatible = "microchip,mcp9600";
++				reg = <0x67>;
++			};
++
++			i2c-mux@72 {
++				compatible = "nxp,pca9546";
++				reg = <0x72>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				i2c-mux-idle-disconnect;
++
++				i2c10mux1ch0: i2c@0 {
++					reg = <0>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++				};
++
++				i2c10mux1ch1: i2c@1 {
++					reg = <1>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					voltage-sensor@48 {
++						compatible = "ti,ads7830";
++						reg = <0x48>;
++					};
++
++					voltage-sensor@49 {
++						compatible = "ti,ads7830";
++						reg = <0x49>;
++					};
++
++					temperature-sensor@4a {
++						compatible = "ti,tmp175";
++						reg = <0x4a>;
++					};
++
++					temperature-sensor@4b {
++						compatible = "ti,tmp175";
++						reg = <0x4b>;
++					};
++
++					eeprom@56 {
++						compatible = "atmel,24c256";
++						reg = <0x56>;
++					};
++				};
++
++				i2c10mux1ch2: i2c@2 {
++					reg = <2>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++				};
++
++				i2c10mux1ch3: i2c@3 {
++					reg = <3>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++				};
++			};
++		};
++
++		i2c10mux0ch1: i2c@1 {
++			reg = <1>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			potentiometer@2c {
++				compatible = "adi,ad5272-020";
++				reg = <0x2c>;
++			};
++
++			potentiometer@2e {
++				compatible = "adi,ad5272-020";
++				reg = <0x2e>;
++			};
++
++			potentiometer@2f {
++				compatible = "adi,ad5272-020";
++				reg = <0x2f>;
++			};
++
++			power-monitor@40 {
++				compatible = "ti,ina238";
++				reg = <0x40>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@44 {
++				compatible = "ti,ina238";
++				reg = <0x44>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@45 {
++				compatible = "ti,ina238";
++				reg = <0x45>;
++				shunt-resistor = <1000>;
++			};
++		};
++
++		i2c10mux0ch2: i2c@2 {
++			reg = <2>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			potentiometer@2c {
++				compatible = "adi,ad5272-020";
++				reg = <0x2c>;
++			};
++
++			potentiometer@2e {
++				compatible = "adi,ad5272-020";
++				reg = <0x2e>;
++			};
++
++			potentiometer@2f {
++				compatible = "adi,ad5272-020";
++				reg = <0x2f>;
++			};
++
++			power-monitor@40 {
++				compatible = "ti,ina238";
++				reg = <0x40>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@44 {
++				compatible = "ti,ina238";
++				reg = <0x44>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@45 {
++				compatible = "ti,ina238";
++				reg = <0x45>;
++				shunt-resistor = <1000>;
++			};
++		};
++
++		i2c10mux0ch3: i2c@3 {
++			reg = <3>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			voltage-sensor@1d {
++				compatible = "ti,adc128d818";
++				reg = <0x1d>;
++				ti,mode = /bits/ 8 <1>;
++			};
++
++			voltage-sensor@37 {
++				compatible = "ti,adc128d818";
++				reg = <0x37>;
++				ti,mode = /bits/ 8 <1>;
++			};
++
++			power-monitor@40 {
++				compatible = "ti,ina238";
++				reg = <0x40>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@45 {
++				compatible = "ti,ina238";
++				reg = <0x45>;
++				shunt-resistor = <1000>;
++			};
++
++			temperature-sensor@48 {
++				compatible = "ti,tmp175";
++				reg = <0x48>;
++			};
++
++			temperature-sensor@49 {
++				compatible = "ti,tmp175";
++				reg = <0x49>;
++			};
++		};
++	};
+ };
+ 
+ &i2c11 {
+@@ -768,6 +1412,210 @@ eeprom@52 {
+ 		compatible = "atmel,24c256";
+ 		reg = <0x52>;
+ 	};
++
++	i2c-mux@71 {
++		compatible = "nxp,pca9546";
++		reg = <0x71>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		i2c-mux-idle-disconnect;
++
++		i2c13mux0ch0: i2c@0 {
++			reg = <0>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			temperature-sensor@64 {
++				compatible = "microchip,mcp9600";
++				reg = <0x64>;
++			};
++
++			temperature-sensor@65 {
++				compatible = "microchip,mcp9600";
++				reg = <0x65>;
++			};
++
++			temperature-sensor@67 {
++				compatible = "microchip,mcp9600";
++				reg = <0x67>;
++			};
++
++			i2c-mux@72 {
++				compatible = "nxp,pca9546";
++				reg = <0x72>;
++				#address-cells = <1>;
++				#size-cells = <0>;
++				i2c-mux-idle-disconnect;
++
++				i2c13mux1ch0: i2c@0 {
++					reg = <0>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++				};
++
++				i2c13mux1ch1: i2c@1 {
++					reg = <1>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					voltage-sensor@48 {
++						compatible = "ti,ads7830";
++						reg = <0x48>;
++					};
++
++					voltage-sensor@49 {
++						compatible = "ti,ads7830";
++						reg = <0x49>;
++					};
++
++					temperature-sensor@4a {
++						compatible = "ti,tmp175";
++						reg = <0x4a>;
++					};
++
++					temperature-sensor@4b {
++						compatible = "ti,tmp175";
++						reg = <0x4b>;
++					};
++
++					eeprom@56 {
++						compatible = "atmel,24c256";
++						reg = <0x56>;
++					};
++				};
++
++				i2c13mux1ch2: i2c@2 {
++					reg = <2>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++				};
++
++				i2c13mux1ch3: i2c@3 {
++					reg = <3>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++				};
++			};
++		};
++
++		i2c13mux0ch1: i2c@1 {
++			reg = <1>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			potentiometer@2c {
++				compatible = "adi,ad5272-020";
++				reg = <0x2c>;
++			};
++
++			potentiometer@2e {
++				compatible = "adi,ad5272-020";
++				reg = <0x2e>;
++			};
++
++			potentiometer@2f {
++				compatible = "adi,ad5272-020";
++				reg = <0x2f>;
++			};
++
++			power-monitor@40 {
++				compatible = "ti,ina238";
++				reg = <0x40>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@44 {
++				compatible = "ti,ina238";
++				reg = <0x44>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@45 {
++				compatible = "ti,ina238";
++				reg = <0x45>;
++				shunt-resistor = <1000>;
++			};
++		};
++
++		i2c13mux0ch2: i2c@2 {
++			reg = <2>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			potentiometer@2c {
++				compatible = "adi,ad5272-020";
++				reg = <0x2c>;
++			};
++
++			potentiometer@2e {
++				compatible = "adi,ad5272-020";
++				reg = <0x2e>;
++			};
++
++			potentiometer@2f {
++				compatible = "adi,ad5272-020";
++				reg = <0x2f>;
++			};
++
++			power-monitor@40 {
++				compatible = "ti,ina238";
++				reg = <0x40>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@44 {
++				compatible = "ti,ina238";
++				reg = <0x44>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@45 {
++				compatible = "ti,ina238";
++				reg = <0x45>;
++				shunt-resistor = <1000>;
++			};
++		};
++
++		i2c13mux0ch3: i2c@3 {
++			reg = <3>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			voltage-sensor@1d {
++				compatible = "ti,adc128d818";
++				reg = <0x1d>;
++				ti,mode = /bits/ 8 <1>;
++			};
++
++			voltage-sensor@37 {
++				compatible = "ti,adc128d818";
++				reg = <0x37>;
++				ti,mode = /bits/ 8 <1>;
++			};
++
++			power-monitor@40 {
++				compatible = "ti,ina238";
++				reg = <0x40>;
++				shunt-resistor = <1000>;
++			};
++
++			power-monitor@45 {
++				compatible = "ti,ina238";
++				reg = <0x45>;
++				shunt-resistor = <1000>;
++			};
++
++			temperature-sensor@48 {
++				compatible = "ti,tmp175";
++				reg = <0x48>;
++			};
++
++			temperature-sensor@49 {
++				compatible = "ti,tmp175";
++				reg = <0x49>;
++			};
++		};
++	};
+ };
+ 
+ &i2c14 {
 -- 
 2.49.0
 
