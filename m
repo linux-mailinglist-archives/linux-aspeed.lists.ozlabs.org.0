@@ -1,56 +1,74 @@
-Return-Path: <linux-aspeed+bounces-2459-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2469-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B880BE0DCC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Oct 2025 23:48:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03754BE0F6D
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Oct 2025 00:37:37 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cn4Sz1ZrXz2xS2;
-	Thu, 16 Oct 2025 08:48:03 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cn5Z650lTz2yr1;
+	Thu, 16 Oct 2025 09:37:34 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760564883;
-	cv=none; b=YG3SCVo84R4tz1Nr2AVWlGC507eq4R2bzMjeDVG2ix8sq8W+6QcM37XTJT1W6ayTYpTxpeSLB13tN7YjzyY41DrMkfeKlSgHWBjjIYQ+84wN8NuF1/NHSOb07G8tp214JVFo+hJJ8WcO7SgPuatIzPvLmVXEvB5TeM1P9NzwsA5ZwHmjR+XvOqI8tm41+NGgSFUSp/oqQEE/KMntWCVsW0dx5A7bILIqRpfR4GlVa7sbREelONabhos/QCXUu1iYME5dB2qWHmuNiOutt9WAgyj9w4ip8I9EAF9z/dKPZmkK8OXvg6adfwJlAJDhcOdOQKTLaSKma/nbwGCsiXAl0g==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=111.202.115.85
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760494131;
+	cv=none; b=UZOqbhthxrYFK99o2dhMQNbRC+ftBOyrr6V8RZwv1w3Wzp/V7KNNXUNbRqWdwgVGPU4z7hNyzAZoMmVEO6fu4cnlQQYgqqoCghOYZklckqcfxk9mFRDgCRruEqMewEgSqL9NgInub2llJlCQUDvrJoXTY3XMeMtTAdtqsXuFW+Uvd+zi9lqua9EFrXmkWiGTBQxxz+d/IyXZmtc8Ggae3ZkZ2oTALse90xDZ07rx8MXI4qjgLQh37rRawEWt6akGHwme08rlk0NdL5FHmTx3M97304wDw2JkPz2aGRgUMArPZAk0l499h5W+BuYMzFpDxC0PPN1xXu0eG1zhAP5zkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1760564883; c=relaxed/relaxed;
-	bh=BJKRSA2/UrZpBwMZJMLqiGvnJ9vtCKMc8nR4m+Bp2vo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N69/kO5wGhsaBqCfadzQIa7+yVBYUxkXqriF7ebDC+89t+N7kyPYBejW9UmBqdBeelFTfwogywz1lFkzSYfBQLIJhMKFClLGJFTIxJJc9kFMAI1jDKNtmHz4vN3FterS39kme8fes0RHGd2RKQ9R/efGrw12nXwqlhYBgcXqSY+afkhpExVNC/vS95zPa/nHsL+5K7At1CvQ+gY9njUcixj5E5FDFE7fgducQaDDzUHAYD7Kf66TzfaNVBxuWxhIws4a7zeokhYP69R6XvjV1kKfKM7R3+oFpc/0QKqHBjdmQtZNFrsI/bkybitp1zFCdhwyCJGrfERcqI8o7NDRjw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=gKFX8OVD; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=gKFX8OVD;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	t=1760494131; c=relaxed/relaxed;
+	bh=0r9NwyGV81gEquF2+fhkRQ0hPi0BF08QiWaCnjL52rY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=CveJKg2GemZ6TWjlbh3Wv049phQ7JD+qSzV0biv10tOE2kX9LhYmMmuYi7co7jp2DFdCBnxdzMGa8TgIF68gFOazx4+7MUnCjP1Wu43DC2Pyc+cRn3xHITD8XGexuAnR05F+Ku+eXfb3KZBlTRSXey61lqtgN9h+Z/R/5vF2gEIrbBYlN1g5+Nl1z4BjtzreUYOlNOTnb7WM8Zd8XzHHRer+RPYKkDIbKsTExlVkeQCWJFS9XNKlItpCnst/Vg462M09tiBsDLeFytk59FVxkq/Zy3AMNjvp6HkAMvvysUrZ5EwCYrjfLaQ5+ELPLXgJ9uyd2U0tPemyxApm22c75w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass (client-ip=111.202.115.85; helo=baidu.com; envelope-from=lirongqing@baidu.com; receiver=lists.ozlabs.org) smtp.mailfrom=baidu.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baidu.com (client-ip=111.202.115.85; helo=baidu.com; envelope-from=lirongqing@baidu.com; receiver=lists.ozlabs.org)
+Received: from baidu.com (mx20.baidu.com [111.202.115.85])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cn4Sw5mztz2xQ4
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Oct 2025 08:48:00 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=BJKRSA2/UrZpBwMZJMLqiGvnJ9vtCKMc8nR4m+Bp2vo=; b=gKFX8OVD4AxfYUMWpmvDKQgeoP
-	EfGtlIZLIs+J+AeSD5EwIrheoEEWfjMjayaJIE7qp0j+Qs+pJ27VxQCoBuuuaJW6am9znaAYFSH0n
-	BGvFftZl9ZIUyCAqVVF8lYTpQE2Y5NWfFqLV6UpHOJjzd/TdqF9aE5Xj4m/OWzGIVYAw=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1v99LT-00B548-JQ; Wed, 15 Oct 2025 23:47:43 +0200
-Date: Wed, 15 Oct 2025 23:47:43 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: rentao.bupt@gmail.com
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>, Tao Ren <taoren@meta.com>
-Subject: Re: [PATCH] ARM: dts: aspeed: fuji-data64: Enable mac3 controller
-Message-ID: <b0040541-31e9-4cda-9462-09b4a5622959@lunn.ch>
-References: <20251015204840.80070-1-rentao.bupt@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cmZJL3P7Zz3cYV
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Oct 2025 13:08:48 +1100 (AEDT)
+From: "Li,Rongqing" <lirongqing@baidu.com>
+To: Petr Mladek <pmladek@suse.com>
+CC: Lance Yang <lance.yang@linux.dev>, "wireguard@lists.zx2c4.com"
+	<wireguard@lists.zx2c4.com>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "Liam R . Howlett"
+	<Liam.Howlett@oracle.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, David Hildenbrand <david@redhat.com>, "Randy
+ Dunlap" <rdunlap@infradead.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>, "Andrew
+ Jeffery" <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>,
+	"Russell King" <linux@armlinux.org.uk>, Lorenzo Stoakes
+	<lorenzo.stoakes@oracle.com>, Shuah Khan <shuah@kernel.org>, Steven Rostedt
+	<rostedt@goodmis.org>, "Jonathan Corbet" <corbet@lwn.net>, Joel Granados
+	<joel.granados@kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>, Phil
+ Auld <pauld@redhat.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "Masami Hiramatsu" <mhiramat@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, "Pawan Gupta"
+	<pawan.kumar.gupta@linux.intel.com>, Simon Horman <horms@kernel.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>, Florian Westphal
+	<fw@strlen.de>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Kees Cook
+	<kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>, "Paul E . McKenney"
+	<paulmck@kernel.org>, Feng Tang <feng.tang@linux.alibaba.com>, "Jason A .
+ Donenfeld" <Jason@zx2c4.com>
+Subject: RE: [????] Re: [????] Re: [PATCH][v3] hung_task: Panic after fixed
+ number of hung tasks
+Thread-Topic: [????] Re: [????] Re: [PATCH][v3] hung_task: Panic after fixed
+ number of hung tasks
+Thread-Index: AQHcPO9h0grxiWd7ak27/owdD96L07TBdJLA//+i6ACAAVy0QA==
+Date: Wed, 15 Oct 2025 02:04:21 +0000
+Message-ID: <b7937a55047b44c687e11e219a62009e@baidu.com>
+References: <20251012115035.2169-1-lirongqing@baidu.com>
+ <588c1935-835f-4cab-9679-f31c1e903a9a@linux.dev>
+ <aO4boXFaIb0_Wiif@pathway.suse.cz>
+ <e3f7ddf68c2e42d7abf8643f34d84a18@baidu.com>
+ <aO5Ldv4U8QSGgfog@pathway.suse.cz>
+In-Reply-To: <aO5Ldv4U8QSGgfog@pathway.suse.cz>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [10.127.72.27]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -64,31 +82,49 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251015204840.80070-1-rentao.bupt@gmail.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+X-FEAS-Client-IP: 172.31.50.46
+X-FE-Policy-ID: 52:10:53:SYSTEM
+X-Spam-Status: No, score=-0.7 required=5.0 tests=RCVD_IN_DNSWL_LOW,
+	SPF_HELO_PASS,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Wed, Oct 15, 2025 at 01:48:37PM -0700, rentao.bupt@gmail.com wrote:
-> From: Tao Ren <rentao.bupt@gmail.com>
-> 
-> "mac3" controller was removed from the initial version of fuji-data64
-> dts because the rgmii setting is incorrect, but dropping mac3 leads to
-> regression in the existing fuji platform, because fuji.dts simply
-> includes fuji-data64.dts.
-> 
-> This patch adds mac3 back to fuji-data64.dts to fix the fuji regression,
-> and rgmii settings need to be fixed later.
-> 
-> Fixes: b0f294fdfc3e ("ARM: dts: aspeed: facebook-fuji: Include facebook-fuji-data64.dts")
-> Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+> I would also update the subject to something like:
+>=20
+>     hung_task: Panic when there are more than N hung tasks at the same
+> time
+>=20
 
-Thanks for adding the comment.
+Ok, I will update=20
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+>=20
+>=20
+> That said, I think that both approaches make sense.
+>=20
+> Your approach would trigger the panic when many processes are stuck.
+> Note that it still might be a transient state. But I agree that the more =
+stuck
+> processes exist the more serious the problem likely is for the heath of t=
+he
+> system.
+>=20
+> My approach would trigger panic when a single process hangs for a long
+> time. It will trigger more likely only when the problem is persistent. Th=
+e
+> seriousness depends on which particular process get stuck.
+>=20
+Yes, both are reasonable requirement, and I will leave it to you or anyone =
+else interested to implement it
 
-    Andrew
+Thanks
+
+-Li.
+
+
+> I am fine with your approach. Just please, make more clear that the numbe=
+r
+> means the number of hung tasks at the same time.
+> And mention the problems to login, ...
+>=20
+> Best Regards,
+> Petr
 
