@@ -1,53 +1,87 @@
-Return-Path: <linux-aspeed+bounces-2468-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2466-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E7ABE0F6A
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Oct 2025 00:37:28 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F09BE0F4D
+	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Oct 2025 00:36:53 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cn5Yy3MZmz304H;
-	Thu, 16 Oct 2025 09:37:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cn5YH2pX1z30MZ;
+	Thu, 16 Oct 2025 09:36:51 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=220.181.50.185
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760510339;
-	cv=none; b=gAT49Ns69gDFwK8SQODBBb82obvnQ9BrhWF9c1rJ5TN967Mbn759jVkcHBY/JUruYDR0KGA9K1DRfeBOHUR1E0xBQojQy9LRHZYOhCxfNxcBLBs3fFvV8ESHIiT/C6O8J2Gjd0WyjViTgSq9YlrV0l5IUxsenQ4a+aSTpHFGH15iGLr4Mw3YUXARbcnsjTx/FvgHvtjeZWbn9MqmmF137tH2ex81NAouYNBcwMsKJgVEbC0B1OoSg7/xKHa3NEZN26S5Vlhlw4IR8tdKYgG/8bMXq8ymyxs17Gll9RTRWQskm+MclxXcZAAO3maqNvgLfA6AQrkkIfLsh8lZb7OtNA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::529"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760539165;
+	cv=none; b=AxNZPkfiN/IL6QLKCHESsUa6QCpBouu05EIMcXWA/sAyubc+N4d9BKxqjgSzLo9FX5JuzgyVr8C24BSdzg8C5JiP+MFgKdoOVapbKQUCKsWN/tZboOj5r8/UBeigSAOpr9Lvnnbn2xnRTeQgBg1ajoCSG2ubn3H+ljZ76mOUadICfIDzCeDck9cCC68Sfj52/4RJpV3sViBNVMZuaxTG41jKhU0IE3jS3o3zUxioe7RvcDOCpgC4bMrLjLKo1A+a3HGSrmp8rCvKP9CDkC5vUOdTNmjKZ6s6Zh7bpDKNKVtfOwfgm3KJUnRdC/ZgAibNd9fkBylrxhjWJFl4J2Jthg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1760510339; c=relaxed/relaxed;
-	bh=DA0NnJWQNr9VtzOBUBAFC69U2oZMOGFr4ymyJuLtrcg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l+n4joLbl4SyiwovLkAjCrvihg4DAmitGVrDTa70YmFPUPkfB1GtDdQy5hNa/1z2byvE6wKxVt1Woj6mgqi6c4hOLpglLdlxaUn9NnKQlcGf3p5Le9TqljF9+QxB4rcyf9iAnLEznn9n1xsJ3PB9/sSgrp0Cqcg70FFSxpugbHiRsEEwZZsaMVudZClCAosYg3jCV4FZCfB/1wyAQl5ajK4uhf5GFgDYjR6AonxQzu7DrBnIALnLL9WHO8sJVZQLNtCbYqRdadhwGp34gwRxgcTmy/mjrG6COTpS0RvTmpTgFvNtGLOvG0Se79WPUoEs/c38upGiKs4Zg1IcBV7w1A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass (client-ip=220.181.50.185; helo=baidu.com; envelope-from=lirongqing@baidu.com; receiver=lists.ozlabs.org) smtp.mailfrom=baidu.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baidu.com (client-ip=220.181.50.185; helo=baidu.com; envelope-from=lirongqing@baidu.com; receiver=lists.ozlabs.org)
-Received: from baidu.com (mx22.baidu.com [220.181.50.185])
+	t=1760539165; c=relaxed/relaxed;
+	bh=ouWcSpiIf9dLpvZnWLKHc0VRpVvUzoJh4rEYwTYJ/q4=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=SZQ0lT+gptC4t87Y9ETjW9rSyq6j/wschw4FrVwRP5ZwZ7+qHQejvrXPzuZZHbWdGM/JMERbzSB/uNaHI/3Mhr2RYYGsiGARrd4szs/YcmEblPLVRV9BhM1+uxutHTJnPXmoIvb+3emQftCvpbqNCUU0ZBq1LbzlWYBChPd3GaIk0Rax/tl1LhFjJnoQ2UU40smivmTjSVEkIykH1Slh6TEWNVVzXHTSh6wZpQYWsLf+VmsAGMYlO3EkfZ7oTKsCS+yJVnPZBFwp97DMXb7YmbMyhBoXDVUBJPo6iwEfBNS8H8vJToTv53FZzx+lCk4Fr94cWe4joyoi4fQC4MbR9w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=LldSY6XF; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::529; helo=mail-pg1-x529.google.com; envelope-from=fredchen.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=LldSY6XF;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::529; helo=mail-pg1-x529.google.com; envelope-from=fredchen.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cmhJ22nBRz3cfx
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Oct 2025 17:38:55 +1100 (AEDT)
-From: lirongqing <lirongqing@baidu.com>
-To: Andrew Morton <akpm@linux-foundation.org>, Lance Yang
-	<lance.yang@linux.dev>, Masami Hiramatsu <mhiramat@kernel.org>,
-	<linux-kernel@vger.kernel.org>
-CC: <linux-doc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-aspeed@lists.ozlabs.org>, <wireguard@lists.zx2c4.com>,
-	<netdev@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, Li RongQing
-	<lirongqing@baidu.com>, Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Anshuman Khandual <anshuman.khandual@arm.com>, Arnd Bergmann <arnd@arndb.de>,
-	David Hildenbrand <david@redhat.com>, Florian Wesphal <fw@strlen.de>, Jakub
- Kacinski <kuba@kernel.org>, "Jason A . Donenfeld" <jason@zx2c4.com>, Joel
- Granados <joel.granados@kernel.org>, Joel Stanley <joel@jms.id.au>, Jonathan
- Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>, Liam Howlett
-	<liam.howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Paul E . McKenney" <paulmck@kernel.org>, Pawan Gupta
-	<pawan.kumar.gupta@linux.intel.com>, Petr Mladek <pmladek@suse.com>, Phil
- Auld <pauld@redhat.com>, Randy Dunlap <rdunlap@infradead.org>, Russell King
-	<linux@armlinux.org.uk>, Shuah Khan <shuah@kernel.org>, Simon Horman
-	<horms@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Steven Rostedt
-	<rostedt@goodmis.org>
-Subject: [PATCH][v4] hung_task: Panic when there are more than N hung tasks at the same time
-Date: Wed, 15 Oct 2025 14:36:15 +0800
-Message-ID: <20251015063615.2632-1-lirongqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cmtyM60zGz3dHf
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Oct 2025 01:39:22 +1100 (AEDT)
+Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-b5a631b9c82so4107471a12.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 15 Oct 2025 07:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760539160; x=1761143960; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ouWcSpiIf9dLpvZnWLKHc0VRpVvUzoJh4rEYwTYJ/q4=;
+        b=LldSY6XFkm0V25naveiHj7x7eR6cRH2E5E+AfEijBaiyemNjWYE7DwWnPMjRIttbja
+         Gi5Xw66mLlF2bFDhPPQeEK+6GjDiaLMzzp0WtdieV2vAZHgZkPe1Kgz91iW4qdRkkzVg
+         roSbINPkWzxBaGP96eysVAO3CqWyjGtnmhy9/YRpLy5Tjc371HRwSRji+DpPGldohmlB
+         XaNcxBKa+BlR25GWbw+73TIakX9c8gdt7kOAn/kD5hZdlQ8gGMAEx02j6h+l1fUbEFgU
+         QDIsvHS8ayJ/L1cDp0IVY0vLoHgaCAGPlTFXk2Xtmt9LukHQsEZ0xeRKK9qw9Yx+jkMG
+         Bn4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760539161; x=1761143961;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ouWcSpiIf9dLpvZnWLKHc0VRpVvUzoJh4rEYwTYJ/q4=;
+        b=p7FOpotL4XMijjpJflYJqTn+7ELqKZ7OA66hk3j7Dh7ASbFUC64ac/+u00sOPuUiM9
+         mzeRqlpKt0RFVAZ4ZPKhG0mSxJvoP45NGo0+W+CSaqnAVcufizGYFr5si2AQYqJHUYNX
+         gnbr3xZaQ+H9MPdIagRLQyEVpg15jO7Ptv3OgWDKV1V/ev60vwO5COK+tAM9PoaPNcol
+         yCnTMujw9+ZzkSsK5z1dRiT3+eQgDxHhycTbIc4ggVbcYbWTJcY/F2Id2zGBHug2jVSw
+         GZHSaT42lT+/IHhZkHlbq4fHtlktewz7h+eHReL5sVfhn3OxasCPHxTQKlO4ujJZdvmK
+         oU6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU64MHk78IHq9/j3H/4gkA4I8OsoYJzVeosFHIJLi6a7w5x6xh1rxUbyJbYaNRn14SMpPgc41/58Wm08Zs=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yx+Yxpdw+DO712OCsaLFGAuhhl3bkHHxU0xydl0ZvubWEUw4K55
+	3CDQsAdBMtQTOEwT5YltFVv+ZUzlTZTGLRuJMaeEZ429qBuvSLeuUtbe
+X-Gm-Gg: ASbGnct1orFIHUZFsCIw2VYFCVXWZf733lLu6a4+49+7rh05QY+g+NDSypOhO/rr79R
+	gO4I571E1lpUDa1C9C7zEZBLhxRC8RAqn20SZ+z51a+y/D8jJI45rWtpX8pVVZ+UOyu8Z4US43K
+	dnP+lJVUYQ0NR9PkWR6ZTLP5FEcqXkIxVpoZJ0waFxqMHTIYoRZzvcAGIyShYFHI/LCa3uPHUus
+	WC4LO4i7MTjSeFjAkGUUjLTalWLB4psTwBifaQ1BUSPkDl+ILInDQtG7Wyq9IUZwkfAFGaGLFD8
+	rTJGNbfMN3iM2Be78V7ckPQVTc5Rd34xzrGxEAB8H/2X0AQldEXubCAOMW/NKagaUyVQNmrF/8G
+	r8bCtef5DFmuHpiV+ZWiDwltU6Eyj7z4IUyb53GeqGwLAYE5sPpPna1izysDliLPTYj2dHGcQpY
+	y/sDm+nEjIg7NydNZ0dgv5MQvl9TB5JxwaiZtmtIWTDE1uxj7Egvmb6gQ29gQC0ay2
+X-Google-Smtp-Source: AGHT+IE502KIN4tz1ZiBR1VS+4c/5BDktMXSPvvmFW+gOT8kNcqJukYwWerUdV/VaxRhOB3SKUHsgQ==
+X-Received: by 2002:a17:902:f642:b0:250:999f:31c6 with SMTP id d9443c01a7336-290272b4764mr317255775ad.32.1760539160392;
+        Wed, 15 Oct 2025 07:39:20 -0700 (PDT)
+Received: from fred-System-Product-Name.. (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f36738sm199853455ad.87.2025.10.15.07.39.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Oct 2025 07:39:20 -0700 (PDT)
+From: Fred Chen <fredchen.openbmc@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/7] Revise Meta Santabarbara devicetree
+Date: Wed, 15 Oct 2025 22:38:56 +0800
+Message-ID: <20251015143916.1850450-1-fredchen.openbmc@gmail.com>
+X-Mailer: git-send-email 2.49.0
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -61,257 +95,47 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.127.73.8]
-X-ClientProxiedBy: bjhj-exc9.internal.baidu.com (172.31.3.19) To
- bjkjy-exc3.internal.baidu.com (172.31.50.47)
-X-FEAS-Client-IP: 172.31.50.47
-X-FE-Policy-ID: 52:10:53:SYSTEM
-X-Spam-Status: No, score=3.6 required=5.0 tests=RCVD_IN_SBL_CSS,SPF_HELO_PASS,
-	SPF_PASS autolearn=disabled version=4.0.1
-X-Spam-Level: ***
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-From: Li RongQing <lirongqing@baidu.com>
+Summary:
+Revise linux device tree entry related to Meta (Facebook) Santabarbara.
 
-Currently, when 'hung_task_panic' is enabled, the kernel panics
-immediately upon detecting the first hung task. However, some hung
-tasks are transient and allow system recovery, while persistent hangs
-should trigger a panic when accumulating beyond a threshold.
+Change log
+v3 -> v4:
+  - add blank lines between nodes for readability
+  - drop changes to already defined LEDs
+  - add gpio name debug-card-mux and FM_MAIN_PWREN_RMC_EN_ISO_R
+  - enable amd apml interface
+  - add eeprom for prot module
+v2 -> v3:
+  - remove mctp node label
+v1 -> v2:
+  - add 'bmc_ready_noled' LED and update commit message
+  - add sgpio line name for leak detection
+v1:
+  - add sensor nodes for extension board
+  - add mctp node for NIC
+  - adjust LED configuration
 
-Extend the 'hung_task_panic' sysctl to accept a threshold value
-specifying the number of hung tasks that must be detected before
-triggering a kernel panic. This provides finer control for environments
-where transient hangs may occur but persistent hangs should be fatal.
+Fred Chen (7):
+  ARM: dts: aspeed: santabarbara: Add blank lines between nodes for
+    readability
+  ARM: dts: aspeed: santabarbara: Add sensor support for extension
+    boards
+  ARM: dts: aspeed: santabarbara: Enable MCTP for frontend NIC
+  ARM: dts: aspeed: santabarbara: Add bmc_ready_noled Led
+  ARM: dts: aspeed: santabarbara: Add gpio line name
+  ARM: dts: aspeed: santabarbara: Add AMD APML interface support
+  ARM: dts: aspeed: santabarbara: Add eeprom device node for PRoT module
 
-The sysctl now accepts:
-- 0: don't panic (maintains original behavior)
-- 1: panic on first hung task (maintains original behavior)
-- N > 1: panic after N hung tasks are detected in a single scan
+ .../aspeed-bmc-facebook-santabarbara.dts      | 919 +++++++++++++++++-
+ 1 file changed, 913 insertions(+), 6 deletions(-)
 
-This maintains backward compatibility while providing flexibility for
-different hang scenarios.
-
-Signed-off-by: Li RongQing <lirongqing@baidu.com>
-Cc: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Florian Wesphal <fw@strlen.de>
-Cc: Jakub Kacinski <kuba@kernel.org>
-Cc: Jason A. Donenfeld <jason@zx2c4.com>
-Cc: Joel Granados <joel.granados@kernel.org>
-Cc: Joel Stanley <joel@jms.id.au>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Kees Cook <kees@kernel.org>
-Cc: Lance Yang <lance.yang@linux.dev>
-Cc: Liam Howlett <liam.howlett@oracle.com>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: "Paul E . McKenney" <paulmck@kernel.org>
-Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Phil Auld <pauld@redhat.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: Simon Horman <horms@kernel.org>
-Cc: Stanislav Fomichev <sdf@fomichev.me>
-Cc: Steven Rostedt <rostedt@goodmis.org>
----
-diff with v3: comments modification, suggested by Lance, Masami, Randy and Petr
-diff with v2: do not add a new sysctl, extend hung_task_panic, suggested by Kees Cook
-
- Documentation/admin-guide/kernel-parameters.txt      | 20 +++++++++++++-------
- Documentation/admin-guide/sysctl/kernel.rst          |  9 +++++----
- arch/arm/configs/aspeed_g5_defconfig                 |  2 +-
- kernel/configs/debug.config                          |  2 +-
- kernel/hung_task.c                                   | 15 ++++++++++-----
- lib/Kconfig.debug                                    |  9 +++++----
- tools/testing/selftests/wireguard/qemu/kernel.config |  2 +-
- 7 files changed, 36 insertions(+), 23 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a51ab46..492f0bc 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1992,14 +1992,20 @@
- 			the added memory block itself do not be affected.
- 
- 	hung_task_panic=
--			[KNL] Should the hung task detector generate panics.
--			Format: 0 | 1
-+			[KNL] Number of hung tasks to trigger kernel panic.
-+			Format: <int>
-+
-+			When set to a non-zero value, a kernel panic will be triggered if
-+			the number of detected hung tasks reaches this value.
-+
-+			0: don't panic
-+			1: panic immediately on first hung task
-+			N: panic after N hung tasks are detected in a single scan
- 
--			A value of 1 instructs the kernel to panic when a
--			hung task is detected. The default value is controlled
--			by the CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time
--			option. The value selected by this boot parameter can
--			be changed later by the kernel.hung_task_panic sysctl.
-+			The default value is controlled by the
-+			CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time option. The value
-+			selected by this boot parameter can be changed later by the
-+			kernel.hung_task_panic sysctl.
- 
- 	hvc_iucv=	[S390]	Number of z/VM IUCV hypervisor console (HVC)
- 				terminal devices. Valid values: 0..8
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index f3ee807..0065a55 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -397,13 +397,14 @@ a hung task is detected.
- hung_task_panic
- ===============
- 
--Controls the kernel's behavior when a hung task is detected.
-+When set to a non-zero value, a kernel panic will be triggered if the
-+number of hung tasks found during a single scan reaches this value.
- This file shows up if ``CONFIG_DETECT_HUNG_TASK`` is enabled.
- 
--= =================================================
-+= =======================================================
- 0 Continue operation. This is the default behavior.
--1 Panic immediately.
--= =================================================
-+N Panic when N hung tasks are found during a single scan.
-+= =======================================================
- 
- 
- hung_task_check_count
-diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspeed_g5_defconfig
-index 61cee1e..c3b0d5f 100644
---- a/arch/arm/configs/aspeed_g5_defconfig
-+++ b/arch/arm/configs/aspeed_g5_defconfig
-@@ -308,7 +308,7 @@ CONFIG_PANIC_ON_OOPS=y
- CONFIG_PANIC_TIMEOUT=-1
- CONFIG_SOFTLOCKUP_DETECTOR=y
- CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
--CONFIG_BOOTPARAM_HUNG_TASK_PANIC=y
-+CONFIG_BOOTPARAM_HUNG_TASK_PANIC=1
- CONFIG_WQ_WATCHDOG=y
- # CONFIG_SCHED_DEBUG is not set
- CONFIG_FUNCTION_TRACER=y
-diff --git a/kernel/configs/debug.config b/kernel/configs/debug.config
-index e81327d..9f6ab7d 100644
---- a/kernel/configs/debug.config
-+++ b/kernel/configs/debug.config
-@@ -83,7 +83,7 @@ CONFIG_SLUB_DEBUG_ON=y
- #
- # Debug Oops, Lockups and Hangs
- #
--# CONFIG_BOOTPARAM_HUNG_TASK_PANIC is not set
-+CONFIG_BOOTPARAM_HUNG_TASK_PANIC=0
- # CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC is not set
- CONFIG_DEBUG_ATOMIC_SLEEP=y
- CONFIG_DETECT_HUNG_TASK=y
-diff --git a/kernel/hung_task.c b/kernel/hung_task.c
-index b2c1f14..84b4b04 100644
---- a/kernel/hung_task.c
-+++ b/kernel/hung_task.c
-@@ -81,7 +81,7 @@ static unsigned int __read_mostly sysctl_hung_task_all_cpu_backtrace;
-  * hung task is detected:
-  */
- static unsigned int __read_mostly sysctl_hung_task_panic =
--	IS_ENABLED(CONFIG_BOOTPARAM_HUNG_TASK_PANIC);
-+	CONFIG_BOOTPARAM_HUNG_TASK_PANIC;
- 
- static int
- hung_task_panic(struct notifier_block *this, unsigned long event, void *ptr)
-@@ -218,8 +218,11 @@ static inline void debug_show_blocker(struct task_struct *task, unsigned long ti
- }
- #endif
- 
--static void check_hung_task(struct task_struct *t, unsigned long timeout)
-+static void check_hung_task(struct task_struct *t, unsigned long timeout,
-+		unsigned long prev_detect_count)
- {
-+	unsigned long total_hung_task;
-+
- 	if (!task_is_hung(t, timeout))
- 		return;
- 
-@@ -229,9 +232,10 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
- 	 */
- 	sysctl_hung_task_detect_count++;
- 
-+	total_hung_task = sysctl_hung_task_detect_count - prev_detect_count;
- 	trace_sched_process_hang(t);
- 
--	if (sysctl_hung_task_panic) {
-+	if (sysctl_hung_task_panic && total_hung_task >= sysctl_hung_task_panic) {
- 		console_verbose();
- 		hung_task_show_lock = true;
- 		hung_task_call_panic = true;
-@@ -300,6 +304,7 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
- 	int max_count = sysctl_hung_task_check_count;
- 	unsigned long last_break = jiffies;
- 	struct task_struct *g, *t;
-+	unsigned long prev_detect_count = sysctl_hung_task_detect_count;
- 
- 	/*
- 	 * If the system crashed already then all bets are off,
-@@ -320,7 +325,7 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
- 			last_break = jiffies;
- 		}
- 
--		check_hung_task(t, timeout);
-+		check_hung_task(t, timeout, prev_detect_count);
- 	}
-  unlock:
- 	rcu_read_unlock();
-@@ -389,7 +394,7 @@ static const struct ctl_table hung_task_sysctls[] = {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
--		.extra2		= SYSCTL_ONE,
-+		.extra2		= SYSCTL_INT_MAX,
- 	},
- 	{
- 		.procname	= "hung_task_check_count",
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 3034e294..3976c90 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1258,12 +1258,13 @@ config DEFAULT_HUNG_TASK_TIMEOUT
- 	  Keeping the default should be fine in most cases.
- 
- config BOOTPARAM_HUNG_TASK_PANIC
--	bool "Panic (Reboot) On Hung Tasks"
-+	int "Number of hung tasks to trigger kernel panic"
- 	depends on DETECT_HUNG_TASK
-+	default 0
- 	help
--	  Say Y here to enable the kernel to panic on "hung tasks",
--	  which are bugs that cause the kernel to leave a task stuck
--	  in uninterruptible "D" state.
-+	  When set to a non-zero value, a kernel panic will be triggered
-+	  if the number of hung tasks found during a single scan reaches
-+	  this value.
- 
- 	  The panic can be used in combination with panic_timeout,
- 	  to cause the system to reboot automatically after a
-diff --git a/tools/testing/selftests/wireguard/qemu/kernel.config b/tools/testing/selftests/wireguard/qemu/kernel.config
-index 936b18b..0504c11 100644
---- a/tools/testing/selftests/wireguard/qemu/kernel.config
-+++ b/tools/testing/selftests/wireguard/qemu/kernel.config
-@@ -81,7 +81,7 @@ CONFIG_WQ_WATCHDOG=y
- CONFIG_DETECT_HUNG_TASK=y
- CONFIG_BOOTPARAM_HARDLOCKUP_PANIC=y
- CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
--CONFIG_BOOTPARAM_HUNG_TASK_PANIC=y
-+CONFIG_BOOTPARAM_HUNG_TASK_PANIC=1
- CONFIG_PANIC_TIMEOUT=-1
- CONFIG_STACKTRACE=y
- CONFIG_EARLY_PRINTK=y
 -- 
-2.9.4
+2.49.0
 
 
