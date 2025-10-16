@@ -1,73 +1,75 @@
-Return-Path: <linux-aspeed+bounces-2477-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2481-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0ABCBE5B15
-	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Oct 2025 00:33:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B9B2BE5B48
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Oct 2025 00:41:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cnjRF4G1xz3cYH;
-	Fri, 17 Oct 2025 09:33:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cnjbp19JCz3cBW;
+	Fri, 17 Oct 2025 09:41:10 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=111.206.215.185
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760594380;
-	cv=none; b=FCWTtjmHHyCj1h2GhSzSswK/l77eyu4neWmZLKaah5O7t/YgnM3Jz17MraPlRwlTXh52ZYf7NBqoGa3YzvYkT5faWF8iSt76Z2QiBhq0cYG0TexjYHN4nsEkyLkCAGynaxs3FFKpJL0vzL8euIseHUcvX6p8gv6Juoo8Yel4NQ8Vg/zrE26H4GhnjogbF5W9JMZuXRvz+aqouhCy5gKJwocx69mLuOcTCbq1Um3FXbfp5yctCVL5DYjRqsnnwFObU40UDgtVxsQV4xBq7/Yt7HXZWUvaw32AkncUlyNcR25VO9lNXcjxoa0rghhpCq8msqmOYhTzGOv7jxdsr3IuQg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760601742;
+	cv=none; b=PfNT1r/+rQGcLq91hPrb1tcuHMMJircXjq/ZmXRGKgLa8qef9AxyhqGlcbjOMjws+r//9Wbp58PfZuEjaUZt2HThw3gG0UgoR63Zcoc909bpICtBTMuq/JSb2B+CdKRnccBi6vXUyVAOZfMJrDRIytRCnO2t5xYbFiB4QnpY98HtX1+azyq0dsvKBhvsan0WpU/GpwoPZnGS5nyIc1rp5ap+MmN97yg/RJp2PEA+K8fGJV1H34h2WVpbqCapsXIw7o3VMpttCgczCPRuAlMy+79MRiLOiHTL2aYJ0J8vREe1TzDbKIJVS3/n6ZQcbBWYRQqyQZIfCqYCglla122XLg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1760594380; c=relaxed/relaxed;
-	bh=zL3WvO3665EouwcoDa/nbIqn/ahEBMnS/1uR2CNyfWY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=YEbr5cz3cudff/gUUZn4Jp9Poc28FXz3ywuyKtMU74K5ZuTEOuNIwRPdmzA3vPHiHOpjmjXCQWyLbS3ut93Qn3ZHwBcyCBr1/044I+jwDWoIV48eipcT1XvDzT4pV2NUKiGUFEeSiksFRHefY5zRD7igU8J1UAUg9uqBJVV6lwDKzcM/0AsvT2c55Qn1DOa/dKECJmcxxP3StwCNIYlGfMSRfiRswONbw3xoHUQawQnUYU5Qx1YnHFErIsgn6eAZWLgQreAiYh8EDqjb7z9/d7cV3z5ZLxBS+rtMC07UsjowG15HW9w69mECX5BmFqgvK4kf7rBtaeBS70Et8DfRqA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass (client-ip=111.206.215.185; helo=baidu.com; envelope-from=lirongqing@baidu.com; receiver=lists.ozlabs.org) smtp.mailfrom=baidu.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baidu.com (client-ip=111.206.215.185; helo=baidu.com; envelope-from=lirongqing@baidu.com; receiver=lists.ozlabs.org)
-Received: from baidu.com (mx24.baidu.com [111.206.215.185])
+	t=1760601742; c=relaxed/relaxed;
+	bh=Oge1qyHiUMSoH0HxnJiNOJBaRoHIDV0FZuUt3Ls8Sa4=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=ZXvUDnY+v+R40U90dH22DgqYlBnoulEhbM6FLXXHeAy9IADxAdOxg5mCloBEAk38w1XydzcnHJ85AAlVqGvmL2wUyye0op+q8wOnz7G/1BQKW7dVXrnpeuBKDqV08g+HoDr7qBCUJNnom9sX4k4xQ/H1kdYGQOwZWtqmaZsYMbow8+XACac6R3LJ0FLC0jUNEvRT/83XQ5c1Da3q2MP3qL3t+92gOwItzYXJD4tI/bDSIAtoVxrVXxwFn6gTe3IH1XizOWM+Rc4VpqJqge0xDlFIw6duwOq7986njFxr2eq336j1NB1HIHYqLODuIr/Qu2fPvQf3AYpocJs9V1cpwA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ty129H83; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=mhiramat@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ty129H83;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=mhiramat@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cnHNC42KGz2ywC
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Oct 2025 16:59:36 +1100 (AEDT)
-From: "Li,Rongqing" <lirongqing@baidu.com>
-To: Lance Yang <lance.yang@linux.dev>, Andrew Morton
-	<akpm@linux-foundation.org>
-CC: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "wireguard@lists.zx2c4.com"
-	<wireguard@lists.zx2c4.com>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Anshuman Khandual
-	<anshuman.khandual@arm.com>, Arnd Bergmann <arnd@arndb.de>, David Hildenbrand
-	<david@redhat.com>, Florian Wesphal <fw@strlen.de>, Jakub Kacinski
-	<kuba@kernel.org>, "Jason A . Donenfeld" <jason@zx2c4.com>, Joel Granados
-	<joel.granados@kernel.org>, Joel Stanley <joel@jms.id.au>, Jonathan Corbet
-	<corbet@lwn.net>, Kees Cook <kees@kernel.org>, Liam Howlett
-	<liam.howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Paul E . McKenney" <paulmck@kernel.org>, Pawan Gupta
-	<pawan.kumar.gupta@linux.intel.com>, Petr Mladek <pmladek@suse.com>, "Phil
- Auld" <pauld@redhat.com>, Randy Dunlap <rdunlap@infradead.org>, Russell King
-	<linux@armlinux.org.uk>, Shuah Khan <shuah@kernel.org>, Simon Horman
-	<horms@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Steven Rostedt
-	<rostedt@goodmis.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: =?utf-8?B?UkU6IFvlpJbpg6jpgq7ku7ZdIFJlOiBbUEFUQ0hdW3Y0XSBodW5nX3Rhc2s6?=
- =?utf-8?B?IFBhbmljIHdoZW4gdGhlcmUgYXJlIG1vcmUgdGhhbiBOIGh1bmcgdGFza3Mg?=
- =?utf-8?Q?at_the_same_time?=
-Thread-Topic: =?utf-8?B?W+WklumDqOmCruS7tl0gUmU6IFtQQVRDSF1bdjRdIGh1bmdfdGFzazogUGFu?=
- =?utf-8?B?aWMgd2hlbiB0aGVyZSBhcmUgbW9yZSB0aGFuIE4gaHVuZyB0YXNrcyBhdCB0?=
- =?utf-8?Q?he_same_time?=
-Thread-Index: AQHcPZ4O/k3Wsx0bHk6g9O8K49+CJbTDtCqAgACThiA=
-Date: Thu, 16 Oct 2025 05:57:34 +0000
-Message-ID: <bb443552b6db40548a4fae98d1f63c80@baidu.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cnL5n20cJz30Vl
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Oct 2025 19:02:21 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 5D13C60383;
+	Thu, 16 Oct 2025 08:02:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F2A4C4CEF1;
+	Thu, 16 Oct 2025 08:02:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760601738;
+	bh=T/QAZeUOl1WroCJzhqOuuzeJ0heu4oxs6E+NuNYSyJ4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ty129H83xsriYCQCtEDyF8wzp/ar6C6Ib5FFd7wTqimz3iGENAWUYHmSTehnbC/wq
+	 LhCNUhxKGJXjVYxCa7i6nOT4pEH8CEVCGAVqFog7+Typi8flSNFXoUy51tp74l++uj
+	 6wQp/KUN7qeqLH/Q6jwnhV6hyUy34r2AIUOLlMpW856vtyVHcMVpDbso6A/gsWbBJs
+	 LN+SOz1tIlXv/oL2m7BK+KtQgW/0U/xlFhC3udqi+oc+vTTq9gslKu6vFmby17qyju
+	 S/iGBjXRBFrmVX/MnCnb2PLlSVjKSF4i9PdMmAx31JM6c9b1GRf735QldRy8nPQz7X
+	 T5PK50pcnMZtQ==
+Date: Thu, 16 Oct 2025 17:02:12 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: lirongqing <lirongqing@baidu.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Lance Yang
+ <lance.yang@linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <wireguard@lists.zx2c4.com>,
+ <netdev@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, Andrew Jeffery
+ <andrew@codeconstruct.com.au>, Anshuman Khandual
+ <anshuman.khandual@arm.com>, Arnd Bergmann <arnd@arndb.de>, David
+ Hildenbrand <david@redhat.com>, Florian Wesphal <fw@strlen.de>, Jakub
+ Kacinski <kuba@kernel.org>, "Jason A . Donenfeld" <jason@zx2c4.com>, Joel
+ Granados <joel.granados@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>, Liam Howlett
+ <liam.howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Paul E . McKenney" <paulmck@kernel.org>, Pawan Gupta
+ <pawan.kumar.gupta@linux.intel.com>, Petr Mladek <pmladek@suse.com>, Phil
+ Auld <pauld@redhat.com>, Randy Dunlap <rdunlap@infradead.org>, Russell King
+ <linux@armlinux.org.uk>, Shuah Khan <shuah@kernel.org>, Simon Horman
+ <horms@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Steven Rostedt
+ <rostedt@goodmis.org>
+Subject: Re: [PATCH][v4] hung_task: Panic when there are more than N hung
+ tasks at the same time
+Message-Id: <20251016170212.65e2ad95b80cdeeb6f7d7ce3@kernel.org>
+In-Reply-To: <20251015063615.2632-1-lirongqing@baidu.com>
 References: <20251015063615.2632-1-lirongqing@baidu.com>
- <4db3bd26-1f74-4096-84fd-f652ec9a4d27@linux.dev>
-In-Reply-To: <4db3bd26-1f74-4096-84fd-f652ec9a4d27@linux.dev>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-originating-ip: [10.127.72.23]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -80,73 +82,268 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
-MIME-Version: 1.0
-X-FEAS-Client-IP: 172.31.50.47
-X-FE-Policy-ID: 52:10:53:SYSTEM
-X-Spam-Status: No, score=-0.7 required=5.0 tests=RCVD_IN_DNSWL_LOW,
-	SPF_HELO_PASS,SPF_PASS autolearn=disabled version=4.0.1
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-DQo+IExHVE0uIEl0IHdvcmtzIGFzIGV4cGVjdGVkLCB0aGFua3MhDQo+IA0KPiBPbiAyMDI1LzEw
-LzE1IDE0OjM2LCBsaXJvbmdxaW5nIHdyb3RlOg0KPiA+IEZyb206IExpIFJvbmdRaW5nIDxsaXJv
-bmdxaW5nQGJhaWR1LmNvbT4NCj4gDQo+IEZvciB0aGUgY29tbWl0IG1lc3NhZ2UsIEknZCBzdWdn
-ZXN0IHRoZSBmb2xsb3dpbmcgZm9yIGJldHRlciBjbGFyaXR5Og0KPiANCj4gYGBgDQo+IFRoZSBo
-dW5nX3Rhc2tfcGFuaWMgc3lzY3RsIGlzIGN1cnJlbnRseSBhIGJsdW50IGluc3RydW1lbnQ6IGl0
-J3MgYWxsIG9yIG5vdGhpbmcuDQo+IA0KPiBQYW5pY2tpbmcgb24gYSBzaW5nbGUgaHVuZyB0YXNr
-IGNhbiBiZSBhbiBvdmVycmVhY3Rpb24gdG8gYSB0cmFuc2llbnQgZ2xpdGNoLiBBDQo+IG1vcmUg
-cmVsaWFibGUgaW5kaWNhdG9yIG9mIGEgc3lzdGVtaWMgcHJvYmxlbSBpcyB3aGVuIG11bHRpcGxl
-IHRhc2tzIGhhbmcNCj4gc2ltdWx0YW5lb3VzbHkuDQo+IA0KPiBFeHRlbmQgaHVuZ190YXNrX3Bh
-bmljIHRvIGFjY2VwdCBhbiBpbnRlZ2VyIHRocmVzaG9sZCwgYWxsb3dpbmcgdGhlIGtlcm5lbA0K
-PiB0byBwYW5pYyBvbmx5IHdoZW4gTiBodW5nIHRhc2tzIGFyZSBkZXRlY3RlZCBpbiBhIHNpbmds
-ZSBzY2FuLiBUaGlzIHByb3ZpZGVzDQo+IGZpbmVyIGNvbnRyb2wgdG8gZGlzdGluZ3Vpc2ggYmV0
-d2VlbiBpc29sYXRlZCBpbmNpZGVudHMgYW5kIHN5c3RlbS13aWRlDQo+IGZhaWx1cmVzLg0KPiAN
-Cj4gVGhlIGFjY2VwdGVkIHZhbHVlcyBhcmU6DQo+IC0gMDogRG9uJ3QgcGFuaWMgKHVuY2hhbmdl
-ZCkNCj4gLSAxOiBQYW5pYyBvbiB0aGUgZmlyc3QgaHVuZyB0YXNrICh1bmNoYW5nZWQpDQo+IC0g
-TiA+IDE6IFBhbmljIGFmdGVyIE4gaHVuZyB0YXNrcyBhcmUgZGV0ZWN0ZWQgaW4gYSBzaW5nbGUg
-c2Nhbg0KPiANCj4gVGhlIG9yaWdpbmFsIGJlaGF2aW9yIGlzIHByZXNlcnZlZCBmb3IgdmFsdWVz
-IDAgYW5kIDEsIG1haW50YWluaW5nIGZ1bGwNCj4gYmFja3dhcmQgY29tcGF0aWJpbGl0eS4NCj4g
-YGBgDQo+IA0KPiBJZiB5b3UgYWdyZWUsIGxpa2VseSBubyBuZWVkIHRvIHJlc2VuZCAtIEFuZHJl
-dyBjb3VsZCBwaWNrIGl0IHVwIGRpcmVjdGx5IHdoZW4NCj4gYXBwbHlpbmcgOikNCj4gDQoNClRo
-aXMgaXMgYmV0dGVyOw0KDQpBbmRyZXcsIGNvdWxkIHlvdSBwaWNrIGl0IHVwIGRpcmVjdGx5DQoN
-ClRoYW5rcw0KDQotTGkNCg0KPiA+DQo+ID4gQ3VycmVudGx5LCB3aGVuICdodW5nX3Rhc2tfcGFu
-aWMnIGlzIGVuYWJsZWQsIHRoZSBrZXJuZWwgcGFuaWNzDQo+ID4gaW1tZWRpYXRlbHkgdXBvbiBk
-ZXRlY3RpbmcgdGhlIGZpcnN0IGh1bmcgdGFzay4gSG93ZXZlciwgc29tZSBodW5nDQo+ID4gdGFz
-a3MgYXJlIHRyYW5zaWVudCBhbmQgYWxsb3cgc3lzdGVtIHJlY292ZXJ5LCB3aGlsZSBwZXJzaXN0
-ZW50IGhhbmdzDQo+ID4gc2hvdWxkIHRyaWdnZXIgYSBwYW5pYyB3aGVuIGFjY3VtdWxhdGluZyBi
-ZXlvbmQgYSB0aHJlc2hvbGQuDQo+ID4NCj4gPiBFeHRlbmQgdGhlICdodW5nX3Rhc2tfcGFuaWMn
-IHN5c2N0bCB0byBhY2NlcHQgYSB0aHJlc2hvbGQgdmFsdWUNCj4gPiBzcGVjaWZ5aW5nIHRoZSBu
-dW1iZXIgb2YgaHVuZyB0YXNrcyB0aGF0IG11c3QgYmUgZGV0ZWN0ZWQgYmVmb3JlDQo+ID4gdHJp
-Z2dlcmluZyBhIGtlcm5lbCBwYW5pYy4gVGhpcyBwcm92aWRlcyBmaW5lciBjb250cm9sIGZvcg0K
-PiA+IGVudmlyb25tZW50cyB3aGVyZSB0cmFuc2llbnQgaGFuZ3MgbWF5IG9jY3VyIGJ1dCBwZXJz
-aXN0ZW50IGhhbmdzDQo+IHNob3VsZCBiZSBmYXRhbC4NCj4gPg0KPiA+IFRoZSBzeXNjdGwgbm93
-IGFjY2VwdHM6DQo+ID4gLSAwOiBkb24ndCBwYW5pYyAobWFpbnRhaW5zIG9yaWdpbmFsIGJlaGF2
-aW9yKQ0KPiA+IC0gMTogcGFuaWMgb24gZmlyc3QgaHVuZyB0YXNrIChtYWludGFpbnMgb3JpZ2lu
-YWwgYmVoYXZpb3IpDQo+ID4gLSBOID4gMTogcGFuaWMgYWZ0ZXIgTiBodW5nIHRhc2tzIGFyZSBk
-ZXRlY3RlZCBpbiBhIHNpbmdsZSBzY2FuDQo+ID4NCj4gPiBUaGlzIG1haW50YWlucyBiYWNrd2Fy
-ZCBjb21wYXRpYmlsaXR5IHdoaWxlIHByb3ZpZGluZyBmbGV4aWJpbGl0eSBmb3INCj4gPiBkaWZm
-ZXJlbnQgaGFuZyBzY2VuYXJpb3MuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBMaSBSb25nUWlu
-ZyA8bGlyb25ncWluZ0BiYWlkdS5jb20+DQo+ID4gQ2M6IEFuZHJldyBKZWZmZXJ5IDxhbmRyZXdA
-Y29kZWNvbnN0cnVjdC5jb20uYXU+DQo+ID4gQ2M6IEFuc2h1bWFuIEtoYW5kdWFsIDxhbnNodW1h
-bi5raGFuZHVhbEBhcm0uY29tPg0KPiA+IENjOiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRl
-Pg0KPiA+IENjOiBEYXZpZCBIaWxkZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT4NCj4gPiBDYzog
-RmxvcmlhbiBXZXNwaGFsIDxmd0BzdHJsZW4uZGU+DQo+ID4gQ2M6IEpha3ViIEthY2luc2tpIDxr
-dWJhQGtlcm5lbC5vcmc+DQo+ID4gQ2M6IEphc29uIEEuIERvbmVuZmVsZCA8amFzb25AengyYzQu
-Y29tPg0KPiA+IENjOiBKb2VsIEdyYW5hZG9zIDxqb2VsLmdyYW5hZG9zQGtlcm5lbC5vcmc+DQo+
-ID4gQ2M6IEpvZWwgU3RhbmxleSA8am9lbEBqbXMuaWQuYXU+DQo+ID4gQ2M6IEpvbmF0aGFuIENv
-cmJldCA8Y29yYmV0QGx3bi5uZXQ+DQo+ID4gQ2M6IEtlZXMgQ29vayA8a2Vlc0BrZXJuZWwub3Jn
-Pg0KPiA+IENjOiBMYW5jZSBZYW5nIDxsYW5jZS55YW5nQGxpbnV4LmRldj4NCj4gPiBDYzogTGlh
-bSBIb3dsZXR0IDxsaWFtLmhvd2xldHRAb3JhY2xlLmNvbT4NCj4gPiBDYzogTG9yZW56byBTdG9h
-a2VzIDxsb3JlbnpvLnN0b2FrZXNAb3JhY2xlLmNvbT4NCj4gPiBDYzogIk1hc2FtaSBIaXJhbWF0
-c3UgKEdvb2dsZSkiIDxtaGlyYW1hdEBrZXJuZWwub3JnPg0KPiA+IENjOiAiUGF1bCBFIC4gTWNL
-ZW5uZXkiIDxwYXVsbWNrQGtlcm5lbC5vcmc+DQo+ID4gQ2M6IFBhd2FuIEd1cHRhIDxwYXdhbi5r
-dW1hci5ndXB0YUBsaW51eC5pbnRlbC5jb20+DQo+ID4gQ2M6IFBldHIgTWxhZGVrIDxwbWxhZGVr
-QHN1c2UuY29tPg0KPiA+IENjOiBQaGlsIEF1bGQgPHBhdWxkQHJlZGhhdC5jb20+DQo+ID4gQ2M6
-IFJhbmR5IER1bmxhcCA8cmR1bmxhcEBpbmZyYWRlYWQub3JnPg0KPiA+IENjOiBSdXNzZWxsIEtp
-bmcgPGxpbnV4QGFybWxpbnV4Lm9yZy51az4NCj4gPiBDYzogU2h1YWggS2hhbiA8c2h1YWhAa2Vy
-bmVsLm9yZz4NCj4gPiBDYzogU2ltb24gSG9ybWFuIDxob3Jtc0BrZXJuZWwub3JnPg0KPiA+IENj
-OiBTdGFuaXNsYXYgRm9taWNoZXYgPHNkZkBmb21pY2hldi5tZT4NCj4gPiBDYzogU3RldmVuIFJv
-c3RlZHQgPHJvc3RlZHRAZ29vZG1pcy5vcmc+DQo+ID4gLS0tDQo+IA0KPiBTbzoNCj4gDQo+IFJl
-dmlld2VkLWJ5OiBMYW5jZSBZYW5nIDxsYW5jZS55YW5nQGxpbnV4LmRldj4NCj4gVGVzdGVkLWJ5
-OiBMYW5jZSBZYW5nIDxsYW5jZS55YW5nQGxpbnV4LmRldj4NCj4gDQo+IENoZWVycywNCj4gTGFu
-Y2UNCg0K
+On Wed, 15 Oct 2025 14:36:15 +0800
+lirongqing <lirongqing@baidu.com> wrote:
+
+> From: Li RongQing <lirongqing@baidu.com>
+> 
+> Currently, when 'hung_task_panic' is enabled, the kernel panics
+> immediately upon detecting the first hung task. However, some hung
+> tasks are transient and allow system recovery, while persistent hangs
+> should trigger a panic when accumulating beyond a threshold.
+> 
+> Extend the 'hung_task_panic' sysctl to accept a threshold value
+> specifying the number of hung tasks that must be detected before
+> triggering a kernel panic. This provides finer control for environments
+> where transient hangs may occur but persistent hangs should be fatal.
+> 
+> The sysctl now accepts:
+> - 0: don't panic (maintains original behavior)
+> - 1: panic on first hung task (maintains original behavior)
+> - N > 1: panic after N hung tasks are detected in a single scan
+> 
+> This maintains backward compatibility while providing flexibility for
+> different hang scenarios.
+
+Looks good to me.
+
+Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+
+Thank you,
+
+> 
+> Signed-off-by: Li RongQing <lirongqing@baidu.com>
+> Cc: Andrew Jeffery <andrew@codeconstruct.com.au>
+> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Florian Wesphal <fw@strlen.de>
+> Cc: Jakub Kacinski <kuba@kernel.org>
+> Cc: Jason A. Donenfeld <jason@zx2c4.com>
+> Cc: Joel Granados <joel.granados@kernel.org>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: Lance Yang <lance.yang@linux.dev>
+> Cc: Liam Howlett <liam.howlett@oracle.com>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+> Cc: "Paul E . McKenney" <paulmck@kernel.org>
+> Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> Cc: Petr Mladek <pmladek@suse.com>
+> Cc: Phil Auld <pauld@redhat.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Shuah Khan <shuah@kernel.org>
+> Cc: Simon Horman <horms@kernel.org>
+> Cc: Stanislav Fomichev <sdf@fomichev.me>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> ---
+> diff with v3: comments modification, suggested by Lance, Masami, Randy and Petr
+> diff with v2: do not add a new sysctl, extend hung_task_panic, suggested by Kees Cook
+> 
+>  Documentation/admin-guide/kernel-parameters.txt      | 20 +++++++++++++-------
+>  Documentation/admin-guide/sysctl/kernel.rst          |  9 +++++----
+>  arch/arm/configs/aspeed_g5_defconfig                 |  2 +-
+>  kernel/configs/debug.config                          |  2 +-
+>  kernel/hung_task.c                                   | 15 ++++++++++-----
+>  lib/Kconfig.debug                                    |  9 +++++----
+>  tools/testing/selftests/wireguard/qemu/kernel.config |  2 +-
+>  7 files changed, 36 insertions(+), 23 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index a51ab46..492f0bc 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1992,14 +1992,20 @@
+>  			the added memory block itself do not be affected.
+>  
+>  	hung_task_panic=
+> -			[KNL] Should the hung task detector generate panics.
+> -			Format: 0 | 1
+> +			[KNL] Number of hung tasks to trigger kernel panic.
+> +			Format: <int>
+> +
+> +			When set to a non-zero value, a kernel panic will be triggered if
+> +			the number of detected hung tasks reaches this value.
+> +
+> +			0: don't panic
+> +			1: panic immediately on first hung task
+> +			N: panic after N hung tasks are detected in a single scan
+>  
+> -			A value of 1 instructs the kernel to panic when a
+> -			hung task is detected. The default value is controlled
+> -			by the CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time
+> -			option. The value selected by this boot parameter can
+> -			be changed later by the kernel.hung_task_panic sysctl.
+> +			The default value is controlled by the
+> +			CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time option. The value
+> +			selected by this boot parameter can be changed later by the
+> +			kernel.hung_task_panic sysctl.
+>  
+>  	hvc_iucv=	[S390]	Number of z/VM IUCV hypervisor console (HVC)
+>  				terminal devices. Valid values: 0..8
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index f3ee807..0065a55 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -397,13 +397,14 @@ a hung task is detected.
+>  hung_task_panic
+>  ===============
+>  
+> -Controls the kernel's behavior when a hung task is detected.
+> +When set to a non-zero value, a kernel panic will be triggered if the
+> +number of hung tasks found during a single scan reaches this value.
+>  This file shows up if ``CONFIG_DETECT_HUNG_TASK`` is enabled.
+>  
+> -= =================================================
+> += =======================================================
+>  0 Continue operation. This is the default behavior.
+> -1 Panic immediately.
+> -= =================================================
+> +N Panic when N hung tasks are found during a single scan.
+> += =======================================================
+>  
+>  
+>  hung_task_check_count
+> diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspeed_g5_defconfig
+> index 61cee1e..c3b0d5f 100644
+> --- a/arch/arm/configs/aspeed_g5_defconfig
+> +++ b/arch/arm/configs/aspeed_g5_defconfig
+> @@ -308,7 +308,7 @@ CONFIG_PANIC_ON_OOPS=y
+>  CONFIG_PANIC_TIMEOUT=-1
+>  CONFIG_SOFTLOCKUP_DETECTOR=y
+>  CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
+> -CONFIG_BOOTPARAM_HUNG_TASK_PANIC=y
+> +CONFIG_BOOTPARAM_HUNG_TASK_PANIC=1
+>  CONFIG_WQ_WATCHDOG=y
+>  # CONFIG_SCHED_DEBUG is not set
+>  CONFIG_FUNCTION_TRACER=y
+> diff --git a/kernel/configs/debug.config b/kernel/configs/debug.config
+> index e81327d..9f6ab7d 100644
+> --- a/kernel/configs/debug.config
+> +++ b/kernel/configs/debug.config
+> @@ -83,7 +83,7 @@ CONFIG_SLUB_DEBUG_ON=y
+>  #
+>  # Debug Oops, Lockups and Hangs
+>  #
+> -# CONFIG_BOOTPARAM_HUNG_TASK_PANIC is not set
+> +CONFIG_BOOTPARAM_HUNG_TASK_PANIC=0
+>  # CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC is not set
+>  CONFIG_DEBUG_ATOMIC_SLEEP=y
+>  CONFIG_DETECT_HUNG_TASK=y
+> diff --git a/kernel/hung_task.c b/kernel/hung_task.c
+> index b2c1f14..84b4b04 100644
+> --- a/kernel/hung_task.c
+> +++ b/kernel/hung_task.c
+> @@ -81,7 +81,7 @@ static unsigned int __read_mostly sysctl_hung_task_all_cpu_backtrace;
+>   * hung task is detected:
+>   */
+>  static unsigned int __read_mostly sysctl_hung_task_panic =
+> -	IS_ENABLED(CONFIG_BOOTPARAM_HUNG_TASK_PANIC);
+> +	CONFIG_BOOTPARAM_HUNG_TASK_PANIC;
+>  
+>  static int
+>  hung_task_panic(struct notifier_block *this, unsigned long event, void *ptr)
+> @@ -218,8 +218,11 @@ static inline void debug_show_blocker(struct task_struct *task, unsigned long ti
+>  }
+>  #endif
+>  
+> -static void check_hung_task(struct task_struct *t, unsigned long timeout)
+> +static void check_hung_task(struct task_struct *t, unsigned long timeout,
+> +		unsigned long prev_detect_count)
+>  {
+> +	unsigned long total_hung_task;
+> +
+>  	if (!task_is_hung(t, timeout))
+>  		return;
+>  
+> @@ -229,9 +232,10 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
+>  	 */
+>  	sysctl_hung_task_detect_count++;
+>  
+> +	total_hung_task = sysctl_hung_task_detect_count - prev_detect_count;
+>  	trace_sched_process_hang(t);
+>  
+> -	if (sysctl_hung_task_panic) {
+> +	if (sysctl_hung_task_panic && total_hung_task >= sysctl_hung_task_panic) {
+>  		console_verbose();
+>  		hung_task_show_lock = true;
+>  		hung_task_call_panic = true;
+> @@ -300,6 +304,7 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
+>  	int max_count = sysctl_hung_task_check_count;
+>  	unsigned long last_break = jiffies;
+>  	struct task_struct *g, *t;
+> +	unsigned long prev_detect_count = sysctl_hung_task_detect_count;
+>  
+>  	/*
+>  	 * If the system crashed already then all bets are off,
+> @@ -320,7 +325,7 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
+>  			last_break = jiffies;
+>  		}
+>  
+> -		check_hung_task(t, timeout);
+> +		check_hung_task(t, timeout, prev_detect_count);
+>  	}
+>   unlock:
+>  	rcu_read_unlock();
+> @@ -389,7 +394,7 @@ static const struct ctl_table hung_task_sysctls[] = {
+>  		.mode		= 0644,
+>  		.proc_handler	= proc_dointvec_minmax,
+>  		.extra1		= SYSCTL_ZERO,
+> -		.extra2		= SYSCTL_ONE,
+> +		.extra2		= SYSCTL_INT_MAX,
+>  	},
+>  	{
+>  		.procname	= "hung_task_check_count",
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 3034e294..3976c90 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -1258,12 +1258,13 @@ config DEFAULT_HUNG_TASK_TIMEOUT
+>  	  Keeping the default should be fine in most cases.
+>  
+>  config BOOTPARAM_HUNG_TASK_PANIC
+> -	bool "Panic (Reboot) On Hung Tasks"
+> +	int "Number of hung tasks to trigger kernel panic"
+>  	depends on DETECT_HUNG_TASK
+> +	default 0
+>  	help
+> -	  Say Y here to enable the kernel to panic on "hung tasks",
+> -	  which are bugs that cause the kernel to leave a task stuck
+> -	  in uninterruptible "D" state.
+> +	  When set to a non-zero value, a kernel panic will be triggered
+> +	  if the number of hung tasks found during a single scan reaches
+> +	  this value.
+>  
+>  	  The panic can be used in combination with panic_timeout,
+>  	  to cause the system to reboot automatically after a
+> diff --git a/tools/testing/selftests/wireguard/qemu/kernel.config b/tools/testing/selftests/wireguard/qemu/kernel.config
+> index 936b18b..0504c11 100644
+> --- a/tools/testing/selftests/wireguard/qemu/kernel.config
+> +++ b/tools/testing/selftests/wireguard/qemu/kernel.config
+> @@ -81,7 +81,7 @@ CONFIG_WQ_WATCHDOG=y
+>  CONFIG_DETECT_HUNG_TASK=y
+>  CONFIG_BOOTPARAM_HARDLOCKUP_PANIC=y
+>  CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
+> -CONFIG_BOOTPARAM_HUNG_TASK_PANIC=y
+> +CONFIG_BOOTPARAM_HUNG_TASK_PANIC=1
+>  CONFIG_PANIC_TIMEOUT=-1
+>  CONFIG_STACKTRACE=y
+>  CONFIG_EARLY_PRINTK=y
+> -- 
+> 2.9.4
+> 
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
