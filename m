@@ -1,75 +1,79 @@
-Return-Path: <linux-aspeed+bounces-2481-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2479-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B9B2BE5B48
-	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Oct 2025 00:41:13 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3110BE5B27
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Oct 2025 00:36:10 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cnjbp19JCz3cBW;
-	Fri, 17 Oct 2025 09:41:10 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cnjV05H6rz3cZR;
+	Fri, 17 Oct 2025 09:36:08 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760601742;
-	cv=none; b=PfNT1r/+rQGcLq91hPrb1tcuHMMJircXjq/ZmXRGKgLa8qef9AxyhqGlcbjOMjws+r//9Wbp58PfZuEjaUZt2HThw3gG0UgoR63Zcoc909bpICtBTMuq/JSb2B+CdKRnccBi6vXUyVAOZfMJrDRIytRCnO2t5xYbFiB4QnpY98HtX1+azyq0dsvKBhvsan0WpU/GpwoPZnGS5nyIc1rp5ap+MmN97yg/RJp2PEA+K8fGJV1H34h2WVpbqCapsXIw7o3VMpttCgczCPRuAlMy+79MRiLOiHTL2aYJ0J8vREe1TzDbKIJVS3/n6ZQcbBWYRQqyQZIfCqYCglla122XLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1760601742; c=relaxed/relaxed;
-	bh=Oge1qyHiUMSoH0HxnJiNOJBaRoHIDV0FZuUt3Ls8Sa4=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=ZXvUDnY+v+R40U90dH22DgqYlBnoulEhbM6FLXXHeAy9IADxAdOxg5mCloBEAk38w1XydzcnHJ85AAlVqGvmL2wUyye0op+q8wOnz7G/1BQKW7dVXrnpeuBKDqV08g+HoDr7qBCUJNnom9sX4k4xQ/H1kdYGQOwZWtqmaZsYMbow8+XACac6R3LJ0FLC0jUNEvRT/83XQ5c1Da3q2MP3qL3t+92gOwItzYXJD4tI/bDSIAtoVxrVXxwFn6gTe3IH1XizOWM+Rc4VpqJqge0xDlFIw6duwOq7986njFxr2eq336j1NB1HIHYqLODuIr/Qu2fPvQf3AYpocJs9V1cpwA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ty129H83; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=mhiramat@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:c10c::1" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760628630;
+	cv=pass; b=SETHaGv1hg+eKPPq0vS3OQb9mnmlZeH6Pok5OJ2vyqYNjcJEYYl1v+9zDhum6D9ZQHz/HRydPgK/md/AypgGEcX4NGGz/ZAWjyh/Koo7NTR5wXLogM3/6XYxU3p/TZJueVeCgZ53C79+HhvrXiigRnEAQjNwKLYfNQxVm48GLTy6Eo+oku6YT+T8mAmGYg5dupaFiT+NbBp9iAsVQ6AcaKq0jpqvjE/fWIif6VOMy9vWuVLz27K3QYDi6G7g6XmRSF12r12CT+ka5eHWDZz8IKHaKE4XPyCEr7Ebrg+2htkmufrfBqSuzshB+MMIzYxPZHK5En4p9Ih6HdpxnHX85A==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1760628630; c=relaxed/relaxed;
+	bh=+/MLiJg51SYPDQ0KmRrlhauci0+hgrMX8yUnq9LHGCo=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=jnx1IoWwKjcXS5KNSGO/A5Vxt803zrFcXBmXsAioXL2Cgg2bMlMaeGKyanebtTbcDk2c8iatAXoLdlTQVJfwTVKrrGJKuYaPGawA+p/uCPJg3bq9HmlKqlOUIrwVx5h9tse6IZX+uCcFjNmW+JBYio9+jPg6H0R+PZeUmqmTRe5YFXZg/1WLtZoeUotOXhcJjCuuvU96k39GwLmCAG/3cVfdSKVTuSQZvOoFDdQisNWz6M1Ht51mw22YQbKvN70lLHB4tYDPpfwQdu/i56FzumJyV7ucdUY/Zs23G50yFf58Nn1L+nPJ2iKQOKVjKsBAntEzzeJs9T94blxgMOjYSQ==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=HU/6Dqe/; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c10c::1; helo=sa9pr02cu001.outbound.protection.outlook.com; envelope-from=coking@nvidia.com; receiver=lists.ozlabs.org) smtp.mailfrom=nvidia.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ty129H83;
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=HU/6Dqe/;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=mhiramat@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=nvidia.com (client-ip=2a01:111:f403:c10c::1; helo=sa9pr02cu001.outbound.protection.outlook.com; envelope-from=coking@nvidia.com; receiver=lists.ozlabs.org)
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazlp170130001.outbound.protection.outlook.com [IPv6:2a01:111:f403:c10c::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cnL5n20cJz30Vl
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Oct 2025 19:02:21 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 5D13C60383;
-	Thu, 16 Oct 2025 08:02:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F2A4C4CEF1;
-	Thu, 16 Oct 2025 08:02:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760601738;
-	bh=T/QAZeUOl1WroCJzhqOuuzeJ0heu4oxs6E+NuNYSyJ4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ty129H83xsriYCQCtEDyF8wzp/ar6C6Ib5FFd7wTqimz3iGENAWUYHmSTehnbC/wq
-	 LhCNUhxKGJXjVYxCa7i6nOT4pEH8CEVCGAVqFog7+Typi8flSNFXoUy51tp74l++uj
-	 6wQp/KUN7qeqLH/Q6jwnhV6hyUy34r2AIUOLlMpW856vtyVHcMVpDbso6A/gsWbBJs
-	 LN+SOz1tIlXv/oL2m7BK+KtQgW/0U/xlFhC3udqi+oc+vTTq9gslKu6vFmby17qyju
-	 S/iGBjXRBFrmVX/MnCnb2PLlSVjKSF4i9PdMmAx31JM6c9b1GRf735QldRy8nPQz7X
-	 T5PK50pcnMZtQ==
-Date: Thu, 16 Oct 2025 17:02:12 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: lirongqing <lirongqing@baidu.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Lance Yang
- <lance.yang@linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-aspeed@lists.ozlabs.org>, <wireguard@lists.zx2c4.com>,
- <netdev@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, Andrew Jeffery
- <andrew@codeconstruct.com.au>, Anshuman Khandual
- <anshuman.khandual@arm.com>, Arnd Bergmann <arnd@arndb.de>, David
- Hildenbrand <david@redhat.com>, Florian Wesphal <fw@strlen.de>, Jakub
- Kacinski <kuba@kernel.org>, "Jason A . Donenfeld" <jason@zx2c4.com>, Joel
- Granados <joel.granados@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>, Liam Howlett
- <liam.howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Paul E . McKenney" <paulmck@kernel.org>, Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>, Petr Mladek <pmladek@suse.com>, Phil
- Auld <pauld@redhat.com>, Randy Dunlap <rdunlap@infradead.org>, Russell King
- <linux@armlinux.org.uk>, Shuah Khan <shuah@kernel.org>, Simon Horman
- <horms@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Steven Rostedt
- <rostedt@goodmis.org>
-Subject: Re: [PATCH][v4] hung_task: Panic when there are more than N hung
- tasks at the same time
-Message-Id: <20251016170212.65e2ad95b80cdeeb6f7d7ce3@kernel.org>
-In-Reply-To: <20251015063615.2632-1-lirongqing@baidu.com>
-References: <20251015063615.2632-1-lirongqing@baidu.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cnX2s65flz2ywC;
+	Fri, 17 Oct 2025 02:30:29 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mE51AKu0/np9h+NzJoLlXJbHgcmvlMgqOO6hadzg7IsaKkDqiAmAm/CSsNF9kOqyXj4vtUw2hsAR4VugB/pQn0B/p/zs/EaCU7dOmuMUMYDeLgFhz87xbOdl6dBaoi5AgB+2k1eN4tv0tFYBsw61KbOE89jfbUjh01z6JvNeLgu1FcgNwg4HswuOzbLFLSbiynFciy/7wwKi0tX9HA2Ol4946HkBi7t15dwnMBe4g7+e7lIlOiAK6RvnJHeaMGwkKGNhkftFgEOsUnoFqbbHI/oEaEJEDqsBhURyTl4JCReWodOgjJ5UD8W4o3EPLHG1B3YBLSbWa7B98JnIAeQIuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+/MLiJg51SYPDQ0KmRrlhauci0+hgrMX8yUnq9LHGCo=;
+ b=k1aaplzHu2+1+BufTAI9qN9/231pi/dnZ20OBarFCKKHMNSENNCqn5c0AiWvkJ4Dom+LeMmDdOpglAhu23SsUPWazK4Ae2Yu/kTh85171MczzAeSuJ7lloa4HgjZ+egUoiMI7EPH0Lpz3beFBlpK78C74vFj/OZq3UyRneswgwwxT6fESDtL72/kTkITlVNwvXSFEcWqbLZWpIxf/wlEl+Z1tXaPdNtxnVMSQ0PmnHj+zdOx8w3b73WNX070Tr1HTaf0g/9UcFsxYCL1R8kUpLcqV2e8ei5dqmHoVVZNW/Mp6kZt7UyD3bzPFrKx8vuR5IE5Y6sNa3ngo+E7k21vsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+/MLiJg51SYPDQ0KmRrlhauci0+hgrMX8yUnq9LHGCo=;
+ b=HU/6Dqe/xb3ntUvwcmKJ8QCY0OZWslpSi5iD1Q3mX3srMvdcWYGIpM8ExPf2onPoavJa7EzGGmoNfIELDuQ/lzmmtfIKW8sKh8tKAgVb1+AceaGx7vt2oAWjZllDCrXJj8wfOtd9ObtKf5SBjH/8NVziLFdzkT7cc7BOAXYVTcIdlfV9pgN4ZaQpvTwQ2vJ8bdP8HpvBsncnubwaH9Vz2ncEgbdxCCoaeGv83opawwudvVDy6SX5Csy0Ncwg9eo9MtSL+QDzSJ/n1CRiqiG6q1UFLM+nCYPRZsqF5HTZEzkEq1DBcAITXqmsBhTeTprJ3agw0IyZJ/G6Q3wBf7IS7Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB8294.namprd12.prod.outlook.com (2603:10b6:8:f4::16) by
+ IA1PR12MB6412.namprd12.prod.outlook.com (2603:10b6:208:3af::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.13; Thu, 16 Oct
+ 2025 15:30:03 +0000
+Received: from DS0PR12MB8294.namprd12.prod.outlook.com
+ ([fe80::d6a9:5e83:27dc:a968]) by DS0PR12MB8294.namprd12.prod.outlook.com
+ ([fe80::d6a9:5e83:27dc:a968%7]) with mapi id 15.20.9228.012; Thu, 16 Oct 2025
+ 15:30:02 +0000
+From: Colin Ian King <coking@nvidia.com>
+To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
+	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+	Mark Brown <broonie@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	linux-aspeed@lists.ozlabs.org,
+	openbmc@lists.ozlabs.org,
+	linux-spi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] spi: aspeed: fix spelling mistake "triming" -> "trimming"
+Date: Thu, 16 Oct 2025 16:30:00 +0100
+Message-ID: <20251016153000.9142-1-coking@nvidia.com>
+X-Mailer: git-send-email 2.51.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0317.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:197::16) To DS0PR12MB8294.namprd12.prod.outlook.com
+ (2603:10b6:8:f4::16)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -82,268 +86,107 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.1
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB8294:EE_|IA1PR12MB6412:EE_
+X-MS-Office365-Filtering-Correlation-Id: a6fc90f6-9e7b-4d13-4833-08de0cc8e01e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?3yWIe2/i6rcYOtUrwBjcFQRtyYjoaNnbuilPd+JObjoi1kQ5/g1kmdfvcGWO?=
+ =?us-ascii?Q?c8uV31NKGNhFjOltv1gKtUclNiMz4sPuFW0Rs0L315KS7JCpFUJ5zpf1BbLK?=
+ =?us-ascii?Q?XDSu3wq0+ninPgk+8qu2ceJBmiC0LbTfAMBkZeinsA0DolnmwfqZwGXlv22O?=
+ =?us-ascii?Q?QY74ncR2UeeRPWwIj+afmAtfh1q0bMKjyPjoHn7YoQNdaVDYvYqbR1gRytYz?=
+ =?us-ascii?Q?a0uSteAb0lfBfo3CVA6y52BdhUswGoRgfxjR9nL41e79Md6AinXU8gLTGFYp?=
+ =?us-ascii?Q?lvmncm/USt9MQzVWRagTbZUUnGOF/AM0/q/NqZzI2y+OxyzvLBXJ2H0Flikz?=
+ =?us-ascii?Q?it6vjJdlBsU+fp/k87RWrJcT6M+SAMHc1r4W75eEJnDCHqSn6DmnU3axpPdn?=
+ =?us-ascii?Q?Jx0LmzDARwscgzWs2bTge1OlhkMDSnCW5nfSirvEuIQyD8eHIWYYWGTvbtma?=
+ =?us-ascii?Q?4tnQ7LfTU3wRcI4SsDa9SoXE0yuBjJFkbZQKe94guBImjpFJ1zDm602SWYrV?=
+ =?us-ascii?Q?f/VGBAv6ZGWQDQyAMH2VXicMCTkaHocAFmDYrmB5iLv847LOrEDQC4yFYA7g?=
+ =?us-ascii?Q?vB+pHxkzk+SF98XWxCv63k2wCboESjjdko9RO6gRozuzN00Z4V7JD1mzMroT?=
+ =?us-ascii?Q?dpggbFB0OwRZPfc+0Svmg+ObKjQK5p383Us3Yd06KpInXAA3/2Kl3A2T8A7E?=
+ =?us-ascii?Q?hgbVTbuPbyFPeiOWXDjgH1C9t6wuPmOUeWEJ35EvY5Rhp8RDLBipzAhRzhR+?=
+ =?us-ascii?Q?ynmssOV3CJjW6GrOu4f8n5Z4PbQHGwdVrcatfaG5prAN/h6M0Rlc8Ue/lRh+?=
+ =?us-ascii?Q?aiBas7EF7W93R4nRc1tNoOTEl5KVGVc33FGgTC3ivVcS+hFqekYvcbvNt3jX?=
+ =?us-ascii?Q?oBhs9cTJ5p1erjxa+q4SKTlt1GAyh5LNbqlGxD62NK1CZxcE+RakSUqErwdu?=
+ =?us-ascii?Q?ZSsJZw3dppUm+XrqTBXOZbZ/bP///Eo04RE7AM+wT37unkU5sh6DEyBvuAv2?=
+ =?us-ascii?Q?mrVth+SwMzkkLfMeLDBQy/jmbWUWbACqQh64dlY3EQJYPadRQxeUt7VDFq+P?=
+ =?us-ascii?Q?1DoVE9HijkXpLguJFkVFmo17lBZQ0MaBcVLU4FFpWK87gLmhNj22QCiTnLE4?=
+ =?us-ascii?Q?XYgJ5bWulrjPami1qWKf1Z2OBZ7Q3MrU51tq/GwqaBGRqAcNjlUfJyUnjWE/?=
+ =?us-ascii?Q?mJsdQ52gZvEI1L87vqy918kg4UyUvU3WUtbfIXeMiZdmOWo4MaY1rx/FRTk7?=
+ =?us-ascii?Q?/D/8HZJ45Ne69fcwNnbem/h8udNEEN/Gw4Jy+71ejDGbH/221o/oukNI3glP?=
+ =?us-ascii?Q?YabBpB+FHUL5oyqcRBIW1qi9aAmChkPxkf27bHKicty0BvYcakS6IGTnQ0Gj?=
+ =?us-ascii?Q?SuPrS7NS1RF+x++DoZlqro0DKKjrjjm2KZ6t9wPSPrHQfunNVqkaTBnB3ddq?=
+ =?us-ascii?Q?g9+LHowN+ZKYuHFuA7mQlervFrsiAXds?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB8294.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?NFS6LnUO+5YM2fK29+X4UQFddWjnvc+Qwu0UIpTdIcGOVhlqmZLKCRbVwXuj?=
+ =?us-ascii?Q?qf4avjmg0PxH2G9PpUmMxlofSoECTwxBg3MK2jJ4CNVHaFAYs6ol/8fpgdwK?=
+ =?us-ascii?Q?5Xf8T+wX+0ICGb2Xwe/0xxw+na2cAB0Y2GS3xOngjpheyMKYVChNlHSEk74N?=
+ =?us-ascii?Q?OwTeYhSGFmuEgFV7+1j4lEXU+8Cbr8zheyRREniXgQS3QIdbzfwhNLdjbJYO?=
+ =?us-ascii?Q?vuGUMRhAWgaO6CG5aQqDvLIviD4OmVHI5i9hhZ4bBvVfSNZ0OAB9yF4MLmIB?=
+ =?us-ascii?Q?Xi23Wy+6yPFowbsHvcDrKUuJNJL7Sb67YjO1jRuI3rsiP2zrjeUUFftclOOb?=
+ =?us-ascii?Q?K8CfNqfDKMt70aHqyZlsDZrG4TKfwNagF1yiN6UGdEU0kBp1zCss/8m06Sup?=
+ =?us-ascii?Q?lTPrb864PfBLIEEU6VN1iJPpHs/Aqer1+2FrYjuN8bauCKEBRtemKd5EMGWg?=
+ =?us-ascii?Q?KSgdp46F3q4FhH5Nn8n8xVCERhNio6JxS96hoWGEoRjv0QJkSyPk2P9vc5Z8?=
+ =?us-ascii?Q?L4OilWIHjk7G74psuFvj/G2ir4NeXzJPtCFaxukD/C2+0uJc/gbPd+bSaDYX?=
+ =?us-ascii?Q?7H/619KX9zg37p7EV8Qg++8HxwG6J+PCD1OOOfHI3tO4rN3fm4MSwSRoEdMY?=
+ =?us-ascii?Q?l/5mHrcU+fkzWJzeuEGiPDuQ7SfD8xxBN+g+G0MAaDze7yZU8nJR6BZJp8b3?=
+ =?us-ascii?Q?/jQRkRkZmq4di5WdAu2T/onys6JbC7i8Jhdghr9zaXRGMZbXbVq2+Pnnl2PC?=
+ =?us-ascii?Q?/vlyYFVAtQLr7toMv6wryaewER27jvdzkdCLx8J0ABGrHw2aP/Qe2ZnGkZ37?=
+ =?us-ascii?Q?43Dr+PClGKsWaGVG5V9r4ENMWWq1gO+HhY093TvBXuCsYb6TkYYtn3lOrcIf?=
+ =?us-ascii?Q?ltA+Uco0/KP+/LdvQVxTviK+0HLyMKVABtU3PzB0yRk8H8NpZdhFIunhIjYf?=
+ =?us-ascii?Q?NYKdvnGgWrWHR3e1n5EaU5qZndyWI4c+HRePf7Y/ugWM3lFFnqmNi1U+Ib87?=
+ =?us-ascii?Q?kFIpyp/k94IR8G0pLdkUwpeD7RiBhjHmG60V8HDcodkEgwWCMQ8eeB0E+o+O?=
+ =?us-ascii?Q?qQUbQgxd1IDlT4RINCAAYGKC99AmI152g9FCAso+0hcFQgBgaLXCZ1/jDPvP?=
+ =?us-ascii?Q?Iw+60uxsCGrFni6wlDR19aqDqTtdObFocycdaAYKbXCa1huj3/v3M86NM514?=
+ =?us-ascii?Q?JVjPjRRJ/+8QywZyP+YICuTH+FjhOdX1jEyVTctnPDsfZV3oG86AE/vy/e5G?=
+ =?us-ascii?Q?U107bZBtDAXjSg5wtBZjKkSPg0aCfnCpaoY792ZKaeKdbrZOAiR90Mpq6HtS?=
+ =?us-ascii?Q?hTCwsBoyswXpeDi6D5OX89sv9JVgJwB3OePRQmsE2xL6+GHyowV1nYujeeV0?=
+ =?us-ascii?Q?nw00Ej2gGRdd0BWx+n+vWWXA8p259LehkBgKiUnWIWM30BIZjsIPImf+3129?=
+ =?us-ascii?Q?4caK3R866oVIreKMNhCsD4B1OZXabldzH5FtkT1olHcV/04IcPM5cdmxXb57?=
+ =?us-ascii?Q?Z2R/vVqpHymGrdpzGTLrYrIar75ADA+xACBvi9/KA5Z82BNgiJVqq1SIN8cm?=
+ =?us-ascii?Q?mkX4axaqgy8uTxHSpbBodBm33OJKk/aHhe9P3mB9?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6fc90f6-9e7b-4d13-4833-08de0cc8e01e
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB8294.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 15:30:02.9064
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6HtCjBWgmNuhsSw0fZbDsUNDUVZktD4CL4RRN2vaM9EB7KzqMaD+ppIBo/WMqRappSjlkFqu2GqubMf86aLo8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6412
+X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
+	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	SPF_HELO_PASS,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Wed, 15 Oct 2025 14:36:15 +0800
-lirongqing <lirongqing@baidu.com> wrote:
+There is a spelling mistake in a dev_warn message. Fix it.
 
-> From: Li RongQing <lirongqing@baidu.com>
-> 
-> Currently, when 'hung_task_panic' is enabled, the kernel panics
-> immediately upon detecting the first hung task. However, some hung
-> tasks are transient and allow system recovery, while persistent hangs
-> should trigger a panic when accumulating beyond a threshold.
-> 
-> Extend the 'hung_task_panic' sysctl to accept a threshold value
-> specifying the number of hung tasks that must be detected before
-> triggering a kernel panic. This provides finer control for environments
-> where transient hangs may occur but persistent hangs should be fatal.
-> 
-> The sysctl now accepts:
-> - 0: don't panic (maintains original behavior)
-> - 1: panic on first hung task (maintains original behavior)
-> - N > 1: panic after N hung tasks are detected in a single scan
-> 
-> This maintains backward compatibility while providing flexibility for
-> different hang scenarios.
+Signed-off-by: Colin Ian King <coking@nvidia.com>
+---
+ drivers/spi/spi-aspeed-smc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Looks good to me.
-
-Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-
-Thank you,
-
-> 
-> Signed-off-by: Li RongQing <lirongqing@baidu.com>
-> Cc: Andrew Jeffery <andrew@codeconstruct.com.au>
-> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Florian Wesphal <fw@strlen.de>
-> Cc: Jakub Kacinski <kuba@kernel.org>
-> Cc: Jason A. Donenfeld <jason@zx2c4.com>
-> Cc: Joel Granados <joel.granados@kernel.org>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Kees Cook <kees@kernel.org>
-> Cc: Lance Yang <lance.yang@linux.dev>
-> Cc: Liam Howlett <liam.howlett@oracle.com>
-> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Cc: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-> Cc: "Paul E . McKenney" <paulmck@kernel.org>
-> Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> Cc: Petr Mladek <pmladek@suse.com>
-> Cc: Phil Auld <pauld@redhat.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Russell King <linux@armlinux.org.uk>
-> Cc: Shuah Khan <shuah@kernel.org>
-> Cc: Simon Horman <horms@kernel.org>
-> Cc: Stanislav Fomichev <sdf@fomichev.me>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> ---
-> diff with v3: comments modification, suggested by Lance, Masami, Randy and Petr
-> diff with v2: do not add a new sysctl, extend hung_task_panic, suggested by Kees Cook
-> 
->  Documentation/admin-guide/kernel-parameters.txt      | 20 +++++++++++++-------
->  Documentation/admin-guide/sysctl/kernel.rst          |  9 +++++----
->  arch/arm/configs/aspeed_g5_defconfig                 |  2 +-
->  kernel/configs/debug.config                          |  2 +-
->  kernel/hung_task.c                                   | 15 ++++++++++-----
->  lib/Kconfig.debug                                    |  9 +++++----
->  tools/testing/selftests/wireguard/qemu/kernel.config |  2 +-
->  7 files changed, 36 insertions(+), 23 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index a51ab46..492f0bc 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1992,14 +1992,20 @@
->  			the added memory block itself do not be affected.
->  
->  	hung_task_panic=
-> -			[KNL] Should the hung task detector generate panics.
-> -			Format: 0 | 1
-> +			[KNL] Number of hung tasks to trigger kernel panic.
-> +			Format: <int>
-> +
-> +			When set to a non-zero value, a kernel panic will be triggered if
-> +			the number of detected hung tasks reaches this value.
-> +
-> +			0: don't panic
-> +			1: panic immediately on first hung task
-> +			N: panic after N hung tasks are detected in a single scan
->  
-> -			A value of 1 instructs the kernel to panic when a
-> -			hung task is detected. The default value is controlled
-> -			by the CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time
-> -			option. The value selected by this boot parameter can
-> -			be changed later by the kernel.hung_task_panic sysctl.
-> +			The default value is controlled by the
-> +			CONFIG_BOOTPARAM_HUNG_TASK_PANIC build-time option. The value
-> +			selected by this boot parameter can be changed later by the
-> +			kernel.hung_task_panic sysctl.
->  
->  	hvc_iucv=	[S390]	Number of z/VM IUCV hypervisor console (HVC)
->  				terminal devices. Valid values: 0..8
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index f3ee807..0065a55 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -397,13 +397,14 @@ a hung task is detected.
->  hung_task_panic
->  ===============
->  
-> -Controls the kernel's behavior when a hung task is detected.
-> +When set to a non-zero value, a kernel panic will be triggered if the
-> +number of hung tasks found during a single scan reaches this value.
->  This file shows up if ``CONFIG_DETECT_HUNG_TASK`` is enabled.
->  
-> -= =================================================
-> += =======================================================
->  0 Continue operation. This is the default behavior.
-> -1 Panic immediately.
-> -= =================================================
-> +N Panic when N hung tasks are found during a single scan.
-> += =======================================================
->  
->  
->  hung_task_check_count
-> diff --git a/arch/arm/configs/aspeed_g5_defconfig b/arch/arm/configs/aspeed_g5_defconfig
-> index 61cee1e..c3b0d5f 100644
-> --- a/arch/arm/configs/aspeed_g5_defconfig
-> +++ b/arch/arm/configs/aspeed_g5_defconfig
-> @@ -308,7 +308,7 @@ CONFIG_PANIC_ON_OOPS=y
->  CONFIG_PANIC_TIMEOUT=-1
->  CONFIG_SOFTLOCKUP_DETECTOR=y
->  CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
-> -CONFIG_BOOTPARAM_HUNG_TASK_PANIC=y
-> +CONFIG_BOOTPARAM_HUNG_TASK_PANIC=1
->  CONFIG_WQ_WATCHDOG=y
->  # CONFIG_SCHED_DEBUG is not set
->  CONFIG_FUNCTION_TRACER=y
-> diff --git a/kernel/configs/debug.config b/kernel/configs/debug.config
-> index e81327d..9f6ab7d 100644
-> --- a/kernel/configs/debug.config
-> +++ b/kernel/configs/debug.config
-> @@ -83,7 +83,7 @@ CONFIG_SLUB_DEBUG_ON=y
->  #
->  # Debug Oops, Lockups and Hangs
->  #
-> -# CONFIG_BOOTPARAM_HUNG_TASK_PANIC is not set
-> +CONFIG_BOOTPARAM_HUNG_TASK_PANIC=0
->  # CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC is not set
->  CONFIG_DEBUG_ATOMIC_SLEEP=y
->  CONFIG_DETECT_HUNG_TASK=y
-> diff --git a/kernel/hung_task.c b/kernel/hung_task.c
-> index b2c1f14..84b4b04 100644
-> --- a/kernel/hung_task.c
-> +++ b/kernel/hung_task.c
-> @@ -81,7 +81,7 @@ static unsigned int __read_mostly sysctl_hung_task_all_cpu_backtrace;
->   * hung task is detected:
->   */
->  static unsigned int __read_mostly sysctl_hung_task_panic =
-> -	IS_ENABLED(CONFIG_BOOTPARAM_HUNG_TASK_PANIC);
-> +	CONFIG_BOOTPARAM_HUNG_TASK_PANIC;
->  
->  static int
->  hung_task_panic(struct notifier_block *this, unsigned long event, void *ptr)
-> @@ -218,8 +218,11 @@ static inline void debug_show_blocker(struct task_struct *task, unsigned long ti
->  }
->  #endif
->  
-> -static void check_hung_task(struct task_struct *t, unsigned long timeout)
-> +static void check_hung_task(struct task_struct *t, unsigned long timeout,
-> +		unsigned long prev_detect_count)
->  {
-> +	unsigned long total_hung_task;
-> +
->  	if (!task_is_hung(t, timeout))
->  		return;
->  
-> @@ -229,9 +232,10 @@ static void check_hung_task(struct task_struct *t, unsigned long timeout)
->  	 */
->  	sysctl_hung_task_detect_count++;
->  
-> +	total_hung_task = sysctl_hung_task_detect_count - prev_detect_count;
->  	trace_sched_process_hang(t);
->  
-> -	if (sysctl_hung_task_panic) {
-> +	if (sysctl_hung_task_panic && total_hung_task >= sysctl_hung_task_panic) {
->  		console_verbose();
->  		hung_task_show_lock = true;
->  		hung_task_call_panic = true;
-> @@ -300,6 +304,7 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
->  	int max_count = sysctl_hung_task_check_count;
->  	unsigned long last_break = jiffies;
->  	struct task_struct *g, *t;
-> +	unsigned long prev_detect_count = sysctl_hung_task_detect_count;
->  
->  	/*
->  	 * If the system crashed already then all bets are off,
-> @@ -320,7 +325,7 @@ static void check_hung_uninterruptible_tasks(unsigned long timeout)
->  			last_break = jiffies;
->  		}
->  
-> -		check_hung_task(t, timeout);
-> +		check_hung_task(t, timeout, prev_detect_count);
->  	}
->   unlock:
->  	rcu_read_unlock();
-> @@ -389,7 +394,7 @@ static const struct ctl_table hung_task_sysctls[] = {
->  		.mode		= 0644,
->  		.proc_handler	= proc_dointvec_minmax,
->  		.extra1		= SYSCTL_ZERO,
-> -		.extra2		= SYSCTL_ONE,
-> +		.extra2		= SYSCTL_INT_MAX,
->  	},
->  	{
->  		.procname	= "hung_task_check_count",
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 3034e294..3976c90 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -1258,12 +1258,13 @@ config DEFAULT_HUNG_TASK_TIMEOUT
->  	  Keeping the default should be fine in most cases.
->  
->  config BOOTPARAM_HUNG_TASK_PANIC
-> -	bool "Panic (Reboot) On Hung Tasks"
-> +	int "Number of hung tasks to trigger kernel panic"
->  	depends on DETECT_HUNG_TASK
-> +	default 0
->  	help
-> -	  Say Y here to enable the kernel to panic on "hung tasks",
-> -	  which are bugs that cause the kernel to leave a task stuck
-> -	  in uninterruptible "D" state.
-> +	  When set to a non-zero value, a kernel panic will be triggered
-> +	  if the number of hung tasks found during a single scan reaches
-> +	  this value.
->  
->  	  The panic can be used in combination with panic_timeout,
->  	  to cause the system to reboot automatically after a
-> diff --git a/tools/testing/selftests/wireguard/qemu/kernel.config b/tools/testing/selftests/wireguard/qemu/kernel.config
-> index 936b18b..0504c11 100644
-> --- a/tools/testing/selftests/wireguard/qemu/kernel.config
-> +++ b/tools/testing/selftests/wireguard/qemu/kernel.config
-> @@ -81,7 +81,7 @@ CONFIG_WQ_WATCHDOG=y
->  CONFIG_DETECT_HUNG_TASK=y
->  CONFIG_BOOTPARAM_HARDLOCKUP_PANIC=y
->  CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC=y
-> -CONFIG_BOOTPARAM_HUNG_TASK_PANIC=y
-> +CONFIG_BOOTPARAM_HUNG_TASK_PANIC=1
->  CONFIG_PANIC_TIMEOUT=-1
->  CONFIG_STACKTRACE=y
->  CONFIG_EARLY_PRINTK=y
-> -- 
-> 2.9.4
-> 
-
-
+diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
+index 0c3de371fd39..f3a7189afd51 100644
+--- a/drivers/spi/spi-aspeed-smc.c
++++ b/drivers/spi/spi-aspeed-smc.c
+@@ -539,7 +539,7 @@ static int aspeed_spi_trim_window_size(struct aspeed_spi *aspi)
+ 	} while (total_sz > aspi->ahb_window_size);
+ 
+ 	if (trimmed) {
+-		dev_warn(aspi->dev, "Window size after triming:\n");
++		dev_warn(aspi->dev, "Window size after trimming:\n");
+ 		for (cs = 0; cs < aspi->data->max_cs; cs++) {
+ 			dev_warn(aspi->dev, "CE%d: 0x%08x\n",
+ 				 cs, chips[cs].ahb_window_size);
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+2.51.0
+
 
