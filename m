@@ -1,78 +1,45 @@
-Return-Path: <linux-aspeed+bounces-2476-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2478-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE57BE573F
-	for <lists+linux-aspeed@lfdr.de>; Thu, 16 Oct 2025 22:50:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2C6BE5B18
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Oct 2025 00:34:01 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cng8B13JWz30Vl;
-	Fri, 17 Oct 2025 07:50:34 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cnjRL5fWqz3cYr;
+	Fri, 17 Oct 2025 09:33:50 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.234.252.31
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760647834;
-	cv=none; b=BgA74D8higFKVUc/LYKcrpoqELZ8+5JdjkBAtq/lmUt1wdl24VEok0Y8yFu0F1O6snUyyBFDSU5ssUWgkDRxX04tGF625t9TXtOo80DS/f0zm7Yk8U0AakeHw5AQpSWA4Nb7cNaYNCZ3U0aMS/JJEHx3p9IckQO4Ty6+4RzIWuZlgB6JxInCCxVqD5TZKJ6ASch77iTYPThlgfJOTnfw/gr/9s6EGpENERs3gskdREJkxCBb2sGVnGJZ54odKbCVT3w2VgmyyD98kLBf+Se5tQXsA0b8ZVxUwCyk0fdXbHr81KeXad5WrISYqAe+LVxPH56q6E/+PFxt+fZqUIGR/g==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=91.218.175.172
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760591289;
+	cv=none; b=dxh//Q5sM+WdnJhaKfd0DLEFXUGqNf1nTFT9iXVo6JC+UFp4kQfPShMlzVuanBOo+9NtAzF5GmvmrRanuuXuvyarnLnCWynI70tVklDnXHo7VBe72ZV224ie4y979OmjTa6ETYuhX/SfHTw5hj7qTTA7qcpLDdFWPx8B8nilOEaOrgKx+JA3+xaRL986cSvhfOuxrYoaIbgZAAa1q0SsIIrs/osdeOLWulM6Zwduut4Rp0a2QYjcGC/JmY5vHAFCqsZPBECBTLYJIuzRLbIEbDB6QwjzSmypsDt3RNzMYV3wJPpBKw9bmcL0vTt/5pRX0bX2FOAP+FUH6/QSqzulrA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1760647834; c=relaxed/relaxed;
-	bh=uzI4Ut12pJAKPtvzuGciHzIkIU66wAwYHAzNsh79YvE=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=FQcGRt+LuBthTj+FDdTMPniCtYClfC2nSI/0HdoXcKuGlKXpcoz5DmnhrNBEwY9vjCVgYDWSXdSZ20GLZjslDMqT6V8DQfLIS9Go/Az0YQVMA5UbOabZbmFA8MmJudBaRdCv/9yFgk6g25eCxsgAk/qaGKg9w72v+utcAIQ2uQLrNyJQKVq9pkZU878qeVhgYplSryLZHIS/1WvZ+khrcbFOZjGm/K70IxmiI0IW+sv0OVvbJ1wiW2+iAqcSUWsEjP8p9Hs1f4DKL4fQYDe2BJIRKV0pVR0FN9mWUGbpMhJ86gl4Lve3SV3H3Mv6aajHvsFj+az/0pYepxR5EPxHzw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=k+Lz5rZB; dkim-atps=neutral; spf=pass (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=akpm@linux-foundation.org; receiver=lists.ozlabs.org) smtp.mailfrom=linux-foundation.org
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+	t=1760591289; c=relaxed/relaxed;
+	bh=SCAq3Tpy90yiw+VRqp/jzmhdqwWtKZRonlnTXaNao8c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GsoWlN3Tbg5tndTfESBo+EUbygZiVmadoRs0zqiWeV69bjaM2kAcftYuieiBAgKMX8F3284Vc6Z7ZqzeaJF3SIAKCrSyHt/RQ0q5fFoUqW9pgYtlYjHfOSOjUQ4NafcLMY3oUbrUENdmgHk1qSxs4o11qHwF7wmkyUWT5m5KGrqlWf80DgwjAwkFrEw7AjvfHtiGX5juQQ6vKEeiC295x4bVlKMCeMtrlJDns7vJav2udFXT9yie97yVNDNhIfVZDvpLTvVfEyFQkSGalq9kAYxrGzaXSnqzVfTzslIjtEAlRyv41WPsbWQTc2IXKIDnT3YEhI6OmsFGrO3H6NxYwg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.dev; dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=geBJxByL; dkim-atps=neutral; spf=pass (client-ip=91.218.175.172; helo=out-172.mta0.migadu.com; envelope-from=lance.yang@linux.dev; receiver=lists.ozlabs.org) smtp.mailfrom=linux.dev
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=k+Lz5rZB;
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=geBJxByL;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux-foundation.org (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=akpm@linux-foundation.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.dev (client-ip=91.218.175.172; helo=out-172.mta0.migadu.com; envelope-from=lance.yang@linux.dev; receiver=lists.ozlabs.org)
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cng8919byz2yGM
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Oct 2025 07:50:32 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id D12DD44929;
-	Thu, 16 Oct 2025 20:50:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBA14C4CEF1;
-	Thu, 16 Oct 2025 20:50:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1760647829;
-	bh=ITlIzUAUo5pssT1lw+5f7WFRnL9FQktvSQ7YkS/Swf4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=k+Lz5rZBobuGND9FUYtJH8NH5vh9PWxwRUoTE04ieCY9L1ZYOEv6KSowX27XvzdvQ
-	 Z3RDm/K4iKRxg0IJDOOqW0Ghs7z6YfksWl1db3oe8w7t5je78shZgX1cFiARrxlpS/
-	 ANZCwotNwcmuyftujQphlq2yleXvWJEdvZcSQEcI=
-Date: Thu, 16 Oct 2025 13:50:28 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Li,Rongqing" <lirongqing@baidu.com>
-Cc: Lance Yang <lance.yang@linux.dev>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
- <linux-aspeed@lists.ozlabs.org>, "wireguard@lists.zx2c4.com"
- <wireguard@lists.zx2c4.com>, "netdev@vger.kernel.org"
- <netdev@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
- <linux-kselftest@vger.kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Anshuman Khandual
- <anshuman.khandual@arm.com>, Arnd Bergmann <arnd@arndb.de>, David
- Hildenbrand <david@redhat.com>, Florian Wesphal <fw@strlen.de>, Jakub
- Kacinski <kuba@kernel.org>, "Jason A . Donenfeld" <jason@zx2c4.com>, Joel
- Granados <joel.granados@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>, Liam Howlett
- <liam.howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Paul E . McKenney" <paulmck@kernel.org>, Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>, Petr Mladek <pmladek@suse.com>,
- "Phil Auld" <pauld@redhat.com>, Randy Dunlap <rdunlap@infradead.org>,
- Russell King <linux@armlinux.org.uk>, Shuah Khan <shuah@kernel.org>, Simon
- Horman <horms@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Steven
- Rostedt <rostedt@goodmis.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: Re: =?UTF-8?Q?[=E5=A4=96=E9=83=A8=E9=82=AE=E4=BB=B6]?= Re:
- [PATCH][v4] hung_task: Panic when there are more than N hung tasks at the
- same time
-Message-Id: <20251016135028.aea65e20b0bc7efee11572f1@linux-foundation.org>
-In-Reply-To: <bb443552b6db40548a4fae98d1f63c80@baidu.com>
-References: <20251015063615.2632-1-lirongqing@baidu.com>
-	<4db3bd26-1f74-4096-84fd-f652ec9a4d27@linux.dev>
-	<bb443552b6db40548a4fae98d1f63c80@baidu.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cnGDj5mhDz2yqq
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 16 Oct 2025 16:08:04 +1100 (AEDT)
+Message-ID: <4db3bd26-1f74-4096-84fd-f652ec9a4d27@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1760591263;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SCAq3Tpy90yiw+VRqp/jzmhdqwWtKZRonlnTXaNao8c=;
+	b=geBJxByLcvWBiujKOiaOahCqNyndVoWuu2mZ45TF8xE284+jE46+6ntqZCrEJOY3tjLJtS
+	CA04TcSdtSgMTu+1LyL0JCiZYt8KyHlnhHzez+oDkOoqTGathzLcXzzn8tcestdiOMA31r
+	Wv+r/T6z/ByuejbAoTutxC4uLBsXkfs=
+Date: Thu, 16 Oct 2025 13:07:23 +0800
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -85,23 +52,128 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+Subject: Re: [PATCH][v4] hung_task: Panic when there are more than N hung
+ tasks at the same time
+Content-Language: en-US
+To: lirongqing <lirongqing@baidu.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, wireguard@lists.zx2c4.com,
+ netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, Arnd Bergmann
+ <arnd@arndb.de>, David Hildenbrand <david@redhat.com>,
+ Florian Wesphal <fw@strlen.de>, Jakub Kacinski <kuba@kernel.org>,
+ "Jason A . Donenfeld" <jason@zx2c4.com>,
+ Joel Granados <joel.granados@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
+ Liam Howlett <liam.howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Paul E . McKenney" <paulmck@kernel.org>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Petr Mladek <pmladek@suse.com>, Phil Auld <pauld@redhat.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Russell King <linux@armlinux.org.uk>,
+ Shuah Khan <shuah@kernel.org>, Simon Horman <horms@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-kernel@vger.kernel.org
+References: <20251015063615.2632-1-lirongqing@baidu.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <20251015063615.2632-1-lirongqing@baidu.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS
+X-Migadu-Flow: FLOW_OUT
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Thu, 16 Oct 2025 05:57:34 +0000 "Li,Rongqing" <lirongqing@baidu.com> wrote:
+LGTM. It works as expected, thanks!
 
-> > If you agree, likely no need to resend - Andrew could pick it up directly when
-> > applying :)
-> > 
-> 
-> This is better;
-> 
-> Andrew, could you pick it up directly
+On 2025/10/15 14:36, lirongqing wrote:
+> From: Li RongQing <lirongqing@baidu.com>
 
-No problems, thanks.
+For the commit message, I'd suggest the following for better clarity:
+
+```
+The hung_task_panic sysctl is currently a blunt instrument: it's all
+or nothing.
+
+Panicking on a single hung task can be an overreaction to a transient
+glitch. A more reliable indicator of a systemic problem is when multiple
+tasks hang simultaneously.
+
+Extend hung_task_panic to accept an integer threshold, allowing the kernel
+to panic only when N hung tasks are detected in a single scan. This
+provides finer control to distinguish between isolated incidents and
+system-wide failures.
+
+The accepted values are:
+- 0: Don't panic (unchanged)
+- 1: Panic on the first hung task (unchanged)
+- N > 1: Panic after N hung tasks are detected in a single scan
+
+The original behavior is preserved for values 0 and 1, maintaining full
+backward compatibility.
+```
+
+If you agree, likely no need to resend - Andrew could pick it up
+directly when applying :)
+
+> 
+> Currently, when 'hung_task_panic' is enabled, the kernel panics
+> immediately upon detecting the first hung task. However, some hung
+> tasks are transient and allow system recovery, while persistent hangs
+> should trigger a panic when accumulating beyond a threshold.
+> 
+> Extend the 'hung_task_panic' sysctl to accept a threshold value
+> specifying the number of hung tasks that must be detected before
+> triggering a kernel panic. This provides finer control for environments
+> where transient hangs may occur but persistent hangs should be fatal.
+> 
+> The sysctl now accepts:
+> - 0: don't panic (maintains original behavior)
+> - 1: panic on first hung task (maintains original behavior)
+> - N > 1: panic after N hung tasks are detected in a single scan
+> 
+> This maintains backward compatibility while providing flexibility for
+> different hang scenarios.
+> 
+> Signed-off-by: Li RongQing <lirongqing@baidu.com>
+> Cc: Andrew Jeffery <andrew@codeconstruct.com.au>
+> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Florian Wesphal <fw@strlen.de>
+> Cc: Jakub Kacinski <kuba@kernel.org>
+> Cc: Jason A. Donenfeld <jason@zx2c4.com>
+> Cc: Joel Granados <joel.granados@kernel.org>
+> Cc: Joel Stanley <joel@jms.id.au>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: Lance Yang <lance.yang@linux.dev>
+> Cc: Liam Howlett <liam.howlett@oracle.com>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+> Cc: "Paul E . McKenney" <paulmck@kernel.org>
+> Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> Cc: Petr Mladek <pmladek@suse.com>
+> Cc: Phil Auld <pauld@redhat.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Shuah Khan <shuah@kernel.org>
+> Cc: Simon Horman <horms@kernel.org>
+> Cc: Stanislav Fomichev <sdf@fomichev.me>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> ---
+
+So:
+
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
+Tested-by: Lance Yang <lance.yang@linux.dev>
+
+Cheers,
+Lance
 
