@@ -1,85 +1,80 @@
-Return-Path: <linux-aspeed+bounces-2505-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2507-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CB54BEA70B
-	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Oct 2025 18:04:53 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8907BEB187
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Oct 2025 19:39:45 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cp8lx5Rh4z3cZp;
-	Sat, 18 Oct 2025 03:04:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cpBsV4BwYz3cYG;
+	Sat, 18 Oct 2025 04:39:42 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::434"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760717085;
-	cv=none; b=WVag4xGphDEckQsY8K2xnJXZ3Mybr67jYU4AlZuRsfVsksff1inpRGq40iFSAKhaPXFhJy9ffZQKXBlX8HmyK9gB0+D4AwJYc6ytxowQmMwrYMeoNAUxXeYbbryCF7iHFoV/kyknqVU8peJ49/60hG76nIRKA6mq8l/9YyS6vIT/dCdlZWW4YJC4XiVTrvXRfATgR2P+KSasdEDwi/IBqqdAb+4YOY4MqzAkEsRMw3SUb7+8UbIjLQgQG4ggWjrz3xQ+gXvck7N7HEpcQXd2HTf3Yxjda08LEuKkq71TWNrN7NyZAsyhd53Yaz9K9htbjekHUnQQsDnRE13foiG0wA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760722782;
+	cv=none; b=UzrmmGaOaWMN596q3p0vVCMkb/6W5ZF0xZE64pVYTN4vlLMiSstZUX/KUK7QaoR9qwiEimqLvA5kqpRVopuP7LLlKlqjS/0TrR+NLVLXvNSajvGFnEsWbVDz+VCXt44SZMj+ffmwcQKb7uavU6VA+wefwIdx958EM9wqq49JAsD1toYpi0spctNO+fZHxwP45ATfk81ahHHT8D03tU46FGnF9453kU7iGjAPnyCxfj1RV7b8SEow2NKfSYtLoAbeK5UCqOv99HgOZNtNrCa+fXyCK4SHpzDAEJ4rrEvwGnu2qahDjgEs1Yo10esLjNYEnC4HEw0eVVbLaNybkbbakw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1760717085; c=relaxed/relaxed;
-	bh=950Q3osvXfNrhNZDR0R7N+wo2IA1yL5cHorDQTcIxKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gNR64szxKK3lwD8QIhdF9Fc2jffwCGtQtJjT2ccS2tWArW0eMXI37cKHFiLaJvwilinijZvjjvw4XDqVvbLwCNm1DWRPwAPscVuqnmjHWMwo6szc5xE/H3YlhngXk8JlVMtKK5oxwLJJB+Iavx6HBnHYdDxJv9KNhRUxuRasaxoi8roBmoZEWUjveRFtbC1XmuXbl2V8/8CnShsvtZdREMpFcx3tOQHGFuqr+VNXvZGIsv7ujHUgiDFeoeHgtnJM4/GmNp9t91dJ5pHfDtzQ5gJtpdS4N/xBt3mwumWMgdHH0NZWaRMd2eV0BRXFciJsi9bEccVmesCfqdi8O93RUw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org; dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=bJjB5iZg; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::434; helo=mail-wr1-x434.google.com; envelope-from=dan.carpenter@linaro.org; receiver=lists.ozlabs.org) smtp.mailfrom=linaro.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+	t=1760722782; c=relaxed/relaxed;
+	bh=Q1DqJ+UvWcL6yl4Znr/vtGBkqWTaoUBpv2+WrnPtteY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bxmXKhHL9Qcq6U5InlTOqpYswxRiAwSChLaEKXF48pOOaeM0RgMv137SJoNq6Jab6GK6eR+RKoMQT0o/2G5RnRxKLeyriykDysc7Ine1Z3EdX9LVinDEyfunH2Lta+Efl9S+wEuESEIJx1IH1d7SdBrW79N+GP4jGwHwB3zov2Lf5oF8ycjIngjb91fn62MV3LVE/Vaip1s36sJdYn1CF2AafP2K1hDywy7ebNqv9V+xPxtleYyqrLupIwP0Tvj0+dZ21o169iA60s7nO42/2pxYrHDU+Emo9eaPf8NO79fhzia+fg2Go3qVvp6Sfcynsi6Nuqe94Zr92g5D+xdZkA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NT0kk5AT; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=kuba@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=bJjB5iZg;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NT0kk5AT;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::434; helo=mail-wr1-x434.google.com; envelope-from=dan.carpenter@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=kuba@kernel.org; receiver=lists.ozlabs.org)
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cp8lw2mlKz3cYR
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 18 Oct 2025 03:04:43 +1100 (AEDT)
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-3ece1102998so1626002f8f.2
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Oct 2025 09:04:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760717079; x=1761321879; darn=lists.ozlabs.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=950Q3osvXfNrhNZDR0R7N+wo2IA1yL5cHorDQTcIxKM=;
-        b=bJjB5iZgOJweep/aSjXru1beh3bMdFhoc3YadB7OHWFc2ZUDURrkgJijGEsI9/zaG7
-         7vsk8L9rcDvvDcl1zbkDsngW8irzHuS7/GqxXPwZlMxyBU8cyeGp1a3c2B2bGFdjPdvQ
-         Y32koRqzQLY77kqxU+zKsvNsUoU0xJY0eDpzBYC4G4ScqxkAd1q85lTCJaYU6UhJiBr2
-         tI1s8Bi0QHNhjkvm7mH8V0mniU7HwEYW6+q2rTH7a+ZduRTA8PVW5Jv+va+cB1c6TR1V
-         +2GvXHXpGHPH1yeGv/xc0afc7UGKsTQQFUV4q406wCurkwORKrX12nXjlFqV9+UQUK/j
-         FoFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760717079; x=1761321879;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=950Q3osvXfNrhNZDR0R7N+wo2IA1yL5cHorDQTcIxKM=;
-        b=J86E+1p4FKMgpKQRqkM8H4zlE5PkzvxuxVcbe8SOpKKbvmoLzDdYhoFededrut5ADG
-         hRYXA9d2PW/yov1JIutcQON76tFumFU3Ic8gWe0QQHQy2hAH+L6GZwVNtK65L3DOvvWD
-         JCxCASpLThTFD0gQI5pt+q5x1xPG7bfjm63JlyxZaCaEiSkTBWzBCIWL4nmOj019l3N8
-         73e5nXz2sNOKqcQ9PPjqqbOVtjaanzNf3o+k06H1FCsmQyCFtTAlxQO44cKrN11MLc67
-         rAN9b+ugrJ1jfc0p3DqGwUxPq0HEM5y7wAGtLWe4xtNs6mYAj0KWj8rs4zeGjCxc7gNW
-         i/XA==
-X-Forwarded-Encrypted: i=1; AJvYcCWMWxdzgdNcpXRRu/XH5zyI+ey4mFYmODk4vo4YElNISg5G8XdIGALgMDm40g1Rsgc7hRD/op+2vMQHmBU=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yy4zAV4tPAD7eMeEC5hzwX285QFaNqfGV53kZkpEtcA5E1wc/PB
-	AGpwvoxyjkZsayf476wyleS0+O4JD8DcpDy8AczLza7D07En79MJDJPeoDVV5USS6WQ=
-X-Gm-Gg: ASbGnctpIaaSwXdPqiUaCvPhxSdBO9kD86+/G2o1o4PFrEf+cHUYwwNy0uRgmJETpqm
-	xhTsEbF1J27vvUYDVGWV5bPP228kOMxoh9CeZRLcFHBl3vkSEw81vNNdsw0ySzsU9oOiDBmmiuN
-	Erci1ZZjk3c5MqvNDuC7FeV90VtU6wI0wapePA7zwSNoIFhq27fDob6O9RW6zzwJb7OYCBxWjGA
-	Ic4R7zS3Zbk9XXMEm7Q7FuUI7v3yR6oIVnypv8qUqovk7EOt8F8xef4XSyqVQjU7hPV7xgQR1lE
-	telehsRwWYIU9ohY0poTZWmdPuC73zCikHqmhR65jAD0emHviKaBAYKY3N9V3nwHrAgrvUwpi71
-	1/0h/74I4XMWx2CU/DKLAKQMGhmLIuqJYQ0oCFFAlFmY7qbIClw3TL49VCiEQ3qiibt+QkTX0OV
-	SXQgaMRg==
-X-Google-Smtp-Source: AGHT+IEqaf8aEdQodsl+JMqmg15To8fNumQ1pcFMtGOlWgs5DrBRbhx4c+4oaiAKATvKgQ4yjwGtCA==
-X-Received: by 2002:a05:6000:26c5:b0:426:d72e:9924 with SMTP id ffacd0b85a97d-42704dd6cf9mr3110630f8f.51.1760717078511;
-        Fri, 17 Oct 2025 09:04:38 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-427ea5a1056sm544f8f.2.2025.10.17.09.04.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 09:04:38 -0700 (PDT)
-Date: Fri, 17 Oct 2025 19:04:34 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-Cc: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
-	Mark Brown <broonie@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-	linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH next] spi: aspeed: Fix an IS_ERR() vs NULL bug in probe()
-Message-ID: <aPJpEnfK31pHz8_w@stanley.mountain>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cpBsT3zgNz3bvd
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 18 Oct 2025 04:39:41 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 1DD0D435DD;
+	Fri, 17 Oct 2025 17:39:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD47C4CEE7;
+	Fri, 17 Oct 2025 17:39:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760722779;
+	bh=RLpFlKj0oX6F2FHmvB6odL7qjqFC0HmExWxoVhIdU1A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NT0kk5AT8tFG1ex9SS8EUtqaH3MN+k/hRFCGSaqU55hscTm9YrecMaHll0u79zNw6
+	 sIBNy7OA9YnQH8zcWJvaMly7J6UxVErlApIMtWqqtxuCay5hHv3uxPVR74IQZH7Eo7
+	 POgxmUZCozpR5oUMwioI8150ALcQrPO9kadHLQDIRlSHNVEt+zPMCklNd1E0+Dvk0M
+	 FLUc8epgBZ5fXzgVrxCcc2oNTqFhlAuQ56P5auW6pS+BXbjn0jHuPDkH8FdSsJSL4W
+	 uFicrrFA5Ph3zrKxR/crhBXdSf97NMqd7lwWACFyVrsYLycFeAVJesTkco7Sb8QbzJ
+	 h9rvU97EVVwQg==
+Date: Fri, 17 Oct 2025 10:39:36 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre
+ Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Miller
+ <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
+ Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>, Jonathan Cameron
+ <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Jacky Huang
+ <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, Yury Norov
+ <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Johannes
+ Berg <johannes@sipsolutions.net>, Alex Elder <elder@ieee.org>, David Laight
+ <david.laight.linux@gmail.com>, Vincent Mailhol
+ <mailhol.vincent@wanadoo.fr>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, qat-linux@intel.com,
+ linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jonathan Cameron
+ <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH treewide v3 2/4] bitfield: Add non-constant
+ field_{prep,get}() helpers
+Message-ID: <20251017103936.49fbafdd@kernel.org>
+In-Reply-To: <CAMuHMdVS5KmVkv_pmc+R-EXik-Z1_7nuiHM=vm1Cu8v91wmLBQ@mail.gmail.com>
+References: <cover.1739540679.git.geert+renesas@glider.be>
+	<2d30e5ffe70ce35f952b7d497d2959391fbf0580.1739540679.git.geert+renesas@glider.be>
+	<20251017081912.2ad26705@kernel.org>
+	<CAMuHMdVS5KmVkv_pmc+R-EXik-Z1_7nuiHM=vm1Cu8v91wmLBQ@mail.gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -93,40 +88,42 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-The platform_get_resource() function doesn't return error pointers, it
-returns NULL on error.  Update the error checking to match.
+On Fri, 17 Oct 2025 18:00:41 +0200 Geert Uytterhoeven wrote:
+> > +/**
+> > + * u32_encode_bits() - prepare a u32 bitfield element (non-const)
+> > + * @v: value to put in the field
+> > + * @field: shifted mask defining the field's length and position
+> > + *
+> > + * Equivalent of FIELD_PREP() for u32, field does not have to be constant.
+> > + *
+> > + * Note that the helper is available for other field widths (generated below).
+> > + */
+> > +static __always_inline __u32 u32_encode_bits(u32 v, u32 field)
+> > +{
+> > +       if (__builtin_constant_p(v) && (v & ~field_mask(field)))
+> > +               __field_overflow();
+> > +       return ((v & field_mask(field)) * field_multiplier(field));  
+> 
+> Unfortunately gcc emits actual divisions or __*div*() calls, and
+> multiplications in the non-constant case.
+> 
+> So I don't think this is suitable as-is.
 
-Fixes: 64d87ccfae33 ("spi: aspeed: Only map necessary address window region")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/spi/spi-aspeed-smc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Sorry I missed or forgot that you replied :(
 
-diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-index 0c3de371fd39..822df89cb787 100644
---- a/drivers/spi/spi-aspeed-smc.c
-+++ b/drivers/spi/spi-aspeed-smc.c
-@@ -865,9 +865,9 @@ static int aspeed_spi_probe(struct platform_device *pdev)
- 		return PTR_ERR(aspi->regs);
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
--	if (IS_ERR(res)) {
-+	if (!res) {
- 		dev_err(dev, "missing AHB memory\n");
--		return PTR_ERR(res);
-+		return -EINVAL;
- 	}
- 
- 	aspi->ahb_window_size = resource_size(res);
--- 
-2.51.0
+The inline helpers exist already have have a lot of uses. If __ffs is
+more optimal then why not make existing helpers use it as well? 
+It'd be far more beneficial:
 
+$ git grep u32_encode_bits | wc -l
+391
+
+Sorry if I'm being slow..
 
