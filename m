@@ -1,91 +1,120 @@
-Return-Path: <linux-aspeed+bounces-2511-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2513-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B06BEC08D
-	for <lists+linux-aspeed@lfdr.de>; Sat, 18 Oct 2025 01:44:17 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5029CBEC0AB
+	for <lists+linux-aspeed@lfdr.de>; Sat, 18 Oct 2025 01:51:10 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cpLy66FNyz3cZn;
-	Sat, 18 Oct 2025 10:44:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cpM6406hJz3cZ0;
+	Sat, 18 Oct 2025 10:51:08 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::52d"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760708784;
-	cv=none; b=a0NQp02gkiR6t/Dd76drmAQWcH5qHaiG82byh30j17Hsrzihzg1fDWIPxtXktYHI8uBacQ0MF/+2HgkNv+WC2rnf/eIh0o7XHybOfCN15HJjBdf46+F7E34PY5l6a83IGpqhBluV4RA4IJU10TKkGSu9ofKgnyynel9SkY9/AUSsxQLxHpBQVvdl5RPEJcdU5eQMCdLRjqoD3yaIVEErGoWN+RmYkv0dwmlQPNwObSFl3mJA9M63sVZ+iE7DT4r0q2inAuOA9qcEbq8FekvXjpkoCpn/z6SE6cqC1L21aewQ/sQgPg01lkhw6B/7TuxY5PBSzvbX4LJBKj4OmfKYkw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::f32"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760719039;
+	cv=none; b=kbWla6b+/j3BEeXXrddSkDYgaeX67fH2R/iPyoCff2B5V8Yse4mDnRoon1/gsgcqAJJVD6YHv3Jr7SZ6sqfpsQGkTzGtG7GoGi6sYmw0VYfN4uGcREruRiW9m7xD/Y/yr+nBoo6/WTLR25YGAdtx4Zdkc8WSOWZApwTVKvYIHngE/Ukp9eY485LUZjJ3jUVUPOV+f+KokZ6o1WXHzv88QuRz+HMwg80UjBNO1lH2lL1E6OJwQ8wp5VPv2ewSJXawFq1wDzGj7fZ5GslQAJB8SRvAE7wTiw1bsmBhFGJQGE0lwkWe1BhI4TlyeUUcWPCWN/DBaOzWBGBGg4xLxny5hw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1760708784; c=relaxed/relaxed;
-	bh=F8wxeZ73zfPxZDqjOffcWW0zKOqaQGOLDGU9q6V4WVw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hv9W8AW1z3WSPma8X9T/Aq20QLTzYicIuc7Mf2n93nG1bPQiSAybWzLNNNmumbNBDak8OEAwObUZ5acYjmvyV5l5Osb0q7RMqFtHIbPPONJbD5+j2Q+mRLSranDqJhrm1Kkz69KrwGn5c+OAnHq31L9AgNFH7Ri77aEd7n8edKRU7jPzyZYzL55IXJaFF7MfQ0fTzC8R05EERjwWxLKeu2g2fsdx06Fz5HSoiuSsF+V9W5FNMsKrOLGrlrsdDhStS91pVjFFmMdSzihAg7gYGp5jsr9uEs3aL+gxXAPq905EeqBtHDJN374+isnwLP//gBqKKeufivnNAKBEl6cHRA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Hfr7GIk1; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::52d; helo=mail-pg1-x52d.google.com; envelope-from=d486250@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+	t=1760719039; c=relaxed/relaxed;
+	bh=lZqTIsgME323ZkO31yyQWUQxJPAMGciP0ot1SYinmXM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JYaUsrDq9RtCtJp5VYVpKVuWMuYyAmEVcID3lHg98GYh666X030PH1GSVfBaHz7Rf9ZTtN/7Jlufyyz97wftaBZF0IV5KwRawNkhLDG5K5bhUcUM5Sa8WkO3lTCLTsmYHFmb508HNWvZv+/jwm4zGB4fX0FFl4ODfBnwTjQnc+kXpw2TeJS3pAh2bKvk38AjbPyfYjEiWRzRicFuz+AoiV15e6zqKSI917mMyeK+9aqZHiOSe77eEoyWMpg5mwiRmwo0OhGyJMU8rQSs+ekXkeV+A3RZXZlPcFl42tIM3Ghf7G/nRxllcMzYjmCSMhovvn+rRfwNpS1iT8bakWqCAw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=m7SdnzFA; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::f32; helo=mail-qv1-xf32.google.com; envelope-from=yury.norov@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Hfr7GIk1;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=m7SdnzFA;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::52d; helo=mail-pg1-x52d.google.com; envelope-from=d486250@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::f32; helo=mail-qv1-xf32.google.com; envelope-from=yury.norov@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cp5hH4TW9z3cYx
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 18 Oct 2025 00:46:23 +1100 (AEDT)
-Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-b6a0a7f3a47so1753849a12.1
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Oct 2025 06:46:23 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cp9TT2fTTz3cYP
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 18 Oct 2025 03:37:16 +1100 (AEDT)
+Received: by mail-qv1-xf32.google.com with SMTP id 6a1803df08f44-81efcad9c90so38179986d6.0
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Oct 2025 09:37:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760708781; x=1761313581; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=F8wxeZ73zfPxZDqjOffcWW0zKOqaQGOLDGU9q6V4WVw=;
-        b=Hfr7GIk1Fz5ut03iQhS20gk/VUN2OM0ziNh2qp9MTC1SwHwpasJngt6iYZyB19MLD7
-         5n9EOOWwK+g/h/A6mbFLvhTuo4XE9g7w2vMho2l2DEWYcjbVnKtsO0HjnoFJUlP56IvT
-         mSo14vvS0mTUFcwCxM8Gz6bWEyS292ZwGayNB4UuyNdqFtl6dddBSApbfzprvC/P9zq1
-         7PKquNETxIAWgChQZE47whJ2KfwKHGtLOcbxKV9GeZISxBrBuQZQ4fIEfQ/UksYNwfVa
-         R0nh8lYyu/lq20GKwKa/OdXqKwjUP+IAKAg8am0dsTosc0GVa2cgPReZBqOZbX0J7TMk
-         tkGA==
+        d=gmail.com; s=20230601; t=1760719032; x=1761323832; darn=lists.ozlabs.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lZqTIsgME323ZkO31yyQWUQxJPAMGciP0ot1SYinmXM=;
+        b=m7SdnzFAIG1GQpCKDs2bQHeOX2mZARu7bRndSjJxrPaYR2EvsJvPw6/65Yek1/xzqC
+         eA6XCdIKmlN0BC1KqiULawqCiI9/1818l9C9H8f/0kWTPz4vQeZNL+SFRq4EoEdixO1+
+         8QGx1X0moQOktezHB3Pvrd7jZJZA+nl/GYqtSipL8S6FDj711XnogIQn0sIIgO2ndSVi
+         BYp8kcWiSHW4qXXVweldadoxyscuTkDqjtUilmoK/bPFHYGsmymYXSNo1FYC28XwJkBF
+         O5YZJd+fmHJs+mlRaXu4ec5wPWxgpnwEHaJC0wWbytUKUI9gogrVTowiQ2JYh3wkVjrM
+         Q1zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760708781; x=1761313581;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F8wxeZ73zfPxZDqjOffcWW0zKOqaQGOLDGU9q6V4WVw=;
-        b=Ainh167sQCTqjKB2rNa9yb7/cEGQwog24JcPlvmR6dp/vE8X6nMqVMHE+IF8+1+UmR
-         6MF35ErvIqvN0ie/cG0ZOA9WITVKjenaiP4NWQtADM5lAV38SC+57JrDMIG+TKjc7ZwM
-         JO0iecEdJzre5O9ZMIGpFiv+0lyM/FDZSXDb55Bp3L30abHVkahZ51GIC0KdUgX0GHiw
-         hMBQDrodMVpjch1iX9BPWbbTdbCISP5b6DvNkUHwkaPgj1TCUI21tK1SclkRgbX8mdKK
-         f0U5wFjIWgkfSVXYFTueMSVxchlVbCzWmmdg/OfY2MXiKumeJWtlbr3O/l1u4K7yL1r+
-         LaUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVKdQOvibBxDEN4UP4bF51xnOwOc1B40+3FWeUf5LtMiSKwh44YTUkqcgC2TYLygs03NBiND/UaHfQ03Cc=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxjfM0Thd2UI5sEEsS1qWTRyokRJBkc7wQa1WZd7vm/D9ui0KW8
-	jeBVzo/MpP3DFC43TLLuWpr1uov5JqJHnu/HK/yUYZXCLPRg2uOFQJ5C
-X-Gm-Gg: ASbGncsdLeItEGDLGiZEi4x8dC25hGa/2Sk3Vd6377bB3m0lastSTgI51YVvBtFw65F
-	6ZXUhfpNfzgPB2UZsfJ8FRStvMLWW2w556hqzihhsyLYOTC7aQsPolOAxC+O2pwEIi6MdSylsFz
-	4P/aQO9y9RJKTvrmal9bFfA4rdvGVqNM0vff6AEDgMeWyas1IVRX72PK3hBx3zW4Ayqqd43v81P
-	zxSc4NCJziKqlgbmW5A7j9qLvXXP9T3GvDTl7r101sf+pfkTdOCcCPg6zPc5/uOkWj1BERToZQI
-	nYyu7VoM4LxK5lc/FoNoLei1lWbIP65T3IKbbU42vtDNF16JETJjWtJDB31ehjTHNCC5wyqogVr
-	moDxbKCW5sBLT2KlvDpITQVBzvqVoKrHYaO2MjwwqCZy3fQ3J5d8PNmlNUyy6K/gTbr6T9Ou6iU
-	X2U7BKLfsXmu7/UwtctzJFbJ4do+YbYmqJO0xoG/EB82D9nII5jGe7W/eV1fCnAK87EV29fywzG
-	M2i+BaBVw==
-X-Google-Smtp-Source: AGHT+IHEJriQOsCE072JGcgtKsQf1uKRAkkKtWjtVovvtEqRBoI600xoTijqLOXvNy4EBRqUN6GmcQ==
-X-Received: by 2002:a17:903:19e5:b0:265:89c:251b with SMTP id d9443c01a7336-290caf8519dmr45137495ad.29.1760708781029;
-        Fri, 17 Oct 2025 06:46:21 -0700 (PDT)
-Received: from bu9-daniel.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29099afda1dsm64834695ad.108.2025.10.17.06.46.19
+        d=1e100.net; s=20230601; t=1760719032; x=1761323832;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lZqTIsgME323ZkO31yyQWUQxJPAMGciP0ot1SYinmXM=;
+        b=Tw/lqVOJNs0kmfhwl6aGLTZMyPgPH8Hm12xVtUxrtnuMIA+q3kHSQc17X+Sc7d+yd6
+         vYNxvR4PDfv0JRhFy1MEwUSnuPX8SFEb8De/Gv6diDja0G6VDeIG+YhXVntThu0DIFVx
+         geVMCrqBiTlX17tJXve3wf9K1QSNUXGt2lRNnjvloY8lqHvzpXCKRKPIUbOnZho1kNLe
+         V2OFI6SGavbzW/XFze2+lgIqiWNe5em5kYSCjIkLTlc0hA/H0kj++/I0Wgsc7SDuGyI/
+         lc0XcD2kx4q1KlIuRYQyBo1vqVzB3EPjUUA54kyTfOKivlfPaHS36EQQdmJeRndYU+Td
+         g21w==
+X-Forwarded-Encrypted: i=1; AJvYcCXX2E/B9Ja8eXy9818u5NatthSQPq0iVQxGeXSwjAtBq6X6+cfwWPVrFy+AzSNlR/W19QMfYBI4ZY+GXBc=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YxiJMO9HyLQCnszL84o+7y1Vn1IxutcKpAtoe58th1GROD5f/iY
+	72YM/y2lC7sBDRwRYXddjkGJzEKca7cJz2ImK70ptB4YiU6jbclEjpGz
+X-Gm-Gg: ASbGncv8UzLjKilgHVm8ek2ryYLGN7DEbAaCeBZkX/fRRTGm+No/b17aoNo0z/oAl6j
+	FnHvKj7rJySoivNxP49CfYGVFjrSfhknJqbMCag4/OL615EVQ7U3VCESH01gMW0Q+3eMI7v1b9P
+	SyfSI+hx7fSVUAbuyIy6T1zxj26Noy593JQrME+s75tf7MsyjYMXtTqE5c8e/RLMR7sR082EAnS
+	qPWfVyR0Esqjtx+ihKdw5Z4/sjl96OJuxQgw8IfO+COA1DY3Vk3Xv7WjRu3LN4823n88INnNfLw
+	dFMTRJSTP4UZgqiAnFl9qGt5uswU4TNLV2pV25+BwOjTetierOcAFBNryCNkDt1civMLSHirrfB
+	6PXSsWMzsEn1KCivjf39raIgrPyR/9n2z5bSVkaKww7tVzlot8PXOJBqtr6cEEuyQ/EzFSHtNpD
+	Y3BUOFOKs=
+X-Google-Smtp-Source: AGHT+IEBLNSjsT2f6SbTw5aTPGakjHLdlQrL5hue+DxfPG8mzc3zrpMssrggDkT+31HrLygOdkrpIg==
+X-Received: by 2002:ad4:594b:0:b0:87c:2920:5730 with SMTP id 6a1803df08f44-87c29205b08mr24398926d6.40.1760719031704;
+        Fri, 17 Oct 2025 09:37:11 -0700 (PDT)
+Received: from localhost ([12.22.141.131])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87d02d91324sm1575686d6.65.2025.10.17.09.37.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 06:46:20 -0700 (PDT)
-From: Daniel Hsu <d486250@gmail.com>
-X-Google-Original-From: Daniel Hsu <Daniel-Hsu@quantatw.com>
-To: joel@jms.id.au,
-	andrew@codeconstruct.com.au
-Cc: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	Daniel Hsu <Daniel-Hsu@quantatw.com>
-Subject: [PATCH] ARM: dts: aspeed: harma: add fanboard presence sgpio
-Date: Fri, 17 Oct 2025 21:44:02 +0800
-Message-ID: <20251017134402.2073042-1-Daniel-Hsu@quantatw.com>
-X-Mailer: git-send-email 2.43.0
+        Fri, 17 Oct 2025 09:37:11 -0700 (PDT)
+Date: Fri, 17 Oct 2025 12:37:09 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Miller <davem@davemloft.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Kim Seer Paller <kimseer.paller@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Jianping Shen <Jianping.Shen@de.bosch.com>,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-edac@vger.kernel.org, qat-linux@intel.com,
+	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] bitfield: Drop underscores from macro parameters
+Message-ID: <aPJwtZSMgZLDzxH8@yury>
+References: <cover.1760696560.git.geert+renesas@glider.be>
+ <792d176149bc4ffde2a7b78062388dc2466c23ca.1760696560.git.geert+renesas@glider.be>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -99,43 +128,82 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,WEIRD_QUOTING
-	autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <792d176149bc4ffde2a7b78062388dc2466c23ca.1760696560.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add the SGPIO definition for detecting fanboard presence on the Harma
-platform. This allows the BMC to determine whether the fanboard is
-attached.
+On Fri, Oct 17, 2025 at 12:54:09PM +0200, Geert Uytterhoeven wrote:
+> There is no need to prefix macro parameters with underscores.
+> Remove the underscores.
+> 
+> Suggested-by: David Laight <david.laight.linux@gmail.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v4:
+>   - Update recently introduced FIELD_MODIFY() macro,
+> 
+> v3:
+>   - New.
+> ---
+>  include/linux/bitfield.h | 106 +++++++++++++++++++--------------------
+>  1 file changed, 53 insertions(+), 53 deletions(-)
+> 
+> diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
+> index 5355f8f806a97974..7ff817bdae19b468 100644
+> --- a/include/linux/bitfield.h
+> +++ b/include/linux/bitfield.h
+> @@ -60,68 +60,68 @@
+>  
+>  #define __bf_cast_unsigned(type, x)	((__unsigned_scalar_typeof(type))(x))
+>  
+> -#define __BF_FIELD_CHECK(_mask, _reg, _val, _pfx)			\
+> +#define __BF_FIELD_CHECK(mask, reg, val, pfx)				\
+>  	({								\
+> -		BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),		\
+> -				 _pfx "mask is not constant");		\
+> -		BUILD_BUG_ON_MSG((_mask) == 0, _pfx "mask is zero");	\
+> -		BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?		\
+> -				 ~((_mask) >> __bf_shf(_mask)) &	\
+> -					(0 + (_val)) : 0,		\
+> -				 _pfx "value too large for the field"); \
+> -		BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >	\
+> -				 __bf_cast_unsigned(_reg, ~0ull),	\
+> -				 _pfx "type of reg too small for mask"); \
+> -		__BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +			\
+> -					      (1ULL << __bf_shf(_mask))); \
+> +		BUILD_BUG_ON_MSG(!__builtin_constant_p(mask),		\
+> +				 pfx "mask is not constant");		\
+> +		BUILD_BUG_ON_MSG((mask) == 0, pfx "mask is zero");	\
+> +		BUILD_BUG_ON_MSG(__builtin_constant_p(val) ?		\
+> +				 ~((mask) >> __bf_shf(mask)) &	\
+> +					(0 + (val)) : 0,		\
+> +				 pfx "value too large for the field"); \
+> +		BUILD_BUG_ON_MSG(__bf_cast_unsigned(mask, mask) >	\
+> +				 __bf_cast_unsigned(reg, ~0ull),	\
+> +				 pfx "type of reg too small for mask"); \
+> +		__BUILD_BUG_ON_NOT_POWER_OF_2((mask) +			\
+> +					      (1ULL << __bf_shf(mask))); \
+>  	})
 
-Signed-off-by: Daniel Hsu <Daniel-Hsu@quantatw.com>
----
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Hi Geert,
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-index b733efe31e8d..7983ae0bd3f3 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts
-@@ -814,9 +814,13 @@ &sgpiom0 {
- 	"irq-pvddcore1-ocp-alert","",
- 	"","",
- 	/*O4-O7 line 232-239*/
--	"","","","","","","","",
-+	"","","","",
-+	"presence-lower-fanboard1","",
-+	"presence-lower-fanboard2","",
- 	/*P0-P3 line 240-247*/
--	"","","","","","","","",
-+	"presence-upper-fanboard1","",
-+	"presence-upper-fanboard2","",
-+	"","","","",
- 	/*P4-P7 line 248-255*/
- 	"","","","","","","","";
- };
--- 
-2.43.0
+Thanks for the series!
 
+I agree that underscored parameters are excessive. But fixing them has
+a side effect of wiping the history, which is a bad thing.
+
+I would prefer to save a history over following a rule that seemingly
+is not written down. Let's keep this untouched for now, and if there
+will be a need to move the code, we can drop underscores as well.
+
+Meanwhile you (and David) can propose a corresponding rule in
+coding-style.rst and a checkpatch warning. That way we at least will
+stop merging a new code of that style.
+
+Thanks,
+Yury
 
