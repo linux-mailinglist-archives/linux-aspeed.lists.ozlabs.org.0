@@ -1,122 +1,73 @@
-Return-Path: <linux-aspeed+bounces-2510-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2514-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E476ABEC08A
-	for <lists+linux-aspeed@lfdr.de>; Sat, 18 Oct 2025 01:44:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B385BEC2E4
+	for <lists+linux-aspeed@lfdr.de>; Sat, 18 Oct 2025 02:42:26 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cpLxn0tngz3cZ2;
-	Sat, 18 Oct 2025 10:43:57 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cpNFD25Blz3cZd;
+	Sat, 18 Oct 2025 11:42:24 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::729"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760727106;
-	cv=none; b=AlY8vpFleHuMf4TEblJoHQwWA9lBMHcG1Ija75pDKT8RDcYChNbTBJx3h+zCeQsVkRLs33adZ1jxJMtWBwTktEcvo/MLY43Zh2CDRdh7wrMmJqeqEKrVYSpnL5KtRk1+h9hTd9PpsRXrcJr3wNFi5mNpnt7EWeEQ1BXuDLNIso6hGFZcd2V4uB8LbDpUAwkm5edUHLJy6d9HadYpkWa7zid83nXgekjMvwNeHEEjAHxjvbbnCl2TecCMZuOBsxSaWO+P203WGSkhUXA/QkQd1380c4LkYCp/8MUCKn3hTA0LxxbCLPJ4fbvLBPPPzLuTFSjM6GJ2y60YwOGngh2DTA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=220.181.50.185
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1760667113;
+	cv=none; b=mV6ABSRYoQEnnAUDaN4E+Cipxr3cK7aB/iKmOZEnaNBrgeq5Cm365N7UHPhWGL0k+Mme/AmiD/lhDgZpXNnyzVMo/TwZfqa5rNwmm7j3OniwxV5cxIMe9GxJme+0Ef9f9lSdk7xKOQL09buPniouUzHAOOjnRjUr+I4B+xvZCa8wHIGvVZsL4ztx+yk55KG1xh4Q61jzmAvFekd5/OXlU/eW3sGUY/8H6RfN/CjsR6BndhSQh5waZPAE81VLeudHq1NY7yFy004YfzMNRr9RMGrPn6sMDArs9InPtKtNloCrTVhd09ZnxeY1AqmsQkJkRYw+tEY5xxj7XvOaWreFiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1760727106; c=relaxed/relaxed;
-	bh=kcMHrjvb7aW8dOEyGXLP26k9PcHppfS2rsN7ygfXW0s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uw9Ttw0A1djVLO9atmxnTWI0SOumiozspXHa+gCLPFHvRs1l1NPcI63XnmaR726aGApl3a7D36qcF9tfXQq9hsF6YHlOWHqHIZgHjy4drsh6A/HN9yUt/Z7cyzRz11Zk6ylYPX0Xysf1w0zS3kDDJaLC/zMe0mFworTJVntO33sQv0wR19V4YpolT98gVggP/n9IEu9R88vtx9uXgSErGZCENq5bfMd28qzkFQGybHXN4I38MIyqAz80WRek5jodJT+cowCgdQq8Bffdi4mJG1vO5KuHLS/8DSewf66n/mVPIn/odIHHuCsiZDPfyPAaVW9IX5+bUmu2enNe4VfJlQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=NF+u4oqs; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::729; helo=mail-qk1-x729.google.com; envelope-from=yury.norov@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=NF+u4oqs;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::729; helo=mail-qk1-x729.google.com; envelope-from=yury.norov@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+	t=1760667113; c=relaxed/relaxed;
+	bh=M5XVX7hPge6/0KN912wZuorUL3r5PLlH3gT0QblNtC0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=NGYSR720rKViIo9p6mXehVTqWN5AA01QzNo8pgDqfYj5M3L6vBntgg9moA7XsmWfO8B0Qv4I4JW8kznaoT9nAnLBYbKyIrQMzU5AMAG15mza+z+xYQDKPcDfMftmjQ4Q7d8t2uqDBk6ELmDJaGAFCT2rGELtTKuci9g6EKf0umib7oKSUltNK6/uiZeJthjD/Fz/hgG/QEGmP5z5AI+puQY7qLOZ3mhFGDXMnLGH7QicOhOBRLiHmqpjFeaPyay56yQ+lv4Tqp6/jJh52aIQuc6A5Yt0GXaT8owx8XJ/D4aWVAoVrBIkkNq2gYW/zmd4O0WdRLFuiZ7MbwZl7gImuA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com; spf=pass (client-ip=220.181.50.185; helo=baidu.com; envelope-from=lirongqing@baidu.com; receiver=lists.ozlabs.org) smtp.mailfrom=baidu.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=baidu.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=baidu.com (client-ip=220.181.50.185; helo=baidu.com; envelope-from=lirongqing@baidu.com; receiver=lists.ozlabs.org)
+Received: from baidu.com (mx22.baidu.com [220.181.50.185])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cpDSc6hfLz3cYG
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 18 Oct 2025 05:51:43 +1100 (AEDT)
-Received: by mail-qk1-x729.google.com with SMTP id af79cd13be357-88f26db50b4so306900585a.2
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Oct 2025 11:51:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760727101; x=1761331901; darn=lists.ozlabs.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kcMHrjvb7aW8dOEyGXLP26k9PcHppfS2rsN7ygfXW0s=;
-        b=NF+u4oqsgWFHyu/yLmmvtfEikr2UbdFUTqbg4k0Da7Afens37kWEtrIdIyIa/Ll6hG
-         jsalAJ81LlJzbSwYkINlK+n1p/50RPmmndd0sp1rLh1hgjn5w3il9emz7UMheRa3Od3c
-         iUTeHwtGmMAoOGqEPk4gYXcyGnySiZNhoX+lC5sQW5vLn4m51XXAF7NUCmY3itIfllu4
-         DPVHeTlZgR3Gt6qhBiwvz9NY8CPOX1iqDutCj6iaAsWP3q/Kq1EM7ezoFcZrecAZWp3H
-         BeZu50bTlT735HCpn09AqUbaH0VyScKfD4fXKjqvlTe9AYYcbIsap23PQnteYKxK+dq1
-         CJjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760727101; x=1761331901;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kcMHrjvb7aW8dOEyGXLP26k9PcHppfS2rsN7ygfXW0s=;
-        b=cwEk6tU79o5PNwbmkWHawwFQZzodU4qzu6KGbRJn1+nLrKz2SXnQf6aNfo7vSRqlUM
-         OGbHlF4e7VFQlkWNoNn8ivsXZ7fMwQ/am1fi7WgRU4S7eCvK0j1v5efU/bDy5kxA7+ru
-         t4af9txPd+rwpXxHWKM3Ew3LZPUUniC2+b9gs8T/VsL0fMnDEUE+EheIzo4c8UUvo55p
-         s6/Gs+BK3wzdNCPsKqC0smO0Sl3TiY3idP21Iq7oZ318JKgYpbGrRWLuiKAooozfdbYA
-         V8LqkObmf31oRcRvHScAevg7iKhbPFc233HbMIIa85o5W8JyVDnGFAU0WhUzSmOB7iWk
-         sG0A==
-X-Forwarded-Encrypted: i=1; AJvYcCUutABIOH0djpw+g1Bkc27bHZ5tIZtEdKAeUO9kGOHNRyyjgbAzMoX6l5tB1jsCCC21qQFCszS+6N0mwZo=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YzA2YSF4mH0yO64//MqoPx8T/KrrRzSBhS/P+dPaXa4f8ucV2DF
-	eI6ZWtND+fiBrvVwrDd3aTFLSk6ScQu1gqt1iYgi5x/mmDpuKewzMlup
-X-Gm-Gg: ASbGncuZlExJIbxZfBvIMvCgFGB9obsJWp5lgBGkwORXroG1kaktJlw4d7JtSzIv2KZ
-	NhAcDUwCRP9hs/ZkjmbKX8fn9MP/dfG8d3494bcjkEXpqu90z3HdQp0itvcmQhR+E7rT5faFwob
-	WYkbdu1CAxuUW/6SOBqDUo48L4BCOyzXdG4B1xTc0oD8fEDysFJ2dxiJ4MwTsv6CHgez/PiqbQK
-	SpoFJLJIxbNCd9pW2oLoFckztZNOF5tMld+fCZ/J7yQPzR8bcs/0RhNxNYFSA7nHZpqp0atdKa7
-	7an8s+Qjfd7VYHpGhVvbDO/biPsBn0gkMMe5WCU9B8hJCnQgHsxDigGWhaTtlmlBEr46Wb6a+84
-	aPH34w1KTS2H/l0Tg9Ash4cS9G2A/pG5/fVIdqcUca4z67EgmvUlRPmEv73gZt2VI3lT7n/rt9Y
-	Jnrd33UPs=
-X-Google-Smtp-Source: AGHT+IGgZXVqJ39mGvceINRef9aDCQGOzv3U5h5nFkBRWec10RvkxHjWCypd6ooOxs18G5q6X1BFng==
-X-Received: by 2002:ac8:7f48:0:b0:4e8:910a:ad95 with SMTP id d75a77b69052e-4e89d20f6cdmr65322091cf.6.1760727100900;
-        Fri, 17 Oct 2025 11:51:40 -0700 (PDT)
-Received: from localhost ([12.22.141.131])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4e8aaf87ecdsm3689291cf.16.2025.10.17.11.51.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Oct 2025 11:51:40 -0700 (PDT)
-Date: Fri, 17 Oct 2025 14:51:38 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Miller <davem@davemloft.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
-	Tony Luck <tony.luck@intel.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Kim Seer Paller <kimseer.paller@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Jianping Shen <Jianping.Shen@de.bosch.com>,
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-edac@vger.kernel.org, qat-linux@intel.com,
-	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v4 2/4] bitfield: Add non-constant field_{prep,get}()
- helpers
-Message-ID: <aPKQMdyMO-vrb30X@yury>
-References: <cover.1760696560.git.geert+renesas@glider.be>
- <67c1998f144b3a21399672c8e4d58d3884ae2b3c.1760696560.git.geert+renesas@glider.be>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cnpGv6vkhz3069
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Oct 2025 13:11:49 +1100 (AEDT)
+From: "Li,Rongqing" <lirongqing@baidu.com>
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+CC: Andrew Morton <akpm@linux-foundation.org>, Lance Yang
+	<lance.yang@linux.dev>, Masami Hiramatsu <mhiramat@kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "wireguard@lists.zx2c4.com"
+	<wireguard@lists.zx2c4.com>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, Andrew Jeffery
+	<andrew@codeconstruct.com.au>, Anshuman Khandual <anshuman.khandual@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, David Hildenbrand <david@redhat.com>, "Florian
+ Wesphal" <fw@strlen.de>, Jakub Kacinski <kuba@kernel.org>, "Jason A .
+ Donenfeld" <jason@zx2c4.com>, Joel Granados <joel.granados@kernel.org>, "Joel
+ Stanley" <joel@jms.id.au>, Jonathan Corbet <corbet@lwn.net>, Kees Cook
+	<kees@kernel.org>, Liam Howlett <liam.howlett@oracle.com>, Lorenzo Stoakes
+	<lorenzo.stoakes@oracle.com>, "Paul E . McKenney" <paulmck@kernel.org>,
+	"Pawan Gupta" <pawan.kumar.gupta@linux.intel.com>, Petr Mladek
+	<pmladek@suse.com>, Phil Auld <pauld@redhat.com>, Randy Dunlap
+	<rdunlap@infradead.org>, "Russell King" <linux@armlinux.org.uk>, Shuah Khan
+	<shuah@kernel.org>, Simon Horman <horms@kernel.org>, Stanislav Fomichev
+	<sdf@fomichev.me>, Steven Rostedt <rostedt@goodmis.org>
+Subject: =?utf-8?B?UkU6IFvlpJbpg6jpgq7ku7ZdIFJlOiBbUEFUQ0hdW3Y0XSBodW5nX3Rhc2s6?=
+ =?utf-8?B?IFBhbmljIHdoZW4gdGhlcmUgYXJlIG1vcmUgdGhhbiBOIGh1bmcgdGFza3Mg?=
+ =?utf-8?Q?at_the_same_time?=
+Thread-Topic: =?utf-8?B?W+WklumDqOmCruS7tl0gUmU6IFtQQVRDSF1bdjRdIGh1bmdfdGFzazogUGFu?=
+ =?utf-8?B?aWMgd2hlbiB0aGVyZSBhcmUgbW9yZSB0aGFuIE4gaHVuZyB0YXNrcyBhdCB0?=
+ =?utf-8?Q?he_same_time?=
+Thread-Index: AQHcPZ4O/k3Wsx0bHk6g9O8K49+CJbTENNGAgAFjeRA=
+Date: Fri, 17 Oct 2025 02:09:10 +0000
+Message-ID: <d492d12e4e5441a2b51c3415e865fa99@baidu.com>
+References: <20251015063615.2632-1-lirongqing@baidu.com>
+ <906dd11d-26db-4570-840a-e4797748c05c@molgen.mpg.de>
+In-Reply-To: <906dd11d-26db-4570-840a-e4797748c05c@molgen.mpg.de>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [10.127.72.28]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -130,174 +81,134 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67c1998f144b3a21399672c8e4d58d3884ae2b3c.1760696560.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+X-FEAS-Client-IP: 172.31.3.14
+X-FE-Policy-ID: 52:10:53:SYSTEM
+X-Spam-Status: No, score=-0.0 required=5.0 tests=SPF_HELO_PASS,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Fri, Oct 17, 2025 at 12:54:10PM +0200, Geert Uytterhoeven wrote:
-> The existing FIELD_{GET,PREP}() macros are limited to compile-time
-> constants.  However, it is very common to prepare or extract bitfield
-> elements where the bitfield mask is not a compile-time constant.
-> 
-> To avoid this limitation, the AT91 clock driver and several other
-> drivers already have their own non-const field_{prep,get}() macros.
-> Make them available for general use by consolidating them in
-> <linux/bitfield.h>, and improve them slightly:
->   1. Avoid evaluating macro parameters more than once,
->   2. Replace "ffs() - 1" by "__ffs()",
->   3. Support 64-bit use on 32-bit architectures.
-> 
-> This is deliberately not merged into the existing FIELD_{GET,PREP}()
-> macros, as people expressed the desire to keep stricter variants for
-> increased safety, or for performance critical paths.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Acked-by: Crt Mori <cmo@melexis.com>
-> ---
-> v4:
->   - Add Acked-by,
->   - Rebase on top of commit 7c68005a46108ffa ("crypto: qat - relocate
->     power management debugfs helper APIs") in v6.17-rc1,
->   - Convert more recently introduced upstream copies:
->       - drivers/edac/ie31200_edac.c
->       - drivers/iio/dac/ad3530r.c
-
-Can you split out the part that actually introduces the new API?
-
-...
-
-> diff --git a/include/linux/bitfield.h b/include/linux/bitfield.h
-> index 7ff817bdae19b468..c999fe70076f6684 100644
-> --- a/include/linux/bitfield.h
-> +++ b/include/linux/bitfield.h
-> @@ -220,4 +220,40 @@ __MAKE_OP(64)
->  #undef __MAKE_OP
->  #undef ____MAKE_OP
->  
-> +/**
-> + * field_prep() - prepare a bitfield element
-> + * @mask: shifted mask defining the field's length and position
-> + * @val:  value to put in the field
-> + *
-> + * field_prep() masks and shifts up the value.  The result should be
-> + * combined with other fields of the bitfield using logical OR.
-> + * Unlike FIELD_PREP(), @mask is not limited to a compile-time constant.
-> + */
-> +#define field_prep(mask, val)						\
-> +	({								\
-> +		__auto_type __mask = (mask);				\
-> +		typeof(mask) __val = (val);				\
-> +		unsigned int __shift = sizeof(mask) <= 4 ?		\
-> +				       __ffs(__mask) : __ffs64(__mask);	\
-> +		(__val << __shift) & __mask;	\
-
-__ffs(0) is undef. The corresponding comment in
-include/asm-generic/bitops/__ffs.h explicitly says: "code should check
-against 0 first".
-
-I think mask = 0 is a sign of error here. Can you add a code catching
-it at compile time, and maybe at runtime too? Something like:
-
- #define __field_prep(mask, val)
- ({
-	unsigned __shift = sizeof(mask) <= 4 ? __ffs(mask) : __ffs64(mask);
-        (val << __shift) & mask;
- })
-
- #define field_prep(mask, val)
- ({
-        unsigned int __shift;
-	__auto_type __mask = (mask), __ret = 0;
-	typeof(mask) __val = (val);				
-
-        BUILD_BUG_ON_ZERO(const_true(mask == 0));
-
-        if (WARN_ON_ONCE(mask == 0))
-                goto out;
-        
-        __ret = __field_prep(__mask, __val);
- out:
-        ret;
- })
-
-> +
-> +/**
-> + * field_get() - extract a bitfield element
-> + * @mask: shifted mask defining the field's length and position
-> + * @reg:  value of entire bitfield
-> + *
-> + * field_get() extracts the field specified by @mask from the
-> + * bitfield passed in as @reg by masking and shifting it down.
-> + * Unlike FIELD_GET(), @mask is not limited to a compile-time constant.
-> + */
-> +#define field_get(mask, reg)						\
-> +	({								\
-> +		__auto_type __mask = (mask);				\
-> +		typeof(mask) __reg =  (reg);				\
-
-This would trigger Wconversion warning. Consider
-        unsigned reg = 0xfff;
-        field_get(0xf, reg);
-
-<source>:6:26: warning: conversion to 'int' from 'unsigned int' may change the sign of the result [-Wsign-conversion]
-    6 |     typeof(mask) __reg = reg;
-      |                          ^~~
-
-Notice, the __auto_type makes the __mask to be int, while the reg is
-unsigned int. You need to do:
-
-        typeof(mask) __reg = (typeof(mask))(reg); 
-
-Please enable higher warning levels for the next round.
-
-Also, because for numerals __auto_type is int, when char is enough - are
-you sure that the macro generates the optimal code? User can workaround it
-with:
-        
-        field_get((u8)0xf, reg)
-
-but it may not be trivial. Can you add an example and explanation please?
-
-> +		unsigned int __shift = sizeof(mask) <= 4 ?		\
-> +				       __ffs(__mask) : __ffs64(__mask);	\
-
-Can you use BITS_PER_TYPE() here?
-
-> +		(__reg & __mask) >> __shift;	\
-> +	})
-> +
-
-When mask == 0, we shouldn't touch 'val' at all. Consider
-
-        field_get(0, get_user(ptr))
-
-In this case, evaluating 'reg' is an error, similarly to memcpy().
-
-Thanks,
-Yury
-
->  #endif
-> diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-> index 828af3095b86ee0a..6eee89cbc0867f2b 100644
-> --- a/sound/usb/mixer_quirks.c
-> +++ b/sound/usb/mixer_quirks.c
-> @@ -3311,10 +3311,6 @@ static int snd_bbfpro_controls_create(struct usb_mixer_interface *mixer)
->  #define RME_DIGIFACE_REGISTER(reg, mask) (((reg) << 16) | (mask))
->  #define RME_DIGIFACE_INVERT BIT(31)
->  
-> -/* Nonconst helpers */
-> -#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
-> -#define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
-> -
->  static int snd_rme_digiface_write_reg(struct snd_kcontrol *kcontrol, int item, u16 mask, u16 val)
->  {
->  	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
-> -- 
-> 2.43.0
+DQo+IA0KPiBBbSAxNS4xMC4yNSB1bSAwODozNiBzY2hyaWViIGxpcm9uZ3Fpbmc6DQo+ID4gRnJv
+bTogTGkgUm9uZ1FpbmcgPGxpcm9uZ3FpbmdAYmFpZHUuY29tPg0KPiA+DQo+ID4gQ3VycmVudGx5
+LCB3aGVuICdodW5nX3Rhc2tfcGFuaWMnIGlzIGVuYWJsZWQsIHRoZSBrZXJuZWwgcGFuaWNzDQo+
+ID4gaW1tZWRpYXRlbHkgdXBvbiBkZXRlY3RpbmcgdGhlIGZpcnN0IGh1bmcgdGFzay4gSG93ZXZl
+ciwgc29tZSBodW5nDQo+ID4gdGFza3MgYXJlIHRyYW5zaWVudCBhbmQgYWxsb3cgc3lzdGVtIHJl
+Y292ZXJ5LCB3aGlsZSBwZXJzaXN0ZW50IGhhbmdzDQo+ID4gc2hvdWxkIHRyaWdnZXIgYSBwYW5p
+YyB3aGVuIGFjY3VtdWxhdGluZyBiZXlvbmQgYSB0aHJlc2hvbGQuDQo+ID4NCj4gPiBFeHRlbmQg
+dGhlICdodW5nX3Rhc2tfcGFuaWMnIHN5c2N0bCB0byBhY2NlcHQgYSB0aHJlc2hvbGQgdmFsdWUN
+Cj4gPiBzcGVjaWZ5aW5nIHRoZSBudW1iZXIgb2YgaHVuZyB0YXNrcyB0aGF0IG11c3QgYmUgZGV0
+ZWN0ZWQgYmVmb3JlDQo+ID4gdHJpZ2dlcmluZyBhIGtlcm5lbCBwYW5pYy4gVGhpcyBwcm92aWRl
+cyBmaW5lciBjb250cm9sIGZvcg0KPiA+IGVudmlyb25tZW50cyB3aGVyZSB0cmFuc2llbnQgaGFu
+Z3MgbWF5IG9jY3VyIGJ1dCBwZXJzaXN0ZW50IGhhbmdzDQo+IHNob3VsZCBiZSBmYXRhbC4NCj4g
+Pg0KPiA+IFRoZSBzeXNjdGwgbm93IGFjY2VwdHM6DQo+ID4gLSAwOiBkb24ndCBwYW5pYyAobWFp
+bnRhaW5zIG9yaWdpbmFsIGJlaGF2aW9yKQ0KPiA+IC0gMTogcGFuaWMgb24gZmlyc3QgaHVuZyB0
+YXNrIChtYWludGFpbnMgb3JpZ2luYWwgYmVoYXZpb3IpDQo+ID4gLSBOID4gMTogcGFuaWMgYWZ0
+ZXIgTiBodW5nIHRhc2tzIGFyZSBkZXRlY3RlZCBpbiBhIHNpbmdsZSBzY2FuDQo+ID4NCj4gPiBU
+aGlzIG1haW50YWlucyBiYWNrd2FyZCBjb21wYXRpYmlsaXR5IHdoaWxlIHByb3ZpZGluZyBmbGV4
+aWJpbGl0eSBmb3INCj4gPiBkaWZmZXJlbnQgaGFuZyBzY2VuYXJpb3MuDQo+ID4NCj4gPiBTaWdu
+ZWQtb2ZmLWJ5OiBMaSBSb25nUWluZyA8bGlyb25ncWluZ0BiYWlkdS5jb20+DQo+ID4gQ2M6IEFu
+ZHJldyBKZWZmZXJ5IDxhbmRyZXdAY29kZWNvbnN0cnVjdC5jb20uYXU+DQo+ID4gQ2M6IEFuc2h1
+bWFuIEtoYW5kdWFsIDxhbnNodW1hbi5raGFuZHVhbEBhcm0uY29tPg0KPiA+IENjOiBBcm5kIEJl
+cmdtYW5uIDxhcm5kQGFybmRiLmRlPg0KPiA+IENjOiBEYXZpZCBIaWxkZW5icmFuZCA8ZGF2aWRA
+cmVkaGF0LmNvbT4NCj4gPiBDYzogRmxvcmlhbiBXZXNwaGFsIDxmd0BzdHJsZW4uZGU+DQo+ID4g
+Q2M6IEpha3ViIEthY2luc2tpIDxrdWJhQGtlcm5lbC5vcmc+DQo+ID4gQ2M6IEphc29uIEEuIERv
+bmVuZmVsZCA8amFzb25AengyYzQuY29tPg0KPiA+IENjOiBKb2VsIEdyYW5hZG9zIDxqb2VsLmdy
+YW5hZG9zQGtlcm5lbC5vcmc+DQo+ID4gQ2M6IEpvZWwgU3RhbmxleSA8am9lbEBqbXMuaWQuYXU+
+DQo+ID4gQ2M6IEpvbmF0aGFuIENvcmJldCA8Y29yYmV0QGx3bi5uZXQ+DQo+ID4gQ2M6IEtlZXMg
+Q29vayA8a2Vlc0BrZXJuZWwub3JnPg0KPiA+IENjOiBMYW5jZSBZYW5nIDxsYW5jZS55YW5nQGxp
+bnV4LmRldj4NCj4gPiBDYzogTGlhbSBIb3dsZXR0IDxsaWFtLmhvd2xldHRAb3JhY2xlLmNvbT4N
+Cj4gPiBDYzogTG9yZW56byBTdG9ha2VzIDxsb3JlbnpvLnN0b2FrZXNAb3JhY2xlLmNvbT4NCj4g
+PiBDYzogIk1hc2FtaSBIaXJhbWF0c3UgKEdvb2dsZSkiIDxtaGlyYW1hdEBrZXJuZWwub3JnPg0K
+PiA+IENjOiAiUGF1bCBFIC4gTWNLZW5uZXkiIDxwYXVsbWNrQGtlcm5lbC5vcmc+DQo+ID4gQ2M6
+IFBhd2FuIEd1cHRhIDxwYXdhbi5rdW1hci5ndXB0YUBsaW51eC5pbnRlbC5jb20+DQo+ID4gQ2M6
+IFBldHIgTWxhZGVrIDxwbWxhZGVrQHN1c2UuY29tPg0KPiA+IENjOiBQaGlsIEF1bGQgPHBhdWxk
+QHJlZGhhdC5jb20+DQo+ID4gQ2M6IFJhbmR5IER1bmxhcCA8cmR1bmxhcEBpbmZyYWRlYWQub3Jn
+Pg0KPiA+IENjOiBSdXNzZWxsIEtpbmcgPGxpbnV4QGFybWxpbnV4Lm9yZy51az4NCj4gPiBDYzog
+U2h1YWggS2hhbiA8c2h1YWhAa2VybmVsLm9yZz4NCj4gPiBDYzogU2ltb24gSG9ybWFuIDxob3Jt
+c0BrZXJuZWwub3JnPg0KPiA+IENjOiBTdGFuaXNsYXYgRm9taWNoZXYgPHNkZkBmb21pY2hldi5t
+ZT4NCj4gPiBDYzogU3RldmVuIFJvc3RlZHQgPHJvc3RlZHRAZ29vZG1pcy5vcmc+DQo+ID4gLS0t
+DQo+ID4gZGlmZiB3aXRoIHYzOiBjb21tZW50cyBtb2RpZmljYXRpb24sIHN1Z2dlc3RlZCBieSBM
+YW5jZSwgTWFzYW1pLCBSYW5keQ0KPiA+IGFuZCBQZXRyIGRpZmYgd2l0aCB2MjogZG8gbm90IGFk
+ZCBhIG5ldyBzeXNjdGwsIGV4dGVuZA0KPiA+IGh1bmdfdGFza19wYW5pYywgc3VnZ2VzdGVkIGJ5
+IEtlZXMgQ29vaw0KPiA+DQo+ID4gICBEb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2tlcm5lbC1w
+YXJhbWV0ZXJzLnR4dCAgICAgIHwgMjANCj4gKysrKysrKysrKysrKy0tLS0tLS0NCj4gPiAgIERv
+Y3VtZW50YXRpb24vYWRtaW4tZ3VpZGUvc3lzY3RsL2tlcm5lbC5yc3QgICAgICAgICAgfCAgOSAr
+KysrKy0tLS0NCj4gPiAgIGFyY2gvYXJtL2NvbmZpZ3MvYXNwZWVkX2c1X2RlZmNvbmZpZyAgICAg
+ICAgICAgICAgICAgfCAgMiArLQ0KPiA+ICAga2VybmVsL2NvbmZpZ3MvZGVidWcuY29uZmlnICAg
+ICAgICAgICAgICAgICAgICAgICAgICB8ICAyICstDQo+ID4gICBrZXJuZWwvaHVuZ190YXNrLmMg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMTUNCj4gKysrKysrKysrKy0tLS0t
+DQo+ID4gICBsaWIvS2NvbmZpZy5kZWJ1ZyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgIDkNCj4gKysrKystLS0tDQo+ID4gICB0b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy93aXJl
+Z3VhcmQvcWVtdS9rZXJuZWwuY29uZmlnIHwgIDIgKy0NCj4gPiAgIDcgZmlsZXMgY2hhbmdlZCwg
+MzYgaW5zZXJ0aW9ucygrKSwgMjMgZGVsZXRpb25zKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEv
+RG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50eHQNCj4gPiBiL0Rv
+Y3VtZW50YXRpb24vYWRtaW4tZ3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0DQo+ID4gaW5kZXgg
+YTUxYWI0Ni4uNDkyZjBiYyAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2FkbWluLWd1
+aWRlL2tlcm5lbC1wYXJhbWV0ZXJzLnR4dA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vYWRtaW4t
+Z3VpZGUva2VybmVsLXBhcmFtZXRlcnMudHh0DQo+ID4gQEAgLTE5OTIsMTQgKzE5OTIsMjAgQEAN
+Cj4gPiAgIAkJCXRoZSBhZGRlZCBtZW1vcnkgYmxvY2sgaXRzZWxmIGRvIG5vdCBiZSBhZmZlY3Rl
+ZC4NCj4gPg0KPiA+ICAgCWh1bmdfdGFza19wYW5pYz0NCj4gPiAtCQkJW0tOTF0gU2hvdWxkIHRo
+ZSBodW5nIHRhc2sgZGV0ZWN0b3IgZ2VuZXJhdGUgcGFuaWNzLg0KPiA+IC0JCQlGb3JtYXQ6IDAg
+fCAxDQo+ID4gKwkJCVtLTkxdIE51bWJlciBvZiBodW5nIHRhc2tzIHRvIHRyaWdnZXIga2VybmVs
+IHBhbmljLg0KPiA+ICsJCQlGb3JtYXQ6IDxpbnQ+DQo+ID4gKw0KPiA+ICsJCQlXaGVuIHNldCB0
+byBhIG5vbi16ZXJvIHZhbHVlLCBhIGtlcm5lbCBwYW5pYyB3aWxsIGJlIHRyaWdnZXJlZA0KPiBp
+Zg0KPiA+ICsJCQl0aGUgbnVtYmVyIG9mIGRldGVjdGVkIGh1bmcgdGFza3MgcmVhY2hlcyB0aGlz
+IHZhbHVlLg0KPiA+ICsNCj4gPiArCQkJMDogZG9uJ3QgcGFuaWMNCj4gPiArCQkJMTogcGFuaWMg
+aW1tZWRpYXRlbHkgb24gZmlyc3QgaHVuZyB0YXNrDQo+ID4gKwkJCU46IHBhbmljIGFmdGVyIE4g
+aHVuZyB0YXNrcyBhcmUgZGV0ZWN0ZWQgaW4gYSBzaW5nbGUgc2Nhbg0KPiA+DQo+ID4gLQkJCUEg
+dmFsdWUgb2YgMSBpbnN0cnVjdHMgdGhlIGtlcm5lbCB0byBwYW5pYyB3aGVuIGENCj4gPiAtCQkJ
+aHVuZyB0YXNrIGlzIGRldGVjdGVkLiBUaGUgZGVmYXVsdCB2YWx1ZSBpcyBjb250cm9sbGVkDQo+
+ID4gLQkJCWJ5IHRoZSBDT05GSUdfQk9PVFBBUkFNX0hVTkdfVEFTS19QQU5JQyBidWlsZC10aW1l
+DQo+ID4gLQkJCW9wdGlvbi4gVGhlIHZhbHVlIHNlbGVjdGVkIGJ5IHRoaXMgYm9vdCBwYXJhbWV0
+ZXIgY2FuDQo+ID4gLQkJCWJlIGNoYW5nZWQgbGF0ZXIgYnkgdGhlIGtlcm5lbC5odW5nX3Rhc2tf
+cGFuaWMgc3lzY3RsLg0KPiA+ICsJCQlUaGUgZGVmYXVsdCB2YWx1ZSBpcyBjb250cm9sbGVkIGJ5
+IHRoZQ0KPiA+ICsJCQlDT05GSUdfQk9PVFBBUkFNX0hVTkdfVEFTS19QQU5JQyBidWlsZC10aW1l
+IG9wdGlvbi4NCj4gVGhlIHZhbHVlDQo+ID4gKwkJCXNlbGVjdGVkIGJ5IHRoaXMgYm9vdCBwYXJh
+bWV0ZXIgY2FuIGJlIGNoYW5nZWQgbGF0ZXIgYnkgdGhlDQo+ID4gKwkJCWtlcm5lbC5odW5nX3Rh
+c2tfcGFuaWMgc3lzY3RsLg0KPiA+DQo+ID4gICAJaHZjX2l1Y3Y9CVtTMzkwXQlOdW1iZXIgb2Yg
+ei9WTSBJVUNWIGh5cGVydmlzb3IgY29uc29sZQ0KPiAoSFZDKQ0KPiA+ICAgCQkJCXRlcm1pbmFs
+IGRldmljZXMuIFZhbGlkIHZhbHVlczogMC4uOCBkaWZmIC0tZ2l0DQo+ID4gYS9Eb2N1bWVudGF0
+aW9uL2FkbWluLWd1aWRlL3N5c2N0bC9rZXJuZWwucnN0DQo+ID4gYi9Eb2N1bWVudGF0aW9uL2Fk
+bWluLWd1aWRlL3N5c2N0bC9rZXJuZWwucnN0DQo+ID4gaW5kZXggZjNlZTgwNy4uMDA2NWE1NSAx
+MDA2NDQNCj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL3N5c2N0bC9rZXJuZWwu
+cnN0DQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9zeXNjdGwva2VybmVsLnJz
+dA0KPiA+IEBAIC0zOTcsMTMgKzM5NywxNCBAQCBhIGh1bmcgdGFzayBpcyBkZXRlY3RlZC4NCj4g
+PiAgIGh1bmdfdGFza19wYW5pYw0KPiA+ICAgPT09PT09PT09PT09PT09DQo+ID4NCj4gPiAtQ29u
+dHJvbHMgdGhlIGtlcm5lbCdzIGJlaGF2aW9yIHdoZW4gYSBodW5nIHRhc2sgaXMgZGV0ZWN0ZWQu
+DQo+ID4gK1doZW4gc2V0IHRvIGEgbm9uLXplcm8gdmFsdWUsIGEga2VybmVsIHBhbmljIHdpbGwg
+YmUgdHJpZ2dlcmVkIGlmIHRoZQ0KPiA+ICtudW1iZXIgb2YgaHVuZyB0YXNrcyBmb3VuZCBkdXJp
+bmcgYSBzaW5nbGUgc2NhbiByZWFjaGVzIHRoaXMgdmFsdWUuDQo+ID4gICBUaGlzIGZpbGUgc2hv
+d3MgdXAgaWYgYGBDT05GSUdfREVURUNUX0hVTkdfVEFTS2BgIGlzIGVuYWJsZWQuDQo+ID4NCj4g
+PiAtPSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+
+ID4gKz0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PQ0KPiA+ICAgMCBDb250aW51ZSBvcGVyYXRpb24uIFRoaXMgaXMgdGhlIGRlZmF1bHQgYmVo
+YXZpb3IuDQo+ID4gLTEgUGFuaWMgaW1tZWRpYXRlbHkuDQo+ID4gLT0gPT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiA+ICtOIFBhbmljIHdoZW4gTiBo
+dW5nIHRhc2tzIGFyZSBmb3VuZCBkdXJpbmcgYSBzaW5nbGUgc2Nhbi4NCj4gPiArPSA9PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+ID4NCj4g
+Pg0KPiA+ICAgaHVuZ190YXNrX2NoZWNrX2NvdW50DQo+IA0KPiBb4oCmXQ0KPiANCj4gPiBkaWZm
+IC0tZ2l0IGEvbGliL0tjb25maWcuZGVidWcgYi9saWIvS2NvbmZpZy5kZWJ1ZyBpbmRleA0KPiA+
+IDMwMzRlMjk0Li4zOTc2YzkwIDEwMDY0NA0KPiA+IC0tLSBhL2xpYi9LY29uZmlnLmRlYnVnDQo+
+ID4gKysrIGIvbGliL0tjb25maWcuZGVidWcNCj4gPiBAQCAtMTI1OCwxMiArMTI1OCwxMyBAQCBj
+b25maWcgREVGQVVMVF9IVU5HX1RBU0tfVElNRU9VVA0KPiA+ICAgCSAgS2VlcGluZyB0aGUgZGVm
+YXVsdCBzaG91bGQgYmUgZmluZSBpbiBtb3N0IGNhc2VzLg0KPiA+DQo+ID4gICBjb25maWcgQk9P
+VFBBUkFNX0hVTkdfVEFTS19QQU5JQw0KPiA+IC0JYm9vbCAiUGFuaWMgKFJlYm9vdCkgT24gSHVu
+ZyBUYXNrcyINCj4gPiArCWludCAiTnVtYmVyIG9mIGh1bmcgdGFza3MgdG8gdHJpZ2dlciBrZXJu
+ZWwgcGFuaWMiDQo+ID4gICAJZGVwZW5kcyBvbiBERVRFQ1RfSFVOR19UQVNLDQo+ID4gKwlkZWZh
+dWx0IDANCj4gPiAgIAloZWxwDQo+ID4gLQkgIFNheSBZIGhlcmUgdG8gZW5hYmxlIHRoZSBrZXJu
+ZWwgdG8gcGFuaWMgb24gImh1bmcgdGFza3MiLA0KPiA+IC0JICB3aGljaCBhcmUgYnVncyB0aGF0
+IGNhdXNlIHRoZSBrZXJuZWwgdG8gbGVhdmUgYSB0YXNrIHN0dWNrDQo+ID4gLQkgIGluIHVuaW50
+ZXJydXB0aWJsZSAiRCIgc3RhdGUuDQo+ID4gKwkgIFdoZW4gc2V0IHRvIGEgbm9uLXplcm8gdmFs
+dWUsIGEga2VybmVsIHBhbmljIHdpbGwgYmUgdHJpZ2dlcmVkDQo+ID4gKwkgIGlmIHRoZSBudW1i
+ZXIgb2YgaHVuZyB0YXNrcyBmb3VuZCBkdXJpbmcgYSBzaW5nbGUgc2NhbiByZWFjaGVzDQo+ID4g
+KwkgIHRoaXMgdmFsdWUuDQo+ID4NCj4gPiAgIAkgIFRoZSBwYW5pYyBjYW4gYmUgdXNlZCBpbiBj
+b21iaW5hdGlvbiB3aXRoIHBhbmljX3RpbWVvdXQsDQo+ID4gICAJICB0byBjYXVzZSB0aGUgc3lz
+dGVtIHRvIHJlYm9vdCBhdXRvbWF0aWNhbGx5IGFmdGVyIGENCj4gV2h5IG5vdCBsZWF2ZSB0aGUg
+c2VudGVuY2UgYWJvdXQgdGhlIHVuaW50ZXJydXB0aWJsZSAiRCIgc3RhdGUgaW4gdGhlcmU/DQo+
+IA0KVGhpcyBzZWVtIHRvIHNheSBhIGtlcm5lbCBidWcgdG8gY2F1c2UgaHVuZyB0YXNrLCBidXQg
+aXQgbWF5YmUgaGFyZHdhcmUgZmFpbHVyZShvciB2aXJ0aW8gYmFja2VuZCBidWcpOyBzbyBJIGRv
+IG5vdCBrZWVwIGl0DQoNCj4gQWxzbywgaXQgc291bmRzIGxpa2UsIHNvbWUgYXJlIGFjdHVhbGx5
+IHVzaW5nIHRoaXMgaW4gcHJvZHVjdGlvbi4gTWF5YmUgaXQNCj4gc2hvdWxkIGJlIG1vdmVkIG91
+dCBvZiBgS2NvbmZpZy5kZWJ1Z2AgdG9vPw0KPiANCg0KSSB0aGluayBodW5nIHRhc2sgcGFuaWMg
+aXMgYSB1c2VmdWwgZmVhdHVyZSwgaXQgc2hvdWxkIG1vdmUgb3V0IG9mIEtjb25maWcuZGVidWcN
+Cg0KVGhhbmtzDQoNCi1MaQ0KDQo+IA0KPiBLaW5kIHJlZ2FyZHMsDQo+IA0KPiBQYXVsDQo=
 
