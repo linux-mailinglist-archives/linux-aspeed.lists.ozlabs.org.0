@@ -1,75 +1,78 @@
-Return-Path: <linux-aspeed+bounces-2548-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2551-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D319BF7408
-	for <lists+linux-aspeed@lfdr.de>; Tue, 21 Oct 2025 17:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A0DBF8FFB
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Oct 2025 00:05:59 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4crbJB2q3Zz30Pl;
-	Wed, 22 Oct 2025 02:07:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4crmZr29LTz2yvk;
+	Wed, 22 Oct 2025 09:05:56 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=198.175.65.21
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1761059258;
-	cv=none; b=QMRo6VArb8drFlM5esXo/nwllh44dywQ1Zb8tDbqFzRaOmHf4z+MCqDtNA9MK8NmeD+Lzho+pXCV8AFwzVE6B2Hf1OF/gwM5xKe0pt5mozf5QeZBl+nQBPayRk0Z/8obNXb6Bj2+A0ixnIR9M2v+P97cHEdDLNWDvwSP9jQXKt1lT/9LpTFu3fQFcOMCpzejaiKufHlAirjh9h8x5zgBTj8+61XC0zATgyzrdjwpfm4BVWIwqnr3P2VDi2p0ho35ddctF9Bjtr2WKv3WYpkymH1s4LOarKm4GSKqfs8AbiHPD8PvFk0YAhaqZgBCu0Ced4aWhs00UuT0yh4tbbXB2w==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::52d"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1761016556;
+	cv=none; b=K4b89xfH7kLeOlCFXRY7c0vDnS9MVYqReBhhIgMVrz177DhmocHXI0nC1/4EPTtOElBYFHw8phTkM0Y3kDoNzAvHdkczB8euMfrN/LVLumkfLUr7IdZFYodu/pNAvLGdkqhPMzXYZJQeW0OdEVKp1Dz96mKJ+/CvsJrkSaTk+qw0H1w4WkbyVtJZzW9EyMhHR3supkbTJcNgE3uco5zRbYbaWnBEe60oxzIzvobICP+4QU/OjNC0mImPel6kge/4JUaLebkzypx9qxMrPo/Gx+EYAqMy0ReiXV4F89yp8YzACM7DKOPKr5bG+e/c/hCHdLC/30x29oJWhf7Gtv2oTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1761059258; c=relaxed/relaxed;
-	bh=hcbKy5tNqR5XvaRJ/EYUruL2pTPsg2ZXQfdQqcxcATY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f+pAPmlh170Dy+6UiqVHimf3ucUGUyUvwdWTa+aizIQhwqakzc9x75xNrIpaalm/khzlXM1WS19UrNrQtQJ4/epewfHwyuJ+aY6/cSxiI/iJslbg+DgfYPo6Jlk+TWT/Mj+Zpxt8gEie7Nm+9N9cFRWXL+ujhZj2PtiCkVqxfaW0U0O2LwNplgVceCLd2gFEd3T5GWnIKSIA+33pmDG5DqMxwsRHkfodtSOPF3HZm1FOYH37EMZQT8HCNNnR+yn40PW6+sc7tzU528l2vHfdCQmLksFmLOpJspxrfFDGBJSJESRlogA121X+NnsALPeJ1WFrapAsDOWwBXdneWbfng==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZdyIlBs3; dkim-atps=neutral; spf=pass (client-ip=198.175.65.21; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
+	t=1761016556; c=relaxed/relaxed;
+	bh=MIc5Jk6uXrpT5vKhUN3R3BidtAKxdUPzX/dU/naleU8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Xpf714zNFDQP6w8NVCGstWOPUhNjERNf3/gUvFwPGqaA0j8egpE8Iay4OEJakFM8LkxoOuYHS8yeKIRa6uM120Up27tKIcZTPlJma8g8GOc+OJHV+yQsu8pRLh610eh6P2SyX8fLFvw+QDt6/sqJ0n9ntzsGcKx/ZxQ62g+aQty5g9OHUYB33vYtQiCpWntTFpvWK+JkFNWIKgfwJLtqTtNF+6ZJ0/pvdDjD5zOY7QvbyeJq6DZgDLceV/bbEhufn6wgHO0b/vTzoqDWHYufbPRgrBkGnSqahhgotMYcojVLLpL/6WpYSRquEJV6kQ0Ralw3jJSaF4tdMB+Dr0BoxQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Y+loLgrn; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::52d; helo=mail-pg1-x52d.google.com; envelope-from=leo.jt.wang@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ZdyIlBs3;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Y+loLgrn;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.21; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@intel.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 63 seconds by postgrey-1.37 at boromir; Wed, 22 Oct 2025 02:07:35 AEDT
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::52d; helo=mail-pg1-x52d.google.com; envelope-from=leo.jt.wang@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4crbJ772j1z30P3
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Oct 2025 02:07:35 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761059256; x=1792595256;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kaQgFgAUjXn571ByFw9JlPd7Orioww62gS7ZpKn0Vvg=;
-  b=ZdyIlBs321hxoCwsG/7xclgmR0NkefzPIcV+2/ya0Ak+Bzwg0NOHt3Bc
-   6LbG2TrrjcyJTk/XCNXZNpDXdMqEhYMAmPxFPmUkPECU/jMhlDCsGpnT5
-   INQx3vAKqJK/50ZOQ2sb6G50sysWArtjcEMnZN6I6MSVwmTFL7dOXgaSE
-   YdBe2UN+FflsUCYwPwJkFUf3dD9drke3nGc8fxil+CM0A/FlY2w3fd2Ey
-   DVIvEG6nHJ3ryLo8YaPEK1KlgJm/NGwGCDvvKGYyNAqSkQw6dOjG+CLYj
-   zVxfD2mTAJoKa7EZijHPQerMK+wf467bRx4lgoi5XtLKMw3HrLYvSsOT4
-   w==;
-X-CSE-ConnectionGUID: EDohfv+XT1igOcYqQUbuzA==
-X-CSE-MsgGUID: JOL0yMEaTJ+2ChvrtDvOEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63091031"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="63091031"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 08:06:26 -0700
-X-CSE-ConnectionGUID: tQQvw3RuTnWZ506CmALQMg==
-X-CSE-MsgGUID: jOhEaA77R5WgldYhSU3alw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,245,1754982000"; 
-   d="scan'208";a="207285933"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.148])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 08:06:24 -0700
-Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1vBDwL-00000001We0-1IEe;
-	Tue, 21 Oct 2025 18:06:21 +0300
-Date: Tue, 21 Oct 2025 18:06:21 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
-	andy@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
-	linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] iio: adc: clear reference voltage bits before
- configuring vref
-Message-ID: <aPehbXMDP5xBBSS-@smile.fi.intel.com>
-References: <20251021053918.3008654-1-billy_tsai@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4crHVz0MDGz2yhD
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 21 Oct 2025 14:15:54 +1100 (AEDT)
+Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-b5515eaefceso4197276a12.2
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 20 Oct 2025 20:15:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761016551; x=1761621351; darn=lists.ozlabs.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MIc5Jk6uXrpT5vKhUN3R3BidtAKxdUPzX/dU/naleU8=;
+        b=Y+loLgrn1/fFC5jq8w+DCAIOWvBybghDiN1GRZfKkvY8xISBENGHblHbGg41ya1Wy4
+         Oxl7hNs4eEhoaUn+v+OeB69wpsvd32OVPtUHH4rFoawaRlz4SN2ip77De1QRYBiT2yZg
+         WbWlApQVk0NwrRTcgmX0AmcnGvL4Z8L1ThgihHUVUjtTTICWN82b+EJXpstyZgjhnJXd
+         5a8gmdreWt2g+G3BP4ygLSGuBChiSUtygir5s9hq7IRO8sm1WfKTR5CqeSk8ly1GJakJ
+         63SJuB+g39yGtRURJZqYeQKQPryWYb37TMHrYFkUpUkwwMbjuhHTWrbVE6VmP8+3udhZ
+         tCiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761016551; x=1761621351;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MIc5Jk6uXrpT5vKhUN3R3BidtAKxdUPzX/dU/naleU8=;
+        b=OSfbSVPw/BVrxmrukMaND5gs5Rq7CRwBFpRj1bqLDwhjWajf08x0mJPjkJMvTY1BEh
+         9Xkt3K7jRuOwNFeqhoyMwdMcAeLH+Mz9JK1kCV95xQvJxCjCCYIp9N00v4UYUgY7nxwx
+         QV0lqX4NeY5WfEOypaEp2GUiT95nyHgBNhny93/IGt8T2VMTY2wQd4SZCf3U5Ld4uVax
+         Vch7NhoRdehyoTUo4ZRNDMD3LiAQ+MsUF6IR13ux9EziL2tvkjlD4A+uenDtLr5uJZJF
+         VoUUmJYIXJ8HDK2H4l6ThxojGKRLyoYhuTyfx67kxbCf38sIlTL4olOkU0A6G+ziTLnv
+         sCpg==
+X-Forwarded-Encrypted: i=1; AJvYcCVHiluYzh3gbp0U0KjcbS+a7L2WAOrE1y/4YY6ITcc+5dr4Anq/5ZC+bl16bn+G1Ln4zoO7gsZ9wpC9pNQ=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YxIRCRbzeBIqtITuOq5LENB4/aJH/fnRX9zJGlIrBnRVW2qO2zY
+	x57MV7PAyMbw2+07zXWnDsJyLd8iXCH+8HRSigxlVi0cvD6mvvfwCnc6
+X-Gm-Gg: ASbGncvT9O8mJ1zlPW0fcIT5+xMXtvL90pRLjm/mlM7Gj8RkKSMnG2bnpvluAzwj+iT
+	9/IzoYqNy7MdkuInDNnNgdhzchjiStq4ypJAkYdbiYYuaaAyL0G+jB/AJ3La/xxJRa25MEnJ3Gi
+	j0l7dT5XGyYRtrNrOFArvLntHnSKsbGX/HrlJLupoCVk2XAlNv1ezhJJ0yLORufagAt+/TO3tTU
+	rYLRy6bFvV5spUBOiPsTDjzBfikufV+UcK3oWmLWsXYsZOQJnBwJI0pApqdNHXUWWfHjiwNqC3O
+	Yeggv+jFrxlYNv/PI+qhjQq3xythITBB1J1b3Hb+uokkilW/PK9+PVDAVhcEWhB2W1wjLpY0Rm9
+	YgfqPVjnysjABYeVXBoAoSFyn1TyArv7wMFzIvPulODLF8WBtaiEebVNjcwpe+LTQ7cJjxQTzBt
+	wqpssDwzHsTEi4Q4hvBR/2HST90jdDq8EVS90Z
+X-Google-Smtp-Source: AGHT+IHvc2OdIns7Dhqd5TV4LyvC/HJfGjCUatzoXh06HQxZAcairq7EJA2klU28lcwGsK1CQQDx2g==
+X-Received: by 2002:a17:903:2b0d:b0:272:f9c3:31f7 with SMTP id d9443c01a7336-290cbe2ae84mr56298125ad.50.1761016551034;
+        Mon, 20 Oct 2025 20:15:51 -0700 (PDT)
+Received: from [172.17.0.2] (125-227-29-20.hinet-ip.hinet.net. [125.227.29.20])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29246fcc2b1sm94889765ad.27.2025.10.20.20.15.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Oct 2025 20:15:50 -0700 (PDT)
+From: Leo Wang <leo.jt.wang@gmail.com>
+Date: Tue, 21 Oct 2025 11:15:39 +0800
+Subject: [PATCH] ARM: dts: aspeed: clemente: Add EEPROMs for boot and data
+ drive FRUs
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -83,32 +86,118 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251021053918.3008654-1-billy_tsai@aspeedtech.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251021-leo-dts-add-nvme-eeprom-v1-1-33166b3665b4@gmail.com>
+X-B4-Tracking: v=1; b=H4sIANr69mgC/x3MQQqEMBAF0atIr21IZ3REryIuxHy1YUwkERkQ7
+ 25w+RZVFyVERaKuuCji1KTBZ0hZ0LSOfgGryyZrbC3GCv8Q2B2JR+fYnxsY2GPY+CPfqpG2bid
+ rKNd7xKz/99wP9/0A40cKRWkAAAA=
+X-Change-ID: 20251021-leo-dts-add-nvme-eeprom-316471959c20
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ george.kw.lee@fii-foxconn.com, bruce.jy.hung@fii-foxconn.com, 
+ leo.jt.wang@fii-foxconn.com, Leo Wang <leo.jt.wang@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761016548; l=2272;
+ i=leo.jt.wang@gmail.com; s=20250618; h=from:subject:message-id;
+ bh=FozCj5Qtilnm6MTFQqUJJBi0+f5aDzs/7epoDnQr8Rw=;
+ b=8BInr5iA6wBDcAL4sY8DnyKW4muBdm9myjKyhrNgz4zvC7PgZByz+aciemOqaw2l3lP+Dk17F
+ WiRuYEfnT9MAdWDDJm8CfcmcWioWtAmA94gNx57lZN4uJoHCmtiSswe
+X-Developer-Key: i=leo.jt.wang@gmail.com; a=ed25519;
+ pk=x+DKjAtU/ZbbMkkAVdwfZzKpvNUVgiV1sLJbidVIwSQ=
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Tue, Oct 21, 2025 at 01:39:18PM +0800, Billy Tsai wrote:
-> Ensures the reference voltage bits are cleared in the ADC engine
-> control register before configuring the voltage reference. This
-> avoids potential misconfigurations caused by residual bits.
+Add EEPROM devices on the I2C buses used for the boot and data NVMe
+drives. These EEPROMs store FRU information for each drive, allowing
+the BMC to identify.
 
-> Change-Id: I03c036436f376ced8a19fa5d407b7bbb377ae721
+Signed-off-by: Leo Wang <leo.jt.wang@gmail.com>
+---
+ .../dts/aspeed/aspeed-bmc-facebook-clemente.dts    | 30 ++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-What is this?
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
+index 450446913e36b1418fab901cde44280468990c7a..885c50a7d66593dfa8493d2d031700174b452382 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
+@@ -311,6 +311,12 @@ i2c0mux0ch1mux0ch0: i2c@0 {
+ 					#address-cells = <1>;
+ 					#size-cells = <0>;
+ 					reg = <0>;
++
++					// HDD NVMe SSD FRU 0
++					eeprom@53 {
++						compatible = "atmel,24c02";
++						reg = <0x53>;
++					};
+ 				};
+ 
+ 				i2c0mux0ch1mux0ch1: i2c@1 {
+@@ -323,6 +329,12 @@ i2c0mux0ch1mux0ch2: i2c@2 {
+ 					#address-cells = <1>;
+ 					#size-cells = <0>;
+ 					reg = <2>;
++
++					// HDD NVMe SSD FRU 1
++					eeprom@53 {
++						compatible = "atmel,24c02";
++						reg = <0x53>;
++					};
+ 				};
+ 
+ 				i2c0mux0ch1mux0ch3: i2c@3 {
+@@ -493,6 +505,12 @@ i2c0mux3ch1mux0ch0: i2c@0 {
+ 					#address-cells = <1>;
+ 					#size-cells = <0>;
+ 					reg = <0>;
++
++					// HDD NVMe SSD FRU 2
++					eeprom@53 {
++						compatible = "atmel,24c02";
++						reg = <0x53>;
++					};
+ 				};
+ 
+ 				i2c0mux3ch1mux0ch1: i2c@1 {
+@@ -505,6 +523,12 @@ i2c0mux3ch1mux0ch2: i2c@2 {
+ 					#address-cells = <1>;
+ 					#size-cells = <0>;
+ 					reg = <2>;
++
++					// HDD NVMe SSD FRU 3
++					eeprom@53 {
++						compatible = "atmel,24c02";
++						reg = <0x53>;
++					};
+ 				};
+ 
+ 				i2c0mux3ch1mux0ch3: i2c@3 {
+@@ -619,6 +643,12 @@ i2c0mux5ch1: i2c@1 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+ 			reg = <1>;
++
++			// BOOT DRIVE FRU
++			eeprom@53 {
++				compatible = "atmel,24c02";
++				reg = <0x53>;
++			};
+ 		};
+ 
+ 		i2c0mux5ch2: i2c@2 {
 
-...
+---
+base-commit: 6953afcd81a2cc73784e3dd23faa0a1aaf97441a
+change-id: 20251021-leo-dts-add-nvme-eeprom-316471959c20
 
-Shouldn't be a Fixes tag provided?
-
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Leo Wang <leo.jt.wang@gmail.com>
 
 
