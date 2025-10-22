@@ -1,50 +1,53 @@
-Return-Path: <linux-aspeed+bounces-2556-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2557-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F18EBFA5BA
-	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Oct 2025 08:55:31 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D64C4BFA713
+	for <lists+linux-aspeed@lfdr.de>; Wed, 22 Oct 2025 09:06:01 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cs0Kr1T2Wz30Pl;
-	Wed, 22 Oct 2025 17:55:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cs0Yz2Zm9z2yFW;
+	Wed, 22 Oct 2025 18:05:59 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1761116128;
-	cv=none; b=WdK6aMLaFvQnx+LCqVAZYXr/Yp/GIdTlNgy5+ecRQEQzeE83CQt41qJMA9Eb1xXzTjrotPt8wSCKqRU18lfzf4mHSLc4d/vhMds7Q/XWIZmJLmsQdMEtGm2CooYHEUfuPJqlBIa19cUJHzy0rcvHe8UGTbqbNi1uFdYDgxfh9GglUoK+ScuDmL34bbRZXYuJ/svCAjISjCLjqvJf+MEfibQXX/M2mnOitJYMCyGTZ5zvB2raNilnMxsB9vyCAChFMKXDW2gHiuxW0t86aVJKZrIUYNX1y7bquVQUpwwTegnF2KGHexTHmgmaNAMfBhTgZd7lJAj/eClYC3IV4SLsbg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1761116759;
+	cv=none; b=Yejo8F9LsPFCegi6wanw7sxntqA2qZlO0LKl8w7chI4j0tWFk6vqtR3lMl6kIiM1thNNfwJyRqqakPYHn6aShQjLPnEpFSq9vqTcsy7tAFnkELkKLhqH1cHk3C40WLAIEXKBbH3PjxLIr0kDcfQNGpbB/1n4D5O0DfoUD8c/6lAHk77/pOx5hZIC/ISxmVz7xsb4tQRmREiCxtPnzHLHinRNqEgnmZSopKn6M0g+/egJ1cdo7uUE3sN+JL5zXFDR/QWfHkfVaf0d8NpBch/1ZWdXAfNc4N1EK++9TugJmYtNqYFiRpOTW2X+n7fcDKY7+IMpOHE5Eya+bFpMcXmryA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1761116128; c=relaxed/relaxed;
-	bh=poKoDk5JsUNnSl1nvbFWT7ZRjSjAmaJktrcHmAUIWUA=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O+FVqUtM7M/rXpyxT7ju5eF7W+pCgzQy0zzbXLudkPnZDOg+4mNVKW9KUeSYknt6YbE8Zfof+WjXjuz2zf5maHrHLZpGnXchWsLdrzsD9U7yrBN2aV1qiNn0nuDvyWmN234rIgu/zhXgy4bjGEHlIZA0atumIgCfRH46YoOYQn5OfCdRBAaBHhWRgh4i3EmGpT21fVI0MDzqLveMphiTDYptPp68JfQdEDEsTOPJNE61uX0YT10sZ7HPPB5KQ+3gqIJMc0hK5pXFjw50pIcAfpoTUZ6srKLTd8gXjChRU63dv5TJPK08NuWzvBtUpVnEkKtDFmxd9e9aJCWcyt5kNA==
+	t=1761116759; c=relaxed/relaxed;
+	bh=jCJolrdlxtjpnWKS4C2Xoichd440aQTt7t6x1CI3flw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HyC2nv97d5KnMroh/6u509lGlf9J/Hnx7f3EzXqcYIFv3j35xmmP5ESrayQ1cDEvqqzdKl1htBReoDdyxRvN9DVFHg3ON2piXip2quhNpRw0Qxo21vhyq91zjeNOhwMqk4Nr4rUkI1P6LYrL9gD6sTNhWmhmgolCWGkdVh+XjNpcpm1ZOp8cNxQzDS73HiafGIURLLpXNNT/jTC1lSqf0Rne2dW+dNVNxYn4KfWba+K5hQYkFEpB+tdEMsFgy+e4FypYBA8N4qoYvrDAL+TLwrHaFP3YatKwUDYqV/JIQ6KUHQrdtBEv1i/+ptusVcXfN0X3eiT6gCTgN1B9DpeDOw==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cs0Kq56rYz2yFT
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Oct 2025 17:55:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cs0Yy1p67z2xdg
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 22 Oct 2025 18:05:57 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 22 Oct
- 2025 14:55:08 +0800
+ 2025 15:05:43 +0800
 Received: from twmbx02.aspeed.com (192.168.10.13) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Wed, 22 Oct 2025 14:55:08 +0800
+ Transport; Wed, 22 Oct 2025 15:05:43 +0800
 From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: ryan_chen <ryan_chen@aspeedtech.com>, Thomas Gleixner
-	<tglx@linutronix.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley
-	<joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
-	<jk@codeconstruct.com.au>, Kevin Chen <kevin_chen@aspeedtech.com>,
-	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>
-Subject: [PATCH v5 3/3] irqchip: aspeed: add compatible strings for ast2700-intc0-ic and ast2700-intc1-ic
-Date: Wed, 22 Oct 2025 14:55:07 +0800
-Message-ID: <20251022065507.1152071-4-ryan_chen@aspeedtech.com>
+To: ryan_chen <ryan_chen@aspeedtech.com>, <bmc-sw@aspeedtech.com>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+	<andrew@codeconstruct.com.au>, <jk@codeconstruct.com.au>, Lee Jones
+	<lee@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
+	<will@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Bjorn Andersson
+	<bjorn.andersson@oss.qualcomm.com>, Geert Uytterhoeven
+	<geert@linux-m68k.org>, Nishanth Menon <nm@ti.com>,
+	<nfraprado@collabora.com>, Taniya Das <quic_tdas@quicinc.com>, Lad Prabhakar
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Kuninori Morimoto
+	<kuninori.morimoto.gx@renesas.com>, Eric Biggers <ebiggers@kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v6 0/6] Introduce ASPEED AST2700 BMC SoC
+Date: Wed, 22 Oct 2025 15:05:37 +0800
+Message-ID: <20251022070543.1169173-1-ryan_chen@aspeedtech.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251022065507.1152071-1-ryan_chen@aspeedtech.com>
-References: <20251022065507.1152071-1-ryan_chen@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -64,40 +67,86 @@ X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-The AST2700 SoC defines two parent interrupt controller blocks
-(INTC0 and INTC1), each containing multiple interrupt-controller
-child instances ("*-intc-ic"). The existing irqchip driver
-(irq-aspeed-intc.c) currently only registers a single compatible
-string: "aspeed,ast2700-intc-ic"
+This introduces initial support for the Aspeed AST2700 SoC and the AST2700
+Evaluation Board (EVB) to the Linux kernel. The AST27XX is the 8th
+generation Baseboard Management Controller (BMC) SoC from Aspeed,
+featuring improved performance, enhanced security, and expanded I/O
+capabilities compared to previous generations.
 
-To support device trees that describe the INTC0 and INTC1
-hierarchy more precisely, this patch adds two additional
-compatible strings:
- - "aspeed,ast2700-intc0-ic"
- - "aspeed,ast2700-intc1-ic"
+AST27XX SOC Family
+ - https://www.aspeedtech.com/server_ast2700/
+ - https://www.aspeedtech.com/server_ast2720/
+ - https://www.aspeedtech.com/server_ast2750/
 
-Both map to the same initialization function
-`aspeed_intc_ic_of_init()`.
+Bindings Dependencies:
+- scu/silicon-id: Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+- gpio: Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml
+- mdio: Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
+- intc0: Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc0.yaml
+- intc1: Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc1.yaml
+ - https://lore.kernel.org/all/20251022065507.1152071-2-ryan_chen@aspeedtech.com/T/#u (Reviewing)
 
-This allows DTS bindings and drivers for AST2700 INTC0/INTC1
-to be matched correctly, while maintaining backward compatibility
-with the original compatible string.
+v6:
+- rebased on v6.18-rc1
+- aspeed,ast2x00-scu.yaml
+ - fixed dt-binding yaml issuse report.
 
-Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
----
- drivers/irqchip/irq-aspeed-intc.c | 2 ++
- 1 file changed, 2 insertions(+)
+v5:
+- modify ast27XX 7th generation description to 8th generation.
+- aspeed.yaml
+ - modify missing blank line.
+- Kconfig.platforms
+ - modify ast27XX 7th generation to 8th generation.
 
-diff --git a/drivers/irqchip/irq-aspeed-intc.c b/drivers/irqchip/irq-aspeed-intc.c
-index 8330221799a0..a40b406dc8fa 100644
---- a/drivers/irqchip/irq-aspeed-intc.c
-+++ b/drivers/irqchip/irq-aspeed-intc.c
-@@ -137,3 +137,5 @@ static int __init aspeed_intc_ic_of_init(struct device_node *node,
- }
- 
- IRQCHIP_DECLARE(ast2700_intc_ic, "aspeed,ast2700-intc-ic", aspeed_intc_ic_of_init);
-+IRQCHIP_DECLARE(ast2700_intc0_ic, "aspeed,ast2700-intc0-ic", aspeed_intc_ic_of_init);
-+IRQCHIP_DECLARE(ast2700_intc1_ic, "aspeed,ast2700-intc1-ic", aspeed_intc_ic_of_init);
+v4:
+- make CHECK_DTBS=y arch/arm64/boot/dts/aspeed/ fix.
+- modify commit message remove itemlize.
+- remove modify aspeed,ast2700-intc.yaml patch.
+- aspeed.yaml
+ - Add AST2700 board compatible.
+- aspeed-g7.dtsi
+ - modify all size-cells from 1 to 2.
+ - add serial aliases, gpio, mdio, uart0 ~ 14.
+ - add firmware for optee, reserved memory for atf and optee.
+ - modify cpu@0 to cpu0: cpu@0.
+ - fix intc-ic for yaml dependency.
+- ast2700-evb.dts
+ - update stdout-path = "serial12:115200n8";
+
+v3:
+- https://lore.kernel.org/all/20241212155237.848336-1-kevin_chen@aspeedtech.com/
+- Split clk and reset driver to other commits, which are in series of
+  "Add support for AST2700 clk driver".
+- For BMC console by UART12, add uart12 using ASPEED INTC architecture.
+
+aspeed,ast2700-intc.yaml
+- Add minItems to 1 to fix the warning by "make dtbs_check W=1".
+- Add intc1 into example.
+
+Kconfig.platforms
+  - Remove MACH_ASPEED_G7.
+
+Ryan Chen (6):
+  dt-bindings: arm: aspeed: Add AST2700 board compatible
+  arm64: Kconfig: Add Aspeed SoC family (ast27XX) Kconfig support
+  dt-bindings: mfd: aspeed,ast2x00-scu: allow #size-cells range
+  arm64: dts: aspeed: Add initial AST2700 SoC device tree
+  arm64: dts: aspeed: Add AST2700 Evaluation Board
+  arm64: configs: Update defconfig for AST2700 platform support
+
+ .../bindings/arm/aspeed/aspeed.yaml           |   6 +
+ .../bindings/mfd/aspeed,ast2x00-scu.yaml      |   2 +-
+ arch/arm64/Kconfig.platforms                  |   6 +
+ arch/arm64/boot/dts/Makefile                  |   1 +
+ arch/arm64/boot/dts/aspeed/Makefile           |   4 +
+ arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi     | 516 ++++++++++++++++++
+ arch/arm64/boot/dts/aspeed/ast2700-evb.dts    |  22 +
+ arch/arm64/configs/defconfig                  |   1 +
+ 8 files changed, 557 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm64/boot/dts/aspeed/Makefile
+ create mode 100644 arch/arm64/boot/dts/aspeed/aspeed-g7.dtsi
+ create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-evb.dts
+
 -- 
 2.34.1
 
