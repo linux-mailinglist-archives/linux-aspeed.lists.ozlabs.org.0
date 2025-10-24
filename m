@@ -1,54 +1,163 @@
-Return-Path: <linux-aspeed+bounces-2585-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2589-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B14C03B5B
-	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Oct 2025 00:52:01 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D3AC044AC
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Oct 2025 05:55:26 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ct1W24Frqz3bW7;
-	Fri, 24 Oct 2025 09:51:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ct8F73TB9z301K;
+	Fri, 24 Oct 2025 14:55:23 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1761215253;
-	cv=none; b=OPw72crD+N2hW73tdj6zThYvFlwF6h32aO+5k3ZYH+SRKMSmbsbyJyGqct5NJKD3vgapFcqVhPCe7cy7TsiJdvaiFnD9EZ/5q7JA6k5DiO4mKs1sFjtA2EF0R43/awu866VE4dhRaU+M6YLzJAvkx3SoedSkyP1k+COa5c0ij7e/gEI3CkNkwWRTLqWwaG+Mr/xK/HqC7JcFEoOaBo6VuJ8uZbzioOQXHFgD/Y9DqRxektgDDerr5hOu3wG9zN3fTHaBUNmXPvTIbUzokYsluN5EPJZ9vt6WBPvKFfwzmLx7AhI1PQ+0/DiboGEysvCYPU7TZ7P0Y//J/va+Jp6X/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1761215253; c=relaxed/relaxed;
-	bh=rDaarJu+1lMV7xrBDAmTOi1odQwoiS3QEl1ot3QDFr8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=OXj47vT0OBNenkJ3MMf4le9xXARQh3q/E6CEPiB0jvcwMzrYkFFRuFJiSGi6oA4R/4IHP6mGi/8S/kO88G2UWpwZcUyPGZ3GOCtpYcLsn5YyrsVdl1XC+BW+eCtOn0mv4tBk0qZnu2KsPhEoTGay3BPK01RU5YvNYkEz7VJmMCeLaMKIAhWfujTeZz79s08DJeZWZCrZ6tK8N4wb46MIGmvW4tevadakqZpXO5kfyg8Nyb4TncFXsNsU6FWx7X5VE9zHCZJm2amTqRDv7xj6h4BZyvp/eJ5jIZglT4Tq/Xi/3qiYodL2Tb9e05D3QK68w+yUaHR3QBPquDIKajT8Uw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KtZzY7+K; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=devnull+alex.ts.wang.fii-foxconn.com@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:c405::7" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1761278123;
+	cv=pass; b=f+aXhG57pVqyUgJuaNGI6s9VFUCsVY9SaaYubPh33C819M4Of4klkBBcMVLWU6djvYRtf6SE/CsH6A1IeYN56GeV6OZ0bybskMlJJoh+sl5eEjSkl1t9Y6aDNegch17KE2fTkjCi/QynV10TNhstyZBat7tDNGJ9FR7wfQN0uOarYBL0ku7C5lfC5zoKnxu4k+7TUNBShkv/swW5A8Wp4TsCRBqupdB/U5RTfYIWCfPJdqbdu2C8XM3wXVMMXIHP9fXpFp2I4jQMBZnIGmJrmE5cjjHnwFzB0G91QAg8912T8sZy1ciofn66eB95rKEYdcer9mv2G3MNUBhX1jZKTw==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1761278123; c=relaxed/relaxed;
+	bh=U30u3fnqAkWRz7sM/tFWQXrcvsFbHIwUMNYsgDz34to=;
+	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=XX8EIQjySrTpbNYoon2pp8xQd6YzMLXcrArjxRyvxTpp/DUUCz2p1apZcIRZYN7/2+TXEVZS2VNEf10/XazpVFZ3lU8m69uZEicV+lMT/IB44bPoEI0+fOQ09rcg5z83FcsfoPDkXvGsR+HBRNJwO1qDWnQj+xyZ5wmmSgBu6IbNpEfj+2R+LPqD4Nz3eIVb02ac7w3T4o/l0TJj6QnscomXLexdBtCq09zl6uvH9WlB0t6LREnnfgSFA1+iZG6rHrLhdsEwnPZ+0lSuVzC0iLsIZOKjdB4vuX2H7hyKkIvEy7CPyrwCv6wT0HZdCv4dpMvVqJXA9e+Hj/1OPSEiPw==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=cj5fyM6e; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c405::7; helo=tydpr03cu002.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KtZzY7+K;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=cj5fyM6e;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=devnull+alex.ts.wang.fii-foxconn.com@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:c405::7; helo=tydpr03cu002.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazlp170130007.outbound.protection.outlook.com [IPv6:2a01:111:f403:c405::7])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4csj0440M8z304l
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Oct 2025 21:27:32 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id E2C10440B8;
-	Thu, 23 Oct 2025 10:27:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B5F0BC4CEFB;
-	Thu, 23 Oct 2025 10:27:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761215248;
-	bh=9moM1zvWggM59ECkKTAgJYY6tGFpdNeypAAeKDaTrsc=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=KtZzY7+KK5fh0BsjWRQXOLlZcL8+4/Wrjg8izY1b9HxLlZtAtlFMrx2GPoFESdEgh
-	 ETw77KIaAUcLP1EqRIK5RGJuBUxJOwoHFTEhlzFj+E4UJYILRJiGsQsqh5Grt24xH+
-	 L8Qzrjx1SDCoHVqUWTc8WMU+dCPdS7nULcZoIHPbpYI6U1vJaw2Tw4V1mEqoUaKt42
-	 tXGDcoDYlBF3HriqpoZEpQbqP97SNUYpHUv1YUn6tzH3Jexv4G9rTOCz8MUbplUqY9
-	 kXSujti/0bFNyxLk3m5QlGnLr4W7mVB+a2Zze+Qx1guUCQE1srfgcIUdAK/Ebg1M4F
-	 GGhnds9rbNdrw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1BF8CCD1BE;
-	Thu, 23 Oct 2025 10:27:28 +0000 (UTC)
-From: Alex Wang via B4 Relay <devnull+alex.ts.wang.fii-foxconn.com@kernel.org>
-Date: Thu, 23 Oct 2025 18:26:56 +0800
-Subject: [PATCH] dt: aspeed: clemente: move hdd_led to its own gpio-leds
- group
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ct8F60Prkz2yx8
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 24 Oct 2025 14:55:21 +1100 (AEDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=J64LXWuhS12HAgwlVmzMCOOTXOkDL3vdqQw4TUy7vYuEzSn4B67yCZR9U8XqFF3+aEghTE/vdwitsY26Z7utLQtTe4edEjrOI41H1rG4s7UrnUQwRbuuYsT7qQo6O/Mt2PIlcA+2KDWVY7cLMtznwh4gFeLxXuL9GFdLJqGeDr17dSW0HNQQsnvxxNehr36quvEwE2FtJQQNQXJl2+SWBzeSzFs8ek5rUvW5506UbmCfcZfDjsLfPRQh+7UXk2Zy70LULbis0jujpSaXU8iy9Eiv/oUSkqEHbVYnNk7y+mDyitldksYQj4mOXvzHqh2mhL9aurMT2cFi25xorBIAyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U30u3fnqAkWRz7sM/tFWQXrcvsFbHIwUMNYsgDz34to=;
+ b=wRDH7nShAgKrY2h7SEym/HskIqF344lEKl0jOqdJsrNMSyeYFefVq3jjVw8PsTSmaL1/IcgBfHB4K0++NYc0n5+B6bFAg/rLjlxNTH2+KIHztEJe/kVZ1TD47WXG96VSkIlr685PtIIAgANjxMY9227YZoyAtHBlk2HWqhEZmyPNFX42XYjbNuZ/8v6UrpQtjnJncd2P9OkA2/jd5Cr2v6XarVETxQiIzK349pL43Skz3c8mDCM3dWZbDSDH0cLGBucwAG8s7P9z1UnEPms5D6t6orGtetPPYsKi6wYwNgNKOYVxJxikStofKcGdNlAzr9l0BBvuTmzhNEfOuD9qqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U30u3fnqAkWRz7sM/tFWQXrcvsFbHIwUMNYsgDz34to=;
+ b=cj5fyM6e6oNWdMwSjkfVMToJutzf2AkK9xZcoXNGzpxanPM5+Y6ZuwmqgfB2sWc5GTFRiTo6iypxiJaAGwId3hZxCeXRDwBGLAv/Jw0Nahj0P1j34gPI9w7WBMk2pgXsIOuLpc/OsfIhdchSyDF4l4J4/sT3JfO2vXZExMDh/ZboB1oTC6gBgzcIeSDpeyTPkd8iXKvrJOT9QVm5cGM7C8tRBL/9V3y4S0ugWJCsWDdkaGc8ah9JDSS4ErL7A5pmE17moQCuebl4BhyUTbhDSc5a8AYj/yDD5NFIiydm8OadxQXspvzK+z9mYgh4Am2X8PhM30zFGq9Qgz14v/go5w==
+Received: from TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com (2603:1096:408::791)
+ by TYZPR06MB6463.apcprd06.prod.outlook.com (2603:1096:400:464::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.13; Fri, 24 Oct
+ 2025 03:54:56 +0000
+Received: from TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com
+ ([fe80::df4f:b1a1:1825:4a80]) by TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com
+ ([fe80::df4f:b1a1:1825:4a80%7]) with mapi id 15.20.9253.011; Fri, 24 Oct 2025
+ 03:54:56 +0000
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+To: Arnd Bergmann <arnd@arndb.de>, BMC-SW <BMC-SW@aspeedtech.com>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+	<andrew@codeconstruct.com.au>, Jeremy Kerr <jk@codeconstruct.com.au>, Lee
+ Jones <lee@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will
+ Deacon <will@kernel.org>, Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>, Nishanth Menon <nm@ti.com>,
+	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>,
+	Taniya Das <quic_tdas@quicinc.com>, "Lad, Prabhakar"
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Kuninori Morimoto
+	<kuninori.morimoto.gx@renesas.com>, Eric Biggers <ebiggers@kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v6 4/6] arm64: dts: aspeed: Add initial AST2700 SoC device
+ tree
+Thread-Topic: [PATCH v6 4/6] arm64: dts: aspeed: Add initial AST2700 SoC
+ device tree
+Thread-Index: AQHcQyJQr8Cg3wF4TE29hMu8e6S4P7TOr5mAgACf3YCAANyZAIAAeR6A
+Date: Fri, 24 Oct 2025 03:54:55 +0000
+Message-ID:
+ <TY2PPF5CB9A1BE6CF8336D211641A18E2DEF2F1A@TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com>
+References: <20251022070543.1169173-1-ryan_chen@aspeedtech.com>
+ <20251022070543.1169173-5-ryan_chen@aspeedtech.com>
+ <b5441728-06a7-44ea-8876-3a9fc3cf55be@app.fastmail.com>
+ <TY2PPF5CB9A1BE626A2F0F6307461D8F64BF2F0A@TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com>
+ <6a97fbb4-19c2-4ffa-9c73-26aea02c27e4@app.fastmail.com>
+In-Reply-To: <6a97fbb4-19c2-4ffa-9c73-26aea02c27e4@app.fastmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY2PPF5CB9A1BE6:EE_|TYZPR06MB6463:EE_
+x-ms-office365-filtering-correlation-id: 2c07fdd1-48b4-463f-3b0c-08de12b11857
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|7416014|1800799024|921020|38070700021;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?xmYGqASTRKsk7VXyA62NVMWcXdLQdWAY4CbPGyZ9SNJIgs3iFfTlfORwHx?=
+ =?iso-8859-1?Q?6QAh7zYtOODYOaGLgC+B3Tv5Q8v+P7OSZaFD+2QpJZJY84fpYCuPB1npAh?=
+ =?iso-8859-1?Q?pN+AGXSBIYEAHLrJb2jDqE7Ewi0um/hdYe+/p6RBDafMpuodmOFEF/ylKh?=
+ =?iso-8859-1?Q?9uEECYshhMyhLJUzHTKR4b7MzyJJ4zz4F14GILNtuaH9EwXrAjpzZ6FwlB?=
+ =?iso-8859-1?Q?M2Yt80OOsGmV8hy7xqOEjFCDVBqpoO7oA/i0xltfg4VAdg9HSV0LmExnyA?=
+ =?iso-8859-1?Q?5jeAQ4QMcDIgxF14On0ZATIuqsDY6JiOyKBhoRyhXyOOmy9DHA4TKill7z?=
+ =?iso-8859-1?Q?HRmSKDZWvyCv+KuqM2rS+hL7FxInEbJRthFaVtNLdDm8bs1Eps3KNrdUXZ?=
+ =?iso-8859-1?Q?THHFyKgwMUm4+0WNDntMdZf3eULw996U91gg4hfCcifzvQntwJZoe3ryui?=
+ =?iso-8859-1?Q?KLSwin8lxGD0qMCzUjo7+0jTB8qfjaOfBim/6jCuwCi2+iohRE7swLU0iT?=
+ =?iso-8859-1?Q?QQID458mFEBdY1789WMaw3im+LKeemK89r9HdVYfXlbU5ruLnWsUXQbLbG?=
+ =?iso-8859-1?Q?TcKCHbjDfX4Ml6xP+zkTGmVpS8z5v9LzX2mcpdXaVBQ9EAbWUrREvT1bYr?=
+ =?iso-8859-1?Q?WhkrERqT67ldiRg5PJfyQImcoY1qKMU7BxpPYQX4AhmGz5/G28+hoAGt4s?=
+ =?iso-8859-1?Q?c0nJ850piwzt+VPHDPMxw3k6THXAwor8gq9ChVlsje5/ysIobnGdx0L+Oh?=
+ =?iso-8859-1?Q?vE5Zc/PpezHRbaPasxNYIshsyC+PPVY5pQoQa8Pgpp2oOzVKZFoDbo2PLV?=
+ =?iso-8859-1?Q?TYSfKNA4O+cJDG1BV1f9O9six19TIeDDpwo893+WDvN20RnuxnA5gUQ0JH?=
+ =?iso-8859-1?Q?G9HCS0itZnbsPRs1ks2olExFGMWCCaFBR8m1MsTzM8b10iSADNgJd4BCMx?=
+ =?iso-8859-1?Q?xwvs1MdyaKuYs0TKnLvbTsh7gt0u7OsG9PMpbHDlgmAZ2a6Av4MXJAdroM?=
+ =?iso-8859-1?Q?EOCJ3BwpeoPZkSeIBP9SAG5nmOOnGSkACeCaAOaJnwgNXYs9ZSzMH8gN1W?=
+ =?iso-8859-1?Q?mmaxaIy0WAENH52xHRQlT+1f59GdzkR2kq62x535vwJJeS/wohA3+8lkAw?=
+ =?iso-8859-1?Q?fbvuCNVDKkcyDduMCZE6cPDWHZVqb9shcJf5MEtuUhV3pKEJrltAEC23VB?=
+ =?iso-8859-1?Q?k+T6JWaDXjYSRYfdjaYA0o4LNK4twnMYE/7H0kaW4TFYsMleRpZA9ycQ/t?=
+ =?iso-8859-1?Q?3xj2MxcTHaH6XDuvuUifK2W0ZC95HiBvSDzzyLqRshUZP/uHTkPSkx1Hap?=
+ =?iso-8859-1?Q?JtnjS7K4YRx7NKhi+yRz5OB3SNm5M18/4NoHpNRkaYCI3aMlFT4XEB57wd?=
+ =?iso-8859-1?Q?xVM4PqGaaiOMWjyR21d2pkwBbvwViqd8tPrynhv48klI3FBTgtNiJvvYYT?=
+ =?iso-8859-1?Q?ukgBXSs04BrYL6G045FqRrhd6VJY6s1Xd1vTSiKqZmA/5t0gwfe2rPqMbH?=
+ =?iso-8859-1?Q?wUzZGPKsDJZentGtf9KjXXKngy5jdnl5y0MjpigUOwn2mwe2u1BoeCM6ES?=
+ =?iso-8859-1?Q?ZfloCJlXc2zT7wCGeqIBw1gsz5EBjzxnP+0KJNtN9KjKS9pklA=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?YJZsilyEH9uNxB70TPvLpHENUktQQ4WpGl42k2QI+FNKq1pUowTSDIitHM?=
+ =?iso-8859-1?Q?b66SqFGiywZsgwHnXvFe7VbAjiXKR3+qM2h02GTU+uq6eJYwpgoCOV+gKT?=
+ =?iso-8859-1?Q?18IIZoOaCzZ+be2Y2Go/agwTWgPcU70vR/OwRcEb1AtQkvbRruIiUGvCSw?=
+ =?iso-8859-1?Q?oMRbtCJ5y5q578wurrM84Oo+qH0u6ZFaEHS/INiQaVhKpazkxlyH9S46ij?=
+ =?iso-8859-1?Q?IpWh4eL7qkZTZ8h+M70ZaC2NKZ4502uxaEBCe1nDlivA+38pcejlXzYI0Q?=
+ =?iso-8859-1?Q?NJyiT7w1H+QXjLQpWrQWHDdOasRGg7rfJDHrMyWVbuXspU1eR8vQxuds7D?=
+ =?iso-8859-1?Q?VvstHiYZfVt+OwTIJGAcTW1ZPeMKg9mYi1PleusFcrTJQOv7IaoA8/2cmX?=
+ =?iso-8859-1?Q?Ak8UoyLf0eRlcmtNqbsX32jMvo/kLcdSRq5XDRTTkCEbWoR0X2UxWTzOVg?=
+ =?iso-8859-1?Q?YPKaHRXZs1FXj3C1oXd16bf09o9rrFQTQzjPtm5CLorCkZaCRGv//pMJqW?=
+ =?iso-8859-1?Q?ilSnm097BBgVk4wmyTxhaGsfuUJhG6+47TvjXCDtqdMAKGk/R/7TEY0O8w?=
+ =?iso-8859-1?Q?La3SoOwNEpjHkDd/hpLLTvLY4JBU64Gnzwry36XSJVDy+n1RYzrYKXVYZW?=
+ =?iso-8859-1?Q?Ap/yuh10pFwG0Yd3dy25iwSPKl75E5khSXgsfIYHlXYt5SA7RMWTaifyOq?=
+ =?iso-8859-1?Q?LJS1naWwWWSOdiV+BCv4PQ7EE/kPP4r7rqLsKQeDArFwonY/WaqqF77/xv?=
+ =?iso-8859-1?Q?Nt9tW3wQm/INMJcC8n8Q37xYt+5hwHsYZXAk8mXNi5uZFp+Wv6Obl4T2NX?=
+ =?iso-8859-1?Q?m5RX+OiPc0JBB1ElO3+0w1sH+wq2F2XrR1AE+EHRvYNxLMgHeBCx327UFx?=
+ =?iso-8859-1?Q?KWMF5X5eBWph7FDsHx0OIlE6OkBtbUWujowCO8J/6SEU/iGDt47dlzBnxO?=
+ =?iso-8859-1?Q?lW1BZDkMYNoqEQg6MjTOXv8UMuyF85EjOH7qhGryQQk9awUtq1VRXD3YMZ?=
+ =?iso-8859-1?Q?C0TSeyi5IlHh1L9ASn5DIih8fRYPIbLLptUvkrVTkO4YsSDgMCeiprUMHe?=
+ =?iso-8859-1?Q?qmjKzOP0ICH6bTfMfkDithg83Et73yn6zXlvrCwITWxENIfX/1toQPPtdG?=
+ =?iso-8859-1?Q?4dM+MePs6XMmswvSF2im1BxCJ2vPYoJc7r6LYA7ennaqZp+FMJHJXai+dX?=
+ =?iso-8859-1?Q?UomodTPHnNGUnX27YFqdRMF8TUFDKRicbtT0SuOrFdw3TUCO5YVaFWuFWs?=
+ =?iso-8859-1?Q?n8eKgdouHYgCqRbHUh2dBofR/YI076Lk+QTgNMs5kSkMZ5XhkFDaJ947Kt?=
+ =?iso-8859-1?Q?GC4eGeneJ8t2SXhAppa56ViQSDtL7iHPD67VlKCA1yhUxMopX6vpRYV/oE?=
+ =?iso-8859-1?Q?/2Y5WxjoL9OVsHAgb3by4fx6LtkzDtvaTLE8Q2ZrQZpj7eMBls8pAMQDdr?=
+ =?iso-8859-1?Q?VeFanOYi3b27uYQE1b1O87XIkOI0d7mSrkFdBXCNB+kNufVrLydEA6FMkR?=
+ =?iso-8859-1?Q?14r6wbNyMh2rm0r59/Iw5cDB68MLY8lE8OB/4MP9ZbG8sa7acfRRPUH8Vo?=
+ =?iso-8859-1?Q?6sjbiYE6OAzEi+6yAg3phYhnPCMZqlwVk8BgOzm+ykm5G/LpjLKEKCX0Bq?=
+ =?iso-8859-1?Q?7Z2r0608Y4ymG+s+c4BOa2296AHEE4oNc+?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -62,79 +171,225 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251023-leo-dts-add-shunt-resistor-v1-1-5d9980aba308@fii-foxconn.com>
-X-B4-Tracking: v=1; b=H4sIAO8C+mgC/x3MQQqEMAxA0atI1gZqpYN4FXFRTEYDQytJFUG8u
- 2WWDz7/BmMVNhibG5RPMcmpomsbWLaYVkahavDOh875Hn+ckYphJELbjlRQ2cRKVvRDLdwnBoo
- MdbArf+X6z6f5eV6VPZlpbAAAAA==
-X-Change-ID: 20251023-leo-dts-add-shunt-resistor-2810206a5dae
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- george.kw.lee@fii-foxconn.com, Alex Wang <alex.ts.wang@fii-foxconn.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761215247; l=1426;
- i=alex.ts.wang@fii-foxconn.com; s=20251023; h=from:subject:message-id;
- bh=nhjdaQhGONa6qRe6C17O9kT3BPIniN47qBnafl7NHt8=;
- b=un87bQXpomsn/0FLsOCFLiEpZ+BJAggKp/q9MiS5J3KjRJmifLf7SQcSV3kCAhfv3Qyd3/5/9
- gX5dDcKJ9s/AEHQk5fY+7RY7xwxkO6/DDYnjudaSMejQr96SpfDXuRx
-X-Developer-Key: i=alex.ts.wang@fii-foxconn.com; a=ed25519;
- pk=m/IrKXb14uSdDm4KGXemjNIxgL6TrqXCc9NX09SUJp0=
-X-Endpoint-Received: by B4 Relay for alex.ts.wang@fii-foxconn.com/20251023
- with auth_id=551
-X-Original-From: Alex Wang <alex.ts.wang@fii-foxconn.com>
-Reply-To: alex.ts.wang@fii-foxconn.com
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c07fdd1-48b4-463f-3b0c-08de12b11857
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Oct 2025 03:54:56.0013
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: uCsGyAhuQSvlQZLWRUQ4Tdr/Ksqwbdb8ob3Hsz1wUebxtud0lj9m2memr1b9VQ51xYtR4KrLiTvMNydeo2/hs1XD60QewP2YeAtD3vo7jcg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB6463
+X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+	SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-From: Alex Wang <alex.ts.wang@fii-foxconn.com>
+> Subject: Re: [PATCH v6 4/6] arm64: dts: aspeed: Add initial AST2700 SoC d=
+evice
+> tree
+>=20
+> On Thu, Oct 23, 2025, at 09:37, Ryan Chen wrote:
+> >
+> >> > +	aliases {
+> >> > +		serial0 =3D &uart0;
+> >> > +		serial1 =3D &uart1;
+> >> > +		serial2 =3D &uart2;
+> >> > +		serial3 =3D &uart3;
+> >> > +		serial4 =3D &uart4;
+> >> > +		serial5 =3D &uart5;
+> >> > +		serial6 =3D &uart6;
+> >> > +		serial7 =3D &uart7;
+> >> > +		serial8 =3D &uart8;
+> >> > +		serial9 =3D &uart9;
+> >> > +		serial10 =3D &uart10;
+> >> > +		serial11 =3D &uart11;
+> >> > +		serial12 =3D &uart12;
+> >> > +		serial13 =3D &uart13;
+> >> > +		serial14 =3D &uart14;
+> >> > +	};
+> >>
+> >> This looks like you just list all the uarts that are present on the
+> >> chip, which is not how the aliases are meant to be used. Move this
+> >> block into the board specific file and only list the ones that are
+> >> actually enabled on that particular board.
+> >>
+> >> In particular, the alias names are meant to be local to the board and
+> >> don't usually correspond to the numbering inside of the chip. In the
+> >> defconfig, we currently set CONFIG_SERIAL_8250_NR_UARTS=3D8, which is
+> >> enough for any board we support so far, but that means only the first
+> >> 8 aliases in the list will actually work.
+> >
+> > Understood. I'll move the aliases block from the SoC dtsi into the EVB
+> > board dts. For the EVB, UART12 is used as the default console, and the
+> > board labels match the SoC numbering, so I plan to keep:
+> >
+> > Does that look acceptable?
+> > ast2700-evb.dts
+> > 	aliases {
+> > 		serial0 =3D &uart0;
+> > 		serial1 =3D &uart1;
+> > 		serial2 =3D &uart2;
+> > 		serial3 =3D &uart3;
+> > 		serial4 =3D &uart4;
+> > 		serial5 =3D &uart5;
+> > 		serial6 =3D &uart6;
+> > 		serial7 =3D &uart7;
+> > 		serial8 =3D &uart8;
+> > 		serial9 =3D &uart9;
+> > 		serial10 =3D &uart10;
+> > 		serial11 =3D &uart11;
+> > 		serial12 =3D &uart12;
+> > 		serial13 =3D &uart13;
+> > 		serial14 =3D &uart14;
+> > }
+>=20
+> I think this would be broken for the defconfig if the consol is on serial=
+12. I
+> would recommend using serial0 as the console, like
+>=20
+> aliases {
+>        serial0 =3D &uart12;
+> }
+>=20
+> in this case. If additional uarts are enabled, add those as further alias=
+es.
 
-The gpio-leds driver requires all GPIOs in a group to be available;
-if any GPIO in the group is missing the whole group will not be
-created. The hdd_led GPIO is only present after standby power is
-enabled, which can prevent other LEDs in the same group from being
-created and blocks properly setting 'bmc_ready_noled'.
+Understood, I will update.
 
-Move the 'hdd_led' node into a separate gpio-leds group so that other
-LEDs are not blocked and the 'bmc_ready_noled' flag can be set
-correctly.
+>=20
+> >>
+> >> > +	soc1: soc@14000000 {
+> >> > +		compatible =3D "simple-bus";
+> >> > +		#address-cells =3D <2>;
+> >> > +		#size-cells =3D <2>;
+> >> > +		ranges =3D <0x0 0x0 0x0 0x14000000 0x0 0x10000000>;
+> >>
+> >> This probably needs some explanation: why are there two 'soc@...'
+> >> devices? Is this literally two chips in the system, or are you
+> >> describing two buses inside of the same SoC?
+> >
+> > The AST2700 is two soc connection with a property bus.
+> > Sharing some decode registers. Each have it own ahb bus.
+>=20
+> I don't understand your explanation,
 
-Signed-off-by: Alex Wang <alex.ts.wang@fii-foxconn.com>
----
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
-index 450446913e36..c58922695f46 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
-@@ -96,7 +96,12 @@ led-3 {
- 			gpios = <&gpio0 ASPEED_GPIO(P, 5) (GPIO_ACTIVE_HIGH|GPIO_TRANSITORY)>;
- 		};
- 
--		led-hdd {
-+	};
-+
-+	hdd-leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
- 			label = "hdd_led";
- 			gpios = <&io_expander13 1 GPIO_ACTIVE_LOW>;
- 		};
-
----
-base-commit: b5dd162282164dc202541ce6551cf705d345820e
-change-id: 20251023-leo-dts-add-shunt-resistor-2810206a5dae
-
-Best regards,
--- 
-Alex Wang <alex.ts.wang@fii-foxconn.com>
+Let me clarify more clearly:
+The AST2700 is a dual-SoC architecture, consisting of two interconnected So=
+Cs,
+referred to as SoC0 and SoC1. Each SoC has its own clock/reset domains.=20
+They are connected through an internal "property bus",=20
+which is Aspeed's internal interconnect providing shared
+address decoding and communication between the two SoCs.
 
 
+>=20
+> >>
+> >> > +
+> >> > +		mdio0: mdio@14040000 {
+> >> > +			compatible =3D "aspeed,ast2600-mdio";
+> >> > +			reg =3D <0 0x14040000 0 0x8>;
+> >> > +			resets =3D <&syscon1 SCU1_RESET_MII>;
+> >> > +			status =3D "disabled";
+> >> > +		};
+> >>
+> >> I see that you use the old compatible=3D"aspeed,ast2600-mdio" string
+> >> exclusively here. While this works, I would suggest you list both a
+> >> more specific "aspeed,ast2700-mdio" string to refer to the version in
+> >> this chip as well as the fallback "aspeed,ast2600-mdio" string as the =
+generic
+> identifier.
+> >>
+> >> The binding obviously has to describe both in that case, but the
+> >> driver does not need to be modified as long as both behave the same wa=
+y.
+> >
+> > Thanks, will submit ast2700-mdio.
+> > Question, should I add in here patch series?
+> > Or go for another patch thread?
+>=20
+> Since there is no corresponding driver change, I would keep the binding c=
+hange
+> as a patch in this series.
+
+Sorry, I am wondering, I will follow Andrew advice.=20
+Submit ast2700-mdio to net-next go out another thread.
+And put submit link in cover-letter in next version.
+Is it ok?
+
+>=20
+> >> > +
+> >> > +		syscon1: syscon@14c02000 {
+> >> > +			compatible =3D "aspeed,ast2700-scu1", "syscon",
+> "simple-mfd";
+> >> > +			reg =3D <0x0 0x14c02000 0x0 0x1000>;
+> >> > +			ranges =3D <0x0 0x0 0x14c02000 0x1000>;
+> >> > +			#address-cells =3D <1>;
+> >> > +			#size-cells =3D <1>;
+> >> > +			#clock-cells =3D <1>;
+> >> > +			#reset-cells =3D <1>;
+> >> > +
+> >> > +			scu_ic2: interrupt-controller@100 {
+> >> > +				compatible =3D "aspeed,ast2700-scu-ic2";
+> >> > +				reg =3D <0x100 0x8>;
+> >> > +				#interrupt-cells =3D <1>;
+> >> > +				interrupts-extended =3D <&intc1_5 0>;
+> >> > +				interrupt-controller;
+> >> > +			};
+> >> > +
+> >> > +			scu_ic3: interrupt-controller@108 {
+> >> > +				compatible =3D "aspeed,ast2700-scu-ic3";
+> >> > +				reg =3D <0x108 0x8>;
+> >> > +				#interrupt-cells =3D <1>;
+> >> > +				interrupts-extended =3D <&intc1_5 26>;
+> >> > +				interrupt-controller;
+> >> > +			};
+> >>
+> >> This looks a bit silly to be honest: you have two separate devices
+> >> that each have a single register and a different compatible string?
+> >
+> > Yes, it have difference register define in each scu-ic#. That is
+> > compatible with design.
+> > https://github.com/torvalds/linux/blob/master/drivers/irqchip/irq-aspe
+> > ed-scu-ic.c#L45-L48
+>=20
+> Right, if the driver already has this design, it does make sense to not c=
+hange it
+> for the new generation. For a newly added driver I would probably do it
+> differently.
+
+Thanks
+>=20
+> >> Also you claim to be compatible with "syscon" but nothing actually
+> >> refers to the syscon node in that form?
+> >
+> > There is another submit ongoing in pinctrl which will use syscon.
+> > https://lwn.net/ml/all/20250829073030.2749482-2-billy_tsai@aspeedtech.
+> > com/
+> >
+> > Could I keep it? or I should remove it?
+>=20
+> The version of the driver you are linking does not appear to use syscon, =
+maybe
+> this is an artifact from a previous version?
+>=20
+> If so, you can drop it. On the other hand, this does seem to be a classic=
+ syscon
+> device and keeping it marked that way is not harmful, just redundant if y=
+ou
+> actually use the more specific compatible string.
+
+Sorry, I may not point right link
+https://patchwork.ozlabs.org/project/linux-aspeed/patch/20250829073030.2749=
+482-4-billy_tsai@aspeedtech.com/
+aspeed_g7_soc0_pinctrl_probe -> aspeed_pinctrl_probe
+https://github.com/torvalds/linux/blob/master/drivers/pinctrl/aspeed/pinctr=
+l-aspeed.c#L456
+
+That will use syscon to regmap.
+>=20
+>=20
+>      Arnd
 
