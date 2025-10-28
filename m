@@ -1,89 +1,88 @@
-Return-Path: <linux-aspeed+bounces-2675-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2674-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A87DCC15BF9
-	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Oct 2025 17:20:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A8EC15B59
+	for <lists+linux-aspeed@lfdr.de>; Tue, 28 Oct 2025 17:13:51 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cwwZt3X6Gz3btg;
-	Wed, 29 Oct 2025 03:20:22 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cwwRJ5JKyz3bt9;
+	Wed, 29 Oct 2025 03:13:48 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a07:de40:b251:101:10:150:64:1"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1761668422;
-	cv=none; b=o0NPq9tLFp9q/eRpi47KSgB5wdk/lIbjVhWqAQvBZllBUuLHCMx3JRYIwIUogOOBsYXnPSci+02db9v3XU+bCA70yPdIOMtNdpIGtKzcb3nFpIs5AO1R7oq+6s579Ko1z6d5Ke/GmNEohcLLk4kSLQ4nrj9gjTb4RuR3qRUcPyGJOk5dm1e6/xGtT+QU0V+mh25A39Se+WSnV9kgK7Yry9BRTZGxoewFThg/461yqooAOms2siibTkJQvUN7EHgXDw5uW5+SmsZcBHppMVBlQ1hJcgp+++rMr9SwVOCyxak9caIBlRJP2pRiuVDBdq/3/lEYmhZnXeBo9faJxAt6Mg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=195.135.223.131
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1761668028;
+	cv=none; b=OvdVTwowsQqNOZ9cJa5DSjmaV3a8j3KDpC26qYrW7IY8HVHESynosT5L6ys7suVT2pde3twAxCaxXZe76+Ae78hds+HyD3Fc/n97aNx9pWZpDoj1dUce9YvkN3xfu22xoj/Gf2S+BvUKwpP6vxmfb6rfKac3Qs5xFCczc+ZVSPTGCj+UAjyierskfIoqfYM9dWJuh0vVW9hLYbVmuJZRt4bZUGA5XSvz51WbjvK1YyWSjdCQyladWGnT+4Zxw9KBbibAh7ML9rf/Nw1HwBKNtkZE7yYBcy1NJQ38Ue9vl2qhnwrtmqy6sFWHU1/ZZhBiiIcAtZa98PVCBKJwMxXrAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1761668422; c=relaxed/relaxed;
-	bh=pSosvxi5dPFtdhC5U0/TTS2WAyGF8TeP5oXRsKZhx7U=;
+	t=1761668028; c=relaxed/relaxed;
+	bh=aIkfaA109e058juxrbARLnbhnw+30Zzst1672lVORwA=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eOlQTzVm7D22OL+qSRnjWPjKqch4CkLSYe4VvisWrkaPOQjEzDGWhsCTDWaaLcQ/K9c+RVf8PNDsCfjFaITbXQJEfg1f4jgy4B/u6WI23Al3OORdNuKPweiQBepI9a9Oi/JWcAQU/W1bbT6AMZLD0E9LFHTMfqIE75n5eDkJJEVA73HXIJ2JAhlxRczxiH1f//4vilBwfNUwUedeLoo/9y28MiyO/RSAqDl2TAz2rSwXPwnGEQvhaZJDVwJrDxNnAu7Gu6J7mp27bfb+5O+yKa5q194IBslYGWNJqvmZnAxZRPzDamaq6tWXP+lFpTPqKLHEo5qbY9OkuqMSad6xIA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=suse.de; dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=KjJPEYPJ; dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Gw2QrTQ4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=KjJPEYPJ; dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Gw2QrTQ4; dkim-atps=neutral; spf=pass (client-ip=2a07:de40:b251:101:10:150:64:1; helo=smtp-out1.suse.de; envelope-from=tiwai@suse.de; receiver=lists.ozlabs.org) smtp.mailfrom=suse.de
+	 MIME-Version:Content-Type; b=C7NI9pPIKS8qyXM44J5GLCj2VJI9h+euOJDPiyMtNWQ/idV3zaLFnYLv2gXhN8BxbnmC4JAhzsqjNMx27egOEztSBOqCtaXsK3C/57ifGo1ubd0ivwM2NGRwqgROSCLN2gxY/wxP3duqJsc29Q0pGxX3hRam4D0I5zZeLW6UDF6k+rQj4YGwhx3vB1sA4CvP0uPVe54IQCMC5tXNopTxGEH46yXpVRI/ZlWr+2fVFVStlE4SrZAC0nZjh2F9x8KMDjKDgG0b4KuBQswllKgOqF7jagumJ9AwQTY1sv0j3BdqlE7C9UNNBt+2WiPwXrU9qN0Gq3cb1D0uKeehViJp/A==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=suse.de; dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=HtMDbF8r; dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ytJTULRp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=HtMDbF8r; dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ytJTULRp; dkim-atps=neutral; spf=pass (client-ip=195.135.223.131; helo=smtp-out2.suse.de; envelope-from=tiwai@suse.de; receiver=lists.ozlabs.org) smtp.mailfrom=suse.de
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=KjJPEYPJ;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Gw2QrTQ4;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=KjJPEYPJ;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Gw2QrTQ4;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=HtMDbF8r;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ytJTULRp;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=HtMDbF8r;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ytJTULRp;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=suse.de (client-ip=2a07:de40:b251:101:10:150:64:1; helo=smtp-out1.suse.de; envelope-from=tiwai@suse.de; receiver=lists.ozlabs.org)
-X-Greylist: delayed 416 seconds by postgrey-1.37 at boromir; Wed, 29 Oct 2025 03:20:21 AEDT
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2a07:de40:b251:101:10:150:64:1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=suse.de (client-ip=195.135.223.131; helo=smtp-out2.suse.de; envelope-from=tiwai@suse.de; receiver=lists.ozlabs.org)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cwwZs2PpYz2ypw
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Oct 2025 03:20:21 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cwwRH3DtZz2ypw
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Oct 2025 03:13:47 +1100 (AEDT)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C99BD21A64;
-	Tue, 28 Oct 2025 16:13:19 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 71D431F46E;
+	Tue, 28 Oct 2025 16:13:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761667999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1761668022; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pSosvxi5dPFtdhC5U0/TTS2WAyGF8TeP5oXRsKZhx7U=;
-	b=KjJPEYPJ7HZdpBT02TjYQ61cQjBJIEBgA6xrd5hVWW6xAJANi0wiYFNW6d5v7xV2N7YmlE
-	h6SetL0FQi/IqvkJSpicxJI7317JmcnGp5XrGSNF69XjHib4Xs4pSezxRpirGmBaonvMPF
-	xG/ODKCnE+Q8Gml9lNP6EM6O/Lt0Fag=
+	bh=aIkfaA109e058juxrbARLnbhnw+30Zzst1672lVORwA=;
+	b=HtMDbF8r2wRWDGifnv9gYxSNAhmS0ojzB1YP8QtBcy8ubsAT3ZsONof3Bhi32jnCH/lw5z
+	Hq6v+a16uHNBw7YVLG0EXbD607lh+hXWEV2szjXMyw6CmEW2DhnqmsfmuG+WL6eiBIJi6S
+	EIT708Ji0KWfCPRQ6wSJTudLeMIbq9Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761667999;
+	s=susede2_ed25519; t=1761668022;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pSosvxi5dPFtdhC5U0/TTS2WAyGF8TeP5oXRsKZhx7U=;
-	b=Gw2QrTQ427yrPNuYnSYVl0sYdSQd5/RgHd0ptf3XwxfdMZudizoPqUBaiHtRb5cqG4Is5B
-	5/rgTt+d8ttytfBA==
-Authentication-Results: smtp-out1.suse.de;
+	bh=aIkfaA109e058juxrbARLnbhnw+30Zzst1672lVORwA=;
+	b=ytJTULRp9UW/jr9bzPTDO3cAAmBQor2fn8ie0J+jiQytAqY1LFwxRRsg/XxfPqgAg/w4Xj
+	zB2K4ve4Da2VOpCw==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1761667999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1761668022; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pSosvxi5dPFtdhC5U0/TTS2WAyGF8TeP5oXRsKZhx7U=;
-	b=KjJPEYPJ7HZdpBT02TjYQ61cQjBJIEBgA6xrd5hVWW6xAJANi0wiYFNW6d5v7xV2N7YmlE
-	h6SetL0FQi/IqvkJSpicxJI7317JmcnGp5XrGSNF69XjHib4Xs4pSezxRpirGmBaonvMPF
-	xG/ODKCnE+Q8Gml9lNP6EM6O/Lt0Fag=
+	bh=aIkfaA109e058juxrbARLnbhnw+30Zzst1672lVORwA=;
+	b=HtMDbF8r2wRWDGifnv9gYxSNAhmS0ojzB1YP8QtBcy8ubsAT3ZsONof3Bhi32jnCH/lw5z
+	Hq6v+a16uHNBw7YVLG0EXbD607lh+hXWEV2szjXMyw6CmEW2DhnqmsfmuG+WL6eiBIJi6S
+	EIT708Ji0KWfCPRQ6wSJTudLeMIbq9Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1761667999;
+	s=susede2_ed25519; t=1761668022;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pSosvxi5dPFtdhC5U0/TTS2WAyGF8TeP5oXRsKZhx7U=;
-	b=Gw2QrTQ427yrPNuYnSYVl0sYdSQd5/RgHd0ptf3XwxfdMZudizoPqUBaiHtRb5cqG4Is5B
-	5/rgTt+d8ttytfBA==
+	bh=aIkfaA109e058juxrbARLnbhnw+30Zzst1672lVORwA=;
+	b=ytJTULRp9UW/jr9bzPTDO3cAAmBQor2fn8ie0J+jiQytAqY1LFwxRRsg/XxfPqgAg/w4Xj
+	zB2K4ve4Da2VOpCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D26E13A7D;
-	Tue, 28 Oct 2025 16:13:18 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 22B2113A7D;
+	Tue, 28 Oct 2025 16:13:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id udwmHJ7rAGmPCAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 28 Oct 2025 16:13:18 +0000
-Date: Tue, 28 Oct 2025 17:13:18 +0100
-Message-ID: <87o6prf1i9.wl-tiwai@suse.de>
+	id h0gZB7XrAGm0CAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 28 Oct 2025 16:13:41 +0000
+Date: Tue, 28 Oct 2025 17:13:40 +0100
+Message-ID: <87ms5bf1hn.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Michael Turquette <mturquette@baylibre.com>,	Stephen Boyd
@@ -114,10 +113,10 @@ Cc: Michael Turquette <mturquette@baylibre.com>,	Stephen Boyd
 	qat-linux@intel.com,	linux-gpio@vger.kernel.org,
 	linux-aspeed@lists.ozlabs.org,	linux-iio@vger.kernel.org,
 	linux-sound@vger.kernel.org,	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 09/23] ALSA: usb-audio: #undef field_{get,prep}() before local definition
-In-Reply-To: <8f19d783dd783df5510408ffe9664dc6ef0d9434.1761588465.git.geert+renesas@glider.be>
+Subject: Re: [PATCH v5 20/23] ALSA: usb-audio: Convert to common field_{get,prep}() helpers
+In-Reply-To: <91f957d8857d64df9eae33824203cc770b0182b3.1761588465.git.geert+renesas@glider.be>
 References: <cover.1761588465.git.geert+renesas@glider.be>
-	<8f19d783dd783df5510408ffe9664dc6ef0d9434.1761588465.git.geert+renesas@glider.be>
+	<91f957d8857d64df9eae33824203cc770b0182b3.1761588465.git.geert+renesas@glider.be>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
@@ -134,7 +133,7 @@ Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -159,42 +158,43 @@ X-Spamd-Result: default: False [-1.80 / 50.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
 X-Spam-Score: -1.80
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=disabled
-	version=4.0.1
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Mon, 27 Oct 2025 19:41:43 +0100,
+On Mon, 27 Oct 2025 19:41:54 +0100,
 Geert Uytterhoeven wrote:
 > 
-> Prepare for the advent of globally available common field_get() and
-> field_prep() macros by undefining the symbols before defining local
-> variants.  This prevents redefinition warnings from the C preprocessor
-> when introducing the common macros later.
+> Drop the driver-specific field_get() and field_prep() macros, in favor
+> of the globally available variants from <linux/bitfield.h>.
 > 
-> Suggested-by: Yury Norov <yury.norov@gmail.com>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> --
-> v5:
->   - New.
 > ---
->  sound/usb/mixer_quirks.c | 2 ++
->  1 file changed, 2 insertions(+)
+> v5:
+>   - Extracted from "bitfield: Add non-constant field_{prep,get}()
+>     helpers".
+> ---
+>  sound/usb/mixer_quirks.c | 6 ------
+>  1 file changed, 6 deletions(-)
 > 
 > diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-> index 828af3095b86ee0a..713a8498b975e1ac 100644
+> index 713a8498b975e1ac..6eee89cbc0867f2b 100644
 > --- a/sound/usb/mixer_quirks.c
 > +++ b/sound/usb/mixer_quirks.c
-> @@ -3312,7 +3312,9 @@ static int snd_bbfpro_controls_create(struct usb_mixer_interface *mixer)
+> @@ -3311,12 +3311,6 @@ static int snd_bbfpro_controls_create(struct usb_mixer_interface *mixer)
+>  #define RME_DIGIFACE_REGISTER(reg, mask) (((reg) << 16) | (mask))
 >  #define RME_DIGIFACE_INVERT BIT(31)
 >  
->  /* Nonconst helpers */
-> +#undef field_get
->  #define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
-> +#undef field_prep
->  #define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
->  
+> -/* Nonconst helpers */
+> -#undef field_get
+> -#define field_get(_mask, _reg) (((_reg) & (_mask)) >> (ffs(_mask) - 1))
+> -#undef field_prep
+> -#define field_prep(_mask, _val) (((_val) << (ffs(_mask) - 1)) & (_mask))
+> -
 >  static int snd_rme_digiface_write_reg(struct snd_kcontrol *kcontrol, int item, u16 mask, u16 val)
+>  {
+>  	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
 
 Acked-by: Takashi Iwai <tiwai@suse.de>
 
@@ -202,4 +202,5 @@ Acked-by: Takashi Iwai <tiwai@suse.de>
 thanks,
 
 Takashi
+
 
