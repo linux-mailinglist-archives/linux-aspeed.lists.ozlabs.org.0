@@ -1,51 +1,122 @@
-Return-Path: <linux-aspeed+bounces-2693-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2695-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA4EC1D0E4
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Oct 2025 20:49:40 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69545C1DA9A
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Oct 2025 00:16:16 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4cxd9t1F7yz302b;
-	Thu, 30 Oct 2025 06:49:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4cxjmG1mfsz2yyd;
+	Thu, 30 Oct 2025 10:16:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1761767378;
-	cv=none; b=CJhH0mGkoyUWc0kFl4S1S7NkYhzTWsjcZ2M/ashY5wkAgBjKyDnwGelbTUmbG7Rr7GafAtLnUhZlvziotzbGrqkgHr4gabLn1WYBMX5uwq02vSNiiiB+sReoRK9JCPmb9IkXMEKyN6zVWdKub2MUZyrDDQY36m7VkmdVqM7EXzIIwkFRhkfLhtmYo4dpsVGtEy0AStT5YBHOGyK0/MwUVVtxUf9PdgmtMSKVI/CAgVLUPwjR0lIkSuEMEu++l3P4MGX6Lul+yEHIZOK9/DTk+jwQxagHv6ikTGQX1JliF4Pszjvek6j79AP9vO/DGkxL5D0GfalE7crDVXP/ypHzxg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::82a"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1761748243;
+	cv=none; b=EutuoIyDBsPMNczZb9hZ4Cs1litfDLfKHcMpAceSRsHTQyrWdnvc5+19pVgKg3t1pZP18oto8Z3UdlR/j7Pj9A0k2TWXbIxC06osYE/ntozrpL7PN4KMZ128EsEAURTX0OqfRoie8Nnb2ElQFoiF84Qx3BqZaklhx5fMYF76UATJzYynluTUhuiARUszNQ5FBrpUZ3Z9czR/Zh5p5MYohS1bmAoHK/A/ptVUGo7jTMIWKrj4JEBArrVT8mIWryREc0L11Pddlx4zS5W6hzNk/Ybf/ONf95jJszrlrIdN5MrhRswA54g4RIGZJ8lCuC8JK6WAa4SveD+rnfYWGf/Gog==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1761767378; c=relaxed/relaxed;
-	bh=LPaxln2EBfuYN49brJhOaJT913pHIinxeWLCiPWa9ts=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=I5UrQUiebQN9JHBqhTkI58jIOpnPX1jwvXzsuMAbTvm9lalpvlpQ4jsmuxssPx1nLd8mjBRcU0Gv1k+3B9W9lwljMMyGVai1C0809bG3cGyM4jEEt31r31/2op5YXdWj1A0a7Ot/VPwkiMjU7/xaYOsX+0ePN6H4madxhePq+w7tBcvcLZ/wApnkA5CVm9aG0hsSpjNLF4g7lj6HEXwPWZXcdUgS5mDdl/ISuiiLGkS0mp9cFe8FNk8Anx9yJWEnxxcFonE7rdA7M/hZhRY6CR9VsHkF6EXdxiMOLnmSG4itj7lyJBTvuf8qhxY9JhCqYhPdiejE99mtcLlTM8kKJQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=eBTsrI1y; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1761748243; c=relaxed/relaxed;
+	bh=JnpQqG3KsjO8HR5ITuKL9a0uCELInljqSPlsEDY9f3Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OlkDL94bQj7eoIL4EYk8EVbo9Pj7guVpwwEIAeke3C8fgsBEzU7tmU9Meqv4SbSFr9X70/Z01ApFKuzhsY2y1XJzjaoOludVz55SwbuNMZ46NAk0vq6quqXsWF1uX/nxKWGnkLSuMzfIpqbcWMKqno/g8uraCYAx+0RDtq+JzPgveaPFLjU7TUwVNQaAMhJmgfF5oytfmiS+qDQWx+AOgqL8O/RC/JRWii6SGCN7jz+oUc7cxoMLONfJCXfZtriRKOsqFzUL6tADbltGPmC4FVIGBE3bFCtFnAThCIhz11alI16orSC8C20p+MPO9Nx37u85QBdaBd/UAkz3Vf8Uog==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dBwIwptv; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::82a; helo=mail-qt1-x82a.google.com; envelope-from=yury.norov@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=eBTsrI1y;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dBwIwptv;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::82a; helo=mail-qt1-x82a.google.com; envelope-from=yury.norov@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4cxd9r5tQVz2yjm
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Oct 2025 06:49:36 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id BA72444198;
-	Wed, 29 Oct 2025 19:49:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 596C6C4CEF7;
-	Wed, 29 Oct 2025 19:49:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761767373;
-	bh=cgW3eaNa1qTxN0mCfqwnT+I4/Tb+epp984COA7HO+0E=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=eBTsrI1yyG/5IEBOvpulu2NhU99j0sEVLtdj8hbSkWDsiMAYCUJg4ULJKi8yRVk2D
-	 wnHzaS7GDiEDzkSeW8qzXfrjrf989UcPqwvuaanih9J1yswudljclqy7geLsKf27bi
-	 YJoEWXmdeqGFcMNpKog7EeL7YdvNghoVk48LDUuX0jg5hFhMVmwz1zfsLtdJwjIiZb
-	 N16/SJNKr+BN3tcnk9I6U1MYcvl+CE5qvdrkf3mIYhNnXNr3OGCUMAJ/qbNU2Xn8rf
-	 zONEsmd/lUy/EASyRwrpv0g5Jk+xl47waAewpAD/v+28gBwn06vC0MiSxxfZymkPl4
-	 p2SzxTBjr8gRg==
-Date: Wed, 29 Oct 2025 14:49:32 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4cxV5s6Tf4z2yjm
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Oct 2025 01:30:41 +1100 (AEDT)
+Received: by mail-qt1-x82a.google.com with SMTP id d75a77b69052e-4eba313770dso49600461cf.3
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Oct 2025 07:30:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761748233; x=1762353033; darn=lists.ozlabs.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=JnpQqG3KsjO8HR5ITuKL9a0uCELInljqSPlsEDY9f3Y=;
+        b=dBwIwptvE2fFuybgI2QaPEYzvsNWQISw5b+Xu0B5ut+JNF7Uy1+W+Q+YxqGVdVJ5UV
+         i1UzCDyEzGyLahvzOVdnYK1tkKDajlRel6/ltu1Tw/YU+Z46KwhqpxSFUbYZ2BsB56sQ
+         CpzVZc5XyNHlJpCU2DoEH+BlrFsFlw/XrvCSm33b2JOMjJMP1x2Fbzpy7BHVB2la/qQM
+         dNS0UYc1F0J+kNWwMLz0SjiYdiOsys7gSTUjo5EALrrJlI5DcCr4J/DyxQ4b5ao6cF3Y
+         BpOcfZsxvE0ldQv7hd5HtLIEb2P+WmhqYKOaEgmNERIJ6i8JUzO8HBe34lw3v2jiekDL
+         6Etw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761748233; x=1762353033;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JnpQqG3KsjO8HR5ITuKL9a0uCELInljqSPlsEDY9f3Y=;
+        b=AaDQJTJPy4xkLZaOELayq66nFm+L+Vip9MkFemliO53sjkrKUhNpLdDu04oW9Vn5JL
+         N8JmCXknpNiwpJoxy8wP0rZqa40j/Fp7+EXdPA1slOYmh78jkEs5y4P6hsKkDKGE8YSn
+         24ykt/W1GQ9GjwhHYuxfeKADfeGHcHvQdUhblDdLDJjWZ4AYzsYH25rrq2BkS8Zrn4wZ
+         V+f0N9PwfZlnMCYfBoLU1PW79ouy4IRHxQg9xQrUvhEPgeBd1ZMRzJMhg5iFC5xE+VHw
+         5LLst3o2N7Lba0UkOD4Pltx77WGgehVhT4OoQCsgVm7W2KmTw/i8MwOQ6symjL7QNDsE
+         tR9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUvgCGS1KYPCBFTSWsoRAuBu14x9zW2HanBI3HR06k1XAl/FfwzVh5vsG5JRXQoB4bzZ4XnFKB8Mt3xLYY=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzPbWa5WP75tczqJ0vpbG243A8L8KbmPiRJSW4ospYXUC84valV
+	SIjUJfiD5yOfkou2zSV6j0tah66zzawlAviDPj6KbDlp6Gd2Rp8cCqSC
+X-Gm-Gg: ASbGncuKf+Wkh+RlOteFTPMVrTc0zzbcv1ZVIljTSVEiZS925uM8wMIq6HxtwxVrPIK
+	bor06GfxpaAWWq5C31rdwRQFYOi8Dui/XbSKZqloi5gf5D7P3xAk96ZAQ99IuVj2UTdDUarmYFh
+	Po3q8XA7iRCfjhWlRY39wvcdfD7VRdrx2XTTBFbST2J1lPZ4iRuKgpYsDYkgE5BXcplHVXj8NVd
+	VnWudTqpyae4Xu8HyJOqhKNPA/K+4tobiPa0tbxbbnL8Q/fhHyKDBdvOtXLMAaDJEDWTebxP8QO
+	1cDO+2nObl3IID91cijFpqueHNEQebjpw7tM/ny6Yv2/KZvv1iMbPPfZ6rilynATlDBT3tqnbyy
+	9yQxYBWNs2WFc8lAhB2EC8isih/Dyp6GvZ/AGp4Pe909pZF+UbQfsAWrEJNyhjirkubOXlQha
+X-Google-Smtp-Source: AGHT+IHd6ZEI/4efuxlvOLVTSJQH1JkXxxhkGirHmvwiRC9eDvjzIFKRpIZ05PrXMHCHH/Mrsnw0AA==
+X-Received: by 2002:a05:622a:24a:b0:4e8:93fc:f8c9 with SMTP id d75a77b69052e-4ed15b53cd6mr36770551cf.15.1761748233098;
+        Wed, 29 Oct 2025 07:30:33 -0700 (PDT)
+Received: from localhost ([12.22.141.131])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87fc51e3809sm96571096d6.26.2025.10.29.07.30.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Oct 2025 07:30:32 -0700 (PDT)
+Date: Wed, 29 Oct 2025 10:30:31 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Miller <davem@davemloft.net>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Kim Seer Paller <kimseer.paller@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Jianping Shen <Jianping.Shen@de.bosch.com>,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-edac@vger.kernel.org, qat-linux@intel.com,
+	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 07/23] pinctrl: ma35: #undef field_{get,prep}() before
+ local definition
+Message-ID: <aQIlB8KLhVuSqQvt@yury>
+References: <cover.1761588465.git.geert+renesas@glider.be>
+ <03a492c8af84a41e47b33c9a974559805d070d8d.1761588465.git.geert+renesas@glider.be>
+ <CACRpkda6ykSZ0k9q4ChBW5NuPZvmjVjH2LPxyp3RB-=fJLBPFg@mail.gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -59,68 +130,41 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Andrew Jeffery <andrew@codeconstruct.com.au>, 
- linux-arm-kernel@lists.infradead.org, Guenter Roeck <linux@roeck-us.net>, 
- linux-aspeed@lists.ozlabs.org, devicetree@vger.kernel.org, 
- Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Joel Stanley <joel@jms.id.au>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-In-Reply-To: <20251029185448.2121857-1-robh@kernel.org>
-References: <20251029185448.2121857-1-robh@kernel.org>
-Message-Id: <176176737216.2539117.14470144508390937372.robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: hwmon: Convert aspeed,ast2400-pwm-tacho
- to DT schema
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACRpkda6ykSZ0k9q4ChBW5NuPZvmjVjH2LPxyp3RB-=fJLBPFg@mail.gmail.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-
-On Wed, 29 Oct 2025 13:54:47 -0500, Rob Herring (Arm) wrote:
-> Convert the ASpeed fan controller binding to DT schema format.
+On Wed, Oct 29, 2025 at 03:19:45PM +0100, Linus Walleij wrote:
+> Hi Geert,
 > 
-> The '#cooling-cells' value used is 1 rather than 2. '#size-cells' is 0
-> rather 1.
+> thanks for your patch!
 > 
-> Some users define more that 8 fan nodes where 2 fans share a PWM. The
-> driver seems to let the 2nd fan just overwrite the 1st one. That also
-> creates some addressing errors in the DT (duplicate addresses and wrong
-> unit-addresses).
+> On Mon, Oct 27, 2025 at 7:43 PM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
 > 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  .../hwmon/aspeed,ast2400-pwm-tacho.yaml       | 105 ++++++++++++++++++
->  .../bindings/hwmon/aspeed-pwm-tacho.txt       |  73 ------------
->  2 files changed, 105 insertions(+), 73 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/aspeed,ast2400-pwm-tacho.yaml
->  delete mode 100644 Documentation/devicetree/bindings/hwmon/aspeed-pwm-tacho.txt
+> > Prepare for the advent of globally available common field_get() and
+> > field_prep() macros by undefining the symbols before defining local
+> > variants.  This prevents redefinition warnings from the C preprocessor
+> > when introducing the common macros later.
+> >
+> > Suggested-by: Yury Norov <yury.norov@gmail.com>
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > 
+> Do you want me to just merge this patch to the pinctrl tree or do
+> you have other plans?
 
-My bot found errors running 'make dt_binding_check' on your patch:
+There's a couple nits from Andy, and also a clang W=1 warning to
+address. So I think, v6 is needed.
 
-yamllint warnings/errors:
+But overlall, the series is OK, and I'd like to take it in bitmaps
+branch as it's more related to bits rather than a particular
+subsystem.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/aspeed,ast2400-pwm-tacho.example.dtb: fan-controller@1e786000 (aspeed,ast2500-pwm-tacho): #cooling-cells: 2 was expected
-	from schema $id: http://devicetree.org/schemas/thermal/thermal-cooling-devices.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251029185448.2121857-1-robh@kernel.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Thanks,
+Yury
 
