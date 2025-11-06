@@ -1,78 +1,127 @@
-Return-Path: <linux-aspeed+bounces-2807-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2808-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFBE7C3DAFC
-	for <lists+linux-aspeed@lfdr.de>; Thu, 06 Nov 2025 23:51:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CA9C3DB01
+	for <lists+linux-aspeed@lfdr.de>; Thu, 06 Nov 2025 23:51:21 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4d2cql4MRlz30T8;
-	Fri,  7 Nov 2025 09:51:15 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4d2cqm1Hfcz3bf2;
+	Fri,  7 Nov 2025 09:51:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::336"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1762443902;
-	cv=none; b=IFoAhN52NT6AjOthKSotr+ksY4XdC1KPL2bZFNzLsXeHetP4pTKcvnziC1pzjTVm6TyWmzGU2cHtAoxbEzF2CGIR2BxqUBtkYJ+8Hgv02RmyfBCXV8qPD6H7T1zllpuJHodOegLC9XMjBMm+BvSV25rEw1cBYm9cAnboz/JYnc+JNLdUPrxySNVmmiziDr4R4oeCI3DNmjksC++fzgeM99zhHMKJ+WucmIdsy6D24sojDfRi2qrPHxg6UEVM6M4BbMnbFQFllC5vo2rdIVYCCrCyEjO7SuU1x3YnkMW60l6maN3WHIxPWQ6PUydZ8Thd7ql0sI4c88eZgdhVKMEi8w==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::1136"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1762444907;
+	cv=none; b=IZdi36NllfiZ6O1+sAGiwi9LMrs4pKy/0vaC1BljlqwxTPIdTGEkhjZ9ExM6dgsO6rQ10nBUuDTV1DJrNWyLVPGM+6uvRDZKehkwMpkbkBaYJa9RRckM7baXm1jSUauRN1yV5blijEGPh+a6T7wzGgMLRStvmKxtKHo+Av0Hx9zuovUILEOJDzk+vXrtkc57Jdr4DZO7QnTuZi6xhQDBE/As9Idq+CoGxtcPn1YrfpKVdiLxgjEmtSf4yrSN4Ga0qqy3bUsHzQtj22ZeSViztQLgg9RrmYX0xejZgUFEsDbjZ8iz9Xm8KSpF6G9k0x4gfc8iOGTYWwDZ1rj7TDDiAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1762443902; c=relaxed/relaxed;
-	bh=FDBfIt+d555CHw458VAbNG3bfHQEwmpPFewi9LatYFE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LFyUlQt0S7qYKtc8qrj3dcpw3h7t4LSZaBh0snxPImckAFi2meLhkCoATETxuHJ66s2Tx+8PukSEyIj7/rusuTH4V4HwA1EcpvBSogSaqD3b04noBVhBgVR/sd+lVm+v0QFNUcexd5N8jGAXcXClOfYlV3BOABAmL5R3CDkVXf/5H2siDc9oumqi/XaVKnKbmf7zPTgGa1xUOiO2cyOkdsw5VLbuW+t5hZ4+TQUrD/Ox6JmoD7FUYBTuRg46DR/8BIAxNKt5JPbIASv7T/xwMj24Gj9ZQiSKFLNVtO8KPJFDj5o97XAhbKq3xsb53bM4wLzT/0D6CjWo4HB2VEtl2w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; dkim=pass (2048-bit key; secure) header.d=tuxon.dev header.i=@tuxon.dev header.a=rsa-sha256 header.s=google header.b=WxyUcVyZ; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::336; helo=mail-wm1-x336.google.com; envelope-from=claudiu.beznea@tuxon.dev; receiver=lists.ozlabs.org) smtp.mailfrom=tuxon.dev
-Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+	t=1762444907; c=relaxed/relaxed;
+	bh=uDqvdpSXd7EVG4K3GSPuN1+lwa+x8rxJ7aM50JiFwXE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YjPnl+JERZS8aVflBoinhkF4buOMvEQFpKQnVa7cXR+t6NOHpr7dy00D+sXckGQm3z/bnLnDz9vjEh5+wwe/Qq3ln5wXTVkNzELpRE3mBMuZyWXki5/mfa2PKna3QsggVSrlKQEUJqC9RIJcJ+oqQtlwdF7c3PfhHoAeyL6znDLEFixSWfXpiu81MsqSeCtZFhcUMqT2lbzUlB91F8xIMsMNJ6LHCdb3smhg/8BKw21fKWGwZZcj+5kSEntByYTHE0GFJZr/C/lYvjDSaohizbn0kFu7Cvy1L5V49Ra+J13MvgYu+J7YxBVyKVePXqopTdoVnmgiMNA5bdmHFVH1wQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=de8+HkoI; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1136; helo=mail-yw1-x1136.google.com; envelope-from=yury.norov@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; secure) header.d=tuxon.dev header.i=@tuxon.dev header.a=rsa-sha256 header.s=google header.b=WxyUcVyZ;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=de8+HkoI;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=tuxon.dev (client-ip=2a00:1450:4864:20::336; helo=mail-wm1-x336.google.com; envelope-from=claudiu.beznea@tuxon.dev; receiver=lists.ozlabs.org)
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1136; helo=mail-yw1-x1136.google.com; envelope-from=yury.norov@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4d2RMx1dVBz2xdg
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Nov 2025 02:45:00 +1100 (AEDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-477549b3082so10558395e9.0
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 06 Nov 2025 07:45:00 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4d2RlG1wbwz2xQD
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Nov 2025 03:01:45 +1100 (AEDT)
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-7864cef1976so32906767b3.0
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 06 Nov 2025 08:01:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1762443897; x=1763048697; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FDBfIt+d555CHw458VAbNG3bfHQEwmpPFewi9LatYFE=;
-        b=WxyUcVyZnOIH9iuTCnnBkJzVRyVpeHg6dERvovukE7k1hpA0btSiVzQoXaVq09zwZk
-         UpN4ACJQs5haxnBp5CZigXMcdUKhXQPMLFH3XdjI3gaU96A0QSrQdjSsS6fByUTKOWJ8
-         E8o/0yQQEp8qNvu2OYi+5JzpsmfNMYruthAk2eHDqCUZWs2zhPcFs4uNwvRBwTKBFP+r
-         T/r/y8N/7+KwOulz7QUOVl0nCNxSsQMhhYRRo+jU+XUFj/1rBzX7m3ByEKHK7auACDAf
-         S0acFmqhCS5aJGcsFKCZeWuepBA8pjpgAzM79KBdy6zoShC+9ok8pi7ABERkvo6MwxWb
-         tO2w==
+        d=gmail.com; s=20230601; t=1762444902; x=1763049702; darn=lists.ozlabs.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uDqvdpSXd7EVG4K3GSPuN1+lwa+x8rxJ7aM50JiFwXE=;
+        b=de8+HkoI6khYtKHVTK2UEL26Oi7ufEduDjo9ZpcW896kd9oZfmHCyQE9sxI2iy0jX/
+         LNSOiSrKNYLKUZ4z0xLIq7PvUW1pMWpbubmZBIAy7ZTK/1v8lj3A9he+rFTJgedIx6zb
+         MYQ02vpNKDgtTqnqAoN3Z3HlNpQEE+u8I4y90YD6HgeX+5spikm52BSdFF4Tu/JaM5wS
+         e0fT2G96PIAygngycB9nOBQeDLTmFocmkim+EauGr5eaq8DHyIJfvrnzW+Wer0LTuw+K
+         wiKxq0AKWgMyOY8O+SQTjhneyqleH92kL34ClEuHfZYKQ3xGplW0IHEGB84365YhUc4Z
+         ok+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762443897; x=1763048697;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FDBfIt+d555CHw458VAbNG3bfHQEwmpPFewi9LatYFE=;
-        b=lgoYq2QmF+EuYrsCsRj7ptFc5R5PlyjzO55dU1wFkTV7q1fno5uf3o+gR80zfWjFOy
-         UaRy4FAcr6k6Lmzvej9WcQFKXjt1rRIM1iDhU4ms2cdg46KHFc7UB6F8odiTbcdxijmg
-         +/x2UvaugV74v6+21XpMVsxh9jYJ+qp9q04QixGO1d8H7R5YU6R4NoORfL70hBpLKeoz
-         z+WEascIThNGQfsadASSktJ1VvG3ZK5T3BZpx7YEJziJzN0OCycdfhRpVZAUoy9JyBb1
-         18j1AI96caLEBkttGYdCqcJDRYbJR4ZY+JT/IzpKpiWyBlMTXagf4y8nbZgOroaKoeQ+
-         4WQg==
-X-Forwarded-Encrypted: i=1; AJvYcCXem3h5An0joIwdnfiHnBRmdbieQauogzJIu3zFYPH3ZtImygvr0cniS5IkTI3PC5egCRoCglUpALQ0bu4=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Ywge4gmsvoWJY5USgMb0aU4cxUrfX3lHUMGLGz1vOBtj999IyJC
-	Y2svtdqWDwuy+IzyxOdK8fP4zmelep3KuCJ8S8gxsvxgrClW3YeSblPOq7YKIYMZXbU=
-X-Gm-Gg: ASbGncs9Gr1rBroPP2FQj9eOIU1R/mrz5MdKP0z+2pbkfwM6moKRc5cU1kJepvjG9Az
-	vS4HFR0CNHmf2taxIH2VDoyk5GsYvKy6OIVIJ1VbdT8CaDu3IlTh/aQvmVMU3HnFbruD/7F8g1u
-	9jN4/BWoEUQpWFWbfmL9/wVwt6zAJCVGOu3eE6mpTw3/TT7hcBxrNePQgPmipLvXenTmD2Dwvzo
-	b0awqp5vb7vOgJOD67iZKhatM55zfeKu2TmO/nloK4EnWi7dKaIyAgcyPtDORQPTofuxxXDCYed
-	zhW/G7CiTAIa2CMyuTMLHnAD/Y/g5+p98fD5hyElo92BBHOmGijAFdmJv0s0EAVjcuoaYCQUkzA
-	Q2wayobBinr5qUIMx4rXeJ7V2foAuwvvDXPTqLmt7dXJZTc2mA/jzZtjmJbdA7yjBQCYe9Xj4ni
-	wDRlI7D6+X
-X-Google-Smtp-Source: AGHT+IEAc10N1RtkN4NVSk1Zu24SSpZFPG8gHp4xc27V6x28O5IWRTQBVQkr2p/iYh6QAS/I0T8A6w==
-X-Received: by 2002:a05:6000:310a:b0:429:c8f6:5873 with SMTP id ffacd0b85a97d-429e32edf7bmr7715744f8f.22.1762443896966;
-        Thu, 06 Nov 2025 07:44:56 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.134])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429eb40375bsm5553906f8f.8.2025.11.06.07.44.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Nov 2025 07:44:56 -0800 (PST)
-Message-ID: <509b427c-5586-4c92-88ad-16bbde7c3f92@tuxon.dev>
-Date: Thu, 6 Nov 2025 17:44:53 +0200
+        d=1e100.net; s=20230601; t=1762444902; x=1763049702;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uDqvdpSXd7EVG4K3GSPuN1+lwa+x8rxJ7aM50JiFwXE=;
+        b=CTV5W4y5V+8KL2rb9K/L7zayCdjZ2HheWU9corGmmIX5j8bznfJpTK/20NrziWZtr9
+         fpTrNmrhTz+7B/MZXVYPhtfAsCUp+AXLz6sdm7bis9m9sB1oFiwsOfEeF84fGDOgo4tU
+         YrDCI7dQ3b1QXS88U23l4XdzZiODW7H7AoRNnc5g0HVXU5RpreW9G6j55yUYiuVlFpja
+         FkzBNB0k/dtEiCFu3A8qtlRkhB/sfyZ3hJxJGZcFt/qhFMNkhYzPpziZgC5zm4Fsrgfm
+         XlvRUWBLDnU2TFYjCwAqjE7gbz4hKkvDSJj6yzP4u5snkwF9jTkF0NRd2qOkNoKO07ch
+         QzUw==
+X-Forwarded-Encrypted: i=1; AJvYcCXzgx9NVpHSyehmMReO5zye4T+/Nev1SDuN3cywGN1ZHdZZr/fVfyZjYIjFczMzq/KydEgCjFqYTI4kr6Y=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yxt5ZyHxHejU/oa7es1FBacbo+GrGmMQidmbjSgySc25BnluBr5
+	wWnaff77pHJGOdTVgcHji4s3apqt3xGTmUoRxhjj95R5O2QD0qDArjDt
+X-Gm-Gg: ASbGncuaGV0TFIg0gCtYE1lA1rpbddOaOTh1U8uW1rhUwfhcs1fGOrnh6d0P5RLaOii
+	QxIqjno4g1XYorlPfuXzMezUowgNQc606B1KmQS9KocAX1EKYkHEYYPoeotPur2j080o+1/PgEW
+	xl7oHsJzRutKC7bz1Tx+LtR4AxQEBnWnmzqPmoC0VyZ1pJ5mTYWRgMNvfuX+lPwE3f17bdOVaxc
+	YFgUGcBr1rko/O3u5q6yPjOLu/TdK92Yw1iFCJQ4UTpZlF7HSIIceDMr2LzhX4kx2MdqoWwnN3t
+	drsS+7NEIKompzpFojHzVYc3UCEoGixI+bqyKoyw/KSFJ/dv4j56sF+IZb97RJx0JIhNxyo+wmU
+	bvUijJ6c1M/cLO4gz+mB57NsC4CfFx0KXj73YW+jFsLbDjZEofGt9JmhVisr0GuYUO/5hyUISBl
+	m+RTjBA6jO8ojlBUWtm6c/d5CjHiIeWPs9
+X-Google-Smtp-Source: AGHT+IHH1OiCGEbzPId419SmPeowjgjZvd2uwuBPgu14uOeMTfnhF3EzyBaZ3Vf1fe9K5qAqRN9gOQ==
+X-Received: by 2002:a05:690e:2405:b0:63f:b1fd:3850 with SMTP id 956f58d0204a3-640c3b56ae5mr33952d50.33.1762444901924;
+        Thu, 06 Nov 2025 08:01:41 -0800 (PST)
+Received: from localhost (c-73-105-0-253.hsd1.fl.comcast.net. [73.105.0.253])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-787b15d6379sm9121887b3.45.2025.11.06.08.01.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 08:01:40 -0800 (PST)
+Date: Thu, 6 Nov 2025 11:01:39 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Miller <davem@davemloft.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Crt Mori <cmo@melexis.com>, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jakub Kicinski <kuba@kernel.org>, Alex Elder <elder@ieee.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Kim Seer Paller <kimseer.paller@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Jianping Shen <Jianping.Shen@de.bosch.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>, linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-edac@vger.kernel.org, qat-linux@intel.com,
+	linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	linux-iio@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 12/26] bitfield: Add less-checking __FIELD_{GET,PREP}()
+Message-ID: <aQzGY4AKiMQpuL0R@yury>
+References: <cover.1762435376.git.geert+renesas@glider.be>
+ <cfc32f8530d5c0d4a7fb33c482a4bf549f26ec24.1762435376.git.geert+renesas@glider.be>
+ <aQy0T2vUINze_6_q@smile.fi.intel.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -86,67 +135,61 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 14/26] clk: at91: Convert to common field_{get,prep}()
- helpers
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Yury Norov <yury.norov@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Miller
- <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Johannes Berg <johannes@sipsolutions.net>, Jakub Kicinski <kuba@kernel.org>,
- Alex Elder <elder@ieee.org>, David Laight <david.laight.linux@gmail.com>,
- Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Jason Baron
- <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
- Tony Luck <tony.luck@intel.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Kim Seer Paller <kimseer.paller@analog.com>,
- David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Richard Genoud <richard.genoud@bootlin.com>,
- Cosmin Tanislav <demonsingur@gmail.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- Jianping Shen <Jianping.Shen@de.bosch.com>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-edac@vger.kernel.org, qat-linux@intel.com, linux-gpio@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <cover.1762435376.git.geert+renesas@glider.be>
- <7414c080bbacc3c5be00c0eec4f5cbca386acaf3.1762435376.git.geert+renesas@glider.be>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <7414c080bbacc3c5be00c0eec4f5cbca386acaf3.1762435376.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aQy0T2vUINze_6_q@smile.fi.intel.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-
-
-On 11/6/25 15:34, Geert Uytterhoeven wrote:
-> Drop the driver-specific field_get() and field_prep() macros, in favor
-> of the globally available variants from <linux/bitfield.h>.
+On Thu, Nov 06, 2025 at 04:44:31PM +0200, Andy Shevchenko wrote:
+> On Thu, Nov 06, 2025 at 02:34:00PM +0100, Geert Uytterhoeven wrote:
+> > The BUILD_BUG_ON_MSG() check against "~0ull" works only with "unsigned
+> > (long) long" _mask types.  For constant masks, that condition is usually
+> > met, as GENMASK() yields an UL value.  The few places where the
+> > constant mask is stored in an intermediate variable were fixed by
+> > changing the variable type to u64 (see e.g. [1] and [2]).
+> > 
+> > However, for non-constant masks, smaller unsigned types should be valid,
+> > too, but currently lead to "result of comparison of constant
+> > 18446744073709551615 with expression of type ... is always
+> > false"-warnings with clang and W=1.
+> > 
+> > Hence refactor the __BF_FIELD_CHECK() helper, and factor out
+> > __FIELD_{GET,PREP}().  The later lack the single problematic check, but
+> > are otherwise identical to FIELD_{GET,PREP}(), and are intended to be
+> > used in the fully non-const variants later.
+> > 
+> > [1] commit 5c667d5a5a3ec166 ("clk: sp7021: Adjust width of _m in
+> >     HWM_FIELD_PREP()")
+> > [2] commit cfd6fb45cfaf46fa ("crypto: ccree - avoid out-of-range
+> >     warnings from clang")
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> 
+> Also can be made as
+> 
+> Link: https://git.kernel.org/torvalds/c/5c667d5a5a3ec166 [1]
+> 
+> The positive effect that one may click that on Git Web.
+> Ideally, of course, would be an additional parses on Git Web kernel.org uses to
+> parse that standard "commit ...()" notation to add the respective HREF link.
 
-
-Acked-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Those flying over Atlantic or cruising cross Caribbean would disagree. :)
+ 
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> ...
+> 
+> > +	BUILD_BUG_ON_MSG(__bf_cast_unsigned(mask, mask) >		\
+> > +			 __bf_cast_unsigned(reg, ~0ull),		\
+> > +			 pfx "type of reg too small for mask")
+> 
+> Perhaps we may convert this (and others?) to static_assert():s at some point?
+> 
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
 
