@@ -1,72 +1,96 @@
-Return-Path: <linux-aspeed+bounces-2798-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2800-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D01C3C5FC
-	for <lists+linux-aspeed@lfdr.de>; Thu, 06 Nov 2025 17:23:51 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDE1DC3CC8D
+	for <lists+linux-aspeed@lfdr.de>; Thu, 06 Nov 2025 18:20:07 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4d2SDj03B3z2xS2;
-	Fri,  7 Nov 2025 03:23:49 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4d2TTd4bX1z3069;
+	Fri,  7 Nov 2025 04:20:05 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::129"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1762446228;
-	cv=none; b=HD8I9vRzwQnmP8HAgtSPQB8dsfWtwR+uUyyDQqfoWqn5MpqQjkgicgT6nyZf8tZ/xN6603/a4ZgiTrzGuf0V2Zf+I8aZeU/llmsoH7RnApImdkRHRCyKHet+Ybo2Zb5gMIQZbjZ7YnyWOvILFcsjyIiJNqOSHab352Ssei8rQEK+OSIluqpOVx9sNrLC3TQzBK4VZWT21o+2WTuXpYByxNBVv6v/s91Ey+IKnvXTsplzuOa7RRqfMTfyMkn6kWxheSv1rb3mqhMmEzrxeuce/7q/2Poy94yjkoxotzUSxUnmVeTE67IbUNfwP4wcrALAtADYCRsoHRvFwuWZoOkoyg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::42b"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1762449605;
+	cv=none; b=Fy7LebfZLTVv6KLjITAkFYI0zbXY6TdTHJeB5JJNlpR17eW+bGlTf5XgaCFWSeiQbvrEOCuoyVuOjKq86ylgzOkyAsgRlWuyqMevSNyfCf+C+EwEGiYXCAzy3ZAHBkrB1ZzeXorrCzEgWw1fWhv000sqRx7OwKCE2kJ2rrOZrtZWuGZs4GHsdtvyRwJ+gq6noiqgIvc83E1vgvvk+0Kr6gqzQPj9Ol7ZRioLmSGrw99IaFGBMVZ3vXLSk5KJpqi1SQ2t71E2qQMEuAPCGbMCdLGoUkJnMpf814DWUoSBCJ5rQXC22nMly9WxoSUE0pZFwflbUO7gBWqnLRe5F8AP3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1762446228; c=relaxed/relaxed;
-	bh=R8aL6w1TYvGrl1UBIVVUpuAsDW/dJzd3vY+/verHnfg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dATag1s3/Dd3n9IwBJwFuNtQo1PtLrgEm6cY1RErL+dSLhL6MW1vQxKUF/3p0KsYpHSLegdIAR6welI9+PZmvtRIXYaBopDIFD15C21D4kFNdFwZ44+/gNa21KwQYdLsgG1NauMPiSLsDEiDuQakv1RkqnbaC5fRWJGujmCyGw3ZBtf+sK6b3xAtM9qsr2OX5cbwS/m2Cp5WV9ztOuWJJ8fuq8LMQwJwrlf5UREYLUNNfh+vUAT6uFQ5vFSe4CaRxQobqXC0EwrLcuB3AOlqQzqCqTkv4uyjW6fduDwCn5gDc+/tU5dwuEtAx1xwlIJo1+kxCsP9yqtVG9jjHsR7+g==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=Nx8x2ATL; dkim-atps=neutral; spf=none (client-ip=2a00:1450:4864:20::129; helo=mail-lf1-x129.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org) smtp.mailfrom=bgdev.pl
+	t=1762449605; c=relaxed/relaxed;
+	bh=CF4ODf2wTRFML1B4tRmpvs9bZoB7DEQ9x1Ify504Ygo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EXKfBTHUgoWAtjXDU5wYv6JH6clpxGOkeOvaps/XJzyooqzoXPGdwzkgSS6jkfYrS+y8oIy7tV517pBW3fCUlxbLpuVUUPlpXA80iY+xuo8ZFWkIuVMCMgYtENW93O0qvZ6rkQoph37TZLrFItrVniCufF8T5HZR7a8wuXoSVoPzVrFPS9YV6dJuTQ3efYTWKhFqbSOggQo33fITHjEsegfakYutjs5xMxvV62zN64B43SHq3JUKLUGflyDes6FMzf6eTXGogOSXWRbZdSVjCA5mwS9d06Z3cJIm5WjqLqhijS+pGnHUZAww2UsQZJlkRd/81k4yREIBQuO53loBaQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=NvNgw2gO; dkim-atps=neutral; spf=none (client-ip=2a00:1450:4864:20::42b; helo=mail-wr1-x42b.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org) smtp.mailfrom=bgdev.pl
 Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=Nx8x2ATL;
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=NvNgw2gO;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=bgdev.pl (client-ip=2a00:1450:4864:20::129; helo=mail-lf1-x129.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org)
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+Authentication-Results: lists.ozlabs.org; spf=none (no SPF record) smtp.mailfrom=bgdev.pl (client-ip=2a00:1450:4864:20::42b; helo=mail-wr1-x42b.google.com; envelope-from=brgl@bgdev.pl; receiver=lists.ozlabs.org)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4d2SDf6328z2xR2
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Nov 2025 03:23:44 +1100 (AEDT)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-5943b62c47dso1164854e87.1
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 06 Nov 2025 08:23:44 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4d2TTc3ymGz300F
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Nov 2025 04:20:03 +1100 (AEDT)
+Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-421851bca51so998175f8f.1
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 06 Nov 2025 09:20:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1762446221; x=1763051021; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1762449601; x=1763054401; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R8aL6w1TYvGrl1UBIVVUpuAsDW/dJzd3vY+/verHnfg=;
-        b=Nx8x2ATL2r2cVpBcfIm68ICAFl/euaqgafw7RHejtq2dQdEejmi2gEnJO5Ewu56Bz/
-         fcyCfHPu3muinLXU22Am+Kf+QsXNGtEXvunDOWzl1ZM9Sh2CQkWx/042ugkWF8eiw6dW
-         /uCgym7DSaJNopPnM9qn2WtRlu+vfO0J7dlhtgyIECwpkVz9Vwe6JMyFeePqdCbmGtik
-         Sclhzz0xkUo2jCO3Z5H5uXdk7aBGZxicvBe90dDbom5KQWNIZ3KEHrkngSFV1qwKgTUS
-         z7rY86Cpjq0Yh6kSBanDfjCc9QVE4zyscC7KqmaQvUhVjEdWGgXCSDmtPrVrLHhfM3G0
-         MWaw==
+        bh=CF4ODf2wTRFML1B4tRmpvs9bZoB7DEQ9x1Ify504Ygo=;
+        b=NvNgw2gOwZ17CUq+ENE29btraUyg4Wukz15Itn0Dzr+qCx9zm7MS43xCwn4j6jvyDj
+         aBKP+OyPnY/5mvn1uRK1Z+mu0Bss12S2Y4zu6A87x+fApl8S/UEPX94FC92qDu0QDcMK
+         JuDO2ezuNO2iC1ywi1O+lFwziSJtF/AeYlNH54cTd2eXi+AmqXnyK8vbknyOA4pINgFV
+         TBOW8LRZNdNONTjUTNO2hn51cySY3ikmKFoo7SBJruC+8C3Ce4vt+2XeUXwVjA3m9uiA
+         bFzuxQ065l4cBepoRsLMrJ8WlmBPAtsxNKTd5fOGBohoaBkO0MkASM736UJ3GlnqpMeJ
+         j9ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762446221; x=1763051021;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R8aL6w1TYvGrl1UBIVVUpuAsDW/dJzd3vY+/verHnfg=;
-        b=MPYGe3TyH+hIG1tVIoevFTtVPNKf/tH4ntbwnRRgUbTA7nCk7Amsv3OLeZCcQSJM7l
-         rG3kMwgrGu76vokascH4RMOK8mbYLHY4JmqPafuAb17KYrXuMqOAq7H/sn+owvIpS6nZ
-         PW7GQYoG3ZNk05VPMkxDDMX1qlXO3md8Kxf3uLEumliOpkoQ0Dj3N2tKGRqua4rH35gt
-         16LYRXRmqXSfEIJq3wiMi/AsOcfB2dye2aLUCemZOwy2ILjU9t4j9x83Yp8RG8rAmOOR
-         TGU1Wn+P8x4r8PxtFuajSWhuUX0jJZo7WtO6Vu9x1LJWTglHDKdgnrMJFSy+2weN3V/H
-         H+2g==
-X-Forwarded-Encrypted: i=1; AJvYcCWHO819uo0NLFE5BWPFa0KHddYMflvo4eM3OtIzKRmwXmAmOeiEGKUCjOiHLn4iHLzBOUALqj6sO8T1zFc=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxWvgIu7DsjRWCPsdj3dJfQKOYkeYSOtk/VmnA4rpN8zQ9RwfPm
-	B0b3EuEOdR1m11DUqjy0BsV59vV18zUgVNd8qVK+8P7YPKJC7l/TqKNxN3aS12AafigAqprEyZN
-	7HoRNEsfxcRUya58JhokxTmZQPXS4Tnc9YqljINJFwA==
-X-Gm-Gg: ASbGncuPZ4n1u3vNH80fDHVi/Yb39OT/+5IwrUkjAxdh61Zi13BKCC4kyadbIKbiXJF
-	oI7GdFAkP5dV/oxfZ4SZooHsqT8RMPGo9W3RfTgfP/kF311aLtlB3XRMQWl1aWmJPNheE1aSO7S
-	kY0MTzaH5o0HZ4Yb+Ait1hsJdxp28Xzb8gNS/8wmHPLpp3moBo30AQtN1K7G/2Bgs+41s45uiJv
-	WKpiJM1K54lU5PJ1zZ2qEqApY9yAGF6u2ebLrqOPNkIdooXf0uZC9QOr7NkvlebZJBVc5xHIJ1K
-	HHP4BDfEOTBQwcw=
-X-Google-Smtp-Source: AGHT+IEE1H2M6E68md2CvbeNASgGUriHWVB9qaOo9QOrW+nmquKWYbcNGDJmBvvG61zzqmoVo8F4qdYMWY0LOpJw9hk=
-X-Received: by 2002:a05:6512:10d2:b0:594:35b7:aa7 with SMTP id
- 2adb3069b0e04-5943d7ed597mr2555824e87.48.1762446221207; Thu, 06 Nov 2025
- 08:23:41 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762449601; x=1763054401;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=CF4ODf2wTRFML1B4tRmpvs9bZoB7DEQ9x1Ify504Ygo=;
+        b=GhX/H4GZeyMSavLlt5QmNpVYBDqH59DnzX0kZnY88kI+wD6d5nuMgr24ha4mGdwcmt
+         PAtDWgbOKMq6rPAiyfgUOZe1FJnxVockTxcuatY1OL+LyhwJi41d+QpUSvSuxqtzrK1B
+         TW4u3RUAXmVsVGeh+kXcY42PsD7xV8B0474LptaJtR2qYBQsSqzsaTZWLrE8GLxdpufy
+         qoB67X0M/yrgl5OSXVVWncP0h6dORVQrYAcfSiDdmu3smNMhHW89tf/DQgLt1LLTpRgB
+         FtYpnIY7Bt0AhZI4BdfM4JAYXpIAxTIHQ0MInLz+T482lUaC2duClXzbeKsxEnBlZthX
+         IymQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWoBiOidsZVcMe2UIrlyxh0dYXIeD+B2auvfaQWnP5SfNaZXtucnoZhJxoHd8jeseEOEYF4n2jh93Egvbw=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YwIURuQrnlAXUtTq96jrfdCcO4XyJtCaBtMUmyB+TBd4EVegSwY
+	oq1A5nMZNPF5eA6f6xLzGzKwRdj1lzvXaXe84NYzd/NOZ77s07CsbAyUPGCoFkrYGQg=
+X-Gm-Gg: ASbGncs2GYvPRlmKIw9xT7kx2i2ezLMvf2rgkdDnd92h5x1uq1VQszKa0TQ4keZzarO
+	M7F1ppaNOh3CEXlg2VP2y6n3c0V1K1HeXdMrUIWfGqjfXkhfAGYv4hMiN49gEM2aC8FlycM6pb3
+	rYBY6E7S9/M/rC9NaIlxo0SXt1PBDhrNbtFV/1Cp/Jxk9QqraiaIjhEwUfxUqlcSx2kDGzd/e6Z
+	wLL8Mt9K9YdKH/TkhzMVQgWYT4nmlGh856llnV1ekV+3GBPRVyeWdn95+/E31zjXGirqO/4TAia
+	TxsK+re8myseJcEDeO4fOTSdb63ZKoPEYxwQSX8mwR6bkexPl3EEYC3ZTLaTf4gpCfzbEkzWfUQ
+	1OpOafPPiBvxPhu2rmUaqIkFWwLYNiB7P7qCGGghemuu+N1XKg3pBD18GZZdunsi+GJseHg==
+X-Google-Smtp-Source: AGHT+IGv3ddFv7Ixmi0z+24Qd5qosIPKUTQKcEJpg9ieaTfBELOhzQHfNLOSGn3SU4H3SmjfT+TvKA==
+X-Received: by 2002:a05:6000:22ca:b0:429:cd3f:f43b with SMTP id ffacd0b85a97d-42adc68940bmr1528f8f.4.1762449600670;
+        Thu, 06 Nov 2025 09:20:00 -0800 (PST)
+Received: from brgl-uxlite ([2a01:cb1d:dc:7e00:d9de:4038:a78:acab])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42ac677b41csm215368f8f.34.2025.11.06.09.19.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Nov 2025 09:20:00 -0800 (PST)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
+	Srinivas Neeli <srinivas.neeli@amd.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org
+Subject: Re: (subset) [PATCH 0/4] gpio: Simplify with of_device_get_match_data()
+Date: Thu,  6 Nov 2025 18:19:58 +0100
+Message-ID: <176244959622.43499.14570364732284486996.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251106-gpio-of-match-v1-0-50c7115a045e@linaro.org>
+References: <20251106-gpio-of-match-v1-0-50c7115a045e@linaro.org>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -80,84 +104,32 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20251106-gpio-of-match-v1-0-50c7115a045e@linaro.org> <20251106-gpio-of-match-v1-2-50c7115a045e@linaro.org>
-In-Reply-To: <20251106-gpio-of-match-v1-2-50c7115a045e@linaro.org>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 6 Nov 2025 17:23:29 +0100
-X-Gm-Features: AWmQ_ble_VVUCkQMV6BUnht3lKL4n7LMuzlixMmgduve1Vk6OdDcUVcnzGZ5wm0
-Message-ID: <CAMRc=Mchtho0yDsSp+wwBt=yBGg1+3i8ifkUrip1MJaq-uk+0g@mail.gmail.com>
-Subject: Re: [PATCH 2/4] gpio: aspeed: Simplify with of_device_get_match_data()
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, 
-	Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, Srinivas Neeli <srinivas.neeli@amd.com>, 
-	Michal Simek <michal.simek@amd.com>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=0.0 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Thu, Nov 6, 2025 at 5:16=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> Driver's probe function matches against driver's of_device_id table,
-> where each entry has non-NULL match data, so of_match_node() can be
-> simplified with of_device_get_match_data().
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  drivers/gpio/gpio-aspeed.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpio/gpio-aspeed.c b/drivers/gpio/gpio-aspeed.c
-> index 2e0ae953dd99..3d675b63936c 100644
-> --- a/drivers/gpio/gpio-aspeed.c
-> +++ b/drivers/gpio/gpio-aspeed.c
-> @@ -1305,7 +1305,6 @@ MODULE_DEVICE_TABLE(of, aspeed_gpio_of_table);
->
->  static int aspeed_gpio_probe(struct platform_device *pdev)
->  {
-> -       const struct of_device_id *gpio_id;
->         struct gpio_irq_chip *girq;
->         struct aspeed_gpio *gpio;
->         int rc, irq, i, banks, err;
-> @@ -1323,8 +1322,8 @@ static int aspeed_gpio_probe(struct platform_device=
- *pdev)
->
->         raw_spin_lock_init(&gpio->lock);
->
-> -       gpio_id =3D of_match_node(aspeed_gpio_of_table, pdev->dev.of_node=
-);
-> -       if (!gpio_id)
-> +       gpio->config =3D of_device_get_match_data(&pdev->dev);
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-If you're already doing it, just use device_get_match_data() here and
-elsewhere in the series.
 
-Bart
+On Thu, 06 Nov 2025 17:16:24 +0100, Krzysztof Kozlowski wrote:
+> Few simple cleanups, not tested on the hardware.
+> 
+> Care has to be taken when converting of_match_data() into
+> of_device_get_match_data(), because first can check arbitrary
+> device_node and the latter checks device's node.  Cases here should be
+> safe because of_match_data() uses 'pdev->dev.of_node'.
+> 
+> [...]
 
-> +       if (!gpio->config)
->                 return -EINVAL;
->
->         gpio->clk =3D devm_clk_get_enabled(&pdev->dev, NULL);
-> @@ -1334,8 +1333,6 @@ static int aspeed_gpio_probe(struct platform_device=
- *pdev)
->                 gpio->clk =3D NULL;
->         }
->
-> -       gpio->config =3D gpio_id->data;
-> -
->         if (!gpio->config->llops->reg_bit_set || !gpio->config->llops->re=
-g_bit_get ||
->             !gpio->config->llops->reg_bank_get)
->                 return -EINVAL;
->
-> --
-> 2.48.1
->
+Applied, thanks!
+
+[1/4] gpio: tb10x: Drop unused tb10x_set_bits() function
+      https://git.kernel.org/brgl/linux/c/4436f484cb437ba28dc58b7f787a6f80a65aa5c3
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
