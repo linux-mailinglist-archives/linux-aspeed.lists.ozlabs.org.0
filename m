@@ -1,54 +1,78 @@
-Return-Path: <linux-aspeed+bounces-2804-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2806-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74162C3DAF5
-	for <lists+linux-aspeed@lfdr.de>; Thu, 06 Nov 2025 23:51:18 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8AE0C3DAFB
+	for <lists+linux-aspeed@lfdr.de>; Thu, 06 Nov 2025 23:51:20 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4d2cqk315gz2xQ4;
-	Fri,  7 Nov 2025 09:51:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4d2cql3mwTz3bfX;
+	Fri,  7 Nov 2025 09:51:15 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1762399750;
-	cv=none; b=LkaF9NwHxk1k00tyyD37AYPX2zNrMpVfh/xvp+u0jYPFmKT2DvQ3NpnqtKShZico42UyG6hnXS/cGSGg4MTGJhi6571Y5O4d8OVoOHSpHi5NrBEzyp6BQ9K/KdlLetSAYyVV7RHaSrAtBKHPHGl31pQgD7P7XE52oEDtRVnlzkTvrT/DtFMq35l/VRNQgHZup1s3EjKHzXI5LZOG+/dYkGOsPHB0qtojaHbfpqsXkZ9ejU0GzBQu5xmFFH/T5dyaeEQ50oGdFMwXnWoelUdjOxrav6soQcx87xthzlN7E+pj4apgqpVJM3jwZrAkKJizNuylpNcffixRkJ3K7ND6Qg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::335"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1762443410;
+	cv=none; b=OsO4DIRkrKYFB4Sotz28goxcwyezlkiqYAXrDNSpc2uJxNog2UA/qEVSrL7oj6EcHS0A2agpNY2n/MG0Vf3q0LZn4p1jdiiJX8paPmsoc3YzDi4p3mBq3/y3Xu2ZpZhugqSTmci2y8KlnZwAaZGH0k2+/zLphJN1D4XYI9v4F23vZQiVziLB3CaJMcn85tj7YU3dW+Y61Cns9R/U5DTpj0jBFN2UukksjUvwQgz6Yma6VOEFZQJ9LHsoutMw80TKeZjEYVPoyyADU70yFwZMokaW5AYYHCEkVFTF7T4CN+uGB5qBx5QxXn2RI53APniSePcm8xmzpmMrMqDy8U83iw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1762399750; c=relaxed/relaxed;
-	bh=ILy73sttCQKjQ905fT2jb4GJKnPBKwJV0b2jd47RFds=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=h7rsrIsESyOymFTSsldGMVq1i2Db73pkLx5917FjUMStaDDdRV2QWi2AuRcfoZ/T9t7Cc+gu/Eyy3YdFImwUCfq4asvfLne9go706RVv6unruzpd3mFagO5RyB3NPxwP/XQKAH/4mGZ+62h0xlO0w4wZKjzU6iQwS11L9lI10Ntmt9MPQfF1FGRkdlYlpzFImGiafy0GuG73fmvJrfgWJlBUMuzV4gV60VkzOH9q5sAjkZCFL36u/N2l48nSLkKCXUszykgfkXyP2kRJ82Uf0U79mviyfUkve7DqxYKNYu7CgtZf9F478JArurBUAXZ9x7WTS7diZhHP6wXc91wbfQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Dh/0XwzC; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=devnull+kimi.zy.chen.fii-foxconn.com@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1762443410; c=relaxed/relaxed;
+	bh=NoiFfWZaW31Ma9mD3WuZZQSDOEMD5VY8nTTYH6Ca1fs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JJk3ttillx1RVpJk04pND9FfZj56pxnOsYUgoPTxSi6u+xmLjen85WduiijmUVLMLIJgZAq2D5vZs3pyrMLYZC/TrZ23hPhXqTvnt4QqhfldZ0BfeT4KgOevKbnttS4GONQ0XN5BqyG5QqR+/8sU0tfsJkcUDH6hSk0IAons33AkI3jhRhCQ5urd4zEyE/e27hTWT14VszBUIkgG17jUfcGciL6JaK1V1huGGFQsiRlnrf+wYlRvOmchpq92wEzp7ZaOuaNREGFX6Pd8X+sCylee42PZWFCqbqFNBDbNMEnrixqyLj0G3vcpmupe7Wk+kB2e4mHnlV0QKmIuR7Yvaw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; dkim=pass (2048-bit key; secure) header.d=tuxon.dev header.i=@tuxon.dev header.a=rsa-sha256 header.s=google header.b=DyEdofDF; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::335; helo=mail-wm1-x335.google.com; envelope-from=claudiu.beznea@tuxon.dev; receiver=lists.ozlabs.org) smtp.mailfrom=tuxon.dev
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Dh/0XwzC;
+	dkim=pass (2048-bit key; secure) header.d=tuxon.dev header.i=@tuxon.dev header.a=rsa-sha256 header.s=google header.b=DyEdofDF;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=devnull+kimi.zy.chen.fii-foxconn.com@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=tuxon.dev (client-ip=2a00:1450:4864:20::335; helo=mail-wm1-x335.google.com; envelope-from=claudiu.beznea@tuxon.dev; receiver=lists.ozlabs.org)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4d272s3BSVz2xdg
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  6 Nov 2025 14:29:09 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id B1DB160051;
-	Thu,  6 Nov 2025 03:29:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 55A9DC4CEF5;
-	Thu,  6 Nov 2025 03:29:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762399746;
-	bh=M0+1u9tcjtZAWeIYRMKAetnt82+eDnNc/pxxjVmeGJ8=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=Dh/0XwzCtPCb0+qYPzg7D7KZCE9NvK2+eQz0QYIYPccpP3TpZCVGlWnTBz/kDIP+I
-	 VXA59TVihOTPfE3z700wZC8gLk/1MxZF95f8JJ5P+QDe1Wx57NEtOdFUjfv3LCvC7i
-	 0ZPVuir+WBdj6jXJk6+bVx7VtydAp/iOWprFEJDYs5PB3gGGhiLfoA6mqpcz/bcX44
-	 aT2N+7JDGvi0JyAOVQRqxHpWdUHz5Ivd3N6jaijEBGMbTHl05FbWtL+EfJ9ygVO/fB
-	 AXEP0egvtMYYyAwNoPBy0V/NsTw9aJP4WmY7U3MeG1SRw+yi+YFigpA9Vf8jKg+ePZ
-	 IR3dpCojZa3Vg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E65ACCF9F8;
-	Thu,  6 Nov 2025 03:29:06 +0000 (UTC)
-From: Kimi Chen via B4 Relay <devnull+kimi.zy.chen.fii-foxconn.com@kernel.org>
-Date: Thu, 06 Nov 2025 11:28:57 +0800
-Subject: [PATCH] ARM: dts: aspeed: clemente: add gpio line name to io
- expander
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4d2RBT1G4Dz2xdg
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Nov 2025 02:36:48 +1100 (AEDT)
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-4775ae77516so13202555e9.1
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 06 Nov 2025 07:36:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1762443404; x=1763048204; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NoiFfWZaW31Ma9mD3WuZZQSDOEMD5VY8nTTYH6Ca1fs=;
+        b=DyEdofDFPGsvKGIE5xfDhZxAz5pOJxj/4vafX2QH1Noig6B/vINgMksvUGxgNCyu9V
+         8RjSn6ONKbH4qWlMbO8XWk04fn0W726h4mRvJRzRWoxqbdkzIVDh2d8NM5G6HMYKWsu8
+         jHJLLj1DqUlpClLkHgo5ZzUot2gLJdSRpZxWsehtbbzVTVqL8fTLOJ774XMD6GTnlx+o
+         YebMcpJW+ude2CRJ6cJwp52Mpnz8PiGjBLN8Nr/m4u+siPgpwT0fHjnWiISzlWfhDLZr
+         Ees1XN9bzy+vRbZ2p9rgNf8L3wUA0h5LYpLlYnYWFnPch1elOm2Pb82AeTHffdSdQuaL
+         70IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762443404; x=1763048204;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NoiFfWZaW31Ma9mD3WuZZQSDOEMD5VY8nTTYH6Ca1fs=;
+        b=Ng+6To7jJlrajPHTaAp+JBmD2OIaGNva6/fT2FRnOV8zxAqj1yd4r27//eaGbHgvhL
+         Zm5NGcEogjmxBxJTS0gGd6BFGeEsxHq70AerN/gXgEiGTzoI3BW4xNaeQn8J7lng/IO/
+         2902A3MjUBhfAUBZ2oCufGLXRUp4QXyLDDBZxotS/NvkS/NwLNWzUrke1QTI/WM/vVZ8
+         wFDXUP12sZ1gQYG0Z/BjVTYio80hH9HCJSyN73/Bz1/14RV1oD55yQpmf5+vn4e+g8mx
+         tuASOiBWK9EM088H7x3seFiPq9YBdJqhpMGwIiRrMVL7KSyr+FghB5st9iuQV5fkge5F
+         TPXw==
+X-Forwarded-Encrypted: i=1; AJvYcCU2QMrDTCOpAx8u0ogLTjWF7YInhMvgrspx8B+U2QO9uKEdS2yZZ1oTgYmvy0vzMuFRGLUSMpOJ5YkT3ZA=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YxKIFhY4t4LK92Q6769lbs1g5Jh8UAcBKb80Xhn4eqvKqDWQeon
+	QrNIq0VQHxzaqjEZ5G2WTxKetM1H/CFJ2vM+PNHtI86Yk1215M9+lC9bfeRjP7wlxVU=
+X-Gm-Gg: ASbGncst59AV+txTwKjwH335/LmVDGM8JgOhd5FxxmTHw/T0GBNtUayIS7vw3rQJyDb
+	lYEpjdf7xjYD/wkvElFc9h8ShDLsJ7aBZX20aXEDp3ls521F6UENEwlYphYOuCzMWZBHiUpFzOM
+	lOw1CyUApUwAdPjUroE15+h9xdiOyTSf7qOfPVh26XlUPac1oef3zsyksjfo1umxXlI27RNBfd/
+	36lQnRhp43Kl1dF+9cjhiTxRw048x0WzgahStiIlZjq2tJtBvRUe8JyUzktG4anH8M0G1kDu5aK
+	Qe2YMRYLgalamebYu7REYfNLK4+ina4a7Qbfyfz4IZDv/2gWOKLVsD1J9Pqzb2cNwl43HDWgu8O
+	VBXMvADDv6LyXXIK7+fQi16x4s1wOQEDhaeckVetg9PUX/V38NPZ0xg9VVoGVV9eS+s6EoIifDQ
+	Wt6HZWqS9/9TdXA05eULI=
+X-Google-Smtp-Source: AGHT+IHm/6/RnHvUQpqjyEKIYZGBSjHuPRp5b3DBLGbL1GoDEzCDZheRRGUhzX2BHAHpgilQLx/Q7g==
+X-Received: by 2002:a05:600c:621a:b0:471:14f5:126f with SMTP id 5b1f17b1804b1-4775ce206f3mr59734595e9.33.1762443404278;
+        Thu, 06 Nov 2025 07:36:44 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.134])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477622f42a5sm98437525e9.1.2025.11.06.07.36.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Nov 2025 07:36:43 -0800 (PST)
+Message-ID: <d1b02488-7722-4b39-bb8e-f7e5c8e11b1e@tuxon.dev>
+Date: Thu, 6 Nov 2025 17:36:40 +0200
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -62,72 +86,69 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 01/26] clk: at91: pmc: #undef field_{get,prep}() before
+ definition
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Yury Norov <yury.norov@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Miller
+ <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Crt Mori <cmo@melexis.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Jakub Kicinski <kuba@kernel.org>,
+ Alex Elder <elder@ieee.org>, David Laight <david.laight.linux@gmail.com>,
+ Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Jason Baron
+ <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
+ Tony Luck <tony.luck@intel.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Kim Seer Paller <kimseer.paller@analog.com>,
+ David Lechner <dlechner@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Richard Genoud <richard.genoud@bootlin.com>,
+ Cosmin Tanislav <demonsingur@gmail.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ Jianping Shen <Jianping.Shen@de.bosch.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-edac@vger.kernel.org, qat-linux@intel.com, linux-gpio@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1762435376.git.geert+renesas@glider.be>
+ <939d8c6da1f468026b1bb201413ba08b1d0751fd.1762435376.git.geert+renesas@glider.be>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <939d8c6da1f468026b1bb201413ba08b1d0751fd.1762435376.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251106-dts-add-gpio-to-io-expander-v1-1-b4765c092ebe@fii-foxconn.com>
-X-B4-Tracking: v=1; b=H4sIAPgVDGkC/x3MMQqAMAxA0atIZgO2WgevIg6hiTVLW1oRQby7x
- eXDW/4DVYpKhaV7oMilVVNsMH0H/qAYBJWbwQ7WGTPMyGdFYsaQNeGZsFXuTJGlIE1+tN7vbia
- CdshFdr3/+7q97weaqovrbQAAAA==
-X-Change-ID: 20251106-dts-add-gpio-to-io-expander-a4c32ccf56aa
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- george.kw.lee@fii-foxconn.com, Kimi Chen <kimi.zy.chen@fii-foxconn.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1762399744; l=1184;
- i=kimi.zy.chen@fii-foxconn.com; s=20251105; h=from:subject:message-id;
- bh=AqtmtuP+jr8hv72i4Nsvgu+5GWsxpYdSguFgfPJMrrg=;
- b=gWTwCX2zWlQlFmQ63qT3cV1Pcm+eKRpXeZgl3/1S5mJQoeNAfaz9EI1I+tUftf1a7t2j1hDTo
- eWJkfoeyTbcD7nRo1MdQ4AHqWcYF0SRWvsqNNqGdct6+z+VvOuuCC5b
-X-Developer-Key: i=kimi.zy.chen@fii-foxconn.com; a=ed25519;
- pk=3zHetsW/3CYYIgQlYV9dqSS7aW7aZXLUaIvc+OKr3NM=
-X-Endpoint-Received: by B4 Relay for kimi.zy.chen@fii-foxconn.com/20251105
- with auth_id=559
-X-Original-From: Kimi Chen <kimi.zy.chen@fii-foxconn.com>
-Reply-To: kimi.zy.chen@fii-foxconn.com
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-From: Kimi Chen <kimi.zy.chen@fii-foxconn.com>
-
-The chassis power cycle process requires a forced shutdown before
-cutting off the standby power. Therefore, SCM CPLD adds a hard shutdown
-host function and triggers it via the IO expander in Clemente platform.
-
-Thus, a new GPIO line named "hard_shutdown_host" is added to the
-PCA9555 IO expander at line 10 to notify the CPLD to execute the hard
-shutdown host function.
-
-Signed-off-by: Kimi Chen <kimi.zy.chen@fii-foxconn.com>
----
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
-index 450446913e36..0eafd8ea04ac 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
-@@ -983,7 +983,7 @@ io_expander4: gpio@4f {
- 			"",
- 			"",
- 			"",
--			"",
-+			"hard_shutdown_host",
- 			"",
- 			"",
- 			"",
-
----
-base-commit: 6953afcd81a2cc73784e3dd23faa0a1aaf97441a
-change-id: 20251106-dts-add-gpio-to-io-expander-a4c32ccf56aa
-
-Best regards,
--- 
-Kimi Chen <kimi.zy.chen@fii-foxconn.com>
 
 
+On 11/6/25 15:33, Geert Uytterhoeven wrote:
+> Prepare for the advent of globally available common field_get() and
+> field_prep() macros by undefining the symbols before defining local
+> variants.  This prevents redefinition warnings from the C preprocessor
+> when introducing the common macros later.
+> 
+> Suggested-by: Yury Norov <yury.norov@gmail.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+
+Acked-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 
