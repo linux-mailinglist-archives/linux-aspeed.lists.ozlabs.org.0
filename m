@@ -1,94 +1,151 @@
-Return-Path: <linux-aspeed+bounces-2836-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2833-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53759C4271C
-	for <lists+linux-aspeed@lfdr.de>; Sat, 08 Nov 2025 05:41:27 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A28C426E3
+	for <lists+linux-aspeed@lfdr.de>; Sat, 08 Nov 2025 05:30:28 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4d3NYJ43v0z2yqh;
-	Sat,  8 Nov 2025 15:41:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4d3NJf5l3Gz302l;
+	Sat,  8 Nov 2025 15:30:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::52a"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1762503754;
-	cv=none; b=NKyJKnLfon4mCYfmrAIV44FPiu48zjEjDlDz6IHPS5hj0uVrYK3Q3qYGhUze8u5EH8E5GQL1k7vRC4KKtDIY5RK4iURrN+6lXVo6zxyKv+7FidbhpZLE2cRAwNzx4mLIGD8OhVEs5d6pcHHC0/6K0vLiAGusCvS+SpzjSZi0r0Yp+ZNcHHtuc/hLS2xcEfy6ktFyjvpEbv2WMUh8VadGfB8m6M/4FkH3uK8bpqtXScPKVwIBSb24ZxrvNbm73AKl/0nsm41HMB4RA1AC/q9jWRyG544QD4NDobfpad53YZ5Azz6GCR0xaWbaK+y+Dd41MI8F23v87LJ1uzu47efS6A==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.75.126.72
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1762507278;
+	cv=none; b=M3ywsnrxq3uTZO7ii4BBEm3VTRuWx9nbqocwN6QKDiLn84OhkZ82CyKwHFwBcPcAXVbX25WREJ3PUsA5xztgIfg2Q6zqfDG8p/OUwy91qnk1kUzrBtWm5lbnY5gKSgF1XyyMdhd/QqYp4Ihueb1L25tWlpIkrm4PLeOVjQo8QOt7UeMwfCTouZslbDOzR1mhLyiAi+9kmot1poLVmIUDOADLentTm6FaX9iuGLMPwxWemWHo34/OGLZH/WnMJjEYRPV/mD1GH9psEDz8TG6iDP5UdXQqvrGqEO7RFboTy9cG1hVPy1pfmRRtGW/EXPj6XWTQNUyKRFtJ6rH/ZvrdUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1762503754; c=relaxed/relaxed;
-	bh=OMpWtxvVnB3sDu3M9k8udEVrpO3wTQipx27cDHb5FFw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=M4SybYvggRWJflFZcT51SsNEbP+MQj7YQ5O09lp4CAK0Y/cs+dPfo928+y0eNpOD0igrCvQxQiXZBfOR+Li4hW064tZofji4Yabhz5dZQBI1akupBnuJd5/t7HvbSaW4Q1T3KZb2/rivS3Pkd8J+Ima1LTDZLKoYh45W9aG6Hie/UZ2USgHX2qEvMbe8dIM6DEo2w0uTQs59/rSCIn+0mNAqz74fEIErSv10MWgaKtakL4WinHgp7BDYElkhlg+XpHOypgbbFGzYwdBFeGhHCuZMlJ/GgJBpQblwrsqCkS/9wMFhmu5d13BXUcfgUOQ46FGPoyR0k/6DKb6gYQSL/g==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dk1e8Huy; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::52a; helo=mail-pg1-x52a.google.com; envelope-from=sjg168@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1762507278; c=relaxed/relaxed;
+	bh=zDaFC6X698MOtUdXRf84Rze+BfgR+MdLhQQxxraiKe0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=RYcbAPI3zsK03espwtksZa8/CT32Yg1NuHtjdToiG1Il5ItPSTTHmtvXbz3dW7+FseJniWcsx9q91o2wNZO8fN4OEepz9sVPXKNBHe+g+mUkplH8oOOjDZ33d/MP5EIm78CqiUYqd3Lya8VElTva547PVlI4sPDA3Qha8j5xtv1Grm/vm1RJZAy2oDK17F54EvSAQCUaT4vdRACduSNkvcuwYwKi4E3/Ck1UbUZRRMJqf9AtJ1PyfY8F/UHAxVDF0EIPqM+huNuZ8BF2H/kBqB+zC/H1tGxRsJl9IWro2yD/UL3+mZSwaGRut3k72hK5ktfHg4EMjLnKP3doJNnEZg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=realtek.com; dkim=pass (2048-bit key; unprotected) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=mtcfQRpI; dkim-atps=neutral; spf=pass (client-ip=211.75.126.72; helo=rtits2.realtek.com.tw; envelope-from=pkshih@realtek.com; receiver=lists.ozlabs.org) smtp.mailfrom=realtek.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=realtek.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dk1e8Huy;
+	dkim=pass (2048-bit key; unprotected) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=mtcfQRpI;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::52a; helo=mail-pg1-x52a.google.com; envelope-from=sjg168@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=realtek.com (client-ip=211.75.126.72; helo=rtits2.realtek.com.tw; envelope-from=pkshih@realtek.com; receiver=lists.ozlabs.org)
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4d2sVx3NP0z2xPx
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Nov 2025 19:22:32 +1100 (AEDT)
-Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-b6329b6e3b0so299154a12.1
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 07 Nov 2025 00:22:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762503750; x=1763108550; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OMpWtxvVnB3sDu3M9k8udEVrpO3wTQipx27cDHb5FFw=;
-        b=dk1e8HuyZREnX5AZN/6pPcFr2lAkLlrzmEMIIHxBEDCTTZYeZ50lQNf0UHZ/NNw+FS
-         Ef8AT3cVHEHyu36sZrnP2ygwW9gbEAGdDCzLPucPnPoR+P3L0yvSWgmmVhzPdQxabNyU
-         69ZiAdKMEuQg32F2d1cY5qfUThO8YB+upfxrtFfwylZ/t8biCETWLsQtdfnzRsnqbgqd
-         8x5mDQqfue2FxqRJVKpRprrt45XMeAKOBLf+mcJwzvutNwsgmQ82g0TxdNBeIya1rQZV
-         I+449Vjx60pHF+i9ybwIMrnXALGhJT3SQ1SJ4BHcCL7BP0XkSmsnNtkCLlgLA9b6Ix4J
-         3l/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762503750; x=1763108550;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OMpWtxvVnB3sDu3M9k8udEVrpO3wTQipx27cDHb5FFw=;
-        b=oVIZFF4cB0MpzrjFul7po7lBgIjkgjBLQkihfKLHJPR5R/Ge9IIo/dewgdGCAEmiX2
-         KfwaX1tz/h/blpe5rkSIyePwwEDQ0tGoezEXrd2tO48w+hl2DKnKMNVuEA4h+JFcxtUu
-         ggQ6oRZzFGHQ+N/gpXPL+Ox3sssksEv6RHTb+fYOWMr39aFGbgQnJdqlzfegx7snOXd9
-         4Dz+3rmruOc+dw/cZeUMjMJRl+o111j7YbUVVetdl4zAqDlmnru5Yow/V+wdSOwNiJ7p
-         KgiquhDThqQvxObraGFCu94oB+DAaSXbOP/W4XOtt/5AK0mL5+XcUOxeTZSVzgzjdoAz
-         MqTg==
-X-Forwarded-Encrypted: i=1; AJvYcCWltFk1NaKcYUwVWflcK3ZtZoUlnEo3aRon+6ENQ3eXzS7YlVo90o5ayyvmNaI1eKHgxshyu6A9wpZgRt0=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Ywqiy8GcnLalW7QaJCB+OJ7SEgUyUm95969/ymG8OtNJ90Hb3tA
-	pcp8N0xcq1GJhj77SZlipe4aNo6skNoTqbLTmhyzsYOIAYBuog0G8OBU
-X-Gm-Gg: ASbGnctrsJ20CkXw1siCH/LR196wjGhdwSmqm+ZEzpA1+IHcVpaqSMt9gQqj6ZoYJ6J
-	2KZ80GqSYZmGXtPXswek/mcEPR73sNvrkKJO8QkcZuf8h1K1LigoHRy/UkO4u014hrGNHG7KWpQ
-	DBu91kYGYkf1DwC2cd9BCQM45evyFryuVQMdUpEfWpK+AvgHiFW1BqkvreyEMlbCEUrQpYJWtWv
-	fGOAKKW8dLUWhsrPHlVUBdy8HtYAxRcga2MpANQPng7IDyUoN0nXyUKu9EciT8sfEVc1YGaD0R+
-	QxveJFsqEhtb5r7MNnOJRWTg0V/r6rg+Ux21mxg4djH0nD+z4nzw5n5bLkgRhDKhAoqJbhrQOtk
-	qupjWWjgtiyP7dSlru1V0VxL36EP/AewuFf7gtcdkVe34BFmKirpbejBWLn/NWFck1hk=
-X-Google-Smtp-Source: AGHT+IEjlE5AsnLv0b9J+7cxEwQxpex1D5LYp+e+gM7rZYr6pY5wGjltZgYlA4C4hvMPP7ucQVOe4g==
-X-Received: by 2002:a17:903:a90:b0:269:8ace:cd63 with SMTP id d9443c01a7336-297c95bb193mr13342035ad.30.1762503750491;
-        Fri, 07 Nov 2025 00:22:30 -0800 (PST)
-Received: from gmail.com ([218.32.81.133])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29650c5ce87sm51494325ad.29.2025.11.07.00.22.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Nov 2025 00:22:29 -0800 (PST)
-From: Peter Shen <sjg168@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Peter Shen <sjg168@gmail.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Joel Stanley <joel@jms.id.au>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	peter.shen@amd.com
-Subject: [PATCH v5 0/2] ARM: dts: aspeed: Add Device Tree for Facebook Anacapa BMC
-Date: Fri,  7 Nov 2025 16:22:23 +0800
-Message-Id: <20251107-anacapa-v5-0-peter-shen@sjg168>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251104-mellow-denim-dogfish-4affdb@kuoka>
-References: <20251104-mellow-denim-dogfish-4affdb@kuoka>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4d2tph2q4yz2yjm
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Nov 2025 20:21:14 +1100 (AEDT)
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 5A79GKawC362169, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1762506980; bh=zDaFC6X698MOtUdXRf84Rze+BfgR+MdLhQQxxraiKe0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=mtcfQRpIhXa3IGIUSTdgpbLVK2pS958DLDtoxChnJqoBMVIjP7+j1FmAAkkkSdABW
+	 /zKvBrLSDhR5LG1K6YUOIIdSpoIPiLqepC71CPu3Jjxc2UUZY+KZFNx4LiRq55VUFU
+	 qHu+KOtiJ51H0Ap0xpTcapZH2+oaO0cvfM6Z873QFalnjHbbDlZeT9LDxBX2yPtF8L
+	 miAyhub5fBp7p1ZWJsZG7A1g1mUgugzxlWQ2Ezfr89ToVkmLIszXFuFILqNAnVLOwy
+	 aov/l+6S60bRF1Ps1zkEe6Vqz7xzfEE77usAqMuA5SoX25aZ83B1gWTdIdTtWsFBvo
+	 W/dmV93AAhmVA==
+Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
+	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 5A79GKawC362169
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 7 Nov 2025 17:16:20 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.27; Fri, 7 Nov 2025 17:16:20 +0800
+Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
+ RTKEXHMBS06.realtek.com.tw ([fe80::744:4bc9:832c:9b7e%10]) with mapi id
+ 15.02.1544.027; Fri, 7 Nov 2025 17:16:20 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+CC: Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Yury Norov
+	<yury.norov@gmail.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        "Stephen
+ Boyd" <sboyd@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea
+	<claudiu.beznea@tuxon.dev>,
+        Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        David Miller <davem@davemloft.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski
+	<brgl@bgdev.pl>, Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery
+	<andrew@codeconstruct.com.au>,
+        Crt Mori <cmo@melexis.com>, Jonathan Cameron
+	<jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Jacky Huang
+	<ychuang3@nuvoton.com>,
+        Shan-Chun Hung <schung@nuvoton.com>,
+        Rasmus Villemoes
+	<linux@rasmusvillemoes.dk>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jakub Kicinski
+	<kuba@kernel.org>, Alex Elder <elder@ieee.org>,
+        David Laight
+	<david.laight.linux@gmail.com>,
+        Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Jason Baron <jbaron@akamai.com>, Borislav Petkov <bp@alien8.de>,
+        Tony Luck
+	<tony.luck@intel.com>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        "Kim
+ Seer Paller" <kimseer.paller@analog.com>,
+        David Lechner
+	<dlechner@baylibre.com>,
+        =?utf-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
+        "Andy
+ Shevchenko" <andy@kernel.org>,
+        Richard Genoud <richard.genoud@bootlin.com>,
+        Cosmin Tanislav <demonsingur@gmail.com>,
+        Biju Das
+	<biju.das.jz@bp.renesas.com>,
+        Jianping Shen <Jianping.Shen@de.bosch.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers
+	<nick.desaulniers+lkml@gmail.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>,
+        "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org"
+	<linux-crypto@vger.kernel.org>,
+        "linux-edac@vger.kernel.org"
+	<linux-edac@vger.kernel.org>,
+        "qat-linux@intel.com" <qat-linux@intel.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-wireless
+	<linux-wireless@vger.kernel.org>
+Subject: RE: [PATCH v6 12/26] bitfield: Add less-checking __FIELD_{GET,PREP}()
+Thread-Topic: [PATCH v6 12/26] bitfield: Add less-checking
+ __FIELD_{GET,PREP}()
+Thread-Index: AQHcTzpEEEZZM/7p4kSHE1AyVJF587TmYVZQ///87ICAAIzmQA==
+Date: Fri, 7 Nov 2025 09:16:20 +0000
+Message-ID: <6cc1efe7771a41919ec9b2cb1eb977ac@realtek.com>
+References: <cover.1762435376.git.geert+renesas@glider.be>
+ <cfc32f8530d5c0d4a7fb33c482a4bf549f26ec24.1762435376.git.geert+renesas@glider.be>
+ <aQy0T2vUINze_6_q@smile.fi.intel.com>
+ <CAMuHMdXVUJq36GvNUQE8FnHsX+=1jG4GOJ_034r=fgr_Rw4Djg@mail.gmail.com>
+ <aQzIIqNnTY41giH_@smile.fi.intel.com>
+ <CAMuHMdW8ndAdGnSHopYFMWvw7wk7wKz_7+N91M1jRHoqK1KBrg@mail.gmail.com>
+ <c62eb5a727f149fb9d8b4a4c8d77418a@realtek.com>
+ <CAMuHMdU3hWDOWXxuOJcBA7tphBT7X-0H+g0-oq0tZdKw+O5W3A@mail.gmail.com>
+In-Reply-To: <CAMuHMdU3hWDOWXxuOJcBA7tphBT7X-0H+g0-oq0tZdKw+O5W3A@mail.gmail.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+x-originating-ip: [172.21.6.42]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -102,24 +159,60 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=3.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
-X-Spam-Level: ***
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-This patch series adds the device tree binding and the initial device tree
-source file for the Facebook Anacapa BMC, which utilizes the Aspeed AST2600
-SoC.
-
-The patches configure the necessary platform peripherals and aliases for
-OpenBMC usage.
-
----
-Changes in v5:
-- Fixed the final DCO mismatch (Broken DCO/email chain). The email sender address (From:) is now corrected to fully match the Signed-off-by: and Author: address (sjg168@gmail.com) to comply with DCO rules.
-
-- (V4 Changelog) Corrected all previous style issues: fixed block comment styles, line length issues, and removed un-documented/unused device tree nodes (amd,helios_cpld and eeprom@53).
+R2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4gd3JvdGU6DQo+IEhpIFBp
+bmctS2UsDQo+IA0KPiBPbiBGcmksIDcgTm92IDIwMjUgYXQgMDI6MTYsIFBpbmctS2UgU2hpaCA8
+cGtzaGloQHJlYWx0ZWsuY29tPiB3cm90ZToNCj4gPiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0
+QGxpbnV4LW02OGsub3JnPiB3cm90ZToNCj4gPiA+IFRoZSBleHRyYSBjaGVja2luZyBpbiBmaWVs
+ZF9wcmVwKCkgaW4gY2FzZSB0aGUgY29tcGlsZXIgY2FuDQo+ID4gPiBkZXRlcm1pbmUgdGhhdCB0
+aGUgbWFzayBpcyBhIGNvbnN0YW50IGFscmVhZHkgZm91bmQgYSBwb3NzaWJsZSBidWcNCj4gPiA+
+IGluIGRyaXZlcnMvbmV0L3dpcmVsZXNzL3JlYWx0ZWsvcnR3ODkvY29yZS5jOnJ0dzg5X3JvY19l
+bmQoKToNCj4gPiA+DQo+ID4gPiAgICAgcnR3ODlfd3JpdGUzMl9tYXNrKHJ0d2RldiwgcmVnLCBC
+X0FYX1JYX0ZMVFJfQ0ZHX01BU0ssIHJ0d2Rldi0+aGFsLnJ4X2ZsdHIpOw0KPiA+ID4NCj4gPiA+
+IGRyaXZlcnMvbmV0L3dpcmVsZXNzL3JlYWx0ZWsvcnR3ODkvcmVnLmg6DQo+ID4gPg0KPiA+ID4g
+ICAgICNkZWZpbmUgQl9BWF9SWF9NUERVX01BWF9MRU5fTUFTSyBHRU5NQVNLKDIxLCAxNikNCj4g
+PiA+ICAgICAjZGVmaW5lIEJfQVhfUlhfRkxUUl9DRkdfTUFTSyAoKHUzMil+Ql9BWF9SWF9NUERV
+X01BWF9MRU5fTUFTSykNCj4gPiA+DQo+ID4gPiBzbyBpdCBsb29rcyBsaWtlIEJfQVhfUlhfRkxU
+Ul9DRkdfTUFTSyBpcyBub3QgdGhlIHByb3BlciBtYXNrIGZvcg0KPiA+ID4gdGhpcyBvcGVyYXRp
+b24uLi4NCj4gPg0KPiA+IFRoZSBwdXJwb3NlIG9mIHRoZSBzdGF0ZW1lbnRzIGlzIHRvIHVwZGF0
+ZSB2YWx1ZXMgZXhjbHVkaW5nIGJpdHMgb2YNCj4gPiBCX0FYX1JYX01QRFVfTUFYX0xFTl9NQVNL
+LiBUaGUgdXNlIG9mIEJfQVhfUlhfRkxUUl9DRkdfTUFTSyBpcyB0cmlja3ksIGJ1dA0KPiA+IHRo
+ZSBvcGVyYXRpb24gaXMgY29ycmVjdCBiZWNhdXNlIGJpdCAwIGlzIHNldCwgc28gX19mZnMobWFz
+aykgcmV0dXJucyAwIGluDQo+ID4gcnR3ODlfd3JpdGUzMl9tYXNrKCkuIFRoZW4sIG9wZXJhdGlv
+biBsb29rcyBsaWtlDQo+ID4NCj4gPiAgICBvcmlnID0gcmVhZChyZWcpOw0KPiA+ICAgIG5ldyA9
+IChvcmlnICYgfm1hc2spIHwgKGRhdGEgJiBtYXNrKTsNCj4gPiAgICB3cml0ZShuZXcpOw0KPiAN
+Cj4gVGhhbmtzIGZvciB5b3VyIHF1aWNrIGNvbmZpcm1hdGlvbiENCj4gU28gdGhlIGludGVudGlv
+biByZWFsbHkgaXMgdG8gY2xlYXIgYml0cyAyMi0zMSwgYW5kIHdyaXRlIHRoZSByeF9mbHRyDQo+
+IHZhbHVlIHRvIGJpdHMgMC0xNT8NCj4gDQo+IGlmIHRoZSBjbGVhcmluZyBpcyBub3QgbmVlZGVk
+LCBpdCB3b3VsZCBiZSBiZXR0ZXIgdG8gdXNlDQo+ICNkZWZpbmUgQl9BWF9SWF9GTFRSX0NGR19N
+QVNLIEdFTk1BU0soMTUsIDApDQoNCkJ1dCBpdCBzaG91bGQgYmUgDQojZGVmaW5lIEJfQVhfUlhf
+RkxUUl9DRkdfTUFTSyAoR0VOTUFTSygzMSwgMjIpIHwgR0VOTUFTSygxNSwgMCkpDQoNCk9yaWdp
+bmFsbHkgKHdpdGggYnVnKSB3ZSBqdXN0IGJhY2t1cCByeF9mbHRyIGFuZCB3cml0ZSB3aG9sZSAz
+Mi1iaXRzIGJhY2ssDQpidXQgaXQncyBpbmNvcnJlY3QgdG8gbW9kaWZ5IEdFTk1BU0soMjEsIDE2
+KSB3aGljaCBpcyB3cml0dGVuIGJ5IGFub3RoZXINCmNvZGUuDQoNCk9uZSB3YXkgaXMgdG8gaW1w
+bGVtZW50IGEgc3BlY2lhbCBmdW5jdGlvbiB0byByZXBsYWNlDQogIHJ0dzg5X3dyaXRlMzJfbWFz
+ayhydHdkZXYsIHJlZywgQl9BWF9SWF9GTFRSX0NGR19NQVNLLCBydHdkZXYtPmhhbC5yeF9mbHRy
+KTsNClN1Y2ggYXMNCiAgcnR3ODlfd3JpdGVfcnhfZmx0ZXIocnR3ZGV2LCBydHdkZXYtPmhhbC5y
+eF9mbHRyKQ0KICB7DQogICAgb3JpZyA9IHJlYWQocmVnKTsNCiAgICBuZXcgPSAob3JpZyAmIH5t
+YXNrKSB8IChkYXRhICYgbWFzayk7DQogICAgd3JpdGUobmV3KTsNCiAgfQ0KDQpBbm90aGVyIHdh
+eSBpcyB0aGF0IEkgYWRkIHZhbHVlIG9mIEJfQVhfUlhfTVBEVV9NQVhfTEVOX01BU0sgaW50bw0K
+cnR3ZGV2LT5oYWwucnhfZmx0ci4gVGhlbiwganVzdCB3cml0ZSB3aG9sZSAzMi1iaXQsIG5vIG5l
+ZWQgbWFzay4NCg0KPiANCj4gSWYgdGhlIGNsZWFyaW5nIGlzIG5lZWRlZCwgSSBzdGlsbCB0aGlu
+ayBpdCB3b3VsZCBiZSBiZXR0ZXIgdG8NCj4gY2hhbmdlIEJfQVhfUlhfRkxUUl9DRkdfTUFTSywg
+YW5kIHNwbGl0IHRoZSBjbGVhcmluZyBvZmYgaW4gYSBzZXBhcmF0ZQ0KPiBvcGVyYXRpb24sIHRv
+IG1ha2UgaXQgbW9yZSBleHBsaWNpdCBhbmQgb2J2aW91cyBmb3IgdGhlIGNhc3VhbCByZWFkZXIu
+DQo+IA0KPiA+IFNpbmNlIHdlIGRvbid0IHVzZSBGSUVMRF97R0VULFBSRVB9IG1hY3JvcyB3aXRo
+IEJfQVhfUlhfRkxUUl9DRkdfTUFTSywgaG93DQo+ID4gY2FuIHlvdSBmaW5kIHRoZSBwcm9ibGVt
+PyBQbGVhc2UgZ3VpZGUgdXMuIFRoYW5rcy4NCj4gDQo+IEkgc3RpbGwgaGF2ZSAiW1BBVENIL1JG
+QyAxNy8xN10gcnR3ODk6IFVzZSBiaXRmaWVsZCBoZWxwZXJzIg0KPiBodHRwczovL2xvcmUua2Vy
+bmVsLm9yZy9hbGwvZjdiODExMjJmNzU5NmZhMDA0MTg4YmZhZTY4ZjI1YTY4YzJkMjM5Mi4xNjM3
+NTkyMTMzLmdpdC5nZWVydCtyZW5lc2FzQGdsaWQNCj4gZXIuYmUvDQo+IGluIG15IGxvY2FsIHRy
+ZWUsIHdoaWNoIHN0YXJ0ZWQgZmxhZ2dpbmcgdGhlIHVzZSBvZiBhIGRpc2NvbnRpZ3VvdXMNCj4g
+bWFzayB3aXRoIHRoZSBpbXByb3ZlZCBjaGVja2luZyBpbiBmaWVsZF9wcmVwKCkuDQoNCkdvdCBp
+dC4gWW91IGFyZSBkb2luZyAiTm9uLWNvbnN0IGJpdGZpZWxkIGhlbHBlciBjb252ZXJzaW9ucyIu
+IA0KDQpQaW5nLUtlDQoNCg==
 
