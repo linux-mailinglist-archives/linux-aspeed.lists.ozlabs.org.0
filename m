@@ -1,29 +1,29 @@
-Return-Path: <linux-aspeed+bounces-2820-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2821-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C767AC3E8E9
-	for <lists+linux-aspeed@lfdr.de>; Fri, 07 Nov 2025 06:56:53 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7859C3E8EC
+	for <lists+linux-aspeed@lfdr.de>; Fri, 07 Nov 2025 06:56:54 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4d2pGp0mYZz3btL;
+	by lists.ozlabs.org (Postfix) with ESMTP id 4d2pGp5Fsyz3btv;
 	Fri,  7 Nov 2025 16:56:50 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
 ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1762495010;
-	cv=none; b=NdtykAUW7aEa7HDwcksBpwuWVtfzECy6RH7yATTzwyHWP345X2QmIStSkRkCIcVkdCTfx6CVH028+bqIhwYzxS1aVWfOm5E2ZZugW4c/Lj+h6BwakVIplJQeIJ1CkRj4eeD71JKglDmQtu5bT1opj2oN5gPpktGKENsioqR7l3+RL0KS2PJVipT4a9CepmrmTfg25dz6PBaJviXMsVGovc3dMCqTFVZ77yYYOCdNqMQ/pw9JObBBqS0HE3yU9Dxq153gQdDgU9DEKLCb6+MaqslZPA+QLJHEbfs+XiuruoqUDJjZA9SVFNA4ALEp3tjkHoZ2Zn7E5j1yao83zKhCYA==
+	cv=none; b=PS0s0AlSWqaFzZLuTgR0x8qZ6eMTggHqlBociRGo7ANPJNz1Ea4Thn/hwV7oghVO2sHhapZ3JNtzIa84/dofayLjfm8cDx27NFnin3/gwHMT3o9xTVrEKMhfqHRiWTSbctqh2+cMby5MzrJa5fqg3MGRFKqK6oIy0eta2XsWJF/zF/Yxj2BB/734tjWteGfDnYKym6erII7GPO/ffd4YEt5VgjnqnmSsZQMe99wl/3qpwNlNogpQF5izVS7p5+BhpyMSGUu/2RpTnMP8+T5FZ4jvwTukbTerh1gD7zcG5mDIaYgIrSyIPodNeAVgED24ssewFLljOHozcsUUS26cqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
 	t=1762495010; c=relaxed/relaxed;
-	bh=SInxBy7YfPex4wAk/CgFr3JQv4r3OJTGZZt5a2PUqHM=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Fd49/hVXpSY6yV6BHm6bx6ZqXIMdMjpPTCTk4EmkmjD3xCrncdvcUouBOfovj+AS8T31w4f4IIA3ivqFcAVDlNszogL2SdL3L8CXE9LqrOi75CdemsdWi/nPtaFimX8ydNlMi32P9NJ5VdaRS0r5LzVabxVjwgSBTNeln1DDa45EWzp4DVsjuE5S0D0bki+HJ9gUtBJopkg/lZCtyeLrJ0Q5BEMpgJUBqWdJYcWsaT9X3RXHkVickIEHxuw7rB3D9wIEzfkSEAQOuJcCdw5E6DqrFq7s7VRTZfTDbQmdw9evWkQ+H5oiLdXWQPXFLkXYqGyVh+EupaU8HIdiFE7W9g==
+	bh=th4WLVzRvVshFtEiKC/8iRUACCMrkbrbynPpBB2ukuI=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jcjDaHlybsl9MF+YotPUqI07rZmfulvS31nfmNWmKt44JYPjF3Uk8Ytdc2v9kVe2WmMfHs7iGf81r4/JZzWSG6n/CUFrsrtaSFOzL7ako/RisAYnvRl6FUJ/VttP6lcH/EC/02w+gSpCA1YgcMy6BHrPXNidg+yq8zEfRL6vfJyky547UVdw0CHW7OrHgsUGzK9qcE4HjgAvAHPDoF1io5KHq/KKHQfZTABDGoc0FeUEkyUgA/sGFaSUlpGRzzEMnsJ8cQSmE688mdF0K00tsxjehL35qHrwIq4iPqsWEsJKXLza99ZwTLnVnDmuz/qx1oTFSWvthhd7+6z9iDUpfQ==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4d2pGn4Q7Bz3bfN
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Nov 2025 16:56:49 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4d2pGp1fCpz3bfN
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Nov 2025 16:56:50 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 7 Nov
@@ -45,9 +45,10 @@ To: ryan_chen <ryan_chen@aspeedtech.com>, <bmc-sw@aspeedtech.com>, Rob Herring
 	<kuninori.morimoto.gx@renesas.com>, Eric Biggers <ebiggers@kernel.org>,
 	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v7 4/5] arm64: dts: aspeed: Add AST2700 Evaluation Board
-Date: Fri, 7 Nov 2025 13:56:28 +0800
-Message-ID: <20251107055629.4075519-5-ryan_chen@aspeedtech.com>
+CC: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v7 5/5] arm64: configs: Update defconfig for AST2700 platform support
+Date: Fri, 7 Nov 2025 13:56:29 +0800
+Message-ID: <20251107055629.4075519-6-ryan_chen@aspeedtech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251107055629.4075519-1-ryan_chen@aspeedtech.com>
 References: <20251107055629.4075519-1-ryan_chen@aspeedtech.com>
@@ -70,72 +71,26 @@ X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-ASPEED AST2700 EVB is prototype development board based
-on AST2700 SOC.
+Enable options for ASPEED AST2700 SoC.
 
 Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- arch/arm64/boot/dts/Makefile               |  1 +
- arch/arm64/boot/dts/aspeed/Makefile        |  4 ++++
- arch/arm64/boot/dts/aspeed/ast2700-evb.dts | 26 ++++++++++++++++++++++
- 3 files changed, 31 insertions(+)
- create mode 100644 arch/arm64/boot/dts/aspeed/Makefile
- create mode 100644 arch/arm64/boot/dts/aspeed/ast2700-evb.dts
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/Makefile b/arch/arm64/boot/dts/Makefile
-index b0844404eda1..5b8fbf5b1061 100644
---- a/arch/arm64/boot/dts/Makefile
-+++ b/arch/arm64/boot/dts/Makefile
-@@ -9,6 +9,7 @@ subdir-y += amlogic
- subdir-y += apm
- subdir-y += apple
- subdir-y += arm
-+subdir-y += aspeed
- subdir-y += axiado
- subdir-y += bitmain
- subdir-y += blaize
-diff --git a/arch/arm64/boot/dts/aspeed/Makefile b/arch/arm64/boot/dts/aspeed/Makefile
-new file mode 100644
-index 000000000000..ffe7e15017cc
---- /dev/null
-+++ b/arch/arm64/boot/dts/aspeed/Makefile
-@@ -0,0 +1,4 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+dtb-$(CONFIG_ARCH_ASPEED) += \
-+	ast2700-evb.dtb
-diff --git a/arch/arm64/boot/dts/aspeed/ast2700-evb.dts b/arch/arm64/boot/dts/aspeed/ast2700-evb.dts
-new file mode 100644
-index 000000000000..9a5dbb4d9002
---- /dev/null
-+++ b/arch/arm64/boot/dts/aspeed/ast2700-evb.dts
-@@ -0,0 +1,26 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+/dts-v1/;
-+#include "aspeed-g7-a35.dtsi"
-+
-+/ {
-+	model = "AST2700 EVB";
-+	compatible = "aspeed,ast2700-evb", "aspeed,ast2700";
-+
-+	aliases {
-+	    serial0 = &uart12;  /* console port */
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	memory@400000000 {
-+		device_type = "memory";
-+		reg = <0x4 0x00000000 0x0 0x40000000>;
-+	};
-+};
-+
-+&uart12 {
-+	status = "okay";
-+};
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index e3a2d37bd104..ca2978dd1ccc 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -39,6 +39,7 @@ CONFIG_ARCH_SUNXI=y
+ CONFIG_ARCH_ALPINE=y
+ CONFIG_ARCH_APPLE=y
+ CONFIG_ARCH_ARTPEC=y
++CONFIG_ARCH_ASPEED=y
+ CONFIG_ARCH_AXIADO=y
+ CONFIG_ARCH_BCM=y
+ CONFIG_ARCH_BCM2835=y
 -- 
 2.34.1
 
