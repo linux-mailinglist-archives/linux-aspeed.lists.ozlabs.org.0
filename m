@@ -1,50 +1,90 @@
-Return-Path: <linux-aspeed+bounces-2825-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2827-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D44BC3EFBC
-	for <lists+linux-aspeed@lfdr.de>; Fri, 07 Nov 2025 09:38:29 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E49C3F36F
+	for <lists+linux-aspeed@lfdr.de>; Fri, 07 Nov 2025 10:42:57 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4d2ssG6MQNz2xQ2;
-	Fri,  7 Nov 2025 19:38:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4d2vHg3GP8z2yrF;
+	Fri,  7 Nov 2025 20:42:55 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.234.252.31
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1762504706;
-	cv=none; b=FV8deIzV1sOebQiTNVPomRNetV9NjbWChET3MpFGXoM2VXzUEWD4jnuaGOtN2QQ2sW1jSe43N2U9xM1nt51oXbuYauHuVE36v4qkeNWmZeIjc9tdQ8Rbgns0EQaviV9Ap57G8Pv39v2SQU7QcIHki376LyqUnjGt2Qt2HF/ndKyAUHIOSq4Dgvmf/JjnfCFXwo9SPM04IirtYcElt2s2pmVOfpOyOFIofXqnAOP++L0Zqq+7cG99ltljS9wXDbntn9mYAlVhpnMNCEsngq/HOHPMFmGVcdh/xDY/2aMpTdummEQUHUIcWvDnsX7oibvBfh2O4U7peClhAwN47ZpajQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.18
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1762508575;
+	cv=none; b=DZ8Ewu1mHNw2NZtwIexhBBJnZ7grWB8p5QaIWfUdliBmvbW725IYHijIhk1k2Tn7khyN0ZgewQif36mSvKFiRNp9gXWd7Q40vQQ4NYeUgo5M9ny99OlvOVIlYy4M1gSOLC0ijBTpkbdmkDfUlWUxR4kgVQb7xg3eR23QuNdVrn5eFfnyc9v+JDLLrkVfe+IJZfly5c8MTPIdAs/SzSrtu9Bd7Xx/idT05dftfMfAs81TmjXDhLjac8vC6i/726LbqRVVZJKcGqptYLGFWArKC3SnpkvDBVQBG8VZFLcSCZuFER9EGrMGsU3L2pt+trGUl2gEzd2jNkMtHsyCD2KUYA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1762504706; c=relaxed/relaxed;
-	bh=3MTPTnxGg+WpKoqn+UMaYhcjkHl8XqnCaxasnnGoZMI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lcSGIXXWA7t3DpxtyeVa0aY9DeQxHHs03n3NFAy7+sve0xARb8JUZtXgokrZ6gHXYTJBxEhfW/DubA3poUL1UTN6skCLwnxnFV/RkUMWYCeMq7R2AvRp5eSFdQ4CRYh+A9VgY8q/tbDJEPWYjg68YW6B7uusmBMFpZS0x5Z8ofqlTISIB4ab0g54unoh3h/sr0eDYsCeg/MsWWMB+3XBvwSHuMch0/QZax6rFiQUry/Hi2a75nkjGoIMbxm5L/Rv86xPGjXfnlAlBvvU8Wm/RlxORrl9mV2ypeWBI8Hjj5fxhGYaE24OHZH+xszz3LSnAvsPRoSMURfE3pKe+orcIQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Pm75rkJX; dkim-atps=neutral; spf=pass (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1762508575; c=relaxed/relaxed;
+	bh=afGjVttI914lkamQzbwHFWQI/mW5NqG7gu6A5EIHDVY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BE7rDaAAANu6Rhp9f4OzD4JPAvVqdL6RhgfMaoPXRWzyatC9ch0m/mzZJKt0HTbc7HwqZROP2xoXvsGmJqjtObapVE8t1lm3ttH82H6VwYtdRK5ORlGWgAPGFjMCEzXFdHoeRKdubPwK4brLiKHuwVt5nhNML64ZpHbb+1nwALtRZshsWbp/gzoPpdAqzmeXpCQxjivyUGabFX+8zAqDp0wikMlUNBBl0+JVSR+xHQD4eEDXvhFm/XsO8/T13nt2cMC0ZcQ1CvJTjTnhr7X4rrKm1cdTZwu0R2+vDf7aMzPyaNZ5ecDD+m9BJ6Udqx+trSUu5CL11+AHx1BymLZWZA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=e9RuC0CJ; dkim-atps=neutral; spf=pass (client-ip=192.198.163.18; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.intel.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Pm75rkJX;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=e9RuC0CJ;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.intel.com (client-ip=192.198.163.18; helo=mgamail.intel.com; envelope-from=andriy.shevchenko@linux.intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4d2ssF4Khhz2xQ0
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Nov 2025 19:38:25 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 0C6C644330;
-	Fri,  7 Nov 2025 08:38:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 573F6C113D0;
-	Fri,  7 Nov 2025 08:38:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762504702;
-	bh=JSm9N8W6LxkBD3EWf57DWL/gIR024e3vR+Q1Vh4FnsQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Pm75rkJX6YeFv6qEGJEVQD9KdwOJw5eh5HcTNGTv+Ue1tdoMuasUjMa01NdHtEi+G
-	 f5cl+yeLQYBopjGmFaQ2ozU0sOj9glIsHhtdzuUp8cz5r/iotW92/f2DcLQCQJBuod
-	 91ZA5b7Nl1w5s4iulQmHRQH09WyEzJZPSwTk0XlZ+79Tn9TPCAfD32drTLmJyV0CI0
-	 NYN9q97oDSM8laopD6MTBqc94kxJ5+w7mIHD5lzJSYTnK0cJBiYY/1Zby5QhKIsZLO
-	 Pcglitk6rHG2frI6wOYxeSZW1dZ1NrEBbBGB/JFJlAeGqwatsLGptstmqPHdsNkhzG
-	 YnGQw2RXmoZAg==
-Message-ID: <20dbf272-b5a0-4fc6-b5c7-54fdaa05173d@kernel.org>
-Date: Fri, 7 Nov 2025 09:38:18 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4d2vHc48r1z2yjm;
+	Fri,  7 Nov 2025 20:42:50 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762508573; x=1794044573;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WJXOLztqSo4giTqFOw8G/lBkaE8BpltWb1JC16Iyvfc=;
+  b=e9RuC0CJoV45YgMRosExhIVFAFWXRwlbqWnIdjeGbP2sEE8btPDLCVM7
+   LxdyFu01zEzh6/URoHd2TzTmNLEWfpKTrWVJ5pEkiw09Mwuwu+8X5EM0e
+   h3q2fgWwHuzaclKqL0kp7nL0m/LLQdeM4fzFVrTHq00HIbw3e2lASHlq3
+   Z7YY4HD3/srBuoPNlQZVdhxTD9AR/nrcuxguNfE8cCHEJcbbmMHQEDAWc
+   0yiEs/ktq3MUATNgOs1yhLmAlEV+/EKE89rSkJdZqKs2mj4S0FTJdlqRS
+   CQKECdQnlcq5nod7b9KeAVUrdnE7JUm0Q/GV6AqNpMZRe1LheQL/b7FCv
+   g==;
+X-CSE-ConnectionGUID: dBevw6o9Ql2LESfZGa7rLg==
+X-CSE-MsgGUID: 1YEeaJfzQqq6jrnLXfcvew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11605"; a="63864702"
+X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
+   d="scan'208";a="63864702"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 01:42:48 -0800
+X-CSE-ConnectionGUID: oCQK/vHQQpCJVDh93eyUgw==
+X-CSE-MsgGUID: jz6q+Cp+QiGNuEuTne9Otg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,286,1754982000"; 
+   d="scan'208";a="187253469"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.245.27])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2025 01:42:43 -0800
+Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1vHIzQ-00000006QDe-05pD;
+	Fri, 07 Nov 2025 11:42:40 +0200
+Date: Fri, 7 Nov 2025 11:42:39 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Ryan Chen <ryan_chen@aspeedtech.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, BMC-SW <BMC-SW@aspeedtech.com>,
+	"benh@kernel.crashing.org" <benh@kernel.crashing.org>,
+	"joel@jms.id.au" <joel@jms.id.au>,
+	"andi.shyti@kernel.org" <andi.shyti@kernel.org>,
+	"jk@codeconstruct.com.au" <jk@codeconstruct.com.au>,
+	"robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"andrew@codeconstruct.com.au" <andrew@codeconstruct.com.au>,
+	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+	"naresh.solanki@9elements.com" <naresh.solanki@9elements.com>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v21 3/4] i2c: ast2600: Add controller driver for new
+ register layout
+Message-ID: <aQ2_D6vs4m1brNk0@smile.fi.intel.com>
+References: <20251027061240.3427875-1-ryan_chen@aspeedtech.com>
+ <20251027061240.3427875-4-ryan_chen@aspeedtech.com>
+ <f08b1078-fc8c-4834-984c-813e01291033@kernel.org>
+ <TY2PPF5CB9A1BE64FEBCCCDC7631B355135F2C3A@TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -58,97 +98,43 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/2] ARM: dts: aspeed: Add Device Tree for Facebook
- Anacapa BMC
-To: Peter Shen <sjg168@gmail.com>
-Cc: Andrew Jeffery <andrew@codeconstruct.com.au>,
- Joel Stanley <joel@jms.id.au>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, peter.shen@amd.com
-References: <20251104-mellow-denim-dogfish-4affdb@kuoka>
- <20251107-anacapa-v5-0-peter-shen@sjg168>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251107-anacapa-v5-0-peter-shen@sjg168>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TY2PPF5CB9A1BE64FEBCCCDC7631B355135F2C3A@TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Spam-Status: No, score=-2.3 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On 07/11/2025 09:22, Peter Shen wrote:
-> This patch series adds the device tree binding and the initial device tree
-> source file for the Facebook Anacapa BMC, which utilizes the Aspeed AST2600
-> SoC.
+On Fri, Nov 07, 2025 at 06:26:39AM +0000, Ryan Chen wrote:
+> > On 27/10/2025 07:12, Ryan Chen wrote:
+
+...
+
+> Add new file i2c-aspeed-core.c to do legacy probe and i2c-ast2600 probe.
 > 
-> The patches configure the necessary platform peripherals and aliases for
-> OpenBMC usage.
-> 
-> ---
-> Changes in v5:
-> - Fixed the final DCO mismatch (Broken DCO/email chain). The email sender address (From:) is now corrected to fully match the Signed-off-by: and Author: address (sjg168@gmail.com) to comply with DCO rules.
-> 
-> - (V4 Changelog) Corrected all previous style issues: fixed block comment styles, line length issues, and removed un-documented/unused device tree nodes (amd,helios_cpld and eeprom@53).
+> 	if (of_device_is_compatible(dev_of_node(dev), "aspeed,ast2600-i2c-bus") &&
 
-Please stop. You already sent v4, then immediately v5. All patches are
-missing and cover letters are incorrectly threaded.
+	if (device_is_compatible(dev, "aspeed,ast2600-i2c-bus") &&
 
-Can you please slow down and look at commands you are typing (e.g. look
-in manual for explanation of --dry-run).
+> 	    of_parse_phandle(dev_of_node(dev), "aspeed,global-regs", 0)) {
 
-Do not attach (thread) your patchsets to some other threads (unrelated
-or older versions). This buries them deep in the mailbox and might
-interfere with applying entire sets. See also:
-https://elixir.bootlin.com/linux/v6.16-rc2/source/Documentation/process/submitting-patches.rst#L830
+Not sure why do you need this. Isn't it as simple as
+
+	    device_property_present(dev, "aspeed,global-regs", 0)) {
+
+or something between these lines?
+
+> 		ret = ast2600_i2c_probe(pdev);
+> 	} else {
+> 		ret = aspeed_i2c_probe(pdev);
+> 	}
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Best regards,
-Krzysztof
 
