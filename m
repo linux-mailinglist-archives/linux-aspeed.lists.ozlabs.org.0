@@ -1,71 +1,68 @@
-Return-Path: <linux-aspeed+bounces-2824-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2826-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03433C3ED91
-	for <lists+linux-aspeed@lfdr.de>; Fri, 07 Nov 2025 09:00:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 262CAC3EFFA
+	for <lists+linux-aspeed@lfdr.de>; Fri, 07 Nov 2025 09:43:28 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4d2s1g4ygdz2xQ0;
-	Fri,  7 Nov 2025 19:00:39 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4d2sz204Nhz2xQ2;
+	Fri,  7 Nov 2025 19:43:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2a00:1450:4864:20::535"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1762502439;
-	cv=none; b=IKksDlymwh5CuHVg//GLtxXgSxMrmzAktCrvSMYwiSy2nFuYxnVkFpCIvNXk+NYmPAUJeNOVf1jtbKKzfbjsUY6UqwCZBc3DWQF6n7gg0pF/TFX9IDqBHVXlyOOiLY8p9WNmIMsRIdTIPjtCrx+meKWqJcxoee/JAYSCLybx4kqCkDL8c8kmYrmzG0sJupB1Wnape7lEibbpd5EhEV8OzqTPMzmcXsl1fYcIAaLUSpoU00VheBoG7jPesry9Z6GttlUQVnr5koQlfHGlcHgSw3wkGjayKrSh6HypSI1EQCNQs12wn4isvjdx7f6G9bEaG29CVbH+jVfKFwiSt2rsXw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=209.85.217.51
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1762505005;
+	cv=none; b=ekXZ/ITOz1dxxlNLFmsaIP+2lSYZi6hYZ+dRrBhW3HyBXqoBD2X+YUSYcy+m7y3LjIrkTd83yd6kE0BYw+4Ji104Q0msrydYNZ/IaFF0hKxCnVPlnAzv5GDJKqOz+Sryz0ibRKe1qOU6ms0vMhNg+rC2oKRR975CJySOprcEEaiz/7F7rftuYGdmRhcXV2c29nqW+FCYIjcChUkL488oD01SsoRwuams9saZmFrX/vjY5ThvqNB0zK5xZs1rVukLFvwNAgFjSbyvxIz1SZiNJyrVK6PygnNMIthfziQyEP9dU6op2s5dHWeNA9e8jxvu1kA+JZIDbgqoZ3+xvVTluA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1762502439; c=relaxed/relaxed;
-	bh=L4L8nwY5tA46qS9RhjMiBvwIJ3m3PvlUWeeZDUBNYNE=;
+	t=1762505005; c=relaxed/relaxed;
+	bh=RsHZezS59+NExnNGIIdIy6ER8EF0CQG8kO0yNppcdcI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QL2T5q8orTG9xLyxOkfWd9abXlsJ4E4/J37Y+pwb9ZV/chn/o8nWTao6J6CHyMW69LqJgqgizFpuGazOFyv9NJMBOhmdnQVEHyFZaaxQbB8gpDpFtihR87dJZ/CUmj2n4gCSItD7mpZROgn7NZLfJP78yGE3q3Rv+hL7zI5NMD+taIXqIdmF2S9yqMbgBExVcQCKe5re4miz5JIYascDmvuflOxlPvK9on2ewDl1IZbicesZS+rmqNCSg3YwmfYMEOn0WlG8NM1j4FF/IqA3lXi2kp9EPpz0CAxdhtu/kUWTfrkNdQCOrbVch5oIGaIUT3R9jwW78s2xXuc2RrZprw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JdpgEZWp; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::535; helo=mail-ed1-x535.google.com; envelope-from=andy.shevchenko@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JdpgEZWp;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::535; helo=mail-ed1-x535.google.com; envelope-from=andy.shevchenko@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+	 To:Cc:Content-Type; b=X3aol4i+HVaxz4kP2ZqfwE+CNk5HWdBLmrvkLcPgEnvIJO/htxosB0H59f7OI7ci08OFDXMaJdAEyuXZr6ULGrgNbYwFy78L3m9xVuzelB6Oq1ovGuM4TCL05lrEtvumlI5KxJ+1yAQYJZIHmXJPtT13hLGu2s6yRY9GsxwUhWPsom+eSjqBFX6CcBQxuAwmzfrPzlp/BQ8rrQPMonRdbD+ke4yj4YQlFvZT4j7jcbmCkeM+MKf0kiiGgKhZMqJdNk8VL8YLXQphckB3GwIR8Y8AnKELQDECQLvx+h4wP/HAc0de+HhzJvGHTsmvLNRGFgRfn0EeMBY+dNvnQ4WsFg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass (client-ip=209.85.217.51; helo=mail-vs1-f51.google.com; envelope-from=geert.uytterhoeven@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.217.51; helo=mail-vs1-f51.google.com; envelope-from=geert.uytterhoeven@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4d2s1d6P7hz2xPx
-	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Nov 2025 19:00:36 +1100 (AEDT)
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-6408f9cb1dcso818322a12.3
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 07 Nov 2025 00:00:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762502433; x=1763107233; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L4L8nwY5tA46qS9RhjMiBvwIJ3m3PvlUWeeZDUBNYNE=;
-        b=JdpgEZWpl6a8TzrFDZcWPNEpPOFWAveX2fHFON8vvGUfp6dNn0kkfI2xPRxAGUCEwu
-         nchctgNlELwCDK6m/Ga3TXJ/gRcdeZW8uwsJ9F6Hm4oe++B0fpy9okaQZakCL0W6VqZD
-         WWkG04/ApIspRgvGswQ5RTX8H/2Yo113ebZNleHEfdmt87wiIlrA0QyGOAOWIppbDMFY
-         9nBzgnHhQmqnEz4HLPCcFv+wSSP65F9B/64ZXgxpTdxmU8EuIS8Lud0WbwOglXNt0BBg
-         9GNq4hS24nJ5gv6WC3NNoaefY6HRdfS+46e5gKNG2jEoAGcp+eMCmf2ziXxNlmP+EQY0
-         nf1w==
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4d2sz04W0sz2xQ0
+	for <linux-aspeed@lists.ozlabs.org>; Fri,  7 Nov 2025 19:43:23 +1100 (AEDT)
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-5d5fbfca7e2so398791137.0
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 07 Nov 2025 00:43:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762502433; x=1763107233;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=L4L8nwY5tA46qS9RhjMiBvwIJ3m3PvlUWeeZDUBNYNE=;
-        b=TcpULyo8TRGTJL2xPdOsZ7ncpWhoHC6a2ix5Il81RFXIm1nFEnNZHg2jP67gHRTUm5
-         tUXWKLZU5GLhCA96rWH2RHPgEBac1G/jaFT5PQk/XX/UXzVqphcrHfopE8ntAm+rJveE
-         qi6LVL8cMx5DKNvTjDO3K8qQ8LPJDy6+ZOzfGxKJ973NSOB5cpSwIKU0vcJ4Ls7oHu1l
-         WTNRUIaOi8aI27sj79PBoWylcaK2OJUFwGwlGtNzig4QVZnpE8sK1OSYpPolrAGr8Hz9
-         pQSw+NlLoUxQMPxX9zqolTsWmOKIajMROX3eFmYzDlNxYDxmWLVpGslnTMRNZNuCi4Bk
-         3juA==
-X-Forwarded-Encrypted: i=1; AJvYcCWdqJlyyypMGbRdKmwEuyNv2+IOAFV3v3dEzxmoYKZ4zJnTpOB1iWf5fydaCogX9gsIvR9HD/VY0sfYJX0=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YyrbLjkMRMaNBfFgQ4ZN5Q8ZafJ6BoYMYmyppnFEIXd8QL4xyyb
-	FOjIP3Dbf3feSuZBADN8C2YncGcAwvgjTwk8MWcfMmwIO/E6caKsxFVkBHLUxWNmlLtxgk9KOaM
-	m//XpeMRwXCax6bNdzDrhepDNHfIkZ4Y=
-X-Gm-Gg: ASbGnctM0l61SWWMV6rYS39jKKNAAFEUFBOFosoXGT3JToYNNJ1qSedrS4GBvXsXO1B
-	iP6bRhHwes8XN5+qthTkQ42EuwY3J18eGsp8Wj4E/zeUX+idMM3BBsgWIKZG4DMvrZOab9gCmvD
-	02sbf6LwE65+1Bf8LT6b56oJ1Y3pcuHYpaSqXyoCZbodf4FzvR+W1S5VKdwnUEfpuGw1JbXTroL
-	A0PW0lXaEFz69PyvFtgYT3N0B6RJUh2Pf3ImJrvBMtHocLS/aAcQeugQwBs8YZfAJMX2hqe
-X-Google-Smtp-Source: AGHT+IF1uok4S2/ZJxGVMG6j0RZBxmZiPcUtNqCXKtotlWPr6F8OAXOZaMRmuRE8uDgHau7bT5W5RrHY3dcLjEjQckY=
-X-Received: by 2002:a17:907:3cd6:b0:b70:6f46:d401 with SMTP id
- a640c23a62f3a-b72c093317amr195124066b.11.1762502433125; Fri, 07 Nov 2025
- 00:00:33 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762505001; x=1763109801;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RsHZezS59+NExnNGIIdIy6ER8EF0CQG8kO0yNppcdcI=;
+        b=IEwDefMMVQrFocFMzQMWxNHCWnmfOzBWwrAMSkwjPx9PcIwfx0oj9O5AH3LIYAbVRx
+         dhcYcBP8Mwr2rVE/IDeDcUS0/mfHxr1byeEFswRRToRFMx0GeUQ7aDh8HEJFNR4Yh3Ww
+         EACTn4TdlFrXoTN+jZtPnG/vNNzTKdvArEuRVOWzN+Fp3c4ObdtzruR8W8DO0jiUVe4z
+         TaOdBcN1AVmZ9MqcM9200hUetfddOBfln8zLytZjpgThOP4MpWtyEKbIzWJavxKIbBAc
+         Zsu8LhAzbhrFl4gMFaSwlfr48Ob2OW7DE/hzxaNw7Lj66L294rZnKbPumUormC3MDRAy
+         wvJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWDrxKqyGThqAs+776BsCrnsvfo10UnRScF4OBIRxnM0boAtvOJWZNK6TaIIQwh5F+peVmXbtzX7YHL058=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YyJRd8ubL+FOcg4TGRNygFO/WoPPvJyNO+rOwYs/KHwFoHlZllH
+	4pAQVHKjuO9dzpnZCx93PI9NBICWnf2B9SyXRgnVDhL0tFpJsN84nrkI1vEI0Bf4fh8=
+X-Gm-Gg: ASbGncsIc1PyniXzsmPxfF9dasLpOSw/WAzFFfzZAeybd4arGjAtfvi29YkN2SWId8u
+	RXNe6p/BWDBhp7n8/9hUYrrliySg84snSxt3UwIHaEmicsWtO2fgD3xYwSwV3HdrCFv4/6PVsVe
+	5JCf4Bo53tMVowETVY3H9yA5gxfs09uTIySx1Uuxv8Fk39oblqPNOUzRzpN8GiWUVMhmlfoVuj8
+	WsuAZ/G6lz04P6DgYnFqN51hjl7jgGjTorBC8DctPGWRIiTz5mzN2WCi+MNaA7VEAvYbYIBDslp
+	795rcEjaIHX11QF3jHtlLBdOpOGULU9PrBTeWhnvy019S/IPKWjtMVUQGecFGQLNEByIEROncwG
+	Ko3Yli/4nB6ysXuan+gRbSeSnSetXJX4wrjtKh6P3ZVGcOdWQBrmH9vYyqEdIPIAPeDQY8gDRRl
+	z0kEMFWxA6xI6PnsWu14mSrkZClqHFG5lfAowd6A==
+X-Google-Smtp-Source: AGHT+IGAT6nw/wq8HDV55l76GQCzHJvRk83cQrUF7sSP/A7fPahzO/DTx8B0fm8hArXS7UZWpfk17w==
+X-Received: by 2002:a67:f69a:0:b0:5db:3c3b:7767 with SMTP id ada2fe7eead31-5ddb9ceb671mr156524137.16.1762505001135;
+        Fri, 07 Nov 2025 00:43:21 -0800 (PST)
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com. [209.85.217.46])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5dda200bc7dsm2102145137.10.2025.11.07.00.43.20
+        for <linux-aspeed@lists.ozlabs.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Nov 2025 00:43:20 -0800 (PST)
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5dbd8bb36fcso461372137.1
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 07 Nov 2025 00:43:20 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW1cvf7y7yrjLNmt6Rl0HyIQEu75UKy41sASTB5sfmQBO3A3Bt8eEnx9k6SVlXbOEJMu7zcHUhNQ6TH1j0=@lists.ozlabs.org
+X-Received: by 2002:a05:6102:4425:b0:5db:e32d:a3ff with SMTP id
+ ada2fe7eead31-5ddb9e056aemr278996137.19.1762504514580; Fri, 07 Nov 2025
+ 00:35:14 -0800 (PST)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -84,15 +81,16 @@ References: <cover.1762435376.git.geert+renesas@glider.be> <cfc32f8530d5c0d4a7fb
  <aQzIIqNnTY41giH_@smile.fi.intel.com> <CAMuHMdW8ndAdGnSHopYFMWvw7wk7wKz_7+N91M1jRHoqK1KBrg@mail.gmail.com>
  <c62eb5a727f149fb9d8b4a4c8d77418a@realtek.com>
 In-Reply-To: <c62eb5a727f149fb9d8b4a4c8d77418a@realtek.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 7 Nov 2025 09:59:56 +0200
-X-Gm-Features: AWmQ_bndsm6ikZxAsR6MbqZ_7CJczSuokLGcsZHpDoyZxbjksOeSkgDr0jWR8fA
-Message-ID: <CAHp75VeMqvywS20603yDSo-C3KCu+i+8vvDNuz3h9e8Ma9BOCw@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 7 Nov 2025 09:35:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU3hWDOWXxuOJcBA7tphBT7X-0H+g0-oq0tZdKw+O5W3A@mail.gmail.com>
+X-Gm-Features: AWmQ_bkZe8xF0tkRpW5gVlylkcfm2r3jZb2Xa1XdOQVS8F7wx8KXagIs6XSHJvI
+Message-ID: <CAMuHMdU3hWDOWXxuOJcBA7tphBT7X-0H+g0-oq0tZdKw+O5W3A@mail.gmail.com>
 Subject: Re: [PATCH v6 12/26] bitfield: Add less-checking __FIELD_{GET,PREP}()
 To: Ping-Ke Shih <pkshih@realtek.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	Yury Norov <yury.norov@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Yury Norov <yury.norov@gmail.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
 	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
 	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
 	David Miller <davem@davemloft.net>, Linus Walleij <linus.walleij@linaro.org>, 
@@ -124,68 +122,21 @@ Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Andy Shevchenko <andriy.shevchenk
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
 	linux-wireless <linux-wireless@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+X-Spam-Status: No, score=0.0 required=5.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,
+	RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Fri, Nov 7, 2025 at 3:16=E2=80=AFAM Ping-Ke Shih <pkshih@realtek.com> wr=
-ote:
->
+Hi Ping-Ke,
+
+On Fri, 7 Nov 2025 at 02:16, Ping-Ke Shih <pkshih@realtek.com> wrote:
 > Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Thu, 6 Nov 2025 at 17:09, Andy Shevchenko
-> > <andriy.shevchenko@intel.com> wrote:
-> > > On Thu, Nov 06, 2025 at 03:49:03PM +0100, Geert Uytterhoeven wrote:
-> > > > On Thu, 6 Nov 2025 at 15:44, Andy Shevchenko
-> > > > <andriy.shevchenko@intel.com> wrote:
-> > > > > On Thu, Nov 06, 2025 at 02:34:00PM +0100, Geert Uytterhoeven wrot=
-e:
-> > > > > > The BUILD_BUG_ON_MSG() check against "~0ull" works only with "u=
-nsigned
-> > > > > > (long) long" _mask types.  For constant masks, that condition i=
-s usually
-> > > > > > met, as GENMASK() yields an UL value.  The few places where the
-> > > > > > constant mask is stored in an intermediate variable were fixed =
-by
-> > > > > > changing the variable type to u64 (see e.g. [1] and [2]).
-> > > > > >
-> > > > > > However, for non-constant masks, smaller unsigned types should =
-be valid,
-> > > > > > too, but currently lead to "result of comparison of constant
-> > > > > > 18446744073709551615 with expression of type ... is always
-> > > > > > false"-warnings with clang and W=3D1.
-> > > > > >
-> > > > > > Hence refactor the __BF_FIELD_CHECK() helper, and factor out
-> > > > > > __FIELD_{GET,PREP}().  The later lack the single problematic ch=
-eck, but
-> > > > > > are otherwise identical to FIELD_{GET,PREP}(), and are intended=
- to be
-> > > > > > used in the fully non-const variants later.
-> >
-> > > > > > +     BUILD_BUG_ON_MSG(__bf_cast_unsigned(mask, mask) >        =
-       \
-> > > > > > +                      __bf_cast_unsigned(reg, ~0ull),         =
-       \
-> > > > > > +                      pfx "type of reg too small for mask")
-> > > > >
-> > > > > Perhaps we may convert this (and others?) to static_assert():s at=
- some point?
-> > > >
-> > > > Nick tried that before, without success:
-> > > > https://lore.kernel.org/all/CAKwvOdm_prtk1UQNJQGidZm44Lk582S3p=3Dof=
-0y46+rVjnSgXJg@mail.gmail.com
-> > >
-> > > Ah, this is unfortunate.
-> >
-> > Of course, it might be an actual bug in the i915 driver...
-> >
 > > The extra checking in field_prep() in case the compiler can
 > > determine that the mask is a constant already found a possible bug
 > > in drivers/net/wireless/realtek/rtw89/core.c:rtw89_roc_end():
 > >
-> >     rtw89_write32_mask(rtwdev, reg, B_AX_RX_FLTR_CFG_MASK, rtwdev->hal.=
-rx_fltr);
+> >     rtw89_write32_mask(rtwdev, reg, B_AX_RX_FLTR_CFG_MASK, rtwdev->hal.rx_fltr);
 > >
 > > drivers/net/wireless/realtek/rtw89/reg.h:
 > >
@@ -196,23 +147,41 @@ rx_fltr);
 > > this operation...
 >
 > The purpose of the statements is to update values excluding bits of
-> B_AX_RX_MPDU_MAX_LEN_MASK. The use of B_AX_RX_FLTR_CFG_MASK is tricky, bu=
-t
-> the operation is correct because bit 0 is set, so __ffs(mask) returns 0 i=
-n
+> B_AX_RX_MPDU_MAX_LEN_MASK. The use of B_AX_RX_FLTR_CFG_MASK is tricky, but
+> the operation is correct because bit 0 is set, so __ffs(mask) returns 0 in
 > rtw89_write32_mask(). Then, operation looks like
 >
->    orig =3D read(reg);
->    new =3D (orig & ~mask) | (data & mask);
+>    orig = read(reg);
+>    new = (orig & ~mask) | (data & mask);
 >    write(new);
->
-> Since we don't use FIELD_{GET,PREP} macros with B_AX_RX_FLTR_CFG_MASK, ho=
-w
+
+Thanks for your quick confirmation!
+So the intention really is to clear bits 22-31, and write the rx_fltr
+value to bits 0-15?
+
+if the clearing is not needed, it would be better to use
+#define B_AX_RX_FLTR_CFG_MASK GENMASK(15, 0)
+
+If the clearing is needed, I still think it would be better to
+change B_AX_RX_FLTR_CFG_MASK, and split the clearing off in a separate
+operation, to make it more explicit and obvious for the casual reader.
+
+> Since we don't use FIELD_{GET,PREP} macros with B_AX_RX_FLTR_CFG_MASK, how
 > can you find the problem? Please guide us. Thanks.
 
-Isn't FIELD_MODIFY() what you want to use?
+I still have "[PATCH/RFC 17/17] rtw89: Use bitfield helpers"
+https://lore.kernel.org/all/f7b81122f7596fa004188bfae68f25a68c2d2392.1637592133.git.geert+renesas@glider.be/
+in my local tree, which started flagging the use of a discontiguous
+mask with the improved checking in field_prep().
 
---=20
-With Best Regards,
-Andy Shevchenko
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
