@@ -1,49 +1,57 @@
-Return-Path: <linux-aspeed+bounces-2901-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2898-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19C8C5B276
-	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Nov 2025 04:36:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1133DC5B0FE
+	for <lists+linux-aspeed@lfdr.de>; Fri, 14 Nov 2025 04:09:02 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4d72qR5QFjz2yvN;
-	Fri, 14 Nov 2025 14:36:19 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4d72Cv6Nwlz2ySq;
+	Fri, 14 Nov 2025 14:08:59 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1763091379;
-	cv=none; b=U3T12QATGr978xfd9aaU5ng0co59SpgKuZ3B1r6Gm+y7lNdiDiHb0g0Flja6YfsJYFizDKbVA4pXsY+oqcomMTDz5fcXAN12imDGUhc/zx0tWEoC2s/iq3Vh3f2W3kA66RKpiQ0VQtbzSKRU9Nh4ptRWNaQj8ZxeIt2HYuT8AevdZYo+MZtANpxfh6PYbhm/BJTeiSMVbzo1QShoNcSpEtpd60pHS1I7YYt1W5ebxc7yGHuEvtRRZY+mwgIxtn7J5m5Lmw09ttCPmi7KKss7iMIne9G016B1GNG4NrABpbTrMP32VgodwaxqdWiQTfKiqwwIwHuvBhtzbtwMR5UL7Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1763089739;
+	cv=none; b=QtmpBk6IiqvF/caSUG7A16J0uHAOcZt3UGfazDS2IE9oDH9TvyJ7+pJMkgm6ifoaVNvcSA+OdMy16YfNT78p0lan8JhK/wP9ToJaZHtJsMa0VAqyq+FL2flShjsGsb1+GTGwPrDcVKgUuoaXrnV2Kg2axXe1GhzEw0TA081fWeVRQ17e2aL5ebq4KH5rLw33RXInyyDybHqfqa8EGa5oXWxs579l8/xA3Y976Lcino9muMy+QPYZgYNn1pb/brHGVC4+QjcthHbGJgLF+25HiXMpgBWkXVRHA+3E2ozGeM7lrNQoeN4OOf8q+OFK5ofD9fuZaTR48LNrDDXuq82N1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1763091379; c=relaxed/relaxed;
-	bh=hSeRux+O7cVrvBB1wgSqADSKINIEsxzC0w/UabYsp2E=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=F/6qLhci5G5/RGUUdaTKX2u3yUjQNmOsNVPQ8xC364B/5ktuMEZA8lboEpRBsxvyhnB5haZM9zGOWgTyrlpjAifdG7oyAET2mY8nsMOai94bRDbm2iXA+R5v8/dZTJ623jBRz60JFK+lq63d/3iUr5r497FCC3lSfB83P2cG6BOIKbNhkP5ti5Es4KG8dJvM63hqaDc11I3BK0y9zuDPNwqb5XLiVn6FTzurkULfKNxYU1WmQM2piGzgToAgjRQX59uu+D6G5SsLJx0va+TuCY1WKQ64oHJnuB7+shZfERcMfsrQhGC/mr0iZo/MJgY8a1MHJJvsRMNGvsEpUJxdVQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=fail (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=tbhDdqwF reason="signature verification failed"; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=sboyd@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1763089739; c=relaxed/relaxed;
+	bh=LkBcRmHvmZztAg15UTFgf2ghFALYicoycTuXTQeNpLI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ohC7Neos4mMasTkpCybkc3LLEUVWad+uEhdWZUpIamTPfH0P7FEvWUur09hxQbc3o4/zQG9kQ/Oek1Wc6XCDBN1qbJPZX26BERK8PtlRsqK08mpe7YQ8d6rKnKaP31AWlfJRau6Ibpg69q2A++K8oD4WNSs9wtiopJu5U5QLnHqQTlZ2VpvC7HhOq0NixC4SrqQUxeEFgtXkPGMcyrOrVT3l3+YozbGqUL8vRowgaPi0UnvM/OlQbYj0cK+/lWTbP8J7Ur75AUEFsXLEIah/3v/6hs+z/av2lZ5CYMzMxOnbLwzaux1SP9/jwvoOG1Jn6k4K78cMxeu0ijkJdS/cVQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=bxCFrfRG; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=tbhDdqwF;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=bxCFrfRG;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=sboyd@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4d72qR0rrNz2xnh
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Nov 2025 14:36:19 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 782C744470;
-	Fri, 14 Nov 2025 03:36:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B7F8C4CEFB;
-	Fri, 14 Nov 2025 03:36:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763091377;
-	bh=e8ElaGLVs0ZXIidppeit0GTFsXLIst72ZPvNyqlcBeo=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=tbhDdqwF9XpCDi3pVqiqNgIch0HShB/yYd1ka0AwVdC+bOXpqi8QpHOF36kKIQDVJ
-	 W9Fqb9uCdu3OzhrvB6nxrkDvC5y+mwFz5hdwHJ+WHBwQYQ77fW08pkg0ZJN+u7Laci
-	 4Gs0r7r7So3tmi+amca6/mtiiFqrqhzy18oCDsCnbcjWskVr1Eo25ospa9SvQpLxHh
-	 eT6coU/VMg6E5hyQXinw7d/wUAJzwIiDh4PWpNPSlhfSr8SIfgaXMNCRAoCfAwYt6j
-	 qWdzz0GBWHwq/kVFf5ibNFK1orM3M5OqEQCm+1rihFETO7eiKiH7GCz7yy3c5SrOCk
-	 V8hA+zCsxIMSQ==
-Content-Type: text/plain; charset="utf-8"
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4d72Cv2yZYz2xlK
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 14 Nov 2025 14:08:59 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1763089738;
+	bh=LkBcRmHvmZztAg15UTFgf2ghFALYicoycTuXTQeNpLI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=bxCFrfRGtOhiqaH6YjjW34vey7hfyohGVUDXs4rXRDpIaalml+Kg1H6rhgvU+j8LK
+	 AUTtHG/70S0byNZ6N8/heuWQcliGX0ED1yD3+ASVQSWv3hpscxLjFRcLziSX0PAd1a
+	 R7ZkEfQCa0XFpuDu/jxjprfJxSnYzpwPUK0xQcKxXP/u270pO4PI03vf/R9HJ+8lxF
+	 2q8KHnVMvTBD0WKZ1H5YB2C9bcCTSSY89iUlIcXBy7v5eknwtoroVUxhyrWXLaQDgN
+	 zGpY50iQz51euGEntKrXPAQTFDJtyZHiQoYOYReJ3u1pkY/wGG0WkYMoMdUI8s+ire
+	 WRvch65URQtZA==
+Received: from [127.0.1.1] (unknown [180.150.112.244])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 080CD641F5;
+	Fri, 14 Nov 2025 11:08:57 +0800 (AWST)
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: joel@jms.id.au, Daniel Hsu <d486250@gmail.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ Daniel Hsu <Daniel-Hsu@quantatw.com>
+In-Reply-To: <20251017134402.2073042-1-Daniel-Hsu@quantatw.com>
+References: <20251017134402.2073042-1-Daniel-Hsu@quantatw.com>
+Subject: Re: [PATCH] ARM: dts: aspeed: harma: add fanboard presence sgpio
+Message-Id: <176308973697.854884.17577431047566755576.b4-ty@codeconstruct.com.au>
+Date: Fri, 14 Nov 2025 13:38:56 +1030
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -57,31 +65,24 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <939d8c6da1f468026b1bb201413ba08b1d0751fd.1762435376.git.geert+renesas@glider.be>
-References: <cover.1762435376.git.geert+renesas@glider.be> <939d8c6da1f468026b1bb201413ba08b1d0751fd.1762435376.git.geert+renesas@glider.be>
-Subject: Re: [PATCH v6 01/26] clk: at91: pmc: #undef field_{get,prep}() before definition
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org, qat-linux@intel.com, linux-gpio@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-iio@vger.kernel.org, linux-sound@vger.kernel.org, linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
-To: Alex Elder <elder@ieee.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Andrew Jeffery <andrew@codeconstruct.com.au>, Andy Shevchenko <andy@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Biju Das <biju.das.jz@bp.renesas.com>, Borislav Petkov <bp@alien8.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Cosmin Tanislav <demonsingur@gmail.com>, Crt Mori <cmo@melexis.com>, David Laight <david.laight.linux@gmail.com>, David Lechner <dlechner@baylibre.com>, David Miller <davem@davemloft.net>, Geert Uytterhoeven <geert+renesas@glider.be>, Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>, Jacky Huang <ychuang3@nuvoton.com>, Jakub Kicinski <kuba@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Jason Baron <jbaron@akamai.com>, Jianping Shen <Jianping.Shen@de.bosch.com>, Joel Stanley <joel@jms.id.au>, Johannes Berg <johannes@sipsolutions.net>, Jonathan Cameron <jic23@kernel.org>, Kim Seer Paller <kimseer.paller@analog.com>, Lars-Peter Clausen <l
- ars@metafoo.de>, Linus Walleij <linus.walleij@linaro.org>, Michael Hennerich <Michael.Hennerich@analog.com>, Michael Turquette <mturquette@baylibre.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Nuno =?utf-8?q?S=C3=A1?= <nuno.sa@analog.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, Richard Genoud <richard.genoud@bootlin.com>, Richard Weinberger <richard@nod.at>, Shan-Chun Hung <schung@nuvoton.com>, Takashi Iwai <tiwai@suse.com>, Tony Luck <tony.luck@intel.com>, Vignesh Raghavendra <vigneshr@ti.com>, Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Yury Norov <yury.norov@gmail.com>
-Date: Thu, 13 Nov 2025 18:29:10 -0800
-Message-ID: <176308735088.11952.13929313934390378381@localhost.localdomain>
-User-Agent: alot/0.11
-X-Spam-Status: No, score=0.2 required=5.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Quoting Geert Uytterhoeven (2025-11-06 05:33:49)
-> Prepare for the advent of globally available common field_get() and
-> field_prep() macros by undefining the symbols before defining local
-> variants.  This prevents redefinition warnings from the C preprocessor
-> when introducing the common macros later.
->=20
-> Suggested-by: Yury Norov <yury.norov@gmail.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> ---
+On Fri, 17 Oct 2025 21:44:02 +0800, Daniel Hsu wrote:
+> Add the SGPIO definition for detecting fanboard presence on the Harma
+> platform. This allows the BMC to determine whether the fanboard is
+> attached.
+> 
+> 
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+Thanks, I've applied this to the BMC tree.
+
+-- 
+Andrew Jeffery <andrew@codeconstruct.com.au>
+
 
