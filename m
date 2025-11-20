@@ -1,82 +1,61 @@
-Return-Path: <linux-aspeed+bounces-2967-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2962-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C28C768D2
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Nov 2025 23:55:31 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E9FBC733C0
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Nov 2025 10:40:43 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dCDG759lXz2yvk;
-	Fri, 21 Nov 2025 09:55:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dBtd40ZQjz2yr9;
+	Thu, 20 Nov 2025 20:40:40 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::634"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1763616378;
-	cv=none; b=ALNrnYU/vv+Q+ibEY4PIYtoN0p1BPtx05XxchJACQMfxeOOiyCKIgq5BegHJJnJYsOO++ZlqgiMRxNQ0b+wFadEISEPPgI6mqv+dET9zgKQGkLc2tSALOZdfXkj1umDdiecrcboGOfNLYUp644jsXxJWCB7NHpew1RTsTLZffIXM9OCh89TKvxqw6hwQbDNAtY0VykZmSAoLjKC3vyzQj4MSgk2hfdtqdW7pKFSkNkP78OL/05fQB1rDwIYYYCXyvVlJZ+B15EtEcoNTBwZLHDRb8t02+Bc3flvM44/ZL/uIx/xX8lZe8kKE815LeDpZadRLPPODg6ytLPuWbkZfog==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1763631639;
+	cv=none; b=cv/Ok0vViEAkrZ/oELQXutgtnLPcHRs9kAwgleDYcqh05qSp4bjRVn2+dXdl1CzUFswxTAkPeoEmlJoLToDBoZWQIjxkucjqbsV716zMIQmheycdCKAH921eYeVe795VkagjmswtXugOe7+Nhw7HKl/qZV69rHSK8mn9I+7U+Mzx//9Xwi+MQTzNU15zqpBcByMgW520K3bn0QNsN37rC5h2m2LRbgBLz+nsxdH+MEr9hw8lR4wQV4uMHpUFf96RSH8dseBCwdS7J3wiqiGZcN/7fjJx4CRH6CPevGbIo5pB83E3Byhm7ACFNmeWkWaUKT3fzaAJSN1xFlyMmVVoIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1763616378; c=relaxed/relaxed;
-	bh=qF/HQIOynCm0t72RaSXKVxc7uoyjtBGo96ikoMO3RzI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UzigDcQypO1kN48hlwP0jxhrs0Opd5/gnKu6lgEnxDERSEJ2jIjuCJ769Ox18K8cxzGv+QGp7OkHbblKeta8T3rY/PtpOEdAS98ls4c4+JzuAn+iOuqsZfbJOy4k00/phrBJeJszoHZW1+Pzv5xcf8jVCtiMrmHcUBkBulBMJkRxE1C3vVq2BgLWa4Qe0RYIt4vUtL/ZAKSbE2SA0Lis9QBuG+HYg6aBfzKtT4aTJ1PGvuZIU61IIVibS5X4i3JOu7dpKWkuk8fHySnkALZXmv2lPOFcgQ7uRV2Rf6JXY9jNScfRKBnEbaWxdQDCH+L0/gnDIOrOvaApC1zA4AcTqg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SWbGYGkI; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::634; helo=mail-pl1-x634.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1763631639; c=relaxed/relaxed;
+	bh=SUi5lS5rCzVuDAcHFYLYCYAitVuFZQocxlSp+9/3pB8=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Sqoa1M1SFFnoPW3eckmLKFOxQbuzzZxTwa/VvCowNov9t3kj9LYrE9v/ACO/BynOZe7IMGMajzoYX2/RXrbv3UiwTZlj58HpG0jeiaexFTX+LQmRfQiLJIeoGLqTpTf3czOeuIKgw9wCAScbyByKUzrw237BIU/ZL8aDchca1FS1mqbR8Tjq9AP5U9+ijN8zpmTxcQ6tmMCs4tbgaFSrA5Xubw5QKAthXE1TH93Ch2OcQBbsuv9DRkeLxjTnLIJO07py20hiklxdyq6XAeqaN+ucw9oSKeN97GB71vk8uG1GDO4LYA0U6bJ4mz245n7YH7XRhbI8XRrYlNfnLbQOlw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=D8x5dMDI; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=broonie@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SWbGYGkI;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=D8x5dMDI;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::634; helo=mail-pl1-x634.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=broonie@kernel.org; receiver=lists.ozlabs.org)
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dBmzY5ftDz2yG1
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Nov 2025 16:26:17 +1100 (AEDT)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-299d40b0845so8199395ad.3
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 19 Nov 2025 21:26:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763616376; x=1764221176; darn=lists.ozlabs.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qF/HQIOynCm0t72RaSXKVxc7uoyjtBGo96ikoMO3RzI=;
-        b=SWbGYGkIiL7ay8xsljs0JRqFx0gFDRloKU/3EOea5+xMNRje9yDOOo0H/NJDLmt4CK
-         5pDXLpTDIvqqte68p9GaPMcHENsNqDQoS4KDcuDU4eWGzC2+c1XhTE8AMmx5coZksQmY
-         oVz2pROe4XIKbh2U6DOiqVdHi8JtBA0ssNxmfyy9kgVBemYHyNR5htWjiUuiWQyLkZQH
-         i8GhNvYFxM+sEngNL96pJ55vrKHaAiY3Tnxzd6lvBej3pjBe4WGqAOv0UWn38es9qg1h
-         hYpdC9pOTq6XqRr9sNVHQO/lHqXB4M4PqjiBjYF1ZFMdti8+F5yR1k9+lz4W4GQZQyBt
-         4a7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763616376; x=1764221176;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=qF/HQIOynCm0t72RaSXKVxc7uoyjtBGo96ikoMO3RzI=;
-        b=RrRVA/R9ekoLyEoTYd5rp2gAvU/E/V1LW0Ds2AxDo10/Br7dsimZbUC1YjO+UK/r8v
-         Bg92xWJOV5TMs3o7b+y3m2M1L4WC2Rzkyb9+cN7GO/oMoVaEc5aQWLWIp3yw0eTutRra
-         iQ0k8/tOQJvzCUD92kU1wasNdXG+5x6789jUpWWqm+XXKtYPYowkg6aLCa/C9FQZJ7mB
-         cQgAGftlz45aLhQWhdaO93zwogzvIlGwaxnfLqRzhRiH9P8Ruukalr7VyUtl73UIsr04
-         kUYf+Bnil1zb59EMioL51kCRT+4akfjofYju2DdP2MNQPoHDi+gqRmj30NScd/qNlLE8
-         +0rw==
-X-Forwarded-Encrypted: i=1; AJvYcCVo08GXfy1FDtMbalmcNzBtSngyDH7VxNsQBb9zboxZSHHCMBPoM3Yh6ss8QWyoHfPlbH3YknW24hCLGJs=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yzp0xHX3JFgi7ysVF72pXzV+k9I+EHk7PAU9gu/GZCSAZJz8HX6
-	HxMUwsYPuxwsUTbKnHuFaWPr+BJGR3y4x6qdPsbKgjOenE8Ccr64cJFR
-X-Gm-Gg: ASbGncusq/wPat/XMqsV/18gPDDBCWXjwvWTc0CF0zutSakpva8ps3GAsAzfR92JDRA
-	Di6i0X4Sb3BYoVS80gEJbkubtLfmxAffFZ6GSj9qxdGBo2AgrYWUJkX3gftaSxM4mA8t2Q0jfNt
-	Fox0prWYZaa5LbK7vbymIOXAI3ExrLBwvdIVFKTxLusQs/0c6kQbQhPmlMYqiWnxNJqL3tHhEn4
-	svxLusG3UM+sj04r0lwnpLGjAlvpEGiE+Rb8MNtLwVruoWCf5TmpQg5jXcOCg9q1uTeg9rmvLDE
-	WXHbMHIWIF393g9DMXGbq6i4zOYFLJOx/38DecG5L7jVqT1T/sPhzgtg0hiq2Xm9YU2RNL4r/Kd
-	6V3bJNEDE8hQQbaX6SIDNEumNbezDMxRgly6txTbiuBc8H6mpJqqEynllUJr+K/16X2TFLavDBh
-	3jZ/uCfIMSyd0qTAwjMTJGM9PaaiVrn68DKApmnjRTkYfN4iWYK0QVFBFOhddxK1flmTqbyqdgF
-	MIcUJstzCNIZDaeXR8R/1AN4aKT2j+AAAGAvnAw8NdLji4Omp3UYwl3u8XhVH5bsHflCVniDjtd
-	1h2mtrnF/ywX/ylF2MdnuA==
-X-Google-Smtp-Source: AGHT+IGJp8Cd93sU3s6BBrNTH9o8Scku4SN9E6zIdoS1tC6GjkQGhpnvZ3DbOoHW82d2G+ALkdH5tQ==
-X-Received: by 2002:a17:90b:48cd:b0:340:d81d:7874 with SMTP id 98e67ed59e1d1-34727d50e86mr1936462a91.26.1763616376006;
-        Wed, 19 Nov 2025 21:26:16 -0800 (PST)
-Received: from 2001-b400-e301-38bf-be0d-b72c-6bec-2812.emome-ip6.hinet.net (2001-b400-e301-38bf-be0d-b72c-6bec-2812.emome-ip6.hinet.net. [2001:b400:e301:38bf:be0d:b72c:6bec:2812])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3472692e5d3sm1221342a91.9.2025.11.19.21.26.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 21:26:15 -0800 (PST)
-From: Kevin Tung <kevin.tung.openbmc@gmail.com>
-Date: Thu, 20 Nov 2025 13:26:01 +0800
-Subject: [PATCH v2 4/4] ARM: dts: aspeed: yosemite5: Add ipmb node for OCP
- debug card
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dBtd32T8hz2yG5;
+	Thu, 20 Nov 2025 20:40:39 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 31DE042DA0;
+	Thu, 20 Nov 2025 09:40:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B22B0C4CEF1;
+	Thu, 20 Nov 2025 09:40:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763631636;
+	bh=d9gi6IAhGMrPheyNCbI0JonIbRfzHt0QW40OJqiT97M=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=D8x5dMDI9qJnYU21qSlLei8gHq6Zp6XE3Ht93IoCv3k7PJAFzVClSKbtAgejBTKQ9
+	 Mlfkw1A7ZzKb+RXGRyRjn44BAeRKBXZkSIw6dDMVgPLcb4V86Y6I7sMSO17zYx81q8
+	 Lb5p2niv4ymriPG4Rh4qDWJUCqR3AXLPVdGP+enV5nTKiKhcvUEMsjwNR5IxksI+iI
+	 pOuGw0lIbm+/s4GAY7s5IaveZtqiSuhHzrVxN0SfktEXbcH3diGb4+WggKOSWAetV5
+	 hJZhfgmu6eLjeVPX9gEw+PGJqSjehjYiliL4+9+a0TF+R5/jlR0BSczu8Z2OYlYOdh
+	 sQ3lludhl8vrw==
+From: Mark Brown <broonie@kernel.org>
+To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ joel@jms.id.au, andrew@codeconstruct.com.au, clg@kaod.org, clg@redhat.com, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ openbmc@lists.ozlabs.org, linux-spi@vger.kernel.org, BMC-SW@aspeedtech.com, 
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+In-Reply-To: <20251114101042.1520997-1-chin-ting_kuo@aspeedtech.com>
+References: <20251114101042.1520997-1-chin-ting_kuo@aspeedtech.com>
+Subject: Re: [PATCH v2 0/4] spi: aspeed: Add AST2700 SoC support and Quad
+ SPI handling update
+Message-Id: <176363163164.560683.4991477364624751148.b4-ty@kernel.org>
+Date: Thu, 20 Nov 2025 09:40:31 +0000
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -92,59 +71,54 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251120-yv5_revise_dts-v2-4-4d7de701c5be@gmail.com>
-References: <20251120-yv5_revise_dts-v2-0-4d7de701c5be@gmail.com>
-In-Reply-To: <20251120-yv5_revise_dts-v2-0-4d7de701c5be@gmail.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- Amithash Prasasd <amithash@meta.com>, Kevin Tung <Kevin.Tung@quantatw.com>, 
- Ken Chen <Ken.Chen@quantatw.com>, Leo Yang <Leo-Yang@quantatw.com>, 
- Kevin Tung <kevin.tung.openbmc@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763616361; l=881;
- i=kevin.tung.openbmc@gmail.com; s=20250924; h=from:subject:message-id;
- bh=ttl/th87rXvNyHmcSwWPnJPpHSYTR2HIKjXWUQwTrdM=;
- b=JEsyeMSA9gIhSSUyjpQLiUtfsCFoU+UZynLjaWaM6x/TjxUQxg8e9xdI1yHXyYRZzvK5xSzVp
- nPAWG1911ZqCjSlQvVZErHuhB5TxTtt6NIApPgyBuhQC3d0mB6JC3RG
-X-Developer-Key: i=kevin.tung.openbmc@gmail.com; a=ed25519;
- pk=PjAss0agA0hiuLfIBlA9j/qBmJaPCDP+jmQIUB6SE7g=
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+X-Mailer: b4 0.15-dev-a6db3
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add the device tree node to enable the IPMB interface used by
-the OCP debug card.
+On Fri, 14 Nov 2025 18:10:38 +0800, Chin-Ting Kuo wrote:
+> This series adds AST2700 support to the ASPEED FMC/SPI driver and
+> bindings, introduces 64-bit address compatibility, and improves
+> Quad SPI page programming behavior. It also implements AST2700-specific
+> segment logic, where range adjustment is not required because the
+> AST2700 SPI hardware controller already fixes decoding issues on
+> the existing platforms and adopts an updated scheme.
+> 
+> [...]
 
-Signed-off-by: Kevin Tung <kevin.tung.openbmc@gmail.com>
----
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts | 7 +++++++
- 1 file changed, 7 insertions(+)
+Applied to
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts
-index 060757b7211a6da777c51d9f0c886796cf2450a4..b4ae1628ad5a8f8b5283f88760877846862b3835 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts
-@@ -365,7 +365,14 @@ i2c6mux0ch3: i2c@3 {
- 
- /* SCM CPLD I2C */
- &i2c7 {
-+	multi-master;
- 	status = "okay";
-+
-+	ipmb@10 {
-+		compatible = "ipmb-dev";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+		i2c-protocol;
-+	};
- };
- 
- &i2c8 {
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
--- 
-2.51.2
+Thanks!
+
+[1/4] dt-bindings: spi: aspeed,ast2600-fmc: Add AST2700 SoC support
+      commit: be6671d3908e97a2128f5327610a1dcb4d420cfa
+[2/4] spi: aspeed: Enable Quad SPI mode for page program
+      commit: 716d0a0a2ab00c601120c19bb357f4373f4722d1
+[3/4] spi: aspeed: Use phys_addr_t for bus addresses to support 64-bit platforms
+      commit: 508f3d3b688e1650ed383fe208b323aa6c164420
+[4/4] spi: aspeed: Add support for the AST2700 SPI controller
+      commit: 9e510e677090bb794b46348b10e1c8038286e00a
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
 
