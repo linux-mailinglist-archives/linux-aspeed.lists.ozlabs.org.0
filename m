@@ -1,66 +1,54 @@
-Return-Path: <linux-aspeed+bounces-2958-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2972-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15FA4C70ABC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 19 Nov 2025 19:41:20 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id C375AC768FC
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Nov 2025 23:56:13 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dBVgG6wqHz3dL4;
-	Thu, 20 Nov 2025 05:41:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dCDGz5qMkz2yvk;
+	Fri, 21 Nov 2025 09:56:11 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1763577674;
-	cv=none; b=V1T4uYvpCdx60Q4z6BnRXw3Y9hAu0FBITqWgxceY70djeFv5YeeTqsET+X3WauuNK2n5JFo05B9a9qqwz+RIcTQXbwm2Hx/KyjJC/71y1RGG9FfNpx9zNU68/M/75QXQIHP9RWabnvN2gbj+Otc1VqKbv7otC82u+D4GYFiVPlonVezzrgFgIl2z9sWyrWEWC/uqg3sV/T6MLUUV+FtBIDZb6N+ZHkClXa2N/NlHl7VnSaqlOvzr9J0Qe/vcbLa4w4IS3Kzeu7rh1/yEVibph4Bzivwy8l2ibDtsEuP5xIi4uD9XRBWo1UpL4Ylp9HQepkDY6k3p/usDf85Qo5lJHg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.234.252.31
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1763606527;
+	cv=none; b=AsXOmjBsGm5XlnJ99uLV6zjkQ7K646Rlu04c7gxbdPmldgG8XLcOFppEHHAQw3ZINLfiptged8BRhNxGue/1zVo+SJOC0I2+/WobFjf2Q0v0mpajLNotY5uc78JvJZKX0/A4Gw+K2y1mrjJVhBVVdnglslFNDZz9ra7RKMuvpA6jUl+ouPjeVwKtgWS0TJkrpl8k0SqD98aa4aY0piYF6BKwryzbWzVqh21QJ51l/ZEgfcEWr40IKhxYfp6dFbrtQ35g62uQfPRdwL7WWPkJHgyk+rw3bVp9azXgSqzzTZPOsldDgON0ni6R2ZEUfDTIQIfwAHD1otPchCI1/J5fog==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1763577674; c=relaxed/relaxed;
-	bh=rkVTBEWqVaZ94WPO1n0cpMljTE5QytXBtSx70+iCgmI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bgWzjm8x7yTtyYdB4MPii0HxK+yMjizqiGDLU4+4ToJZEtTXJjLIhJvkuc4hA4I6yG6OL6GfJcTFEh/CVi4IHPIv/76DLNqREuh0u+/OL6OanSu/TG/l7AcrGmxloFQb/3pTKavyzoblxg1Ob/n9iUOVSuDjaa5LaueeHJ4d9LjcHSUsPc8yF7iOpPezj7z+ksyXYL1/TOA6GWKY1PqBqrGOmnM5VdobsK7n0HGv3SOqCcUyRF0a8orn3ksXBZVrDqRT8kxyBYHvVxW/NpiWbXOBnkbrrB8cXsuw95uDzac6wK5phrLjAA3ehe4wP1iQdDQVOYUdKCxhQ8zG1IMKNw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KOgLihFq; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	t=1763606527; c=relaxed/relaxed;
+	bh=WkAfLqtamHjQxL40IAzYfMT/HFY/QAr+k+7LDKQ/6aI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=bz/+3pZuH1oJIWbZ2H4S/v+pQ0wAetptP8gDrO0+MGgPc8gTXi+UuhRmLOU5LH09wpTm3B5h26vZsh1zExI+JTzerbLr7cRs9gRqV/EE2O7AVqsQ7giNQGH1xTFjtwmABkqf/4EOaIJBm+fYRWSC5ELpLqr1dNTNmd5ZVKGEwDnce5JRTXwC5e/FVx1nxymZyp17t5KJ4oAS7g+mSbc10unFlBdqc2WKYNNp/EdKU8NmRHvNj4QtnMoRGYREEZIx0kbKlk9aYEAjBLzZ6iY0bJf1sywy6tYrHB+Xj+TZZUFwI1HldPLIPOFCJ9/Wz0OujzuHI5M/ofCr6IHEvhFVqg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=a+mLQVSu; dkim-atps=neutral; spf=pass (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=devnull+kimi.zy.chen.fii-foxconn.com@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=KOgLihFq;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=a+mLQVSu;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=devnull+kimi.zy.chen.fii-foxconn.com@kernel.org; receiver=lists.ozlabs.org)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dBVgF6k2Hz3dJX
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Nov 2025 05:41:13 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dBjL62LW3z2yFq
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Nov 2025 13:42:06 +1100 (AEDT)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 383B160134;
-	Wed, 19 Nov 2025 18:41:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B83CDC4CEF5;
-	Wed, 19 Nov 2025 18:41:07 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id A9D7B4041D;
+	Thu, 20 Nov 2025 02:42:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7F230C4CEF5;
+	Thu, 20 Nov 2025 02:42:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763577670;
-	bh=jPiEf9D0enUbIPbwxeeiH63YOLo0c0B5JvI5bNTryrk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KOgLihFq4e/zbXry3OmMxJlk6/wjfu+Jr63VKL/cUMy8nfY0GxXWpBkKYZ1QGc0pk
-	 Um07NKpisn+tyRjh2S/CXmXsUP+rEuir7t5OsaER3oyjiogna/0vI5rFEoiE1KF0yt
-	 qdfubygGYscPwGZWQX58N7otP6RQ8wxvOwoHBFY7pE8B7jbUxwJl0WIfleN6HIOruG
-	 UrN0npsdRbxaD41STo+S2rD1KA8Pv7d+0JAutXnz/HUO7YYgSoyP84CD07pW8NFWW3
-	 FYAR3znkbbNwNFk7Etp1O1A4Ekbi2Uj3RWiWDvGyHx8tfdkad/o2xcSnTRDZ9akjzu
-	 pVDIKc8TNSA5g==
-Date: Wed, 19 Nov 2025 18:41:05 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Jacky Chou <jacky_chou@aspeedtech.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Andrew Jeffery <andrew@aj.id.au>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] dt-bindings: net: aspeed: add AST2700 MDIO
- compatible
-Message-ID: <20251119-gooey-wifi-413598a8a1d7@spud>
-References: <20251117-aspeed_mdio_ast2700-v1-1-8ecb0032f554@aspeedtech.com>
+	s=k20201202; t=1763606523;
+	bh=RQA4DSszhtoPx+DkNRc0LnzUIq3VnAKOmWO/RptSvB4=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=a+mLQVSuF6JDeXUW9NOIaMQw3FmyRZCowhxEmnamo3QaZoWTkrUniFnX16xDDWuEF
+	 J/I/6zr3gSqCQoNd1/u2zqemtTVTa8JuBFW8rDKA3SUWz8m7Vbn+WTfQBi1XeQ0Tb1
+	 FQ+F8U2slyovGOdp5KXOpXyW6nuDVIoKfyK77zEXinkJwiTZ4AObBFyMATy4ew18GD
+	 ilIRjU4UUA0pUAy5QVwWDTQ/UPP1yU6Le7wgkLep9kFMurajYvrFGw32WYtI2qdXAr
+	 tjRhA8vuhLMDwZw1gQJDFt5L9FijDmb1SCYGiekcT0367bye2TED31SOpqswaWApvI
+	 ed9iY86nluCHw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73451CF58D3;
+	Thu, 20 Nov 2025 02:42:03 +0000 (UTC)
+From: Kimi Chen via B4 Relay <devnull+kimi.zy.chen.fii-foxconn.com@kernel.org>
+Date: Thu, 20 Nov 2025 10:41:37 +0800
+Subject: [PATCH v3] ARM: dts: aspeed: clemente: add gpio line name to io
+ expander
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -74,96 +62,94 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2bWqpCW/1YghVWvY"
-Content-Disposition: inline
-In-Reply-To: <20251117-aspeed_mdio_ast2700-v1-1-8ecb0032f554@aspeedtech.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20251120-dts-add-gpio-to-io-expander-v3-1-cb650ac76f85@fii-foxconn.com>
+X-B4-Tracking: v=1; b=H4sIAOF/HmkC/43NsQqDMBDG8VeRzL1iYqK2U9+jdIjJqTc0kUSCR
+ Xz3RqdCoXQ5+N/w+1YWMRBGdi1WFjBRJO9yVKeCmVG7AYFsbiZKoTgva7BzBG0tDBN5mD3ki8u
+ kncUAWppKGNOrWmuWhSlgT8uh3x+5R4qzD69jLPH9+5+bOHDoZFMrU14EdnjriaD3i/HOnY1/s
+ l1P4lNsfosii6pVVratVErW3+K2bW9A279oHgEAAA==
+X-Change-ID: 20251106-dts-add-gpio-to-io-expander-a4c32ccf56aa
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ george.kw.lee@fii-foxconn.com, Kimi Chen <kimi.zy.chen@fii-foxconn.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1763606521; l=2490;
+ i=kimi.zy.chen@fii-foxconn.com; s=20251105; h=from:subject:message-id;
+ bh=LiRNEgcfoucbbjiQuw4XmBH0VHtCLMmaT5yizVx4fo0=;
+ b=bW2nCz1owxiEGjHrPYtrqcOLNEKTMxvDiP9O8iYZnZpW/aqlGnvlIAXLHxGg5ija5EH41Fbqg
+ ZiQnns1CaX9CsYlbxLYUVOqOpvxucRVXF6RCfX2bhGqHTCTbpHfOve2
+X-Developer-Key: i=kimi.zy.chen@fii-foxconn.com; a=ed25519;
+ pk=3zHetsW/3CYYIgQlYV9dqSS7aW7aZXLUaIvc+OKr3NM=
+X-Endpoint-Received: by B4 Relay for kimi.zy.chen@fii-foxconn.com/20251105
+ with auth_id=559
+X-Original-From: Kimi Chen <kimi.zy.chen@fii-foxconn.com>
+Reply-To: kimi.zy.chen@fii-foxconn.com
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
+From: Kimi Chen <kimi.zy.chen@fii-foxconn.com>
 
---2bWqpCW/1YghVWvY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The chassis power cycle process requires a forced shutdown before
+cutting off the standby power. The SCM CPLD implements a hard shutdown
+host function that is controlled through the IO expander in the
+Clemente platform.
 
-On Mon, Nov 17, 2025 at 03:30:18PM +0800, Jacky Chou wrote:
-> Add "aspeed,ast2700-mdio" compatible to the binding schema with a fallback
-> to "aspeed,ast2600-mdio".
->=20
-> Although the MDIO controller on AST2700 is functionally the same as the
-> one on AST2600, it's good practice to add a SoC-specific compatible for
-> new silicon. This allows future driver updates to handle any 2700-specific
-> integration issues without requiring devicetree changes or complex
-> runtime detection logic.
->=20
-> For now, the driver continues to bind via the existing
-> "aspeed,ast2600-mdio" compatible, so no driver changes are needed.
->=20
-> Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
-> ---
->  Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml | 8 +++++=
-++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.ya=
-ml b/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
-> index d6ef468495c5..1c90e7c15a44 100644
-> --- a/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
-> +++ b/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
-> @@ -13,13 +13,19 @@ description: |+
->    The ASPEED AST2600 MDIO controller is the third iteration of ASPEED's =
-MDIO
->    bus register interface, this time also separating out the controller f=
-rom the
->    MAC.
-> +  The ASPEED AST2700 MDIO controller is similar to the AST2600's.
+This change adds a new GPIO line named "shdn_force_l_cpld" to the
+PCA9555 IO expander at line 10. When asserted, this GPIO signals the
+CPLD to pull the HPM's SHDN_FORCE_L pin low, which triggers a forced
+host shutdown.
 
-This statement disagrees with your commit message that claims
-functionally identical, and implies that the 2700 supports some extra
-features or whatever.
-I think I'd drop this entirely from the patch, rather than try to reword
-it. Remove it and then:
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: changes-requested
+Signed-off-by: Kimi Chen <kimi.zy.chen@fii-foxconn.com>
+---
+Changes in v3:
+- Improve commit message clarity: restructure the description to clarify the 
+  complete signal flow (BMC → IO expander → "shdn_force_l_cpld" GPIO → CPLD → 
+  SHDN_FORCE_L pin → HPM → forced host shutdown).
+- Rename GPIO line to match the schematics net naming convention.
+- Add rationale: The current standby-AC power cycling process is suboptimal.
+  When HSC power is turned off while host power remains active, the FPGA may
+  detect a power fault. During this fault window, the FPGA—sustained by holdup
+  capacitance—asserts power brake and initiates power-down sequence. A forced
+  shutdown before cutting standby power ensures the FPGA properly handles the
+  AC cycle event without spurious fault assertions. This patch enables the BMC
+  to perform forced shutdown via the IO expander GPIO, thereby optimizing the
+  standby-AC power cycling process.
+- Link to v2: https://lore.kernel.org/r/20251107-dts-add-gpio-to-io-expander-v2-1-585d48845546@fii-foxconn.com
 
->  allOf:
->    - $ref: mdio.yaml#
-> =20
->  properties:
->    compatible:
-> -    const: aspeed,ast2600-mdio
-> +    oneOf:
-> +      - const: aspeed,ast2600-mdio
-> +      - items:
-> +          - enum:
-> +              - aspeed,ast2700-mdio
-> +          - const: aspeed,ast2600-mdio
-> =20
->    reg:
->      maxItems: 1
->=20
-> ---
-> base-commit: c9dfb92de0738eb7fe6a591ad1642333793e8b6e
-> change-id: 20251117-aspeed_mdio_ast2700-aa089c4f0474
->=20
-> Best regards,
-> --=20
-> Jacky Chou <jacky_chou@aspeedtech.com>
->=20
+Changes in v2:
+- Add "hard_shutdown_host" GPIO line name to PCA9555 IO expander for Clemente platform.
+- Link to v1: https://lore.kernel.org/r/20251106-dts-add-gpio-to-io-expander-v1-1-b4765c092ebe@fii-foxconn.com
+---
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---2bWqpCW/1YghVWvY
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
+index 450446913e36..14271be4ff3d 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts
+@@ -983,7 +983,7 @@ io_expander4: gpio@4f {
+ 			"",
+ 			"",
+ 			"",
+-			"",
++			"shdn_force_l_cpld",
+ 			"",
+ 			"",
+ 			"",
 
------BEGIN PGP SIGNATURE-----
+---
+base-commit: 6953afcd81a2cc73784e3dd23faa0a1aaf97441a
+change-id: 20251106-dts-add-gpio-to-io-expander-a4c32ccf56aa
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaR4PQQAKCRB4tDGHoIJi
-0sqUAP9r+wKYrCdpXMLj+cK8mnW1jeDSeXieLhR1kXkxcYrCUgEAvz3f7zkatpMU
-AoB7sxn/YdlOC4WEHCby7J2J47TRzAo=
-=rJkd
------END PGP SIGNATURE-----
+Best regards,
+-- 
+Kimi Chen <kimi.zy.chen@fii-foxconn.com>
 
---2bWqpCW/1YghVWvY--
+
 
