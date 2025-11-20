@@ -1,39 +1,80 @@
-Return-Path: <linux-aspeed+bounces-2961-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-2971-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:2:0:216:3eff:fee1:b9f1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE960C721E3
-	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Nov 2025 04:52:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F290C768E7
+	for <lists+linux-aspeed@lfdr.de>; Thu, 20 Nov 2025 23:55:51 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dBkvc4mF0z2yG1;
-	Thu, 20 Nov 2025 14:52:44 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dCDGY4JbFz2yvk;
+	Fri, 21 Nov 2025 09:55:49 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1763610764;
-	cv=none; b=IqwDhaNchI2ZeI8F0Drjn21jmDzbs3Efsj7Bim2dFymcdVrEwpvwWU6ul34dXMXxCw7y5XOSXGh+6OdiN9xEBsH87ODsR4r6Rpqa4ET8lRZ82TC5oHsKqOl6VnTU9vA95ziLWAUyHURnQMoo7GrE82tpi34+b0m8BGQedDho1+rYbN5OUSTQW9bEikpCYZnNQS9gf4/fnlF+drD24ZuaRg2hNOzuSVNBIi7pfNc3SrR3ohB7Jpt4sVvCriV1eqVKESTLnUbTwG3Ao6IZVlcE4d/gYLztqWbVrQywLn5wTITD+q3G2GjP0NT9YdBUS+CsOfT4Ef3XjYMl69SdhoZYmA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::102c"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1763616370;
+	cv=none; b=hFIdMsZhlQpQRMl+xXCGm5oeKtPZSAtfAB4du6Arusg9JhZAigMnR8QJlWRbKe6qT1YNxVQEupGXlOZqAUBOyAmCBTBNGiPjs8e2CrSgwT3ELJ153suBbi/3VFp4Lj9sYdfpu3UzLHWfl1O6UvH0gsaShRPudL9jlo1m/syI3WY0i4URy3qkQcqy3rhENDSjFk0ffK2jXgM6nREXGCy07VhDBH4FmKPPk7VoPPpVm4dF0pm5urotlxKL/S3G/S/SW0m2O4LvD1MwjjD1WX+xpM2xpHnTeBKoLYYHiYc59ge5LtDcm+71sKpSQ9OSIfdM7bg+TxEIOxnuSZdKE6Vk4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1763610764; c=relaxed/relaxed;
-	bh=uAJYPrM4K5gSwb8aiZs+R+QjqSI51/lCfO33+UlXeXM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=TwyhRCNM7iKWSPTszrYCxXLvT/okwMD7Jt5OTErNJF+SNQIZLcCVczDbaAq6rvJv7JDMrEaEInBE7Xd3vKJkMimJ4s7olJbnSfk+NLW+li/khTXtiZRJQUlkfrL54INSLagyqhPtyrCVgz/y+jyD+zDkkZj91ZLYOWuHk5Mp5pBwARaqowmfLtQQukqzcXIPHAfk08HQZAloL2A+yDlVxdIzcYYiPYLES7DFJcBOxkVrVgP+242LXurijpFoEGgKs8JckElrE+Yk38YbjmBM4mv/H3Jz5QGeWqgDDX8Dd0TpYBX5Sp8+1AWkY8Fz0+GkkBfIfj7LweoBpF6s4tXDxQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1763616370; c=relaxed/relaxed;
+	bh=XK8FGpJd/gRCbg6Rh2iKRhUNOEC1c+hhwCoLg8DxBR0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KOlvxDy9gOAt3DNt4M6KEThsTp/5oL4YO8EleXoi09WfdKMhGc+/hO5jR/nP7ED0hCws7EQXMes0BQ00f12M/FYy4Vc6wLVbeEDldJEFoGUPIk+coAUhJlr7BCr9osEJZrTmDA9suuYpG+vUatmS2koh/7IUWk+vVaIozHfSIX6PUxklq7f0bopHKT88N6n9qAroqLRko5YKtrKpjZ3anTdKWK2bJXEYiG9CIYtohEbuZbQEZaL9NUBJfy5cQbVecTScJfGyoTCTHqoZke0gF8BI3XB2oR5xX11GJrP7mU611rD1DJnho+bJqShcVzIrGUpZM7RQ7gcVcQuqwq59AA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=mZ1rOtiG; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::102c; helo=mail-pj1-x102c.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=mZ1rOtiG;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102c; helo=mail-pj1-x102c.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dBkvb5By2z2yFy
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Nov 2025 14:52:42 +1100 (AEDT)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 20 Nov
- 2025 11:52:26 +0800
-Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Thu, 20 Nov 2025 11:52:26 +0800
-From: Jacky Chou <jacky_chou@aspeedtech.com>
-Date: Thu, 20 Nov 2025 11:52:03 +0800
-Subject: [PATCH net-next v2] dt-bindings: net: aspeed: add AST2700 MDIO
- compatible
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dBmzN3jvgz2yFq
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 20 Nov 2025 16:26:07 +1100 (AEDT)
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-343f52d15efso382119a91.3
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 19 Nov 2025 21:26:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763616364; x=1764221164; darn=lists.ozlabs.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XK8FGpJd/gRCbg6Rh2iKRhUNOEC1c+hhwCoLg8DxBR0=;
+        b=mZ1rOtiGKMMqOBeU90QHiJPixLOrhaZOvlYmpAEkqzMNCTGZoxwGTSrpcYpVfid9WI
+         o8ijLj/jOQZuk9avJrdYoIFtXhSYWwpHk+iQBUDRFDacP4sZfy2Fw6zyVIv/QxJfgHPH
+         pOGpFxzrgnCyNVLFyoX+/sw+nfOtT91G/hUoslNTY9HvlzFCLH0w/HikAUWhHeQN6i8M
+         rHn3Sow0F/h8KAXld3ZGcOhvvAPkQhU8iG0i/1kMGVXudpxmH5Cmw7gLLJ66OOPV26A7
+         MFs+RWg81XTAV0ki0YNhXKi43iBsFI4nHvyD6cg4IlN5qC6KxNDrlPsHBX0az932qX+9
+         3XwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763616364; x=1764221164;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XK8FGpJd/gRCbg6Rh2iKRhUNOEC1c+hhwCoLg8DxBR0=;
+        b=maTFpP/h83uhH+ZSKk9hz6A8vw+5qbugN0oFQu28vqfI5dcJ/kEKov9uajMaXiQpsu
+         grfqKcCSeOa+Cy19sfHrCGE7z5eJinCpkfhBNfM/kXafmjYGLLboZxTN9ACKk77XIc37
+         CwUNb09DRtYo3T/lhmRtV+yLpuVaUg2hf8myoS6wLO2lIb28TFBwASSf1gD5RD8iTtYD
+         rYcznaKtDAqR2R/KKloksLlpybnMEKS9oXRlduIScdW3RKbNKkRzOayaENOaWDsOL8Xf
+         cy2HZmpeWe9Pe0imNDnK3rwux4OyTCDlV8g77+4Pe6UqJ4iPGcBFsSyfjkpp5l6sY5pi
+         rEog==
+X-Forwarded-Encrypted: i=1; AJvYcCUuUuh9m5i/T3v4zlgtqGSZ17RyU0YZWb2zSttRcc1ELX9A9UFmz95/FgUrO3LyUNj4rxRHCsFd8QoXf4A=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YwamkpbhOizcE4y0yVhMPvXvjmu2Zr/V56xT0EwYS/GXNVddsWF
+	Don64itjYRalBH84wtkxztE8mp8USKwsIhfGYgf41G7w2g8hiR2BhYNz
+X-Gm-Gg: ASbGncuqn495y+bIF9W2fK7k84JfWJ6SdlUWopgKbayS9TaHRsHN4AmrEEPybUsD+6q
+	E4JKQkYwNPMA2giMGm7TTHKlHP3fyPFD8iqfaEI9heHiZG4QtVkSenWNkmjWCNWl+8UJFHel+Sc
+	9grdMZwEwS/jWVOY7SKXGQOxwKNOaGiE/Nfu0VJsTDtdq16UI9PygeU7GkrHnFR8onmGR2GI1jJ
+	J3qawvbNYHX7KK5b008J4dmSqomBnvRQrqH9lF6uWtv3zOPqAjq9QGNZCWv3mBC6yjgG6sdkC8v
+	9rTJV5NvmUwyc9ii4YhOxC4dsmSGL1sVlENhPbXvamb1Q14DanfAcWxL+NpeXnrMN9v1SM6I9yJ
+	v5T5MCHSz6+TohR+1xk0qmvdCj9QtBcnt/PztXhPMXv9o4SOr7PL70tC9MZ2cvwYtZY+2wMBovl
+	Ldl1M/zIVmfwFkuex+J28iwOwIC6ZeCGi/yWAIG9QNOn8A93t8KixQLRMCwCywvk45+mu214tJM
+	luMUvxDE3dFxdewgNUAr0I++4z0C1WsIPmrF2weFswocO3I1TIHX5F/gtznYXitamc9EcV6RqBO
+	Yd40cz1eK47oHHAKpl/YyQ==
+X-Google-Smtp-Source: AGHT+IGRKwLmW5TfFmdLBz3341tnXeMORxmdp+rmYdWoNAuomZUITEEz1HkqEwACgq+mI0ayc0njuw==
+X-Received: by 2002:a17:90b:2cc7:b0:340:b572:3b7f with SMTP id 98e67ed59e1d1-34727d56695mr2083615a91.20.1763616363754;
+        Wed, 19 Nov 2025 21:26:03 -0800 (PST)
+Received: from 2001-b400-e301-38bf-be0d-b72c-6bec-2812.emome-ip6.hinet.net (2001-b400-e301-38bf-be0d-b72c-6bec-2812.emome-ip6.hinet.net. [2001:b400:e301:38bf:be0d:b72c:6bec:2812])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3472692e5d3sm1221342a91.9.2025.11.19.21.26.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Nov 2025 21:26:03 -0800 (PST)
+From: Kevin Tung <kevin.tung.openbmc@gmail.com>
+Subject: [PATCH v2 0/4] Revise Meta Yosemite5 devicetree
+Date: Thu, 20 Nov 2025 13:25:57 +0800
+Message-Id: <20251120-yv5_revise_dts-v2-0-4d7de701c5be@gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -49,81 +90,59 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20251120-aspeed_mdio_ast2700-v2-1-0d722bfb2c54@aspeedtech.com>
-X-B4-Tracking: v=1; b=H4sIAGKQHmkC/32NwQqDMBBEf0X23JRNGtH25H8UkTSudQ8mkoRgE
- f+9wd57HN7Mmx0iBaYIj2qHQJkje1eCulRgZ+PeJHgsGRSqWkrZCBNXonFYRvaDiUk1iMIYbO9
- WT6gbDWW5Bpp4O61PcJSEoy1BX8jMMfnwOe+yPPlfc5ZCipbsC/GmprrW3a+VyM5X6xfoj+P4A
- pggdPvFAAAA
-X-Change-ID: 20251117-aspeed_mdio_ast2700-aa089c4f0474
-To: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
-	<andrew@codeconstruct.com.au>
-CC: Andrew Jeffery <andrew@aj.id.au>, <netdev@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>, Conor Dooley
-	<conor.dooley@microchip.com>, Jacky Chou <jacky_chou@aspeedtech.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763610746; l=1764;
- i=jacky_chou@aspeedtech.com; s=20251031; h=from:subject:message-id;
- bh=wmlwbzLwa1koSK2nuP5aUDcsxGgFbO+ySPwBTpaVBGE=;
- b=EQwlHKt16UBrHnbKrYwuae5GVZPaRI0ZvrdLxxtPSwzgIl19qVZQn7nEwAvXm0CflvUE215b4
- ZoofOto8IIyD90g3yw629h1lKDYScsXryAa6gTti/xdU6fbiNeZHY7F
-X-Developer-Key: i=jacky_chou@aspeedtech.com; a=ed25519;
- pk=8XBx7KFM1drEsfCXTH9QC2lbMlGU4XwJTA6Jt9Mabdo=
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
-	autolearn=disabled version=4.0.1
+X-B4-Tracking: v=1; b=H4sIAGWmHmkC/3WMwQqDMBBEf0X23JRsMLb21P8oIjZZdaGakkioS
+ P69ae6Fubxh5h0QyDMFuFUHeIoc2K0Z1KkCMw/rRIJtZlBSaUS8ij3qvgypt1sQqAglWdtq20A
+ +vT2N/CnCR5d55rA5vxd/xF/7VxVRSDEa2zzrOqe93Kdl4NfZuAW6lNIX93AXBawAAAA=
+X-Change-ID: 20251118-yv5_revise_dts-12e10edd95d6
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ Amithash Prasasd <amithash@meta.com>, Kevin Tung <Kevin.Tung@quantatw.com>, 
+ Ken Chen <Ken.Chen@quantatw.com>, Leo Yang <Leo-Yang@quantatw.com>, 
+ Kevin Tung <kevin.tung.openbmc@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1763616361; l=1026;
+ i=kevin.tung.openbmc@gmail.com; s=20250924; h=from:subject:message-id;
+ bh=lg2jHrJxqbgoMaTKC4ITbkxnQHARHKleNAEPRdJp6v8=;
+ b=rT/dVjbKgo2z9etA2QhmDgpnEgtLGOvLpItmQ1ufeR+WHVaWVtYQ8Nhh4/3EdyX0Cnixja2eV
+ Q8efbvA4UxrBtX8ICLtcXY24k4Wq4dmaXAAKyzBKi7nCsPs2xXp7q5c
+X-Developer-Key: i=kevin.tung.openbmc@gmail.com; a=ed25519;
+ pk=PjAss0agA0hiuLfIBlA9j/qBmJaPCDP+jmQIUB6SE7g=
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add "aspeed,ast2700-mdio" compatible to the binding schema with a fallback
-to "aspeed,ast2600-mdio".
+Summary:
+Revise linux device tree entry related to Meta (Facebook) Yosemite5.
 
-Although the MDIO controller on AST2700 is functionally the same as the
-one on AST2600, it's good practice to add a SoC-specific compatible for
-new silicon. This allows future driver updates to handle any 2700-specific
-integration issues without requiring devicetree changes or complex
-runtime detection logic.
-
-For now, the driver continues to bind via the existing
-"aspeed,ast2600-mdio" compatible, so no driver changes are needed.
-
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
----
 Changes in v2:
-- Remove AST2700 description from aspeed,ast2600-mdio.yaml
-- Link to v1: https://lore.kernel.org/r/20251117-aspeed_mdio_ast2700-v1-1-8ecb0032f554@aspeedtech.com
----
- Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+- Add ipmb node for OCP debug card
+- Link to v1: https://lore.kernel.org/r/20251118-yv5_revise_dts-v1-0-fcd6b44b4497@gmail.com
 
-diff --git a/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml b/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
-index d6ef468495c5..a105dc07ed12 100644
---- a/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
-+++ b/Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
-@@ -19,7 +19,12 @@ allOf:
- 
- properties:
-   compatible:
--    const: aspeed,ast2600-mdio
-+    oneOf:
-+      - const: aspeed,ast2600-mdio
-+      - items:
-+          - enum:
-+              - aspeed,ast2700-mdio
-+          - const: aspeed,ast2600-mdio
- 
-   reg:
-     maxItems: 1
+Changes in v1:
+- Increase i2c4/i2c12 bus speed to 400 kHz
+- Update sensor configuration
+- Rename sgpio P0_I3C_APML_ALERT_L
 
+Signed-off-by: Kevin Tung <kevin.tung.openbmc@gmail.com>
 ---
-base-commit: c9dfb92de0738eb7fe6a591ad1642333793e8b6e
-change-id: 20251117-aspeed_mdio_ast2700-aa089c4f0474
+Kevin Tung (4):
+      ARM: dts: aspeed: yosemite5: Increase i2c4/i2c12 bus speed to 400 kHz
+      ARM: dts: aspeed: yosemite5: Update sensor configuration
+      ARM: dts: aspeed: yosemite5: Rename sgpio P0_I3C_APML_ALERT_L
+      ARM: dts: aspeed: yosemite5: Add ipmb node for OCP debug card
+
+ .../dts/aspeed/aspeed-bmc-facebook-yosemite5.dts   | 25 +++++++++-------------
+ 1 file changed, 10 insertions(+), 15 deletions(-)
+---
+base-commit: 111e542d267576de402d0836603e1def2b60316b
+change-id: 20251118-yv5_revise_dts-12e10edd95d6
 
 Best regards,
 -- 
-Jacky Chou <jacky_chou@aspeedtech.com>
+Kevin Tung <kevin.tung.openbmc@gmail.com>
 
 
