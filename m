@@ -1,39 +1,56 @@
-Return-Path: <linux-aspeed+bounces-3016-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3019-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441E2C906D1
-	for <lists+linux-aspeed@lfdr.de>; Fri, 28 Nov 2025 01:27:57 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id A87F1C9551B
+	for <lists+linux-aspeed@lfdr.de>; Sun, 30 Nov 2025 23:06:45 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dHYzb10L3z2yvF;
-	Fri, 28 Nov 2025 11:27:55 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dKLhl2pxSz2yvY;
+	Mon, 01 Dec 2025 09:06:15 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1764289675;
-	cv=none; b=Yw4XgpwBsPIHEB4l7OtalRyh2htGn0qYRWvRRY+N3QsPUso04JQtNhfHs/weo2r+eSLct+XNXF5pOBTFqXH0PaiakMidgAtMD4ydtJ8aznmSKDil7z3yIebAFQtBlsxSX5ZAi7knM49QPjSnQhkEvG6sIxrEd4JDPKykcU820ho+OjHiv/DlUO6CAeMfXew4We8XAwe1HOs3wm7vkI0uA7p8EZs6Ixl+Sqr0dJ6MD/E5eG9mrmXyDKKg0iqdbHh1DPlck8x2ged8aCp7oAQW4fu2MRaxHY5ga7/Jm83VuzAC7o5snGev4WpFR0qpxf7utCE+Jxle2ZA+A7ou+80r1w==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=209.97.181.73
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1764327656;
+	cv=none; b=ftHuev3tWhxGS9rRRPXU0di3ld5FxlWDX1+/Z9b1QItaF6+lvJ9Hzjfyh73eeQgetomrE1JcPhHTDctG13uqHHcKDBPijXk12vim4rUai5JYjD+SMQIyn7hOYJICvOvRnq6qnt1ltNiaoQXrji1C2ScfvHNWEM2hJQjNzJm8fUOmJjjXFbexj1ro2tfnbJUcnxRkgi6i/+c0ivd41WGG24KzhxAuMtnT0co3ysR5y3ztzR1E2qdUqmuwsw+3lsqBdBGj5M0g6ZwmJR0PHUyme7RoeX4xDAKvMeq0DMiwQtKLmV0JTshHjd6++dSKh3D8HZQzOD/9U82+QzQZuoG8dw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1764289675; c=relaxed/relaxed;
-	bh=yFLEfYAYFrOaTSfjRn6pWq/oFrmnU+L3G+p2MzgqcCA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=OMx1SffrnRfbwAplmI30GVeYkBdYVtMsfePIrQl/q+JaYGNQG0g91PU7wX0FQgviD1bj62pD3z/bA22wsTY/8W736mmfdpQ4uEXQyzMqUr/EFz2udc7if5Y4CnQYaxID1ZKtu+IH0bsSAn6RTjT6haL0JgjQ0KWPQYIV5xxheJ4ZrhmvXolX4e7NguDJaS55FKHq9Er46AqUKw5oLSbsFy4Y4X4o0tWk0o/w4v3he1YEZi3e6gEc6df//zeY421cL/e0EI7+zYpaMEJAwH13MkUMgGwotO/s8VyeECthjihFPWJhOkVQoyX92pPdK8Jp7nz85VjbxSKMg1nuoyhZTQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dHYzZ3Mmbz2yFT
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 28 Nov 2025 11:27:54 +1100 (AEDT)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 28 Nov
- 2025 08:27:34 +0800
-Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Fri, 28 Nov 2025 08:27:34 +0800
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-Date: Fri, 28 Nov 2025 08:27:31 +0800
-Subject: [PATCH v2 2/2] usb: gadget: aspeed-vhub: Add ast2700 support
+	t=1764327656; c=relaxed/relaxed;
+	bh=++QQz+fDQSXp2wxnYajiRIbIGoYp0tgrN6Cs06rk9o4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=J3vm7UDyREvdTsKZyb2ppF5mZ4VuqzhfCLDvT3DE+HCh5AQqJhyZ/+m3vDKsOdGtGdJcIJsPO2yLrlhCPuRT3ShoU5n1jYUSQs/gD5FO8v+v2oMJziXe+kf/omwPGaaLJi7yOAUvFHzOwnxZRduVEKEQ/GkJ5MF+PsayUp6gurNPpGS/tSZWVNhj3wqEJh92x+4WVcyVXerfmtD6RF3gZWDurK1SK6b8/k1dA+zGLCx+nxxxkmGgsPu47Ich+3Q/TNmcge2/267Ny2i8fC8ms9kMonoXOTC4rIQzWQbCFBES+LLfbyhEpYk8Y5TVInqQU2Z6MmyiAaHKb5ItOrkMuw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn; spf=pass (client-ip=209.97.181.73; helo=zg8tmja5ljk3lje4ms43mwaa.icoremail.net; envelope-from=wangmin@phytium.com.cn; receiver=lists.ozlabs.org) smtp.mailfrom=phytium.com.cn
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=phytium.com.cn (client-ip=209.97.181.73; helo=zg8tmja5ljk3lje4ms43mwaa.icoremail.net; envelope-from=wangmin@phytium.com.cn; receiver=lists.ozlabs.org)
+X-Greylist: delayed 739 seconds by postgrey-1.37 at boromir; Fri, 28 Nov 2025 22:00:53 AEDT
+Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dHr1x6k2mz2yrg;
+	Fri, 28 Nov 2025 22:00:52 +1100 (AEDT)
+Received: from prodtpl.icoremail.net (unknown [10.12.1.20])
+	by hzbj-icmmx-6 (Coremail) with SMTP id AQAAfwBnVVzxfSlp5WcOAQ--.9919S2;
+	Fri, 28 Nov 2025 18:48:17 +0800 (CST)
+Received: from wangmin$phytium.com.cn ( [218.76.62.144] ) by
+ ajax-webmail-mail (Coremail) ; Fri, 28 Nov 2025 18:48:08 +0800 (GMT+08:00)
+X-Originating-IP: [218.76.62.144]
+Date: Fri, 28 Nov 2025 18:48:08 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?546L5pWP?= <wangmin@phytium.com.cn>
+To: "Jammy Huang" <jammy_huang@aspeedtech.com>
+Cc: "Eddie James" <eajames@linux.ibm.com>,
+	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
+	"Joel Stanley" <joel@jms.id.au>,
+	"Andrew Jeffery" <andrew@codeconstruct.com.au>,
+	"Philipp Zabel" <p.zabel@pengutronix.de>,
+	linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?B?6IiS5aWV5qOL?= <shuyiqi@phytium.com.cn>
+Subject: Re: [PATCH] media: aspeed: Fix dram hang at res-change
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
+ 20250512(e7b47ee3) Copyright (c) 2002-2025 www.mailtech.cn OP_ICM_ICMVM
+In-Reply-To: <20251124-video_dram_reset-v1-1-9d37229e4ec5@aspeedtech.com>
+References: <20251124-video_dram_reset-v1-1-9d37229e4ec5@aspeedtech.com>
+Content-Transfer-Encoding: base64
+X-CM-CTRLDATA: TCYTXGZvb3Rlcl90eHQ9NDMxNTozODM=
+Content-Type: text/plain; charset=UTF-8
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -47,142 +64,108 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20251128-upstream_vhub-v2-2-1fa66a5833c2@aspeedtech.com>
-References: <20251128-upstream_vhub-v2-0-1fa66a5833c2@aspeedtech.com>
-In-Reply-To: <20251128-upstream_vhub-v2-0-1fa66a5833c2@aspeedtech.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
-	<andrew@codeconstruct.com.au>, Benjamin Herrenschmidt
-	<benh@kernel.crashing.org>, Philipp Zabel <p.zabel@pengutronix.de>
-CC: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
-	<linux-kernel@vger.kernel.org>, Ryan Chen <ryan_chen@aspeedtech.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1764289654; l=3392;
- i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
- bh=XJdF9MCn8Pm6rI4iV4Bh37iuRCq4FiLatSLLzYg37h8=;
- b=ecy2bG+wRDjEzJOpOxKlviBm2AUu1tXkDbMaZbOZAMJKnr+T61vmMRfng60CdMHf5b11i88JH
- 5V9Q4kE/96JAiITGpu8kf/ByIdNx4H92oqfH6VEF9Fq8MREdY0/DBMv
-X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
- pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
-	autolearn=disabled version=4.0.1
+Message-ID: <120162b9.3256.19aca13d4e0.Coremail.wangmin@phytium.com.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:AQAAfwA3j+zofSlpISQIAA--.9978W
+X-CM-SenderInfo: 5zdqwzdlq61x51wl3zoofrzhdfq/1tbiAQAICGkosKwG5wACs-
+Authentication-Results: hzbj-icmmx-6; spf=neutral smtp.mail=wangmin@ph
+	ytium.com.cn;
+X-Coremail-Antispam: 1Uk129KBjvJXoWfGryUXrykGF1kAF18AF47Jwb_yoWDKrWfp3
+	Wxt3y8Aw1UK3W7J39ayw18AryrA3y5Gr47Jw1Iq3yUAw1UJrsIgrnxKFWDJ3Wjg3y0vrs8
+	tr1qqrs8Xr1UtwUanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+	DUYxn0WfASr-VFAU7a7-sFnT9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUU
+	UUUUU
+X-Spam-Status: No, score=0.0 required=5.0 tests=RCVD_IN_MSPIKE_H5,
+	RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add support for the AST2700 SOC in the vhub gadget driver. AST2700
-uses a 64-bit DMA addressing capability, so select 64-bit DMA mask
-for compatible. AST2700 vhub also requires an reset line, so hook
-up the optional reset control and assert/deassert it during probe
-and remove.
-
-Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
----
- drivers/usb/gadget/udc/aspeed-vhub/core.c | 30 ++++++++++++++++++++++++++++++
- drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  1 +
- 2 files changed, 31 insertions(+)
-
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-index f2685f89b3e5..19c1849ae665 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-@@ -23,6 +23,7 @@
- #include <linux/of.h>
- #include <linux/regmap.h>
- #include <linux/dma-mapping.h>
-+#include <linux/reset.h>
- 
- #include "vhub.h"
- 
-@@ -280,6 +281,8 @@ static void ast_vhub_remove(struct platform_device *pdev)
- 	if (vhub->clk)
- 		clk_disable_unprepare(vhub->clk);
- 
-+	reset_control_assert(vhub->rst);
-+
- 	spin_unlock_irqrestore(&vhub->lock, flags);
- 
- 	if (vhub->ep0_bufs)
-@@ -294,6 +297,7 @@ static void ast_vhub_remove(struct platform_device *pdev)
- static int ast_vhub_probe(struct platform_device *pdev)
- {
- 	enum usb_device_speed max_speed;
-+	const u64 *dma_mask_ptr;
- 	struct ast_vhub *vhub;
- 	struct resource *res;
- 	int i, rc = 0;
-@@ -348,6 +352,16 @@ static int ast_vhub_probe(struct platform_device *pdev)
- 		goto err;
- 	}
- 
-+	vhub->rst = devm_reset_control_get_optional_shared(&pdev->dev, NULL);
-+	if (IS_ERR(vhub->rst)) {
-+		rc = PTR_ERR(vhub->rst);
-+		goto err;
-+	}
-+
-+	rc = reset_control_deassert(vhub->rst);
-+	if (rc)
-+		goto err;
-+
- 	/* Check if we need to limit the HW to USB1 */
- 	max_speed = usb_get_maximum_speed(&pdev->dev);
- 	if (max_speed != USB_SPEED_UNKNOWN && max_speed < USB_SPEED_HIGH)
-@@ -370,6 +384,12 @@ static int ast_vhub_probe(struct platform_device *pdev)
- 		goto err;
- 	}
- 
-+	dma_mask_ptr = (u64 *)of_device_get_match_data(&pdev->dev);
-+	if (dma_mask_ptr) {
-+		rc = dma_coerce_mask_and_coherent(&pdev->dev, *dma_mask_ptr);
-+		if (rc)
-+			goto err;
-+	}
- 	/*
- 	 * Allocate DMA buffers for all EP0s in one chunk,
- 	 * one per port and one for the vHub itself
-@@ -412,15 +432,25 @@ static int ast_vhub_probe(struct platform_device *pdev)
- 	return rc;
- }
- 
-+static const u64 dma_mask_32 =	DMA_BIT_MASK(32);
-+static const u64 dma_mask_64 =	DMA_BIT_MASK(64);
-+
- static const struct of_device_id ast_vhub_dt_ids[] = {
- 	{
- 		.compatible = "aspeed,ast2400-usb-vhub",
-+		.data = &dma_mask_32,
- 	},
- 	{
- 		.compatible = "aspeed,ast2500-usb-vhub",
-+		.data = &dma_mask_32,
- 	},
- 	{
- 		.compatible = "aspeed,ast2600-usb-vhub",
-+		.data = &dma_mask_32,
-+	},
-+	{
-+		.compatible = "aspeed,ast2700-usb-vhub",
-+		.data = &dma_mask_64,
- 	},
- 	{ }
- };
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-index 6b9dfa6e10eb..aca2050e2db0 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-@@ -388,6 +388,7 @@ struct ast_vhub {
- 	spinlock_t			lock;
- 	struct work_struct		wake_work;
- 	struct clk			*clk;
-+	struct reset_control		*rst;
- 
- 	/* EP0 DMA buffers allocated in one chunk */
- 	void				*ep0_bufs;
-
--- 
-2.34.1
+CgoKPiAtLS0tLeWOn+Wni+mCruS7ti0tLS0tCj4g5Y+R5Lu25Lq6OiAiSmFtbXkgSHVhbmciIDxq
+YW1teV9odWFuZ0Bhc3BlZWR0ZWNoLmNvbT4KPiDlj5HpgIHml7bpl7Q6MjAyNS0xMS0yNCAxMTow
+NToxNCAo5pif5pyf5LiAKQo+IOaUtuS7tuS6ujogIkVkZGllIEphbWVzIiA8ZWFqYW1lc0BsaW51
+eC5pYm0uY29tPiwgIk1hdXJvIENhcnZhbGhvIENoZWhhYiIgPG1jaGVoYWJAa2VybmVsLm9yZz4s
+ICJKb2VsIFN0YW5sZXkiIDxqb2VsQGptcy5pZC5hdT4sICJBbmRyZXcgSmVmZmVyeSIgPGFuZHJl
+d0Bjb2RlY29uc3RydWN0LmNvbS5hdT4sICJQaGlsaXBwIFphYmVsIiA8cC56YWJlbEBwZW5ndXRy
+b25peC5kZT4KPiDmioTpgIE6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZywgb3BlbmJtY0Bs
+aXN0cy5vemxhYnMub3JnLCBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcsIGxp
+bnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnLCBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3Jn
+LCAiSmFtbXkgSHVhbmciIDxqYW1teV9odWFuZ0Bhc3BlZWR0ZWNoLmNvbT4KPiDkuLvpopg6IFtQ
+QVRDSF0gbWVkaWE6IGFzcGVlZDogRml4IGRyYW0gaGFuZyBhdCByZXMtY2hhbmdlCj4gCj4gRHJh
+bSBoYW5nIGNvdWxkIGhhcHBlbiBpbiB0aGUgc3RlcHMgYmVsb3c6Cj4gMS4gc3RhcnQgY2FwdHVy
+ZS9jb21wcmVzc2lvbgo+IDIuIG91dC1vZi1sb2NrIHdhdGNoZG9nIHJhaXNlIGlycSBiZWNhdXNl
+IG9mIHJlcy1jaGFuZ2UuCj4gMy4gYXNwZWVkX3ZpZGVvX2lycV9yZXNfY2hhbmdlIGRvIGNsay1v
+ZmYKPiAKPiBBdCBzdGVwMywgY2FwdHVyZS9jb21wcmVzc2lvbiBjb3VsZCBiZSBub3QgYWNjb21w
+bGlzaGVkIHlldC4gSWYgY2xrLW9mZgo+IGluIHRoZSBtaWRkbGUgb2YgdmlkZW8gb3BlcmF0aW9u
+LCBkcmFtIGNvbnRyb2xsZXIgY291bGQgaGFuZyBhdCBhc3QyNTAwLgo+IAo+IFVzZSByZXNldCBy
+YXRoZXIgdGhhbiBjbGstb2ZmL29uIHRvIGF2b2lkIHRoaXMgcHJvYmxlbS4KPiAKPiBTaWduZWQt
+b2ZmLWJ5OiBKYW1teSBIdWFuZyA8amFtbXlfaHVhbmdAYXNwZWVkdGVjaC5jb20+Cj4gLS0tCj4g
+T24gQXNwZWVkIEtWTSB0ZXN0aW5nLCB3ZSBmb3VuZCBpdCBjb3VsZCBsZWFkIHRvIGRyYW0taGFu
+ZyBpZgo+IHJlcy1jaGFuZ2UuIEFsdGhvdWdoIHRoZSBpc3N1ZSByYXJlbHkgaGFwcGVucywgdGhl
+IGltcGFjdCBpcyBzZXJpb3VzLgoKQ2FwdHVyaW5nIGFuZCBjb21wcmVzc2luZyB0aGUgdmlkZW8g
+c3RyZWFtIHRha2VzIGxvbmdlciB0aGFuIHRoZSB2aWRlbyBlbmdpbmXigJlzIGlkbGUgcGVyaW9k
+LiAKSWYgdGhpcyBpcyBub3QgdGhlIGludGVuZGVkIGJlaGF2aW9yLCBwbGVhc2UgaW5jcmVhc2Ug
+dGhlIGZyYW1lIHJhdGUuIFRoaXMgbWFrZXMgcmVzb2x1dGlvbiAKc3dpdGNoZXMgbW9yZSBwcm9u
+ZSB0byBoYXBwZW4gd2hlbiB0aGUgdmlkZW8gZW5naW5lIGlzIHdvcmtpbmcuIEhvd2V2ZXIsIGFj
+Y29yZGluZyB0byB5b3VyIAplbWFpbCwgdGhpcyBpc3N1ZSByYXJlbHkgb2NjdXJzLiBJcyB0aGVy
+ZSBhIHNpbWlsYXIgaXNzdWUgb24gdGhlIEFTVDI2MDAgU29DPwoKPiAKPiBUbyBhdm9pZCB0aGlz
+IGlzc3VlLCB3ZSB1c2UgcmVzZXQgb25seSByYXRoYXIgdGhhbiBjbGstb2ZmL29uIGluCj4gcmVz
+LWNoYW5nZSB0byBhdm9pZCB0aGlzIGlzc3VlLgo+IC0tLQo+ICBkcml2ZXJzL21lZGlhL3BsYXRm
+b3JtL2FzcGVlZC9hc3BlZWQtdmlkZW8uYyB8IDIyICsrKysrKysrKysrKysrKysrKystLS0KPiAg
+MSBmaWxlIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4gCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vYXNwZWVkL2FzcGVlZC12aWRlby5jIGIv
+ZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hc3BlZWQvYXNwZWVkLXZpZGVvLmMKPiBpbmRleCBiODNl
+NDMyNDUyLi40MWNiOTZmNjAxIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0v
+YXNwZWVkL2FzcGVlZC12aWRlby5jCj4gKysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hc3Bl
+ZWQvYXNwZWVkLXZpZGVvLmMKPiBAQCAtMjYsNiArMjYsNyBAQAo+ICAjaW5jbHVkZSA8bGludXgv
+d29ya3F1ZXVlLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9kZWJ1Z2ZzLmg+Cj4gICNpbmNsdWRlIDxs
+aW51eC9rdGltZS5oPgo+ICsjaW5jbHVkZSA8bGludXgvcmVzZXQuaD4KPiAgI2luY2x1ZGUgPGxp
+bnV4L3JlZ21hcC5oPgo+ICAjaW5jbHVkZSA8bGludXgvbWZkL3N5c2Nvbi5oPgo+ICAjaW5jbHVk
+ZSA8bWVkaWEvdjRsMi1jdHJscy5oPgo+IEBAIC0zMTAsNiArMzExLDcgQEAgc3RydWN0IGFzcGVl
+ZF92aWRlbyB7Cj4gIAl2b2lkIF9faW9tZW0gKmJhc2U7Cj4gIAlzdHJ1Y3QgY2xrICplY2xrOwo+
+ICAJc3RydWN0IGNsayAqdmNsazsKPiArCXN0cnVjdCByZXNldF9jb250cm9sICpyZXNldDsKPiAg
+Cj4gIAlzdHJ1Y3QgZGV2aWNlICpkZXY7Cj4gIAlzdHJ1Y3QgdjRsMl9jdHJsX2hhbmRsZXIgY3Ry
+bF9oYW5kbGVyOwo+IEBAIC03MjAsNiArNzIyLDEzIEBAIHN0YXRpYyB2b2lkIGFzcGVlZF92aWRl
+b19vbihzdHJ1Y3QgYXNwZWVkX3ZpZGVvICp2aWRlbykKPiAgCXNldF9iaXQoVklERU9fQ0xPQ0tT
+X09OLCAmdmlkZW8tPmZsYWdzKTsKPiAgfQo+ICAKPiArc3RhdGljIHZvaWQgYXNwZWVkX3ZpZGVv
+X3Jlc2V0KHN0cnVjdCBhc3BlZWRfdmlkZW8gKnYpCj4gK3sKPiArCXJlc2V0X2NvbnRyb2xfYXNz
+ZXJ0KHYtPnJlc2V0KTsKPiArCXVzbGVlcF9yYW5nZSgxMDAsIDE1MCk7Cj4gKwlyZXNldF9jb250
+cm9sX2RlYXNzZXJ0KHYtPnJlc2V0KTsKPiArfQo+ICsKPiAgc3RhdGljIHZvaWQgYXNwZWVkX3Zp
+ZGVvX2J1ZnNfZG9uZShzdHJ1Y3QgYXNwZWVkX3ZpZGVvICp2aWRlbywKPiAgCQkJCSAgIGVudW0g
+dmIyX2J1ZmZlcl9zdGF0ZSBzdGF0ZSkKPiAgewo+IEBAIC03NDIsNyArNzUxLDkgQEAgc3RhdGlj
+IHZvaWQgYXNwZWVkX3ZpZGVvX2lycV9yZXNfY2hhbmdlKHN0cnVjdCBhc3BlZWRfdmlkZW8gKnZp
+ZGVvLCB1bG9uZyBkZWxheSkKPiAgCj4gIAl2aWRlby0+djRsMl9pbnB1dF9zdGF0dXMgPSBWNEwy
+X0lOX1NUX05PX1NJR05BTDsKPiAgCj4gLQlhc3BlZWRfdmlkZW9fb2ZmKHZpZGVvKTsKPiArCWFz
+cGVlZF92aWRlb193cml0ZSh2aWRlbywgVkVfSU5URVJSVVBUX0NUUkwsIDApOwo+ICsJYXNwZWVk
+X3ZpZGVvX3dyaXRlKHZpZGVvLCBWRV9JTlRFUlJVUFRfU1RBVFVTLCAweGZmZmZmZmZmKTsKPiAr
+CWFzcGVlZF92aWRlb19yZXNldCh2aWRlbyk7Cj4gIAlhc3BlZWRfdmlkZW9fYnVmc19kb25lKHZp
+ZGVvLCBWQjJfQlVGX1NUQVRFX0VSUk9SKTsKPiAgCj4gIAlzY2hlZHVsZV9kZWxheWVkX3dvcmso
+JnZpZGVvLT5yZXNfd29yaywgZGVsYXkpOwo+IEBAIC0xOTg0LDggKzE5OTUsNyBAQCBzdGF0aWMg
+dm9pZCBhc3BlZWRfdmlkZW9fc3RvcF9zdHJlYW1pbmcoc3RydWN0IHZiMl9xdWV1ZSAqcSkKPiAg
+CQkgKiBOZWVkIHRvIGZvcmNlIHN0b3AgYW55IERNQSBhbmQgdHJ5IGFuZCBnZXQgSFcgaW50byBh
+IGdvb2QKPiAgCQkgKiBzdGF0ZSBmb3IgZnV0dXJlIGNhbGxzIHRvIHN0YXJ0IHN0cmVhbWluZyBh
+Z2Fpbi4KPiAgCQkgKi8KPiAtCQlhc3BlZWRfdmlkZW9fb2ZmKHZpZGVvKTsKPiAtCQlhc3BlZWRf
+dmlkZW9fb24odmlkZW8pOwo+ICsJCWFzcGVlZF92aWRlb19yZXNldCh2aWRlbyk7Cj4gIAo+ICAJ
+CWFzcGVlZF92aWRlb19pbml0X3JlZ3ModmlkZW8pOwo+ICAKPiBAQCAtMjIzMCw2ICsyMjQwLDEy
+IEBAIHN0YXRpYyBpbnQgYXNwZWVkX3ZpZGVvX2luaXQoc3RydWN0IGFzcGVlZF92aWRlbyAqdmlk
+ZW8pCj4gIAl9Cj4gIAlkZXZfaW5mbyh2aWRlby0+ZGV2LCAiaXJxICVkXG4iLCBpcnEpOwo+ICAK
+PiArCXZpZGVvLT5yZXNldCA9IGRldm1fcmVzZXRfY29udHJvbF9nZXQoZGV2LCBOVUxMKTsKPiAr
+CWlmIChJU19FUlIodmlkZW8tPnJlc2V0KSkgewo+ICsJCWRldl9lcnIoZGV2LCAiVW5hYmxlIHRv
+IGdldCByZXNldFxuIik7Cj4gKwkJcmV0dXJuIFBUUl9FUlIodmlkZW8tPnJlc2V0KTsKPiArCX0K
+PiArCj4gIAl2aWRlby0+ZWNsayA9IGRldm1fY2xrX2dldChkZXYsICJlY2xrIik7Cj4gIAlpZiAo
+SVNfRVJSKHZpZGVvLT5lY2xrKSkgewo+ICAJCWRldl9lcnIoZGV2LCAiVW5hYmxlIHRvIGdldCBF
+Q0xLXG4iKTsKPiAKPiAtLS0KPiBiYXNlLWNvbW1pdDogYWMzZmQwMWU0YzFlZmNlOGYyYzA1NGNk
+ZWIyZGRkMmZjMGZiMTUwZAo+IGNoYW5nZS1pZDogMjAyNTExMjQtdmlkZW9fZHJhbV9yZXNldC1j
+NTMxZjZiYTU3M2YKPiAKPiBCZXN0IHJlZ2FyZHMsCj4gLS0gCj4gSmFtbXkgSHVhbmcgPGphbW15
+X2h1YW5nQGFzcGVlZHRlY2guY29tPgo+CgoKDQoNCuS/oeaBr+WuieWFqOWjsOaYju+8muacrOmC
+ruS7tuWMheWQq+S/oeaBr+W9kuWPkeS7tuS6uuaJgOWcqOe7hOe7h+aJgOaciSzlj5Hku7bkurrm
+iYDlnKjnu4Tnu4flr7nor6Xpgq7ku7bmi6XmnInmiYDmnInmnYPliKnjgILor7fmjqXmlLbogIXm
+s6jmhI/kv53lr4Ys5pyq57uP5Y+R5Lu25Lq65Lmm6Z2i6K645Y+vLOS4jeW+l+WQkeS7u+S9lees
+rOS4ieaWuee7hOe7h+WSjOS4quS6uumAj+mcsuacrOmCruS7tuaJgOWQq+S/oeaBr+OAgg0KSW5m
+b3JtYXRpb24gU2VjdXJpdHkgTm90aWNlOiBUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRo
+aXMgbWFpbCBpcyBzb2xlbHkgcHJvcGVydHkgb2YgdGhlIHNlbmRlcidzIG9yZ2FuaXphdGlvbi5U
+aGlzIG1haWwgY29tbXVuaWNhdGlvbiBpcyBjb25maWRlbnRpYWwuUmVjaXBpZW50cyBuYW1lZCBh
+Ym92ZSBhcmUgb2JsaWdhdGVkIHRvIG1haW50YWluIHNlY3JlY3kgYW5kIGFyZSBub3QgcGVybWl0
+dGVkIHRvIGRpc2Nsb3NlIHRoZSBjb250ZW50cyBvZiB0aGlzIGNvbW11bmljYXRpb24gdG8gb3Ro
+ZXJzLg==
 
 
