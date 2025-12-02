@@ -1,39 +1,60 @@
-Return-Path: <linux-aspeed+bounces-3028-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3033-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31299C95D4A
-	for <lists+linux-aspeed@lfdr.de>; Mon, 01 Dec 2025 07:31:14 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D53CC9D3EF
+	for <lists+linux-aspeed@lfdr.de>; Tue, 02 Dec 2025 23:56:15 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dKYsc0HlYz3bWX;
-	Mon, 01 Dec 2025 17:29:40 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dLbjS3W2fz3bq4;
+	Wed, 03 Dec 2025 09:56:12 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1764570580;
-	cv=none; b=dLB2JOvG/+xYoGTpZaYJMplwBOQHIfMb5/Bo7kjoWMqvTzosaEZkpT5Z0qGitBNp9JZT/v5kvHhUIn+d8gKchhdxE5UIlJvKMCWt+Ua3LwG4Nps5Pi6uAK1+nN2x/YkNfNzlXzwlRTgAT4vB4RQVTPDX2BFgfxmHVp72sDBurubXvuU3JyHQQ6uRbjbpTMRkZlqatxLxRnn4oIEndMKh/saxNAS2mvCNRz0mKo91x5Gs0qFTVppfVBp02dfD1FIsoUy8gLAlqhDmQKnoKDVhQ9TB1jHE/42OL2XAHdjwyNXTzAIMc+R/gGiyn6gtM+BG7+0cFnY6DLThuxN4TaSLYw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=209.97.181.73
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1764657608;
+	cv=none; b=RCcQOpLaHJccimWeBXF2JsqzQIMw7DT2HB6dUe9ezuWr5Lg/c6Z6cQE1bCD1Q3l/HK2GtsXCRGF86gXDm93htxoXhyOW+WrGGHK02DONuDmzhrVkqg0YD31ccsKn0YjgwAODthSNDGVHN2o9P4Nzi3+7DCoDKWjw6Tx1TcS5x1Fzx8urVXTE3klIbJoEOdVCMXXGBrFljjWm9sNrXLnnPzWC/2eETuYKycw9lknaeiObswXxoL89ZQsEjqXEFrzCHCe2iCjyAzPQa1ER+ZL+87nJ43bZWxZxw1r1LT+eKt/lu+pD03T8xL0gURjf1OH4jg5YGEvuQ3dr/jaiTJxF6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1764570580; c=relaxed/relaxed;
-	bh=AK1yMazosvq6Moup2L8MdLat4UXPgtpy8Lkk448O614=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=kS35iDDguEtHlNOkT2cQno/c5FZF733R8ZokHsmeRQcBJ2WlZhhK5KvwOk1/hXmMl9+5LK1FCiLgHsQ4GMKouKj53vqxcAHx7ZPRVy446gzdZdYhSC4xaTyVDRVqUq0fJWjECYI11azkaGgX65UFcmMMEmhlNefRnuUzfX9oWjZFOi8yTxzR5MRCep/kvFMPhsk8mSmCjeS8YhH+fawpLhSQqvlNJrIOmrROS1rRDrPRa4moKb9TgNOrf5ONbJfz7xLRCror/eLsLH+dtqSu+KU7ldncxRpPBakkiiP2RMiQLE4vbYy8iD/KBDiXh80DkHlTXM+vJfDn0ndn+t4x9g==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dKYsb3sfnz3bSK;
-	Mon, 01 Dec 2025 17:29:39 +1100 (AEDT)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Mon, 1 Dec
- 2025 14:29:17 +0800
-Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Mon, 1 Dec 2025 14:29:17 +0800
-From: Jacky Chou <jacky_chou@aspeedtech.com>
-Date: Mon, 1 Dec 2025 14:29:17 +0800
-Subject: [PATCH v6 7/7] MAINTAINERS: Add ASPEED PCIe RC driver
+	t=1764657608; c=relaxed/relaxed;
+	bh=RaweJp3vpP7SZGfEd30gEN5CZI0ej+itqO7vCnhIY18=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=ai9IyM3UbQ1y7If6SNBg5IXcFXs4iI2Sb4dQG9sfaft/PQKq/pYnK5llsFgmHt7vx1jchK7WXs26n3wABaLSM3mackxeV1ONsevgjQTqRITnNHTWLizzUGmu8o7gwQmKDRexbFmojikfpn8eTFjrsARhzjMYfzBaYEsTHwHJeWXsCMYcUp9lg8XtnJoWD9K0GtRMgE/1csmtGRMLJUoru3TycJxi2aWL+h7FLHiarkKV72udU6GrrsHOGrZFXi64C8H+9EVf0UJ/zG4eL+mm6NqfTMVEPM7q6OIOkf0poXnS0ihu3CegnpD7NqYsy3UzjoSxFOvut9CxgCrxTtGgYw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn; spf=pass (client-ip=209.97.181.73; helo=zg8tmja5ljk3lje4ms43mwaa.icoremail.net; envelope-from=wangmin@phytium.com.cn; receiver=lists.ozlabs.org) smtp.mailfrom=phytium.com.cn
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=phytium.com.cn (client-ip=209.97.181.73; helo=zg8tmja5ljk3lje4ms43mwaa.icoremail.net; envelope-from=wangmin@phytium.com.cn; receiver=lists.ozlabs.org)
+Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dLB3B0R1zz3bSK;
+	Tue, 02 Dec 2025 17:40:05 +1100 (AEDT)
+Received: from prodtpl.icoremail.net (unknown [10.12.1.20])
+	by hzbj-icmmx-7 (Coremail) with SMTP id AQAAfwCnnYmxiS5p4FPnAg--.16S2;
+	Tue, 02 Dec 2025 14:39:45 +0800 (CST)
+Received: from wangmin$phytium.com.cn ( [218.76.62.144] ) by
+ ajax-webmail-mail (Coremail) ; Tue, 2 Dec 2025 14:39:27 +0800 (GMT+08:00)
+X-Originating-IP: [218.76.62.144]
+Date: Tue, 2 Dec 2025 14:39:27 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?546L5pWP?= <wangmin@phytium.com.cn>
+To: "Jammy Huang" <jammy_huang@aspeedtech.com>,
+	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>
+Cc: "Eddie James" <eajames@linux.ibm.com>,
+	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
+	"Joel Stanley" <joel@jms.id.au>,
+	"Andrew Jeffery" <andrew@codeconstruct.com.au>,
+	"Philipp Zabel" <p.zabel@pengutronix.de>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	=?UTF-8?B?6IiS5aWV5qOL?= <shuyiqi@phytium.com.cn>
+Subject: Re: RE: [PATCH] media: aspeed: Fix dram hang at res-change
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
+ 20250512(e7b47ee3) Copyright (c) 2002-2025 www.mailtech.cn OP_ICM_ICMVM
+In-Reply-To: <TYZPR06MB656876892F6046F22AD87073F1DBA@TYZPR06MB6568.apcprd06.prod.outlook.com>
+References: <20251124-video_dram_reset-v1-1-9d37229e4ec5@aspeedtech.com>
+ <120162b9.3256.19aca13d4e0.Coremail.wangmin@phytium.com.cn>
+ <TYZPR06MB656876892F6046F22AD87073F1DBA@TYZPR06MB6568.apcprd06.prod.outlook.com>
+Content-Transfer-Encoding: base64
+X-CM-CTRLDATA: epqE02Zvb3Rlcl90eHQ9NTc1MTozODM=
+Content-Type: text/plain; charset=UTF-8
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -47,68 +68,133 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20251201-upstream_pcie_rc-v6-7-8c8800c56b16@aspeedtech.com>
-References: <20251201-upstream_pcie_rc-v6-0-8c8800c56b16@aspeedtech.com>
-In-Reply-To: <20251201-upstream_pcie_rc-v6-0-8c8800c56b16@aspeedtech.com>
-To: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@codeconstruct.com.au>, Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	=?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, "Manivannan
- Sadhasivam" <mani@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-CC: <linux-aspeed@lists.ozlabs.org>, <linux-pci@vger.kernel.org>,
-	<linux-phy@lists.infradead.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	Andrew Jeffery <andrew@aj.id.au>, <openbmc@lists.ozlabs.org>,
-	<linux-gpio@vger.kernel.org>, Jacky Chou <jacky_chou@aspeedtech.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1764570556; l=1055;
- i=jacky_chou@aspeedtech.com; s=20251031; h=from:subject:message-id;
- bh=2CuvbQgMn+gLhHMIz6Ugd9HDL3ZMZSXMjI0gjd/rarg=;
- b=wuwOp5p4ht9frjF1McU2aKEe2NSYc9XmLjTZrpN201zBxIEuu0PKHgRGAxNp7FJUY7IhxhEEF
- V6ymMCHXf2kBWaTQJeW50xCSKk4iq24wGYZeNHlp7E8xyU41e9u30iF
-X-Developer-Key: i=jacky_chou@aspeedtech.com; a=ed25519;
- pk=8XBx7KFM1drEsfCXTH9QC2lbMlGU4XwJTA6Jt9Mabdo=
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
-	autolearn=disabled version=4.0.1
+Message-ID: <720c855b.36b0.19addc99578.Coremail.wangmin@phytium.com.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:AQAAfwA3j+yfiS5ppfMIAA--.10751W
+X-CM-SenderInfo: 5zdqwzdlq61x51wl3zoofrzhdfq/1tbiAQAMCGkt9q4CNAAAsv
+Authentication-Results: hzbj-icmmx-7; spf=neutral smtp.mail=wangmin@ph
+	ytium.com.cn;
+X-Coremail-Antispam: 1Uk129KBjvAXoW3CrWkKr1rtFy7Xr17GFyxGrg_yoW8GFy7Xo
+	Z7u3Z5GF1DJwsrArs5C3WDGF15GFs5JFW8Ar1kC3Z5XF1DJr10kryqvw4fJrnrJ39xJa40
+	qw1Dtry0qryUJ3WDn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
+	J3UbIjqfuFe4nvWSU8nxnvy29KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UU
+	UUUUUUU==
+X-Spam-Status: No, score=0.0 required=5.0 tests=RCVD_IN_MSPIKE_H5,
+	RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add maintainer for ASPEED PCIe RC driver.
-
-Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
----
- MAINTAINERS | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index bf1fe32f55d3..d988274c28f3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3837,6 +3837,18 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/media/aspeed,video-engine.yaml
- F:	drivers/media/platform/aspeed/
- 
-+ASPEED PCIE CONTROLLER DRIVER
-+M:	Jacky Chou <jacky_chou@aspeedtech.com>
-+L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
-+L:	linux-pci@vger.kernel.org
-+L:	linux-phy@lists.infradead.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/pci/aspeed,ast2600-pcie.yaml
-+F:	Documentation/devicetree/bindings/phy/aspeed,ast2600-pcie-phy.yaml
-+F:	drivers/pci/controller/pcie-aspeed.c
-+F:	drivers/phy/aspeed/Kconfig
-+F:	drivers/phy/aspeed/pcie-phy-aspeed.c
-+
- ASUS EC HARDWARE MONITOR DRIVER
- M:	Eugene Shalygin <eugene.shalygin@gmail.com>
- L:	linux-hwmon@vger.kernel.org
-
--- 
-2.34.1
+CgoKPiAtLS0tLeWOn+Wni+mCruS7ti0tLS0tCj4g5Y+R5Lu25Lq6OiAiSmFtbXkgSHVhbmciIDxq
+YW1teV9odWFuZ0Bhc3BlZWR0ZWNoLmNvbT4KPiDlj5HpgIHml7bpl7Q6MjAyNS0xMi0wMSAwOToz
+NDoyNSAo5pif5pyf5LiAKQo+IOaUtuS7tuS6ujog546L5pWPIDx3YW5nbWluQHBoeXRpdW0uY29t
+LmNuPgo+IOaKhOmAgTogIkVkZGllIEphbWVzIiA8ZWFqYW1lc0BsaW51eC5pYm0uY29tPiwgIk1h
+dXJvIENhcnZhbGhvIENoZWhhYiIgPG1jaGVoYWJAa2VybmVsLm9yZz4sICJKb2VsIFN0YW5sZXki
+IDxqb2VsQGptcy5pZC5hdT4sICJBbmRyZXcgSmVmZmVyeSIgPGFuZHJld0Bjb2RlY29uc3RydWN0
+LmNvbS5hdT4sICJQaGlsaXBwIFphYmVsIiA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4sICJsaW51
+eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciIDxsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmc+LCAi
+b3BlbmJtY0BsaXN0cy5vemxhYnMub3JnIiA8b3BlbmJtY0BsaXN0cy5vemxhYnMub3JnPiwgImxp
+bnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZyIgPGxpbnV4LWFybS1rZXJuZWxAbGlz
+dHMuaW5mcmFkZWFkLm9yZz4sICJsaW51eC1hc3BlZWRAbGlzdHMub3psYWJzLm9yZyIgPGxpbnV4
+LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnPiwgImxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmci
+IDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPiwg6IiS5aWV5qOLIDxzaHV5aXFpQHBoeXRp
+dW0uY29tLmNuPgo+IOS4u+mimDogUkU6IFtQQVRDSF0gbWVkaWE6IGFzcGVlZDogRml4IGRyYW0g
+aGFuZyBhdCByZXMtY2hhbmdlCj4gCj4gSGkgV2FuZywKPiAKPiBUaGFua3MgZm9yIHlvdXIgZmVl
+ZGJhY2suCj4gCj4gUmVnYXJkcywKPiBKYW1teSBIdWFuZwo+IAo+ID4gPgo+ID4gPiBEcmFtIGhh
+bmcgY291bGQgaGFwcGVuIGluIHRoZSBzdGVwcyBiZWxvdzoKPiA+ID4gMS4gc3RhcnQgY2FwdHVy
+ZS9jb21wcmVzc2lvbgo+ID4gPiAyLiBvdXQtb2YtbG9jayB3YXRjaGRvZyByYWlzZSBpcnEgYmVj
+YXVzZSBvZiByZXMtY2hhbmdlLgo+ID4gPiAzLiBhc3BlZWRfdmlkZW9faXJxX3Jlc19jaGFuZ2Ug
+ZG8gY2xrLW9mZgo+ID4gPgo+ID4gPiBBdCBzdGVwMywgY2FwdHVyZS9jb21wcmVzc2lvbiBjb3Vs
+ZCBiZSBub3QgYWNjb21wbGlzaGVkIHlldC4gSWYKPiA+ID4gY2xrLW9mZiBpbiB0aGUgbWlkZGxl
+IG9mIHZpZGVvIG9wZXJhdGlvbiwgZHJhbSBjb250cm9sbGVyIGNvdWxkIGhhbmcgYXQKPiA+IGFz
+dDI1MDAuCj4gPiA+Cj4gPiA+IFVzZSByZXNldCByYXRoZXIgdGhhbiBjbGstb2ZmL29uIHRvIGF2
+b2lkIHRoaXMgcHJvYmxlbS4KPiA+ID4KPiA+ID4gU2lnbmVkLW9mZi1ieTogSmFtbXkgSHVhbmcg
+PGphbW15X2h1YW5nQGFzcGVlZHRlY2guY29tPgo+ID4gPiAtLS0KPiA+ID4gT24gQXNwZWVkIEtW
+TSB0ZXN0aW5nLCB3ZSBmb3VuZCBpdCBjb3VsZCBsZWFkIHRvIGRyYW0taGFuZyBpZgo+ID4gPiBy
+ZXMtY2hhbmdlLiBBbHRob3VnaCB0aGUgaXNzdWUgcmFyZWx5IGhhcHBlbnMsIHRoZSBpbXBhY3Qg
+aXMgc2VyaW91cy4KPiA+IAo+ID4gQ2FwdHVyaW5nIGFuZCBjb21wcmVzc2luZyB0aGUgdmlkZW8g
+c3RyZWFtIHRha2VzIGxvbmdlciB0aGFuIHRoZSB2aWRlbwo+ID4gZW5naW5l4oCZcyBpZGxlIHBl
+cmlvZC4KPiBTb3JyeSwgYnV0IHRoaXMgaXMgbm90IHdoYXQgSSBtZWFuLiBUaGUgaXNzdWUgaGFw
+cGVucyBiZWNhdXNlIHZpZGVvIGVuZ2luZSdzIGNsawo+IGlzIHR1cm5lZCBvZmYgZHVyaW5nIGNh
+cHR1cmUvY29tcHJlc3Npb24uCj4gCj4gPiBJZiB0aGlzIGlzIG5vdCB0aGUgaW50ZW5kZWQgYmVo
+YXZpb3IsIHBsZWFzZSBpbmNyZWFzZSB0aGUgZnJhbWUgcmF0ZS4gVGhpcyBtYWtlcwo+ID4gcmVz
+b2x1dGlvbiBzd2l0Y2hlcyBtb3JlIHByb25lIHRvIGhhcHBlbiB3aGVuIHRoZSB2aWRlbyBlbmdp
+bmUgaXMgd29ya2luZy4KPiA+IEhvd2V2ZXIsIGFjY29yZGluZyB0byB5b3VyIGVtYWlsLCB0aGlz
+IGlzc3VlIHJhcmVseSBvY2N1cnMuIElzIHRoZXJlIGEgc2ltaWxhcgo+ID4gaXNzdWUgb24gdGhl
+IEFTVDI2MDAgU29DPwo+IEluY3JlYXNlIGZyYW1lIHJhdGUgd291bGQgbm90IGhlbHBmdWwuIFRo
+aXMgaXMgYSB2aWRlbyBjb21wcmVzc2lvbiBlbmdpbmUuIFRoZSB0aW1lIHRha2VuCj4gZm9yIGVh
+Y2ggZnJhbWUncyBjYXB0dXJlL2NvbXByZXNzaW9uIGlzIHRoZSBzYW1lLiBUaGUgd2F5IHRvIHJl
+cHJvZHVjZSB0aGlzIGlzc3VlCj4gd2UgZGlkIGlzIGNvbnRpbnVvdXNseSByZXNvbHV0aW9uLXN3
+aXRjaC4KPgpUaGFuayB5b3UgZm9yIHRoZSBjbGFyaWZpY2F0aW9uLgoKSSBhbSBlbmNvdW50ZXJp
+bmcgYW5vdGhlciBpc3N1ZSByZWxhdGVkIHRvIHJlc29sdXRpb24gc3dpdGNoaW5nIG9uIHRoZSBB
+U1QyNTAwIFNvQy4gCldoZW4gcmVwZWF0ZWRseSBzd2l0Y2hpbmcgZnJvbSBvdGhlciByZXNvbHV0
+aW9ucyB0byAxNjgweDEwNTAsIG9yIGZyb20gMTY4MHgxMDUwIHRvIApvdGhlciByZXNvbHV0aW9u
+cywgdGhlcmUgaXMgYSBoaWdoIGxpa2VsaWhvb2QgdGhhdCBlaXRoZXIgdGhlIEJNQyBPUyB3aWxs
+IGhhbmcgb3IgCnRoZSBLVk0gc2NyZWVuIHdpbGwgZXhwZXJpZW5jZSB0ZWFyaW5nLiBDb3VsZCB5
+b3UgcGxlYXNlIGF0dGVtcHQgdG8gcmVwcm9kdWNlIHRoaXMgCmlzc3VlIGFuZCBwcm92aWRlIGEg
+cmVzb2x1dGlvbj8KCj4gPiAKPiA+ID4KPiA+ID4gVG8gYXZvaWQgdGhpcyBpc3N1ZSwgd2UgdXNl
+IHJlc2V0IG9ubHkgcmF0aGFyIHRoYW4gY2xrLW9mZi9vbiBpbgo+ID4gPiByZXMtY2hhbmdlIHRv
+IGF2b2lkIHRoaXMgaXNzdWUuCj4gPiA+IC0tLQo+ID4gPiAgZHJpdmVycy9tZWRpYS9wbGF0Zm9y
+bS9hc3BlZWQvYXNwZWVkLXZpZGVvLmMgfCAyMgo+ID4gPiArKysrKysrKysrKysrKysrKysrLS0t
+Cj4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTkgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkK
+PiA+ID4KPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vYXNwZWVkL2Fz
+cGVlZC12aWRlby5jCj4gPiA+IGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hc3BlZWQvYXNwZWVk
+LXZpZGVvLmMKPiA+ID4gaW5kZXggYjgzZTQzMjQ1Mi4uNDFjYjk2ZjYwMSAxMDA2NDQKPiA+ID4g
+LS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hc3BlZWQvYXNwZWVkLXZpZGVvLmMKPiA+ID4g
+KysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9hc3BlZWQvYXNwZWVkLXZpZGVvLmMKPiA+ID4g
+QEAgLTI2LDYgKzI2LDcgQEAKPiA+ID4gICNpbmNsdWRlIDxsaW51eC93b3JrcXVldWUuaD4KPiA+
+ID4gICNpbmNsdWRlIDxsaW51eC9kZWJ1Z2ZzLmg+Cj4gPiA+ICAjaW5jbHVkZSA8bGludXgva3Rp
+bWUuaD4KPiA+ID4gKyNpbmNsdWRlIDxsaW51eC9yZXNldC5oPgo+ID4gPiAgI2luY2x1ZGUgPGxp
+bnV4L3JlZ21hcC5oPgo+ID4gPiAgI2luY2x1ZGUgPGxpbnV4L21mZC9zeXNjb24uaD4KPiA+ID4g
+ICNpbmNsdWRlIDxtZWRpYS92NGwyLWN0cmxzLmg+Cj4gPiA+IEBAIC0zMTAsNiArMzExLDcgQEAg
+c3RydWN0IGFzcGVlZF92aWRlbyB7Cj4gPiA+ICAJdm9pZCBfX2lvbWVtICpiYXNlOwo+ID4gPiAg
+CXN0cnVjdCBjbGsgKmVjbGs7Cj4gPiA+ICAJc3RydWN0IGNsayAqdmNsazsKPiA+ID4gKwlzdHJ1
+Y3QgcmVzZXRfY29udHJvbCAqcmVzZXQ7Cj4gPiA+Cj4gPiA+ICAJc3RydWN0IGRldmljZSAqZGV2
+Owo+ID4gPiAgCXN0cnVjdCB2NGwyX2N0cmxfaGFuZGxlciBjdHJsX2hhbmRsZXI7IEBAIC03MjAs
+NiArNzIyLDEzIEBAIHN0YXRpYwo+ID4gPiB2b2lkIGFzcGVlZF92aWRlb19vbihzdHJ1Y3QgYXNw
+ZWVkX3ZpZGVvICp2aWRlbykKPiA+ID4gIAlzZXRfYml0KFZJREVPX0NMT0NLU19PTiwgJnZpZGVv
+LT5mbGFncyk7ICB9Cj4gPiA+Cj4gPiA+ICtzdGF0aWMgdm9pZCBhc3BlZWRfdmlkZW9fcmVzZXQo
+c3RydWN0IGFzcGVlZF92aWRlbyAqdikgewo+ID4gPiArCXJlc2V0X2NvbnRyb2xfYXNzZXJ0KHYt
+PnJlc2V0KTsKPiA+ID4gKwl1c2xlZXBfcmFuZ2UoMTAwLCAxNTApOwo+ID4gPiArCXJlc2V0X2Nv
+bnRyb2xfZGVhc3NlcnQodi0+cmVzZXQpOwo+ID4gPiArfQo+ID4gPiArCj4gPiA+ICBzdGF0aWMg
+dm9pZCBhc3BlZWRfdmlkZW9fYnVmc19kb25lKHN0cnVjdCBhc3BlZWRfdmlkZW8gKnZpZGVvLAo+
+ID4gPiAgCQkJCSAgIGVudW0gdmIyX2J1ZmZlcl9zdGF0ZSBzdGF0ZSkKPiA+ID4gIHsKPiA+ID4g
+QEAgLTc0Miw3ICs3NTEsOSBAQCBzdGF0aWMgdm9pZCBhc3BlZWRfdmlkZW9faXJxX3Jlc19jaGFu
+Z2Uoc3RydWN0Cj4gPiA+IGFzcGVlZF92aWRlbyAqdmlkZW8sIHVsb25nIGRlbGF5KQo+ID4gPgo+
+ID4gPiAgCXZpZGVvLT52NGwyX2lucHV0X3N0YXR1cyA9IFY0TDJfSU5fU1RfTk9fU0lHTkFMOwo+
+ID4gPgo+ID4gPiAtCWFzcGVlZF92aWRlb19vZmYodmlkZW8pOwo+ID4gPiArCWFzcGVlZF92aWRl
+b193cml0ZSh2aWRlbywgVkVfSU5URVJSVVBUX0NUUkwsIDApOwo+ID4gPiArCWFzcGVlZF92aWRl
+b193cml0ZSh2aWRlbywgVkVfSU5URVJSVVBUX1NUQVRVUywgMHhmZmZmZmZmZik7Cj4gPiA+ICsJ
+YXNwZWVkX3ZpZGVvX3Jlc2V0KHZpZGVvKTsKPiA+ID4gIAlhc3BlZWRfdmlkZW9fYnVmc19kb25l
+KHZpZGVvLCBWQjJfQlVGX1NUQVRFX0VSUk9SKTsKPiA+ID4KPiA+ID4gIAlzY2hlZHVsZV9kZWxh
+eWVkX3dvcmsoJnZpZGVvLT5yZXNfd29yaywgZGVsYXkpOyBAQCAtMTk4NCw4ICsxOTk1LDcKPiA+
+ID4gQEAgc3RhdGljIHZvaWQgYXNwZWVkX3ZpZGVvX3N0b3Bfc3RyZWFtaW5nKHN0cnVjdCB2YjJf
+cXVldWUgKnEpCj4gPiA+ICAJCSAqIE5lZWQgdG8gZm9yY2Ugc3RvcCBhbnkgRE1BIGFuZCB0cnkg
+YW5kIGdldCBIVyBpbnRvIGEgZ29vZAo+ID4gPiAgCQkgKiBzdGF0ZSBmb3IgZnV0dXJlIGNhbGxz
+IHRvIHN0YXJ0IHN0cmVhbWluZyBhZ2Fpbi4KPiA+ID4gIAkJICovCj4gPiA+IC0JCWFzcGVlZF92
+aWRlb19vZmYodmlkZW8pOwo+ID4gPiAtCQlhc3BlZWRfdmlkZW9fb24odmlkZW8pOwo+ID4gPiAr
+CQlhc3BlZWRfdmlkZW9fcmVzZXQodmlkZW8pOwo+ID4gPgo+ID4gPiAgCQlhc3BlZWRfdmlkZW9f
+aW5pdF9yZWdzKHZpZGVvKTsKPiA+ID4KPiA+ID4gQEAgLTIyMzAsNiArMjI0MCwxMiBAQCBzdGF0
+aWMgaW50IGFzcGVlZF92aWRlb19pbml0KHN0cnVjdCBhc3BlZWRfdmlkZW8KPiA+ICp2aWRlbykK
+PiA+ID4gIAl9Cj4gPiA+ICAJZGV2X2luZm8odmlkZW8tPmRldiwgImlycSAlZFxuIiwgaXJxKTsK
+PiA+ID4KPiA+ID4gKwl2aWRlby0+cmVzZXQgPSBkZXZtX3Jlc2V0X2NvbnRyb2xfZ2V0KGRldiwg
+TlVMTCk7Cj4gPiA+ICsJaWYgKElTX0VSUih2aWRlby0+cmVzZXQpKSB7Cj4gPiA+ICsJCWRldl9l
+cnIoZGV2LCAiVW5hYmxlIHRvIGdldCByZXNldFxuIik7Cj4gPiA+ICsJCXJldHVybiBQVFJfRVJS
+KHZpZGVvLT5yZXNldCk7Cj4gPiA+ICsJfQo+ID4gPiArCj4gPiA+ICAJdmlkZW8tPmVjbGsgPSBk
+ZXZtX2Nsa19nZXQoZGV2LCAiZWNsayIpOwo+ID4gPiAgCWlmIChJU19FUlIodmlkZW8tPmVjbGsp
+KSB7Cj4gPiA+ICAJCWRldl9lcnIoZGV2LCAiVW5hYmxlIHRvIGdldCBFQ0xLXG4iKTsKPiA+ID4K
+PiA+ID4gLS0tCj4gPiA+IGJhc2UtY29tbWl0OiBhYzNmZDAxZTRjMWVmY2U4ZjJjMDU0Y2RlYjJk
+ZGQyZmMwZmIxNTBkCj4gPiA+IGNoYW5nZS1pZDogMjAyNTExMjQtdmlkZW9fZHJhbV9yZXNldC1j
+NTMxZjZiYTU3M2YKPiA+ID4KPiA+ID4gQmVzdCByZWdhcmRzLAo+ID4gPiAtLQo+ID4gPiBKYW1t
+eSBIdWFuZyA8amFtbXlfaHVhbmdAYXNwZWVkdGVjaC5jb20+Cj4gPiA+Cj4gPiAKDQoNCuS/oeaB
+r+WuieWFqOWjsOaYju+8muacrOmCruS7tuWMheWQq+S/oeaBr+W9kuWPkeS7tuS6uuaJgOWcqOe7
+hOe7h+aJgOaciSzlj5Hku7bkurrmiYDlnKjnu4Tnu4flr7nor6Xpgq7ku7bmi6XmnInmiYDmnInm
+nYPliKnjgILor7fmjqXmlLbogIXms6jmhI/kv53lr4Ys5pyq57uP5Y+R5Lu25Lq65Lmm6Z2i6K64
+5Y+vLOS4jeW+l+WQkeS7u+S9leesrOS4ieaWuee7hOe7h+WSjOS4quS6uumAj+mcsuacrOmCruS7
+tuaJgOWQq+S/oeaBr+OAgg0KSW5mb3JtYXRpb24gU2VjdXJpdHkgTm90aWNlOiBUaGUgaW5mb3Jt
+YXRpb24gY29udGFpbmVkIGluIHRoaXMgbWFpbCBpcyBzb2xlbHkgcHJvcGVydHkgb2YgdGhlIHNl
+bmRlcidzIG9yZ2FuaXphdGlvbi5UaGlzIG1haWwgY29tbXVuaWNhdGlvbiBpcyBjb25maWRlbnRp
+YWwuUmVjaXBpZW50cyBuYW1lZCBhYm92ZSBhcmUgb2JsaWdhdGVkIHRvIG1haW50YWluIHNlY3Jl
+Y3kgYW5kIGFyZSBub3QgcGVybWl0dGVkIHRvIGRpc2Nsb3NlIHRoZSBjb250ZW50cyBvZiB0aGlz
+IGNvbW11bmljYXRpb24gdG8gb3RoZXJzLg==
 
 
