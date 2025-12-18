@@ -1,51 +1,94 @@
-Return-Path: <linux-aspeed+bounces-3185-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3146-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1282CD296B
-	for <lists+linux-aspeed@lfdr.de>; Sat, 20 Dec 2025 07:55:50 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE6ECCD358
+	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Dec 2025 19:41:18 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dYFY02LVYz2yFQ;
-	Sat, 20 Dec 2025 17:55:48 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dXKHw2X4Bz2xqm;
+	Fri, 19 Dec 2025 05:41:16 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=213.133.106.242
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1766076397;
-	cv=none; b=mHtp5o11gCcaCR8bzZb9x+gooXENPs8uRPDdcdJkm+gcGJzBIHppU8ja7xv7XVdshhG1BVyRfep7XmIR4bFmy5WDxH1wwRo4uJhEMaD15b5SuAvEr9a1FSuix4sbHc+er1lbN/2ljP8AogprvxqOYhFRTBHoGTJ9nrTPu4BT0wYnqiu78AuikLXwsPiuaV1Ydq6iwaYjJGtITjyAb/yJI/Q1iN+M2Z7VAYY4Q1SdppdB75V4qV+b7xKb6RWF3FzKJPbECi0jzqju3srU6lJrhNqVnyuNXX4sOvedyjA91XilP1lP9qn7I0+HT979KXeDIOMP68tH1Bgz2i4mLqDByw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=103.168.172.159
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1766083276;
+	cv=none; b=RB9+SVukTKljTh2txLYvhOjcprzNGpPKahlWPDWQfd8sXkmBE3vx/3Orh5yv1CWBSBZSWjv4gKa0esubeQnIaEcZSje4NwByrj/rnDuWmsgHPnfblwmePTyIRgKmfsRX9MlT/jrTkaHm9XMv9QNMbkn9Zk04i4vJT6Nr1dpvWIrdLgfyhBjLJd6LV3Mb8ttMPySOE4VWhMrN6x0hmgxei/i9w/8tJWHCKC8sxyJYrPq0KtCM4Hew9CEdV8pi7rjttK32OuM81A6UVD8ZOEHeOVW2/Beo37MPemUbOxFtsxQrFS24C2z6u2Y8s3nJGK7XPFoyZL8iCC2LMKTPjQ4+UA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1766076397; c=relaxed/relaxed;
-	bh=Fpfs5Yw14x8Q64EiuaznPYbDXviY+y9LVMU8kmcpM2o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f3wMHShjzfUckGG6fF4ZmgI+lXxMRxF3SyBsfcJmfR+LbgJzF+q9pF2sSKLeBXL69LIa+jANmxPaLdAnYvSn35ykgKkBSimsv3U0CDOzF721+TRximoBvY5ebb5ICDNur2hRmoVQ7bEKyKEfwRacN2c5YLmsVziD2GJvVRDRLyNQv82I4Hvgydl36TiYNiBs/jNCIN2tLjlIrPI8/jTs32oGk4M5Jfptus3wbr55g3r9kgVkaHsAjVN7yBKxTflk/dimOR2ZyRVMpp3ZjUVX0UFvAm5OCoVzlWsglHWULqxlAXt+bDTp3em0WJBlhtQTt3XUEGpxDAJjsCMiRAlJiw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=hetzner.com; dkim=pass (2048-bit key; unprotected) header.d=hetzner.com header.i=@hetzner.com header.a=rsa-sha256 header.s=lms2212 header.b=TIvIl8Vy; dkim-atps=neutral; spf=pass (client-ip=213.133.106.242; helo=mail.hetzner.company; envelope-from=tan.siewert@hetzner.com; receiver=lists.ozlabs.org) smtp.mailfrom=hetzner.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=hetzner.com
+	t=1766083276; c=relaxed/relaxed;
+	bh=cdouFEOrCPjvUbFG8nWL4nevGsYtHhwmjnJ0/LBie9Y=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=PneL2vE+CZ/JT30pEayEL0OIKF6OcJpauZFG1EVuMN8ZJvUB7h8I4qd7GfusazMY8wsG1bABt8y8KQwZPnVITqFTGOwCz0OmFl6NNA6lGaVqCI+w6n5zwUpgWBatPKAbtS7JdqjlycPzOXEN+eyYzBHiHnYqkbGomIHUtchOFqyGtSEsGd9d93asp6+KkqNlfMHKxENMHZu2IJX7IoTtByml1EzqVSRkuYXZKAsrgS8IidBn7zDV12d98tdUkQhIFEr8WxoKhRmjv8G9e3mTY60SiI5I8WalRM27qoxBXtfTXtY5IlwhLnMYO3susL/H6Wdus25SfDXSjdQW3JETOg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bsdio.com; dkim=pass (2048-bit key; unprotected) header.d=bsdio.com header.i=@bsdio.com header.a=rsa-sha256 header.s=fm2 header.b=dkcki0hm; dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=YvQrYqW+; dkim-atps=neutral; spf=pass (client-ip=103.168.172.159; helo=fhigh-a8-smtp.messagingengine.com; envelope-from=rebecca@bsdio.com; receiver=lists.ozlabs.org) smtp.mailfrom=bsdio.com
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=bsdio.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=hetzner.com header.i=@hetzner.com header.a=rsa-sha256 header.s=lms2212 header.b=TIvIl8Vy;
+	dkim=pass (2048-bit key; unprotected) header.d=bsdio.com header.i=@bsdio.com header.a=rsa-sha256 header.s=fm2 header.b=dkcki0hm;
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm1 header.b=YvQrYqW+;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=hetzner.com (client-ip=213.133.106.242; helo=mail.hetzner.company; envelope-from=tan.siewert@hetzner.com; receiver=lists.ozlabs.org)
-Received: from mail.hetzner.company (mail.hetzner.company [213.133.106.242])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bsdio.com (client-ip=103.168.172.159; helo=fhigh-a8-smtp.messagingengine.com; envelope-from=rebecca@bsdio.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 425 seconds by postgrey-1.37 at boromir; Fri, 19 Dec 2025 05:41:13 AEDT
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dXGlb2nPRz2xqm
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 19 Dec 2025 03:46:33 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hetzner.com
-	; s=lms2212; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=Fpfs5Yw14x8Q64EiuaznPYbDXviY+y9LVMU8kmcpM2o=; b=TIvIl8Vye4if2Ep+wXRRuhl8gR
-	WLUGm3b4XGDOiVIJAzNDQ36RYVc0PIMcGtm+vUMYeU/BLo7ux1uEnpR+QYNgxOjqyMZi9k/2ie+X5
-	6Wt2xx4S3KLgbhHU053QLxSOXsaLXm2yEdk8tuLoY1ptfkmIfvoA3QHTPKbjyC8JQYKYHl6o7WuWN
-	9H1uH3ptIGkM3VAbbKwZs/rcmoXTxUFdvVt5/1V+niTaVwGxrAnMeXyC9vA2KT4AH6vbKZkXXsUQJ
-	tLcgexQZwbXIJFwEft0vqfXUfjUNfZEdWmTJWiuvfM73Jce7kZHmM1UCW/4kj/a07g/KAncJeNHzx
-	aZtKwvpw==;
-Received: from nbg1-vpn1-entry1.hetzner.company ([78.47.119.212] helo=[10.1.220.249])
-	by mail.hetzner.company with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.94.2)
-	(envelope-from <tan.siewert@hetzner.com>)
-	id 1vWH6o-00FlwY-9i; Thu, 18 Dec 2025 17:44:09 +0100
-Message-ID: <b10a233e-02c3-4b02-8f11-098f6fb8197c@hetzner.com>
-Date: Thu, 18 Dec 2025 17:44:05 +0100
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dXKHs5wVJz2xpm
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 19 Dec 2025 05:41:13 +1100 (AEDT)
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id DBC2D14000B1;
+	Thu, 18 Dec 2025 13:34:05 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Thu, 18 Dec 2025 13:34:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsdio.com; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1766082845;
+	 x=1766169245; bh=cdouFEOrCPjvUbFG8nWL4nevGsYtHhwmjnJ0/LBie9Y=; b=
+	dkcki0hmWQsGbAYxWik7uerrrukMUQZU2KYD3RuSCvsUhqB6C79x5uwOrshVWjrY
+	mQk3FkvMFZsHsyzvL+1sg6NHxHe0ZBklRmkIDzO+x96Aprrrpdi4fFs7IffQRDTQ
+	gK0tSPSjwdveR9y49lnZDbKKTM9Er511nheLpX9blAxpEWuv7kgSxE+bCduyMlPf
+	SliTpctMoQD64ILSu7qjaWTaWmgDnOihSgssiuP8UCtuVWKb7XmJQo7LFaT+4r55
+	staQMxZwt9ech8RjKyfjfWKSuKSYcQa80q6Usf647kMMUnXDRu5BXA5sWUPwdIhY
+	qvYsOZimeBjC8SpYRatcAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1766082845; x=
+	1766169245; bh=cdouFEOrCPjvUbFG8nWL4nevGsYtHhwmjnJ0/LBie9Y=; b=Y
+	vQrYqW+44Cj5gBN+GVjhOPOEsOz6vWtW9bxDZvv2Bo5Y88PCMJJlSHYnpWKdKpZQ
+	TWyKBon/AahqG6BE3QH6LWM+/1MQvxqfkN64ThAKYfXaPHi50EgyRdRzc3Tu57CW
+	b66664KkeiNDd+jMsi2/dQM9Dwn7ZK2ltI8F1PM59jL4DYY7QITjTivXqSsyo5Yf
+	2DJkuRuPaNNDz4Mj2E7NvoLiHnRzSg66Cp397fSVAFohhk6C+igEXpBvSIXAnxf5
+	D3ophywQd9IdbWYPoRdgYiUHWx9NSefbpPibvTfCuZ+gJXL+79itc0oYsWCYQZtL
+	hu+crSlG+dS1UR3YhT3bQ==
+X-ME-Sender: <xms:HUlEaWUVDsel0KlcF3YMKRRutSo5-PP-WTHp7F6c1xOqXYybd76S_w>
+    <xme:HUlEaSIZclUOu9g0hoqRS08bG2Wdntjxw0kjXsZWvuingqGA6Jzg-ADDbERIA-yOf
+    JBqnMXRlkm-WnOhhieyl4s7HWZy6Zc_ME_GEjMm0m-qZZxIChW3jjY>
+X-ME-Received: <xmr:HUlEaevS_G0xtFGjZkkZbQic-HTbKLmH6znjn7mWnsks9fYoUK9U4R-nW4HP0nRTTpXSk0E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdegieduhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfhuffvvehfjggtgfesthekredttddvjeenucfhrhhomheptfgvsggvtggt
+    rgcuvehrrghnuceorhgvsggvtggtrgessghsughiohdrtghomheqnecuggftrfgrthhtvg
+    hrnhepfeegtdetledvieffvdffteevhfeggfeuveegheffjefhvdelieejgfeitdehgeei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprhgvsg
+    gvtggtrgessghsughiohdrtghomhdpnhgspghrtghpthhtohepudefpdhmohguvgepshhm
+    thhpohhuthdprhgtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
+    eprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghr
+    nhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtohepjhhovghlsehjmhhsrdhiugdrrghupdhrtghpthhtoheprghnughrvgif
+    segtohguvggtohhnshhtrhhutghtrdgtohhmrdgruhdprhgtphhtthhopehtrghnrdhsih
+    gvfigvrhhtsehhvghtiihnvghrrdgtohhmpdhrtghpthhtohepuggvvhhitggvthhrvggv
+    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrghrmhdqkh
+    gvrhhnvghlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhg
+X-ME-Proxy: <xmx:HUlEaf1vqXWYGyVztb4bg_3bccL29zxHr04LN7Lx0Quj2usg3cUf6w>
+    <xmx:HUlEaeONuTnfgntPUEyVeNF8Aal7ivurpoOPVb7IzjsmyuQ8fhIhoQ>
+    <xmx:HUlEaXVw9HfkK3UVLcmqWN7gguA0hkyLCXzecVyRLEFS5M6DW_NBqg>
+    <xmx:HUlEabafv35P00PVXcY5cgUNip6VBMVJnIaTZ5bd-GDsWNQd8SFQAQ>
+    <xmx:HUlEaQ0x4Daogj9ujBrVRmhgqyM4zyz9yqjirYGmqQpbjvqNeGjqDzx6>
+Feedback-ID: i5b994698:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 18 Dec 2025 13:34:03 -0500 (EST)
+Message-ID: <4eff8506-8049-46e9-997e-a41edff32bbc@bsdio.com>
+Date: Thu, 18 Dec 2025 11:34:03 -0700
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -60,13 +103,14 @@ List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+From: Rebecca Cran <rebecca@bsdio.com>
 Subject: Re: [PATCH v6 1/2] dt-bindings: arm: aspeed: add ASRock Rack ALTRAD8
  board
-Content-Language: en-GB
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rebecca Cran <rebecca@bsdio.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, devicetree@vger.kernel.org,
+To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Tan Siewert <tan.siewert@hetzner.com>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
  linux-kernel@vger.kernel.org
 Cc: Billy Tsai <billy_tsai@aspeedtech.com>,
@@ -74,61 +118,16 @@ Cc: Billy Tsai <billy_tsai@aspeedtech.com>,
 References: <20251218161816.38155-1-rebecca@bsdio.com>
  <20251218161816.38155-2-rebecca@bsdio.com>
  <5aa36c56-798a-40cc-b0b8-be3f7c92136f@kernel.org>
-From: Tan Siewert <tan.siewert@hetzner.com>
-Autocrypt: addr=tan.siewert@hetzner.com; keydata=
- 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
-Organization: Hetzner Cloud GmbH
+Content-Language: en-US
 In-Reply-To: <5aa36c56-798a-40cc-b0b8-be3f7c92136f@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: tan.siewert@hetzner.com
-X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_PASS,SPF_PASS
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On 18.12.25 17:21, Krzysztof Kozlowski wrote:
+On 12/18/25 09:21, Krzysztof Kozlowski wrote:
 > On 18/12/2025 17:18, Rebecca Cran wrote:
 >> Document ASRock Rack ALTRAD8 (ALTRAD8UD-1L2T and ALTRAD8UD2-1L2Q)
 >> compatibles.
@@ -136,19 +135,18 @@ On 18.12.25 17:21, Krzysztof Kozlowski wrote:
 >> Signed-off-by: Rebecca Cran <rebecca@bsdio.com>
 >> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 >> Tested-by: Tan Siewert <tan.siewert@hetzner.com>
-> 
 > How was the binding tested?
 
-My bad for sending the wrong trailing header in v4. Tested-by should've 
-been only on the dts instead of the dt-bindings+dts. Either way, `make 
-dt_binding_check` was what I did to check if there are any errors 
-produced for `asrock,altrad8-bmc`.
+I ran "make ARCH=arm CHECK_DTBS=y aspeed/aspeed-bmc-asrock-altrad8.dtb"
+to check for errors
 
--- Tan
+and have used the dts file in an ASRock Rack ALTRAD8UD-1L2T system with
+Linux 6.12.61 running OpenBMC.
 
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
+
+-- 
+Rebecca Cran
+
+
+
 
