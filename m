@@ -1,71 +1,91 @@
-Return-Path: <linux-aspeed+bounces-3176-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3174-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9B41CD2950
-	for <lists+linux-aspeed@lfdr.de>; Sat, 20 Dec 2025 07:54:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B1ECD294A
+	for <lists+linux-aspeed@lfdr.de>; Sat, 20 Dec 2025 07:54:15 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dYFWk2gP7z2yFW;
-	Sat, 20 Dec 2025 17:54:42 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dYFW86WqVz2yFY;
+	Sat, 20 Dec 2025 17:54:12 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=209.85.210.173
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1766133616;
-	cv=none; b=Mw6baTUXubUz8O74vqdm4gp6aWWTSGCjURPXKtUt8kQuDDDjAn9dNlyZMK9gocc1BsL1U32pUJ6+rSl/FqDg2/2UVbtV4vmBFaOSJB+O1yXqvsxhaqJzPMZgtPC9FPet2jc3Ri6doAZ9Bf8zWtFJr0qBrpHyiOEhBazIRawLIdLbmhc2iiQwWfJbb9EILoyUhi7oATRp3dJ9XYpIFsgGCfXSEN3VKMSH2t+K2ka5/XrqfiosjADpyxUIiGK+JOFevKji6grx6uk7s4mAOS4eOckxdA9Z8ZgXDMknSKNTO3CqZITsEnxSK4Q6C2RzuNBko5IsTWxTbd5p986VwKahtg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=209.85.214.175
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1766135866;
+	cv=none; b=jtZFPTBcBje9k/4SLarqJjBFFIbEeJ2igawgkjukkeRpr7ZzHkHSEsP2PDS0yxPE4Qi2WSFuQawmtVUrzSUXrHd2boo4gBpRwo25sEtpHh0UDCNNn6Fvwis/gTp9FbelttIA9RrFm00qjsyJlG5zaXpumDg2qd6y/AyKXiIaGhsK1mfjCbE5RjIV4gc9SsaQlsL/k9j05NLUwnNGaOP6rmQR9vpAlMfDcqdUIaZz8swVqdEQC+Z9JkYPWbnbyfZeeDJderRz2ghbNM/Zdm/2hX2WLK16gVw+38FllhkFqCGNUgFgNhQztTIGdi1Wy6FZk0dkvJhzdN1m79CmASsEAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1766133616; c=relaxed/relaxed;
-	bh=XHPtjrQR6BGiqK2vk4UpNJZFJRTk/Dln70vYvB9yRis=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=isJedBiacPi8dIdXViYB6iLl0AUxs9uPWkuPFg83yu7TxahyY9bvxK+0rJ/vlch+TGjQGDCTJ1tuEfqeqLGIB6fRsIJQ57BhxxBk+GQ15wWB8Z7aGG7QScabl9T3uXFIvcV0rPOphULEVwF0k4XRM2xr9JOPVqBcGQZIp6vg1PRDFSu3dlLukQkfGXl6mYIneq+7isHWBVuUU1J0qAP52dQPY6UvKzxgkeOVFBzj0vCNpqixiqc3jAL2WXOgPXYC52e+t1Z4N34/EX8ZlOYshpWVh/PZxpYMlFyJpC/CBl4x+sgPbJ0RQSzUWMwOJMphLNQT2YcrOE3TtyZNlhAncA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=iqwQsDDr; dkim-atps=neutral; spf=pass (client-ip=209.85.210.173; helo=mail-pf1-f173.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+	t=1766135866; c=relaxed/relaxed;
+	bh=s0wq56S49D0XiqE0opAn2H72dXHptd985ZPMxAa7P8A=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SxrnHHPT6ZixCAfSKq4Wf4hqWNPzp3Qs3AimX/l5Wc753Sf2bcDf03eGwVOnbkM9TlZKWQ2HNaJE6A9AV8Jmrpgj7H4UhsYwC12gvvgje9EDNrv1CaW+psEpc+RPCe90CKMrm1aCt50O/3dNKP3pBVZtYKhlKvULJlVO1zGWILccrsFAJDGeYqPBlj/dAHhAG7FIe9zqyGETchBRJAkUzJgl5taicbroOIXs0vrmadVFq3419pD9VdWs5z7iV9gIM5nrVIg8ry91q/Nl9TDTTuDFRD2A3PROzT/RXIJG8z11bHwCd3lz77LBJO5J7ZOsKnGoeB55RFs42ou4soDiwA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Pc0Hvxe7; dkim-atps=neutral; spf=pass (client-ip=209.85.214.175; helo=mail-pl1-f175.google.com; envelope-from=sjg168@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=iqwQsDDr;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Pc0Hvxe7;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.210.173; helo=mail-pf1-f173.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.214.175; helo=mail-pl1-f175.google.com; envelope-from=sjg168@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dXgvz5KcJz2xfK
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 19 Dec 2025 19:40:15 +1100 (AEDT)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7ba55660769so1304459b3a.1
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 19 Dec 2025 00:40:15 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dXhlD3LRwz2xqm
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 19 Dec 2025 20:17:43 +1100 (AEDT)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a07fac8aa1so16254295ad.1
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 19 Dec 2025 01:17:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766133553; x=1766738353; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XHPtjrQR6BGiqK2vk4UpNJZFJRTk/Dln70vYvB9yRis=;
-        b=iqwQsDDrStFBnxvEiBMde2PIgb08gMAODM5NTTrB8gy4LrjZk2Ei2wLnjTKNlBv8SY
-         c7TxBhkHCRwPZXeQ2/3uz3ICS2u47ZDN3Ul4nf14Fd3mC/buFF23c+BnQZxTcuzFTk07
-         K7lkwJ0G/E1Ux2lFz9TRbUeP8AcXvclfPw1qVrv6dvbW9ygpgn1U5WED7vHaw87eayoq
-         G4FLf+EiuJoESdJUakVgPI7oIqVIGrNO3l2nwbDGHiNIn9ayzSbrUqPu6ak4ZycvUOUK
-         +voEeuCrO4AV00inqbMmrR0ouTGX1S6+5OBGSgC+5KDpqEULYyyZZdUqKwfvr/J7kGp7
-         yOIQ==
+        d=gmail.com; s=20230601; t=1766135802; x=1766740602; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=s0wq56S49D0XiqE0opAn2H72dXHptd985ZPMxAa7P8A=;
+        b=Pc0Hvxe7vnd84ThbdATGsHYBv2gxYbQxkk4uLWSwxxx7cf8zZJK38aoaNCSTo2ySd0
+         HaVkM1VUACiLRD27n24BUxBwbR1GKMRuBg/JKh0r4lYxtm6iH+e0QSZEKDivk7eMSt1b
+         mNETGaDQxFwCnYVCyy9nsji+z/kUSZDWx5jQBCNpFw3bLe545Db1Y4+V7xiBolYrrM54
+         UW+VA3RS3/UO4j+Mj+rTiVAWxSrnyyydR6LoreNsSH7Iih7M1b4DvbdQ6ZH4/sNKQWO2
+         FCqGQ+Na+Mr81oJwQLfvfSHAtdoQBrnYXrm8cPOs9vVSbXqQZ05hipqumem5tmCzowcs
+         aagA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766133553; x=1766738353;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=XHPtjrQR6BGiqK2vk4UpNJZFJRTk/Dln70vYvB9yRis=;
-        b=EG/XDd/hS63+sOhCtIEpW5d2LcdAuWT8LnHWQ+CNQLCj4iAWkAYBpT0TWzwVaJVLy/
-         EeZNDoIIOEnlsW5oHHWvPbeynnMhpUDCH/8pH5LgPBCHRH65+TVNyjZNNNac//ibfyAT
-         WFjHIJxknr4lWgwn7Ph3rCyg2y5oeAI2a/bfPWbC1RSNQPMc3F3K21dl2nn5yeSiuVqi
-         R2Jynwt5Tpc6T/q1iPcIV7uXnSpnnuT1a867ZVhIscJznzMsFjJiGvDtFSS/rmuW3M3l
-         nMf9Xj8HwzxbT089E9IaIpQXFZZeJ4nsaRVTROoPyUtIffK31/dcgGTaiVokp2UoTXxk
-         Qp+A==
-X-Forwarded-Encrypted: i=1; AJvYcCUg+2Nw2fTEa2IvvZiQ6J7jLu8gZs57gQnNDNCgx2wh37WSj0BHwUmO5akZHevJzkfgNDsr3bGpWQjXiMQ=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YwZwVasxbR8vVvEye/v38hfei6JMwVjqplrWnl9siqZr6sCQd8d
-	ZkETFfYhjMBcRw5+8y3KSzsVqvalaonh0Cs1UCEfEC6x2/8QI9MEzTAuDWOy4GC85QekKWJkxaf
-	0txIQ3UTdZDxdA1lZV+7JdX0vcwshnvk=
-X-Gm-Gg: AY/fxX5eWh4KrLUqqK6ERymBagkwD68TIZFgPEd50FeP4ng/8pSoPwTQ1lRYbC69W3/
-	+95C7etVlKOw9d00J6Y62gHkI1XitD5Hj1v1E/3jaF49eMJb7DoeuISUdudWydYDynRfghqgqG7
-	zIU9+FbwrJKBR8nCSvNCWI7hNAGAHz+SfLN0IUesju9UasQmiInlLl2Ypok0y0AfkhbpdQNYXWg
-	s+jUEJtXAy7eFoymQwyL0MLtpbpmWyY41fJRnT+XBwOrChftL8XYslJTMQL4zrrn/doy651
-X-Google-Smtp-Source: AGHT+IHqgr7jlDCQgsez8DnA9gOiflIl3Y0LMQ32Pm5ymOJkvX/BBOkn43OWK6VsRVbXsqbrmwwyxgH3uCLfvEaBQjo=
-X-Received: by 2002:a05:6a20:918d:b0:366:14b0:4b07 with SMTP id
- adf61e73a8af0-376aa6fa3e9mr2147150637.67.1766133552891; Fri, 19 Dec 2025
- 00:39:12 -0800 (PST)
+        d=1e100.net; s=20230601; t=1766135802; x=1766740602;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s0wq56S49D0XiqE0opAn2H72dXHptd985ZPMxAa7P8A=;
+        b=DJJabGFhHrejiReJpIWPo3BOjlT6hxcIozKMI+85fbz3TeNlf0CecoI6cTv37OmJ7W
+         zXjBNwr7HNzWwURSDCGPguAjjr93YcruJNzCx/5PZmOpYh4ogetADm9v744pniVy/aeL
+         v1zE1xvFVVLoaCOCnaMA3bELWwoA/VUsf5Qd7sCei2cjHW783VozWuMujQjZAXmMNDUP
+         iVPmxIEYs8n/AljYmQj7H6LUjxEkMEdBgXqt+RhUKm90e8Co8BK5nzlRxUmN+ufGSRCo
+         d1z74KWvnmPy+Qrda7LNTZ4rXs4LPs9ueA4ULaM6jLzIFZ6jU5n3YHVVr8jWBBjF3/jM
+         7Nzg==
+X-Forwarded-Encrypted: i=1; AJvYcCUUE1OsbY85ZE4wd57liAApt3PQfL03ZalSfJNBmDZtKaXr5d/5lDY/PDMGY8OQ18Zv/dEmx0inRXr22OY=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzuMWYV0Opg3DaWgUIdg7zU2nuRtdgQbLjSD7UwOIoCXYO/o/RW
+	dLZdIWGSMnBZn+K/b1in/q1BxC4AI2sh/f6J8cO62zBEigr5gC9KHAQEYEWCpw==
+X-Gm-Gg: AY/fxX61H5oR6HlbRkTvcLoBqJi0yJTSJdIxP4HdHNvVImvO48IHrHvyCCyyblRR5M1
+	8EG1PvMmnpVUH/J3ov4BgGSZXI9z4GZrp+rlbMIooheZ6EPsmWiM1EwgN04kPy6AjgUmYx3vukT
+	Vv44jbvCFEZnB/+6Zwgsr1enqHzC91DyqJDsgbMttfSFELwCbDnNbabcgbtio93YOqKnxqtxAgf
+	eofKxoFBZm34eFxfvUHw/krlzALQJBtAaHpcAkFwkgQ8xqkJMIUxTccv/aXlwo32hLCfoogcCE4
+	C1onz3x8fT1myXEdE/IRDn9hB4ANfYzqNKEXr7nJNX27cCJWYtt2ANCM5CGsknl/FvcGAJU/M4V
+	H42YhvNOtEvRi5pcA1hLpvAsIykPF/YnTXfhFOIot5/iShptM1G6vSVqAlSj5ii/RleeU8tQTZQ
+	RRjQ==
+X-Google-Smtp-Source: AGHT+IExGez/SwIBFURSmY3cs4pQ+FOVzxgn0uQq48pg35PAUqNFrGyru+1LszkjcLfX0eBztZo4og==
+X-Received: by 2002:a17:903:4b30:b0:2a0:9fc8:a98b with SMTP id d9443c01a7336-2a2f28375dfmr22211505ad.40.1766135801575;
+        Fri, 19 Dec 2025 01:16:41 -0800 (PST)
+Received: from gmail.com ([218.32.81.133])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d4cbb7sm16831515ad.59.2025.12.19.01.16.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Dec 2025 01:16:40 -0800 (PST)
+From: Peter Shen <sjg168@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	peter.shen@amd.com,
+	colin.huang2@amd.com,
+	Peter Shen <sjg168@gmail.com>
+Subject: [PATCH v9 0/2] ARM: dts: aspeed: Add Facebook Anacapa platform
+Date: Fri, 19 Dec 2025 17:16:30 +0800
+Message-Id: <20251219091632.1598603-1-sjg168@gmail.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -79,60 +99,52 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20251120-yv5_revise_dts-v2-0-4d7de701c5be@gmail.com> <c56ef6e76858c7df19ec43a3a18ccf79ff3cc489.camel@codeconstruct.com.au>
-In-Reply-To: <c56ef6e76858c7df19ec43a3a18ccf79ff3cc489.camel@codeconstruct.com.au>
-From: Kevin Tung <kevin.tung.openbmc@gmail.com>
-Date: Fri, 19 Dec 2025 16:39:02 +0800
-X-Gm-Features: AQt7F2rY9aYq6gs0_U_Uis5_kQpmhb9hiFjrZkiRiPmJac1NTUb6QoRPAfrV0sM
-Message-ID: <CABh9gBcntYi6WeL6bOAAboUdic8afmn4X3-LW=zaHDditTr9OQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] Revise Meta Yosemite5 devicetree
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, Amithash Prasasd <amithash@meta.com>, 
-	Kevin Tung <Kevin.Tung@quantatw.com>, Ken Chen <Ken.Chen@quantatw.com>, 
-	Leo Yang <Leo-Yang@quantatw.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Hi Andrew,
+The Meta Anacapa BMC is the DC-SCM (Data Center Secure Control
+Module) controller for the Meta OCP Open Rack Wide (ORW) compute tray.
+This platform is a key component of the AMD Helios AI rack reference
+design system, designed for next-generation AI workloads.
 
-Sorry for the late reply. I=E2=80=99ve addressed the points raised in your =
-review
-and sent a follow up v3 patch series. Thanks.
+The BMC utilizes the Aspeed AST2600 SoC to manage the compute tray, which
+contains up to 4 AMD Instinct MI450 Series GPUs (connected via a Broadcom
+OCP NIC) and host CPUs. Its primary role is to provide essential system
+control, power sequencing, and telemetry reporting for the compute complex
+via the OpenBMC software stack.
 
-BR,
-Kevin
+For more detail on the AMD Helios reference design:
+https://www.amd.com/en/blogs/2025/amd-helios-ai-rack-built-on-metas-2025-ocp-design.html
 
-On Mon, Nov 24, 2025 at 12:53=E2=80=AFPM Andrew Jeffery
-<andrew@codeconstruct.com.au> wrote:
->
-> Hi Kevin,
->
-> On Thu, 2025-11-20 at 13:25 +0800, Kevin Tung wrote:
-> > Summary:
-> > Revise linux device tree entry related to Meta (Facebook) Yosemite5.
-> >
-> > Changes in v2:
-> > - Add ipmb node for OCP debug card
-> > - Link to v1: https://lore.kernel.org/r/20251118-yv5_revise_dts-v1-0-fc=
-d6b44b4497@gmail.com
-> >
-> > Changes in v1:
-> > - Increase i2c4/i2c12 bus speed to 400 kHz
-> > - Update sensor configuration
-> > - Rename sgpio P0_I3C_APML_ALERT_L
->
-> Sorry, I replied with comments on v1 before I saw v2.
->
-> Can you please resolve the discussions on v1 and send a follow-up
-> series if necessary?
->
-> Andrew
+Changes in v9:
+  - Describe platform and hardware architecture (Andrew Jeffery).
+  - Remove "Device Tree" from patch subjects (Andrew Jeffery).
+  - Reconfigured aliases to be sequential (Andrew Jeffery).
+  - Alphabetized all DTS label references (Andrew Jeffery).
+
+Changes in v8:
+  - Dropped unused 'pcc_memory' reserved memory (Andrew Jeffery).
+  - Grouped 'spi-gpio' properties together (Andrew Jeffery).
+  - Moved 'pinctrl_ncsi3_default' to aspeed-g6.dtsi (Andrew Jeffery).
+  - Revised 'gpio-line-names' to match schematics (Andrew Jeffery).
+  - Improved 'sgpio-line-names' formatting.
+  - Removed unused 'led-2' definition.
+  - Added ADC128D818 sensor support.
+
+Peter Shen (2):
+  dt-bindings: arm: aspeed: Add compatible for Facebook Anacapa BMC
+  ARM: dts: aspeed: Add Facebook Anacapa platform
+
+ .../bindings/arm/aspeed/aspeed.yaml           |    1 +
+ arch/arm/boot/dts/aspeed/Makefile             |    1 +
+ .../aspeed/aspeed-bmc-facebook-anacapa.dts    | 1045 +++++++++++++++++
+ 3 files changed, 1047 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
+
+-- 
+2.34.1
 
