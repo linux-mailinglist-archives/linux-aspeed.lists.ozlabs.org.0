@@ -1,39 +1,67 @@
-Return-Path: <linux-aspeed+bounces-3156-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3189-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14037CD2902
-	for <lists+linux-aspeed@lfdr.de>; Sat, 20 Dec 2025 07:44:03 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 560B8CD3FD7
+	for <lists+linux-aspeed@lfdr.de>; Sun, 21 Dec 2025 13:05:04 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dYFHM0SsLz2y6G;
-	Sat, 20 Dec 2025 17:43:59 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dZ0MJ2TrLz2yFW;
+	Sun, 21 Dec 2025 23:05:00 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=47.88.81.152
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1766168463;
-	cv=none; b=mwLUyMgK30nQB58U4FAuGXYdmFdQqdHBzisSqxJgOEcjFGUs1vyyOT9LRofcF9pQD+Po/GS+dMELTGS7f3cYj0bJdYM2myPCv9CC/nHjMqeIFdDO3IIt/Z4n0wKvgJsKXkt4g+xlZ+YXldCZhmupPFQWeeUf/SVM7wgrLr6wuWeKkUreKq89su9IJ5otIFhrmNLkT3dpScKNu9yFoKNjV6SBsfoyTH+vqre2t8IYb+gAYLWXuE9LJV3SXADfVMyZbUaaDZIKisS2FLvIpWos5Ef42w2oTPwKjBq9MOyH3R0lHQrxzbxE836jB6hPHmEaUw5hDrowciOaag0YuYne0Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1766318700;
+	cv=none; b=ErvQQnzgnvz6NfBEuLEyGJnDBz15HX69SmCRhba3Y6ni3/uNJD6Iy8WxXhAfGmEt50f+9KaYmCTaiTlyzRUJw0q4BaCEG0Is80boVQzdnErAENRlIVm7gWAcgj0OakXxju6M5vC2K0uCv1Xqz54GnDB1aM73T8uY7dcVjffvNwSBtE70P2tH/BXRmWWE4oju1jOSrSeJULNrupAE1tOpGWO+FfDVcINRKowgVF/LPuz5Sw2FvdApYmdMjIKtD3nNlYv1HjHDaXIIXygXoAbm8iWufXspVLciwg1qeDpTCwWdhz87rhnRPG43fJ55YFIO9Ak/o3YIrt3sJ4baYjp8bg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1766168463; c=relaxed/relaxed;
-	bh=+dpxgpVjronVSwUPCPFj5OzYc6xfTN7Fz/RJWrifxaw=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=WpyHxZ+3I0Nq8+mrjGrrIYP4VjgQaDRprMqfpu3wVCWKXE2wdZ6lZFGhMl+lgCv5qyHHOYPmiQEawqDMeK9g1gNrxCPV/qY3BR9bLthaUAB+tKrqrPknAaPn+kjEg1i2wKYjtl/QbP42EqiL/c/XdJ4B0pztcQrIM/QyOliAzSh75nj53GtZf+/6QkAaUJ9sHcXJwveqjnoTw8etYzYfJrUqEnoWac3FXfHtz4+x/Qu/iv1HM8QsB/X7q/ig9TOJaK7ELtXgSTkJX4H8N4DY+dS+WwTM0L8bBTdAaF+uYfb2YyOCPlLwSmdGQQvV47NJBKeYnU1lRYjAHnx4GusNJg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.a=rsa-sha256 header.s=default header.b=L3Mqft++; dkim-atps=neutral; spf=pass (client-ip=47.88.81.152; helo=mail-m81152.netease.com; envelope-from=shawn.lin@rock-chips.com; receiver=lists.ozlabs.org) smtp.mailfrom=rock-chips.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+	t=1766318700; c=relaxed/relaxed;
+	bh=MBRUg+4Qb7okmxOYh3kLMzKaVVwRJ/8o83coAVZieEg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RF6qqQ5yWO7lt6W/JroW3zBBCK5hDuCSZevpGGg2us1sZ/PE1tudDgyIqVXhYe2Bv/JTxV8Jb3V1HiG9xKG+5P7gG8/zAQOLZ4ipAwPUXVCzwxe+AYaYN3DZX0fwRkWH7KNN28xLGwlkBn9zGG2/qJ3BSVai7Bs6UAxeDZ2H0co4c6hta4GjAiHqqJLAgS8ixftJhUCZCf4paE31zDqYiHGTdN8eb8Suq3ssUE4xCJg+aQUPixWzb0m+B9Zb6PsViuqQ/szoGjccU/KpTgAN4NNc1HZJ8l1DYYxQzidhTcUju116xuFEQ34X7Bxak3BJpuMW1RppgBnEHRrxbJfg+g==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=kSjOlOk3; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=jic23@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.a=rsa-sha256 header.s=default header.b=L3Mqft++;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=kSjOlOk3;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=rock-chips.com (client-ip=47.88.81.152; helo=mail-m81152.netease.com; envelope-from=shawn.lin@rock-chips.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 4010 seconds by postgrey-1.37 at boromir; Sat, 20 Dec 2025 05:20:58 AEDT
-Received: from mail-m81152.netease.com (mail-m81152.netease.com [47.88.81.152])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=jic23@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dXwp23yZqz2xfK
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 20 Dec 2025 05:20:55 +1100 (AEDT)
-Received: from [172.16.12.14] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 2de8ecb5a;
-	Fri, 19 Dec 2025 22:51:48 +0800 (GMT+08:00)
-Message-ID: <1ca8f181-7784-469a-b498-622a39737e1e@rock-chips.com>
-Date: Fri, 19 Dec 2025 22:51:47 +0800
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dZ0MH5gq8z2xQB
+	for <linux-aspeed@lists.ozlabs.org>; Sun, 21 Dec 2025 23:04:59 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id C31A060007;
+	Sun, 21 Dec 2025 12:04:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BBF7C4CEFB;
+	Sun, 21 Dec 2025 12:04:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766318665;
+	bh=vYJHXTF57S2uWIWZSnj37Cbd8d3rIPZwHikEoAhE4qM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kSjOlOk3h9BEnPlVU+aF/hIoaQV4c+oE2pmS+dEjUHl1yr+qW1KFlR8WM8sJ2bVd4
+	 qG9vydCViH89KPRGzVk6N89j4gByJknCPPjmfXkB/xfnei0gPVtOQLaxmc2CEMYYAW
+	 4cO6SbQTlo0TdXY/UrnfGdQ/rPWYIR9bfyysAGRF8P8CKYk+83V7PnQN5jvsJZorgO
+	 gcY2l+ehX46+G4byGX25XLKjXZhj9K+AiEiiV7IJCP3myCkXSVy4Z4uhTxvXMDcOB3
+	 3hmzaUdRhhnfbZzIM5IbaNdiEk6GEPy41lgxBviQenD55MuAM07dW2xJJNV66itTvr
+	 GH0Ltqv4LgQ7A==
+Date: Sun, 21 Dec 2025 12:04:13 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: David Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Joel Stanley
+ <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, Heiko
+ Stuebner <heiko@sntech.de>, Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH 1/5] iio: adc: aspeed: Simplify with dev_err_probe
+Message-ID: <20251221120413.7f1fa877@jic23-huawei>
+In-Reply-To: <20251219-iio-dev-err-probe-v1-1-bd0fbc83c8a0@oss.qualcomm.com>
+References: <20251219-iio-dev-err-probe-v1-0-bd0fbc83c8a0@oss.qualcomm.com>
+	<20251219-iio-dev-err-probe-v1-1-bd0fbc83c8a0@oss.qualcomm.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -47,85 +75,48 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: shawn.lin@rock-chips.com, linux-iio@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 4/5] iio: adc: rockchip: Simplify with dev_err_probe
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Heiko Stuebner <heiko@sntech.de>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>
-References: <20251219-iio-dev-err-probe-v1-0-bd0fbc83c8a0@oss.qualcomm.com>
- <20251219-iio-dev-err-probe-v1-4-bd0fbc83c8a0@oss.qualcomm.com>
-From: Shawn Lin <shawn.lin@rock-chips.com>
-In-Reply-To: <20251219-iio-dev-err-probe-v1-4-bd0fbc83c8a0@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9b371876c109cckunm523b6161c55b6
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkpLQlZISkxISh9MSUxPTUxWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
-	hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=L3Mqft++QW1keeakifFX4r26Bo0K6b98n4bO3SkNmgCq8A7i7LaIGFWE33BuWDvjygTygfaTOhEhZeN8KwRErxShB2KrucqxNKw+Kd0nc3xTFXibEhJOhbcD08iJuqEY8SBejR1zFuRW/6LxVsItsK6il0sxsFTK4A2FeCidGBw=; c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
-	bh=+dpxgpVjronVSwUPCPFj5OzYc6xfTN7Fz/RJWrifxaw=;
-	h=date:mime-version:subject:message-id:from;
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=disabled
-	version=4.0.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-在 2025/12/19 星期五 22:31, Krzysztof Kozlowski 写道:
+On Fri, 19 Dec 2025 15:31:50 +0100
+Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com> wrote:
+
 > Use dev_err_probe() to make error code handling simpler and handle
 > deferred probe nicely (avoid spamming logs).
 > 
-
-Reviewed-by: Shawn Lin <shawn.lin@rock-chips.com>
-
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Not a comment on this patch as such, but this would benefit from a local
+struct device *dev
+
+
 > ---
->   drivers/iio/adc/rockchip_saradc.c | 13 +++++--------
->   1 file changed, 5 insertions(+), 8 deletions(-)
+>  drivers/iio/adc/aspeed_adc.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/iio/adc/rockchip_saradc.c b/drivers/iio/adc/rockchip_saradc.c
-> index 6721da0ed7bb..263d80c5fc50 100644
-> --- a/drivers/iio/adc/rockchip_saradc.c
-> +++ b/drivers/iio/adc/rockchip_saradc.c
-> @@ -492,10 +492,9 @@ static int rockchip_saradc_probe(struct platform_device *pdev)
->   	 */
->   	info->reset = devm_reset_control_get_optional_exclusive(&pdev->dev,
->   								"saradc-apb");
-> -	if (IS_ERR(info->reset)) {
-> -		ret = PTR_ERR(info->reset);
-> -		return dev_err_probe(&pdev->dev, ret, "failed to get saradc-apb\n");
+> diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
+> index bf2bfd6bdc41..1ae45fe90e6c 100644
+> --- a/drivers/iio/adc/aspeed_adc.c
+> +++ b/drivers/iio/adc/aspeed_adc.c
+> @@ -535,11 +535,10 @@ static int aspeed_adc_probe(struct platform_device *pdev)
+>  		return PTR_ERR(data->clk_scaler);
+>  
+>  	data->rst = devm_reset_control_get_shared(&pdev->dev, NULL);
+> -	if (IS_ERR(data->rst)) {
+> -		dev_err(&pdev->dev,
+> -			"invalid or missing reset controller device tree entry");
+> -		return PTR_ERR(data->rst);
 > -	}
-> +	if (IS_ERR(info->reset))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(info->reset),
-> +				     "failed to get saradc-apb\n");
->   
->   	init_completion(&info->completion);
->   
-> @@ -505,10 +504,8 @@ static int rockchip_saradc_probe(struct platform_device *pdev)
->   
->   	ret = devm_request_irq(&pdev->dev, irq, rockchip_saradc_isr,
->   			       0, dev_name(&pdev->dev), info);
-> -	if (ret < 0) {
-> -		dev_err(&pdev->dev, "failed requesting irq %d\n", irq);
-> -		return ret;
-> -	}
-> +	if (ret < 0)
-> +		return dev_err_probe(&pdev->dev, ret, "failed requesting irq %d\n", irq);
->   
->   	info->vref = devm_regulator_get(&pdev->dev, "vref");
->   	if (IS_ERR(info->vref))
+> +	if (IS_ERR(data->rst))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(data->rst),
+> +				     "invalid or missing reset controller device tree entry");
+> +
+>  	reset_control_deassert(data->rst);
+>  
+>  	ret = devm_add_action_or_reset(data->dev, aspeed_adc_reset_assert,
 > 
 
 
