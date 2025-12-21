@@ -1,95 +1,95 @@
-Return-Path: <linux-aspeed+bounces-3193-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3190-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F806CD4B44
-	for <lists+linux-aspeed@lfdr.de>; Mon, 22 Dec 2025 06:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA4FCD4B34
+	for <lists+linux-aspeed@lfdr.de>; Mon, 22 Dec 2025 05:55:57 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dZQvr6DXwz2xpt;
-	Mon, 22 Dec 2025 16:01:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dZQnl0ZBtz2xnl;
+	Mon, 22 Dec 2025 15:55:55 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=205.220.180.131
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1766327191;
-	cv=none; b=C0PjX9l3GTmGx1Re+Dyb2D3JOiGWSGly7hHthe0npGCeKHkoBIspltrMxuRb1xL3sDY/y2rZSv5LITHWi9M7dAbpfw/UfymWmQtHlhLIWdjX3BdnYTYlKP7I/P3cyFt/6HGNWY/nQZuuRSk1OgAf4Oa6C0LTbqjXMw4OpQDd8GizFWbz5UUQ9T7SvgGK+CXnCAhNCqcIgkVeUwu+ya3wKrkl1aEzNcJe+51Dz8Pcl35DCjlX3TfXh2vg2QWeqmTN4S/RVIw+VgFrTL0gSwwjUL83aYGNW++yfYyfhMmu+7sGS6RuClf/OSWOhVgI5nv53STUwtpDAc2rISqmzHrXqQ==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1766327193;
+	cv=none; b=ZmT6+HUv1hzOp6MnHmNQbp3KRN8giZjo3ETr8/6WBv4Q5mZz1Ij4lyO3mbkFe3rI4LOSxguM252UxAlZm5fLJTtN3GIzdb7H9oZ0rAZ1xPwC6kVyvwUn/sD3jzyDpQuxpWH1xtsWNqBahqXSmeLyEf9NcILoSyqiZVlHjedqROfB/SNxaNPEM3gLG2vGvybari2U5ErWRpIoSQ5Qa+uZw+njI9CmbvSI4SRRJgc1l0SVdw7CO2mv716ZPlRSZcSmbegElYrDESoqMiP/EqRHNzQLR5NXoRNv5j6NSDACB4Wm/LBjt5dzd7sUdPxbT22w2GM4MIJloTghDEgFlAP9gQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1766327191; c=relaxed/relaxed;
-	bh=cXrQ0eZNLwvaZ+XYDJE/L7mMaZiYna99KUBbaqbUVsU=;
+	t=1766327193; c=relaxed/relaxed;
+	bh=N/Ya93eis3xqRDX4t6fcfXGbB6PyZ7xS9AaL1hTAB60=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q6iQ80ErkfkofR//+25GtXVtKiDFnO6expzK4aCIS4xXNoOUwdO543IPQWb2oVLgYX5M7tYf2qAWX5I5dnC+PYMYXawePhS1wUfq9K9kF0gwaBvyYPmxcAZXCV5RzxoqyyvF5Qdt4Tut6tM+j8HINhCaCSS1HblKVcyCysJ1zUYGwnHRJGH5veOFdxZwlP0m/OGpbNgreTWWJ0jh2/C2bvSWFm2h14la1VTe88E8Fqu8h+MOUQjYnyiy5Q7lJr9q1/HSENEJVoEK8vkDCdxn3q5plsHuR40p/h+uT44BKPeSFMX0QxNXgaUo+9r7dmqwUyDjfAFld4zDTeGDVJty5g==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ESqqQSPk; dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NaaN3Wmn; dkim-atps=neutral; spf=pass (client-ip=205.220.180.131; helo=mx0b-0031df01.pphosted.com; envelope-from=krzysztof.kozlowski@oss.qualcomm.com; receiver=lists.ozlabs.org) smtp.mailfrom=oss.qualcomm.com
+	 MIME-Version; b=Kg7nYP6GaxfVjg2O/S2dNp9GT52EltmJahrAhcGluFXaEW6G+Bvubjs6XYGV5JieZLFJw3yYIlxozJ6SpAfG++3wfZ20IyhkSr0RjsU4YVMlg3PmnMeuW6Wb0IdM9vIBxsNys7fL+INmz4O8JlKkIex8NZ6g8UmdTfpdcDDbIczJOH3WjYsqZgzfbfblonyJTf4c53MNS1ryjqhse+I7OjZ6Lj+BM2Kc/5C81CsHcqYULz0+wi0QSPW4pd7DcxI+EIlJ5gA+PAgshfw/xx/Y6hQKP/6/Nak50BtiUNYf1OIOFZ+Q3ZDDrJSon7L74hgXMRonaPfMxTXX0+c+dXEnNQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=FsRh4ae1; dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XzllJm+c; dkim-atps=neutral; spf=pass (client-ip=205.220.180.131; helo=mx0b-0031df01.pphosted.com; envelope-from=krzysztof.kozlowski@oss.qualcomm.com; receiver=lists.ozlabs.org) smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ESqqQSPk;
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NaaN3Wmn;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=FsRh4ae1;
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XzllJm+c;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=oss.qualcomm.com (client-ip=205.220.180.131; helo=mx0b-0031df01.pphosted.com; envelope-from=krzysztof.kozlowski@oss.qualcomm.com; receiver=lists.ozlabs.org)
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dZ3VZ2DfQz2yFQ
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 22 Dec 2025 01:26:30 +1100 (AEDT)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BLEHKeV3417951
-	for <linux-aspeed@lists.ozlabs.org>; Sun, 21 Dec 2025 14:26:28 GMT
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dZ3Vc6zksz2yFQ
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 22 Dec 2025 01:26:32 +1100 (AEDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BLDMati2683715
+	for <linux-aspeed@lists.ozlabs.org>; Sun, 21 Dec 2025 14:26:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=cXrQ0eZNLwv
-	aZ+XYDJE/L7mMaZiYna99KUBbaqbUVsU=; b=ESqqQSPkedBLhNq/E4CyZq1vCkD
-	mpS6lcHajHlLLq/IzjSJkGONW3Tznz5HDQnY+sJEDU44RT5HXK84eRAg4auDDsZt
-	zLLXjBpYr1sqVkGKeMxBfU+iRF0ltmCP7OorhTUfUIrexKTjYOhdgXO1uRnmTTOo
-	RYs66G5eVwg5VkaTjWa76ONagbOYxuX7LJ8ZseR6gac0w1VDbJtk+0tn2mZnS/p9
-	RtpsflX7YiFYyf4JPZCHTg4e78dvWbgGf9ImF6xO9beP6TCqGEwd8DVsqpquJ/2m
-	X42Ay2Vjkaz7PLsknBt5NgF2+BFa5mxDqxmuCUkOgnZuaWs4fT77J2KgHDA==
+	:mime-version:references:subject:to; s=qcppdkim1; bh=N/Ya93eis3x
+	qRDX4t6fcfXGbB6PyZ7xS9AaL1hTAB60=; b=FsRh4ae1DDi063NeFL/u8wjoPkP
+	sN1VrGwgnaX/DgnI7mD43o25xSS/xFHXShyTridFFdVWZpPGo84Z/I+LjFv9ovDj
+	LLyfTZ2ABPhXHSYNckKztW8l8a3UJSlHgeLHe55Y1Of9CDatGM4/RVVbdWGkp0vW
+	osM7k2noJ4Oy5Vp1hc2ki10MluXc7IarvuJ1FydPxHvsxH1vGeAU8WrZ9VJ1JMYi
+	ZJGz7keslpPULe87+fC4PKckLRziJA+8v5DskpSKLSXE7UX1U9iI8OzlTmIJAR6/
+	/BejovyYdwu0O/Q7DM+unaC50m4e3+4qmFq1whpSy7K9Bz+hJ2Elux1atdQ==
 Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b5mubjduv-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4b5mry2dn8-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-aspeed@lists.ozlabs.org>; Sun, 21 Dec 2025 14:26:27 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4f1d2aa793fso82452431cf.3
-        for <linux-aspeed@lists.ozlabs.org>; Sun, 21 Dec 2025 06:26:27 -0800 (PST)
+	for <linux-aspeed@lists.ozlabs.org>; Sun, 21 Dec 2025 14:26:30 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4ed74e6c468so44372311cf.3
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 21 Dec 2025 06:26:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1766327187; x=1766931987; darn=lists.ozlabs.org;
+        d=oss.qualcomm.com; s=google; t=1766327190; x=1766931990; darn=lists.ozlabs.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cXrQ0eZNLwvaZ+XYDJE/L7mMaZiYna99KUBbaqbUVsU=;
-        b=NaaN3Wmnu8uv1BDcWPCwcfmmq8OgQ52gkdt5jL5/Lpi3ymBRwzujZnVUse+S/70Odw
-         dkU8LHTUY+SLmhEZg+G2YsAk1NJovDXAkiVdaOPUoijObkzgcV2DXWJ8lLZeToxc2BUF
-         RZYUv1I91btVOGuxY4+RakWHFaRiFdLXvc9thkfHTZeqX2wAIWJyXv9IF4fInk40xdcC
-         qpJoFy+Hcx42KGWam5BDl08FTzs3bWBO1//AjwOsKZ+/l8jiSo5kEqEJYnP3NQAnr7/h
-         rOzBRk21I3fbKUaat7WgSdTorRb2jth9fEXLmRLaf6DFZDMDik1EGhn7pbGYSTKVEuks
-         AUhA==
+        bh=N/Ya93eis3xqRDX4t6fcfXGbB6PyZ7xS9AaL1hTAB60=;
+        b=XzllJm+crZ5pu4/nZp6mj5ZlxUmUSPEfRnts3tXSEVp1KvfcFMlaiugCUugqm+lNqC
+         6m2nDqp4zwvDqyRpU9/LRZ2mhbwlCgQcvTZSnWz+zZ54zN/6YBlpyaedVK9xp8X11JF4
+         q5KqccT7lTdlwp5nCyy/oXsc288FRmYuU6JcMeU8vh6DXSu1a8z2OcD+zYVkHpQx26Vm
+         LJBHKhr8TIgULiDj7eJJK+jUX1f8LAcIxQxZOvMHO+tW5vtU5+a2tAZ8C5XPoQd9G4yc
+         B1p5QFNnv7a5ZdJ3GJdtAWIspZXXvsW6Dkkq1aFysXOVyvwgbUOnU6uhoSRXmXRZRL0P
+         JD9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766327187; x=1766931987;
+        d=1e100.net; s=20230601; t=1766327190; x=1766931990;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=cXrQ0eZNLwvaZ+XYDJE/L7mMaZiYna99KUBbaqbUVsU=;
-        b=woetr6IFrrkTXp0B3F8KzTYa+guOSJG6rAK+Lb4Vc/IatxWQKMhbN1ERTMENKTknzW
-         2QDvll3PZom7Ues+1/jj7X3fKD0oXbAMClObegHQGAQHYU0rd7y9xbcamVtVmXu4mKad
-         mhXbk9NtCihdgPo6hIzmLe0Ldxku2z4aRji+EsqPK3UXBfN11bkxIGZgi6QXm8wZHbBz
-         FtKGeEiJbjMG6HA8Lp+QNIzqYFk9k60YWShxyhyJoioRhiUMtFaajFDXrR/b1ofzjnXb
-         iysFvktFwu7e8si4MicWNvR52BhTtf7gSY/GM4FT9jntuwgouPrOEpTUmTVrziE3AmvM
-         CK8w==
-X-Forwarded-Encrypted: i=1; AJvYcCX/qijmD3BRVBmSF+q6IXYaoyBPx1phl4DSDtNoHt2lk/yFbsLokSIz3KpFuqIaxPgbJPw7KVNWLNuEYt0=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YyL2fmHU42CyfSB57ervnEnAa0l9WMV+EdMcoDjsklDwu3Z0p9W
-	51JW+J789kzD+hKByRF9zTj+2qaXBfDmfr8A0t3Xl917/4kWcBi3YAUeSmKntG7vcUZdql5V6mv
-	b80YSk6uCFoaOrhSlKkzJCGejOjQifNOzh26SM0NLymjwfce8t6Se97OUqdKcotIwrqmT
-X-Gm-Gg: AY/fxX4Ct8osagRzCmwPOiMaGG4pesYUgjcVRYV67VNRQO1jVlYjRjHyxyBXkzFGMqL
-	twltwnNMAuO1Zpon5BuGXz8zP6w/zpQFCaP+nltY6htWenLNfy0k8Gi/lkVXt5GOdTO0+7Pbr+6
-	CwnsLIsleneKotD9s/goPpqP0/j6gje+Gg5vk9rGUxtVLIB3Nm3fCNeqFiGfM75znEghS77TkdB
-	hC8fcstsLRVojpJYMhcAD9pz/R3jDgDwpnZLrkDT2BGErH5F4QnGN+ISe2ofC4pxnS3DesZFrW/
-	KQfyAM8a/MLIEeLWFxglORU0DaLzPgz7+lM7PPMyW54NpdP5amhT24ophM4R4WdBJkJA8LnB2qn
-	vHMuvfqOhoaBiY0tFKzGqHwwJ/BgVZxGcguoCsNEE/JLo/LW5jwF4qq6M2KdP0YZcLR4=
-X-Received: by 2002:ac8:6f07:0:b0:4f1:83e3:bb1a with SMTP id d75a77b69052e-4f4abcf86abmr121194971cf.31.1766327187404;
-        Sun, 21 Dec 2025 06:26:27 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG4X1T9bdZZS/qvpRUsFhD2vRTGIBwr1akucMiS/SqlqEtSXJi9+JqEGzxWGbwmBgDxvbN0gQ==
-X-Received: by 2002:ac8:6f07:0:b0:4f1:83e3:bb1a with SMTP id d75a77b69052e-4f4abcf86abmr121194621cf.31.1766327186904;
-        Sun, 21 Dec 2025 06:26:26 -0800 (PST)
+        bh=N/Ya93eis3xqRDX4t6fcfXGbB6PyZ7xS9AaL1hTAB60=;
+        b=K/q96bt6ehFSDzsmvzhsitLSiumcXchB30R9PNqNVBykSJYlHOYxZtToXMmR2O3RFG
+         qQdBnDNx7OaCoZmsGTvJ/STrHnX/cjCrV1dUk7/uZybk3PRZKSpirONhY6id+FV0Zund
+         FFTq2LerRVY/35CMdSp4E9HSRMMfp1/727kB6fMvBP3WvdBb8IlmEGHEnLAtk9mK7x9a
+         tvAGmcQw3iHx7kP7GPlbeXUHffgU3ha/3FG/MpBfz6KaBqNrj/mwZEKNfOVadYlvMW7x
+         f1+T4lczzEeTd1NP+dtxn9y30Gk8AbvWX1atgmvzpuyLwNVXbhAzfk9qOZh8KdCujrEv
+         Qdxw==
+X-Forwarded-Encrypted: i=1; AJvYcCXbanC4ZpNfkd4LWhFQFDDPBhvYsOdIDtqebIO+MWgrBC7QjHsNEztbpKhebPUIhXxCLmolR9qISZyVNHE=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yy0CK1fTcujLz0cLfalHDLlp/Kk6+CBoKcw1wELQF458Q7Bp7Bn
+	GAjJreryI51shmiD0pIaZe3ioZAMN/Yrgwi/V4q8R7ujUIdsrUWh96a8Jg11pPVWnKyAUT/3qde
+	ab5MT0TpWSFcLOL1x7rv75dgyQCCyuZ6joSEsjqz02FngmBrWgypAdjfM6JZXftfLGvTa
+X-Gm-Gg: AY/fxX7DxI25qzrbKhLMwXwYdYdeDeXk+/8JEwomkZOwxflfmU3/3RrDKJO7OCNDHyX
+	YjGR8GjkVUZRDmFfAhksNUrPtNfSrtF33YmAANks9J3Zzo70Uga0+q+ur1G06W2mhEMwDeFM+Xp
+	5+znjnqSMOvDFKwsAnQpeKhSHf9JedWqiIU78GQ1UVCCeJv/Rq3vcNEI8pC5j0ezBiA1x0+H/OB
+	otVff2spxMpDx4KJydut4j8hkfxFChGOLDkb7BPleBrLnAl0VIuLtrUwWOuOddGhY7kom0kMmin
+	V0VAabYdF4j77hCFAN4AkAt3V6ZfkWMEp5673Rtr98UHkVYlQzm9t2jFdQsXY/mlr704awenGoa
+	vQNyjhsNQf2gVcjFgq9eBnPAc7Qwrpyp+ohef6AAPgQNBUHTwGrgE6FOXDFSqHddoda0=
+X-Received: by 2002:ac8:4808:0:b0:4f4:c11f:a893 with SMTP id d75a77b69052e-4f4c841ce15mr13310261cf.38.1766327189848;
+        Sun, 21 Dec 2025 06:26:29 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH6MSj9kp3XaPt/Hj5dvTyhFXG7Ou9KvnYkLbuj3WrXScz5IKiaHkNRDJMrQqc7zufDKoYpDQ==
+X-Received: by 2002:ac8:4808:0:b0:4f4:c11f:a893 with SMTP id d75a77b69052e-4f4c841ce15mr13309851cf.38.1766327189276;
+        Sun, 21 Dec 2025 06:26:29 -0800 (PST)
 Received: from quoll.home (83.31.98.88.ipv4.supernova.orange.pl. [83.31.98.88])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b80620c4520sm211742666b.28.2025.12.21.06.26.25
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b80620c4520sm211742666b.28.2025.12.21.06.26.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Dec 2025 06:26:25 -0800 (PST)
+        Sun, 21 Dec 2025 06:26:28 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 To: Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
         =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
@@ -103,9 +103,9 @@ To: Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
         linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
         linux-rockchip@lists.infradead.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH 2/3] iio: adc: exynos: Simplify probe() with local 'dev' and 'np'
-Date: Sun, 21 Dec 2025 15:26:04 +0100
-Message-ID: <20251221142602.47368-5-krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH 3/3] iio: adc: rockchip: Simplify probe() with local 'dev'
+Date: Sun, 21 Dec 2025 15:26:05 +0100
+Message-ID: <20251221142602.47368-6-krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251221142602.47368-4-krzysztof.kozlowski@oss.qualcomm.com>
 References: <20251221142602.47368-4-krzysztof.kozlowski@oss.qualcomm.com>
@@ -122,165 +122,202 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4355; i=krzysztof.kozlowski@oss.qualcomm.com;
- h=from:subject; bh=K0IQtqWX619jZ9YkzBmDaKMoDdmrpKcT02lv7CF+pGE=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpSAN7uXaCJu7ZGPqhfs4R9Ef5h9276gYJLaLUY
- YKtXtzQRLGJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaUgDewAKCRDBN2bmhouD
- 1zfqD/wIktSEHD3nlDu4v1bjhJA+iTTRm5qqTc01Jd3T7PEFYcGXDQQwVYANojieNLNhQux9H/p
- NFLX3aSMRGGDEtulqa8DTrHo70IujJZnb2VvTTwdsT1tLHm2e3cIJu2tEdsuSICwS/NYNbpJahV
- BwjaeUk3isJfSeqXAP6Csj3zU4RfoaB92oRmTYaBj3eORohYq6iX/4Aau7uY4KTPR/L2Q979/L2
- oK46pTx6bcGRSMxerNyqWfkY7wFEnldgowWv+xTWy8+zUeEttz+1RTfu/TZN3KMTkwPJo6EQNHU
- cYv/XezRWPAZdmSeVmsNQARSPCZoXtMw8kY5rq3m6NdJaGe/epLes9YKEEVao3TqboDYEtFGpws
- +N1kQjjwOjdRLTBufFRlH7Srs3LK7s7fliDsvr4QC+Ds6HVcj9VQ629ELMv7HOVj5z1L6xtGB4/
- 2uHJWxzoPAY0CvX1tuyVHtvXrc9W4i4hAe/dNXmPpkgY4sndzLGcjsLtfZNNSHzRozcPVo3LRmQ
- QEsDz+N1VL2jw2fvLPTeV4GlwIFvlwXk9g+Tp7XFsQroqX6D4OTzxudmqlMPnjJcrcF0tvZMlol
- mMO9nAe9r45SZ0mNUNB+DdalACiMKdZxySYOp6/HwvPbxNagKQxBEAAnkQS2cnW/OIZdKLBHhdD StOStPPzq1Gm0FA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6007; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=HCB26hEUOkbZ72ftaM1RnljHTQz/EsE98Plg38e2Ofw=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpSAN8/kcgZNFHUfB3Ke+DoF9mdl7RgO5jsfjBt
+ eN2YOKEHeqJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaUgDfAAKCRDBN2bmhouD
+ 13OzD/93KT9dmliMmsuwd8OOM8ZuIX084rVOcADFrvVtzozY0sU8KlUTvYM/rPMk0reJd+QgIvq
+ N1LZVujUSp3iYnYUk1v9/iaXKnbIUR+/kU5gNBZzoTz4FuoPXnQHzHjqJw1nPmrDaas93l0YR8M
+ 2F9VZuU7nELtirflYtOEOtzAHIfAwxc9GhcslUuHTD44dtc34W8s0xCzXB6m91DKH3T2u13q5/F
+ BcS9YWPjAZ2kKw1Aa98hxwXSb7yTyZQn+D+74OeuF86xg8ADZOUV7By7uUJ19pR/uu2Pabl9Vit
+ tk03JUTPTlUKzFOqQZ1N+5fTxjFgNRn8TdzVrQoy1t8QexBRo5lTSlpAQ5RTe6ft4lW6dDti54R
+ b28cFZyN/z+a/lTu4eMvC1oRNEZuyGoWGTKxE2UnSTWcdzSebTUOXh/IgV+faAzEk4SRmMXsehU
+ e03NBnIIcXoeoJbe99uJ65vYEPTD5PD8ktls9/3n4bMNjCscHwvkAyMWw4Q1GHDPbo+RFAvjP6b
+ PQBZFt5IFj7vUJm5Y7zD0EK4CzgLbBrDhUtD1D0HIWOAGwpm42ytcF00VTiSJbwKoUPjsXWKMcl
+ xmcwRIBdcM3Otrdvl/arbkZjZtD30tpJ8Ugl21DoVCX0mBCn8vziGIgCM8MlzXgoj7ax6ltia2L xCpbZ49NWUj7xbg==
 X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIxMDEzNSBTYWx0ZWRfX8/JLI+aMbMbu
- hCadaBI17/BqI1g4fHFwCszflQv38wwEay8JgRm13bLXtflbDeZAivGTtYCi2oyuWiRqzAsAB7y
- ywCptua4LqbkHFHIsa8ReEkItAyXmlr4TyIcxVZ9NsaYjuYSy7v1vmyyKX3A+3q8GtOH8LInaEN
- 69jeFsGMNd5ydLoEDOlBQsSLDX/CdFNx6QCPNRaKQIiLNQPc2wWMyvEjQgd1ErqujFwFJfl6QVH
- JTQET+1GwFDpzIOxBME9/E3Z2gt6ODicSV4GLH2JNK/KioVQ6H0PLDPsMyvpiWV/xHO3IDxg1WO
- zq+mWDUFikutx/GxppmamuZOYvUTxidzHcNiVR85tB6hQuPpc7B1h0QlQHS917gQPTqj1WifYJR
- WpQ5CK8cxncIqV3VqdR3t4dZwWSPQ7caXlUXTInFXpDpb9CFq4UB5LfEIRgndmhFHggFBHCLROP
- igRda2n2cCROzoPvbOw==
-X-Proofpoint-GUID: viXDMOFytsgMXD8MoWFRpVF5NmB0mH7a
-X-Proofpoint-ORIG-GUID: viXDMOFytsgMXD8MoWFRpVF5NmB0mH7a
-X-Authority-Analysis: v=2.4 cv=KYbfcAYD c=1 sm=1 tr=0 ts=69480393 cx=c_pps
+X-Authority-Analysis: v=2.4 cv=cbbfb3DM c=1 sm=1 tr=0 ts=69480396 cx=c_pps
  a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=qe4J/qXhiWkb1JZGYKbLYA==:17
  a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=XA6BSOE7zRTYN9-09qgA:9 a=a_PwQJl-kcHnX1M80qC6:22
+ a=EUspDBNiAAAA:8 a=Dh8f_jLqcEms2xoULN4A:9 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIxMDEzNSBTYWx0ZWRfX50S2KcxtTS8l
+ /qlaTsVYUwTqsvNEspCMDtbEeqXdvxzZfMNzrpIJ/Bt0jmeHbufsrJdEqxhiCeHzvJiADP8XA92
+ raUvHy1PkbEiVpUJ8RZSNFvRmLMDUDMtrf/5otFtzXlF2bD17k8GSPtvPeW58PvpIDiOtkY5dNV
+ Lp+oAapAC/m6yhkrDvMlqdGSWLwjHrHliw/zE9kxQ75MBhGFpHLGTnWjsV1WcXdepcJdixXkw/5
+ QlV25pwyS4rj8fOFF6K5SyD0Eb8OMIjo2jU9jUy33fGjRtneAwaoBqieG3KYODFlA0AgBBxa+Xo
+ 4o63bxZFsBa/uwb77mfoVETG4ZWc0/bbnqUSObcdZTw2B/t/FYz602e1ihGpQFHXkfrqDxx6Wxe
+ KidR/VFEynb8p2DIPyn/EjoCc2Za5KSBckp2CQvtKpmTkgc+8H7XjlGnRH4oQywnpR0aKQu331l
+ ya4mzM1DjSPTOf18YRQ==
+X-Proofpoint-GUID: sHdjp8QG3MoVfoK2bk2joyciZ8UInBMx
+X-Proofpoint-ORIG-GUID: sHdjp8QG3MoVfoK2bk2joyciZ8UInBMx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-21_04,2025-12-19_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 phishscore=0 malwarescore=0 spamscore=0
- priorityscore=1501 clxscore=1015 bulkscore=0 lowpriorityscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2512120000
- definitions=main-2512210135
+ priorityscore=1501 clxscore=1015 phishscore=0 malwarescore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 bulkscore=0 suspectscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2512120000 definitions=main-2512210135
 X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Simplify the probe function by using local 'dev' and 'np' variables
-instead of full pointer dereferences.  This makes several lines shorter,
-which allows to avoid wrapping making code more readable.
+Simplify the probe function by using a local 'dev' variable instead of
+full pointer dereference.  This makes several lines shorter, which
+allows to avoid wrapping making code more readable.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
- drivers/iio/adc/exynos_adc.c | 36 ++++++++++++++++--------------------
- 1 file changed, 16 insertions(+), 20 deletions(-)
+ drivers/iio/adc/rockchip_saradc.c | 50 ++++++++++++++-----------------
+ 1 file changed, 22 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/iio/adc/exynos_adc.c b/drivers/iio/adc/exynos_adc.c
-index 491e8dcfd91e..aa287132a369 100644
---- a/drivers/iio/adc/exynos_adc.c
-+++ b/drivers/iio/adc/exynos_adc.c
-@@ -552,12 +552,13 @@ static int exynos_adc_remove_devices(struct device *dev, void *c)
- static int exynos_adc_probe(struct platform_device *pdev)
+diff --git a/drivers/iio/adc/rockchip_saradc.c b/drivers/iio/adc/rockchip_saradc.c
+index 263d80c5fc50..0f0bf2906af0 100644
+--- a/drivers/iio/adc/rockchip_saradc.c
++++ b/drivers/iio/adc/rockchip_saradc.c
+@@ -456,6 +456,7 @@ static int rockchip_saradc_probe(struct platform_device *pdev)
  {
- 	struct exynos_adc *info = NULL;
+ 	const struct rockchip_saradc_data *match_data;
+ 	struct rockchip_saradc *info = NULL;
 +	struct device *dev = &pdev->dev;
  	struct device_node *np = pdev->dev.of_node;
  	struct iio_dev *indio_dev = NULL;
  	int ret;
- 	int irq;
+@@ -464,23 +465,21 @@ static int rockchip_saradc_probe(struct platform_device *pdev)
+ 	if (!np)
+ 		return -ENODEV;
  
--	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(struct exynos_adc));
-+	indio_dev = devm_iio_device_alloc(dev, sizeof(struct exynos_adc));
+-	indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(*info));
++	indio_dev = devm_iio_device_alloc(dev, sizeof(*info));
  	if (!indio_dev)
  		return -ENOMEM;
  
-@@ -565,7 +566,7 @@ static int exynos_adc_probe(struct platform_device *pdev)
+ 	info = iio_priv(indio_dev);
  
- 	info->data = exynos_adc_get_data(pdev);
- 	if (!info->data)
--		return dev_err_probe(&pdev->dev, -EINVAL, "failed getting exynos_adc_data\n");
-+		return dev_err_probe(dev, -EINVAL, "failed getting exynos_adc_data\n");
+-	match_data = of_device_get_match_data(&pdev->dev);
++	match_data = of_device_get_match_data(dev);
+ 	if (!match_data)
+-		return dev_err_probe(&pdev->dev, -ENODEV,
+-				     "failed to match device\n");
++		return dev_err_probe(dev, -ENODEV, "failed to match device\n");
+ 
+ 	info->data = match_data;
+ 
+ 	/* Sanity check for possible later IP variants with more channels */
+ 	if (info->data->num_channels > SARADC_MAX_CHANNELS)
+-		return dev_err_probe(&pdev->dev, -EINVAL,
+-				     "max channels exceeded");
++		return dev_err_probe(dev, -EINVAL, "max channels exceeded");
  
  	info->regs = devm_platform_ioremap_resource(pdev, 0);
  	if (IS_ERR(info->regs))
-@@ -573,11 +574,9 @@ static int exynos_adc_probe(struct platform_device *pdev)
- 
- 
- 	if (info->data->needs_adc_phy) {
--		info->pmu_map = syscon_regmap_lookup_by_phandle(
--					pdev->dev.of_node,
--					"samsung,syscon-phandle");
-+		info->pmu_map = syscon_regmap_lookup_by_phandle(np, "samsung,syscon-phandle");
- 		if (IS_ERR(info->pmu_map))
--			return dev_err_probe(&pdev->dev, PTR_ERR(info->pmu_map),
-+			return dev_err_probe(dev, PTR_ERR(info->pmu_map),
- 					     "syscon regmap lookup failed.\n");
- 	}
- 
-@@ -585,25 +584,24 @@ static int exynos_adc_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
- 	info->irq = irq;
--	info->dev = &pdev->dev;
-+	info->dev = dev;
+@@ -490,10 +489,9 @@ static int rockchip_saradc_probe(struct platform_device *pdev)
+ 	 * The reset should be an optional property, as it should work
+ 	 * with old devicetrees as well
+ 	 */
+-	info->reset = devm_reset_control_get_optional_exclusive(&pdev->dev,
+-								"saradc-apb");
++	info->reset = devm_reset_control_get_optional_exclusive(dev, "saradc-apb");
+ 	if (IS_ERR(info->reset))
+-		return dev_err_probe(&pdev->dev, PTR_ERR(info->reset),
++		return dev_err_probe(dev, PTR_ERR(info->reset),
+ 				     "failed to get saradc-apb\n");
  
  	init_completion(&info->completion);
+@@ -502,14 +500,14 @@ static int rockchip_saradc_probe(struct platform_device *pdev)
+ 	if (irq < 0)
+ 		return irq;
  
--	info->clk = devm_clk_get(&pdev->dev, "adc");
-+	info->clk = devm_clk_get(dev, "adc");
- 	if (IS_ERR(info->clk))
--		return dev_err_probe(&pdev->dev, PTR_ERR(info->clk), "failed getting clock\n");
-+		return dev_err_probe(dev, PTR_ERR(info->clk), "failed getting clock\n");
+-	ret = devm_request_irq(&pdev->dev, irq, rockchip_saradc_isr,
++	ret = devm_request_irq(dev, irq, rockchip_saradc_isr,
+ 			       0, dev_name(&pdev->dev), info);
+ 	if (ret < 0)
+-		return dev_err_probe(&pdev->dev, ret, "failed requesting irq %d\n", irq);
++		return dev_err_probe(dev, ret, "failed requesting irq %d\n", irq);
  
- 	if (info->data->needs_sclk) {
--		info->sclk = devm_clk_get(&pdev->dev, "sclk");
-+		info->sclk = devm_clk_get(dev, "sclk");
- 		if (IS_ERR(info->sclk))
--			return dev_err_probe(&pdev->dev, PTR_ERR(info->sclk),
-+			return dev_err_probe(dev, PTR_ERR(info->sclk),
- 					     "failed getting sclk clock\n");
- 	}
+-	info->vref = devm_regulator_get(&pdev->dev, "vref");
++	info->vref = devm_regulator_get(dev, "vref");
+ 	if (IS_ERR(info->vref))
+-		return dev_err_probe(&pdev->dev, PTR_ERR(info->vref),
++		return dev_err_probe(dev, PTR_ERR(info->vref),
+ 				     "failed to get regulator\n");
  
--	info->vdd = devm_regulator_get(&pdev->dev, "vdd");
-+	info->vdd = devm_regulator_get(dev, "vdd");
- 	if (IS_ERR(info->vdd))
--		return dev_err_probe(&pdev->dev, PTR_ERR(info->vdd),
--				     "failed getting regulator");
-+		return dev_err_probe(dev, PTR_ERR(info->vdd), "failed getting regulator");
+ 	if (info->reset)
+@@ -517,11 +515,9 @@ static int rockchip_saradc_probe(struct platform_device *pdev)
  
- 	ret = regulator_enable(info->vdd);
+ 	ret = regulator_enable(info->vref);
+ 	if (ret < 0)
+-		return dev_err_probe(&pdev->dev, ret,
+-				     "failed to enable vref regulator\n");
++		return dev_err_probe(dev, ret, "failed to enable vref regulator\n");
+ 
+-	ret = devm_add_action_or_reset(&pdev->dev,
+-				       rockchip_saradc_regulator_disable, info);
++	ret = devm_add_action_or_reset(dev, rockchip_saradc_regulator_disable, info);
  	if (ret)
-@@ -619,7 +617,7 @@ static int exynos_adc_probe(struct platform_device *pdev)
+ 		return ret;
+ 
+@@ -531,14 +527,13 @@ static int rockchip_saradc_probe(struct platform_device *pdev)
+ 
+ 	info->uv_vref = ret;
+ 
+-	info->pclk = devm_clk_get_enabled(&pdev->dev, "apb_pclk");
++	info->pclk = devm_clk_get_enabled(dev, "apb_pclk");
+ 	if (IS_ERR(info->pclk))
+-		return dev_err_probe(&pdev->dev, PTR_ERR(info->pclk),
+-				     "failed to get pclk\n");
++		return dev_err_probe(dev, PTR_ERR(info->pclk), "failed to get pclk\n");
+ 
+-	info->clk = devm_clk_get_enabled(&pdev->dev, "saradc");
++	info->clk = devm_clk_get_enabled(dev, "saradc");
+ 	if (IS_ERR(info->clk))
+-		return dev_err_probe(&pdev->dev, PTR_ERR(info->clk),
++		return dev_err_probe(dev, PTR_ERR(info->clk),
+ 				     "failed to get adc clock\n");
+ 	/*
+ 	 * Use a default value for the converter clock.
+@@ -546,18 +541,17 @@ static int rockchip_saradc_probe(struct platform_device *pdev)
+ 	 */
+ 	ret = clk_set_rate(info->clk, info->data->clk_rate);
+ 	if (ret < 0)
+-		return dev_err_probe(&pdev->dev, ret,
+-				     "failed to set adc clk rate\n");
++		return dev_err_probe(dev, ret, "failed to set adc clk rate\n");
  
  	platform_set_drvdata(pdev, indio_dev);
  
 -	indio_dev->name = dev_name(&pdev->dev);
 +	indio_dev->name = dev_name(dev);
- 	indio_dev->info = &exynos_adc_iio_info;
+ 	indio_dev->info = &rockchip_saradc_iio_info;
  	indio_dev->modes = INDIO_DIRECT_MODE;
- 	indio_dev->channels = exynos_adc_iio_channels;
-@@ -627,11 +625,9 @@ static int exynos_adc_probe(struct platform_device *pdev)
+ 
+ 	indio_dev->channels = info->data->channels;
+ 	indio_dev->num_channels = info->data->num_channels;
+-	ret = devm_iio_triggered_buffer_setup(&indio_dev->dev, indio_dev, NULL,
++	ret = devm_iio_triggered_buffer_setup(dev, indio_dev, NULL,
+ 					      rockchip_saradc_trigger_handler,
+ 					      NULL);
+ 	if (ret)
+@@ -568,7 +562,7 @@ static int rockchip_saradc_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = devm_add_action_or_reset(&pdev->dev,
++	ret = devm_add_action_or_reset(dev,
+ 				       rockchip_saradc_regulator_unreg_notifier,
+ 				       info);
+ 	if (ret)
+@@ -576,7 +570,7 @@ static int rockchip_saradc_probe(struct platform_device *pdev)
  
  	mutex_init(&info->lock);
  
--	ret = request_irq(info->irq, exynos_adc_isr,
--					0, dev_name(&pdev->dev), info);
-+	ret = request_irq(info->irq, exynos_adc_isr, 0, dev_name(dev), info);
- 	if (ret < 0) {
--		dev_err(&pdev->dev, "failed requesting irq, irq = %d\n",
--							info->irq);
-+		dev_err(dev, "failed requesting irq, irq = %d\n", info->irq);
- 		goto err_disable_clk;
- 	}
+-	return devm_iio_device_register(&pdev->dev, indio_dev);
++	return devm_iio_device_register(dev, indio_dev);
+ }
  
-@@ -644,7 +640,7 @@ static int exynos_adc_probe(struct platform_device *pdev)
- 
- 	ret = of_platform_populate(np, exynos_adc_match, NULL, &indio_dev->dev);
- 	if (ret < 0) {
--		dev_err(&pdev->dev, "failed adding child nodes\n");
-+		dev_err(dev, "failed adding child nodes\n");
- 		goto err_of_populate;
- 	}
- 
+ static int rockchip_saradc_suspend(struct device *dev)
 -- 
 2.51.0
 
