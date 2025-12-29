@@ -1,103 +1,52 @@
-Return-Path: <linux-aspeed+bounces-3211-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3232-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74DD7CE5B00
-	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Dec 2025 02:41:11 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F09CE8258
+	for <lists+linux-aspeed@lfdr.de>; Mon, 29 Dec 2025 21:40:02 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dff7m5Z3nz2xdV;
-	Mon, 29 Dec 2025 12:41:08 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dg7Pq0lXwz2xgv;
+	Tue, 30 Dec 2025 07:39:59 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=170.10.129.124
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1766684826;
-	cv=none; b=VAybX2zd/cndRz+3klf73EnWbqq7Vu0KvhoUQzpYjXjDNUXt4Ivya3MDqv1/dGuzrV5zEN2n3Xz+oulHfI+TqNIsOAuklFFIbpFwqvlgu+tUgt09iiCzNLupoR14UuR04llJ+3+87ncDJwYSOomk/a/rbMnLDJW393l3LNhdsbmWgKgcyuBCrNcoRVbEFhgAKUvkXvC+YWpW+Dkqz+uP99E0yPlfHwOLMNiauON6n3ks+7zKGdB1FSfO9eVhBdp0IV2vFN/KZQnBRpPZvvFU8T+Tuu69iJzg+d89jMMmGmqYIkLCgi31a09+xivI8vGZqCZBrZZO9eGt6SPwAnwbeg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1767040799;
+	cv=none; b=NBDADrNsFWl/oWqufPuNXqr1+rqb6x/hfJu/3w7XVTRqogk3k/s3DQa29t0vuC7jfp79474nQkaLpoqeuFyOJA5vxX/EiqiBSJdWRdKlUfwL5BLDHWhKUKedOd0DLzG+1rWehW15+kGzfijHrJIC5dCiAHYeHFkJmzkIbyVDQee46hxzhcl0HPXyeGwglR+sG399Ja0x1d/gcp2WBtGNbNH1pigCtN9gHBKCMGoWB07dEdOgHl+BcyniZ3YFl86vkrt5/tQ4zhBy8ZkEmuH/bPjSuthG6dooFH3yz8KgmoEx1ytnxPDzOmb4CflKKzK7RotSW4oPRY1Arpj99HrOQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1766684826; c=relaxed/relaxed;
-	bh=zz1xVTvh572lJX2qZqJOG7cy24vvTwbo6dUFp/NuXtg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=G3SCJuOujXEFGSPiPbWVn6sMBuXRSBbOEAXbYfH0HEpC236G41NcJLJ9fUYc3J6MSouI/vSEOYUHloIES1vTMzDmVegGWhUMPlqvPEwd+M3lUOLgkNlBOD3eGIL0g6RoIfgiSErYc0eXQC9ipQicZ0Lw62im2JJfRk6iOI/jhoSF0Ibw6qo2qfBUZhhZpy6BdV1KZsbqd71/jJAomjaB0dt8YNIu7RBuXCYIeeg2mu3OitFbd16FRDCg9OuAdxZ72zIybNqQ8ATSaRjV+NcXNyiKk7g1UIEeAfImPzzOYaE1rUT6MqDUsijM4B6I2kOkrwWHnoPogP1nnDSyEmzwfQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=X7MaSRV7; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=X7MaSRV7; dkim-atps=neutral; spf=pass (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=bmasney@redhat.com; receiver=lists.ozlabs.org) smtp.mailfrom=redhat.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+	t=1767040799; c=relaxed/relaxed;
+	bh=B7CgINhDX36iBY06hpy2BBwuJYa2QrZaCKCO1NEBs0o=;
+	h=From:Date:Content-Type:MIME-Version:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=UR078aEUePlowoLogYvKxCgt2VhNjhSNW6FB3eRgrXaHWahXS4iwcnzqm5gBLS0W4pKd3tIPExEdGFsyIVZ5pL9vgwyCeBztiliW6omvgorJe75Eq0MI+hihwy1IU9GsQMD1FQVDdf6i0hBmBRC5AYlQLNNfKNeHhTbfeOotaeeroiEx8C3f16wA3OJ2pA+2IOSlw3+fdAhCQx5nk0+gNW3EmprCH153gl+ZbKElzAjFIGKIbIYQPQdBkHjAMeMUwdKUj5snOQF+6Af+KXRctQG6640N64XIqI8UhgV6b760k3qD87ri819ltIcjqY1qioeX8rNh6lInzC99vXhSLw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Uhdzv5/G; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=X7MaSRV7;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=X7MaSRV7;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Uhdzv5/G;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=redhat.com (client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=bmasney@redhat.com; receiver=lists.ozlabs.org)
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dcbm91fJJz2x99
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 26 Dec 2025 04:47:05 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1766684822;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zz1xVTvh572lJX2qZqJOG7cy24vvTwbo6dUFp/NuXtg=;
-	b=X7MaSRV7TP2dmUlp1V1Nz3ufgbxK3LHtBRP3XeZnGFBK8XEvIbKxnracBknZdM3ZSDdTju
-	ONsaEX79f85p6f1ta51gELvhfihiLn8caJWQCvFaLpoUaZfd7sUh2d4vyuxbdPZ0iiFFvU
-	2oj+0+XKFJKXAJNzO+ljIECbvvLLho0=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1766684822;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zz1xVTvh572lJX2qZqJOG7cy24vvTwbo6dUFp/NuXtg=;
-	b=X7MaSRV7TP2dmUlp1V1Nz3ufgbxK3LHtBRP3XeZnGFBK8XEvIbKxnracBknZdM3ZSDdTju
-	ONsaEX79f85p6f1ta51gELvhfihiLn8caJWQCvFaLpoUaZfd7sUh2d4vyuxbdPZ0iiFFvU
-	2oj+0+XKFJKXAJNzO+ljIECbvvLLho0=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-208-yTXMbBvPOzGtOGqBV6KYZg-1; Thu, 25 Dec 2025 12:45:19 -0500
-X-MC-Unique: yTXMbBvPOzGtOGqBV6KYZg-1
-X-Mimecast-MFC-AGG-ID: yTXMbBvPOzGtOGqBV6KYZg_1766684719
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8b2e235d4d2so2476911185a.3
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 25 Dec 2025 09:45:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766684719; x=1767289519;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zz1xVTvh572lJX2qZqJOG7cy24vvTwbo6dUFp/NuXtg=;
-        b=svMRtAp2+7xKW8/MjNLznrO5y1pLZ566idraLCknL/jG8lfnVtfJAZTY3msy3xO33Q
-         y8YqI+PHXswPbODY9EqArULlu/gwYYggYu0BKRibwJwFv5pCQgW//V5KZ0eCiwi5a3vE
-         s+QPhm03IE8kZf/h5rbjbjSwyZOyrTl0zzmenpN4NFveBp/JJikZtbyqIjyllbAzSO8F
-         abshVJajF/jNXeAlWIThO7pS4HvWzaoJ1gTIz21sYoGzV2zWbtkteQt43fgxBA/Fk3i5
-         tDz7MRAlzZb/mAazKCOHwSf44SCAePiMasffPVsBDnvnCKFHJ5Ex+o8qgExEk2vgfgPd
-         SwhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWVyeBp9eFEI/1fm1PcCG9Ebkb6c7Jq8sJKB9XDz1w7Zv0EVPonO9vRQdJN+KIaNrIMSRxmZkHWjylqKR4=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YzSZbUBtbRSQwJygM3ce42g4mJbdXvbmLWrEWs/w3L2r+RkqwAV
-	J6A3DDAx4dfQWxSWW82pc+FL5j/ItgFXSDeyL8Za3XgYSZfxRuRwWUjxRarL07fcI8Y6cA0X08m
-	3evSqMTIBC4JrXaq4Ymd3o2YIryNkSLGyXcQiqlRCKqhC96sAXE9hJEwNAkhTAGTIjyA=
-X-Gm-Gg: AY/fxX4wEjGO+jqHY2fSvo2n2Cq4Q0Q6dg1qQwG5U70N2UYteNPU0qe27oC7nwx3a0R
-	e0oon2ct2ug0AoAjr9hHwka7JdWf3aLFT0gnuzRXSqd2KYd0dHQqDgzzFkv1gQKn7GRTHCTiyhJ
-	KAFnRgLX5wTR2lNt9GEpnLAOHq/nxkizHkPvtLylzQ2YArnQvm7GFWuykOB9CemTHp0J4Jbxhh2
-	odBH/9Ndq7DavpUlWqx8vlae4GPLj1dBVZdg2f4o9THJU7LJ09sVfECK5IImV7itvUY1ZnJFQXK
-	VatvWNHaHAif2ZT8YwbkULh/aOILntbqYfwTwADyqrGBo4vaY6voVd/Kzbda9Kr0D5kHZJggXDS
-	9wyOA9oMbDBE5MeMQI5Ms4s9FIIFUTAt3DnlZ6ybrJUZ7
-X-Received: by 2002:a05:620a:f13:b0:8b2:ef2d:f74b with SMTP id af79cd13be357-8c08f66bf3emr3080551485a.29.1766684719227;
-        Thu, 25 Dec 2025 09:45:19 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH/E6LsKwvfEMHC7uT4rrxVGLTNsXyb1jefziEMNS9y7ioMFDWn6jnZ3Lk+Vmjy/3v1Ei+vnA==
-X-Received: by 2002:a05:620a:f13:b0:8b2:ef2d:f74b with SMTP id af79cd13be357-8c08f66bf3emr3080548585a.29.1766684718918;
-        Thu, 25 Dec 2025 09:45:18 -0800 (PST)
-Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88d99d7dbdcsm151955716d6.43.2025.12.25.09.45.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Dec 2025 09:45:18 -0800 (PST)
-Date: Thu, 25 Dec 2025 12:45:16 -0500
-From: Brian Masney <bmasney@redhat.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v16 2/3] MAINTAINERS: Add entry for ASPEED clock drivers.
-Message-ID: <aU14LCCn_Cnd8tV6@redhat.com>
-References: <20251224-upstream_clk-v16-0-8c1318f56c3c@aspeedtech.com>
- <20251224-upstream_clk-v16-2-8c1318f56c3c@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dg7Pp0QP1z2x9M
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Dec 2025 07:39:57 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 39EC26000A;
+	Mon, 29 Dec 2025 20:39:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C93D4C4CEF7;
+	Mon, 29 Dec 2025 20:39:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767040764;
+	bh=pabUwyRj06uXmr6glOxUtgw7My8+0IBUjwVOSXW3zx0=;
+	h=From:Date:Cc:To:In-Reply-To:References:Subject:From;
+	b=Uhdzv5/GWUM6d/mrIv8+hNF5kIWFGuX6qBvE5Rvtyn5K6vYedDlwzgaXBpToKeM8m
+	 /0hstvB1sYZCuIoRxSvGBfrK22kKXby4LqyBfUjw601uv84bQYEwZXS8sP90ziEPpi
+	 sGuBRt9HrL3ioAFAf/JhXjBaBbshLetTngr8obGuDujbyjv+WxnXIYZl0NylE991U0
+	 cnOgGVfk5Mu7nZRShkcOqM+3Ew3EpxUmMb3siewFolVFvjLoqQVKwvwZ+tWwsE5B4F
+	 K+AYva9uVR7YLS3j8QDh6QO7ySPAkwx26uSDyQt7GaBP2CaHRZAv9Sa8jT5cYrIVIQ
+	 yKo7XK7fLQqqQ==
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 29 Dec 2025 14:39:24 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -111,24 +60,106 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-In-Reply-To: <20251224-upstream_clk-v16-2-8c1318f56c3c@aspeedtech.com>
-User-Agent: Mutt/2.2.14 (2025-02-20)
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: EQII-Jg_uvK7g1k7yoltvmPs9a8cFWCoujN_iM-pCyg_1766684719
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Cc: linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Kyle Hsieh <kylehsieh1995@gmail.com>
+In-Reply-To: <20251224-ventura2_initial_dts-v2-0-f193ba5d4073@gmail.com>
+References: <20251224-ventura2_initial_dts-v2-0-f193ba5d4073@gmail.com>
+Message-Id: <176703895393.2172377.12837341812506226854.robh@kernel.org>
+Subject: Re: [PATCH v2 0/2] Add Meta(Facebook) ventura2 BMC(AST2600)
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Wed, Dec 24, 2025 at 01:37:23PM +0800, Ryan Chen wrote:
-> Add support entry for ASPEED clock drivers.
-> 
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
 
-Reviewed-by: Brian Masney <bmasney@redhat.com>
+On Wed, 24 Dec 2025 14:44:37 +0800, Kyle Hsieh wrote:
+> Summary:
+> Add linux device tree entry related to Meta(Facebook) ventura2.
+> specific devices connected to BMC(AST2600) SoC.
+> 
+> Signed-off-by: Kyle Hsieh <kylehsieh1995@gmail.com>
+> ---
+> Changes in v2:
+> - Remove unused mdio
+> - Link to v1: https://lore.kernel.org/r/20251222-ventura2_initial_dts-v1-0-1f06166c78a3@gmail.com
+> 
+> ---
+> Kyle Hsieh (2):
+>       dt-bindings: arm: aspeed: add Meta ventura2 board
+>       ARM: dts: aspeed: ventura2: Add Meta ventura2 BMC
+> 
+>  .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
+>  arch/arm/boot/dts/aspeed/Makefile                  |    1 +
+>  .../dts/aspeed/aspeed-bmc-facebook-ventura2.dts    | 2945 ++++++++++++++++++++
+>  3 files changed, 2947 insertions(+)
+> ---
+> base-commit: 9448598b22c50c8a5bb77a9103e2d49f134c9578
+> change-id: 20251222-ventura2_initial_dts-909b3277d665
+> 
+> Best regards,
+> --
+> Kyle Hsieh <kylehsieh1995@gmail.com>
+> 
+> 
+> 
+
+
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: 9448598b22c50c8a5bb77a9103e2d49f134c9578 (use --merge-base to override)
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm/boot/dts/aspeed/' for 20251224-ventura2_initial_dts-v2-0-f193ba5d4073@gmail.com:
+
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: / (facebook,ventura2-rmc): compatible: 'oneOf' conditional failed, one must be fixed:
+	'facebook,ventura2-rmc' is not one of ['delta,ahe50dc-bmc', 'facebook,galaxy100-bmc', 'facebook,wedge100-bmc', 'facebook,wedge40-bmc', 'microsoft,olympus-bmc', 'quanta,q71l-bmc', 'tyan,palmetto-bmc', 'yadro,vesnin-bmc']
+	'facebook,ventura2-rmc' is not one of ['amd,daytonax-bmc', 'amd,ethanolx-bmc', 'ampere,mtjade-bmc', 'aspeed,ast2500-evb', 'asrock,e3c246d4i-bmc', 'asrock,e3c256d4i-bmc', 'asrock,romed8hm3-bmc', 'asrock,spc621d8hm3-bmc', 'asrock,x570d4u-bmc', 'bytedance,g220a-bmc', 'facebook,cmm-bmc', 'facebook,minipack-bmc', 'facebook,tiogapass-bmc', 'facebook,yamp-bmc', 'facebook,yosemitev2-bmc', 'facebook,wedge400-bmc', 'facebook,wedge400-data64-bmc', 'hxt,stardragon4800-rep2-bmc', 'ibm,mihawk-bmc', 'ibm,mowgli-bmc', 'ibm,romulus-bmc', 'ibm,swift-bmc', 'ibm,witherspoon-bmc', 'ingrasys,zaius-bmc', 'inspur,fp5280g2-bmc', 'inspur,nf5280m6-bmc', 'inspur,on5263m5-bmc', 'intel,s2600wf-bmc', 'inventec,lanyang-bmc', 'lenovo,hr630-bmc', 'lenovo,hr855xg2-bmc', 'portwell,neptune-bmc', 'qcom,centriq2400-rep-bmc', 'supermicro,x11spi-bmc', 'tyan,s7106-bmc', 'tyan,s8036-bmc', 'yadro,nicole-bmc', 'yadro,vegman-n110-bmc', 'yadro,vegman-rx20-bmc', 'yadro,vegman-sx20-bmc']
+	'facebook,ventura2-rmc' is not one of ['ampere,mtjefferson-bmc', 'ampere,mtmitchell-bmc', 'aspeed,ast2600-evb', 'aspeed,ast2600-evb-a1', 'asus,x4tf-bmc', 'facebook,bletchley-bmc', 'facebook,catalina-bmc', 'facebook,clemente-bmc', 'facebook,cloudripper-bmc', 'facebook,darwin-bmc', 'facebook,elbert-bmc', 'facebook,fuji-bmc', 'facebook,fuji-data64-bmc', 'facebook,greatlakes-bmc', 'facebook,harma-bmc', 'facebook,minerva-cmc', 'facebook,santabarbara-bmc', 'facebook,ventura2-bmc', 'facebook,yosemite4-bmc', 'facebook,yosemite5-bmc', 'ibm,balcones-bmc', 'ibm,blueridge-bmc', 'ibm,bonnell-bmc', 'ibm,everest-bmc', 'ibm,fuji-bmc', 'ibm,rainier-bmc', 'ibm,sbp1-bmc', 'ibm,system1-bmc', 'ibm,tacoma-bmc', 'inventec,starscream-bmc', 'inventec,transformer-bmc', 'jabil,rbp-bmc', 'nvidia,gb200nvl-bmc', 'qcom,dc-scm-v1-bmc', 'quanta,s6q-bmc', 'ufispace,ncplite-bmc']
+	'aspeed,ast2400' was expected
+	'aspeed,ast2500' was expected
+	from schema $id: http://devicetree.org/schemas/arm/aspeed/aspeed.yaml
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /: failed to match any schema with compatible: ['facebook,ventura2-rmc', 'aspeed,ast2600']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: sdram@1e6e0000 (aspeed,ast2600-sdram-edac): compatible: ['aspeed,ast2600-sdram-edac', 'syscon'] is too long
+	from schema $id: http://devicetree.org/schemas/edac/aspeed,ast2400-sdram-edac.yaml
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
+	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: i2c@400 (aspeed,ast2600-i2c-bus): Unevaluated properties are not allowed ('aspeed,hw-timeout-ms' was unexpected)
+	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /ahb/apb/bus@1e78a000/i2c@580/power-monitor@69: failed to match any schema with compatible: ['pmbus']
+arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
+
+
+
+
 
 
