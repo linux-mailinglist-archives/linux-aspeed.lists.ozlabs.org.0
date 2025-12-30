@@ -1,39 +1,71 @@
-Return-Path: <linux-aspeed+bounces-3237-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3239-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EEA6CE8C0D
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Dec 2025 06:58:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B9ACEA143
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Dec 2025 16:35:27 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dgMp36d44z2yFQ;
-	Tue, 30 Dec 2025 16:58:19 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dgcbv4y0Kz2yF1;
+	Wed, 31 Dec 2025 02:35:23 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1767074299;
-	cv=none; b=Z3HAKvf9Cc8ITFpVnwYORlH8HcN6y9M3lxoA8aLHTcvXYEsVKOp3TFa/CiCUlkMrvGm+Qt17bX5om6JnfUoG2McAG/3atADsjPb84SQewMIOE56tib6kshgSKrsqfvdBcOeGTd3MYS9g+SYvpSI16ndQYMxOXEMxnLXTVd3ASRBDT4PLjfqFCPNHqGqvR7in3vGwVVqOTQKHoZTV4ZgW0i/Fot5Dc7MKqKfJJIMLAAnYCloYP3BAbh5tOjCXMQNt2StC6RZooTiSYP26fYmhSKiJOrzXccPHvT8n7yDed6J80f6qhjV5MVpyaHsdgLndTjqQFW3khwnoM6xL+MXP6A==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=209.85.208.182
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1767108923;
+	cv=none; b=Cvnw/y9vgkXBO7CF8KB3xAmwBRL/Ski9SuFxV1oSnrIOQr7IyGepXV0G5M+swSGFX5ycngsojHiDkn+toJYQ0KKBbu8+n+NvSPgBHFvsqwDVGwmklk4JFPU9l41JdwkcuETND2O+ZkL2/nA79gq2g6bWyfdR6gz8Kkhg+19CY2B6+Duer/+K6by4DHPYMk/Ewxj+ulLlgvNR8aUyM5RbhGbUTdZqgyRal64iKixPLw0Xk+M3bOyzdNbpPzwIOyzPH5Pqcp5iaCzEEnqI/iVt5RYZUr3TLrnMJJfNh3nUqN+n+Z7OTcpkIYHWbttGC8aJcDsgCQdZna4jSL+GQF8tLg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1767074299; c=relaxed/relaxed;
-	bh=CIXcoG1w+dDwMJsXtzP6csYjJEVilGcdonr6G/4Byp8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=g/Y/Y+0PdS/YEPeMKlEWaUkgYykFDrpQ1fbYnOhadkO3HW76smJH27TkA4msANcckte6xtGRBpsIPU1FzwsVWTdPWbiMIQlI6gGuM8oWWs3blaq70yGBT+2spID/TG0eVD95veTXBqZzSd3Bc/oPW07Dyhy9WTFuB+bTLgSqsOpr3SWVzzAJr5k78vSJMM1WvZdgVfhV2kDCBOl4ZWWgj36k4fvH9OcSTjtWnivyb+hdH+8n1kwEq2P+97DUXmch+CT/YSXG+cFhXUXZEktA5dYbNJeyHvG6ooYmKF3/mgaKW8o7UHXf0MFUt7yHtvJOmSMpSeT4HjhzEtGq7BhC1w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1767108923; c=relaxed/relaxed;
+	bh=nXCQAS3HJRf+jQxCM70PqHXnYYGKX1vopCn4f1WZ9cE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W3ycEMWUWW+n6kvrTM4iaZFpttDDswdx4Q07Byop81uAoHMHCtcijiY56lc1D+7WABCcpkn4uhqHxaQq+lR56U5J5Dm/RNjMpLwz5lfce0axGn7PAbeZFLDpH1om1dCEd5UtIHpEZ8l1yQ2+CxLRPvSS2vjNnMRfUhvarQpudM7ympgT3CvdqTcP9vkhhotXV4RH3qEDV/3UazoFt3Lb04PZGi8+tkggsOcahFk7oQMSO8Kt+1KIbi5nFh76483ojVr8JRWBAd6cr4M+/vkJ7EHCHQCNi8F5y2IenJrYtWBT85GN5ZW/z42AyS+xasa/tJ69eQRsgaYZ6s+h2o7Vnw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org; dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=OYNAHmds; dkim-atps=neutral; spf=pass (client-ip=209.85.208.182; helo=mail-lj1-f182.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org) smtp.mailfrom=linaro.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=OYNAHmds;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=209.85.208.182; helo=mail-lj1-f182.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dgMp331hhz2xgX
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Dec 2025 16:58:19 +1100 (AEDT)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 30 Dec
- 2025 13:57:59 +0800
-Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Tue, 30 Dec 2025 13:57:59 +0800
-From: Jacky Chou <jacky_chou@aspeedtech.com>
-Date: Tue, 30 Dec 2025 13:58:01 +0800
-Subject: [PATCH v8 4/4] MAINTAINERS: Add ASPEED PCIe PHY driver
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dgcbs5DXhz2xs1
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Dec 2025 02:35:20 +1100 (AEDT)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-37b983fbd45so76667691fa.3
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Dec 2025 07:35:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1767108857; x=1767713657; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nXCQAS3HJRf+jQxCM70PqHXnYYGKX1vopCn4f1WZ9cE=;
+        b=OYNAHmdsB/xLSJqtrHEZv7go4EeEX1+Q61CqjahFveJDsxQDl/xqfHmj1h5cbMowum
+         2wIbAZsdhdZvGcBqcR85gvqHBmZUxN81B0IpaThzWvVOXub7Isyqq94GOsRb4EfN5QdI
+         8Pyq+6SBifS/5zH2z9oMPliK1BBgEvnRri+tFA/zq2WEJssbNTX0okU1HluhbU7SLyLs
+         bJdPjC5ebMx8hxIbigeuwgdCLC0m6/S5sqRA5YNLFoYx9vIgsIWRAS0lzf1RhYhVgnth
+         i9xuDBpvCweubBABZMlppijbiDotP++Fx5ARVfXRv26Yx8LA+aAQfpXUiQD2s9XWpriC
+         Sd1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767108857; x=1767713657;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nXCQAS3HJRf+jQxCM70PqHXnYYGKX1vopCn4f1WZ9cE=;
+        b=PqYH/nbcAfJa4d9VZd0dfiwdHJIj3aoo+OSaTjSA36XeaPGCp45yUGn4JV/DMOazmr
+         BFbtH5iS0SjAXbjdPUnHE3Xt4ZM79w9PxjopwWu2T1W4jJtgTt8wYrUf9rOEZQ5CUv4H
+         XOxnhF6GPQp+Pk2mcg0iW2+BE1uGJIV6pCFIr1NpuTxlEC1m2T9qmaXEqioYI7nd6/+R
+         Y22QyXRnFRVOeiZWMbmJjVAFewbMD991NxvEsXe5leWk9Ig5Pm9yudY8rhcWP7WGztPQ
+         4sbUuqBlbnNaNONHTVsZGR+jU1ef+DbPeHTo/HN/oiNyZYmULXInDnbMw/9Nf1bqgVAw
+         +n3w==
+X-Forwarded-Encrypted: i=1; AJvYcCUT049+Kk+XX1d2n0lCUGHSUFvK5ProGK12Jt5oxS0H59s09XZNYGfIReAshm8TmTYPrgc2cHUHIMjzixY=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzkcDFaEaTBEBxiLBcwiQxV4ouMUSWOwp3QDJml3VoTFT+96wVh
+	vqpbHiUc81beHOPR0U5MZNXnxO1hho80yRsk9Pnna9wV7DyOCdQRtY48Pez2TJzTWqzoHrz5pZe
+	uBccW0NIgCfsBYIUezvxyY6AquNnsXbq3FuJTLsuxaQ==
+X-Gm-Gg: AY/fxX4WcE3WpgzZYhFkxm7gqZL3vRk6S8fvUnZV8o2RJw5wbuVKDu7r849qfybC/Np
+	C+NJLAXfwEzH58PXoL3BjHCgNTNJiUxs8SiJyZUXNBpZwtrPD4evQkrDn7wBywVDs9/A4S5itVG
+	hWd24F6UzT6LhBm1L85JzcWCQltq2DlrE7hNI92FjkU+71Nz6lOW7OMX0yi7/2exGAXZ+SQpEiV
+	kPTH/EH6KQRYVWSu4Dc2cCph9rnhzxTO/w2GtqWr4qs4Uyy26GqZ0xHEiJczlmqyM1Fbxb9x0sU
+	Ut+j3MY=
+X-Google-Smtp-Source: AGHT+IF8m67UtLFJYo+1Sd/5xP1asTd78BRhH0xaCX+pqytxUScESGkOS8OTTGNkp77INxT4etPPBh36TlR00OdBV7U=
+X-Received: by 2002:a2e:a801:0:b0:37b:b952:5e2 with SMTP id
+ 38308e7fff4ca-3812158e6d1mr92229501fa.16.1767108856717; Tue, 30 Dec 2025
+ 07:34:16 -0800 (PST)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -47,58 +79,78 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20251230-upstream_pcie_rc-v8-4-03598cdd80cd@aspeedtech.com>
-References: <20251230-upstream_pcie_rc-v8-0-03598cdd80cd@aspeedtech.com>
-In-Reply-To: <20251230-upstream_pcie_rc-v8-0-03598cdd80cd@aspeedtech.com>
-To: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@codeconstruct.com.au>
-CC: <linux-aspeed@lists.ozlabs.org>, <linux-phy@lists.infradead.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, Jacky Chou <jacky_chou@aspeedtech.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1767074279; l=878;
- i=jacky_chou@aspeedtech.com; s=20251031; h=from:subject:message-id;
- bh=7BsJ9XPv5rGKvSJQ3KjVN6WF7d6K48ePDihYrmnFgLA=;
- b=zPygAO6pzHv1s2zc0IMazDFA4SlSDHTnUhapiyVpEktNPNa3UuJUPEpY1BhpwaVuxycM2bQMA
- Ro7Eo1n0hwXAXNSO2swWrfxQTYPhZYu5o4uD+k6/1a0oN78LrEJ5qd8
-X-Developer-Key: i=jacky_chou@aspeedtech.com; a=ed25519;
- pk=8XBx7KFM1drEsfCXTH9QC2lbMlGU4XwJTA6Jt9Mabdo=
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
-	autolearn=disabled version=4.0.1
+References: <20251224124431.208434-5-krzysztof.kozlowski@oss.qualcomm.com> <20251224124431.208434-8-krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20251224124431.208434-8-krzysztof.kozlowski@oss.qualcomm.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 30 Dec 2025 16:33:39 +0100
+X-Gm-Features: AQt7F2oKPch5XI3ozINSBYMELnoLnRJYzcAZlrhoJTH7OcGc0z1qpY0CIewnVRk
+Message-ID: <CAPDyKFp3X0EeiGRHLQqzE3vkVoLmOwi=1813S32sLTqXab43gQ@mail.gmail.com>
+Subject: Re: [PATCH 4/4] mmc: sdhci: aspeed: Simplify with scoped for each OF
+ child loop
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Aubin Constans <aubin.constans@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Robert Richter <rric@kernel.org>, Paul Cercueil <paul@crapouillou.net>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Joel Stanley <joel@jms.id.au>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, linux-mmc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	openbmc@lists.ozlabs.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-Add maintainer entry for ASPEED PCIe PHY driver.
+On Wed, 24 Dec 2025 at 13:44, Krzysztof Kozlowski
+<krzysztof.kozlowski@oss.qualcomm.com> wrote:
+>
+> Use scoped for-each loop when iterating over device nodes to make code a
+> bit simpler.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+All patches in the series applied for next, thanks!
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 765ad2daa218..bcb94fe3faa6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3843,6 +3843,14 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/crypto/aspeed,*
- F:	drivers/crypto/aspeed/
- 
-+ASPEED PCIE PHY DRIVER
-+M:	Jacky Chou <jacky_chou@aspeedtech.com>
-+L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
-+L:	linux-phy@lists.infradead.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/phy/aspeed,ast2600-pcie-phy.yaml
-+F:	drivers/phy/aspeed/pcie-phy-aspeed.c
-+
- ASPEED PECI CONTROLLER
- M:	Iwona Winiarska <iwona.winiarska@intel.com>
- L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+Kind regards
+Uffe
 
--- 
-2.34.1
 
+> ---
+>  drivers/mmc/host/sdhci-of-aspeed.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
+> index ca97b01996b1..4296def69436 100644
+> --- a/drivers/mmc/host/sdhci-of-aspeed.c
+> +++ b/drivers/mmc/host/sdhci-of-aspeed.c
+> @@ -519,7 +519,7 @@ static struct platform_driver aspeed_sdhci_driver = {
+>  static int aspeed_sdc_probe(struct platform_device *pdev)
+>
+>  {
+> -       struct device_node *parent, *child;
+> +       struct device_node *parent;
+>         struct aspeed_sdc *sdc;
+>         int ret;
+>
+> @@ -548,12 +548,11 @@ static int aspeed_sdc_probe(struct platform_device *pdev)
+>         dev_set_drvdata(&pdev->dev, sdc);
+>
+>         parent = pdev->dev.of_node;
+> -       for_each_available_child_of_node(parent, child) {
+> +       for_each_available_child_of_node_scoped(parent, child) {
+>                 struct platform_device *cpdev;
+>
+>                 cpdev = of_platform_device_create(child, NULL, &pdev->dev);
+>                 if (!cpdev) {
+> -                       of_node_put(child);
+>                         ret = -ENODEV;
+>                         goto err_clk;
+>                 }
+> --
+> 2.51.0
+>
 
