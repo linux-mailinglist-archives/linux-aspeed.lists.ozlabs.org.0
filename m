@@ -1,58 +1,71 @@
-Return-Path: <linux-aspeed+bounces-3242-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3247-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C545ACEF9CF
-	for <lists+linux-aspeed@lfdr.de>; Sat, 03 Jan 2026 02:01:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A73CEFA0F
+	for <lists+linux-aspeed@lfdr.de>; Sat, 03 Jan 2026 02:36:15 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4djj1Q3BPGz2xdL;
-	Sat, 03 Jan 2026 12:01:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4djjnm4Hlnz2yFj;
+	Sat, 03 Jan 2026 12:36:12 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1767307048;
-	cv=none; b=U7N7pYBp8XQYyFnt589NW8k/9j8eyDg28fRSKoY5dCeXlOY5j2qSp19ErZ3EJsMthahZ0bPsyY/fvPx54wHOOh0ndWOntj5ZfYwNkxH0CJFIaKPPKJDX2nWFlPTgjv6s+tjWvSDKljeQW3ONWXT4TvfWiTiW0QgLcr9AhgG/mj6+aLz/4oLb//XlTHeligdfvxR1eb0fXCO7RzaL/ox4bD+BuDWctX0+WsHLUCkd4P8U3VvRfpBvvaBRQeRxFFboxCCuhMvJgGgJ4f9SxGCcMbk4hbLljCBDB6NVIujXePuUTeQINnv85Lm1zVrOSh3wjmb6VlwqlpzKohR8R4A79g==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=209.85.221.173
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1767056598;
+	cv=none; b=dZt9ju+R5MyXARHLWYtwe7WC8s+DydkRfiFTjOt5/F20Wi98YlUXKXDENGaUKT4kCkwxDitBNgucnglMA6SjIsvHmfZJiKxesDOwHUTYBu7tnr0tDAFp7BqzaDVXgXgbgE0YEGjG31irHUNrPqqcNmK7zXY4iRXWvufSzuBn0tcQnPK1ctjw8qSFXx8jQMHTIx59iZQA+W9jnuHW9hd8abrg065QgPX5DoNOjq3W/FpOgT+4K3d4Nmn2KDA3dz+8ILqwpeB3Ps7oE6NQfZwkuuf8cbcRDJnCYuR5cGPIc6SX+xewebBYEi2KEm2f3K8W0q+CveNF7hmSbzMuDMxs/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1767307048; c=relaxed/relaxed;
-	bh=4NjZxR7n/i3V7hLD9I4rLfeAHHpOdNccUfDSk4/Vc7I=;
+	t=1767056598; c=relaxed/relaxed;
+	bh=K3uupG6wwKA+D3WjE6NNFWCJoJkQpCysPioJbVD9zeI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Th4BHe4M7PAAscfxQT8mwMVCR3ultgd510XanAm0lY8oxhSEXjSEQKqZxO+NWzDddfFGpQOChR5bR9sXGDey0JkQNRrp5EzEKNXBvfCmyTJEqFz1Kq84qaXivHr8bNFznaRGK8Xr2zNSyfZP3ubw2C3eimcaEkLWebOoZS/vy85sddRSzWWnYO0D2OEsQJh5s98OWckzF/xEYN2WW5K39+VYUY+LPsYvxsRzt51Z1ywZ82YMIAe9hO9wASqM9o4k//cz2hQkUZBgs8Olk/5yOLfUqiHyhd16MMvjrUoz1ZW8pvgwG84jbaIw1OeKb2oXNI0C1hpRo8sMokpkxKUKyQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ldleX95I; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	 To:Cc:Content-Type; b=EXUgUQ3mfAqCNO/5AYDJc2afv2N1AEGXaBoC6x5noRXFGkUs+w1Kx6ieq5byEBsqlv1o6fKkEdY6KEBD7wTCtG0MYzB1f0FAPlH3wQL1LSKgWb3iUG6M7TDJTpvutdjZ5seDFP2Jz7Ow4pm1FdMzF0UKtAQerKsI9uMEj+17A2OjujiYqAfsJwzVgYHcfv0mndMkx2Ov0rywHMjlHQNjeo6ZecJo5917A3ClebfMNAWeuY6i7giWlK0x46DuHmU2cJRFUZ8Zx7TaKXNSWfKHEA88PUm8nop/DqOihGX54Y4SkBe2MbbgQKgHlkX9JiLgkzFv3KdfEAjYAsdeHoPQYQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=MfSClJ3a; dkim-atps=neutral; spf=pass (client-ip=209.85.221.173; helo=mail-vk1-f173.google.com; envelope-from=kylehsieh1995@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ldleX95I;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=MfSClJ3a;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.221.173; helo=mail-vk1-f173.google.com; envelope-from=kylehsieh1995@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dj1t01dSFz2x9W
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 02 Jan 2026 09:37:28 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 24458600AE
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Jan 2026 22:37:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D15EBC4AF0E
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Jan 2026 22:37:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767307045;
-	bh=4NjZxR7n/i3V7hLD9I4rLfeAHHpOdNccUfDSk4/Vc7I=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ldleX95IA/Rhvnga9zhFQWYGX90TGGbu/MedExFGoLKzVm9VARMh8b4CPjo/2oO4z
-	 uKiJMDiRPe8vx9Ae2im5rgASh7toMyvrp+3s8uV+b4s2A1bo2kIMVdy/np8WxJ0nFF
-	 jpnUfQKMo0eZWT2s3O6705wXXVNYU0bfvpsidNKw5cKrp6aHSDERDTXmzczKXpTR+H
-	 tz2TLU3He7TUxiY7sjfuAbq5j/4OEo5k6fbMpAy+E9hoj9Y5cZ0GOXDFSkbrB+HL+d
-	 0Z0ONjr6g5QbbGc3ZTShvcyOdNkauf7dciFEh9mQ4iBPiJyTohSkKFEEp8kOKXbz2o
-	 SyoTt/wvt2k6Q==
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-78d6a3c3b77so122085497b3.0
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 01 Jan 2026 14:37:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVpPynjf7O5r34C5Zu9cSU/sqzZ1OQIip2V8HXmdgWgq6x0CGa/JI5Pd5NglgrX9y/ErZp6jza9GU2p8NI=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxNdPakKgvgK3QCnM8+B6zdL4cmVbsO0lkBu8ruhMEsiT7X2Bgm
-	vWY2+AfxAZZrAW2CuK05rlyNiP+02ec/WtEqQ0WW3tfLBqeE9VszgQiM7g4pNcMSKVk1VTZX/Wx
-	QjXcTxvtZEw4nDBF33bJDiEn2fHmjWr8=
-X-Google-Smtp-Source: AGHT+IGxfFDsTCRV20/MitXOg9IYsjIgYuqKye3DeOL8wH03xNmqZuWnyqOfWZ2rc2d7AeH+J//qkrFfgP8RZqpfLp8=
-X-Received: by 2002:a53:8585:0:b0:644:60d9:8661 with SMTP id
- 956f58d0204a3-646632e1cd7mr26165537d50.45.1767307045252; Thu, 01 Jan 2026
- 14:37:25 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dgFFc326Gz2yD4
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Dec 2025 12:03:15 +1100 (AEDT)
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-55b2a09ff61so1951191e0c.2
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 29 Dec 2025 17:03:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767056533; x=1767661333; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K3uupG6wwKA+D3WjE6NNFWCJoJkQpCysPioJbVD9zeI=;
+        b=MfSClJ3aYa2wck5KjyVhTm5B4o+bGLOsifuPvtO33YQ7v1NeexjMlx9rgsjnvSP1Fw
+         lH5Wo9XsKW7wBM2Aj6k3DNmRSJ7/Nsj48M7qXvulw0XmwANHRNk9ZjouBm305HQHU8xx
+         i0Bprb/VJ8+WmNbfWsX3zioABetGVwg/n8Xj9fayZJwwdzMaKQG2G61FMy9rWlVEhO1l
+         cjwtOap6MsWUHYE6OsnGfkJGkoEq44G0yPGjTHzTtGG6gy+gPk0B1q5s+78mPNjWro0J
+         3oITYerhTHLw0eVzw/btxVqnjmRnGRUrskRjq7DxO3HW1VuXyfq3Tw6FuvRv85LOqLHS
+         qKgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767056533; x=1767661333;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=K3uupG6wwKA+D3WjE6NNFWCJoJkQpCysPioJbVD9zeI=;
+        b=hXOK1SvUBA9LupM3vI1ogx16EED+sb6LXrwMzj96u0zbu5rwJ9HR8E/uoNx5jEWia/
+         7n5nhZQjav/ZRi6aKDy2qRifoyKpnFE74utl2JlMhKAl7rGtVlsblI1ogEXnU74BBVET
+         jcfQWfbvIvnWl4Xc9a90j+qq/OmEBIlmd5hq2cgNGb94C1ttmq3TH6lOdXNv5PrKU5+y
+         9MreKGca17ul9LHdoneI6a6eHWbuT8NJQmQ3cWQQzV2adCH9P3yEboIfCvhGpEAcy3zn
+         +q7QoYqUsIttPNECmBynAli36caveoP0bh9dkQk2KoDpPg7dGBnJYc0jfY0/dgCWgFCl
+         8N/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWaXieoHCpTb26QAKRx0tt7gUZ1GXQGB3KjqWXdR2kbydhx3B8DPJWWUUQL+oYAaK9umnhQv4y15zEejz4=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzQI5K52HmOoAU9ZqqqQqcyWZ9lAVCd3dHZVZBU0tI1aw/Q/T5W
+	HYU7cFfzFOtC7jhYjUTkWML8RrrIp4QA5E/hTVynNncEANrqpnEwtZxDXNos/JO4LtOsVgiRcej
+	HhHrorzdUt716tIIbLGRx8MEtfgWEV0E=
+X-Gm-Gg: AY/fxX69HC2kvw5o5s6CmPvy6s/jg6QYHYljAyzOP1ic9XzafM3WjSf9W1GLOIrpoXw
+	wlHY8oe5Ko7CY0m5rcZzt6NIGyhTITL8lSbUy/A7dD6Flo9CUoU5cjiwA+RuYMevIyPOZDGYwvK
+	JK91fJooRMNwwsMDwhfmofZ6445czBIcU8r6qfMWBehwnmTBYlpL9AVm9jXjvZA3dTJy2SWIPNs
+	QfwGYLnd7o8fY6/yPujhbT4bJJlgLIb8r5fwxw3Dk2NUbRMb9B3Xs3b8aPclER06wjdtcl4
+X-Google-Smtp-Source: AGHT+IHWHcxnnE6ua2lnO59+DWRC+LlEqTyrTydKj3DfcxQoiFj1yeTa9TC+D4wZtLiBbwSaYWQkTAPRRUX0Kb/EYlU=
+X-Received: by 2002:a05:6122:a1a:b0:559:65d6:1674 with SMTP id
+ 71dfb90a1353d-5615becae79mr7910503e0c.14.1767056532775; Mon, 29 Dec 2025
+ 17:02:12 -0800 (PST)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -66,43 +79,92 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20251219-gpio-of-match-v3-0-6b84194a02a8@oss.qualcomm.com> <20251219-gpio-of-match-v3-3-6b84194a02a8@oss.qualcomm.com>
-In-Reply-To: <20251219-gpio-of-match-v3-3-6b84194a02a8@oss.qualcomm.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Thu, 1 Jan 2026 23:37:14 +0100
-X-Gmail-Original-Message-ID: <CAD++jLndAvhQC_pxU7fU2DgL2HyosfNQqnTxVXrm4uLNK59y3A@mail.gmail.com>
-X-Gm-Features: AQt7F2pIVe2by9dHgGDwlRyH8hysFAWe6pLdQf74mH3djmHANQGvVjg82Ayxg4s
-Message-ID: <CAD++jLndAvhQC_pxU7fU2DgL2HyosfNQqnTxVXrm4uLNK59y3A@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] gpio: zynq: Simplify with device_get_match_data()
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, 
-	Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, Srinivas Neeli <srinivas.neeli@amd.com>, 
-	Michal Simek <michal.simek@amd.com>, Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org
+References: <20251222-ventura2_initial_dts-v1-0-1f06166c78a3@gmail.com>
+ <20251222-ventura2_initial_dts-v1-2-1f06166c78a3@gmail.com>
+ <c069b452-df22-4afa-bf6a-c48949f40ebc@lunn.ch> <CAF7HswN_jEXOU_9K4LpLnbhvd+RD0qqELAHxMBbp=hGtMjS4kQ@mail.gmail.com>
+ <35f3eba9-5ec4-4cba-8a64-fb521dc65b79@lunn.ch> <CAF7HswN0hhJQ-gmE59cKTuPyzrs1A3rM8Xw+Z8i3_AsHRiNcug@mail.gmail.com>
+ <1e21f828-1b06-492d-bfcd-ab5721621e8a@lunn.ch> <CAF7HswP7Oejs42K=jG8bkNiBoDhXR2LbeHoppk0nnNon6_afwA@mail.gmail.com>
+ <32ff7ca8-9cb0-4889-adb0-a6dae735630b@lunn.ch>
+In-Reply-To: <32ff7ca8-9cb0-4889-adb0-a6dae735630b@lunn.ch>
+From: Kyle Hsieh <kylehsieh1995@gmail.com>
+Date: Tue, 30 Dec 2025 09:02:02 +0800
+X-Gm-Features: AQt7F2pPUn1JLWmR3VqaFLx0jmfpldK-iH0ck9hcP5otIfqONHlFX9khVNFmN88
+Message-ID: <CAF7HswMRrs9hwKo_uHCLMtx7+h46-DPEJRcEqu0-zEG4CVvvjg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ARM: dts: aspeed: ventura2: Add Meta ventura2 BMC
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Fri, Dec 19, 2025 at 1:13=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@oss.qualcomm.com> wrote:
-
-> Driver's probe function matches against driver's of_device_id table,
-> where each entry has non-NULL match data, so of_match_node() can be
-> simplified with device_get_match_data().
+On Wed, Dec 24, 2025 at 5:20=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote:
 >
-> While changing the error message, switch to dev_err_probe() so error
-> path is a bit simpler.
+> On Wed, Dec 24, 2025 at 02:40:39PM +0800, Kyle Hsieh wrote:
+> > On Tue, Dec 23, 2025 at 6:35=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wr=
+ote:
+> > >
+> > > > > What make/model of switch is it? Is it unmanaged, or does it use =
+SPI
+> > > > > or I2C for management?
+> > >
+> > > > The switch is connected via RMII to the MAC and is managed over MDI=
+O.
+> > >
+> > > O.K. What make/model?
+> > >
+> > The device is a Marvell 88E6393X switch. In our design, the BMC connect=
+s
 >
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-Reviewed-by: Linus Walleij <linusw@kernel.org>
-
-Yours,
-Linus Walleij
+> Which Linux does have a driver for.
+>
+> > to the device via RMII with fixed link parameters to retrieve ethernet.
+> > > > On our board, MDIO is not wired directly to the processor; instead,=
+ we
+> > > > use a USB-to-MPSSE bridge (FT2232) to toggle the MDIO signals for
+> > > > switch management.
+> > >
+> > > I have to push back on you using a closed source user space driver,
+> > > given that i help maintain the Ethernet switch drivers...
+> > >
+> > > I know there have been attempts to get GPIO support added for FT2232,
+> > > but i don't think any got as far as mainline. That is probably the
+> > > only part you are missing. You can describe USB devices in DT. So you
+> > > should be able to describe such a GPIO controller. You can then
+> > > instantiate an virtual,mdio-gpio driver to give you an MDIO bus. And
+> > > then add nodes for the switch using DSA.
+>
+> > Apologies for the confusion in my previous reply.
+> > The BMC connects to the peer via an RMII fixed-link.
+> > The link parameters are fixed at design time and there is no runtime
+> > MDIO-managed PHY or switch control from the BMC.
+>
+> So you use the USB-MDIO to program the EEPROM? The switch boots using
+> the settings in the EEPROM? It is then an unmanaged hub? You are not
+> using UMSD in userspace? That code looks terrible.
+>
+> So if you connect multiple of these unmanaged hubs together in a loop,
+> your network disappears in a broadcast storm? Yes, you can use these
+> switches in a dumb mode, but it has consequences. If you let Linux
+> manage it, you gain a lot of functionality, such as STP, to break
+> loops.
+>
+> But you seem to be opposed to this. At least add in a comment
+> explaining the purpose of the fixed link. DT describes hardware, so
+> there is no harm in describing the hardware, even if it is a comment
+> and not real properties.
+Thanks for the comments.
+I understand the concern about the DTS. I will add a clear comment in the
+device tree explaining why a fixed-link is used and that the switch is
+initialized via hardware straps and EEPROM, with no runtime management
+from Linux.
+>
+>         Andrew
 
