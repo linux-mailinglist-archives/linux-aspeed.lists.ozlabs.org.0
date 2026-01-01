@@ -1,58 +1,58 @@
-Return-Path: <linux-aspeed+bounces-3244-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3240-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B87FCEF9D8
-	for <lists+linux-aspeed@lfdr.de>; Sat, 03 Jan 2026 02:01:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A559CEF9CC
+	for <lists+linux-aspeed@lfdr.de>; Sat, 03 Jan 2026 02:01:16 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4djj1Q6lVRz2yFd;
-	Sat, 03 Jan 2026 12:01:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4djj1P4CC3z2yFc;
+	Sat, 03 Jan 2026 12:01:13 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.234.252.31
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1767306985;
-	cv=none; b=cGWgKv7i/v3hX+WBzLP/+W+CC/9pFb8qXM2scGQ8jSH9Hj5i8KpQSAIiZ2Qg0JpJ/IcxGmtoV8WDCrfr9U+P1y9dJQ0Z8LOq6oa9uO26MLZiuxzcnczB7jZq5u8ba4CdWiO1gdj8UcFqW2StdWiQM3chjtaQuAH3/xbaEDK+phQJpQdIzT0zOgeXg13jBvwQ7S8p1L1Cji1Gz2O0+s2UytFjFgkvnOJ8qT7XTQWiswIjAdA+vcAfdoVymxvyqXnZYBXGkSQIqu+9sWpYQyFRgaPajZm8AiJrykBAeNfxyAJA/sbLv/HNA+6spBWE3xlyukyomzeBD4bhsNP++v7Q6A==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1767307045;
+	cv=none; b=TYIWD+VPzkCjavb6qVW4g7zRanHIzAZ4XC7CfJzA4L/Su8WN1XdNC0SUNhMj/ySwViGCodmPzvCD4MWuy+ghqvNyVz+ckhrtFWYpdgSEMYwzRtSiruwCcmgigiYv5EZ0yWdmtKep5KfgxwW3NU6LEE2v3/cqZ1RyOIUs5xu4j6IP9wHrJNZ3juK5HoZomYqRCuPTP9uakoBRuzdnuAcnYyPVsT35vn6OhLQB1duXZ1ABPaiREZcSVHWz5octwPB7eV/AiFpQqzgJnsbEq0RKGc7wnTNw79RIPE6KG+//ckx6dDEdo3Kj0VpEiNlr8xEYBDzr9v8IlFYu0DBNg69BWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1767306985; c=relaxed/relaxed;
-	bh=QMvcHOsvbeq/KIs3IJ0EOSwRJPyItWeiXV1rTu2E8c4=;
+	t=1767307045; c=relaxed/relaxed;
+	bh=zFPbOYoiGK2YHEkPa6hnUfO45Q+tjDmbpv/dwRaLQsU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hqLDHqLkoubGwHoLrDxosBhAzDGrz3la/7PJ2qyfN5PCVcAUn0OHAME9X6zs1WzpLqeCyA0CYE25QeGnN7Ix1nYqoMRIc38MlLIJyCkSLNI6RQkWA2h8oXq2PhqTOiif4dhdGOZ6X6OVjZjmUqfwY8ovdooDQdeQUvMFd7T6MjoR1qxBoHmfT8kF2wymQ7mXAYrlbzYCVwIBq1fYVXiVIb+Qx5q1Lg6EnDCYCcSqVSXLW+JfI+jBwNU/d+N0uLCd/YNMEPjcUKAv/dqzrym9g+Gk2Q+UpFnoajaZD4I5jOeXYxf/CNRRjcxMeYZDSC6eoR2tKwNLLAn2iyC+BkBTSg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=iPFW2Ojk; dkim-atps=neutral; spf=pass (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 To:Cc:Content-Type; b=F6jWsNAm8aJRw+6Q/o5Pi+2rQ7sGO4860sUr/qZPQRaVyPagQe3Nb+vOcJTIE6wYWe7Ogyj/N0LZ/2zhpfaqhfM1IwZgbYUhO413/BTTjOCQqwYZ4qAmBdjrbltoVpMAZAtNC3JWodw81g9IRaKQm9vnepcQssYUl0f2HbtEV3yndk/tbIl8eT8JLVR6Wc0YBl31oWYtdOAW9CGIVv0m5rS587fXqb+5T1EUn9t9NA4K/yL/mcQzV37Dk6EC1c52TCOoYLsHbDxI/0rjrObaZ57HvV2UeIkwcmDQ89jIotWPB6BDELMCdOZn4vt7hCr2z16bah9bTD3+os7Fd+Lofg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=D6knG1Bu; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=iPFW2Ojk;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=D6knG1Bu;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dj1rn0k5Cz2x9W
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 02 Jan 2026 09:36:25 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dj1sx2VXKz2x9W
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 02 Jan 2026 09:37:25 +1100 (AEDT)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 6FDB041AF0
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Jan 2026 22:35:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 514F4C4CEF7
-	for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Jan 2026 22:35:52 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 45C6160054
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Jan 2026 22:36:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F346BC4AF09
+	for <linux-aspeed@lists.ozlabs.org>; Thu,  1 Jan 2026 22:36:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767306952;
-	bh=QMvcHOsvbeq/KIs3IJ0EOSwRJPyItWeiXV1rTu2E8c4=;
+	s=k20201202; t=1767307013;
+	bh=zFPbOYoiGK2YHEkPa6hnUfO45Q+tjDmbpv/dwRaLQsU=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=iPFW2OjkDUHTshzwy5iZrPT9cuPNdw7BLkUBetmleByjNDVFJI0R5NI77lzRdn0Zg
-	 1OSOSGsHWWBN7i0ybcyrvT+L0f795oGsXzbeIOS/3T9yULI2Cvg+3SOXEvNV8BykWa
-	 XyyUQfCJoCL+s2bMBfQECwQt1eGAfVlwaH7pUrwvu0X4iq1Qx1IhJIecwGZkVsn1b1
-	 XJ9/TFtOd+i8aAlSvEW4IaYX1GbP5PcNEFPkJ8Pd5b/Gkyqaz79M8zTVByL4Fc9TFj
-	 MuL5L4/s0+aL5+VYtsvjqny+PUZEWtQUIzNE69tkAahD/Gdo/6BykV5XfjjdvzZjPX
-	 DElUuHmIx9MYA==
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-6468f0d5b1cso6905051d50.1
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 01 Jan 2026 14:35:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVLbATiAeoiMLCqCgilKTQPcNqvI7sNKZn1C7SupwvIbtamnvrDZguaKroozeUZR+SMfOD5FI+UO6u+8WU=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxflkvwCDQusiN+UXFmzLcmqZkcUX4afx+fwS+yLzqYGbvryjgi
-	3yZtFw24Yqs/ElF0b2nrJTtjdP/CAOraw5uSO1I6gQFazFtvNhpyC22WvxE2L0dZ+xCKo8jS2WT
-	x3ZusHca70z2RzUj39wjT/UyryQOUhkY=
-X-Google-Smtp-Source: AGHT+IEbScPl11Wd17XFYMap12LvzWfJ4p/Vjq8yPw63OOIA+tKxG0Z0war/aoElpBRNBkuJ5ynYi3FD1FVnyPhQPxM=
-X-Received: by 2002:a53:e01b:0:b0:644:6c45:4ee9 with SMTP id
- 956f58d0204a3-6466a8c4e2emr24775256d50.39.1767306951744; Thu, 01 Jan 2026
- 14:35:51 -0800 (PST)
+	b=D6knG1BuD6qEHVAwPQ2DKg9tTyDVtorlevdSLRckmOa5iIdxKiJii051JNf8yAACg
+	 GVr/obGJuSkR/0A0kPrv3oSUVXN/kLfADsbKky+M+TRE4vARsxUK/Eaxl9ob2LKcoJ
+	 Hkawuibs9rcWXGzgoBDF2J/+HtC8kzKH+jKB3t37OYIIFOFZkEDhwLm3Wyc/4gwQCw
+	 IV6Zx7+Y4dgH5BTebhaj0+Z0bEb2xwXgjRu2FhQICRyhumbmY8L5eLc5ya3MfDVjIX
+	 ztWN+sx7EtKFZQzoGdk6w/vppML0zDAeS2H5iBWq/sbTKDcdUSbEmulGoPs+9gYkhw
+	 5hmJkSUkwFcIw==
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-78c66bdf675so101121407b3.2
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 01 Jan 2026 14:36:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWG2ClnZE7S/WH3RQFGsCtjYBQEvzPOSjkdMFmzTuK9LA6knk6jbJtnUvFyZKHfKRIMLCWneMG34cUsc+g=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzKgaVr26MQtPg0N5a9LwIfUgxVE3RpWGsKYIpfdycE847uB5B8
+	f9QSTP+a/nC7BdF8wT2MlSJGHQR4hWHvRbgvmDcZn1BsxmwnOiOjY/91OplOWRlIf4cqDnrp7s5
+	guSccBTGseU4LE4JCCdqek63KqDsqDnI=
+X-Google-Smtp-Source: AGHT+IEO5LwtEScYPWNW+HTmyiMl4lA6z8T55VrgRQjoU6dIngv+B6BdPNzDk5TNK4hhdSKTxLiw6rjQ1I7m1uaT2oY=
+X-Received: by 2002:a05:690e:4190:b0:644:7a37:e8bf with SMTP id
+ 956f58d0204a3-6466a8a5cc8mr30736205d50.55.1767307012376; Thu, 01 Jan 2026
+ 14:36:52 -0800 (PST)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -66,14 +66,14 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20251219-gpio-of-match-v2-0-5c65cbb513ac@oss.qualcomm.com> <20251219-gpio-of-match-v2-2-5c65cbb513ac@oss.qualcomm.com>
-In-Reply-To: <20251219-gpio-of-match-v2-2-5c65cbb513ac@oss.qualcomm.com>
+References: <20251219-gpio-of-match-v3-0-6b84194a02a8@oss.qualcomm.com> <20251219-gpio-of-match-v3-1-6b84194a02a8@oss.qualcomm.com>
+In-Reply-To: <20251219-gpio-of-match-v3-1-6b84194a02a8@oss.qualcomm.com>
 From: Linus Walleij <linusw@kernel.org>
-Date: Thu, 1 Jan 2026 23:35:40 +0100
-X-Gmail-Original-Message-ID: <CAD++jLnfDotbsE8fz_xFK4RhbAUO_PXrDECgT9mgnCO3Ek92UQ@mail.gmail.com>
-X-Gm-Features: AQt7F2rgsNyQ_sXrUoBKmwhd6vUxSgOicBOQWjF3aplz2un6xPpf3QX8VXVj1OM
-Message-ID: <CAD++jLnfDotbsE8fz_xFK4RhbAUO_PXrDECgT9mgnCO3Ek92UQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] gpio: creg-snps: Simplify with of_device_get_match_data()
+Date: Thu, 1 Jan 2026 23:36:41 +0100
+X-Gmail-Original-Message-ID: <CAD++jLmhxts7jPoTZabzCUCxjjxqSqgh488UrQk5CgeGC1T1nw@mail.gmail.com>
+X-Gm-Features: AQt7F2pUbvBtP6_wDtOSoTk6qQP2DBSKO-EAbAzEKgRoIHXV2ayoPr7YsCnPilE
+Message-ID: <CAD++jLmhxts7jPoTZabzCUCxjjxqSqgh488UrQk5CgeGC1T1nw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] gpio: aspeed: Simplify with device_get_match_data()
 To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Cc: Linus Walleij <linus.walleij@linaro.org>, Joel Stanley <joel@jms.id.au>, 
 	Andrew Jeffery <andrew@codeconstruct.com.au>, 
@@ -89,12 +89,12 @@ X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Fri, Dec 19, 2025 at 11:12=E2=80=AFAM Krzysztof Kozlowski
+On Fri, Dec 19, 2025 at 1:13=E2=80=AFPM Krzysztof Kozlowski
 <krzysztof.kozlowski@oss.qualcomm.com> wrote:
 
 > Driver's probe function matches against driver's of_device_id table,
 > where each entry has non-NULL match data, so of_match_node() can be
-> simplified with of_device_get_match_data().
+> simplified with device_get_match_data().
 >
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
