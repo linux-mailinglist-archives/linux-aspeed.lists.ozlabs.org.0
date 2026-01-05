@@ -1,58 +1,55 @@
-Return-Path: <linux-aspeed+bounces-3245-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3248-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2474BCEF9EB
-	for <lists+linux-aspeed@lfdr.de>; Sat, 03 Jan 2026 02:22:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7757CF1CDD
+	for <lists+linux-aspeed@lfdr.de>; Mon, 05 Jan 2026 05:41:14 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4djjTq4phfz2xl0;
-	Sat, 03 Jan 2026 12:22:23 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dl1pG3Ql4z2xqG;
+	Mon, 05 Jan 2026 15:41:10 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.234.252.31
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1767217106;
-	cv=none; b=a82WqJLx+UUscUC1G7pWQOXUlzYyxwrUAwTWYLtInNnlvwolD9yHl87FxBVwvtzIjDGlTBM37abKkXLVs5WQuh+/s5Cn0bGdYP5+2LCHYAnBfLbNMz6tuFijVThFsifMHg27S9NIVDKnhuE5DcmjuieU2w4xGALjyi4AdUcjFzc8SksWZBgHxLNFhg8RB2qP/n23ypHo5Ce/RwMnn32klmt9jPdQB2EMbNLcy4ZT8WSNHXU7DU/J0vNqGmWSQm21yUSKiPyRWhKOAiA3sAdc21RdChFQYQkJAXDrUQ3SMMoSTTemloZj5/+b7zOOG7QYACP7K4af+3gVPKSX+d5CHg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1767588070;
+	cv=none; b=LMlDJDArF629tG7R9ZsqP/bzT/+EDWuR52YrEu2lmHz6RtGDUno7RycyYEhYoHQ3o9yXk2E8RUdlB1mKpC0tKGgb3xHaLOuu0VymIZqhmNzx86hisoqript+/4L52DYFTLr2Z4JNpbbKkM+nddpPs0vPf60N+l6reE2z5cTqmmBL7zKOKrs11FGXMhM7CB+Ok9s6A9GdnQY944HXCKaiGHrCgmDxJ3XirG14X5qTnzQEu3pXLmbF+TrrOHT3H14CjulECUdivGMNH/F/QN7cIt0WVQue55x55J/69sfsqi9i2K/Moqq3bycYS67nViLMXIJnUFAJ7w2gZ+umdjN28A==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1767217106; c=relaxed/relaxed;
-	bh=bNI4moxHzlL6mKNWIZsVYWKbjwRce0cuGLHEF0rQIaQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Au1p5nboWvxQy2McIzgl0wqcZT8xVxQgyVvk0BDS2m0DvK3FzuB+rEOtEk7FHSI61F/5WO3NFhE+ldApDibJwym62ZQilWT0tcMdd3xxwX8+Pfcl//vcm38HxCUJx1ZxAXvzv+EBXkq0OnTovatVV4WO5u8uAx3JdeiO6jwA5xKFozHubTzfiRo+DlVX/IK/IIu6SyjJEkAk/7Fvt3eX63MS8SzDZI35JBiEsZr3ep9cN0vgdEcZwpPzRe7FYni6cVKCxXx3yvbN8mFea24LHse2wGlkObFTGo2cHLARK90vENF+DzYcLP/O70a9mCccW++WoNz5Dw1uGEd3a0fY6g==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Ud1JCDQ6; dkim-atps=neutral; spf=pass (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1767588070; c=relaxed/relaxed;
+	bh=tSnwqQ4DEG5Xd/QNiEqxoVCY2/oYuSe+axqra58I6ko=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=KNZS+qiEeHuvmjhllX6GNApRBIzF5W2wVfOl0K+y0PZmq/xMXTVNliBL4vdXdDbeq15hCn9UtGKyXf1To2z188XAE5fLt3XHyll0aU/o6m4gakVCmC0h6YFL9/4u+kqZ9m7slhHshrXVYzCyXn13XSwmFbN0AI0jo45ppP7f/U/1UQNEvBcRqvCaqJfEsm02skWFYLBUKoB+cKWuEyn/y7cvxoQjurZ0p6iYj9eK7OhS2wl0X64GZtZBYQtZa6JWFhnLWGihnT4bmRipkpa2lQWRUnEK9hQM+5oCHOScEoONZIBiHJRHRlTThQeq0ZBEroLXH5kuBHrxaxeKVXSlCA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=m03LK9lh; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Ud1JCDQ6;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=m03LK9lh;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dhNcK6Sb8z2x99
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 01 Jan 2026 08:38:25 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 50B9F44216
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Dec 2025 21:38:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31844C4AF0B
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Dec 2025 21:38:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767217104;
-	bh=bNI4moxHzlL6mKNWIZsVYWKbjwRce0cuGLHEF0rQIaQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ud1JCDQ6O191m3kYD44vkt1ShFs9vgo4JobjnhWd+evWDfkmkNYuJI5wcSNL4tWrL
-	 0Z7WpJ+bn7kwco/mfx1YQUb+Cf2JEoE/aLmZRvF04wFMC+yaiiiu1Wrne8U3CLXW7m
-	 rlf4vA2wklUadaJzq65C3YgpX5x29MdV+ltwo/Vd2zN8HofhUcqV8WbtJ0uksC688J
-	 ++6tS4KWFBNxOPHIOXyel+T5t0WvUdmHTbHNbqpkG920NCyjtE7n4FDHgl2Y4TBj64
-	 W6M7ykqRfovFexXy0AhEWH8mXR/2CkOb0cvGL234hY0g3gpG0VTXQnHhEZE4eY7Nqc
-	 84vzL6TQKrNEA==
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-78a712cfbc0so101524397b3.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 31 Dec 2025 13:38:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXc8BA6QkgaeZEh2NMqKYfEATg51xglZBisN1uJ/NeEXrPxpQ2Ad0HHOimdsYfVij5zEsjxT7ONxWgcVyY=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxcVTThyF/peihzsJLnFr20uMoLmeboePALHzdzSkFoElKaAM/2
-	O8cjBOjT8YZ5hbzKt7ZcAv6cUD4GamzR6Em6UbNIKMu+44b+lVXziNNCA1orX2xJ6N7vfF0E3Hp
-	Iz8HkmC39M+MBGshJyeDo6BbRpnoJ9Aw=
-X-Google-Smtp-Source: AGHT+IHGZ+h0d0MHZDCxvMCHygNM5e2LD8BSbr6KIbsOXsE3Z3p+Mpa0Okg+bD8neauLjOFoWJ8WBhGUbfiIcHde2OA=
-X-Received: by 2002:a05:690c:90:b0:78f:a9e9:f784 with SMTP id
- 00721157ae682-78fb3f5d4f4mr320728627b3.31.1767217103495; Wed, 31 Dec 2025
- 13:38:23 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dl1pD3hcXz2xm5
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 05 Jan 2026 15:41:08 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1767588067;
+	bh=tSnwqQ4DEG5Xd/QNiEqxoVCY2/oYuSe+axqra58I6ko=;
+	h=Subject:From:To:Cc:Date;
+	b=m03LK9lhp4zWDB6gJBtFLHzjJ5LzZfmvgtajryyBo+CFzyqXiXNm0e1ajCeqjHO71
+	 iwH7I5qkN0I2LgxDy7gu7rzhKb9AVCCTzj2ijJdmAjI/l6TdfyCT4mBIwIUgpUij1t
+	 Iy/4yN1B3Q+AOL8awvYxQNWHo6653S9Q70rohj/obfHP6FoJVlucR2bv5bcU2V43wp
+	 xCjhBnBzOMJyKNMgJ2A4C9BrFF9HbZ4ZDP0JyrGXEucAjJ6Yqv4nUzz1HYreZKpjhn
+	 VqFpoeG+PSbfKcGxK09n4pwHQcepK3xnMPcuVzxGpa03exudol54CAv8WvVP1BnLKu
+	 WnTmw6V0TacjQ==
+Received: from [192.168.68.115] (unknown [180.150.112.60])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 8B88B7C1B2;
+	Mon,  5 Jan 2026 12:41:04 +0800 (AWST)
+Message-ID: <4ab756729c4e26f7e544156c8613e839a9a9bebe.camel@codeconstruct.com.au>
+Subject: [GIT PULL] aspeed: first batch of devicetree changes for 6.20
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: soc <soc@lists.linux.dev>
+Cc: linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, Joel Stanley <joel@jms.id.au>
+Date: Mon, 05 Jan 2026 15:11:03 +1030
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -66,48 +63,111 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20251211-dev-dt-warnings-all-v1-0-21b18b9ada77@codeconstruct.com.au>
- <20251211-dev-dt-warnings-all-v1-3-21b18b9ada77@codeconstruct.com.au>
-In-Reply-To: <20251211-dev-dt-warnings-all-v1-3-21b18b9ada77@codeconstruct.com.au>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 31 Dec 2025 22:38:12 +0100
-X-Gmail-Original-Message-ID: <CAD++jL=TXQyGD5nSdg37KK=OrUJDwi=2pXQciLr+udC9hjCVkw@mail.gmail.com>
-X-Gm-Features: AQt7F2oBzR1qfgGQMAe5k9Xw2nDJvErMxOKzOVsHNn8uiB-Wg9Ho6D3OL063WYs
-Message-ID: <CAD++jL=TXQyGD5nSdg37KK=OrUJDwi=2pXQciLr+udC9hjCVkw@mail.gmail.com>
-Subject: Re: [PATCH RFC 03/16] pinctrl: aspeed: g5: Allow use of LPC node
- instead of LPC host controller
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, linux-hwmon@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	openbmc@lists.ozlabs.org, linux-gpio@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-iio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Thu, Dec 11, 2025 at 9:46=E2=80=AFAM Andrew Jeffery
-<andrew@codeconstruct.com.au> wrote:
+The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8=
+:
 
-> There's currently a wart where the Aspeed LPC host controller has no
-> binding specified, but the pinctrl binding depends on referencing its
-> node.
->
-> Allow specification of a phandle to the parent LPC controller instead.
-> Fall back to testing for a compatible parent node if the provided
-> phandle doesn't directly resolve to the LPC controller node.
->
-> Signed-off-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+  Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
 
-Reviewed-by: Linus Walleij <linusw@kernel.org>
+are available in the Git repository at:
 
-I guess when this is non-RFC I will just apply these two patches.
+  https://git.kernel.org/pub/scm/linux/kernel/git/bmc/linux.git tags/aspeed=
+-6.20-devicetree-0
 
-Yours,
-Linus Walleij
+for you to fetch changes up to 459a5aa171c0f13fcd78faa9594dc4aa5a95770b:
+
+  ARM: dts: aspeed: bletchley: Fix ADC vref property names (2025-12-17 15:5=
+3:31 +1030)
+
+----------------------------------------------------------------
+First batch of ASPEED Arm devicetree changes for 6.20
+
+New platforms:
+
+- NVIDIA MSX4 BMC
+
+  The NVIDIA MSX4 HPM (host platform module) is a reference board for
+  managing up to 8 PCIe connected NVIDIA GPUs via ConnectX-8 (CX8)
+  SuperNICs. The BMC manages all GPUs and CX8s for both telemetry and
+  firmware update via MCTP over USB. The host CPUs are dual socket Intel
+  Granite Rapids processors.
+
+  For more detail on this architecture:
+
+  https://developer.nvidia.com/blog/nvidia-connectx-8-supernics-advance-ai-=
+platform-architecture-with-pcie-gen6-connectivity/
+
+Updated platforms:
+
+- ast2600-evb (ASPEED): Various tidy-ups to address binding warnings
+- bletchley (Meta): Watchdog fix, tidy-ups to address binding warnings
+- clemente (Meta): HDD LED fix, GPIO line names, EEPROMs
+- harma (Meta): fanboard presence GPIO
+- santabarbara (Meta): IPMB, GPIO line names, additional IO expander
+
+----------------------------------------------------------------
+Alex Wang (1):
+      ARM: dts: aspeed: clemente: move hdd_led to its own gpio-leds group
+
+Andrew Jeffery (6):
+      ARM: dts: aspeed: Remove sdhci-drive-type property from AST2600 EVB
+      ARM: dts: aspeed: Use specified wp-inverted property for AST2600 EVB
+      ARM: dts: aspeed: Drop syscon compatible from EDAC in g6 dtsi
+      ARM: dts: aspeed: g6: Drop unspecified aspeed,ast2600-udma node
+      ARM: dts: aspeed: ast2600-evb: Tidy up A0 work-around for UART5
+      ARM: dts: aspeed: g6: Drop clocks property from arm,armv7-timer
+
+Cosmo Chou (6):
+      ARM: dts: aspeed: bletchley: remove WDTRST1 assertion from wdt1
+      ARM: dts: aspeed: bletchley: Use generic node names
+      ARM: dts: aspeed: bletchley: Fix SPI GPIO property names
+      ARM: dts: aspeed: bletchley: Remove unused pca9539 properties
+      ARM: dts: aspeed: bletchley: Remove unused i2c13 property
+      ARM: dts: aspeed: bletchley: Fix ADC vref property names
+
+Daniel Hsu (1):
+      ARM: dts: aspeed: harma: add fanboard presence sgpio
+
+Fred Chen (2):
+      ARM: dts: aspeed: santabarbara: Add swb IO expander and gpio line nam=
+es
+      ARM: dts: aspeed: santabarbara: Enable ipmb device for OCP debug card
+
+Kimi Chen (1):
+      ARM: dts: aspeed: clemente: add gpio line name to io expander
+
+Leo Wang (1):
+      ARM: dts: aspeed: clemente: Add EEPROMs for boot and data drive FRUs
+
+Marc Olberding (2):
+      dt-bindings: arm: aspeed: Add NVIDIA MSX4 board
+      ARM: dts: aspeed: Add NVIDIA MSX4 HPM
+
+ Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml      |   1 +
+ arch/arm/boot/dts/aspeed/Makefile                             |   1 +
+ arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts               |   7 +++---=
+-
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-bletchley.dts    | 106 ++++++=
+++++++++++++++++++++++++++++++++++++++++++++++++---------------------------=
+-------------------------
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts     |  43 ++++++=
++++++++++++++++++++++++++++++++------
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts        |   8 ++++++=
+--
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dts |  29 ++++++=
++++++++++++++++++++----
+ arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dts       | 246 ++++++=
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++++++++++++
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi                       |  12 +-----=
+------
+ 9 files changed, 374 insertions(+), 79 deletions(-)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dts
+
 
