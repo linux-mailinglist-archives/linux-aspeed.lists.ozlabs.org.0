@@ -1,55 +1,96 @@
-Return-Path: <linux-aspeed+bounces-3248-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3250-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7757CF1CDD
-	for <lists+linux-aspeed@lfdr.de>; Mon, 05 Jan 2026 05:41:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6FBCFB322
+	for <lists+linux-aspeed@lfdr.de>; Tue, 06 Jan 2026 23:06:18 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dl1pG3Ql4z2xqG;
-	Mon, 05 Jan 2026 15:41:10 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dm4xg6GX9z2yFY;
+	Wed, 07 Jan 2026 09:06:15 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1767588070;
-	cv=none; b=LMlDJDArF629tG7R9ZsqP/bzT/+EDWuR52YrEu2lmHz6RtGDUno7RycyYEhYoHQ3o9yXk2E8RUdlB1mKpC0tKGgb3xHaLOuu0VymIZqhmNzx86hisoqript+/4L52DYFTLr2Z4JNpbbKkM+nddpPs0vPf60N+l6reE2z5cTqmmBL7zKOKrs11FGXMhM7CB+Ok9s6A9GdnQY944HXCKaiGHrCgmDxJ3XirG14X5qTnzQEu3pXLmbF+TrrOHT3H14CjulECUdivGMNH/F/QN7cIt0WVQue55x55J/69sfsqi9i2K/Moqq3bycYS67nViLMXIJnUFAJ7w2gZ+umdjN28A==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=209.85.167.46
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1767695499;
+	cv=none; b=cVX0xbfJ0tb0uCCyQQi8pqMfPhnHSWrbLiAavsafxmvYFOv4Bigaena5BzuSjbnxnevDlOvUFCGrqINIcpMMCeIOTOab/149DYGot+cx75HInj5lp9utM58e+3jvQcURLlvlIfG+OLyXQII9CtKJ4j6u6Qxb6Cp0DV9bAHmVW+jw6lHM8CUE+X0gE+FtkrYrlaikb/LbLfdxDMlsW4/uL0EKpAmlFE1C6iUYVHPpW+HMIkBn2RPB3wNX9ElO4QvSMU70VN/9xzPc89ba9E9LKYGIboCU8lfg1fCz1LhlTiAWYg2KHlmx7NGYOoIE0cJ235ZNqXvz7+ezbQSDWbYCRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1767588070; c=relaxed/relaxed;
-	bh=tSnwqQ4DEG5Xd/QNiEqxoVCY2/oYuSe+axqra58I6ko=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=KNZS+qiEeHuvmjhllX6GNApRBIzF5W2wVfOl0K+y0PZmq/xMXTVNliBL4vdXdDbeq15hCn9UtGKyXf1To2z188XAE5fLt3XHyll0aU/o6m4gakVCmC0h6YFL9/4u+kqZ9m7slhHshrXVYzCyXn13XSwmFbN0AI0jo45ppP7f/U/1UQNEvBcRqvCaqJfEsm02skWFYLBUKoB+cKWuEyn/y7cvxoQjurZ0p6iYj9eK7OhS2wl0X64GZtZBYQtZa6JWFhnLWGihnT4bmRipkpa2lQWRUnEK9hQM+5oCHOScEoONZIBiHJRHRlTThQeq0ZBEroLXH5kuBHrxaxeKVXSlCA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=m03LK9lh; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+	t=1767695499; c=relaxed/relaxed;
+	bh=NsJJOzya3cvYihpIwq796R0nHpBIF37n18oyXT0fuvE=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=B9GcQfO+MnMayjFFMbzUT4VWrKoX/PjLBbFn6DlWesGElpN15XZABni7BNVK45gT+lmCZEQ7VqT03cjBd/Qs1h46AFoQ9gHFtBbSjkQAfankfvSiP74yafxQvanXttqmOp2DH2CxwxcJQ3dkKE02PwRaAS871iw6qrhs+FaJ3dVezqDp9d/Msh3cqcfms56pfm44jAPWZuV4q3m1f1aNdSrC2zWrogDVKdtSYSVacLZF/WFv46QpiUmpLfHwlvZ3Uo7I6HFMaXJ4GRjhUHFSqi20C9T1y9c7E/cARsp3jpa9pX53YfD9z679VvRk7s8oEuYgJMGLJiaoeAyGf6vVxw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=kdtNsG/r; dkim-atps=neutral; spf=pass (client-ip=209.85.167.46; helo=mail-lf1-f46.google.com; envelope-from=mike.rudenko@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=m03LK9lh;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=kdtNsG/r;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=209.85.167.46; helo=mail-lf1-f46.google.com; envelope-from=mike.rudenko@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dl1pD3hcXz2xm5
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 05 Jan 2026 15:41:08 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dlnX91RMZz2xHt
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 06 Jan 2026 21:31:36 +1100 (AEDT)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59577c4c7c1so2827486e87.1
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 06 Jan 2026 02:31:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1767588067;
-	bh=tSnwqQ4DEG5Xd/QNiEqxoVCY2/oYuSe+axqra58I6ko=;
-	h=Subject:From:To:Cc:Date;
-	b=m03LK9lhp4zWDB6gJBtFLHzjJ5LzZfmvgtajryyBo+CFzyqXiXNm0e1ajCeqjHO71
-	 iwH7I5qkN0I2LgxDy7gu7rzhKb9AVCCTzj2ijJdmAjI/l6TdfyCT4mBIwIUgpUij1t
-	 Iy/4yN1B3Q+AOL8awvYxQNWHo6653S9Q70rohj/obfHP6FoJVlucR2bv5bcU2V43wp
-	 xCjhBnBzOMJyKNMgJ2A4C9BrFF9HbZ4ZDP0JyrGXEucAjJ6Yqv4nUzz1HYreZKpjhn
-	 VqFpoeG+PSbfKcGxK09n4pwHQcepK3xnMPcuVzxGpa03exudol54CAv8WvVP1BnLKu
-	 WnTmw6V0TacjQ==
-Received: from [192.168.68.115] (unknown [180.150.112.60])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 8B88B7C1B2;
-	Mon,  5 Jan 2026 12:41:04 +0800 (AWST)
-Message-ID: <4ab756729c4e26f7e544156c8613e839a9a9bebe.camel@codeconstruct.com.au>
-Subject: [GIT PULL] aspeed: first batch of devicetree changes for 6.20
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: soc <soc@lists.linux.dev>
-Cc: linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, Joel Stanley <joel@jms.id.au>
-Date: Mon, 05 Jan 2026 15:11:03 +1030
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+        d=gmail.com; s=20230601; t=1767695433; x=1768300233; darn=lists.ozlabs.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=NsJJOzya3cvYihpIwq796R0nHpBIF37n18oyXT0fuvE=;
+        b=kdtNsG/rIBhlABS/6tS/VbaKh4g4Nxr7lnGjispjdLH/PnoQilGioGRff6ARvgJM+s
+         IgJhdaX1IWfG2WB/0b5aWC25ouyw+LfH97oA0E9cbpH3wv6Iu4v6r9/Gz7vXn1wdYDtK
+         YHZSaEufEoibfvODUZo5QSPVLPsTI0vz+bqNvkD6HVA7V860MzwyotS5TZaiv7wNC9OF
+         DEK8mj1yrCebtmbwQ1/+B/+fDQlvGD+Rpsa/GoWaiREBSiNt5IS+shkVlYgahnxgE384
+         AF5cmMKYZ1sgNXc4k1UJ7O1lYSSgGW+hZ9cXBG06/DYxxOLAu4zweW5mdbCTTyCbjdVW
+         c4SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767695433; x=1768300233;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=NsJJOzya3cvYihpIwq796R0nHpBIF37n18oyXT0fuvE=;
+        b=tVfTjpZosAis2hrIZCQ59pvPPQ+f1jCSiliagIFAP5xKLy6ABuhaQyMBER7nED7+WS
+         yZWplj43ia69xFG1mA6tvJt9W4OAL7f3wbPqPZ1zZ90/TqPw92lcBHNalHVxL0fs5Lw/
+         em+wkRyuwUk3WvIlQryP9UD/aLDlx2ptoS6J78M/N89jAj9ScARdjsqqJBZ2qEjcLk6O
+         yprX/Qnyd3kZcYNyxoELSPNlxe40FjdDsWMHe4hnrj3YJLSTdvtCMbWwekO/Vlcbq1+h
+         zbn45u6AkXFq1xFpJnrr2lVhcb+i6mcTPwLt1lGo6GRiM3ATzqz1UlB+iJxhFaJw+wfe
+         QSdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW1Khjwp8my61+T81qE1IwjVZIhofDqV4nh+/GOykIpU6srzAA3J3oCfyuuQACbOJIh5aaPl1optX2rtSc=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YxZxvHYymwGD2WVR5GN/RAii3q0qjW/CVYVB3dEf8USfO1cKDRt
+	kn4RT1FZKYrfvW3pTHRnTxFZvb2Tr7o+B8wmb1Bz6DWOyRUK90NqrgoJ
+X-Gm-Gg: AY/fxX5JlulfuWTBJRtNVx32p7wOOPPMdxJCjRb5BBFYap4eKBwbmu2SJIHRBEFBNDL
+	QIqGNo+xKIVI4ilNvCdLZdCJYQLDWdob2Yj3R7EFf8kpqZuZ9Yz0fO2rH0OBD6fqnAQ2JGL5oFQ
+	BleFFewsT4jqPZ59G7EeLJNYOBI0KgSAbdEhqDZggUG/vh0cjpEmYqDsNw49ZexVJ0iwDJFd5zC
+	Ppl5C9dhA1atPpteqPKokA8Zspz3wu7yvEsNoyaZJuoeO88lmUu3rRpRMtgmLbGuFZOk6D7afuq
+	BSwHxuvLofmUbHg/vdbgQIWg7klrMAb52pN3Wdw1wEcpASszGWMDd8OTvnJmnyizaVZzLUgzRfM
+	TiNwglL3pcNRKbuhqsUQ5gnzCsDMzApog93PIwnXuxSOaNw1JZCUThVvyQLyQhwzNTeYPlp1/
+X-Google-Smtp-Source: AGHT+IFmb+80wkKZdKxRHpidfReqxOHlUmLsipFT1rzzTuNx9rKmNHYR/9f9tfCpJuYk6MXE4I4WOw==
+X-Received: by 2002:a05:651c:1148:b0:37b:9361:711d with SMTP id 38308e7fff4ca-382eae68ac5mr6985121fa.8.1767695432846;
+        Tue, 06 Jan 2026 02:30:32 -0800 (PST)
+Received: from razdolb ([77.220.204.220])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-382eb8dadc0sm4315921fa.33.2026.01.06.02.30.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jan 2026 02:30:32 -0800 (PST)
+References: <20251216-upstream_pcie_rc-v7-0-4aeb0f53c4ce@aspeedtech.com>
+User-agent: mu4e 1.10.9; emacs 30.2
+From: Mikhail Rudenko <mike.rudenko@gmail.com>
+To: Jacky Chou <jacky_chou@aspeedtech.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
+ <kishon@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley
+ <joel@jms.id.au>, Andrew  Jeffery <andrew@codeconstruct.com.au>, Bjorn
+ Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Manivannan
+  Sadhasivam
+ <mani@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Neil Armstrong <neil.armstrong@linaro.org>,
+ linux-aspeed@lists.ozlabs.org, linux-pci@vger.kernel.org,
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Andrew
+ Jeffery <andrew@aj.id.au>, openbmc@lists.ozlabs.org,
+ linux-gpio@vger.kernel.org, Mikhail Rudenko <mike.rudenko@gmail.com>
+Subject: Re: [PATCH v7 0/7] Add ASPEED PCIe Root Complex support
+Date: Tue, 06 Jan 2026 12:58:40 +0300
+In-reply-to: <20251216-upstream_pcie_rc-v7-0-4aeb0f53c4ce@aspeedtech.com>
+Message-ID: <875x9fuj7i.fsf@gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -63,111 +104,60 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-The following changes since commit 8f0b4cce4481fb22653697cced8d0d04027cb1e8=
-:
+Hi Jacky,
 
-  Linux 6.19-rc1 (2025-12-14 16:05:07 +1200)
+On 2025-12-16 at 09:49 +08, Jacky Chou <jacky_chou@aspeedtech.com> wrote:
 
-are available in the Git repository at:
+> This patch series adds support for the ASPEED PCIe Root Complex,
+> including device tree bindings, pinctrl support, and the PCIe host controller
+> driver. The patches introduce the necessary device tree nodes, pinmux groups,
+> and driver implementation to enable PCIe functionality on ASPEED platforms.
+> Currently, the ASPEED PCIe Root Complex only supports a single port.
+>
+> Summary of changes:
+> - Add device tree binding documents for ASPEED PCIe PHY and PCIe RC
+> - Update MAINTAINERS for new bindings and driver
+> - Implement ASPEED PCIe PHY driver
+> - Implement ASPEED PCIe Root Complex host controller driver
+>
+> This series has been tested on AST2600/AST2700 platforms and enables PCIe device
+> enumeration and operation.
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/bmc/linux.git tags/aspeed=
--6.20-devicetree-0
+First of all, thank you for your efforts in getting this driver
+upstreamed! I am trying to understand whether this driver supports
+PCIe devices that have an I/O port BAR, where CPU access to I/O ports
+is required for proper device operation.
 
-for you to fetch changes up to 459a5aa171c0f13fcd78faa9594dc4aa5a95770b:
+If I understand correctly, this line in the Aspeed 2600 dtsi file
+declares the I/O port range:
 
-  ARM: dts: aspeed: bletchley: Fix ADC vref property names (2025-12-17 15:5=
-3:31 +1030)
+    ranges = <0x01000000 0x0 0x00018000 0x00018000 0x0 0x00008000
 
-----------------------------------------------------------------
-First batch of ASPEED Arm devicetree changes for 6.20
+During system initialization, the pci_remap_iospace() function in
+arch/arm/mm/ioremap.c maps the physical address range
+0x00018000-0x00020000 to the virtual address PCI_IO_VIRT_BASE
+(0xfee00000). After this mapping, inb() and outb() calls work by
+converting I/O port addresses to virtual addresses starting at
+PCI_IO_VIRT_BASE, then performing reads and writes to those virtual
+addresses.
 
-New platforms:
+What I don't understand is this: according to the Aspeed 2600
+datasheet, the address range 0x00000000-0x0fffffff (which contains
+0x00018000-0x00020000) is mapped to Firmware SPI Memory. This would
+mean that outb() operations get routed to memory-mapped SPI flash
+instead of PCIe.
 
-- NVIDIA MSX4 BMC
+It seems like there's a missing piece to this puzzle. Could you help
+clarify how this is supposed to work?
 
-  The NVIDIA MSX4 HPM (host platform module) is a reference board for
-  managing up to 8 PCIe connected NVIDIA GPUs via ConnectX-8 (CX8)
-  SuperNICs. The BMC manages all GPUs and CX8s for both telemetry and
-  firmware update via MCTP over USB. The host CPUs are dual socket Intel
-  Granite Rapids processors.
-
-  For more detail on this architecture:
-
-  https://developer.nvidia.com/blog/nvidia-connectx-8-supernics-advance-ai-=
-platform-architecture-with-pcie-gen6-connectivity/
-
-Updated platforms:
-
-- ast2600-evb (ASPEED): Various tidy-ups to address binding warnings
-- bletchley (Meta): Watchdog fix, tidy-ups to address binding warnings
-- clemente (Meta): HDD LED fix, GPIO line names, EEPROMs
-- harma (Meta): fanboard presence GPIO
-- santabarbara (Meta): IPMB, GPIO line names, additional IO expander
-
-----------------------------------------------------------------
-Alex Wang (1):
-      ARM: dts: aspeed: clemente: move hdd_led to its own gpio-leds group
-
-Andrew Jeffery (6):
-      ARM: dts: aspeed: Remove sdhci-drive-type property from AST2600 EVB
-      ARM: dts: aspeed: Use specified wp-inverted property for AST2600 EVB
-      ARM: dts: aspeed: Drop syscon compatible from EDAC in g6 dtsi
-      ARM: dts: aspeed: g6: Drop unspecified aspeed,ast2600-udma node
-      ARM: dts: aspeed: ast2600-evb: Tidy up A0 work-around for UART5
-      ARM: dts: aspeed: g6: Drop clocks property from arm,armv7-timer
-
-Cosmo Chou (6):
-      ARM: dts: aspeed: bletchley: remove WDTRST1 assertion from wdt1
-      ARM: dts: aspeed: bletchley: Use generic node names
-      ARM: dts: aspeed: bletchley: Fix SPI GPIO property names
-      ARM: dts: aspeed: bletchley: Remove unused pca9539 properties
-      ARM: dts: aspeed: bletchley: Remove unused i2c13 property
-      ARM: dts: aspeed: bletchley: Fix ADC vref property names
-
-Daniel Hsu (1):
-      ARM: dts: aspeed: harma: add fanboard presence sgpio
-
-Fred Chen (2):
-      ARM: dts: aspeed: santabarbara: Add swb IO expander and gpio line nam=
-es
-      ARM: dts: aspeed: santabarbara: Enable ipmb device for OCP debug card
-
-Kimi Chen (1):
-      ARM: dts: aspeed: clemente: add gpio line name to io expander
-
-Leo Wang (1):
-      ARM: dts: aspeed: clemente: Add EEPROMs for boot and data drive FRUs
-
-Marc Olberding (2):
-      dt-bindings: arm: aspeed: Add NVIDIA MSX4 board
-      ARM: dts: aspeed: Add NVIDIA MSX4 HPM
-
- Documentation/devicetree/bindings/arm/aspeed/aspeed.yaml      |   1 +
- arch/arm/boot/dts/aspeed/Makefile                             |   1 +
- arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts               |   7 +++---=
--
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-bletchley.dts    | 106 ++++++=
-++++++++++++++++++++++++++++++++++++++++++++++++---------------------------=
--------------------------
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-clemente.dts     |  43 ++++++=
-+++++++++++++++++++++++++++++++------
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-harma.dts        |   8 ++++++=
 --
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-santabarbara.dts |  29 ++++++=
-+++++++++++++++++++----
- arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dts       | 246 ++++++=
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-+++++++++++++++
- arch/arm/boot/dts/aspeed/aspeed-g6.dtsi                       |  12 +-----=
-------
- 9 files changed, 374 insertions(+), 79 deletions(-)
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dts
-
+Kind regards,
+Mikhail Rudenko
 
