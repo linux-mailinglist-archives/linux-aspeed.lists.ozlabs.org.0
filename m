@@ -1,60 +1,71 @@
-Return-Path: <linux-aspeed+bounces-3350-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3353-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A07BD270A1
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Jan 2026 19:02:26 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9FA6D29329
+	for <lists+linux-aspeed@lfdr.de>; Fri, 16 Jan 2026 00:12:03 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dsW680y9nz2yFm;
-	Fri, 16 Jan 2026 05:02:24 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dsdzN2nmmz2yFh;
+	Fri, 16 Jan 2026 10:12:00 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1768500144;
-	cv=none; b=CzojlsQAJFV6GUVbd9229kIqkIPb7bVDHkaj4ch/ptokKWV+ctUp/VASRF2b0aH8VnoxJsF/UxkRAnotA3Oo0PEPS0F4Ew+zsqNQ4JAmfIhhxWpourZKla60sCLqbZgviJAU1Vu0OpytswmB09IEroOt1KyMfhm/RE+ZuNWhw1V/j+pZTHS97aSowf0uZyi8ZnHVZfNwZKQoLdxnPFs1KGCyr9ywAyffDYPhQ3h5aeRahK0fX9MpnhrXcj8h0Q+TfZLqkIXbTw4q+jdGhIIwWxeqO0XS6FYMJRu26ZF/r/OEv+9/TqVBbYAMnO5tWXvow3lP+KjxDjxKUXamRPQ6Zw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::122b"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1768451920;
+	cv=none; b=KfdPtbF6DjcsirMMWyr6w7SSTL8aLsFbbvsMjqqZkcehAUhIGRF5+dGBjHiVzmOgkyjmK8C+REUDleVYo03v4gJMqfucId16O6S5ekY7nDpxwoE8+rY7DQsA53nXbXJ4WNOE4b4Vv8Fa6a+0rUagINPXiISttA7ya8thxQY9wtD5EXHFGWlHNHcO7SsnelQEL8VoQxAc3dG9QpOBtww1fAiJuPtzS25Do/CC2zhY0QtdqWLo7Ti7NgfLUTDI8cdxw+Mx1QLtNzehZTZ1cqyO/RhT9exKXQH5aRvrlclvJ37gdZeipkLpZ1YbTxip/A1+E0FCAhI0DAF+gh9nEcvdBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1768500144; c=relaxed/relaxed;
-	bh=rJlnrgsaFVoPcoz34q36AUaoD7Zky3yzLdKE9x1VEEs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bVyOd27nvkiG0WzvPc/Gsn8s2sE/u7e3mOFZPyCLJ30lKFjc9/3plBqPE/pERZRZbghf3+iuwLdKF//Ugbexg2SxvMETG9BBK2abNJcjUvEDKcoeZsls+v/8Z0xwAp7N8UWBgtbej/O/H9gbKgEzussiFOvFPuAxyZ85PPbH4CQfRpvcc53HjbsQSUHCM00ZBOKj9a6Hpw7XwAs0I7lOBcSDRnaNzXNZysHJ9zsW2bDabNwJMUjPl45a2Wm3nU9bYdyeCIPwpgOReDju4vvvOJe5cLK19k89aHx7h/Y5Y5X4ynCtXpEFahWAnVWJiASfY5T1J87/lfcBPcjJ5udhsQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=EnqmmgYL; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=broonie@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1768451920; c=relaxed/relaxed;
+	bh=K6fjjXfXdXI+f3gfu+7LUUm7YVOdAS+PartG2/fB8Co=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fKQyrS0aEZOawHx/QOaJbQXSZcOzKB4YZ/4tFNpI6D7iohLsda7i5+OhoH+aKbe0GQVX3PQ2XzKEPn+K8JD0cDFjF5mPGvfO0VOm8+PTCJ2VIcSuEawn8C8PsPKYXXaTD7zfS9HliLqO5iksZs/4MhsUr1oEwdGBtkwDEe2r9LrCtP2Tr5/ja3gHQhY6CcgTQp4gmm/DGLLs/J6q42a/n/iYXGXsDMVH2qULUo5Ds0N74r2i+og7qvcpY2eRpENL2u0x+9NJxk1Zm2LtWMTjlZ7Sl77k2Jzxsyuf7/1ZOEEMLKo6/3g/NtnBAbCyAXtxTjOxD4i6hZojv6Zx0jWBfw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dWvdFA1k; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::122b; helo=mail-dl1-x122b.google.com; envelope-from=anirudhsriniv@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=EnqmmgYL;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dWvdFA1k;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=broonie@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::122b; helo=mail-dl1-x122b.google.com; envelope-from=anirudhsriniv@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-dl1-x122b.google.com (mail-dl1-x122b.google.com [IPv6:2607:f8b0:4864:20::122b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dsW67314wz2xNg;
-	Fri, 16 Jan 2026 05:02:23 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 3043960130;
-	Thu, 15 Jan 2026 18:02:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A19EC116D0;
-	Thu, 15 Jan 2026 18:02:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768500140;
-	bh=Kn6CM13muJURtMblhTu+B8XKHuWGrLq8ki08pxGulnM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EnqmmgYLIO6vRVPEhJA3xqQRcAHI6Tr3rX+0ylbgKHHb5hZzfFXPsbTSHSvUoTfcy
-	 KSEvpK0KVybSKHRc9Mk22oQmrUiJfX6pOUH/YzS6T51JTeH3qJ38gmod01boQy8jqo
-	 K35TBA4GxXb79819zJk5FTZ9ho+8gmxwDHciXSKrh45aHekKYMN+BJwNVdDSkq8hL7
-	 IORdvIetisScuTmE9sGnsLeiqZOFuNuYEGCDYzZ3ZVovKy/YM8jkjJohVCRKXhg465
-	 xtFDN2HOrzraBuxvz5OPud2GyD4ZVDXuC0Efsy/YU6x4r6gu2PY7zv5onXLoqE3IBh
-	 AG+iQhZhbQCYA==
-Date: Thu, 15 Jan 2026 18:02:15 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-Cc: clg@kaod.org, boris.brezillon@bootlin.com, joel@jms.id.au,
-	andrew@codeconstruct.com.au, linux-aspeed@lists.ozlabs.org,
-	openbmc@lists.ozlabs.org, linux-spi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	BMC-SW@aspeedtech.com
-Subject: Re: [PATCH 2/2] spi: aspeed: Add support for non-spi-mem devices
-Message-ID: <1adf54a9-56f5-4fc4-bba2-837a132fd123@sirena.org.uk>
-References: <20260115150454.1575970-1-chin-ting_kuo@aspeedtech.com>
- <20260115150454.1575970-3-chin-ting_kuo@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ds9Gk6n8Gz2xHW
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Jan 2026 15:38:37 +1100 (AEDT)
+Received: by mail-dl1-x122b.google.com with SMTP id a92af1059eb24-11f3a10dcbbso467929c88.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Jan 2026 20:38:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768451915; x=1769056715; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K6fjjXfXdXI+f3gfu+7LUUm7YVOdAS+PartG2/fB8Co=;
+        b=dWvdFA1kHLHgFnzTdKqOkG7k6LBS6nXnIvXchQ5yUsE6mALUlLXWHQiXvIp+9W4zVI
+         bUH4B0Roisn5tDM0dwrdhdhX8FiS7sizfqKCqMDhe/gDSQIkWDHFQ/sl/4PlccYtzu9B
+         0ps/TH9OqJuXLb94AXnDUZi6R3MX9KwXlOtLYYSbgXoc6Tm9ALTFcST0vOC+nIW7K34P
+         Qcbs/4OvngzTvYq/x3ZbIV9ih12Ai7/5gbnaypiDgEf4B6pMHcYnS+OmhvCqkKL55akm
+         yFrtw52Zl2JqDyLtimoIMlJHDNxo5YrG3qz+EsHyasZB1LCPw5rPcF3xpKkjVnMqya1t
+         Voog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768451915; x=1769056715;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=K6fjjXfXdXI+f3gfu+7LUUm7YVOdAS+PartG2/fB8Co=;
+        b=YxlQM1hOim0pYG5zuEOhV5LUF1TysMujKe3QZTzUDwIZ146uoYgyrKtD0KfWfiEPf3
+         vyxxjf7Mmf0ZLrepO/+bi5y9TFkrxvCo8isgIjCALRFZQeebRFl2Ajr9juYlb5+dp49W
+         0c77QldU9yPnUpZTlVNcuu67yJcXx1A5nn+L+VT7rQ21rRnDiP1Q9Q3d0jDOnjTglTS7
+         n9c77LtTbTay7b5xs6/8FGzfs9Fl4rk8XmC38VwuroD1vvF0STUPQV8BEv+f16Uprv+5
+         at1OXrbBV15DBZlrbLfTiQ6inLhhmKFDFDFC6nsR5LU7/GqchyBmdqvp1Z3wr+1nKuEs
+         +iDA==
+X-Forwarded-Encrypted: i=1; AJvYcCVG7GsTwpPjOwvX3LATB4jd7GKqfpvEdZwpNjPwp8mIZkECGLLEWMf1Gc7iHgpaRIizdn7XSu5ay9FaeQY=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yzc0qJb+ad37c0NONSRdP7t2TpG04n2gYRegXI8MwHvllPrNdrV
+	l3Z2AgsgfF0mQxEKmNg6kG9oQcW0jVdrXQ0KVSVGZgx4Wns/nIQt7dgGe/84eMTKgwQleu3wi0x
+	mLUGpXW8XXhx7t4VK6enShVk2LHZgQYQ=
+X-Gm-Gg: AY/fxX7oIqUenEe4t1vz84eioEF5k0FFZl+eYgPUMdCzLaZGQn0POpFYe553qWqXy23
+	hsSv33jYmGwMk/79HZdau/cY/ElQJTSY7O3Im47jqnd+9Uc45VMuiJHN2IGxV/b4ufvT2L0vooW
+	wXKcGoO7ktuZsrSbAW06LajCYVc8Qqvv9/iEr5VhWq+MPeUMGVudlxv0V0aQbprXuQw5Sb0FZ9I
+	t3LjePDTc0X//YOu34fNKpPHDU3uOk9Fu8lkfq7zmHTDhAvAhhkG/HjYg5WpUYpOnsPhZJMJlKE
+	X2PA2g==
+X-Received: by 2002:a05:701b:2714:b0:11b:ceee:a49f with SMTP id
+ a92af1059eb24-12336a247cdmr4745181c88.8.1768451914862; Wed, 14 Jan 2026
+ 20:38:34 -0800 (PST)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -68,52 +79,72 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xvW1NsWVoVmF5xI9"
-Content-Disposition: inline
-In-Reply-To: <20260115150454.1575970-3-chin-ting_kuo@aspeedtech.com>
-X-Cookie: Are you sure the back door is locked?
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+References: <20260111201040.162880-1-anirudhsriniv@gmail.com>
+ <20260111201040.162880-2-anirudhsriniv@gmail.com> <45bdf2a6c0d33dd6ce0fd3cc279ef6edc509a540.camel@codeconstruct.com.au>
+ <20260112-whimsical-annoying-fulmar-25e4d9@quoll> <CAJ13v3RKydFK+sP_Cm-HnQjsOJSDyX_dsGs_Yy564V=Wc7tQFw@mail.gmail.com>
+ <e97b7a193f8bbfca9ec00037808ad80a5baf9f00.camel@codeconstruct.com.au>
+ <CAJ13v3QYWRfyivrbP=+hreHuMkYWGPkngW3kJyq6xNVL6YdpgQ@mail.gmail.com> <0e611132794491eecbcd3426222b6dca09a35b84.camel@codeconstruct.com.au>
+In-Reply-To: <0e611132794491eecbcd3426222b6dca09a35b84.camel@codeconstruct.com.au>
+From: Anirudh Srinivasan <anirudhsriniv@gmail.com>
+Date: Wed, 14 Jan 2026 22:38:22 -0600
+X-Gm-Features: AZwV_QiAZ2miykzbN0XeJ-opRxy8zZQtPtnuJhtoFTPjOMJKnrOQBUdwpXszwIE
+Message-ID: <CAJ13v3S+u7fi2h1MUQ1QvFm6Ouz4TDrNwJq3fJvDmBf37h8LGQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: arm: aspeed: Add Asus IPMI card
+To: Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
+On Wed, Jan 14, 2026 at 7:03=E2=80=AFPM Andrew Jeffery
+<andrew@codeconstruct.com.au> wrote:
+>
+> KODO is pretty consistent in the firmware update file name. KOMMANDO as
+> the product identifier also seems reasonable, even if it only appears
+> in FW_DESC in the latest release. KODO -> KOMMANDO seems reasonable.
+>
+> A brief bit of binwalking suggests it's an AMI MegaRAC implementation,
+> and so I expect 'SPX-13' in FW_DESC refers to MegaRAC SP-X[1]. The
+> significance of 'TB2' isn't yet unclear to me.
 
---xvW1NsWVoVmF5xI9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Yup. The screenshot in the PDF you linked looks a lot like the webui
+on stock firmware. AMI has sources for a bunch of stuff ( "unmodified"
+source tarballs and patches to apply on top of them manually) over
+here [1].
 
-On Thu, Jan 15, 2026 at 11:04:54PM +0800, Chin-Ting Kuo wrote:
+>
+> I'm not super concerned about the length of "asus,kommando-ipmi-
+> expansion-card" - I'd prefer it over incorporating the 'kodo'
+> contraction.
 
-> +static int aspeed_spi_user_transfer(struct spi_controller *ctlr,
-> +				    struct spi_message *msg)
-> +{
+Understood.
 
-I'm not seeing anything here that won't work with transfer_one() rather
-than transfer_one_message(), that would reduce open coding so if you can
-do it it's preferable.
+>
+> I guess it's still unclear whether 'kommando' is a (future) line of
+> products or refers to the specific AST2600-based design. Perhaps we
+> could solve a few problems with 'asus,kommando-ast2600' and including
+> the phrase 'IPMI expansion card' in the binding description for
+> something searchable.
 
-> +	ctrl_val = chip->ctl_val[ASPEED_SPI_BASE];
-> +	ctrl_val &= ~CTRL_IO_MODE_MASK & data->hclk_mask;
-> +	ctrl_val |= clk_div;
-> +	chip->ctl_val[ASPEED_SPI_BASE] = ctrl_val;
+I will make the compatible "asus,ast2600-kommando-ipmi-card" and have
+the model name in the DT contain the phrase "IPMI expansion card" for
+searchability. You mention about adding something to the binding
+description (that'd end up being more than a one line change to the
+bindings) but we could just have the DT model name have that
+information.
 
-This should fit with the prepare_message() callback.
+I'll send out a second version of this series shortly. Thank you for
+bearing with me on this. Naming things is hard.
 
---xvW1NsWVoVmF5xI9
-Content-Type: application/pgp-signature; name="signature.asc"
+[1] https://github.com/ami-megarac/OSSW-v13/tree/master/Core/
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmlpK6cACgkQJNaLcl1U
-h9DIhwf/W8/a6WTvTXkoR6TsMYE4X1woUmylZmwsFN2UaCmgI1L/AfPz/YPV++Kg
-zpWoAhy89sXrI0dewD0d/9r5c6eV/TvYD0nF4IHAwCU7lDxZf3fet4WOztYITdcI
-J9XpQD+PGCwrjHTRjq+aXUYYhrS7vGhDUOUuY0xwgglOgygS/c8TRAAe7kcaR/jg
-a2X3FYPadw1n/Y44EqG84FWyElTCFCz3V38pry5fc5IPQ9eYIgxD+MkxWa5ReSAg
-byWuVsR0D55WyOEdf+ZSkYm4tvHmiM29MuVJmF5MXfP9jnJeG+2KSwKoDRYDQYWZ
-9bvRisvSKoCqiQKNeacaATDXKGw6Eg==
-=ENSf
------END PGP SIGNATURE-----
-
---xvW1NsWVoVmF5xI9--
+--
+Regards
+Anirudh Srinivasan
 
