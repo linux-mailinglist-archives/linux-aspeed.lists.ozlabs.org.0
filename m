@@ -1,92 +1,39 @@
-Return-Path: <linux-aspeed+bounces-3335-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3336-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C19CD2229E
-	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Jan 2026 03:41:16 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B32D2250F
+	for <lists+linux-aspeed@lfdr.de>; Thu, 15 Jan 2026 04:35:50 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ds6gG30w2z2yFl;
-	Thu, 15 Jan 2026 13:41:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ds7tC6C4mz2xqj;
+	Thu, 15 Jan 2026 14:35:47 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::1231"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1768441958;
-	cv=none; b=chg7F1XSlu1vvViXUK4pwLAf7NQ+/Gzrunag3epq9ZIMClsRJFiy9JxFr+5iBxqtwARxHV3Wa+/cwHnHRbZflwb60YQxcK5fibloKRziV7X1byHmjRd89rJ5M3IFl1um5qSh8G7cwvOw82tuqWoy+4wCsg0CGGztSiFSXDHuhjW569+lkoOHBZwNhYfmfPhflzKY+FbtbItohniGkW4iQAbbP1MoMokknA5YBvXMbJBv90bH40cmgIlqk8NlEUa5/ELSfowv+ja//QTgvwnIMfBrUpxYP4dH/JFJobB5p47awnxBsiL2wnXz01rlD9GHmXnWwsGNO6T4OACnaa1JdQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1768448147;
+	cv=none; b=Z48rx0nZtw0pL3xwooMrHbYB12Hcw/oEsYedBsI9V6PnN7B8V5cJhdQxy5oNRs/BVnNZOX8D2vHknvUC290OuF1ZzLvrbzM0HhCrg5Odb1r90eZng0ApvOq6NgrKH4SiosTfuhJNfGe7/1mL62UE5y23cOk1nCAyCyu77sOy27REWq56jCQR164Cp7Eq81qYS4H3kchvTKVkdMUqo/SJhCWcMgKnYEq6Y3Xpf161m1H5VEPrhttXjJeqJAauhLYR8Y+/QUxTVWuN/YuHlZ6TPrUZQgPvCmjqT95NIQNz5vrO314n8d/2WlFw1e0b0j8siUieWXLyxsKrCfn4McdYHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1768441958; c=relaxed/relaxed;
-	bh=eaGsIuvEkZT/0ZxJsJ40cQ270Lj1PGkWPT1RajGBoys=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U+noXL1Sw7TCYjmMJBVPDuoiQjmMf8sIeTE+JuNnTYoDpMtmf8v3f1ptL71M4JIVDVK1GFHTY8LQBCsqGk+bDKm7XluUIujjp7aYrAff+TEuMqJ04VKpbqxy1e0pRXvjgPc8jL9aX5Tm9nCP3GMecFrqnq1JaQ9KR0wyyU8CBbiURU1ULG9ChM+UCUkBAXJSNlN7YO6yxer87sztgtgEXeM94vehuNvl61CQ2i1ZdPph1Pn8yvB230PlkAGg1GIbECYpzkFOgyzGtBZtZ8yApgH1Y3pySeOAMyCUfl0c8uyRD4bLiF2psaYGqENBZX+xFztcB/PDn1UYnaFPkLeiSg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=R1rxVBtL; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1231; helo=mail-dl1-x1231.google.com; envelope-from=inochiama@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=R1rxVBtL;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1231; helo=mail-dl1-x1231.google.com; envelope-from=inochiama@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-dl1-x1231.google.com (mail-dl1-x1231.google.com [IPv6:2607:f8b0:4864:20::1231])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	t=1768448147; c=relaxed/relaxed;
+	bh=T2dwiQU6KYh8NipdrPb6tu9wZI8hndZVqumTX0cyLnw=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=DPFUdYzjNyUPmoDSm38/07uh4CxybJQe15+wFOXLTaeTkC/RGYNe8tkE5hpBNntovOkIg8lF6g38iZqTxhhWUiQYqH6AsFjFZyqDH9oEyPu30bbk/zfC7JjQkqQ5y+VNhwMZf50TKgmgt0yIyN2imw23C+h7QANL/GKEvDBecjdJ63j/v3aQckNg37FtCghzR9dT90Q5UpT5RO1L0zGWQ17wLTjEAidrX/9tNXZxb7AgaEwuQyPFzv6PEzrPrwS+08U5SrRIXfC6sXhfAYUfAoGu0kpjaHz2RJgEvJAFcEdQxmBe3VLn5zY5yOTFImo0TR01gawDNsTFjXlJ5IZHHQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ds5b82dTvz2xHW
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Jan 2026 12:52:36 +1100 (AEDT)
-Received: by mail-dl1-x1231.google.com with SMTP id a92af1059eb24-1220154725fso308782c88.0
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 14 Jan 2026 17:52:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768441953; x=1769046753; darn=lists.ozlabs.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=eaGsIuvEkZT/0ZxJsJ40cQ270Lj1PGkWPT1RajGBoys=;
-        b=R1rxVBtL/AF3DZ8zyp5Y1tt00k3hDC745aEh0gVHC2y/N+vY+U2dg/oD74bY7zYy/N
-         Erk1yEvd5oIJ4005FGUqeM2k/TuWkX9VQ6pOXgFwH3VrX4XEkeqt6UDSHGOjgqG1f4ib
-         odGHsCWRXW+y6OZAn4W2hfw26VrTMPoupF6MDR+D6GbK5tXvkZTJORFqTdxVnFtxBzlO
-         7jvfd2g39zWAQUzKwMRrqj8s2oPzYPDYmHJwA3WOFk32/NXN4jmpkH8OA5UzqXYpdB5l
-         tf0CNaeR6ugc/Ox+R7rUIJZ8DeyNjmA+Ft5hzxWLhPDBuL8qVya0dqeRqEFqJjcZaypx
-         jmwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768441953; x=1769046753;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eaGsIuvEkZT/0ZxJsJ40cQ270Lj1PGkWPT1RajGBoys=;
-        b=QsFn32iVOKpnx2MU0xP8gYYtqLFbWXPgNFc7v+vGfrVp3b8hsj6fLO9WTLcH4j6fKZ
-         r2BmC3LYOTFoL9hqHf8Szk3I2PTAO+CbJ6wN5D+WAjRiYLYhwIjOxJOU72ztd6+VAjvj
-         qH9AI9FuTDjjXbEMuCxzG6zLNO4VmZF5JoXzKWQsQ/TgR+yuv5WTHglX4SFkQaa1Sh6y
-         WKvMm5FqluscDyLECkd4Lf9ibuh48aUh+JHiM8NSzzMk1tRr+K27FMOnvO2eDe6RhL0D
-         xrsqlzFaR4ZADbjxpuDWr1EU79nn9qG4KcyPnDyzSayA3+24OTWF8iiHc/QlJ++J3NAX
-         srlQ==
-X-Gm-Message-State: AOJu0YzFSZB81zh1eENqG26EngilKSkc5MzjqI3UTA9MDqUjmOFPgBNz
-	AdxE9hg7GOKjIDbiTFYcIihqf0k98Y7LML9BnpONutBn4322Zrh/RJpY
-X-Gm-Gg: AY/fxX4iM04WBT80OnhxNJDLZZ+kU6gScpImZEzyZBk40l1O93U0c9Jcx0cjJA1M4mm
-	Y+xb4ZjcI5Pm4h52K7BuCYTFiSXbkyTxtf8aexebNs1+QeGJ6aMD2pPte/tGFnjRTvyF69i/+wI
-	hZwhO9jd4ZH79HpIqJq0foMUWwllp+3jAJHxzL0psGxorHb4UYJA2+YwW0ZpvYsmzHK6NbldvH3
-	AZHTijvmVkJw1Ko1GX/cKi7idFILqOcK3rVz2ZDisRaB/8gNVPt2CB7sXCuijEj48TPBg9nt6WQ
-	ojeNFWJDWJVXOB1Se1O0J0Xa0d7q4AB0bBJmXK3YzHtIleNsE3hDm+ChROKJdXdcJC9ZZnXlexm
-	5Rrv3EAWqz37ggGO2IerlhUPk+01OMbo+ZNnon9aXHpQ8/TarJDWGvrL6FLkQVsh+U5FqGzlMqt
-	ilIoYCmMWj0g==
-X-Received: by 2002:a05:7022:6708:b0:11b:9386:a38f with SMTP id a92af1059eb24-1233d10f432mr1505698c88.22.1768441952848;
-        Wed, 14 Jan 2026 17:52:32 -0800 (PST)
-Received: from localhost ([2001:19f0:ac00:4eb8:5400:5ff:fe30:7df3])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-121f248c246sm32727140c88.11.2026.01.14.17.52.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 17:52:32 -0800 (PST)
-Date: Thu, 15 Jan 2026 09:52:28 +0800
-From: Inochi Amaoto <inochiama@gmail.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Linus Walleij <linusw@kernel.org>, Joel Stanley <joel@jms.id.au>, 
-	Emil Renner Berthing <kernel@esmil.dk>, Hal Feng <hal.feng@starfivetech.com>, 
-	Chen Wang <unicorn_wang@outlook.com>, Inochi Amaoto <inochiama@gmail.com>, 
-	Basavaraj Natikar <Basavaraj.Natikar@amd.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
-	Daniel Machon <daniel.machon@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Patrice Chotard <patrice.chotard@foss.st.com>
-Cc: linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
-	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, sophgo@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH 03/11] pinctrl: sophgo: Cleanup header includes
-Message-ID: <aWhIOYIWnJy7mhkc@inochi.infowork>
-References: <20260114-pinctrl-cleanup-guard-v1-0-a14572685cd3@oss.qualcomm.com>
- <20260114-pinctrl-cleanup-guard-v1-3-a14572685cd3@oss.qualcomm.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ds7tC0JZ9z2xHW
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 15 Jan 2026 14:35:46 +1100 (AEDT)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 15 Jan
+ 2026 11:35:29 +0800
+Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Thu, 15 Jan 2026 11:35:29 +0800
+From: Jacky Chou <jacky_chou@aspeedtech.com>
+Subject: [PATCH v9 0/3] Add ASPEED PCIe PHY support
+Date: Thu, 15 Jan 2026 11:35:28 +0800
+Message-ID: <20260115-upstream_pcie_rc-v9-0-d6c82a1556a7@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -100,68 +47,150 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260114-pinctrl-cleanup-guard-v1-3-a14572685cd3@oss.qualcomm.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIBgaGkC/43QTWrDMBCG4asErSszo9Hop6veo5Qgy0qtlsTGd
+ kxDyN2rZFEHYkiXn+B9BnQWYxpyGsXr5iyGNOcxd4cy/MtGxDYcPpPMTdlCgWJEIHnsx2lIYb/
+ tY07bIUqnNVv2Te2QRMn6Ie3yz418/yi7zePUDafbhRmvrzcMDBIQAWBFyGTISpRfIX6ftrHtj
+ m9h7FNqphTbKnZ7cZVmtdQWGUiTgkoxk/tPTUvtAYHZK1VhqZnhea3/agRlwbNTXKFDNPg85iV
+ GtI9/OLMEWeuA3rE1Ie5WFbMoCnBFMUVx0TmAyKZGs6rYOwXNimKLokOqYccUdUyrirtTCFYUV
+ xQg9i42jYPYPCiXy+UXEdQd1n4CAAA=
+X-Change-ID: 20251103-upstream_pcie_rc-8445759db813
+To: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
+ Jeffery" <andrew@codeconstruct.com.au>
+CC: <linux-aspeed@lists.ozlabs.org>, <linux-phy@lists.infradead.org>,
+	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, Jacky Chou <jacky_chou@aspeedtech.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768448129; l=5317;
+ i=jacky_chou@aspeedtech.com; s=20251031; h=from:subject:message-id;
+ bh=+ZKi5Nj/LRHiFgYwNq73TzvEGVM7ASddgqK3aHZnfC0=;
+ b=gtBigwRJNwxJrArJmhqntrVevDM2ps4H1FHjgP5PenY0FIPu7yvTLT9ztQObYjJy4fNWqRguf
+ MLS/JFEF9SaD983sRCJLUjJ+OGk1Y9t3rOvaQZpaKMErdkXHwBFseRg
+X-Developer-Key: i=jacky_chou@aspeedtech.com; a=ed25519;
+ pk=8XBx7KFM1drEsfCXTH9QC2lbMlGU4XwJTA6Jt9Mabdo=
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Wed, Jan 14, 2026 at 04:30:04PM +0100, Krzysztof Kozlowski wrote:
-> Remove unused includes from internal headers, because they do not have
-> following: bit manipulations, mutexes, spinlocks and struct devices.
-> These headers are included by actual C files, which seem to have all
-> necessary includes.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> ---
->  drivers/pinctrl/sophgo/pinctrl-cv18xx.h | 4 ----
->  drivers/pinctrl/sophgo/pinctrl-sg2042.h | 6 ------
->  2 files changed, 10 deletions(-)
-> 
-> diff --git a/drivers/pinctrl/sophgo/pinctrl-cv18xx.h b/drivers/pinctrl/sophgo/pinctrl-cv18xx.h
-> index 759c0e604acf..973ab9a38fcf 100644
-> --- a/drivers/pinctrl/sophgo/pinctrl-cv18xx.h
-> +++ b/drivers/pinctrl/sophgo/pinctrl-cv18xx.h
-> @@ -6,11 +6,7 @@
->  #ifndef _PINCTRL_SOPHGO_CV18XX_H
->  #define _PINCTRL_SOPHGO_CV18XX_H
->  
-> -#include <linux/bits.h>
->  #include <linux/bitfield.h>
-> -#include <linux/mutex.h>
-> -#include <linux/spinlock.h>
-> -#include <linux/platform_device.h>
->  #include <linux/pinctrl/pinctrl.h>
->  #include <linux/pinctrl/pinconf.h>
->  
-> diff --git a/drivers/pinctrl/sophgo/pinctrl-sg2042.h b/drivers/pinctrl/sophgo/pinctrl-sg2042.h
-> index d481973fcf97..1a2b00dde1fa 100644
-> --- a/drivers/pinctrl/sophgo/pinctrl-sg2042.h
-> +++ b/drivers/pinctrl/sophgo/pinctrl-sg2042.h
-> @@ -6,12 +6,6 @@
->  #ifndef _PINCTRL_SOPHGO_SG2042_H
->  #define _PINCTRL_SOPHGO_SG2042_H
->  
-> -#include <linux/bits.h>
-> -#include <linux/bitfield.h>
-> -#include <linux/device.h>
-> -#include <linux/mutex.h>
-> -#include <linux/spinlock.h>
-> -#include <linux/platform_device.h>
->  #include <linux/pinctrl/pinctrl.h>
->  #include <linux/pinctrl/pinconf.h>
->  
-> 
-> -- 
-> 2.51.0
-> 
+This patch series adds support for the ASPEED PCIe PHY,
+including device tree bindings and PCIe PHY driver. 
+The patches introduce the necessary device tree nodes.
 
-Thanks.
+Summary of changes:
+- Add device tree binding documents for ASPEED PCIe PHY
+- Update MAINTAINERS for new bindings and driver
+- Implement ASPEED PCIe PHY driver
 
-Reviewed-by: Inochi Amaoto <inochiama@gmail.com>
+This series has been tested on AST2600/AST2700 platforms and enables PCIe device
+enumeration and operation.
 
-Regards,
-Inochi
+Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
+---
+Changes in v9:
+- Remove '[v8,2/4] ARM: dts: aspeed-g6: Add PCIe RC and PCIe PHY node'
+  and send it separately.
+- Use FIELD_MODIFY to configure register.
+- Link to v8: https://lore.kernel.org/r/20251230-upstream_pcie_rc-v8-0-03598cdd80cd@aspeedtech.com
+
+Changes in v8:
+- Update the title of cover letter
+- Remove 'default y' from Kconfig
+- Change 'PHY:' to 'phy:' in the title of ASPEED PCIe PHY commit.
+- Remove unnecessary headers from phy-aspeed-pcie.c.
+- Add ASPEED PCIe PHY MAINTAINERS
+- Remove applied patches
+  [v7,2/7] dt-bindings: PCI: Add ASPEED PCIe RC support
+  [v7,5/7] PCI: Add FMT, TYPE and CPL status definition for TLP header
+  [v7,6/7] PCI: aspeed: Add ASPEED PCIe RC driver
+  [v7,7/7] MAINTAINERS: Add ASPEED PCIe RC driver
+- Link to v7: https://lore.kernel.org/r/20251216-upstream_pcie_rc-v7-0-4aeb0f53c4ce@aspeedtech.com
+
+Changes in v7:
+- Add PCIe port into aspeed,ast2600-pci.yaml.
+- Remove aspeed_pcie_init_ports() and merge aspeed_pcie_port_init() to
+  aspeed_pcie_parse_port()
+- Refactor aspeed remap pcie addr to aspeed_pcie_map_ranges()
+- Link to v6: https://lore.kernel.org/r/20251201-upstream_pcie_rc-v6-0-8c8800c56b16@aspeedtech.com
+
+Changes in v6:
+- Refer to pci-cpi-bridge.yaml to update aspeed,ast2600-pcie.yaml and
+  the pcie node of aspeed-g6.dtsi.
+- 'dt-bindings: pinctrl: aspeed,ast2600-pinctrl: Add PCIe RC PERST#
+  group' have applied, remove it from this version.
+- Adjust the defnitions in pci.h. 
+- Link to v5: https://lore.kernel.org/r/20251117-upstream_pcie_rc-v5-0-b4a198576acf@aspeedtech.com
+
+Changes in v5:
+- Remove legacy-interrupt-controller and the INTx points to pcie node itself.
+- Correct bar mapping description and implementation to PCIe address
+  configuration in pcie-aspeed.c driver.
+- Link to v4: https://lore.kernel.org/r/20251027095825.181161-1-jacky_chou@aspeedtech.com/
+
+Changes in v4:
+- Remove aspeed,ast2700-pcie-cfg.yaml
+- Add more descriptions for AST2600 PCIe RC in aspeed,ast2600-pcie.yaml
+- Change interrupt-controller to legacy-interrupt-controller in yaml
+  and dtsi
+- Remove msi-parent property in yaml and dtsi
+- Modify the bus range to starting from 0x00 in aspeed-g6.dtsi
+- Fixed the typo on MODULE_DEVICE_TABLE() in phy-aspeed-pcie.c
+- Add PCIE_CPL_STS_SUCCESS definition in pci/pci.h
+- Add prefix ASPEED_ for register definition in RC driver
+- Add a flag to indicate clear msi status twice for AST2700 workaround
+- Remove getting domain number
+- Remove scanning AST2600 HOST bridge on device number 0
+- Remove all codes about CONFIG_PCI_MSI
+- Get root but number from resouce list by IORESOURCE_BUS
+- Change module_platform_driver to builtin_platform_driver
+- Link to v3: https://lore.kernel.org/r/20250901055922.1553550-1-jacky_chou@aspeedtech.com/
+
+Changes in v3:
+- Add ASPEED PCIe PHY driver
+- Remove the aspeed,pciecfg property from AST2600 RC node, merged into RC node
+- Update the binding doc for aspeed,ast2700-pcie-cfg to reflect the changes
+- Update the binding doc for aspeed,ast2600-pcie to reflect the changes
+- Update the binding doc for aspeed,ast2600-pinctrl to reflect the changes
+- Update the device tree source to reflect the changes
+- Adjusted the use of mutex in RC drivers to use GRAND
+- Updated from reviewer comments
+- Link to v2: https://lore.kernel.org/r/20250715034320.2553837-1-jacky_chou@aspeedtech.com/
+
+Changes in v2:
+- Moved ASPEED PCIe PHY yaml binding to `soc/aspeed` directory and
+  changed it as syscon
+- Added `MAINTAINERS` entry for the new PCIe RC driver
+- Updated device tree bindings to reflect the new structure
+- Refactored configuration read and write functions to main bus and
+  child bus ops
+- Refactored initialization to implement multiple ports support
+- Added PCIe FMT and TYPE definitions for TLP header in
+  `include/uapi/linux/pci_regs.h`
+- Updated from reviewer comments
+- Link to v1: https://lore.kernel.org/r/20250613033001.3153637-1-jacky_chou@aspeedtech.com/
+
+---
+Jacky Chou (3):
+      dt-bindings: phy: aspeed: Add ASPEED PCIe PHY
+      phy: aspeed: Add ASPEED PCIe PHY driver
+      MAINTAINERS: Add ASPEED PCIe PHY driver
+
+ .../bindings/phy/aspeed,ast2600-pcie-phy.yaml      |  42 +++++
+ MAINTAINERS                                        |   8 +
+ drivers/phy/Kconfig                                |   1 +
+ drivers/phy/Makefile                               |   1 +
+ drivers/phy/aspeed/Kconfig                         |  14 ++
+ drivers/phy/aspeed/Makefile                        |   2 +
+ drivers/phy/aspeed/phy-aspeed-pcie.c               | 194 +++++++++++++++++++++
+ 7 files changed, 262 insertions(+)
+---
+base-commit: 944aacb68baf7624ab8d277d0ebf07f025ca137c
+change-id: 20251103-upstream_pcie_rc-8445759db813
+
+Best regards,
+-- 
+Jacky Chou <jacky_chou@aspeedtech.com>
+
 
