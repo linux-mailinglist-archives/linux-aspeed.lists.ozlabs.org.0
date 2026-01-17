@@ -1,62 +1,39 @@
-Return-Path: <linux-aspeed+bounces-3372-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3374-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 X-Original-To: lists+linux-aspeed@lfdr.de
 Delivered-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 135B3D38F87
-	for <lists+linux-aspeed@lfdr.de>; Sat, 17 Jan 2026 16:47:04 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9C8D391C6
+	for <lists+linux-aspeed@lfdr.de>; Sun, 18 Jan 2026 00:55:07 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dth1135yZz2xqG;
-	Sun, 18 Jan 2026 02:47:01 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dttr74WL3z2xlM;
+	Sun, 18 Jan 2026 10:55:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1768664821;
-	cv=none; b=hnG69vJAjQfh+RHajTdr6OUKpOA4oMRg9T/AAAURtSMZ7V65ki9iZ8bDeL8MvtsXuMu2FjG/v18HxPnwwfBVaicAVPF7HM9iSghGz6Ifmgi9vRCXQbu2Lr2Jiyqrr3njDDJ4QFfUXijq5LkNplRDDxtSkFsMZvaF4iwKDx9dbUHc2QRNfaXnNTcZfhAsmSab15LtCij/ipf9QbTJmlRO3uc4fzX0s2454WG58qGRd7LQZTfcBjxqm7AkjYHk+POxZwaczalsJERnsHvVmtZMLX30mknuo0WGhm6eXwhcGTUv083vQYMAOXy1yYuCum1WD8k/Xhrj2H/0PUSwgPfF6Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=141.14.17.11
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1768694103;
+	cv=none; b=XedfU3B/o/Wqkxx2nSYKxMbrToRNgQphq0Kr5rD9i72cgbbfZ3A/U3El7vLXdJsKXmLnCz7E7nHIv+Q56UEPZznYDRiRuGkxlFSbYd2p2abXztfX8vwFlFv6/jymrLAiJ36BO6wEA54sg7v3mcqLsPaasVcMwr7cNKkFA0+9189ralsIOgRPbchxd+vQN3mSuELsf7fM/qeGAFEgw7HTlNiFptUmsfMFdNOJ4XifEiofGcRJs05Fo0AnrLSC0NcBAU2xqhtcm2qsrLd3ef4aHmoURMK0U0Z77dqciWpNkAklpkh20psGnLAKqjTaDvwMMLG9m7YW96EBvkdfe/3VSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1768664821; c=relaxed/relaxed;
-	bh=gF8+Zq1qK4nUISuq8ZYKam6dKSKTtWo9A81RsKUSatk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cPmavUdWY6O0R2jmNjxGzkpWoiTDI/+g0fnXTn/5OAnPJI9VF9UWCR/8q/fUjYTT4/KPVO6ktL/GzI9K9HDIKlcpGbo4y/Ev7OYk5TIIQ9Ag+aINmg+gH7gdobo6DGJ4LHOBLcuzpCQEaHCEbhYYkko6zCOEy9nOD9JDQ64zXP4O0JayR/NE5/Rwd/sx5TcjORwaWiS6f1U89A055rA8cI3/Bdlk5U7tyPC3YEJIiJvBH4lZr6Xt1dmBpnAFbhNswuLWw/qAT0E6e0P9LC3r1Tb1TbNF3O0osXJ3WpVF8GBOUlEbkJsQtrQYXT+43XjIupa+165LeJZjB5nPOiXoxQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=fFxoiG5o; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=fFxoiG5o;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	t=1768694103; c=relaxed/relaxed;
+	bh=xBCCK4YiYlil7mdtloinVQAo6Jd0Tmjjp4MJCr/7Cqo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=amG3SvpVNNMY7HxA8BEqJayXX4SBL8NckYqtXo/cup/agKN3S2e5eirRGmTI1C3BA4DVcpPiFWnA7pEyf2rvxt2h25mX2TRh9Yv85x3YXO80Ke07SN054qxqC1QLmyUDI6AQQk3yDX/dlasLPvOCfWvL03IZHISCmnwdrG7+/b4GR9KOpcPQk4b7UMPnhU6Y5Vi2BkoqBpIn01dgQIi7lI0obN/pY2i5zBnxltSkVqsfRLJAc/CSiyvcyGa6Fsh4W9S7AOTanCPcrGyzSVwu9zmhpT1isUKzPqQUjD7CG9CKhfxlWYOL1Bv5m9QJJuU66vvqIJCSm4EOkOyJ8Gjy/Q==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass (client-ip=141.14.17.11; helo=mx3.molgen.mpg.de; envelope-from=pmenzel@molgen.mpg.de; receiver=lists.ozlabs.org) smtp.mailfrom=molgen.mpg.de
+Authentication-Results: lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=molgen.mpg.de (client-ip=141.14.17.11; helo=mx3.molgen.mpg.de; envelope-from=pmenzel@molgen.mpg.de; receiver=lists.ozlabs.org)
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bit raw public key) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dth0y5PdCz2xQC
-	for <linux-aspeed@lists.ozlabs.org>; Sun, 18 Jan 2026 02:46:57 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=gF8+Zq1qK4nUISuq8ZYKam6dKSKTtWo9A81RsKUSatk=; b=fFxoiG5ouamEjvJWtIjJJqiZmZ
-	ETa+cz75RUWA6SQbZuAAIwaD6U7YvThjuoYnJld2ETo7MDh6SNe9ENtr/+MUgD8W/Uslb4wpbD/cS
-	W2Lsc2ZEzRzEUtD2Uv1FZ22e+IlEGXE28W+koektM/uK/4g4nlGqQni5usy4HXoir3zA=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vh8VU-003DhI-R8; Sat, 17 Jan 2026 16:46:32 +0100
-Date: Sat, 17 Jan 2026 16:46:32 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Cc: Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
-	devicetree@vger.kernel.org, bmc-sw@aspeedtech.com
-Subject: Re: [PATCH 3/5] gpio: aspeed-sgpio: Create llops to handle hardware
- access
-Message-ID: <55fbb766-12b5-441a-b06c-d807097e5476@lunn.ch>
-References: <20260117-upstream_sgpio-v1-0-850ef3ffb680@aspeedtech.com>
- <20260117-upstream_sgpio-v1-3-850ef3ffb680@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dttr63pWDz2xLv;
+	Sun, 18 Jan 2026 10:55:02 +1100 (AEDT)
+Received: from [10.0.57.151] (unknown [62.214.191.67])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 30E864C4430066;
+	Sun, 18 Jan 2026 00:47:01 +0100 (CET)
+Message-ID: <ccb6b5b3-84cd-4197-a770-7e626c1ddcf3@molgen.mpg.de>
+Date: Sun, 18 Jan 2026 00:46:57 +0100
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -70,89 +47,78 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260117-upstream_sgpio-v1-3-850ef3ffb680@aspeedtech.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] spi: spi-mem: Protect dirmap_create() with
+ spi_mem_access_start/end
+To: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+References: <20260117134216.595436-1-chin-ting_kuo@aspeedtech.com>
+ <20260117134216.595436-2-chin-ting_kuo@aspeedtech.com>
+Content-Language: en-US
+Cc: clg@kaod.org, broonie@kernel.org, boris.brezillon@bootlin.com,
+ joel@jms.id.au, andrew@codeconstruct.com.au, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-spi@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ BMC-SW@aspeedtech.com
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <20260117134216.595436-2-chin-ting_kuo@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=2.9 required=5.0 tests=RCVD_IN_DNSWL_LOW,
+	RCVD_IN_SBL_CSS,SPF_HELO_PASS,SPF_PASS autolearn=disabled version=4.0.1
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 
-On Sat, Jan 17, 2026 at 07:17:10PM +0800, Billy Tsai wrote:
-> Add low-level operations (llops) to abstract the register access for SGPIO
-> registers. With this abstraction layer, the driver can separate the
-> hardware and software logic, making it easier to extend the driver to
-> support different hardware register layouts.
-
-With a quick look at the code, it appears the register numbers stay
-the same? Is that true?
-
-I think you have reinvented regmap.
-
-> @@ -318,30 +278,25 @@ static int aspeed_sgpio_set_type(struct irq_data *d, unsigned int type)
->  	u32 type0 = 0;
->  	u32 type1 = 0;
->  	u32 type2 = 0;
-> -	u32 bit, reg;
-> -	const struct aspeed_sgpio_bank *bank;
->  	irq_flow_handler_t handler;
-> -	struct aspeed_sgpio *gpio;
-> -	void __iomem *addr;
-> -	int offset;
-> -
-> -	irqd_to_aspeed_sgpio_data(d, &gpio, &bank, &bit, &offset);
-> +	struct aspeed_sgpio *gpio = irq_data_get_irq_chip_data(d);
-> +	int offset = irqd_to_hwirq(d);
->  
->  	switch (type & IRQ_TYPE_SENSE_MASK) {
->  	case IRQ_TYPE_EDGE_BOTH:
-> -		type2 |= bit;
-> +		type2 = 1;
->  		fallthrough;
->  	case IRQ_TYPE_EDGE_RISING:
-> -		type0 |= bit;
-> +		type0 = 1;
->  		fallthrough;
->  	case IRQ_TYPE_EDGE_FALLING:
->  		handler = handle_edge_irq;
->  		break;
->  	case IRQ_TYPE_LEVEL_HIGH:
-> -		type0 |= bit;
-> +		type0 = 1;
->  		fallthrough;
->  	case IRQ_TYPE_LEVEL_LOW:
-> -		type1 |= bit;
-> +		type1 = 1;
->  		handler = handle_level_irq;
->  		break;
-
-This change is not obviously correct to me. It is not about
-abstracting register accesses, what you actually write to the
-registers appears to of changed. Maybe you could add a refactoring
-patch first which does this change, with a commit message explaining
-it, and then insert the register abstraction?
+Dear Chin-Ting,
 
 
-> @@ -374,16 +318,14 @@ static void aspeed_sgpio_irq_handler(struct irq_desc *desc)
->  {
->  	struct gpio_chip *gc = irq_desc_get_handler_data(desc);
->  	struct irq_chip *ic = irq_desc_get_chip(desc);
-> -	struct aspeed_sgpio *data = gpiochip_get_data(gc);
-> +	struct aspeed_sgpio *gpio = gpiochip_get_data(gc);
+Thank you for your patch.
 
-This rename does not belong in this patch. You want lots of small
-patches, each doing one logical thing, with a good commit message, and
-obviously correct. Changes like this make it a lot less obviously
-correct.
+Am 17.01.26 um 14:42 schrieb Chin-Ting Kuo:
+> spi_mem_dirmap_create() may reconfigure controller-wide settings,
+> which can interfere with concurrent transfers to other devices
+> sharing the same SPI controller but using different chip selects.
+> 
+> Wrap the ->dirmap_create() callback with spi_mem_access_start() and
+> spi_mem_access_end() to serialize access and prevent cross-CS
+> interference during dirmap creation.
 
->  	/* Disable IRQ and clear Interrupt status registers for all SGPIO Pins. */
-> -	for (i = 0; i < ARRAY_SIZE(aspeed_sgpio_banks); i++) {
-> -		bank =  &aspeed_sgpio_banks[i];
-> +	for (i = 0; i < gpio->chip.ngpio; i += 2) {
+Do you have a reproducer for this issue to test your patch? If yes, it’d 
+be great, if you documented it.
 
-Why are ARRAY_SIZE() gone? There probably is a good reason, so doing
-this in a patch of its own, with a commit message explaining "Why?"
-would make this easier to review.
+> Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
+> ---
+>   drivers/spi/spi-mem.c | 11 ++++++++++-
+>   1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/spi/spi-mem.c b/drivers/spi/spi-mem.c
+> index c8b2add2640e..85702a77b3c8 100644
+> --- a/drivers/spi/spi-mem.c
+> +++ b/drivers/spi/spi-mem.c
+> @@ -708,9 +708,18 @@ spi_mem_dirmap_create(struct spi_mem *mem,
+>   
+>   	desc->mem = mem;
+>   	desc->info = *info;
+> -	if (ctlr->mem_ops && ctlr->mem_ops->dirmap_create)
+> +	if (ctlr->mem_ops && ctlr->mem_ops->dirmap_create) {
+> +		ret = spi_mem_access_start(mem);
+> +		if (ret) {
+> +			kfree(desc);
+> +			return ERR_PTR(ret);
+> +		}
+> +
+>   		ret = ctlr->mem_ops->dirmap_create(desc);
+>   
+> +		spi_mem_access_end(mem);
+> +	}
+> +
+>   	if (ret) {
+>   		desc->nodirmap = true;
+>   		if (!spi_mem_supports_op(desc->mem, &desc->info.op_tmpl))
 
-      Andrew
+Reviewed-by: Paul Menzel <pmenzel@molgen.mpg.de>
+
+
+Kind regards,
+
+Paul
 
