@@ -1,54 +1,55 @@
-Return-Path: <linux-aspeed+bounces-3408-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3404-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 81miAxqob2kaEwAAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3408-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Jan 2026 17:06:50 +0100
+	id cIe1OfStb2nxEwAAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3404-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Jan 2026 17:31:48 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE445470FF
-	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Jan 2026 17:06:48 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE0D44796F
+	for <lists+linux-aspeed@lfdr.de>; Tue, 20 Jan 2026 17:31:47 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dwRVl1CxCz3bjb;
-	Tue, 20 Jan 2026 23:30:23 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dwRRB3mRfz309C;
+	Tue, 20 Jan 2026 23:27:18 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1768912223;
-	cv=none; b=a7CRhAi1R2FRTNzC4ZjGU7e+PbybF2sKhoAtniA5gNK87+qbBDfEWLeoHx0Br5gBOwlIsUuatTLGO1hoeZVT313f7wlDxXvrOaqc+VuiHeYOujct0UDHh1amOr3ZISjUI1YlrQyKOgDSAyBC1ppI7RsBMjfWYqQb3r5waryaYnsXmJCoyW0M8aWPHtelWvF7qKKNlra1aQnRxS2CQXPQOxka4YnqRZ1nX26n5v0r+7IvlBkaJz6rcKuWo0VVaaED0DsJN7BxT80xrDcfdiJsyFcrljnu9cQcAdFN/fNa6e9t4TjiB58KfGQXyu7ubDEsjjfKCJavPEScAQT86mb5QQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1768912038;
+	cv=none; b=EkmNuEyB0AvfejceaxoHtaJnk1gq6300EMOvi8ICBKslBX88nU4EQGwUCJbOQbCPJzPWHWl0UMjAvJA6A88ohcyCMYNYF2WfAOLfY+gIzKmzkTHYOKSpqO8W+VyYfM7vFx/ilBWBlfjUD/0nS3bCd2kQDVQr1sMgeu9ktRnSYbTLBGowf8Cqqy/nzU8rjmFzhnNtsdPqWEF+3ihgwMy3rbn4Ben3Fg+rtWSGSkbWUrgJalCP4XY1HCd0MMcwSxR4nZM6jjMKeDgNwrKurm3e46MheKzhaOJQOP5Z0tFkkFPzzzkAF5WrbSdCIQnkbOiHmshksuUgj/Ov/7RtGmq/1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1768912223; c=relaxed/relaxed;
-	bh=x4U/KqrlkovWrEFeaTiGkh/Luq0q6dmHQVuEhJlPhds=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CS9NJkQ4st6Wf3xzsUZL3yC8LoaSFgybLdr8miPEJQ5NzJp4z+JuUARzqc/h50R3gDMdImecQcdO1KuQ4eMS9nroSvVxO3AzyXdB+/O0iW2DRB+WBXMfk1PPQeJsnCbO8dUJEEPxIBciX3Z4ztWMdjXCaaKSoiKovGIwc1K9QMycA8J05mr1/32PuoJga9MdA0KN6VZ9PkwXFB94UWeQIbE0vi2bXzdg5BXieL/l4fI0EvmMuG7UX4Yk73qUmQ5FDCS9Z/ugqYAWDgg0vyBciWfhyFTgaAnu1wW4KYlsv83exktubTYNhyIJAK6AzaWa63Z0L1N76appWwjl882R3w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1768912038; c=relaxed/relaxed;
+	bh=XXkE2HvcVxwas7DVsPIhOKr5uWNoyxHv4EBAIKTLQe8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gJoX5jMSPbi969JGJIQTduY6NMm5ECokYobu8mW9SGQkmr36wiARaeMYE42dYgNi3vkowLMsMsM8e0v0tO+lDtXhrwQTfOhsjG59yi22pooj4yFQiZ2duoaJCctJEoZzF0fBP8O6Lcm/5g+qvDYINHr/93QUKfTNYCICU4Cy5g7XEflrIDzVjzLR0Hk8UBUbB1t2JwIjbdn/cMpBkcaVBEJ5MkWp25dW31aGq2R1bM8SVQCp8l/LuwKCzggmxkTPmrkBBBcMFAojSmtScjx/2/uIngtyfN1ToYjkskg6CN7YIVM1Z7xHTemxgaF4U6P/EkB1ZBvlHkcC1afoX3tgZA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=n8aC/Qvw; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=n8aC/Qvw;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dwRVk3W8pz3bt7;
-	Tue, 20 Jan 2026 23:30:22 +1100 (AEDT)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 20 Jan
- 2026 20:30:05 +0800
-Received: from aspeedtech.com (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Tue, 20 Jan 2026 20:30:05 +0800
-From: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-To: <clg@kaod.org>, <broonie@kernel.org>, <boris.brezillon@bootlin.com>,
-	<joel@jms.id.au>, <andrew@codeconstruct.com.au>,
-	<linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
-	<linux-spi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <BMC-SW@aspeedtech.com>,
-	<pmenzel@molgen.mpg.de>
-Subject: [PATCH v3 2/2] spi: aspeed: Add support for non-spi-mem devices
-Date: Tue, 20 Jan 2026 20:30:05 +0800
-Message-ID: <20260120123005.1392071-3-chin-ting_kuo@aspeedtech.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260120123005.1392071-1-chin-ting_kuo@aspeedtech.com>
-References: <20260120123005.1392071-1-chin-ting_kuo@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dwRR95MYXz2xZK;
+	Tue, 20 Jan 2026 23:27:17 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id CB55F600CB;
+	Tue, 20 Jan 2026 12:27:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04F1FC16AAE;
+	Tue, 20 Jan 2026 12:27:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768912035;
+	bh=We6iPStU0ZFDOwTAL7qZlfBr4nmJKhgoqksa0yciLRc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=n8aC/QvwvFFOP3yufXOJtOjJe/XstFlKJSXeyxXFVxtZom2AB4Wyb6Sl5K0vj96gN
+	 a/tWGLtAI1Py1Hkdlb6KS9EDHPNv9rpQgBiA2ePMF2dG/CYc6Dp2ibQCBVuMk44Met
+	 BWfvVLb2Hyrpnr8ep7OYAxDyUatZgk9eXGRCGNr3+mEZ1MRjZT57UO+x3DTPu2SHwn
+	 BumztqbzymIqqbgJaatoZItVouoryCjUwo+OKY0XnhoiFiD8agFXwb4Af8BTdwwIBm
+	 s8lo4pF5VEfABwAWlCxdY14qnkt8R0O9M+0TMUNqaFqWy7WHCdRLangR3t8mVSWK6j
+	 Lq22G3QPoulyg==
+Message-ID: <0d8ad41f-a2c4-4a4f-ac1f-68263648c4dc@kernel.org>
+Date: Tue, 20 Jan 2026 13:27:09 +0100
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -62,325 +63,211 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] pinctrl: aspeed: add G7(AST2700) SoC0 pinctrl
+ support
+To: Billy Tsai <billy_tsai@aspeedtech.com>, Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-gpio@vger.kernel.org, bmc-sw@aspeedtech.com
+References: <20260120-upstream_pinctrl-v3-0-868fbf8413b5@aspeedtech.com>
+ <20260120-upstream_pinctrl-v3-3-868fbf8413b5@aspeedtech.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260120-upstream_pinctrl-v3-3-868fbf8413b5@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [1.49 / 15.00];
-	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
+X-Spamd-Result: default: False [-0.71 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed];
-	R_DKIM_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[chin-ting_kuo@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_NONE(0.00)[];
+	TAGGED_FROM(0.00)[bounces-3404-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3408-lists,linux-aspeed=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:rdns,lists.ozlabs.org:helo]
-X-Rspamd-Queue-Id: EE445470FF
+	RCPT_COUNT_TWELVE(0.00)[17];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[aspeedtech.com:email,lists.ozlabs.org:rdns,lists.ozlabs.org:helo]
+X-Rspamd-Queue-Id: BE0D44796F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The ASPEED FMC/SPI controller may be shared by spi-mem devices and
-other SPI peripherals that do not use the spi-mem framework.
+On 20/01/2026 12:43, Billy Tsai wrote:
+> Add pinctrl support for the SoC0 instance of the ASPEED AST2700.
+> 
+> AST2700 consists of two interconnected SoC instances, each with its own
+> pinctrl register block.
+> 
+> The SoC0 pinctrl hardware closely follows the design found in previous
+> ASPEED BMC generations, allowing the driver to build upon the common
+> ASPEED pinctrl infrastructure.
+> 
+> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> ---
+>  drivers/pinctrl/aspeed/Kconfig                  |   8 +
+>  drivers/pinctrl/aspeed/Makefile                 |   1 +
+>  drivers/pinctrl/aspeed/pinctrl-aspeed-g7-soc0.c | 683 ++++++++++++++++++++++++
+>  3 files changed, 692 insertions(+)
+> 
+> diff --git a/drivers/pinctrl/aspeed/Kconfig b/drivers/pinctrl/aspeed/Kconfig
+> index 1a4e5b9ed471..16743091a139 100644
+> --- a/drivers/pinctrl/aspeed/Kconfig
+> +++ b/drivers/pinctrl/aspeed/Kconfig
+> @@ -31,3 +31,11 @@ config PINCTRL_ASPEED_G6
+>  	help
+>  	  Say Y here to enable pin controller support for Aspeed's 6th
+>  	  generation SoCs. GPIO is provided by a separate GPIO driver.
+> +
+> +config PINCTRL_ASPEED_G7
+> +	bool "Aspeed G7 SoC pin control"
+> +	depends on (ARCH_ASPEED || COMPILE_TEST) && OF
+> +	select PINCTRL_ASPEED
+> +	help
+> +	  Say Y here to enable pin controller support for Aspeed's 7th
+> +	  generation SoCs. GPIO is provided by a separate GPIO driver.
+> diff --git a/drivers/pinctrl/aspeed/Makefile b/drivers/pinctrl/aspeed/Makefile
+> index db2a7600ae2b..cb2c81a69551 100644
+> --- a/drivers/pinctrl/aspeed/Makefile
+> +++ b/drivers/pinctrl/aspeed/Makefile
+> @@ -6,3 +6,4 @@ obj-$(CONFIG_PINCTRL_ASPEED)	+= pinctrl-aspeed.o pinmux-aspeed.o
+>  obj-$(CONFIG_PINCTRL_ASPEED_G4)	+= pinctrl-aspeed-g4.o
+>  obj-$(CONFIG_PINCTRL_ASPEED_G5)	+= pinctrl-aspeed-g5.o
+>  obj-$(CONFIG_PINCTRL_ASPEED_G6)	+= pinctrl-aspeed-g6.o
+> +obj-$(CONFIG_PINCTRL_ASPEED_G7) += pinctrl-aspeed-g7-soc0.o
+> \ No newline at end of file
 
-The driver currently assumes spi-mem semantics for all devices,
-while the controller also supports direct user mode access commonly
-used by non-spi-mem devices. This mismatch can result in incorrect
-behavior when different types of devices share the same controller.
+Do not introduce patch warnings.
 
-Therefore, a user mode based path for non-spi-mem devices is added
-by implementing the transfer_one() callback and wiring up
-prepare_message() and unprepare_message() so controller state is
-initialized and restored for user mode transfers. This allows
-non-spi-mem devices to operate correctly alongside spi-mem devices
-on a shared controller.
+> diff --git a/drivers/pinctrl/aspeed/pinctrl-aspeed-g7-soc0.c b/drivers/pinctrl/aspeed/pinctrl-aspeed-g7-soc0.c
+> new file mode 100644
+> index 000000000000..c4e828c8839a
+> --- /dev/null
+> +++ b/drivers/pinctrl/aspeed/pinctrl-aspeed-g7-soc0.c
+> @@ -0,0 +1,683 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
 
-This patch has been tested on:
-- AST2700 EVB + Infineon and ST SPI TPM device.
-- AST2x00 EVB + spidev_test utility and the output waveforms are
-  verified with logic analyzer.
-- AST2x00 EVB + SPI NOR flash read/write regression.
+...
 
-Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
----
- drivers/spi/spi-aspeed-smc.c | 134 +++++++++++++++++++++++++++++++++--
- 1 file changed, 128 insertions(+), 6 deletions(-)
+> +
+> +static const struct aspeed_pinmux_ops aspeed_g7_soc0_ops = {
+> +	.set = aspeed_g7_soc0_sig_expr_set,
+> +};
+> +
+> +static struct aspeed_pinctrl_data aspeed_g7_soc0_pinctrl_data = {
 
-diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-index db3e096f2eb0..3949f94b6667 100644
---- a/drivers/spi/spi-aspeed-smc.c
-+++ b/drivers/spi/spi-aspeed-smc.c
-@@ -48,6 +48,8 @@
- /* CEx Address Decoding Range Register */
- #define CE0_SEGMENT_ADDR_REG		0x30
- 
-+#define FULL_DUPLEX_RX_DATA		0x1e4
-+
- /* CEx Read timing compensation register */
- #define CE0_TIMING_COMPENSATION_REG	0x94
- 
-@@ -81,6 +83,7 @@ struct aspeed_spi_data {
- 	u32	hclk_mask;
- 	u32	hdiv_max;
- 	u32	min_window_size;
-+	bool	full_duplex;
- 
- 	phys_addr_t (*segment_start)(struct aspeed_spi *aspi, u32 reg);
- 	phys_addr_t (*segment_end)(struct aspeed_spi *aspi, u32 reg);
-@@ -105,6 +108,7 @@ struct aspeed_spi {
- 
- 	struct clk		*clk;
- 	u32			 clk_freq;
-+	u8			 cs_change;
- 
- 	struct aspeed_spi_chip	 chips[ASPEED_SPI_MAX_NUM_CS];
- };
-@@ -280,7 +284,8 @@ static ssize_t aspeed_spi_write_user(struct aspeed_spi_chip *chip,
- }
- 
- /* support for 1-1-1, 1-1-2 or 1-1-4 */
--static bool aspeed_spi_supports_op(struct spi_mem *mem, const struct spi_mem_op *op)
-+static bool aspeed_spi_supports_mem_op(struct spi_mem *mem,
-+				       const struct spi_mem_op *op)
- {
- 	if (op->cmd.buswidth > 1)
- 		return false;
-@@ -305,7 +310,8 @@ static bool aspeed_spi_supports_op(struct spi_mem *mem, const struct spi_mem_op
- 
- static const struct aspeed_spi_data ast2400_spi_data;
- 
--static int do_aspeed_spi_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
-+static int do_aspeed_spi_exec_mem_op(struct spi_mem *mem,
-+				     const struct spi_mem_op *op)
- {
- 	struct aspeed_spi *aspi = spi_controller_get_devdata(mem->spi->controller);
- 	struct aspeed_spi_chip *chip = &aspi->chips[spi_get_chipselect(mem->spi, 0)];
-@@ -367,11 +373,12 @@ static int do_aspeed_spi_exec_op(struct spi_mem *mem, const struct spi_mem_op *o
- 	return ret;
- }
- 
--static int aspeed_spi_exec_op(struct spi_mem *mem, const struct spi_mem_op *op)
-+static int aspeed_spi_exec_mem_op(struct spi_mem *mem,
-+				  const struct spi_mem_op *op)
- {
- 	int ret;
- 
--	ret = do_aspeed_spi_exec_op(mem, op);
-+	ret = do_aspeed_spi_exec_mem_op(mem, op);
- 	if (ret)
- 		dev_err(&mem->spi->dev, "operation failed: %d\n", ret);
- 	return ret;
-@@ -773,8 +780,8 @@ static ssize_t aspeed_spi_dirmap_read(struct spi_mem_dirmap_desc *desc,
- }
- 
- static const struct spi_controller_mem_ops aspeed_spi_mem_ops = {
--	.supports_op = aspeed_spi_supports_op,
--	.exec_op = aspeed_spi_exec_op,
-+	.supports_op = aspeed_spi_supports_mem_op,
-+	.exec_op = aspeed_spi_exec_mem_op,
- 	.get_name = aspeed_spi_get_name,
- 	.dirmap_create = aspeed_spi_dirmap_create,
- 	.dirmap_read = aspeed_spi_dirmap_read,
-@@ -843,6 +850,110 @@ static void aspeed_spi_enable(struct aspeed_spi *aspi, bool enable)
- 		aspeed_spi_chip_enable(aspi, cs, enable);
- }
- 
-+static int aspeed_spi_user_prepare_msg(struct spi_controller *ctlr,
-+				       struct spi_message *msg)
-+{
-+	struct aspeed_spi *aspi =
-+		(struct aspeed_spi *)spi_controller_get_devdata(ctlr);
-+	const struct aspeed_spi_data *data = aspi->data;
-+	struct spi_device *spi = msg->spi;
-+	u32 cs = spi_get_chipselect(spi, 0);
-+	struct aspeed_spi_chip *chip = &aspi->chips[cs];
-+	u32 ctrl_val;
-+	u32 clk_div = data->get_clk_div(chip, spi->max_speed_hz);
-+
-+	ctrl_val = chip->ctl_val[ASPEED_SPI_BASE];
-+	ctrl_val &= ~CTRL_IO_MODE_MASK & data->hclk_mask;
-+	ctrl_val |= clk_div;
-+	chip->ctl_val[ASPEED_SPI_BASE] = ctrl_val;
-+
-+	if (aspi->cs_change == 0)
-+		aspeed_spi_start_user(chip);
-+
-+	return 0;
-+}
-+
-+static int aspeed_spi_user_unprepare_msg(struct spi_controller *ctlr,
-+					 struct spi_message *msg)
-+{
-+	struct aspeed_spi *aspi =
-+		(struct aspeed_spi *)spi_controller_get_devdata(ctlr);
-+	struct spi_device *spi = msg->spi;
-+	u32 cs = spi_get_chipselect(spi, 0);
-+	struct aspeed_spi_chip *chip = &aspi->chips[cs];
-+
-+	if (aspi->cs_change == 0)
-+		aspeed_spi_stop_user(chip);
-+
-+	return 0;
-+}
-+
-+static void aspeed_spi_user_transfer_tx(struct aspeed_spi *aspi,
-+					struct spi_device *spi,
-+					const u8 *tx_buf, u8 *rx_buf,
-+					void *dst, u32 len)
-+{
-+	const struct aspeed_spi_data *data = aspi->data;
-+	bool full_duplex_transfer = data->full_duplex && tx_buf == rx_buf;
-+	u32 i;
-+
-+	if (full_duplex_transfer &&
-+	    !!(spi->mode & (SPI_TX_DUAL | SPI_TX_QUAD |
-+			    SPI_RX_DUAL | SPI_RX_QUAD))) {
-+		dev_err(aspi->dev,
-+			"full duplex is only supported for single IO mode\n");
-+		return;
-+	}
-+
-+	for (i = 0; i < len; i++) {
-+		writeb(tx_buf[i], dst);
-+		if (full_duplex_transfer)
-+			rx_buf[i] = readb(aspi->regs + FULL_DUPLEX_RX_DATA);
-+	}
-+}
-+
-+static int aspeed_spi_user_transfer(struct spi_controller *ctlr,
-+				    struct spi_device *spi,
-+				    struct spi_transfer *xfer)
-+{
-+	struct aspeed_spi *aspi =
-+		(struct aspeed_spi *)spi_controller_get_devdata(ctlr);
-+	u32 cs = spi_get_chipselect(spi, 0);
-+	struct aspeed_spi_chip *chip = &aspi->chips[cs];
-+	void __iomem *ahb_base = aspi->chips[cs].ahb_base;
-+	const u8 *tx_buf = xfer->tx_buf;
-+	u8 *rx_buf = xfer->rx_buf;
-+
-+	dev_dbg(aspi->dev,
-+		"[cs%d] xfer: width %d, len %u, tx %p, rx %p\n",
-+		cs, xfer->bits_per_word, xfer->len,
-+		tx_buf, rx_buf);
-+
-+	if (tx_buf) {
-+		if (spi->mode & SPI_TX_DUAL)
-+			aspeed_spi_set_io_mode(chip, CTRL_IO_DUAL_DATA);
-+		else if (spi->mode & SPI_TX_QUAD)
-+			aspeed_spi_set_io_mode(chip, CTRL_IO_QUAD_DATA);
-+
-+		aspeed_spi_user_transfer_tx(aspi, spi, tx_buf, rx_buf,
-+					    (void *)ahb_base, xfer->len);
-+	}
-+
-+	if (rx_buf && rx_buf != tx_buf) {
-+		if (spi->mode & SPI_RX_DUAL)
-+			aspeed_spi_set_io_mode(chip, CTRL_IO_DUAL_DATA);
-+		else if (spi->mode & SPI_RX_QUAD)
-+			aspeed_spi_set_io_mode(chip, CTRL_IO_QUAD_DATA);
-+
-+		ioread8_rep(ahb_base, rx_buf, xfer->len);
-+	}
-+
-+	xfer->error = 0;
-+	aspi->cs_change = xfer->cs_change;
-+
-+	return 0;
-+}
-+
- static int aspeed_spi_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -899,6 +1010,9 @@ static int aspeed_spi_probe(struct platform_device *pdev)
- 	ctlr->cleanup = aspeed_spi_cleanup;
- 	ctlr->num_chipselect = of_get_available_child_count(dev->of_node);
- 	ctlr->dev.of_node = dev->of_node;
-+	ctlr->prepare_message = aspeed_spi_user_prepare_msg;
-+	ctlr->unprepare_message = aspeed_spi_user_unprepare_msg;
-+	ctlr->transfer_one = aspeed_spi_user_transfer;
- 
- 	aspi->num_cs = ctlr->num_chipselect;
- 
-@@ -1455,6 +1569,7 @@ static const struct aspeed_spi_data ast2400_fmc_data = {
- 	.hclk_mask     = 0xfffff0ff,
- 	.hdiv_max      = 1,
- 	.min_window_size = 0x800000,
-+	.full_duplex   = false,
- 	.calibrate     = aspeed_spi_calibrate,
- 	.get_clk_div   = aspeed_get_clk_div_ast2400,
- 	.segment_start = aspeed_spi_segment_start,
-@@ -1471,6 +1586,7 @@ static const struct aspeed_spi_data ast2400_spi_data = {
- 	.timing	       = 0x14,
- 	.hclk_mask     = 0xfffff0ff,
- 	.hdiv_max      = 1,
-+	.full_duplex   = false,
- 	.get_clk_div   = aspeed_get_clk_div_ast2400,
- 	.calibrate     = aspeed_spi_calibrate,
- 	/* No segment registers */
-@@ -1485,6 +1601,7 @@ static const struct aspeed_spi_data ast2500_fmc_data = {
- 	.hclk_mask     = 0xffffd0ff,
- 	.hdiv_max      = 1,
- 	.min_window_size = 0x800000,
-+	.full_duplex   = false,
- 	.get_clk_div   = aspeed_get_clk_div_ast2500,
- 	.calibrate     = aspeed_spi_calibrate,
- 	.segment_start = aspeed_spi_segment_start,
-@@ -1502,6 +1619,7 @@ static const struct aspeed_spi_data ast2500_spi_data = {
- 	.hclk_mask     = 0xffffd0ff,
- 	.hdiv_max      = 1,
- 	.min_window_size = 0x800000,
-+	.full_duplex   = false,
- 	.get_clk_div   = aspeed_get_clk_div_ast2500,
- 	.calibrate     = aspeed_spi_calibrate,
- 	.segment_start = aspeed_spi_segment_start,
-@@ -1520,6 +1638,7 @@ static const struct aspeed_spi_data ast2600_fmc_data = {
- 	.hclk_mask     = 0xf0fff0ff,
- 	.hdiv_max      = 2,
- 	.min_window_size = 0x200000,
-+	.full_duplex   = false,
- 	.get_clk_div   = aspeed_get_clk_div_ast2600,
- 	.calibrate     = aspeed_spi_ast2600_calibrate,
- 	.segment_start = aspeed_spi_segment_ast2600_start,
-@@ -1538,6 +1657,7 @@ static const struct aspeed_spi_data ast2600_spi_data = {
- 	.hclk_mask     = 0xf0fff0ff,
- 	.hdiv_max      = 2,
- 	.min_window_size = 0x200000,
-+	.full_duplex   = false,
- 	.get_clk_div   = aspeed_get_clk_div_ast2600,
- 	.calibrate     = aspeed_spi_ast2600_calibrate,
- 	.segment_start = aspeed_spi_segment_ast2600_start,
-@@ -1556,6 +1676,7 @@ static const struct aspeed_spi_data ast2700_fmc_data = {
- 	.hclk_mask     = 0xf0fff0ff,
- 	.hdiv_max      = 2,
- 	.min_window_size = 0x10000,
-+	.full_duplex   = true,
- 	.get_clk_div   = aspeed_get_clk_div_ast2600,
- 	.calibrate     = aspeed_spi_ast2600_calibrate,
- 	.segment_start = aspeed_spi_segment_ast2700_start,
-@@ -1573,6 +1694,7 @@ static const struct aspeed_spi_data ast2700_spi_data = {
- 	.hclk_mask     = 0xf0fff0ff,
- 	.hdiv_max      = 2,
- 	.min_window_size = 0x10000,
-+	.full_duplex   = true,
- 	.get_clk_div   = aspeed_get_clk_div_ast2600,
- 	.calibrate     = aspeed_spi_ast2600_calibrate,
- 	.segment_start = aspeed_spi_segment_ast2700_start,
--- 
-2.34.1
+Look at your existing drivers - what is missing here and in other places?
 
+> +	.pins = aspeed_g7_soc0_pins,
+> +	.npins = ARRAY_SIZE(aspeed_g7_soc0_pins),
+> +	.pinmux = {
+> +		.ops = &aspeed_g7_soc0_ops,
+> +		.groups = aspeed_g7_soc0_groups,
+> +		.ngroups = ARRAY_SIZE(aspeed_g7_soc0_groups),
+> +		.functions = aspeed_g7_soc0_functions,
+> +		.nfunctions = ARRAY_SIZE(aspeed_g7_soc0_functions),
+> +	},
+> +	.configs = aspeed_g7_soc0_configs,
+> +	.nconfigs = ARRAY_SIZE(aspeed_g7_soc0_configs),
+> +	.confmaps = aspeed_g7_soc0_pin_config_map,
+> +	.nconfmaps = ARRAY_SIZE(aspeed_g7_soc0_pin_config_map),
+> +};
+> +
+> +static int aspeed_g7_soc0_pinctrl_probe(struct platform_device *pdev)
+> +{
+> +	return aspeed_pinctrl_probe(pdev, &aspeed_g7_soc0_pinctrl_desc,
+> +				    &aspeed_g7_soc0_pinctrl_data);
+> +}
+> +
+> +static const struct of_device_id aspeed_g7_soc0_pinctrl_match[] = {
+> +	{ .compatible = "aspeed,ast2700-soc0-pinctrl" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, aspeed_g7_soc0_pinctrl_match);
+> +
+> +static struct platform_driver aspeed_g7_soc0_pinctrl_driver = {
+> +	.probe = aspeed_g7_soc0_pinctrl_probe,
+> +	.driver = {
+> +		.name = "aspeed-g7-soc0-pinctrl",
+> +		.of_match_table = aspeed_g7_soc0_pinctrl_match,
+> +		.suppress_bind_attrs = true,
+> +	},
+> +};
+> +
+> +static int __init aspeed_g7_soc0_pinctrl_init(void)
+> +{
+> +	return platform_driver_register(&aspeed_g7_soc0_pinctrl_driver);
+> +}
+> +arch_initcall(aspeed_g7_soc0_pinctrl_init);
+> 
+
+
+Best regards,
+Krzysztof
 
