@@ -1,33 +1,34 @@
-Return-Path: <linux-aspeed+bounces-3421-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3422-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UPh7LNo+c2kztgAAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3421-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	id 0Cn+L9o+c2kztgAAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3422-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
 	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jan 2026 10:26:50 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C39D473401
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA08273400
 	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jan 2026 10:26:49 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dyCHV3Pt9z2yFK;
-	Fri, 23 Jan 2026 20:26:46 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4dyCHW1q0dz2yFQ;
+	Fri, 23 Jan 2026 20:26:47 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1769160406;
-	cv=none; b=g2RZUuy1w0lQM9Hgvuk6ooJe2InhIcfoxVwlnjm6yJsJAQ2gwGUEQFnvP3Wpyi1YKAxqhR8HgfEo1sp80c6yRQN9mB8nMptYtdrv8UmfwoNWswFIcPYOsY7kCTb3tGvrO56jSfcAIcYTwtK2QiW8DYodj9IGBo5K5hBi/yUILjb7gLAMTZTsvmbaALopLZsx4w+GHB6uWNaj1Slu78CPmytHiVajjwNAfYK4bWL4aylCOviCakvAICV1yU2v4UJY1auLgq/ilCrCxvvH6ozzStjEkzamAYC8ga6RDBBONlsIrdARx/POgxW7W8gL73JsTlM+cPBqQPBhN3FYQrVUxg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1769160407;
+	cv=none; b=WGGbVElH3ycmDHn3AYQh4juZChzB7KJgfjVlINrZwrjDce3N0ICNkS7MakXBDQksKKYIvxGfrllP2jEIV04VB6jSesSvmn/E8d02Ds/ufwNngXcz5MvwNYtC0MC2BTF58ay4VKtdd723cR1BHOFwxRmKmNowxZE9KQrcTDaqyj0l4ezH/59xEb6CMlTvsOSczVLjDZf4alUEvz84R5okijSlrWY1TNWBhjGvjNDGeJFECGOr+5NeOXmmqjQ6jloP0WMmaIGp6/rQJ+PRCAGsjtC1tMYyjnEFq+fka1j3Qndb1mLOcTmYv4oNmMw845rx7QICNH6kKrCBny31d5u1Kw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1769160406; c=relaxed/relaxed;
-	bh=LXDjO0Zits+baQGNf4iaD7rt+XiqyDuXVlNSdn+765A=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=DcTqq36qkOSEsxU6XksEf3Ch7kNo8eB1lpZzB6TIaLW8WyoPCL/poZmWRcdqVja8G5pCVAlGYQQXKirsPUEpvfXnCFyX4B1SuGDz/AKbWPtINDor7pSpuZoHI7Wf7nxyCswqeaGVD8ViowqfpQr5mwEtBfpH8+wiHGzBJeOTR9lTjbOHS0QlXfutEJBXSp1gD8ZgxYJalWcGYs8datV92FiY8gnNmGTrP6YM/bBzSqj5N42EQdPSLjMcVZ6o1fEsyZZ0D2KxAyh2TLf+yHg2pvGvI5nESXM+pRMJ46ezJ3PjQYQaz2CQ+yNB8UTGZ7mf4idkqy5jEFHvSpYoltdW1Q==
+	t=1769160407; c=relaxed/relaxed;
+	bh=8rH2UvScxY/50rVLThRvAA7TKLScpgIC4XO0GLHyM4c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=TOteHcTui6wlG8/Qxh1pq5YG6OmfWOrZdT6eRPMnaubIlt5dXD740znw9qL0FF55cQgCG7CI/jsQ6qwjkI2uvJLUIBYCWiYN4atzktw8v1W4gVdYWA4qQr/8AfxM4cIU7USRUQDvK6tG7pg1Fwg5pYcLRhk+Fzk6zFwN6P/hv/emYdU2moc0AHVaj/y6F7NHf6rCffofL5KMva0r/+wuG3OlMTmokPYQ2dMNPWeERz0waIp1+eSpkel91RbhtrVT9sbfGJUQpZX+LALuzGCwUgp5y9wHtLnQ8T0QOFoPxW9PFZenLKAoNVQgtrHxTbTmSnfd+IeTf+j3rX5fbBWn9A==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dyCHT2v3Zz2xKh
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jan 2026 20:26:44 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dyCHV49Kfz2xKh
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jan 2026 20:26:46 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 23 Jan
@@ -36,9 +37,9 @@ Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
  Transport; Fri, 23 Jan 2026 17:26:26 +0800
 From: Billy Tsai <billy_tsai@aspeedtech.com>
-Subject: [PATCH v2 0/6] Add Aspeed G7 sgpio support
-Date: Fri, 23 Jan 2026 17:26:25 +0800
-Message-ID: <20260123-upstream_sgpio-v2-0-69cfd1631400@aspeedtech.com>
+Date: Fri, 23 Jan 2026 17:26:26 +0800
+Subject: [PATCH v2 1/6] gpio: aspeed-sgpio: Change the macro to support
+ deferred probe
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -54,11 +55,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAME+c2kC/13Myw6CMBCF4Vchs7amU+SiK9/DEFPLFGYBbVokG
- tJ3t7B0+Z/kfBtECkwRbsUGgVaO7OYc6lSAGfU8kOA+NyipKlSqFG8fl0B6esbBsxON7FusTH3
- ReIV88oEsfw7w0eUeOS4ufA9/xX3dqVoiNv/UikKKtpJkS2tfdSvvOnqifiEzno2boEsp/QB37
- HVnsQAAAA==
-X-Change-ID: 20251223-upstream_sgpio-70d815c64a19
+Message-ID: <20260123-upstream_sgpio-v2-1-69cfd1631400@aspeedtech.com>
+References: <20260123-upstream_sgpio-v2-0-69cfd1631400@aspeedtech.com>
+In-Reply-To: <20260123-upstream_sgpio-v2-0-69cfd1631400@aspeedtech.com>
 To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
 	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -66,14 +65,13 @@ To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
 CC: <linux-gpio@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>, "Andrew
  Jeffery" <andrew@aj.id.au>, <devicetree@vger.kernel.org>,
-	<bmc-sw@aspeedtech.com>, Billy Tsai <billy_tsai@aspeedtech.com>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski@oss.qualcomm.com>
+	<bmc-sw@aspeedtech.com>, Billy Tsai <billy_tsai@aspeedtech.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1769160386; l=1733;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769160386; l=1736;
  i=billy_tsai@aspeedtech.com; s=20251118; h=from:subject:message-id;
- bh=GhxpaNbciIaCWw72u2Iibpyx+V9XGyJ6u4X/43gCPWI=;
- b=ha0IbVquhucHyhVDOj7Ik/OXkimaaMGrNIIgmEHWVcXtkMlFT8YWsrZpZun6A/6r2OrwYLp2p
- +c/MUBgaX6/DJhz3EpuHv5ijNQ47OZCitYyPv5W1+HSOefr3kae3Oh6
+ bh=FTZzog1cghOkYQGpXnNtMtKiobZwLYO/6gvXhdqdfb4=;
+ b=wKbf6vtm34F3bElj6iOkpuUp+S+jsMo3UdPcDnjnNF4IqHIRoFFFISw6vZIdQM/oYix7J6q08
+ dpN2LDBi1BYDC0WFVJMRqJui7jZUWtpQnF4vHxc9VT+tFrZbTazV81Q
 X-Developer-Key: i=billy_tsai@aspeedtech.com; a=ed25519;
  pk=/A8qvgZ6CPfnwKgT6/+k+nvXOkN477MshEGJvVdzeeQ=
 X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
@@ -85,69 +83,77 @@ X-Spamd-Result: default: False [1.49 / 15.00];
 	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3421-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3422-lists,linux-aspeed=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[billy_tsai@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FORGED_RECIPIENTS(0.00)[m:linusw@kernel.org,m:brgl@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-gpio@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:andrew@aj.id.au,m:devicetree@vger.kernel.org,m:bmc-sw@aspeedtech.com,m:billy_tsai@aspeedtech.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FORGED_RECIPIENTS(0.00)[m:linusw@kernel.org,m:brgl@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-gpio@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:andrew@aj.id.au,m:devicetree@vger.kernel.org,m:bmc-sw@aspeedtech.com,m:billy_tsai@aspeedtech.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[billy_tsai@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.894];
+	NEURAL_HAM(-0.00)[-0.809];
 	MID_RHS_MATCH_FROM(0.00)[];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[aspeedtech.com:mid,aspeedtech.com:email,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
-X-Rspamd-Queue-Id: C39D473401
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,aspeedtech.com:mid,aspeedtech.com:email]
+X-Rspamd-Queue-Id: AA08273400
 X-Rspamd-Action: no action
 
-The Aspeed 7th generation SoC features two SGPIO master controllers: both
-with 256 serial inputs and outputs. The main difference from the previous
-generation is that the control logic has been updated to support
-per-pin control, allowing each pin to have its own 32-bit register for
-configuring value, interrupt type, and more.
-This patch serial also add low-level operations (llops) to abstract the
-register access for SGPIO registers making it easier to extend the driver
-to support different hardware register layouts.
+Use module_platform_driver() to replace module_platform_driver_probe().
+The former utilizes platform_driver_register(), which allows the driver to
+defer probing when it doesn't acquire the necessary resources due to probe
+order. In contrast, the latter uses __platform_driver_probe(), which
+includes the comment "Note that this is incompatible with deferred
+probing." Since our SGPIO driver requires access to the clock resource, the
+former is more suitable.
 
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 ---
-Changes in v2:
-- Split the IRQ-related llops conversion into a separate patch to keep changes logically scoped.
-- Minimized unrelated changes (such as variable renaming) to reduce diff noise and ease review.
-- Clarified the llops design intent and semantics.
-- Link to v1: https://lore.kernel.org/r/20260117-upstream_sgpio-v1-0-850ef3ffb680@aspeedtech.com
+ drivers/gpio/gpio-aspeed-sgpio.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
----
-Billy Tsai (6):
-      gpio: aspeed-sgpio: Change the macro to support deferred probe
-      gpio: aspeed-sgpio: Remove unused bank name field
-      gpio: aspeed-sgpio: Create llops to handle hardware access
-      gpio: aspeed-sgpio: Convert IRQ functions to use llops callbacks
-      dt-bindings: gpio: aspeed,sgpio: Support ast2700
-      gpio: aspeed-sgpio: Support G7 Aspeed sgpiom controller
+diff --git a/drivers/gpio/gpio-aspeed-sgpio.c b/drivers/gpio/gpio-aspeed-sgpio.c
+index 7622f9e9f54a..318cd0e39741 100644
+--- a/drivers/gpio/gpio-aspeed-sgpio.c
++++ b/drivers/gpio/gpio-aspeed-sgpio.c
+@@ -516,7 +516,7 @@ static const struct of_device_id aspeed_sgpio_of_table[] = {
+ 
+ MODULE_DEVICE_TABLE(of, aspeed_sgpio_of_table);
+ 
+-static int __init aspeed_sgpio_probe(struct platform_device *pdev)
++static int aspeed_sgpio_probe(struct platform_device *pdev)
+ {
+ 	u32 nr_gpios, sgpio_freq, sgpio_clk_div, gpio_cnt_regval, pin_mask;
+ 	const struct aspeed_sgpio_pdata *pdata;
+@@ -611,11 +611,12 @@ static int __init aspeed_sgpio_probe(struct platform_device *pdev)
+ }
+ 
+ static struct platform_driver aspeed_sgpio_driver = {
++	.probe = aspeed_sgpio_probe,
+ 	.driver = {
+ 		.name = KBUILD_MODNAME,
+ 		.of_match_table = aspeed_sgpio_of_table,
+ 	},
+ };
+ 
+-module_platform_driver_probe(aspeed_sgpio_driver, aspeed_sgpio_probe);
++module_platform_driver(aspeed_sgpio_driver);
+ MODULE_DESCRIPTION("Aspeed Serial GPIO Driver");
 
- .../devicetree/bindings/gpio/aspeed,sgpio.yaml     |   4 +-
- drivers/gpio/gpio-aspeed-sgpio.c                   | 362 +++++++++++++--------
- 2 files changed, 227 insertions(+), 139 deletions(-)
----
-base-commit: 39d3389331abd712461f50249722f7ed9d815068
-change-id: 20251223-upstream_sgpio-70d815c64a19
-
-Best regards,
 -- 
-Billy Tsai <billy_tsai@aspeedtech.com>
+2.34.1
 
 
