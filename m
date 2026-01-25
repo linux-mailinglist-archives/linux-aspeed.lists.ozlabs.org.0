@@ -1,45 +1,82 @@
-Return-Path: <linux-aspeed+bounces-3427-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3431-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oPLKGuE+c2mWtwAAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3427-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jan 2026 10:26:57 +0100
+	id iKfVCTfxd2l8mgEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3431-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Jan 2026 23:56:55 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEACD73436
-	for <lists+linux-aspeed@lfdr.de>; Fri, 23 Jan 2026 10:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 539F28E1A3
+	for <lists+linux-aspeed@lfdr.de>; Mon, 26 Jan 2026 23:56:54 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4dyCHZ5WCZz309S;
-	Fri, 23 Jan 2026 20:26:50 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4f0P6L3zHJz30Pr;
+	Tue, 27 Jan 2026 09:56:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1769160410;
-	cv=none; b=GIwwuPGtCUGV1Qb1Gg2Jl69f/VFRCocjeYySHlxSr8bd5wF2tXPlxfSFXkaj2/YXcitJlaMTHW7aUaqiSisZNOU4bEHb8nh7ObG6Vx7+2lkyR88QGDH7FLquoUKbuYsEPND2D6ldUdAc+XMrWvC5c6zxw8kXT1bGzoCdfdgxWrgni9DVvBiz11qW9KBhppGyi+aIRVK0yXpk4PDU5sr0M2ZXxk8/JG+8RyEvmhe8+RrOaBG0Tn/94eqQtwyPAw2qw2G6sGQZFdibsSLJ9nTNkScpk500DvyHjLxPysnngXR7WZoxi0hqGdMB1M8FCONY1JZ4w2Xd+13f9zgrhL9O1A==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::b12c"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1769374854;
+	cv=none; b=lc3M5ZZzOOY1nvLJ0EMPtphrc16dkafmYt4xPCvwmiVKOWIxsf1IR6HdXodJkb3GsqtRAv/hHpGKt7+7sw8Qja1rncTboQ26MX/aL3uJSjYFjS9CYTWlNljIlTJG3xkptkaDKY2c937wM1HaB8GH1EDVNtMs3nwaZyyhnnnnzwOJn8edmBUEVDQ92vfqCvSqGBXmaRrFSC3mQ0Stk46v6HIqGpMoMkY6rncBwv6rrMraAAZM641+dLHN8xbnMu4MweB6P4rTlpjpSjb+Q+VHbshdooBANi/fHSthFZNqmpWcV0QvXbjdF+rpcMfB1rb8U54ebNea9VNiNphqjsNoHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1769160410; c=relaxed/relaxed;
-	bh=m/ffm+yyut56QN7ZcaIqXy7/dylXDhGB4suG0Kat3AI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=Xip6+aCLggfiXTr51YwfjgE0zG2E4+nS7ViRDOZg4EKocS/rN9f4Ls+T3vTErqxH51nKPCHTBFrF8clQNHmtC7ACGmomryrE5yAzbzvU0WtsITVNYLoc1IdAEvWdi5S5R1MnGzl/wlSJxc9MWb/pZuoaUVtlAXeIokNidAQzx30ejb7wbPhqvbDxNs6kYBm/g56nHh5CpJdjJzPu+35+T+eVYIhZ5B2qo78v79nD5HO+bmAVnVy2J8hyzrWV0vgvQ0T0fFC4TN6sWw5oJcsQhxp0YB3+HPhcVI5LPs89dOCq8+p+rR7i7duAVxRIAQfclqZ8mTo26HpbQHjsX7mKJA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1769374854; c=relaxed/relaxed;
+	bh=7CeTj49j/suD4Rq67+orfSKtDdidAJEZzga/o+6BRCQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HCZslfi6Z95JRvkGgeQSnoPPPaPrEZTUlnxPD30X84AETNP+pIEvaOVOadaIRQOCJMTwTjJxknN0cS4W6wj3iUD3N/bpeBNSUQBed4cqCgh2P1nAfy0hAu4qqMTvSW2gi+DIZkDBJPF3ozTVS5q9ml3NYb3bTnRCWgPqwY2n+xEsBk/2CfHn7iISUh7rFaoj488c6rPiV774J7najdf4AKGormab32AKITVSAxb1Zw8ZtPxfkdsZoLTnHHTdN07nzYEiWbecfUjfogyqKuggaroFKaLwiEVk00vStyCZCR7w4ce0k6q8sARyrOJTPlopl3/qrFzWBnNiMSMV/Yidog==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jal0bwsM; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::b12c; helo=mail-yx1-xb12c.google.com; envelope-from=anirudhsriniv@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jal0bwsM;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::b12c; helo=mail-yx1-xb12c.google.com; envelope-from=anirudhsriniv@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-yx1-xb12c.google.com (mail-yx1-xb12c.google.com [IPv6:2607:f8b0:4864:20::b12c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4dyCHZ1yGHz2xKh
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 23 Jan 2026 20:26:50 +1100 (AEDT)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 23 Jan
- 2026 17:26:27 +0800
-Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Fri, 23 Jan 2026 17:26:27 +0800
-From: Billy Tsai <billy_tsai@aspeedtech.com>
-Date: Fri, 23 Jan 2026 17:26:31 +0800
-Subject: [PATCH v2 6/6] gpio: aspeed-sgpio: Support G7 Aspeed sgpiom
- controller
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4dzkbR6svSz2xJ6
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 26 Jan 2026 08:00:50 +1100 (AEDT)
+Received: by mail-yx1-xb12c.google.com with SMTP id 956f58d0204a3-64455a2a096so2944049d50.3
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 25 Jan 2026 13:00:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769374848; x=1769979648; darn=lists.ozlabs.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7CeTj49j/suD4Rq67+orfSKtDdidAJEZzga/o+6BRCQ=;
+        b=jal0bwsMntm3YiN4gwuSWAJRSQMruFvERvgic4H4r7AAtvt4M+//Rz9/lwe/zt52oG
+         goMqYzdtrcctohgShJkJMFE57k9MDOP0VzCF+zRtLuAvtXoBXB3oBr5AgZBd/2w5taxN
+         OxriYe/iweJcqE/he0GYuJ1bEMUWLLrrpwRSOv2npd/Ub9+YphrYasx2eG6eIY7O9IUN
+         y6fqFszJPTXt2EZYgN8WOpVyqll7wSgCX8Evd79Vrbk3cDSlmdSw2nl+Ei8fYx9yds8M
+         d0VBM1t5z9H4ucyzEwfNYVbZ0RsAIjZ9+kIwEpllz4QsC3zVDgOVCEj3H005XDP35QoU
+         2cpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769374848; x=1769979648;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7CeTj49j/suD4Rq67+orfSKtDdidAJEZzga/o+6BRCQ=;
+        b=r7t5gd0t94DoBv4QwrD2QNmHXznFl3RFLsRSd9dN8zDD6K5xyfvG+YHw5eIkrni7mu
+         q+BN7swkP9pNbR1quDs5HIUaKu7CPpL1kYcO11sBTqSTZMm1IioB36Zi41FtMqSrO007
+         kErnAyKVEfCXzX8j0aR/Jg1MWqxY7nMMy7/1lQRM0D1UAErpATAmviqo2kf8wdJ770ys
+         0nr26QQCmPB91w2UTpt5hLC4cvrwqh/zR4lY+LboXlboBDf7h3jBiSkD+TtkFaPxTXAc
+         s75imPXrUEqEanM7ZRaHjSMh2S20wP5XKi1pz3TqcEdpaDQAjpsyiAyOYzAe/ymxKOZu
+         m1VA==
+X-Forwarded-Encrypted: i=1; AJvYcCU5F67nBqu00976FYxh5FCeBxtTenwBxlTHbwfKmYQQ3RTwk2KoWjvclZA7lHVG9jyBwIbiMhlpCQ0IDpI=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yz7W3mDQ0R45V7s/tgcddyw3HSBvbg5z0aOrSw4fQ5DYiAmnEQF
+	7+Q/AekrnEkqtwQQnGhZ+NQ9PS5dsiNbn+0PcbFbaeYHP5qlvXoHsT9n
+X-Gm-Gg: AZuq6aJGsvOEa/6n6qgryBvrRDmd7QWqSxtF0Ge7t8J3o94HdMfDQa2MPCs/5UjFa68
+	zoGMQSNSdxILAkx0pYbmtU/8EDLpekFvh5ngXbVdXEmgbe/OilTVeySW39ROKDIXv3D0iFyVvFU
+	fEX81CpWgvGxbTv0lt/I4HjjtEiuf6YFVFw9o9xSQTOi3+yMxGFbCvnqz5S1VQmRYEory+GmhW1
+	y/zI2009ScO5Na2JQLDTF1wUoZ37qBLXbJ34U/cNplgJaBhVOK3xW7ecYEnDcXCHrMTIXRsorj8
+	5qBok6q0w3M8vVSFCUyraOOSUbmcIpOFK09L4pu7vv5/tTt8QW2UrA2v+v4TaGCuu+BvsTvI72z
+	UXRJdQIV7x9UC1Kc9333+fjuLXbI3M2k1MWWwO1KpmJJR+8rBvQQIzs1y8OEOf5L5THZWLBHIWY
+	P+UD+k
+X-Received: by 2002:a05:690c:64ca:b0:787:e3c0:f61f with SMTP id 00721157ae682-7945aa0d1e0mr41109317b3.57.1769374847540;
+        Sun, 25 Jan 2026 13:00:47 -0800 (PST)
+Received: from [192.168.2.165] ([2600:1700:220:59e0::914])
+        by smtp.googlemail.com with ESMTPSA id 956f58d0204a3-6496855d65esm2518183d50.12.2026.01.25.13.00.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Jan 2026 13:00:47 -0800 (PST)
+From: Anirudh Srinivasan <anirudhsriniv@gmail.com>
+Subject: [PATCH 0/2] Add device tree for Asrock Paul IPMI Card
+Date: Sun, 25 Jan 2026 15:00:37 -0600
+Message-Id: <20260125-asrock-paul-v1-0-956085a4bd06@gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -55,237 +92,100 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260123-upstream_sgpio-v2-6-69cfd1631400@aspeedtech.com>
-References: <20260123-upstream_sgpio-v2-0-69cfd1631400@aspeedtech.com>
-In-Reply-To: <20260123-upstream_sgpio-v2-0-69cfd1631400@aspeedtech.com>
-To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-CC: <linux-gpio@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>, "Andrew
- Jeffery" <andrew@aj.id.au>, <devicetree@vger.kernel.org>,
-	<bmc-sw@aspeedtech.com>, Billy Tsai <billy_tsai@aspeedtech.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1769160386; l=5872;
- i=billy_tsai@aspeedtech.com; s=20251118; h=from:subject:message-id;
- bh=Yc0Am0JOK83f2qlQR8wy0adnCkIm88yQxe8eRCbOxTw=;
- b=qDEskd91oEVv3mtQ7vh96cpdr2vm6lBb1mwHJDfrJmAukdsk6JrYvA9PUjH5GxI1Rikq2++1z
- jOWA1tTl43NCaSCKupaIC6opihZ2EYMQNMir4ljwlIbTtckHZ+MwOMJ
-X-Developer-Key: i=billy_tsai@aspeedtech.com; a=ed25519;
- pk=/A8qvgZ6CPfnwKgT6/+k+nvXOkN477MshEGJvVdzeeQ=
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
-	autolearn=disabled version=4.0.1
+X-B4-Tracking: v=1; b=H4sIAHWEdmkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDQyNT3cTiovzkbN2CxNIcXdMUgxSTJEPTZIukZCWgjoKi1LTMCrBp0bG
+ 1tQBmdGMnXQAAAA==
+X-Change-ID: 20260125-asrock-paul-5d0d4b15c8bc
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ Zev Weiss <zev@bewilderbeest.net>, Renze Nicolai <renze@rnplus.nl>, 
+ Anirudh Srinivasan <anirudhsriniv@gmail.com>
+X-Mailer: b4 0.14.2
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.49 / 15.00];
+X-Spamd-Result: default: False [0.29 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
+	DATE_IN_PAST(1.00)[25];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[generic];
 	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3427-lists,linux-aspeed=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[billy_tsai@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-3431-lists,linux-aspeed=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[anirudhsriniv@gmail.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_RECIPIENTS(0.00)[m:linusw@kernel.org,m:brgl@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-gpio@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:andrew@aj.id.au,m:devicetree@vger.kernel.org,m:bmc-sw@aspeedtech.com,m:billy_tsai@aspeedtech.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:zev@bewilderbeest.net,m:renze@rnplus.nl,m:anirudhsriniv@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[billy_tsai@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.843];
+	FROM_NEQ_ENVFROM(0.00)[anirudhsriniv@gmail.com,linux-aspeed@lists.ozlabs.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.ozlabs.org,bewilderbeest.net,rnplus.nl,gmail.com];
 	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,aspeedtech.com:mid,aspeedtech.com:email]
-X-Rspamd-Queue-Id: BEACD73436
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,asrockrack.com:url]
+X-Rspamd-Queue-Id: 539F28E1A3
 X-Rspamd-Action: no action
 
-In the 7th generation of the SoC from Aspeed, the control logic of the
-SGPIO controller has been updated to support per-pin control. Each pin now
-has its own 32-bit register, allowing for individual control of the pin's
-value, interrupt type, and other settings.
+Adds support for Asrock Paul IPMI Card [1], which is an AST2500 based
+PCIe card that provides BMC functionality. The supported functionality
+is similar to the Asus Kommando IPMI Card, support for which was sent
+previously [2].
 
-Reviewed-by: Linus Walleij <linusw@kernel.org>
-Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+Supported functionality includes UART, Booting from Primary SPI,
+Networking, KVM functionality (USB Gadget and Video Engine), LEDs and
+GPIO Power control. Complete BMC functionality has been tested on an
+OpenBMC build available here [3], relying on this kernel branch [4].
+
+For some reason, the Video Engine isn't always
+stable when the host PC's video output goes black/changes
+resolution, resulting in a hang and a subsequent reset of the Aspeed.
+Applying this patch [5] from the Aspeed vendor kernel seems to fix this
+issue. This doesn't require any changes to the device tree for this
+device though, so I think it shouldn't affect this patch series.
+
+[1] https://www.asrockrack.com/general/productdetail.asp?Model=PAUL
+[2] https://lore.kernel.org/linux-aspeed/20260114-asus-ipmi-expansion-card-v2-0-12b72d20a9b9@gmail.com/
+[3] https://github.com/Genius1237/openbmc/commits/asrock-paul-ipmi-card/
+[4] https://github.com/openbmc/linux/compare/dev-6.18...Genius1237:linux:asrock-paul-ipmi-card-6.18 
+[5] https://lore.kernel.org/linux-aspeed/20251124-video_dram_reset-v1-1-9d37229e4ec5@aspeedtech.com/
+
+Signed-off-by: Anirudh Srinivasan <anirudhsriniv@gmail.com>
 ---
- drivers/gpio/gpio-aspeed-sgpio.c | 110 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 108 insertions(+), 2 deletions(-)
+Anirudh Srinivasan (2):
+      dt-bindings: arm: aspeed: Add Asrock Paul IPMI card
+      ARM: dts: aspeed: Add Asrock Paul IPMI card
 
-diff --git a/drivers/gpio/gpio-aspeed-sgpio.c b/drivers/gpio/gpio-aspeed-sgpio.c
-index b5270e11b153..4225261f61c8 100644
---- a/drivers/gpio/gpio-aspeed-sgpio.c
-+++ b/drivers/gpio/gpio-aspeed-sgpio.c
-@@ -19,7 +19,31 @@
- #include <linux/spinlock.h>
- #include <linux/string.h>
- 
--#define ASPEED_SGPIO_CTRL		0x54
-+#define SGPIO_G7_IRQ_STS_BASE 0x40
-+#define SGPIO_G7_IRQ_STS_OFFSET(x) (SGPIO_G7_IRQ_STS_BASE + (x) * 0x4)
-+#define SGPIO_G7_CTRL_REG_BASE 0x80
-+#define SGPIO_G7_CTRL_REG_OFFSET(x) (SGPIO_G7_CTRL_REG_BASE + (x) * 0x4)
-+#define SGPIO_G7_OUT_DATA BIT(0)
-+#define SGPIO_G7_PARALLEL_OUT_DATA BIT(1)
-+#define SGPIO_G7_IRQ_EN BIT(2)
-+#define SGPIO_G7_IRQ_TYPE0 BIT(3)
-+#define SGPIO_G7_IRQ_TYPE1 BIT(4)
-+#define SGPIO_G7_IRQ_TYPE2 BIT(5)
-+#define SGPIO_G7_RST_TOLERANCE BIT(6)
-+#define SGPIO_G7_INPUT_MASK BIT(9)
-+#define SGPIO_G7_HW_BYPASS_EN BIT(10)
-+#define SGPIO_G7_HW_IN_SEL BIT(11)
-+#define SGPIO_G7_IRQ_STS BIT(12)
-+#define SGPIO_G7_IN_DATA BIT(13)
-+#define SGPIO_G7_PARALLEL_IN_DATA BIT(14)
-+#define SGPIO_G7_SERIAL_OUT_SEL GENMASK(17, 16)
-+#define SGPIO_G7_PARALLEL_OUT_SEL GENMASK(19, 18)
-+#define SELECT_FROM_CSR 0
-+#define SELECT_FROM_PARALLEL_IN 1
-+#define SELECT_FROM_SERIAL_IN 2
-+
-+#define ASPEED_SGPIO_G4_CFG_OFFSET 0x54
-+#define ASPEED_SGPIO_G7_CFG_OFFSET 0x0
- 
- #define ASPEED_SGPIO_CLK_DIV_MASK	GENMASK(31, 16)
- #define ASPEED_SGPIO_ENABLE		BIT(0)
-@@ -28,6 +52,7 @@
- struct aspeed_sgpio_pdata {
- 	const u32 pin_mask;
- 	const struct aspeed_sgpio_llops *llops;
-+	const u32 cfg_offset;
- };
- 
- struct aspeed_sgpio {
-@@ -135,6 +160,30 @@ static void __iomem *aspeed_sgpio_g4_bank_reg(struct aspeed_sgpio *gpio,
- 	}
- }
- 
-+static u32 aspeed_sgpio_g7_reg_mask(const enum aspeed_sgpio_reg reg)
-+{
-+	switch (reg) {
-+	case reg_val:
-+	case reg_rdata:
-+		return SGPIO_G7_OUT_DATA;
-+	case reg_irq_enable:
-+		return SGPIO_G7_IRQ_EN;
-+	case reg_irq_type0:
-+		return SGPIO_G7_IRQ_TYPE0;
-+	case reg_irq_type1:
-+		return SGPIO_G7_IRQ_TYPE1;
-+	case reg_irq_type2:
-+		return SGPIO_G7_IRQ_TYPE2;
-+	case reg_irq_status:
-+		return SGPIO_G7_IRQ_STS;
-+	case reg_tolerance:
-+		return SGPIO_G7_RST_TOLERANCE;
-+	default:
-+		WARN_ON_ONCE(1);
-+		return 0;
-+	}
-+}
-+
- #define GPIO_BANK(x)    ((x) >> 6)
- #define GPIO_OFFSET(x)  ((x) & GENMASK(5, 0))
- #define GPIO_BIT(x)     BIT(GPIO_OFFSET(x) >> 1)
-@@ -457,6 +506,7 @@ static const struct aspeed_sgpio_llops aspeed_sgpio_g4_llops = {
- static const struct aspeed_sgpio_pdata ast2400_sgpio_pdata = {
- 	.pin_mask = GENMASK(9, 6),
- 	.llops = &aspeed_sgpio_g4_llops,
-+	.cfg_offset = ASPEED_SGPIO_G4_CFG_OFFSET,
- };
- 
- static int aspeed_sgpio_reset_tolerance(struct gpio_chip *chip,
-@@ -486,12 +536,68 @@ static int aspeed_sgpio_set_config(struct gpio_chip *chip, unsigned int offset,
- static const struct aspeed_sgpio_pdata ast2600_sgpiom_pdata = {
- 	.pin_mask = GENMASK(10, 6),
- 	.llops = &aspeed_sgpio_g4_llops,
-+	.cfg_offset = ASPEED_SGPIO_G4_CFG_OFFSET,
-+};
-+
-+static void aspeed_sgpio_g7_reg_bit_set(struct aspeed_sgpio *gpio, unsigned int offset,
-+					const enum aspeed_sgpio_reg reg, bool val)
-+{
-+	u32 mask = aspeed_sgpio_g7_reg_mask(reg);
-+	void __iomem *addr = gpio->base + SGPIO_G7_CTRL_REG_OFFSET(offset >> 1);
-+	u32 write_val;
-+
-+	if (mask) {
-+		write_val = (ioread32(addr) & ~(mask)) | field_prep(mask, val);
-+		iowrite32(write_val, addr);
-+	}
-+}
-+
-+static bool aspeed_sgpio_g7_reg_bit_get(struct aspeed_sgpio *gpio, unsigned int offset,
-+					const enum aspeed_sgpio_reg reg)
-+{
-+	u32 mask = aspeed_sgpio_g7_reg_mask(reg);
-+	void __iomem *addr;
-+
-+	addr = gpio->base + SGPIO_G7_CTRL_REG_OFFSET(offset >> 1);
-+	if (reg == reg_val)
-+		mask = SGPIO_G7_IN_DATA;
-+
-+	if (mask)
-+		return field_get(mask, ioread32(addr));
-+	else
-+		return 0;
-+}
-+
-+static int aspeed_sgpio_g7_reg_bank_get(struct aspeed_sgpio *gpio, unsigned int offset,
-+					const enum aspeed_sgpio_reg reg)
-+{
-+	void __iomem *addr;
-+
-+	if (reg == reg_irq_status) {
-+		addr = gpio->base + SGPIO_G7_IRQ_STS_OFFSET(offset >> 6);
-+		return ioread32(addr);
-+	} else {
-+		return -EOPNOTSUPP;
-+	}
-+}
-+
-+static const struct aspeed_sgpio_llops aspeed_sgpio_g7_llops = {
-+	.reg_bit_set = aspeed_sgpio_g7_reg_bit_set,
-+	.reg_bit_get = aspeed_sgpio_g7_reg_bit_get,
-+	.reg_bank_get = aspeed_sgpio_g7_reg_bank_get,
-+};
-+
-+static const struct aspeed_sgpio_pdata ast2700_sgpiom_pdata = {
-+	.pin_mask = GENMASK(11, 6),
-+	.llops = &aspeed_sgpio_g7_llops,
-+	.cfg_offset = ASPEED_SGPIO_G7_CFG_OFFSET,
- };
- 
- static const struct of_device_id aspeed_sgpio_of_table[] = {
- 	{ .compatible = "aspeed,ast2400-sgpio", .data = &ast2400_sgpio_pdata, },
- 	{ .compatible = "aspeed,ast2500-sgpio", .data = &ast2400_sgpio_pdata, },
- 	{ .compatible = "aspeed,ast2600-sgpiom", .data = &ast2600_sgpiom_pdata, },
-+	{ .compatible = "aspeed,ast2700-sgpiom", .data = &ast2700_sgpiom_pdata, },
- 	{}
- };
- 
-@@ -562,7 +668,7 @@ static int aspeed_sgpio_probe(struct platform_device *pdev)
- 
- 	gpio_cnt_regval = ((nr_gpios / 8) << ASPEED_SGPIO_PINS_SHIFT) & pin_mask;
- 	iowrite32(FIELD_PREP(ASPEED_SGPIO_CLK_DIV_MASK, sgpio_clk_div) | gpio_cnt_regval |
--		  ASPEED_SGPIO_ENABLE, gpio->base + ASPEED_SGPIO_CTRL);
-+		  ASPEED_SGPIO_ENABLE, gpio->base + gpio->pdata->cfg_offset);
- 
- 	raw_spin_lock_init(&gpio->lock);
- 
+ .../devicetree/bindings/arm/aspeed/aspeed.yaml     |   1 +
+ arch/arm/boot/dts/aspeed/Makefile                  |   1 +
+ .../aspeed/aspeed-bmc-asrock-paul-ipmi-card.dts    | 131 +++++++++++++++++++++
+ 3 files changed, 133 insertions(+)
+---
+base-commit: 9448598b22c50c8a5bb77a9103e2d49f134c9578
+change-id: 20260125-asrock-paul-5d0d4b15c8bc
 
+Best regards,
 -- 
-2.34.1
+Anirudh Srinivasan <anirudhsriniv@gmail.com>
 
 
