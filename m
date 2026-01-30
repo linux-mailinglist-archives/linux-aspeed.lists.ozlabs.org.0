@@ -1,72 +1,84 @@
-Return-Path: <linux-aspeed+bounces-3444-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3454-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id Gv0PBsXfe2lyJAIAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3444-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Jan 2026 23:31:33 +0100
+	id CGPiB5nWf2miyQIAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3454-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Sun, 01 Feb 2026 23:41:29 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5BDEB5562
-	for <lists+linux-aspeed@lfdr.de>; Thu, 29 Jan 2026 23:31:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B3CC76E1
+	for <lists+linux-aspeed@lfdr.de>; Sun, 01 Feb 2026 23:41:28 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4f2DQ84KQDz2y6G;
-	Fri, 30 Jan 2026 09:31:28 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4f44V75vzCz30FD;
+	Mon, 02 Feb 2026 09:41:19 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1769725888;
-	cv=none; b=Wnj+AT3psBMr2irYGYBVsF8ZAqGzoJ7Y2HQaWpwneO9O78KUnuFjcu2BllXpCrCu2c7WFkpZpN+L+f6tFXJ/QCajkaj7lhvYFAS6niP3fPsr0gYelM2DyYXRLAbGFoV/k/SVKd1rsCx9ZdbHgulDOW2yb9AJEJ5cWq+KLK2WpLa+/cyMHxR+0mnB993btQrBDdmxtJdNRSX2Ciip1X5sFJac5ebB0ScpcLpYkfDn2SpAMgqavNcP2XcQgGdKmdS5/NBBoqgCibKK1qWSyVzuu5h55D7kzWphq3jzGNFnCJj9ESE3OHbQVZTnLfIrZBPUFfvSXpbx0H5U1DvHmpYYRQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::429"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1769761219;
+	cv=none; b=f7Bby5Aele0HVzzpEQMPCup0B8DGmeBe1Hit9VtQA6lYttuWDxDKdOyH5az0U8/KTeZgUoBw9lmtgjsC0lFEPy2tN5563VsSzSBYH+mf6+ir0eMfXefP64KfcD8sJx1IAUzymlsM7MUYPn2ltOnORt1zqyBJ3t9FhJVDZ5iq8VmuKznZT5QEI0ynMZ0tNZUN/mPGyBaJEsg9Z+DGn0w4zZCZHIGQGwgG/B2Un+mGI8Hq1YUaTyVztK/cE2Hze2DUFzVQzPLGnFsJFNDaZ2Erec4Pou/QbAYf/Rzntm7/N+pFzrGJpewLR7JzFRh2uJqrrYa85r3NkHGZTG/CsdWVBw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1769725888; c=relaxed/relaxed;
-	bh=XeDMpJ65mp+98QISIa6zGzqYGRyHyE/0c63dQ1J//No=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ksI/+MbonRXKGPF6mCJuIHuWbbHotzFShlJ83IDD/Y+Zx9XqAazuxCo0di+pvZmE9wUU1d7I+kLgV3pDTRd+OJZdSnDt3HXDm07MdXp1TP19eRqrsdCsf1z9UZCtS0XX+hfMOEsAoQK4rPWRpZL5NmxLc8dR+4V1XnvpGGotmr3OcQAVupf7RkraN5y0+Q8RfLzQuPQti413e35V0+Qvo+bg+L8UTaf5Z5LIMnVNA/IIOew/uzITF9fp44P0NasE5uREEzl+BMRHIk/67+X6QuEqbXpICte3bSmr6NlwdTlSwJ1QVdrtE7iHWzHw9gasK18+xo3MgJwxcEkQw4U3dA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=maXuXDBD; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+	t=1769761219; c=relaxed/relaxed;
+	bh=hnUz4THRm4aVeJWQLZHQhQHquSXvl8jN1UCodfFTOc4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=I1L47sZ2aQMcaP75r4blznKrYi3rgBFllvvwWwDTHeiUAWJKE0zwzJAbXxmz8RMcyBAeFAw6otPSPS9hXnuHtEy/iJ8AeTkE/IngEVzoouSfz3QPUApXW3jGptlKOnHGJmqSsEilexXcHpsS3kRROr7zbPaRzXCyaGsor1RBj6wgTVw4onXrZf0uAznvGoKI4ydZ1yliKBqsBPy6m/Uq8kqoqNIuWfbavPnTZgCKrIhpbd4OMPpGkxD+qGhmYNOAypw6mmiw0VOkOMqwbgvlUixWewCJRjDxAb8HmpFRPwIomcjPA3v9fyagEExHJQbSlzmkndAliIeYac2ZVpKy9w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=cYTf60rf; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::429; helo=mail-pf1-x429.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=maXuXDBD;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=cYTf60rf;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::429; helo=mail-pf1-x429.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4f2DQ76VbGz2xpk;
-	Fri, 30 Jan 2026 09:31:27 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4f2TTZ15T5z2xjP
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 30 Jan 2026 19:20:17 +1100 (AEDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-8230f8f27cfso1019715b3a.0
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 30 Jan 2026 00:20:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1769725886;
-	bh=XeDMpJ65mp+98QISIa6zGzqYGRyHyE/0c63dQ1J//No=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=maXuXDBDY5E82w+PEupDgyz4HMJpbKuw1UzO+dIkS5jxTm1C/okzqrlbeKVwP5/2u
-	 Qmlwe1QlE+tToivLA+Co71fnsoyIwW+7Ac7wb/oLse0BIQHmHL1b4kESpKUryAJSH5
-	 zz1AYVHdKrtJxdw68fXAgjGC3zdLRRl+DqEIzH7+zSxuwZgFryX4FpjGLfaHjLSBnh
-	 N4LG5nd9/2dhd4+30p/dIoCMLGZn24TWDGPOKEniU5PKzNcg2d1CNTXMLAUg1Az/hM
-	 20YqxQthcjTdbkupxPsQgS4k/x+Blm/TSTl02Q1sKw5XjzbabaZ9c7kQExTjo8WmXj
-	 K0yNxc7jhe70g==
-Received: from [192.168.68.117] (unknown [180.150.112.60])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 679D860035;
-	Fri, 30 Jan 2026 06:31:25 +0800 (AWST)
-Message-ID: <547396d9f2aaea032fa62e7adcafb423a9467446.camel@codeconstruct.com.au>
-Subject: Re: [PATCH RFC 05/16] ARM: dts: aspeed: Remove unspecified LPC host
- controller node
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,  Linus Walleij <linusw@kernel.org>, Joel Stanley
- <joel@jms.id.au>, linux-hwmon@vger.kernel.org, 	devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, 	linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org, 	openbmc@lists.ozlabs.org,
- linux-gpio@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-iio@vger.kernel.org
-Date: Fri, 30 Jan 2026 09:01:20 +1030
-In-Reply-To: <CAL_JsqJxfVaLqzTwm7iEvc4maBzVvpc-i5uD6CZRtiv+V+7+1Q@mail.gmail.com>
-References: 
-	<20251211-dev-dt-warnings-all-v1-0-21b18b9ada77@codeconstruct.com.au>
-	 <20251211-dev-dt-warnings-all-v1-5-21b18b9ada77@codeconstruct.com.au>
-	 <CAL_JsqJxfVaLqzTwm7iEvc4maBzVvpc-i5uD6CZRtiv+V+7+1Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+        d=gmail.com; s=20230601; t=1769761215; x=1770366015; darn=lists.ozlabs.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hnUz4THRm4aVeJWQLZHQhQHquSXvl8jN1UCodfFTOc4=;
+        b=cYTf60rfS1g0xDqAorIntNHNAvM85u40D+bKOOVvuyFZH7pz4OtgfEOOeDnSAIwJiI
+         Ul0yX2yXIklyXnWQaj4hsjPioniwd+3LWPQfSQF49s1LC7vjaqw2O3o5WqwyPO4Dzk3A
+         U2e6Qk7RwIw9uD4zzdJK9d9cHEu6v1Lv42Whc3YBIf8dKKYd06zH+g9ckKijkqD5Y52T
+         yjou2rDdJR7n2dy+9nO+jM3TY1yimm30l3kuUCgdA1oEaqIaYgYxbYZC1KmAqlTjzVhh
+         Sztg3qcs91KWFqaug3y4MEyj9hKfOXMw/HHea9MHEGWfDLlmimqDXDXTysZTDmgWHBku
+         IAwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769761215; x=1770366015;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hnUz4THRm4aVeJWQLZHQhQHquSXvl8jN1UCodfFTOc4=;
+        b=nxCsQMgPOhlrz/mjZQN8yhhbNNrNc/7loIWosVJKpdtzV2g4cXM4AVRb1SXiiqimWX
+         fQJT4/1lEsD0e86+ftMFCk/gOzBztkav0e2mclZsyJwDUXy6nndST5MLgkgK7240StDd
+         Xb0GIJ89kPPHVB1lRavzpragGyUr14YYpV6mH4REFdH3KIpgLeGp1ofmpJd1vdGOu81v
+         sOWefL0MrhdcgELHab7rKFORbJN61k7EIesjHV0ImDWA0LVuRTCMUUVlqYSITKo4LGde
+         V+PJ09V+Vci07Rsd85wNluF4orYYrh5SQ8VzrMZntVbs2NK2DCusbVOQZUBfqqBs/fMU
+         TaOg==
+X-Forwarded-Encrypted: i=1; AJvYcCWXDGsvw3fOC29gKxEsVIH/fMAsOmqw+YIy/VJ7s0/vfjrUHN3PtflqxyqgQFNNNLaEwMiGx5kQYUiF0hg=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yz9KCe54t65UdTgllAcddS3RDzBrr7IldE/CIATLjOH40IQW8EX
+	wNXKsY2uvFkIugkWgWdQUn4ORoGghUyd0xsMfQjZemX0SMTAuyd9tUgA
+X-Gm-Gg: AZuq6aKqRwDIzpywJDIp6gYAkDqJEkymDsoNRYbJ2evIHiFylersQQlCuJBFFJiL2il
+	KV2F1y0BRafTyPK5RWjs+0thdXIsNtQn8Onn0ZP52aXykWD3bTOq4ecMIqDmShmesnzCP3crAa9
+	gHuRlMDuxhnHbL4dFm/Sg8ryotXOAlM1/dPcHWNXGT4C0uJoBlJGKVjf28Xwe1XVDse8/YTTbTP
+	ssoUgaw9nCZ+t0BdcKheN4tc4UbBZ2eULCSGIOX7Sjtec2nmocIYnn18XLHws7sIjQ46bBOdCI+
+	UTPhVlD3S5uyK64c7Gy3FipBKdnvHFpzGltAj0lqtNNYw75ACHosdno7YIpETxXyjIe7b2BqzU9
+	RJ/9Qp7Cg22TqDeh7AjuC5z0IBW9Yrhn5FM1+zVMPwlBhZ/jAd4LPpbd77/fa54oPCq7zusiDQA
+	lneKA0aKM8RuEjfuMqwJSZTq5ZXMqUG9wLWFroC7iSmBNaR1tPvtMRWO/0ScyVXrYeT7QCzyNPq
+	oF8/gvwZHK1xVm3JNSSEBowXf3614Eux88Mc1Xca8kJ6e4vDOvQPeSyOMPwhFIg9+XsGC0HwM4m
+	w/u68MOO/N+I
+X-Received: by 2002:a05:6a00:b47:b0:81c:446d:6bd0 with SMTP id d2e1a72fcca58-823ab670e70mr2254931b3a.23.1769761214995;
+        Fri, 30 Jan 2026 00:20:14 -0800 (PST)
+Received: from 2001-b400-e3e0-2a58-5bcf-a65d-c80e-2087.emome-ip6.hinet.net (2001-b400-e3e0-2a58-5bcf-a65d-c80e-2087.emome-ip6.hinet.net. [2001:b400:e3e0:2a58:5bcf:a65d:c80e:2087])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82379bfc712sm7866018b3a.40.2026.01.30.00.20.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jan 2026 00:20:14 -0800 (PST)
+From: Kevin Tung <kevin.tung.openbmc@gmail.com>
+Subject: [PATCH v4 0/7] Revise Meta Yosemite5 devicetree
+Date: Fri, 30 Jan 2026 16:20:08 +0800
+Message-Id: <20260130-yv5_revise_dts-v4-0-4d924455f3a7@gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -80,57 +92,117 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALhpfGkC/3XMTQqDMBCG4auUrJuSicafrnqPUkQzowaqlkRCR
+ bx7o5tKpZDNF+Z5Z+bIGnLsepqZJW+cGfow4vOJ6bbsG+IGw2ZSSAUAGZ+8KrZDKnB0HCSBIMR
+ cYcICelmqzXsL3h9ht8aNg522vof192/KAxe81phUcRxent6arjTPix46tqa83HEpDlwGHmOKl
+ ArQqqJfHn25hPzAo8B1CajKKJMCoj1fluUDzf+/xyoBAAA=
+X-Change-ID: 20251118-yv5_revise_dts-12e10edd95d6
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ Amithash Prasasd <amithash@meta.com>, Kevin Tung <Kevin.Tung@quantatw.com>, 
+ Ken Chen <Ken.Chen@quantatw.com>, Leo Yang <Leo-Yang@quantatw.com>, 
+ Jackson Liu <Jackson.Liu@quantatw.com>, 
+ Kevin Tung <kevin.tung.openbmc@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769761212; l=1817;
+ i=kevin.tung.openbmc@gmail.com; s=20250924; h=from:subject:message-id;
+ bh=Fx+n2x+YlJ0swzNoY2QW+06k5Hll0jZhxlDQqLG+dq0=;
+ b=uxTiiyp4e2eQ7rsolNoZYbQNw2OiRXFETD7vDC5ETDemNPxpMWpOJDB8iJNzvmClBi16wpYGL
+ YcWVsK9mXiuDA5KFD/opjZtGMxMJlzNiDgqYjO8+xmxxTS7fjaZ0LE4
+X-Developer-Key: i=kevin.tung.openbmc@gmail.com; a=ed25519;
+ pk=PjAss0agA0hiuLfIBlA9j/qBmJaPCDP+jmQIUB6SE7g=
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [0.29 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	DATE_IN_PAST(1.00)[62];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[codeconstruct.com.au,none];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3444-lists,linux-aspeed=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-3454-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[kevintungopenbmc@gmail.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:amithash@meta.com,m:Kevin.Tung@quantatw.com,m:Ken.Chen@quantatw.com,m:Leo-Yang@quantatw.com,m:Jackson.Liu@quantatw.com,m:kevin.tung.openbmc@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:kevintungopenbmc@gmail.com,s:lists@lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[15];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kevintungopenbmc@gmail.com,linux-aspeed@lists.ozlabs.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.ozlabs.org,meta.com,quantatw.com,gmail.com];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
-X-Rspamd-Queue-Id: D5BDEB5562
+X-Rspamd-Queue-Id: 59B3CC76E1
 X-Rspamd-Action: no action
 
-On Thu, 2026-01-29 at 09:16 -0600, Rob Herring wrote:
-> On Thu, Dec 11, 2025 at 2:46=E2=80=AFAM Andrew Jeffery
-> <andrew@codeconstruct.com.au> wrote:
-> >=20
-> > For the AST2500 the node was used for pinctrl purposes, and while
-> > the
-> > hardware capability is also present in the AST2400 and AST2600, the
-> > their pinctrl no relationship to it. Further, there's no
-> > corresponding
-> > binding, remove the node for now to
-> > eliminate the warnings.
->=20
-> Odd line break.
+Summary:
+Revise linux device tree entry related to Meta (Facebook) Yosemite5.
 
-Ha. The preceding sentence is also a mess. Not sure what happened
-there. I've extracted the pinctrl-related patches to their own series
-locally, I'll send that out when I have a moment.
+Changes in v4:
+- Add PDB IO expander device node
+- Add GPIO to bypass OCP debug card commands
+- Expand commit message explaining the shunt resistor correction
+- Link to v3: https://lore.kernel.org/r/20251219-yv5_revise_dts-v3-0-ca1d5a382013@gmail.com
 
-Andrew
+Changes in v3:
+- Correct power monitor shunt resistor
+- Revert the previous SGPIO P0_I3C_APML_ALERT_L renaming change
+- Add new SGPIO line names and rename signal
+- Retitle Update sensor configuration for more clarity
+- Link to v2: https://lore.kernel.org/r/20251120-yv5_revise_dts-v2-0-4d7de701c5be@gmail.com
+
+Changes in v2:
+- Add ipmb node for OCP debug card
+- Link to v1: https://lore.kernel.org/r/20251118-yv5_revise_dts-v1-0-fcd6b44b4497@gmail.com
+
+Changes in v1:
+- Increase i2c4/i2c12 bus speed to 400 kHz
+- Update sensor configuration
+- Rename sgpio P0_I3C_APML_ALERT_L
+
+Signed-off-by: Kevin Tung <kevin.tung.openbmc@gmail.com>
+---
+Kevin Tung (7):
+      ARM: dts: aspeed: yosemite5: Increase i2c4/i2c12 bus speed to 400 kHz
+      ARM: dts: aspeed: yosemite5: Remove ambiguous power monitor DTS nodes
+      ARM: dts: aspeed: yosemite5: Add new SGPIO line names and rename signal
+      ARM: dts: aspeed: yosemite5: Add ipmb node for OCP debug card
+      ARM: dts: aspeed: yosemite5: Correct power monitor shunt resistor
+      ARM: dts: aspeed: yosemite5: Add PDB IO expander
+      ARM: dts: aspeed: yosemite5: Add debug card bypass GPIO
+
+ .../dts/aspeed/aspeed-bmc-facebook-yosemite5.dts   | 92 +++++++++++++++-------
+ 1 file changed, 64 insertions(+), 28 deletions(-)
+---
+base-commit: 2a6ff9a25bf681302d29ec93c6b90dbe4b3ad591
+change-id: 20251118-yv5_revise_dts-12e10edd95d6
+
+Best regards,
+-- 
+Kevin Tung <kevin.tung.openbmc@gmail.com>
+
 
