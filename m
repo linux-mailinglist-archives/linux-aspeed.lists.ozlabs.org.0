@@ -1,58 +1,82 @@
-Return-Path: <linux-aspeed+bounces-3462-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3456-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OF34JlwrgWlgEgMAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3462-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Mon, 02 Feb 2026 23:55:24 +0100
+	id UGhBEMU+gGkY5QIAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3456-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 02 Feb 2026 07:05:57 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B74A3D287E
-	for <lists+linux-aspeed@lfdr.de>; Mon, 02 Feb 2026 23:55:23 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61942C875E
+	for <lists+linux-aspeed@lfdr.de>; Mon, 02 Feb 2026 07:05:55 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4f4hl45s5mz30MY;
-	Tue, 03 Feb 2026 09:54:40 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4f4GM375Lhz30FD;
+	Mon, 02 Feb 2026 17:05:51 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.234.252.31
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1769999378;
-	cv=none; b=XI1cLNOUzuP/EolHLJHBnSl1jEoirqbWMVMkQuuDbC8IAwE6A7ArqX6Bcs+zu1vOJIl/Ss/kcTiCkFbVXhDHijXZTW/rhq1KNH+sl0Su2aGfLQXJ5wBK6vSzCGhNtYkbujNfGJ3apu1orQmH1OgiEFPIHQui9GgzkB8U5KjbnXrLKSCbvLokuh8UAwz+IGphQoqEPx8PZr0HgoPYQvWx/Dtqbl96hcEO4KX+pLWAHdlrSJlnaPq9lC/Plf7qTUZFTTmeW7L+L4OP+HL2tE3yjnUQdGPKwuQE6x75KvjNOhvglzWtM/SzQ+w3W2Um5IQaPS3Dt8pvXdQcLw4nehGMtw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::636"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1770012351;
+	cv=none; b=ArnI7DNTGX87rv3LTxzuWuA60JgYi6l6xWeUAR/A3oSlhBqNd+M6u6vgnWHgWwhqRkFIM89E9Wwe9nHtOskxQDkC9u6sqB8lSzsELuHrZX5dcpROM2ji3tXvRIkVekW/vCliq0mhUYP6byO/ikmpWGvA8l9dnE3cM4EqgEOM/aZqNUTm6FxY0tOZd5kLm5mQRg6pwXLs0vRCEk3zNkXbzdNo7cefCPAQLDMEZkSiZ6n7FiNx2aMHEy6YXTBXRHQDbpzS07d197J3Bv7j7o3HsR3KeUd/G5hM73z7JjC5Hbd1jBSkl9EJc2l2+P1ow1nuEYA2WvPPwb/afBdBu/awAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1769999378; c=relaxed/relaxed;
-	bh=bnoxyPKF+Rg8GiRVLp5t4eHLstchzXA+8KDyAQ1KtpY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dROTH8ygVyugawYiQMxGYfmcdr1BBuMrslspaZ/JkNDEA6Jf1qSFyaEMtt2+5K2y9Y5PObieH6/Yup3JvmSFDHk0UXPiqN4hATaZgz59IgaFPAGLJNBpiay3hwGY9yI1FhrAxqkTJTWM+cH1SVmfxA9M/IcY4T6b4AJUyh6Mv2kgsjsiXb5HJFFEnrjWDaeGd2YcxxILkoO7W0NjacQ0PmQ8KhW3SKsmES+0QPb09LY4Sr17AHrwtw7a6/sw7AH3BcvzStdWGKhByAKJxVOgw7CQloAdkPn7uotrV2TWQ0VP2m1bNZ5cmOusJW18N/7nUHHom1jToQQmY05SoT2elw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=L4MM8flN; dkim-atps=neutral; spf=pass (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=devnull+dirkchen.amd.com@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1770012351; c=relaxed/relaxed;
+	bh=7cFeh0F4AhLzGOrxCS14dOc5yv3VBPRg4l3srErLLzk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bb56FZz23St6tkzPDfFXhUjUoqg2cNojfiLRNjOyKzT0nyP1KGWfeRdbIJynrCWXU+WbSQklYweNUeYFmxW1N8h+hJq/SUw8CrhYbwst90d+1sTtcp59g54srfl4r5emQfMaf//LJ8coiXb+k1fJYIiit6wbuKHS3uVCxx+qXCWwg4SSaWQT5Cq5SQgyuMRFVL5pRroSEgIUbQ7UQ7rlejRbAnF/sH+nyx1DpFmMe6HSIPdyBzZiqKwp2xmNRM+nlENfFM/AnPhjv8DX7D7jHiGr0xtJ6LX8YFL6eSH08mgbY8kBh+/rqpv6BlntqR7TKedBy6hAEScktoM6zUO7mw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ksBKqxsB; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::636; helo=mail-pl1-x636.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=L4MM8flN;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ksBKqxsB;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=devnull+dirkchen.amd.com@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::636; helo=mail-pl1-x636.google.com; envelope-from=potin.lai.pt@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4f49YW5gYVz309N
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 02 Feb 2026 13:29:35 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 4A4A74034A;
-	Mon,  2 Feb 2026 02:29:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 207E1C4CEF7;
-	Mon,  2 Feb 2026 02:29:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769999373;
-	bh=/3ftTjYL9LKJOXS5WEGQ0d26TpXZp1EuCYw55ljuW48=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=L4MM8flNYr9Lbq6j7XSlI9aj2uqqSx7+X2B5pf+kPBfQh+Zzt9rkgNWCBO07pf7k2
-	 t8X+q08BqvJX0MI8NCWAY3LXv54sAKWybUNzBJirkTMyksU6VuBMlr9ZBrLZ3ISb9d
-	 LYvQb5chkC8jv2hnH8xjuRSWRZU6WQhqz3g5TVHlMienjnKq5Hp43bvRyGZHkAUIBe
-	 /qV5DHEyHj8FPL3JLLceZpdh6ruNwLRWxQUcpOjA8Ml0mjUrI6h5pTRaVQUqnp11bl
-	 EvoQYtEkkxVp20fMZjcCBY2CJu68qhyKJfqwqh79ahfJgyc6Hi0hN7vDtBh6l0PZnd
-	 EnE1VZwzWimIA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03C9FE6528B;
-	Mon,  2 Feb 2026 02:29:32 +0000 (UTC)
-From: Dirk Chen via B4 Relay <devnull+dirkchen.amd.com@kernel.org>
-Date: Mon, 02 Feb 2026 10:29:31 +0800
-Subject: [PATCH] ARM: dts: aspeed: anacapa: Add retimer EEPROMs
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4f4GM24QdXz30BR
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 02 Feb 2026 17:05:49 +1100 (AEDT)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-2a0d52768ccso27014555ad.1
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 01 Feb 2026 22:05:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770012347; x=1770617147; darn=lists.ozlabs.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7cFeh0F4AhLzGOrxCS14dOc5yv3VBPRg4l3srErLLzk=;
+        b=ksBKqxsB3f7mUgjTT798lpe17CTzWZbwmDN0kq9H+tRZIqkzE2mYnTp+4QuK9Q8cZG
+         CkUDWxIAEbExLb0+jlF5e1zAq1pVu0bTohsFil9i/df5CdmhGXnOCuwQnV8Jum629J2o
+         CTQfMB+RPpEUSCVQ+f5jZwIcRyaTF3xELFAW0MR8E81Thcvthth7vdVWF0J6HJWEaGRm
+         CZiDgYBGWnfEcyXJQUoKwvXlYa+Ix7He96Y1+K81Pu1pAix3vsA2rvdD/p5QTZ/bpTiV
+         IePJVZU3RQSMIeLZUtKfVVHm0aKi0QFQcTES7c4O+bEzbXoKULvoKsZkigXIm5i/rGAQ
+         TIGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770012347; x=1770617147;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7cFeh0F4AhLzGOrxCS14dOc5yv3VBPRg4l3srErLLzk=;
+        b=YPL4NWkYhHmLNkpqU3ipOtcaJIKSl44UAoPZxkZvLNEiAKbg54julVUK9aaQxn24il
+         waL5A4HUG7s5y3eWaRSzWoCDTz5vsXnS3BuGnq76euDjKcjtgVaaS/aurbZGgkaEdWxL
+         2ICu4RQA3X3r92lC9XR3WblF7QdxexGFJYzVCbW/7v2sksFrm+Faf6nqd0hRRC/s7cs3
+         YGzS3WPtyrTSwWtdC2vu3PJ7pkm2Id9hzEKob/gU+0DZYfDJxigKJYGsOo/qpCRSylqU
+         6jIi9G1yYF67ua9wUkyNRCcDMeBNqJlZN9VUVWGbFOqrCQgjc/9Fjm261NhIH5GDclDl
+         6u1w==
+X-Forwarded-Encrypted: i=1; AJvYcCXu/RtlMp1CcAUy/GJIzvJLBnIPCZLe6mNKM8NFq0cy/JjYi8L7LP1avXa6iNl69HfosYmr4Ug5/vOjvCg=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yzme/o+U96E7QF6eZCcytsw5WoCN1ccDvTPDBP5iCfawX6ifGK2
+	vGZuSrTYABLg4WY4PX1mqaJ5DFjHJNHid9KOWJ6GJM8B+VEZKN1EYeui
+X-Gm-Gg: AZuq6aJnj7G0x2Zim/g00hojYmu1dFffc2X3u2OrdLzhZAA8K90d/SVDsc3YpE0jINp
+	mfME9fC2gGvBkTMnmm9iMZq0mLPrZjJMTLKQa7QSYIkcGg/rg1jJt1jvuq34azSKlNDc9atttEA
+	HdH+brc+c810eANB87P6XtSZG9y70MLV6tKTSQkkwWUvQVLUFq61IPpqmcOYHh2IbFnV406XIeD
+	YEMnsEEhBHrXm15plZNwlVuRJO80mw/vJnWY8YOCTzg279u4ne8r5aq5d71iKTQM/yM79MMe/ZT
+	sXBJjS6Y9dbYvOKnPBbldqj2Y5ze3paaTojdtU0V1X6JvAHtdQ4nRnPMpV6z24lybAPR6RGMWoW
+	Hohfg0IhWLwYqf2RajOP5dmxhYAI1TG3dfA0grcfoFg4l2L5/CA4JFiYHWPN92AL0J5TY93fSwi
+	7ULXvz2NraJGgBKlDG7X56XES0B0/buJ2vQnkMWR2R/7tvM5txJ2WpY5kLaIscRHc=
+X-Received: by 2002:a17:903:f8c:b0:2a1:3ee7:cc75 with SMTP id d9443c01a7336-2a8d96b0b3fmr102479305ad.19.1770012347504;
+        Sun, 01 Feb 2026 22:05:47 -0800 (PST)
+Received: from localhost.localdomain (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b5d99eesm132926135ad.78.2026.02.01.22.05.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Feb 2026 22:05:47 -0800 (PST)
+From: Potin Lai <potin.lai.pt@gmail.com>
+Subject: [PATCH 0/2] Add Meta (Facebook) SanMiguel BMC (AST2620)
+Date: Mon, 02 Feb 2026 14:03:15 +0800
+Message-Id: <20260202-sanmiguel_init_dts-v1-0-c0023ae41899@gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -68,119 +92,86 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260202-b4-anacapa-dts-fix-v1-1-20d4b0114854@amd.com>
-X-B4-Tracking: v=1; b=H4sIAAoMgGkC/x2MQQqAMAwEvyI5G6hVFP2KeEhrqrnU0ooI4t8NX
- gZmYPeBwlm4wFQ9kPmSIkdUaeoK/E5xY5RVHayxvVGg65AieUqE61kwyI3WDCHwSK0zHnSYMmv
- +T+flfT8yIKM9ZAAAAA==
-X-Change-ID: 20260202-b4-anacapa-dts-fix-207ffe9a3b0c
+X-B4-Tracking: v=1; b=H4sIACM+gGkC/x2M0QpAMBRAf2XdZ6uZEL8iie3iFqNdpNb+3fJy6
+ jycE4DREzK0IoDHh5gOlyTPBJh1dAtKsslBK12pBMmj22m5cRvI0TXYi2XdGDsVhSmVLSGFp8e
+ Z3n/a9TF+tv5nHWQAAAA=
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>
+ Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Patrick Williams <patrick@stwcx.xyz>
 Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- Dirk Chen <dirkchen@amd.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1769999372; l=1234;
- i=dirkchen@amd.com; s=20260202; h=from:subject:message-id;
- bh=7UiIsc+JRhKInxcNGMi5RJgMeig8fwCF34V25zBzaew=;
- b=HGTsrHSELPFy//GaIT4xCbcD3IxgB5enkX4xOed+Zt76V75ZNZQ64nOSSHnJjSMBUOjfvCB/4
- hI4PMdUVGWHAtomTjdx/g4w4bDKOJ/GG9o7vnEZsj2t4I6+xPqEA2+p
-X-Developer-Key: i=dirkchen@amd.com; a=ed25519;
- pk=NBIyLsVg/YYtGLruq9XLdLWx2PP/1MH4jDDQ1V+7wes=
-X-Endpoint-Received: by B4 Relay for dirkchen@amd.com/20260202 with
- auth_id=622
-X-Original-From: Dirk Chen <dirkchen@amd.com>
-Reply-To: dirkchen@amd.com
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+ Cosmo Chou <cosmo.chou@quantatw.com>, Mike Hsieh <Mike_Hsieh@quantatw.com>, 
+ Potin Lai <potin.lai@quantatw.com>, Roger Kan <Roger.Kan@quantatw.com>, 
+ Potin Lai <potin.lai.pt@gmail.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770012344; l=707;
+ i=potin.lai.pt@gmail.com; s=20240724; h=from:subject:message-id;
+ bh=n/w//Nuxlr+/ykO3WHyVzyFaLLe6UAbemJnx2mm0Xvk=;
+ b=WdN+eQh0JqxC5Ye/37ngcek31btboBmbn5k+V4pSQgqp7f8zakKS34ssJuZjwoH8vmU3r3F03
+ NItOTLQGf9SBp0ZFjAdmWh6kAve3n8zOUhbxxD8tZCEeuenYy35Tazx
+X-Developer-Key: i=potin.lai.pt@gmail.com; a=ed25519;
+ pk=6Z4H4V4fJwLteH/WzIXSsx6TkuY5FOcBBP+4OflJ5gM=
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3462-lists,linux-aspeed=lfdr.de,dirkchen.amd.com];
+	TAGGED_FROM(0.00)[bounces-3456-lists,linux-aspeed=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[devnull@kernel.org,linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:dirkchen@amd.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:patrick@stwcx.xyz,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:cosmo.chou@quantatw.com,m:Mike_Hsieh@quantatw.com,m:potin.lai@quantatw.com,m:Roger.Kan@quantatw.com,m:potin.lai.pt@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:potinlaipt@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[potinlaipt@gmail.com,linux-aspeed@lists.ozlabs.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.ozlabs.org,quantatw.com,gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.997];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	HAS_REPLYTO(0.00)[dirkchen@amd.com];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	FROM_NEQ_ENVFROM(0.00)[potinlaipt@gmail.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,amd.com:replyto,amd.com:email,amd.com:mid,0.0.0.3:email,0.0.0.50:email]
-X-Rspamd-Queue-Id: B74A3D287E
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 61942C875E
 X-Rspamd-Action: no action
 
-From: Dirk Chen <dirkchen@amd.com>
+Add Linux device tree entries for Meta (Facebook) SanMiguel specific
+devices connected to the AST2620 BMC SoC.
 
-Add Atmel 24C2048 EEPROMs on i2c0 and i2c1 to support retimer
-configuration. Follow the same compatible string usage as the
-Facebook Harma platform to maintain consistency across Meta boards.
-
-Signed-off-by: Dirk Chen <dirkchen@amd.com>
+Signed-off-by: Potin Lai <potin.lai.pt@gmail.com>
 ---
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Potin Lai (2):
+      dt-bindings: arm: aspeed: add Meta SanMiguel BMC
+      ARM: dts: aspeed: add Meta SanMiguel BMC
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-index 221af858cb6b..b8d248d99d7c 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-@@ -328,6 +328,12 @@ i2c0mux0ch3: i2c@3 {
- 			#size-cells = <0>;
- 		};
- 	};
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c2048";
-+		reg = <0x50>;
-+		pagesize = <128>;
-+	};
- };
- 
- // R Bridge Board
-@@ -362,6 +368,12 @@ i2c1mux0ch3: i2c@3 {
- 			#size-cells = <0>;
- 		};
- 	};
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c2048";
-+		reg = <0x50>;
-+		pagesize = <128>;
-+	};
- };
- 
- // MB - E1.S
-
+ .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
+ arch/arm/boot/dts/aspeed/Makefile                  |    1 +
+ .../dts/aspeed/aspeed-bmc-facebook-sanmiguel.dts   | 1163 ++++++++++++++++++++
+ 3 files changed, 1165 insertions(+)
 ---
-base-commit: 4c87cdd0328495759f6e9f9f4e1e53ef8032a76f
-change-id: 20260202-b4-anacapa-dts-fix-207ffe9a3b0c
+base-commit: 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+change-id: 20260202-sanmiguel_init_dts-79cdb33c50d5
 
 Best regards,
 -- 
-Dirk Chen <dirkchen@amd.com>
-
+Potin Lai <potin.lai.pt@gmail.com>
 
 
