@@ -1,44 +1,44 @@
-Return-Path: <linux-aspeed+bounces-3466-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3467-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CFNQBBNsgWmwGAMAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3466-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 03 Feb 2026 04:31:31 +0100
+	id gKgXFbRxgWl7GQMAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3467-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 03 Feb 2026 04:55:32 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643F8D424D
-	for <lists+linux-aspeed@lfdr.de>; Tue, 03 Feb 2026 04:31:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1501D43D4
+	for <lists+linux-aspeed@lfdr.de>; Tue, 03 Feb 2026 04:55:29 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4f4ptQ5536z30Lv;
-	Tue, 03 Feb 2026 14:31:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4f4qQ66yyRz30FD;
+	Tue, 03 Feb 2026 14:55:26 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1770089486;
-	cv=none; b=YVBYzkZ/2Fq3TTqkpP2YNfKfnhs3TNj+h4DkhpMQ7wuSTZkthZd0FxgQufv8HxmwFT2DE14vCiXfbo2sBoSMZGYW/6e1613lO9nFaShazPIwPPaUP/Ls0PJxvYCvCDPJGshl2U9WzDVn3QkVNgLoymzYnd7tJPWU0CM/hD/pryAx0I8Z//3SVl3BAVq43ze0nW1ARksp6T1M9HtxQF3ZB45hTKs2jEcNTYC9jp66WL/x236CCBQ/qnq/Ym31H7IkaV/IuDyg+hSwDFBODcfX5xy9fFmEA0D7RmRlJW7KyQTPeQMw4YNHwc3yFmHwjxWReX1qjknGNHXLbzes5wK5JA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1770090926;
+	cv=none; b=Ha894SMzX3QwVLiy2N3TAro/4KrSWrpmoS+TEZy0VDgJVDorSlka+GcCxH9brHz4V1ASkH53XBySSVaTf9zOgb8i0mw1B5f2ddP4wsIhT1fF5klTsoX11WnxPQgUDxKgqEwhFmsn4BC8PCbN+83lNxKSAs+y30Gn3R6jtJb/zjD5ieXhtAltX4T1mvi7BDnlyH44mOeoOUdPVbstJRHq8ESy3uJo53bVpjqDWtyx40zc1Ztq//DK3NpNNCwxErYH29QAzb6BRFWEmO5XPz0cAYzSxNznVtZYtrcm55rafPWkga+IKjldcoco6+naYDolBadznS3syPHqOwsYyuXnVw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1770089486; c=relaxed/relaxed;
-	bh=6An+59kZrrX/6VO4uDw/aRmHE7vH01Ooy0Q4JMyt7Bk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=il/tnLuPN3DRlW0RTH+uiZiKtzYrabMf2cmn9TYU4pyfpdYH156VBOc8PY4wZi4wWmFgTXY1zodVQmx2IOxZu4h/hApEKTanPd9QerM3Nhbag6TOojlNJlyffT+H25lqecYPKnNMvdbA9ZvWJa5nF5ug0LAVzM/zDmj1726CdGW7+SMTkaoLeZjFPZdW2fsJkmEuadR5bzfb6ibiPddEJLUMDwuZsBbBX6983YL3qc7d78GZJKXlWtB9k3YnWmvZK9LgCA5rqLsugqaApgxLz/hRGOBYa0r9SI/dZWt3rzThSIsX7Wq0hQkslhWWToTe1w7Pwa8p0JEzPQ2sGc9e2Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+	t=1770090926; c=relaxed/relaxed;
+	bh=Y4s+INty3nLSWeCUHgwjXD0p8aoK4dYIUQrkUXCb3Rc=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=MhX+wzcstYvjX94XmQg5V3ejK552EUizxkLyAkSLkJZ39vHLYGELndPCLzLnTGPTvbJlfLU3tYJ7KUNHq7LIl9jeALsBcP+fCITFPoInmvWkSFxoY9gxQVebXlmTGhYMsKLqA33YJbnZwfenALM5ghJdnsgB3EPEcQrSTnCwOXRHszjveHPUcJWuGoUnset9uW8ACjZORdVegJOw+qr61NKDdldGV9x7ZIUnG2VNDqfwFIwAObLF/NB06Tgq2QaRughTNTDSpxdc8Q2KdWo70Uk4CjNnbxPrOn3DAIHKOvHXZ3qoogrzlSE6ReSDeR2LcQOrWh9dmZO3EwdMr689ag==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jammy_huang@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jammy_huang@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4f4ptQ1JnFz30FD
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 03 Feb 2026 14:31:26 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4f4qQ56tGdz309y
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 03 Feb 2026 14:55:25 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 3 Feb
- 2026 11:31:04 +0800
+ 2026 11:55:11 +0800
 Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Tue, 3 Feb 2026 11:31:04 +0800
-From: Jacky Chou <jacky_chou@aspeedtech.com>
-Date: Tue, 3 Feb 2026 11:30:55 +0800
-Subject: [PATCH RESEND v9 3/3] MAINTAINERS: Add ASPEED PCIe PHY driver
+ Transport; Tue, 3 Feb 2026 11:55:11 +0800
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+Subject: [PATCH 0/2] Add Aspeed G7 uart routing support
+Date: Tue, 3 Feb 2026 11:55:07 +0800
+Message-ID: <20260203-upstream_uart_routing-v1-0-6bd5dd75ee3b@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -54,24 +54,25 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260203-upstream_pcie_rc-v9-3-899ee4efe94e@aspeedtech.com>
-References: <20260203-upstream_pcie_rc-v9-0-899ee4efe94e@aspeedtech.com>
-In-Reply-To: <20260203-upstream_pcie_rc-v9-0-899ee4efe94e@aspeedtech.com>
-To: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@codeconstruct.com.au>
-CC: <linux-aspeed@lists.ozlabs.org>, <linux-phy@lists.infradead.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, Jacky Chou <jacky_chou@aspeedtech.com>
+X-B4-Tracking: v=1; b=H4sIAJtxgWkC/x3MQQqAIBBA0avErBMcg4iuEhFaU80ii1EjkO6et
+ HyL/zMEEqYAfZVB6ObApy/AuoJ5t34jxUsxGG1ajY1W6QpRyB5TshInOVNkvylsOuPQELrVQWk
+ voZWf/zuM7/sBs5ewumcAAAA=
+X-Change-ID: 20260130-upstream_uart_routing-1382b12e1bfb
+To: Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+	<andrew@codeconstruct.com.au>, Rob Herring <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Oskar
+ Senft" <osk@google.com>, Chia-Wei Wang <chiawei_wang@aspeedtech.com>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>, Jammy Huang
+	<jammy_huang@aspeedtech.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770089464; l=878;
- i=jacky_chou@aspeedtech.com; s=20251031; h=from:subject:message-id;
- bh=ukzk8V/+iAWF9vSX9HcoXRh6kD8Xte6R6G0Qmwo0orU=;
- b=G2CD879Xzlho3fMNFvzxuYw6vpDxxmu3kPHQoC7R0irjiN9C+xubhQ2NNQzDYi9eIaTbUhPsM
- p5ePUDdcGGVBFgY6mVCrSMZwJj6g2ntionuiImAp7GQIW0U1B6+BXtw
-X-Developer-Key: i=jacky_chou@aspeedtech.com; a=ed25519;
- pk=8XBx7KFM1drEsfCXTH9QC2lbMlGU4XwJTA6Jt9Mabdo=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770090911; l=749;
+ i=jammy_huang@aspeedtech.com; s=20251124; h=from:subject:message-id;
+ bh=Yzxwwk1xNKZ8HQZTWD2jwu0MOFqIwNni2cmuV4TlO4E=;
+ b=K4n9YOmkhu1fc21VIW0clRnhxsgFIt8wkaEXaoEFJCI1wcsRpPKCCrKPGFeenj1u4YQlTicXc
+ E0/YRaMtDptBHLz6qMbzKsaVwZeXOhLmiXAj5vy1rmF3hVCs1TnLnYt
+X-Developer-Key: i=jammy_huang@aspeedtech.com; a=ed25519;
+ pk=E5YwijeJZZcuDR6srvwNlXrNHvLxwipUg3Mb/xxUF9o=
 X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
@@ -81,16 +82,16 @@ X-Spamd-Result: default: False [1.49 / 15.00];
 	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3466-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3467-lists,linux-aspeed=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[jacky_chou@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER(0.00)[jammy_huang@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_RECIPIENTS(0.00)[m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:linux-aspeed@lists.ozlabs.org,m:linux-phy@lists.infradead.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:jacky_chou@aspeedtech.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_RECIPIENTS(0.00)[m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:osk@google.com,m:chiawei_wang@aspeedtech.com,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:jammy_huang@aspeedtech.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
@@ -98,45 +99,39 @@ X-Spamd-Result: default: False [1.49 / 15.00];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacky_chou@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	FROM_NEQ_ENVFROM(0.00)[jammy_huang@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
 	MID_RHS_MATCH_FROM(0.00)[];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[aspeedtech.com:mid,aspeedtech.com:email,infradead.org:email]
-X-Rspamd-Queue-Id: 643F8D424D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[aspeedtech.com:mid,aspeedtech.com:email]
+X-Rspamd-Queue-Id: E1501D43D4
 X-Rspamd-Action: no action
 
-Add maintainer entry for ASPEED PCIe PHY driver.
+The Aspeed 7th generation SoC supports dual node. Which means there are
+2 group of uart routing.
+ * 0: uart0/1/2/3/9
+ * 1: uart5/6/7/8/10
 
-Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Chia-Wei Wang (1):
+      soc: aspeed: uart-routing: Add AST27xx dual node support
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cf755238c429..a1979c574759 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3844,6 +3844,14 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/crypto/aspeed,*
- F:	drivers/crypto/aspeed/
- 
-+ASPEED PCIE PHY DRIVER
-+M:	Jacky Chou <jacky_chou@aspeedtech.com>
-+L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
-+L:	linux-phy@lists.infradead.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/phy/aspeed,ast2600-pcie-phy.yaml
-+F:	drivers/phy/aspeed/pcie-phy-aspeed.c
-+
- ASPEED PECI CONTROLLER
- M:	Iwona Winiarska <iwona.winiarska@intel.com>
- L:	linux-aspeed@lists.ozlabs.org (moderated for non-subscribers)
+Jammy Huang (1):
+      dt-bindings: soc: aspeed: add aspeed,ast2700nx-uart-routing compatible
 
+ .../bindings/soc/aspeed/uart-routing.yaml          |   2 +
+ drivers/soc/aspeed/aspeed-uart-routing.c           | 424 +++++++++++++++++++++
+ 2 files changed, 426 insertions(+)
+---
+base-commit: 4d310797262f0ddf129e76c2aad2b950adaf1fda
+change-id: 20260130-upstream_uart_routing-1382b12e1bfb
+
+Best regards,
 -- 
-2.34.1
+Jammy Huang <jammy_huang@aspeedtech.com>
 
 
