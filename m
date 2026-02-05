@@ -1,45 +1,56 @@
-Return-Path: <linux-aspeed+bounces-3482-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3483-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MGP1K78zhGll0wMAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3482-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Thu, 05 Feb 2026 07:07:59 +0100
+	id YIlaDORFhGk/2QMAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3483-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Thu, 05 Feb 2026 08:25:24 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id B776CEEE99
-	for <lists+linux-aspeed@lfdr.de>; Thu, 05 Feb 2026 07:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE7CEF662
+	for <lists+linux-aspeed@lfdr.de>; Thu, 05 Feb 2026 08:25:22 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4f66G25kHRz30FD;
-	Thu, 05 Feb 2026 17:07:54 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4f67zM6bHxz2xrk;
+	Thu, 05 Feb 2026 18:25:19 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1770271674;
-	cv=none; b=DjtQ0yYNgx6Zvf+6v/adZkSJuz5SYY+Z4XuUXlhLwNvlilkjqsmthS85fAlyGFRAntWSYA7v2TYJuqfbwvM+FWpQBA2BrPT3Ah7LOwMZOAwbBhDWFNdxTJythUQOUQQ7grTDpuPdclbMw9WfzPTvzzu7zOU+X4sdxADbS+Q45tR3Qh4+VsKQ152JLTmiyXfZkOZx3/ysZ1I9riod7BTamATQV5xDkHodv9XZWOwkZBiCGIDZfbgO4yt9MRolWlnJ5naB53b+By8B01j5qguOQ4JTEQ9AjnW6ETprnTsolPUsBMXX1uJIJ5rJV1fSVXTqYBXW4BpYS7SWeimO1T7MZg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.234.252.31
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1770276319;
+	cv=none; b=id5T+hHNitm6aKtzgeJSX2W9jf8D/AAzNBQbJnwXpEwO+rEhrv5XM9QnbBRfg2gGgPzGjSLoAFQeUUEmI9aj1UkCSfzkiBudgBvJ1ZW6J2tn9JAFAuR3qSoPhHCXUHPY8niljYEeWJR1QXPE/elBumtTck9wz4pwDLsah3NN5uURB1yF5MnEvFYjzDFRi8xWMH4S7XktPXOprHiPslm5g1Lb90sf5+H3pPEw8qJqr91vaT6CfvnwVD5B7JDpN5kSQ+wFL6Sm5rg2OyHB5l7wSdydzuvYV6mSdkJd33FioNh1DE0lrb91KaHfdBHA9lZeSYzEdd6cCJ2HUpt7Nn+dMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1770271674; c=relaxed/relaxed;
-	bh=0OW+i9rzpbljgSJ4wy1JZuTrK0oFgB7X+hdhCdWfUIA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=mqmdJl+PAmfySFYMsvG+R409aTsWMjkm7fx6t++AikPbZFWpwTbY3Kr8YXllpotYJwEPR8uRnpTkLRE2PIo7VX+vTVZzogReWA2bc5NjEM3Q3VlJnA26Uez+pAbfmg/UPQyc60ZF7tx4JeijjSwwsWHLTuSE2aHfAnzn9mYHm240EHwy6GFAVzdw2N0f7U7kDJnd83epRuMQ1ULfyr7Ylxth631OGIszzcROLjfdtph/2HlbEWNzATsYEqe27ejrzylgq71kLi2M9pbwTYHKGQLe/ndS+5o3Q8tlhUNxM66iP8+KK3DP6pBTqzEAspMidCeFpicC2DP1HCq8gogAWw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1770276319; c=relaxed/relaxed;
+	bh=QeJM6sG3siykMwVN1PC9c5AUv5Vvbc5E0C+Yfs960qs=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=m6zc0Y9hUNYNsl+c5w8qyJfH8hdYuaGIwx1vzPh4MvBVo82WOaxD9sNDSm4PkfaDZGPbbkruhJl05ht9u4BVTx6puAfHwjAPd0PH+ii+bfOMVoVe+1mZLFfBwyuOCN2pNetEpSD2PJfYksKdl01RBbBD9lxhDXnXaRsHyzBdzrdtSSw2GaJZgAD5slOd8XX9tQJDEzJ7iC7bHvPnpHr/rwQDzu6Q+7+1ypQ1ub2lrBfC6Eg3RqZ/2gZ1Jjjp6/6Ahx77IjecpmkohAc2S1Rw/YZ6gHWhvVcO1ZaR4cLu0SSYXlVmAKdgcHa96yaWvnRZbEG6Y9qwkYDnFq3PTtlf/w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NEuiWOoA; dkim-atps=neutral; spf=pass (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NEuiWOoA;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4f66G210syz2xS5
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Feb 2026 17:07:54 +1100 (AEDT)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 5 Feb
- 2026 14:07:30 +0800
-Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Thu, 5 Feb 2026 14:07:30 +0800
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-Date: Thu, 5 Feb 2026 14:07:22 +0800
-Subject: [PATCH 4/4] dt-bindings: interrupt-controller: aspeed: Remove
- legacy AST2700 interrupt binding
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4f67zM1tD7z2xS5
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Feb 2026 18:25:19 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id F0592441FA;
+	Thu,  5 Feb 2026 07:25:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B412BC4CEF7;
+	Thu,  5 Feb 2026 07:25:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770276316;
+	bh=XU5EtDFAlpiOcF192k6bjTw6Y4UVTAujOSvnW603CLI=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=NEuiWOoAcszY0gDKY6U78AtLAaogMF1NFVu11Vf5EBI4RliU3MKTGFeVySCyjSNzS
+	 XneKWztYDq5z558h9OUgy+cuUhjh/OfeE7Qq31VViJiHI5uPtR2W3VcGTzOcoT/6pG
+	 PR/0CIsvFtjegS6Mix0kc8wMinJItVwqiPAq762/3oOSeQvK/OxbB2Rr2P8vb9Olcj
+	 oDrtpLZWZv6biNwp2VP1PFCeVGCS+m3nxeHpMy5/y9iCOpQdkX5+Js7FuoE/ObOMEM
+	 dyloVuNc7zsUsKJmWZzijTEl0tGgwJnTWZdr8gZDZXIA4tq2Qhfj9PIWR4CSwScNhc
+	 /wxgE3dHiUcZw==
+Date: Thu, 05 Feb 2026 01:25:15 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -53,178 +64,98 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260205-irqchip-v1-4-b0310e06c087@aspeedtech.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ linux-aspeed@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+ Palmer Dabbelt <palmer@dabbelt.com>, linux-kernel@vger.kernel.org, 
+ Albert Ou <aou@eecs.berkeley.edu>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ devicetree@vger.kernel.org, Paul Walmsley <pjw@kernel.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org, 
+ Joel Stanley <joel@jms.id.au>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Conor Dooley <conor+dt@kernel.org>
+To: Ryan Chen <ryan_chen@aspeedtech.com>
+In-Reply-To: <20260205-irqchip-v1-1-b0310e06c087@aspeedtech.com>
 References: <20260205-irqchip-v1-0-b0310e06c087@aspeedtech.com>
-In-Reply-To: <20260205-irqchip-v1-0-b0310e06c087@aspeedtech.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, "Albert
- Ou" <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
-	<linux-riscv@lists.infradead.org>, Ryan Chen <ryan_chen@aspeedtech.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770271649; l=4143;
- i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
- bh=94kybmSK3L5D9FwcDBryTTemjApRuHICkM61YUdO5vs=;
- b=W0brkznpcQsf8wSaCgi65FA86/dT8/rbmt2Kul/YxEM7azEc3tuqfRQbbcJukMHzbV6QsMC9e
- SkcxUdArKffAJKnTsjEsFA3BtWotZjQjgtH2mmdDNTtaW7iPEV8rUzN
-X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
- pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+ <20260205-irqchip-v1-1-b0310e06c087@aspeedtech.com>
+Message-Id: <177027631587.4038923.11644467926032419641.robh@kernel.org>
+Subject: Re: [PATCH 1/4] dt-bindings: interrupt-controller: aspeed: Add
+ ASPEED AST2700 INTC0/INTC1
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.49 / 15.00];
+X-Spamd-Result: default: False [0.29 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-3483-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3482-lists,linux-aspeed=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:andrew@codeconstruct.com.au,m:linux-aspeed@lists.ozlabs.org,m:linux-riscv@lists.infradead.org,m:palmer@dabbelt.com,m:linux-kernel@vger.kernel.org,m:aou@eecs.berkeley.edu,m:krzk+dt@kernel.org,m:devicetree@vger.kernel.org,m:pjw@kernel.org,m:tglx@linutronix.de,m:linux-arm-kernel@lists.infradead.org,m:joel@jms.id.au,m:alex@ghiti.fr,m:conor+dt@kernel.org,m:ryan_chen@aspeedtech.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[robh@kernel.org,linux-aspeed@lists.ozlabs.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FORGED_RECIPIENTS(0.00)[m:tglx@linutronix.de,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:pjw@kernel.org,m:palmer@dabbelt.com,m:aou@eecs.berkeley.edu,m:alex@ghiti.fr,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-riscv@lists.infradead.org,m:ryan_chen@aspeedtech.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	DBL_PROHIBIT(0.00)[0.184.161.160:email];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[devicetree.org:url,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,aspeedtech.com:mid,aspeedtech.com:email]
-X-Rspamd-Queue-Id: B776CEEE99
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[14c18000:email]
+X-Rspamd-Queue-Id: 9AE7CEF662
 X-Rspamd-Action: no action
 
-Remove the legacy AST2700 interrupt controller Devicetree binding.
 
-The legacy binding was limited to a PSP-centric view of the interrupt
-architecture and cannot describe interrupt routing and protection for
-the full AST2700 system.
+On Thu, 05 Feb 2026 14:07:19 +0800, Ryan Chen wrote:
+> INTC0 is used to assert GIC if interrupt in INTC1 asserted.
+> INTC1 is used to assert INTC0 if interrupt of modules asserted.
+> 
+> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> ---
+>  .../aspeed,ast2700-interrupt.yaml                  | 207 +++++++++++++++++++++
+>  1 file changed, 207 insertions(+)
+> 
 
-It is superseded by the new ASPEED AST2700 INTC0/INTC1 binding, which
-describes the interrupt controllers at the block-function level.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-There are no known upstream users of the removed binding.
+yamllint warnings/errors:
 
-Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
----
- .../interrupt-controller/aspeed,ast2700-intc.yaml  | 90 ----------------------
- 1 file changed, 90 deletions(-)
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-interrupt.example.dtb: /example-0/interrupt-controller@12100000: failed to match any schema with compatible: ['aspeed,ast2700-intc0-ic']
+Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-interrupt.example.dtb: /example-1/interrupt-controller@14c18000: failed to match any schema with compatible: ['aspeed,ast2700-intc1-ic']
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml
-deleted file mode 100644
-index 258d21fe6e35..000000000000
---- a/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-intc.yaml
-+++ /dev/null
-@@ -1,90 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
--%YAML 1.2
-----
--$id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-intc.yaml#
--$schema: http://devicetree.org/meta-schemas/core.yaml#
--
--title: Aspeed AST2700 Interrupt Controller
--
--description:
--  This interrupt controller hardware is second level interrupt controller that
--  is hooked to a parent interrupt controller. It's useful to combine multiple
--  interrupt sources into 1 interrupt to parent interrupt controller.
--
--maintainers:
--  - Kevin Chen <kevin_chen@aspeedtech.com>
--
--properties:
--  compatible:
--    enum:
--      - aspeed,ast2700-intc-ic
--
--  reg:
--    maxItems: 1
--
--  interrupt-controller: true
--
--  '#interrupt-cells':
--    const: 1
--    description:
--      The first cell is the IRQ number, the second cell is the trigger
--      type as defined in interrupt.txt in this directory.
--
--  interrupts:
--    minItems: 1
--    maxItems: 10
--    description: |
--      Depend to which INTC0 or INTC1 used.
--      INTC0 and INTC1 are two kinds of interrupt controller with enable and raw
--      status registers for use.
--      INTC0 is used to assert GIC if interrupt in INTC1 asserted.
--      INTC1 is used to assert INTC0 if interrupt of modules asserted.
--      +-----+   +-------+     +---------+---module0
--      | GIC |---| INTC0 |--+--| INTC1_0 |---module2
--      |     |   |       |  |  |         |---...
--      +-----+   +-------+  |  +---------+---module31
--                           |
--                           |   +---------+---module0
--                           +---| INTC1_1 |---module2
--                           |   |         |---...
--                           |   +---------+---module31
--                          ...
--                           |   +---------+---module0
--                           +---| INTC1_5 |---module2
--                               |         |---...
--                               +---------+---module31
--
--required:
--  - compatible
--  - reg
--  - interrupt-controller
--  - '#interrupt-cells'
--  - interrupts
--
--additionalProperties: false
--
--examples:
--  - |
--    #include <dt-bindings/interrupt-controller/arm-gic.h>
--
--    bus {
--        #address-cells = <2>;
--        #size-cells = <2>;
--
--        interrupt-controller@12101b00 {
--            compatible = "aspeed,ast2700-intc-ic";
--            reg = <0 0x12101b00 0 0x10>;
--            #interrupt-cells = <1>;
--            interrupt-controller;
--            interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 193 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 194 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 195 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 196 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 197 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 198 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 199 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 200 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 201 IRQ_TYPE_LEVEL_HIGH>;
--        };
--    };
+doc reference errors (make refcheckdocs):
 
--- 
-2.34.1
+See https://patchwork.kernel.org/project/devicetree/patch/20260205-irqchip-v1-1-b0310e06c087@aspeedtech.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
