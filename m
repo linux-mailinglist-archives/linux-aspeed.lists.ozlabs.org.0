@@ -1,58 +1,62 @@
-Return-Path: <linux-aspeed+bounces-3508-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3497-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eIJvE2FoimkHKAAAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3508-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Feb 2026 00:06:09 +0100
+	id 6EkQLOBliWle8QQAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3497-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 09 Feb 2026 05:43:12 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D4A115509
-	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Feb 2026 00:06:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC72E10B986
+	for <lists+linux-aspeed@lfdr.de>; Mon, 09 Feb 2026 05:43:11 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4f90fz3mQKz2ydq;
-	Tue, 10 Feb 2026 10:06:03 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4f8XBM4rtZz2yFm;
+	Mon, 09 Feb 2026 15:43:07 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1770603967;
-	cv=none; b=D1RfIj4CQB9BKUP4UIaj4WYS+zE/zjkVpWVb5fvqUfb4SIg20+YzrlYK1DqBJMQWly12rxaYhofhUpkHFgIWBTq+vJqUVh/lHZ+P6x8s0hFaLm+TV+ipTr0Cv+FX31INYp0LhnYgt59oPtwYDxY4qydp2x27ej+XdxsmrTIvWyRp+C341xa/WVoL8xynlKKyAzHHe0bebC3q8eFHrGvNLd9vPJNte/CXhBfDM+0nHODNQJkGdk57kJsZHwnmuRvYvgZ9Z+qUl44EQI/dksBzyso8o2G9NTYEExO/fWxdCGmYA7XvllvRpLf6BWTqjgVMOOKMvIB1gURYPlCJaXVGMQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1770612187;
+	cv=none; b=iuu7/WpMGMlliNgzxGsziKL1+haRNx8pgeTlNBqRE8yq8+Ayc2jNnpFwlTgOaCc8Dkw1fsXCUqILq11yOyP7eLtk2Z49PdPs00bOmHb572vOzv74oJXATlkTLRwpXi7BpfRV9cphJbVzIvQOfmlbu754BLOWWry9164eJZTzVYjKFrUEdBj8wy/OQfBKJUkRevcSvyZq5NbyI32jwv/jFLfizdRej6LsIMF3dMsXDdLbuNYXzlbPhOhyorP8lbmWJ9N0PbGl741gpLyUe1PB5zoSZoFZPf2eRpGM4foA7HoHKz+JhmS5tVxIVed1bWWVFmKtQu7DSJ+X5w6b58cl1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1770603967; c=relaxed/relaxed;
-	bh=W04FKCAxLhNFy3iwSX/rSfkVv6Uymhr9kMr74RcYrSA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=G1DxNpZblCgnop0hxWbVH4+IJXk0X5re4DyLrCVqpTVuFxtBV8EjvtLQWu026gPlVb2a5edDQhFR8wf0YY9/Rvv12v/3OLpIrsBsraD44O8PHVvQ4T+1fziSdXjvsmudC9G9lMhib790eo9A50yUgMklTiwaY/N6NNMfyVrC5jWToficISoiLTqIUiMrSdPXP5WbUFoB9zilRQNiJaZOM+9pdYFQ9agDvXIu2g+HeQ0HgJehh6y/YL6cBauECXNBTfCLK1dR5V71DsTAUvCcQQrHvRWjMzLsk1USPq++vVw+HwT0qwp6P1YkRWYe8O2VEA5AGdsGZHjU9Rjh6QdC3w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=iOjgjMJL; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=devnull+carl.lee.amd.com@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1770612187; c=relaxed/relaxed;
+	bh=2EDJMPOdQUIkj7B+MtnJTuwRWWsGcynJpHj9KDB1EX4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=J/fxnm6WfKYOh8b77NJ0qFhSy9wJS8FhfBMqt+w6CKPQIz6uYwlrdECzT3pfxvCfqz+ib1s+CtJ6vQCr55ysCPTgc9+YbetEkaVYXxfUzcbOQLHPOYvLCWfvjW+8STddG2M6GsDuK3Gr2tPstFSE0JQWVWIwj5HOqxjwbPcwtC81TW+gNnkpEgCtgdLqhYUwyUdiG5qTcVLeeCtMqBFcHRGwyjrjh0xo9laeL5iF5dIAEfQQVBJByzUHtWuYnHLTQNpIZElVAspOhc9wt4DlEBRqCrS/XTHrKgfJVZLyB1u1G760vH4WIwEqrlcPvpYRSNbEga/rtSC7q2VyW7P2+g==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=LM8TiHiw; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=iOjgjMJL;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=LM8TiHiw;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=devnull+carl.lee.amd.com@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4f8T8G174gz2xLv
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 09 Feb 2026 13:26:06 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id C7987600B0;
-	Mon,  9 Feb 2026 02:26:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 74B29C4CEF7;
-	Mon,  9 Feb 2026 02:26:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770603962;
-	bh=8FNcFMom+IQpEysPGE9C9NRqh6IjFoqhAG6EdKXGcmU=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=iOjgjMJLTXGgtRIyHRiPlhacB0NWJjGddSIVKVYhIz++j1oeLQBwdspz5Z+tQY7i1
-	 ArwBPPrdmtiaUurrysIgelccH+hpp7eoV3IpC4zm6f1vLngwwwL61deJ2G+E5wvdj0
-	 ty8gfCvp2ZMiezH1wHFKqK4DOhDhm7/kedcRKnNERzWqAaPZk/p4GnajkfyBj7bgmR
-	 55+tZiCAHhEvshKGOZ5Hg1B/Hg1ZV8vCk9u2jtWvPZLXRjRTMv84qdqwWnL0VA2HRA
-	 oAw8SCe7nnziRlE/kpgtwleYzThuEJSlHbZoHDC318ngI9pxebx66c/k9mSjol1g9T
-	 48SCSIH97UAcw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EA26EF06EF;
-	Mon,  9 Feb 2026 02:26:02 +0000 (UTC)
-From: Carl Lee via B4 Relay <devnull+carl.lee.amd.com@kernel.org>
-Date: Mon, 09 Feb 2026 10:25:59 +0800
-Subject: [PATCH] ARM: dts: aspeed: anacapa: add NFC device
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4f8XBL6J9lz2xnl
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 09 Feb 2026 15:43:06 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1770612185;
+	bh=2EDJMPOdQUIkj7B+MtnJTuwRWWsGcynJpHj9KDB1EX4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=LM8TiHiwLMi4JpxMmygPXU2C3mwSlUbSkF43jtqGvY2th0eP04oho0fdrfmkx4mcq
+	 xcgN3b/mtuH2h2wFxPyNmvGSGK+WKhPzBcWkMKcuHXCdZ61nP3EUf79QvNuneU/+sf
+	 VjnRi5Ei0q+nYEorLZxdK05JaAEDAFLn/UyGklTE7GGSpLhnBWs+SqPiXWGIsCaqww
+	 ButJkpEb+LhtcV486396eGDPbQUQMtvhsVwlRROTMNP8cna4h1Ptka2z2Qm+b++PWN
+	 XEGLqThGTkVwBnMkCWIYNoIWpltFL1tsB0GVyQYXYNt1H+BonrTj69NeH66xgOG0U9
+	 WX+t4+RYVhRmA==
+Received: from [127.0.1.1] (unknown [180.150.112.60])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 72C846024E;
+	Mon,  9 Feb 2026 12:43:04 +0800 (AWST)
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Marc Olberding <molberding@nvidia.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260120-alt-128-v4-1-0e5c491a532c@nvidia.com>
+References: <20260120-alt-128-v4-1-0e5c491a532c@nvidia.com>
+Subject: Re: [PATCH v4] ARM: dts: aspeed: add an alt 128M flash layout
+Message-Id: <177061218409.863052.13158700639798064370.b4-ty@codeconstruct.com.au>
+Date: Mon, 09 Feb 2026 15:13:04 +1030
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -68,108 +72,61 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260209-add-nfc-device-v1-1-748d1a98b2b5@amd.com>
-X-B4-Tracking: v=1; b=H4sIALZFiWkC/x2MQQqAIBAAvxJ7bkElg/pKdFB3t/ZioRBB9Pek4
- 8DMPFC5KFeYuwcKX1r1yA1s30HaQ94YlRqDM240zkwYiDBLQmpyYuQgYofoyUeBFp2FRe9/uKz
- v+wHAUqHJYAAAAA==
-X-Change-ID: 20260209-add-nfc-device-eaff14b5d5bf
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- carl.lee@amd.com, peter.shen@amd.com, colin.huang2@amd.com
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770603961; l=1030;
- i=carl.lee@amd.com; s=20260203; h=from:subject:message-id;
- bh=fAioY0/uBa8OFcIA56wyA/W2gJNy1rdRQAUCDykPe7E=;
- b=he7DbyjQeooaxxeK62Gnonp0ve5OOlWEu63CG4Dw+dnDtFlATMjIVxFTXipgfGB1C+smjB4Bh
- ojMR4pX3PcvBYSKqdYCsaux087oN5zOjEO1cODH5RIkYk7ZYMO2Kn4B
-X-Developer-Key: i=carl.lee@amd.com; a=ed25519;
- pk=pyq7QaQvoxMg806KVkRwpCbiah+7ncWr4MBpK1AEyjA=
-X-Endpoint-Received: by B4 Relay for carl.lee@amd.com/20260203 with
- auth_id=623
-X-Original-From: Carl Lee <carl.lee@amd.com>
-Reply-To: carl.lee@amd.com
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	DMARC_POLICY_ALLOW(-0.50)[codeconstruct.com.au,none];
+	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3508-lists,linux-aspeed=lfdr.de,carl.lee.amd.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:carl.lee@amd.com,m:peter.shen@amd.com,m:colin.huang2@amd.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER(0.00)[devnull@kernel.org,linux-aspeed@lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-3497-lists,linux-aspeed=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-aspeed@lists.ozlabs.org];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	DBL_PROHIBIT(0.00)[0.0.0.7:email];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	HAS_REPLYTO(0.00)[carl.lee@amd.com];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:molberding@nvidia.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
 	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,amd.com:email,amd.com:replyto,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,0.0.0.28:email]
-X-Rspamd-Queue-Id: A8D4A115509
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	NEURAL_HAM(-0.00)[-0.977];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,codeconstruct.com.au:email,codeconstruct.com.au:dkim,codeconstruct.com.au:mid]
+X-Rspamd-Queue-Id: BC72E10B986
 X-Rspamd-Action: no action
 
-From: Carl Lee <carl.lee@amd.com>
+On Tue, 20 Jan 2026 12:34:14 -0800, Marc Olberding wrote:
+> Add a 128M layout for the BMC flash chip we didn't boot from. Including
+> this allows the user to write to each partition on the alternate spi
+> chip. This dtsi follows the existing standard of using the same layout
+> as non alt version and prepending `alt` to each partition's name.
+> 
+> This patch also adds this alt spi flash layout to
+> aspeed-bmc-nvidia-msx4-bmc.dts
+> 
+> [...]
 
-add NFC NXP NCI device support to NFC tag reading
+Thanks, I've applied this to the BMC tree.
 
-Signed-off-by: Carl Lee <carl.lee@amd.com>
----
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-index 221af858cb6b..7349d25434e6 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-@@ -802,6 +802,16 @@ i2c13mux0ch7: i2c@7 {
- 			reg = <7>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-+
-+			nfc@28 {
-+				compatible = "nxp,nxp-nci-i2c";
-+				reg = <0x28>;
-+
-+				interrupt-parent = <&sgpiom0>;
-+				interrupts = <156 IRQ_TYPE_LEVEL_HIGH>;
-+
-+				enable-gpios = <&sgpiom0 241 GPIO_ACTIVE_HIGH>;
-+			};
- 		};
- 	};
- };
-
----
-base-commit: 4c87cdd0328495759f6e9f9f4e1e53ef8032a76f
-change-id: 20260209-add-nfc-device-eaff14b5d5bf
-
-Best regards,
 -- 
-Carl Lee <carl.lee@amd.com>
-
+Andrew Jeffery <andrew@codeconstruct.com.au>
 
 
