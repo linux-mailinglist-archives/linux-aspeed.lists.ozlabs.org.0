@@ -1,55 +1,62 @@
-Return-Path: <linux-aspeed+bounces-3517-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3519-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gOEQH471jmnTGAEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3517-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Feb 2026 10:57:34 +0100
+	id eJ3wHANMkmkLswEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3519-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Sun, 15 Feb 2026 23:43:15 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FAB9134C2E
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Feb 2026 10:57:32 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id E836613FE96
+	for <lists+linux-aspeed@lfdr.de>; Sun, 15 Feb 2026 23:43:12 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fC6zG5sf6z2yL8;
-	Fri, 13 Feb 2026 20:57:30 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fDgsl4Lb0z2xm5;
+	Mon, 16 Feb 2026 09:43:07 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1770976650;
-	cv=none; b=QiZtT/NhWc2qGpdMDeaCOK/Ag+HzBk50ql20x20Wg26Y8HuZNp3HisT1Dff1F6a/MEVrSP4ADk7BmcXfNmDE/6rirVc5oibJdFotZonrgLhuVmAfOPEklnZMdwf36zTibkWk5Ou9UbOBAfQ4Z9JUduJooycCaon08Xf4tJqi6KxPYRW4lNRkO+Znd+4ymtEgN9DmUWntG7ceDM+cVdyiOUOe0DCnXL79u1562nUHxRzfnC1Wn3bZQlklX55TQf00SbUbRKW+AH5oNlAmSJmenrTotvfhrW20Np09RCjj1mJ1j0bOiWNy78CIsQ70pfUlJGtiigdKIzTqI8X/i/60pw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1770990476;
+	cv=none; b=iogDqbQ0cI9KwJCpHdeVNU2qr7lTeClvveNwTdoCOzaA1HSl7/t1S4D7BlQTqmJInWnT9GDuzEzEdsldbaombj68uoFET69xMA3XkR8e/R+O5e+1VnxuD61VheJt4u7CpLXrslbQ6wLWtp9ZirBV79dD7FRNy92n5F5FgZICVc6PIQ7zSiibVOaPPeOakESaLDY4pacRArpiMwtoISaphwFpXP/O944pne8o6GKVMLAVF3drLMVlyenoM6vOwWxA7CMi/3ODBDKIKAxcVTUDkJH/8zCXSXgn8kGuczgBiX5OSoXJfuO2raWPSnQikEOhJABgTPqQFo611fxiAoQ0Og==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1770976650; c=relaxed/relaxed;
-	bh=zUmr4hbNcDYbTKWADGc4qpcDjjSQWQ0xdF/kJFW0B5Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IV/gz1MnFqHM0lJSUvepw/YwyZG6DvkLgWmkpfDhvod1o0v6Rwfud6n1UBhS6Jyn+cddhHJFajxK5Jo7AmdlQ/dI5888sKU8XG0P90k5GEzO+KRBUA56gIr4/R3tMDEUHWUaSuxNo9hvrDsK8PvWhJldsO1SEF+0nQoYBHhN64SLZBKdnA5fdXTPZQLlovGlpElInP5x+XT8rUaASpXb5ZdLR3O/ll9Ve/ZVAC8v9llRfwPiLS6i0IPBqzIG8H1emOeTtbsZ1q/eyXbWpR8USeJgY4ygw2hwzXoeVR6yGVePnftP0zkCgDZ0JRmlqi9aULYB1wEZhNjiKRvNhXAwXw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=hBTUOxlt; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	t=1770990476; c=relaxed/relaxed;
+	bh=dWNkmAzUQdtfHegRZTbmU8jwK5zq2mplznfusYDgepI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FZE8SCIy3c1JCIcxnR5s+TtatMgE8K2WELjtesL1GtgUMZW71DGzE0q/Dc2iYM7ZsoUwt+VbWiKd8vk9nP+9FhMOvXJIMOl16y+A2Ig+8MAyx7GMbmkXtWMKOtbgjvw8VaNvp4yLHMYKglnNyfaPp8BQNHp5S7owckY8H7rHKXykt2q9TzRhos1vTk5GcWtLZPxt4pxLEVN+GDvXOgkYj4VzAafmmwWDii9p8B66jNCGyr/qiTE9RhN08WBCH4sOZgZ+0/9/HGU9M5A4ONhDdCHoks2CmV1wgHjaMoMxGnUzVYY94KlPUpsPk7VXubkLP3I65e8VL55VQFZk/ye6/Q==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=QINFr95D; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=hBTUOxlt;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=QINFr95D;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fC6zF1Lqvz2xdY
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Feb 2026 20:57:29 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fCD573rxhz2xN4
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 14 Feb 2026 00:47:55 +1100 (AEDT)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 89D0940901;
-	Fri, 13 Feb 2026 09:57:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21E49C116C6;
-	Fri, 13 Feb 2026 09:57:22 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id CAC0A6132E
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Feb 2026 13:47:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D594C4AF09
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Feb 2026 13:47:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770976646;
-	bh=2AQE3QvHfFwbeib4XB2oHCuNMDAdcVSPDzImHY2Ftfk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hBTUOxltPIsaDiVD7gHWR7i0fy2c23VIRLAdoyBQ/Fqi/GPE0FaqQnpZoeLyssC+T
-	 huKhljhCUHYTJCGzAs4gvCSGJkSkPyDZpdByeaScn6+aNJ8ADm72Gj/Ctvv5nSqzOd
-	 ZWT6aqeSYxruwPCMCpRfmK4eXNxhpnFQLIr/Hju9dqSYIHxGnJAXaPgN9jsjyB5irA
-	 xt74TUW3yf2Dw/Xt16L1uk1DiZcOfBVw1m3fZmbnF/WwLhc89vKA/h/aHqIu7csTP9
-	 4GKNPVz/xTQwiDb05fD4Y3IhMjkBqC2n9pyndaKGiLoi93SJLSMuuVi9D0XM308qKq
-	 glolakPnznDpw==
-Message-ID: <5d371a1d-0265-4c59-95dd-19d23bf596d7@kernel.org>
-Date: Fri, 13 Feb 2026 10:57:21 +0100
+	s=k20201202; t=1770990472;
+	bh=DyzFY+7qXZ/I87ykE9tTTX/te+3kpL/x6B8NDHwgSQE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=QINFr95DCTmDGpJZL+syZ6w4OMbiyEaGahW44SzHXpgajJ2dD5vASaBSSOblTtzhJ
+	 mEmISzqm/Rt05EPpL6OnY220wUlUKaw8KJPqyXaZUxb9RkyRQ3mrNGP/kBkyw5KDxZ
+	 gD0qa7b8j6Rthu62yPbLUoVNaL5PKbjPYPkjBNBFcOVkrP5QUi2XFs4fa+pJXrw6+j
+	 NgLRDKl6uyODeVCVJ2tEJRELPeN33fMl7ZyC5sfhiCV1Wo/OU9LFCwXtM3QGaJyfrG
+	 l7/pNkeQchzKS1aNT7jZ0qwN5YdeeYoLYqKPQVMtZhNEy23R0m2gVXMgPAaSjHXDKD
+	 T+ghE+E29rlvA==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-79627af6349so11052567b3.0
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Feb 2026 05:47:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVk84gg7JljYJhHWrrY8qE8IxMBraVzhg/iDKECcVKAp/R5n7/GYYhy6lhucXf4KjdH4foELT2Lyna3/EA=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YxOMQF3YYo8Z9tPk+za0i6aaYpJQgvjxBIxO139+8wM5H3Vicqw
+	pcRJYARIch0lpQBo6MYQhhvxtckE6nW76sGmKHR1K9MsOO4Ygt7lsfQd9hS4Km2kwSnmzQ2D+s0
+	5jDnJgQSlF0FZPob3GQUF/DmAWWdBE90=
+X-Received: by 2002:a05:690c:18:b0:796:3f2f:a33b with SMTP id
+ 00721157ae682-797a0be9c0amr31425307b3.18.1770990471723; Fri, 13 Feb 2026
+ 05:47:51 -0800 (PST)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -63,181 +70,102 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 1/2] dt-bindings: pinctrl: Add pinctrl-packed
-To: Billy Tsai <billy_tsai@aspeedtech.com>, Linus Walleij
- <linusw@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Bartosz Golaszewski <brgl@kernel.org>
-Cc: patrickw3@meta.com, linux-gpio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- BMC-SW@aspeedtech.com
-References: <20260213-pinctrl-single-bit-v1-0-c60f2fb80efb@aspeedtech.com>
- <20260213-pinctrl-single-bit-v1-1-c60f2fb80efb@aspeedtech.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
+References: <20260213-pinctrl-single-bit-v1-0-c60f2fb80efb@aspeedtech.com> <20260213-pinctrl-single-bit-v1-1-c60f2fb80efb@aspeedtech.com>
 In-Reply-To: <20260213-pinctrl-single-bit-v1-1-c60f2fb80efb@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 13 Feb 2026 14:47:40 +0100
+X-Gmail-Original-Message-ID: <CAD++jLn6=YLh1EER2_cQZAprWfgmy-_XawreM5YpcTG2XA=uqA@mail.gmail.com>
+X-Gm-Features: AZwV_QhsixaqIxYeaVbNx--W7SxSEC1W_-pI5Tu0Vlx-qt-_T_CJ0Ra3jwQddw8
+Message-ID: <CAD++jLn6=YLh1EER2_cQZAprWfgmy-_XawreM5YpcTG2XA=uqA@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/2] dt-bindings: pinctrl: Add pinctrl-packed
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Cc: Tony Lindgren <tony@atomide.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Bartosz Golaszewski <brgl@kernel.org>, patrickw3@meta.com, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-aspeed@lists.ozlabs.org, BMC-SW@aspeedtech.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [0.29 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	DATE_IN_PAST(1.00)[56];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3517-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3519-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:billy_tsai@aspeedtech.com,m:linusw@kernel.org,m:tony@atomide.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:brgl@kernel.org,m:patrickw3@meta.com,m:linux-gpio@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:BMC-SW@aspeedtech.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[krzk@kernel.org,linux-aspeed@lists.ozlabs.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER(0.00)[linusw@kernel.org,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FORGED_RECIPIENTS(0.00)[m:billy_tsai@aspeedtech.com,m:tony@atomide.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:brgl@kernel.org,m:patrickw3@meta.com,m:linux-gpio@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:BMC-SW@aspeedtech.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-aspeed@lists.ozlabs.org];
+	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-aspeed@lists.ozlabs.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 1FAB9134C2E
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,aspeedtech.com:email]
+X-Rspamd-Queue-Id: E836613FE96
 X-Rspamd-Action: no action
 
-On 13/02/2026 09:17, Billy Tsai wrote:
+Hi Billy,
+
+thanks for your patch!
+
+This approach is better than trying to extend pinctrl-single in my
+opinion, but it has a bit of road to cover.
+
+On Fri, Feb 13, 2026 at 9:18=E2=80=AFAM Billy Tsai <billy_tsai@aspeedtech.c=
+om> wrote:
+
 > Add a Devicetree binding for a generic pin controller where pinmux and/or
 > pin configuration are represented as fixed-width fields packed
 > sequentially within shared registers.
-> 
+>
 > The binding targets controllers that are typically exposed as subnodes of
 > a syscon node and accessed via regmap-mmio through the parent.
-> 
+>
 > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
-> ---
->  .../bindings/pinctrl/pinctrl-packed.yaml           | 166 +++++++++++++++++++++
->  1 file changed, 166 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/pinctrl/pinctrl-packed.yaml b/Documentation/devicetree/bindings/pinctrl/pinctrl-packed.yaml
-> new file mode 100644
-> index 000000000000..dd01ba2fed71
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pinctrl/pinctrl-packed.yaml
-> @@ -0,0 +1,166 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pinctrl/pinctrl-packed.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Generic Pin Controller with Packed-Field Registers
-> +
-> +maintainers:
-> +  - Billy Tsai <billy_tsai@aspeedtech.com>
-> +
-> +description:
-> +  This binding describes pin controller hardware where pinmux and/or
-> +  pin configuration fields are represented as fixed-width fields packed
-> +  sequentially within shared registers.
-> +
-> +  Such controllers are commonly embedded within a larger system control
-> +  unit (SCU) register block and may be exposed as subnodes of a syscon
-> +  device.
-> +
-> +  Conceptually, this model is related to the pinctrl-single binding,
-> +  but instead of describing individual register offsets via
-> +  <offset, value, mask> tuples, the hardware provides fixed-width,
-> +  per-pin fields packed linearly within shared registers.
-
-Why this cannot be part of pinctrl-single then? Why all these properties
-are needed? I imagine that you need them to customize the generic
-binding to your device and that would be counter argument - generic
-bindings are too generic so people need to grow them with hundreds
-properties (see the very simple binding of simple audio card).
-
-
-> +
+(...)
 > +properties:
 > +  compatible:
 > +    oneOf:
-
-Drop oneOf
-
 > +      - enum:
 > +          - pinctrl-packed
 > +          - pinconf-packed
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  '#pinctrl-cells':
-> +    description:
-> +      The pinctrl provider uses standard state nodes referenced by pinctrl-N
-> +      properties; consumers do not pass per-pin arguments via phandle.
-> +    const: 1
-> +
+
+Why do you need two? Can't you just use one, pinctrl-packed.
+
 > +  pinctrl-packed,function-mask:
 > +    description: Mask of the allowed register bits for a single pin.
 > +    $ref: /schemas/types.yaml#/definitions/uint32
-> +
+
+To me this could be static data in the driver but I guess the whole
+point is to do what pinctrl-single is doing and store all of this
+information in the device tree, because reasons.
+
+I guess the DT binding maintainers need to decide on this and
+also what to name it.
+
 > +  pinctrl-packed,gpio-range:
 > +    description: Optional list of pin base, nr pins & gpio function.
 > +    $ref: /schemas/types.yaml#/definitions/phandle-array
@@ -247,109 +175,33 @@ Drop oneOf
 > +        - description: pin base
 > +        - description: number of pins
 > +        - description: gpio function
-> +
+
+Just use the standard gpio-range.
+
 > +patternProperties:
 > +  '-pins(-[0-9]+)?$|-pin$':
 > +    type: object
 > +    additionalProperties: false
-> +
 > +    properties:
 > +      pinctrl-packed,pins:
-
-No, use standard pinctrl properties.
-
 > +        description: Array of pin index and function selector pairs.
 > +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> +
+
+Just use pinmux =3D <...>; from pinmux-node.yaml
+(make sure to use the ref include.)
+
 > +      pinctrl-packed,bias-pullup:
-> +        description: Optional bias pull-up configuration.
-> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        maxItems: 4
-> +        items:
-> +          - description: Input value.
-> +          - description: Enabled pull-up bits.
-> +          - description: Disabled pull-up bits.
-> +          - description: Pull-up mask.
-> +        additionalItems: false
-> +
 > +      pinctrl-packed,bias-pulldown:
-> +        description: Optional bias pull-down configuration.
-> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        maxItems: 4
-> +        items:
-> +          - description: Input value.
-> +          - description: Enabled pull-down bits.
-> +          - description: Disabled pull-down bits.
-> +          - description: Pull-down mask.
-> +        additionalItems: false
-> +
 > +      pinctrl-packed,drive-strength:
-> +        description: Optional drive strength configuration.
-> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        maxItems: 2
-> +        items:
-> +          - description: Drive strength value.
-> +          - description: Drive strength mask.
-> +        additionalItems: false
-> +
 > +      pinctrl-packed,input-schmitt:
-> +        description: Optional input Schmitt trigger configuration.
-> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        maxItems: 2
-> +        items:
-> +          - description: Schmitt trigger value.
-> +          - description: Schmitt trigger mask.
-> +        additionalItems: false
-> +
 > +      pinctrl-packed,input-schmitt-enable:
-> +        description: Optional input Schmitt enable configuration.
-> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        maxItems: 4
-> +        items:
-> +          - description: Input value.
-> +          - description: Enable bits.
-> +          - description: Disable bits.
-> +          - description: Schmitt mask.
-> +        additionalItems: false
-> +
 > +      pinctrl-packed,low-power-mode:
-> +        description: Optional low power mode configuration.
-> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        maxItems: 2
-> +        items:
-> +          - description: Low power value.
-> +          - description: Low power mask.
-> +        additionalItems: false
-> +
 > +      pinctrl-packed,slew-rate:
-> +        description: Optional slew rate configuration.
-> +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> +        maxItems: 2
-> +        items:
-> +          - description: Slew rate value.
-> +          - description: Slew rate mask.
-> +        additionalItems: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#pinctrl-cells"
-> +  - pinctrl-packed,function-mask
-> +
-> +additionalProperties: false
-> +
-> +allOf:
-> +  - $ref: pinctrl.yaml#
-> +
-> +examples:
-> +  - |
-> +    syscon@0 {
-> +        compatible = "syscon", "simple-mfd";
 
-This is not allowed and you will have warnings here, which means you did
-not test the binding correctly (completely). Not even needed here, drop
-entire node.
+Just use the existing configs from
+pincfg-node.yaml and abstain from any new
+inventions here.
 
-Best regards,
-Krzysztof
+Yours,
+Linus Walleij
 
