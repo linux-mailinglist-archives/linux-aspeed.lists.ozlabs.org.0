@@ -1,99 +1,82 @@
-Return-Path: <linux-aspeed+bounces-3552-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3555-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oO5wN4jOoGmTmwQAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3552-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	id UJwPCYjOoGmdmwQAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3555-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
 	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Feb 2026 23:51:52 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F681B090B
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0AE1B090A
 	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Feb 2026 23:51:51 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fMRXb6dnwz3bjN;
-	Fri, 27 Feb 2026 09:51:43 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fMRXd74kzz3bf2;
+	Fri, 27 Feb 2026 09:51:45 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::432"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1772085380;
-	cv=none; b=RQQoD5lZJrvFJJ3odc9RU9BvV+64p51tRxF4LL9pY5Ak6w5EKRbORPyj2Ntf6b5sRhX2KzHjHwydsHmtU9nDe6clNhnpRDJt+SgoNk3VXgZwYdQyFZRnCtS+tjGUrLXj6fB6w5l4nOeMvJP9pfukafRLbCu7Y6gf0RwS+pjg/cWCwnfqm3x3OxMnyTdlv0+f12lPuJp2D2M5J1lCzkhAIBe2FPfibY314FKevjOyJouUTg+dlRCgVwKYCV85iuleS2gcZwyDkXXzgHS+JUMs9yQxjtMcSkHBBPRHkzA1rSKiatoQyolE1a4AOeRUgy/VswsO3B9Vgms/wAdVgIlTPQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::634"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1772114929;
+	cv=none; b=fG3JcDodu7hNgpWuZoe0060AuooNvH5eDvB1fP14zAdPLMk0P050E0EXQcgay2iRYlDN/9RJXgdBngBQGDvwhRldTuKZclHaYrCXzehYqtsrJ/Kt6v/sRd7VOnHrr/04miP0EIz12Yt+I9C6kZPJiSNifuigNf3XRMkz5mOr9Qsyr69+ZxLiphsXjQrLUj5ymEcM+LhJG/Y6Oo3vqk0suohLhvfHZTDinZHOMd2llagYV1g1Pb6kkkzg0TTAPXvG9/sm9evQNa3BlVBrX8eYPvQze9mXv3/iptIXgBhJNNhiOI+96y6ELsXUUNHWSQv8M9vXSgZFqZv+j+oup1fotw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1772085380; c=relaxed/relaxed;
-	bh=BOqFMVMEO3BWmcI2LqK/jOnVpuo5AOn47Ly3xx3MSAo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LUffVtPhVC1QzSlEHN94NV6jn2mlPJQ2Q0HHfrX3OQ346fLc4gM9XrY+8o8dbebn8P0DAnpFe3VB34qYl3io/HAJIQEetpChg+hj4bpaAtTbettyo3dLM/JAfVUOkI+qmrlhWLGxiGdg2IzNJC+50WjSMabpChciWyOSlwktXVIQDLrwYur+nzuHN6NlDwsuwgD7YbA8QzgiAdFlbjpJHt6XvIeGkrieNhAW+eKI5BWZqL0YYN6eMA9NCeKHErNzBPCZCC3Uo1Ik52bIdLFQFgwkGqylpUCiKMzw5iP7bVO9jlZk+qNdkPiry0Y/HZQXBFkmyE5wl4OQoG0vq+MEeQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=B6IekDLp; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::432; helo=mail-pf1-x432.google.com; envelope-from=pkleequanta@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+	t=1772114929; c=relaxed/relaxed;
+	bh=C5lmdRrYKAkps9LQDtVzFXDdak8+cj9tclXWqs/XbLs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=MiT60yBp9XOJBlXeSKoq9jEHQxRQow56qKj0XJh5tkLtBZNcVQlEB+fid2tBTj1MtFM0uMihI6JRYkumJgkRoZ4PFJ8qK9Cn6Q2sa2yn+lWCQ4aTUo7kj5QfibNpD24sgrg2OPPx8zuPga5Xto8NFoXk1JfcAt0+58T6zDh7O5d0D8H1OqELW9yifwZ8idNSMHP4GDdwoSDw44foViRLMTgLM2Hvg7jTD4iv3ktCH+XMwl2S1GiVs6OXuRYLYaLnhA8eL0ptxx07EZHayTi1b9OwUrSvt5BfkxdDw743yOnatKEAgcsVqDm638f8PM7z1AtAl4xlXv8W54lVU9u8yg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=RQ3sUYhO; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::634; helo=mail-pl1-x634.google.com; envelope-from=u8813345@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=B6IekDLp;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=RQ3sUYhO;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::432; helo=mail-pf1-x432.google.com; envelope-from=pkleequanta@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::634; helo=mail-pl1-x634.google.com; envelope-from=u8813345@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fM10z11cbz2x99
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 26 Feb 2026 16:56:19 +1100 (AEDT)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-826c49b7628so318980b3a.0
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Feb 2026 21:56:19 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fMCxC6nb7z2xHX
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Feb 2026 01:08:47 +1100 (AEDT)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-2ade574f05eso5948925ad.3
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 26 Feb 2026 06:08:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772085377; x=1772690177; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BOqFMVMEO3BWmcI2LqK/jOnVpuo5AOn47Ly3xx3MSAo=;
-        b=B6IekDLpB7ih/neygLK7QvaSA/NLjmv5Ft/TZzA7V8XU3mNAE/Hqu1m760nOkmolsR
-         sxECVNJ5GZq+T5tndKiISMIvGAQ1qJadDVhgCEN44DoOy4uwr1PO/PCfjSAebt3fKFVF
-         Rk1rPk2LRRDGM4N7GTqPTJ00x91xRxEPwVcDEEHiWFuUwrBn7HTw01RixU3LZZ5gA707
-         A8UsInhPbK695ydGuzohxvjmoaatX92HsKsY5mANIBwYwlqij8HQWbRb1ulsG5MrUZ15
-         F37DemSXzHyJQg8n6XCBQ3aJP7hEW17wAQOttrSAAcJyGmg2bEiVa4QlslsbMGNTBtD+
-         KGOg==
+        d=gmail.com; s=20230601; t=1772114925; x=1772719725; darn=lists.ozlabs.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C5lmdRrYKAkps9LQDtVzFXDdak8+cj9tclXWqs/XbLs=;
+        b=RQ3sUYhO51AG2AGi5I3UcSI9KHfTtLN46Q9hmsVLxzE2rOMZFS1b+E/Mj9UMytl+1Y
+         2T2SIdIctZfS3+2MSqYE4FPLewG5UVLNsCebhKQn9m6AOhpFFzmW+7RcUsyjSxyj2GES
+         UBkL2fHPYo3fXU7unfevAxTSomK1ja9y69TjiSIoSEM00dJAlaJ4HerolmzLY1Nj6d22
+         16PvBTymFhwCVUvwPUD6bkXFvH08TBwUvDgz6kR+3rGxATyke2NBplW+KVwgGNOM6BUz
+         tentXdKGvhGxbgI1r+bqd+PtpEdDq44m+PvbZM35x+HaHEthc/smXeHa7GmjwqAY8h/B
+         qZwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772085377; x=1772690177;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BOqFMVMEO3BWmcI2LqK/jOnVpuo5AOn47Ly3xx3MSAo=;
-        b=DFUDyGeAYSa21Jm3slZ6gBAZWlnWF6aUyzePcDudUT9fl4htXzBZbHQHx5Y87dKzN4
-         LxZk/3wbDXPKtGLZzaKPXODT6LiKzb632GeUhORNnw/RJhOQM9gM1qdgqv32LhaigkJ1
-         3KbgfExrJ/fTJef72SuAyX3ZT1i2bBMAzu9rHCPC3UXJCw+T6vTtv2BaallUzZLQYP9Z
-         eai7z0gRcZ+zg+JUZY2vjpxM3liv7/gxC+B8rVI6cFHyfc4V6yQRiwzgEDSw02spfNUI
-         AEjkyXgiI60Jg69w2Bp0yijYu8Sraa2Uadu9Nb/cRQ/iRCjiWihRAHop7CYWcL2heXxX
-         6LzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWgbSzps/6rClCVW+KzFdROEDLfj7hlTm6QZAfNbGBwDrW1KlXXkfsG5ZUxZjDQ+Lh46KH884F4Hciy60w=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxVUEZpcr67EG9wmxeIGM8rXeUnRwWYP8Lz+hgf1GSPA5r5AdJZ
-	tOukn9fcJrqZy/SErsKdC2Y2tHDZPrTsEIJ5LpIFSNWEY6eYfZczdGvl
-X-Gm-Gg: ATEYQzzwucpTxsPz48DZokq7WX419mVgbuOQJkGVJ07x57/YAhTAKLuVdZHOPJfsU8D
-	/DBNtXfINB6LtzMd/5UElzYDSDVKrtHgCWmv0ZkdtGsJuqtZUIAr6ZDydhiHpSSK+C88PFAbExK
-	98/sy+eztBXHAsxPua4dK4S65FIY5YstJLrOjC2Sayb8xxfwwVOUs7NFeQXHXHhAi8q3V7T5BXG
-	QEPHiPeDbCJnz5P8vsVCPTSdo3q2r9NEsGFmB/2diz1yF6AS7TktBsWXjzlD16J3/QI+6+vAJXJ
-	QVuRM9WRSVIDpkEKJ7+rMD+nVJb2PsbWfY2kuExzm0/qQRqtp6KiF5CNRsKON65tSbo3UgbbY5X
-	2HshUiXH9CsR08F2Orrra+bpPY+Pe0oMo4mUMsDznEAXxgd+5kstZMsrxt/OOPoHS0Zc3/MTXD0
-	w4JP0FoAcJ2coG1lLDIXBfEA+8tEnCvJ/7pGoHgG45RwyznTbCIj2xmEqcY9D9g/IemnLN+ccMx
-	OgIW58+r+0n
-X-Received: by 2002:a05:6a20:1c8f:b0:38b:d93f:b467 with SMTP id adf61e73a8af0-395ad05d6b4mr2657993637.6.1772085377345;
-        Wed, 25 Feb 2026 21:56:17 -0800 (PST)
-Received: from pk-pc.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c70fa82c284sm767851a12.23.2026.02.25.21.56.14
+        d=1e100.net; s=20230601; t=1772114925; x=1772719725;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C5lmdRrYKAkps9LQDtVzFXDdak8+cj9tclXWqs/XbLs=;
+        b=ru8L9zVq4whpbD4sLvdQvrcuk0HhxlKBvlGZxufp7zz6IfCjdAwC19w03Vmb2rFW5o
+         i1UR4ZIo78+hDhObBJmweOPpBbqtGyXX8rGjq1qJRVoW/12NL0uSk0RYwbd2FHBH80bq
+         bOiyrNEEAA7naWxwqVMN+zCmhhlxVjEuUQhH2YscpahDxN8Uim4QldekV2YWW6FqZvMs
+         WUP8z2hvMOznrc44VRTZPzbpGLoTaju/XCUxvvdBUUnfYi4iszgKvP++PklwhwEnVzSm
+         QyhNjDNr3t/T3xxUY4Nrs8EdbmzOtwhqOPbjRz3HeFAs7BbCC0bnv25+UGxPJ4gRUDAL
+         RwbA==
+X-Forwarded-Encrypted: i=1; AJvYcCWJQUh9djcfw7JSeeX2xqbJmslF4evLmu8oIJjHN9CZ4lge5w901gGbINUa01F6fIa37AzsfWlgFjt6vf0=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YxFNrH/+HrkF1htaAC5jqOaILbq1w1Xe4gU3U6Pm0/Le/cU0P19
+	RBVxvQkzs+ISko/t+nJp9ShcTBYD9WNtTftuWT7gooJkqB2XH3Ogy73G
+X-Gm-Gg: ATEYQzz4qpUXpj5X8t1y2Y0xcB2cKe59XsW8gyHUcPhwUBI/hyFp/JJYrC8yplV5kHY
+	CdLFnkW8I968I7hDOxKxK0/sBaVOIDNIwz3TcVJpBnRno855QAZbQs8QHM+I+J6b/3XQVf8/baR
+	c/yi37RQHC6GoRdnNN7QFObC0JuLWY+8+qAfw7vh2LIEPwuKTWNxTdByfedEXiJt4bhiFAVYkUa
+	iJGxjt16WU8DgDCJ1GohkqMZinbkqvJmRdotZGpmeELlevLzVvAn/vKBIXVT0U9gWNEw7TuJtdi
+	CeXWxjJUG0aQB4qzN8zIcxwG5KdhJDxYnTjYfjvljiOfWw29Uj9X+xrCJFXDV6cxotyHinykRnU
+	hb0P7M+Bn+OSwpjgFK5NezUEwUVdJTIkUEL05X6r/Om0YGTSM4m52K6yQIe3DQLc1x2QZncexpY
+	JKOjU7PchKhdj1/hicfYT1DdhrhbyLRg==
+X-Received: by 2002:a17:903:3848:b0:2ad:cede:3a1a with SMTP id d9443c01a7336-2ae03495f6fmr26068205ad.39.1772114924973;
+        Thu, 26 Feb 2026 06:08:44 -0800 (PST)
+Received: from [127.0.1.1] ([218.32.81.133])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb6e190fsm28037205ad.82.2026.02.26.06.08.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 21:56:16 -0800 (PST)
-From: "P.K. Lee" <pkleequanta@gmail.com>
-To: robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	joel@jms.id.au,
-	andrew@codeconstruct.com.au,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Cc: Jason-Hsu@quantatw.com,
-	p.k.lee@quantatw.com
-Subject: [PATCH v12 2/2] arm: dts: aspeed: ventura: add Meta Ventura BMC
-Date: Thu, 26 Feb 2026 13:55:21 +0800
-Message-ID: <20260226055521.1655243-3-pkleequanta@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260226055521.1655243-1-pkleequanta@gmail.com>
-References: <20260226055521.1655243-1-pkleequanta@gmail.com>
+        Thu, 26 Feb 2026 06:08:44 -0800 (PST)
+From: Colin Huang <u8813345@gmail.com>
+Date: Thu, 26 Feb 2026 22:08:16 +0800
+Subject: [PATCH v2] ARM: dts: aspeed: anacapa: update SGPIO and PCA9555
+ settings for DFT
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -107,1672 +90,352 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS,WEIRD_QUOTING autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260226-anacapa-dts-sgpio-v2-1-fd76828616b8@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAM9ToGkC/32NQQqDMBBFryKz7pSY1lq68h7FxSQZ40A1IRFpE
+ e/e1AN08+F9+O9vkDkJZ3hUGyReJUuYC+hTBXak2TOKKwxa6ZsqgTSTpUjolozZRwnIV1aGGqu
+ ta6DsYuJB3ofz2RceJS8hfY6Ltf61/2xrjTXShVqjjLq3g+r8RPI62zBBv+/7F9hMW2SyAAAA
+X-Change-ID: 20260202-anacapa-dts-sgpio-e4e0ba5c2cd5
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ Colin.Huang2@amd.com, Carl.Lee@amd.com, Peter.Shen@amd.com, 
+ Colin Huang <u8813345@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772114922; l=8780;
+ i=u8813345@gmail.com; s=20260202; h=from:subject:message-id;
+ bh=zOozJ3zv4ZVEOtjpoT9fTG9xriUnw/ZReMGwbHGkXqE=;
+ b=FPqErmaXHAqA92QS3zYhsA6YIjvUzR/2fJt5KhjFcR9qgDGYtiJvJlo2Zi02Xg35kWutD0MEo
+ cF5byFwicGlD1gJ+XHDQlwjR+iLQFU6GKETWF86db6p6IBdbtgflcHl
+X-Developer-Key: i=u8813345@gmail.com; a=ed25519;
+ pk=Zlg0WqpCw4qbswOqamTBTXIchwR/3SnYZpy7rjaGMdQ=
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.79 / 15.00];
+X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MAILLIST(-0.20)[generic];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER(0.00)[pkleequanta@gmail.com,linux-aspeed@lists.ozlabs.org];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-3552-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-3555-lists,linux-aspeed=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:robh+dt@kernel.org,m:krzysztof.kozlowski+dt@linaro.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:Jason-Hsu@quantatw.com,m:p.k.lee@quantatw.com,m:robh@kernel.org,m:krzysztof.kozlowski@linaro.org,m:conor@kernel.org,s:lists@lfdr.de];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:Colin.Huang2@amd.com,m:Carl.Lee@amd.com,m:Peter.Shen@amd.com,m:u8813345@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[u8813345@gmail.com,linux-aspeed@lists.ozlabs.org];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.ozlabs.org,amd.com,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pkleequanta@gmail.com,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.997];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	DBL_PROHIBIT(0.00)[0.0.0.24:email];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[u8813345@gmail.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-0.993];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: A8F681B090B
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 0C0AE1B090A
 X-Rspamd-Action: no action
 
-Add Linux device tree related to Meta (Facebook) Ventura specific
-devices connected to the BMC (AST2600) SoC. The purpose of Ventura is to
-detect liquid leakage from all compute trays, switch trays and rack
-sensors within the rack, log the events, and take necessary actions
-accordingly.
+This update adjusts SGPIO mappings and enables interrupt support for the
+PCA9555 GPIO expanders. These changes are required as part of the DFT
+(Design For Tooling) integration and are aligned with the SGPIO signal
+definitions provided in Helios_SGPIO_BIT_MAP.xlsx (rev: 2026-02-16).
 
-Signed-off-by: P.K. Lee <pkleequanta@gmail.com>
+Updates include:
+- Add interrupt-parent and interrupts properties to PCA9555 nodes to
+  enable proper interrupt handling required by phosphor-gpio-monitor.
+- Correct placement of LEAK_DETECT_RMC_N.
+- Update SGPIO line-name mappings per the latest Helios SGPIO bit map to
+  reflect leakage channels, presence pins, module power-good, and other
+  DFT-related monitoring signals.
+
+Signed-off-by: Colin Huang <u8813345@gmail.com>
 ---
- arch/arm/boot/dts/aspeed/Makefile             |    1 +
- .../aspeed/aspeed-bmc-facebook-ventura.dts    | 1592 +++++++++++++++++
- 2 files changed, 1593 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dts
+Update SGPIO line names for the Facebook Anacapa platform and enable
+interrupt support for PCA9555 GPIO expanders. These changes are part of
+DFT (Design For Tooling) integration and align the device tree with the
+latest SGPIO bit mapping used during board validation.
 
-diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
-index 0f0b5b707654..f5ac72d5933c 100644
---- a/arch/arm/boot/dts/aspeed/Makefile
-+++ b/arch/arm/boot/dts/aspeed/Makefile
-@@ -32,6 +32,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-facebook-minipack.dtb \
- 	aspeed-bmc-facebook-santabarbara.dtb \
- 	aspeed-bmc-facebook-tiogapass.dtb \
-+	aspeed-bmc-facebook-ventura.dtb \
- 	aspeed-bmc-facebook-wedge40.dtb \
- 	aspeed-bmc-facebook-wedge100.dtb \
- 	aspeed-bmc-facebook-wedge400-data64.dtb \
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dts
-new file mode 100644
-index 000000000000..8570f121496c
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dts
-@@ -0,0 +1,1592 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+// Copyright (c) 2023 Facebook Inc.
-+/dts-v1/;
-+
-+#include "aspeed-g6.dtsi"
-+#include <dt-bindings/i2c/i2c.h>
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+
-+/ {
-+	model = "Facebook ventura RMC";
-+	compatible = "facebook,ventura-rmc", "aspeed,ast2600";
-+
-+	aliases {
-+		serial4 = &uart5;
-+		i2c16 = &i2c3mux0ch3;
-+		i2c17 = &i2c3mux0ch4;
-+		i2c18 = &i2c3mux0ch5;
-+		i2c19 = &i2c3mux0ch6;
-+		i2c20 = &i2c3mux0ch0;
-+		i2c21 = &i2c3mux0ch1;
-+		i2c22 = &i2c3mux0ch2;
-+		i2c23 = &i2c3mux0ch7;
-+		i2c24 = &i2c0mux0ch0;
-+		i2c25 = &i2c0mux0ch1;
-+		i2c26 = &i2c0mux0ch2;
-+		i2c27 = &i2c0mux0ch3;
-+		i2c28 = &i2c0mux0ch4;
-+		i2c29 = &i2c0mux0ch5;
-+		i2c30 = &i2c0mux0ch6;
-+		i2c31 = &i2c0mux0ch7;
-+		i2c32 = &i2c1mux0ch0;
-+		i2c33 = &i2c1mux0ch1;
-+		i2c34 = &i2c1mux0ch2;
-+		i2c35 = &i2c1mux0ch3;
-+		i2c36 = &i2c1mux0ch4;
-+		i2c37 = &i2c1mux0ch5;
-+		i2c38 = &i2c1mux0ch6;
-+		i2c39 = &i2c1mux0ch7;
-+		i2c40 = &i2c2mux0ch0;
-+		i2c41 = &i2c2mux0ch1;
-+		i2c42 = &i2c2mux0ch2;
-+		i2c43 = &i2c2mux0ch3;
-+		i2c44 = &i2c2mux0ch4;
-+		i2c45 = &i2c2mux0ch5;
-+		i2c46 = &i2c2mux0ch6;
-+		i2c47 = &i2c2mux0ch7;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial4:57600n8";
-+	};
-+
-+	iio-hwmon {
-+		compatible = "iio-hwmon";
-+		io-channels = <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
-+			<&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
-+			<&adc1 2>;
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
-+			label = "bmc_heartbeat_amber";
-+			gpios = <&gpio0 ASPEED_GPIO(P, 7) GPIO_ACTIVE_LOW>;
-+			linux,default-trigger = "heartbeat";
-+		};
-+
-+		led-1 {
-+			label = "fp_id_amber";
-+			default-state = "off";
-+			gpios = <&gpio0 ASPEED_GPIO(B, 5) GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led-2 {
-+			label = "bmc_ready_noled";
-+			default-state = "on";
-+			gpios = <&gpio0 ASPEED_GPIO(B, 3) (GPIO_ACTIVE_HIGH|GPIO_TRANSITORY)>;
-+		};
-+
-+		led-3 {
-+			label = "power_blue";
-+			default-state = "off";
-+			gpios = <&gpio0 ASPEED_GPIO(P, 4) GPIO_ACTIVE_HIGH>;
-+		};
-+
-+		led-4 {
-+			label = "compute1_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g5_gpio 0 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-5 {
-+			label = "compute1_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 15 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-6 {
-+			label = "compute1_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 14 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-7 {
-+			label = "compute2_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 11 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-8 {
-+			label = "compute2_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 10 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-9 {
-+			label = "compute2_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 9 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-10 {
-+			label = "compute3_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 8 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-11 {
-+			label = "compute3_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 7 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-12 {
-+			label = "compute3_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 6 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-13 {
-+			label = "compute4_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 1 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-14 {
-+			label = "compute4_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 0 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-15 {
-+			label = "compute4_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 15 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-16 {
-+			label = "compute5_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 14 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-17 {
-+			label = "compute5_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 13 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-18 {
-+			label = "compute5_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 12 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-19 {
-+			label = "compute6_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 7 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-20 {
-+			label = "compute6_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 6 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-21 {
-+			label = "compute6_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 5 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-22 {
-+			label = "compute7_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 4 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-23 {
-+			label = "compute7_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 3 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-24 {
-+			label = "compute7_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 2 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-25 {
-+			label = "compute8_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 13 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-26 {
-+			label = "compute8_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 12 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-27 {
-+			label = "compute8_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 11 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-28 {
-+			label = "nvs1_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 10 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-29 {
-+			label = "nvs1_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 9 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-30 {
-+			label = "nvs1_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 8 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-31 {
-+			label = "nvs2_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 3 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-32 {
-+			label = "nvs2_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 2 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-33 {
-+			label = "nvs2_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 1 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-34 {
-+			label = "nvs3_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 0 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-35 {
-+			label = "nvs3_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 15 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-36 {
-+			label = "nvs3_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g4_gpio 14 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-37 {
-+			label = "nvs4_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 9 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-38 {
-+			label = "nvs4_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 8 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-39 {
-+			label = "nvs4_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 7 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-40 {
-+			label = "nvs5_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 6 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-41 {
-+			label = "nvs5_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 5 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-42 {
-+			label = "nvs5_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 4 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-43 {
-+			label = "nvs6_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 15 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-44 {
-+			label = "nvs6_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 14 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-45 {
-+			label = "nvs6_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 13 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-46 {
-+			label = "nvs7_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 12 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-47 {
-+			label = "nvs7_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 11 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-48 {
-+			label = "nvs7_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g3_gpio 10 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-49 {
-+			label = "nvs8_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 5 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-50 {
-+			label = "nvs8_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 4 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-51 {
-+			label = "nvs8_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 3 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-52 {
-+			label = "nvs9_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 2 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-53 {
-+			label = "nvs9_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 1 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-54 {
-+			label = "nvs9_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 0 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-55 {
-+			label = "compute9_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 11 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-56 {
-+			label = "compute9_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 10 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-57 {
-+			label = "compute9_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 9 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-58 {
-+			label = "compute10_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 8 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-59 {
-+			label = "compute10_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 7 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-60 {
-+			label = "compute10_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 6 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-61 {
-+			label = "compute11_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 1 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-62 {
-+			label = "compute11_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 0 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-63 {
-+			label = "compute11_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 15 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-64 {
-+			label = "compute12_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 14 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-65 {
-+			label = "compute12_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 13 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-66 {
-+			label = "compute12_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g6_gpio 12 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-67 {
-+			label = "compute13_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 7 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-68 {
-+			label = "compute13_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 6 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-69 {
-+			label = "compute13_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 5 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-70 {
-+			label = "compute14_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 4 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-71 {
-+			label = "compute14_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 3 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-72 {
-+			label = "compute14_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 2 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-73 {
-+			label = "compute15_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 13 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-74 {
-+			label = "compute15_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 12 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-75 {
-+			label = "compute15_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 11 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-76 {
-+			label = "compute16_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 10 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-77 {
-+			label = "compute16_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 9 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-78 {
-+			label = "compute16_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g2_gpio 8 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-79 {
-+			label = "compute17_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 5 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-80 {
-+			label = "compute17_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 4 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-81 {
-+			label = "compute17_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 3 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-82 {
-+			label = "compute18_led_switch";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 2 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-83 {
-+			label = "compute18_led_blue";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 1 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-84 {
-+			label = "compute18_led_amber";
-+			default-state = "off";
-+			gpios = <&tray_leds_g1_gpio 0 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-85 {
-+			label = "fan0_ledd1_blue";
-+			default-state = "off";
-+			gpios = <&fan_leds_g1_gpio 0 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-86 {
-+			label = "fan0_ledd2_blue";
-+			default-state = "off";
-+			gpios = <&fan_leds_g1_gpio 1 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-87 {
-+			label = "fan0_ledd1_amber";
-+			default-state = "off";
-+			gpios = <&fan_leds_g1_gpio 4 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-88 {
-+			label = "fan0_ledd2_amber";
-+			default-state = "off";
-+			gpios = <&fan_leds_g1_gpio 5 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-89 {
-+			label = "fan1_ledd1_blue";
-+			default-state = "off";
-+			gpios = <&fan_leds_g2_gpio 0 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-90 {
-+			label = "fan1_ledd2_blue";
-+			default-state = "off";
-+			gpios = <&fan_leds_g2_gpio 1 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-91 {
-+			label = "fan1_ledd1_amber";
-+			default-state = "off";
-+			gpios = <&fan_leds_g2_gpio 4 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-92 {
-+			label = "fan1_ledd2_amber";
-+			default-state = "off";
-+			gpios = <&fan_leds_g2_gpio 5 GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+
-+	memory@80000000 {
-+		device_type = "memory";
-+		reg = <0x80000000 0x80000000>;
-+	};
-+
-+	p1v8_bmc_aux: regulator-p1v8-bmc-aux {
-+		compatible = "regulator-fixed";
-+		regulator-name = "p1v8_bmc_aux";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-always-on;
-+	};
-+
-+	p2v5_bmc_aux: regulator-p2v5-bmc-aux {
-+		compatible = "regulator-fixed";
-+		regulator-name = "p2v5_bmc_aux";
-+		regulator-min-microvolt = <2500000>;
-+		regulator-max-microvolt = <2500000>;
-+		regulator-always-on;
-+	};
-+
-+	spi1_gpio: spi {
-+		compatible = "spi-gpio";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		sck-gpios = <&gpio0 ASPEED_GPIO(Z, 3) GPIO_ACTIVE_HIGH>;
-+		mosi-gpios = <&gpio0 ASPEED_GPIO(Z, 4) GPIO_ACTIVE_HIGH>;
-+		miso-gpios = <&gpio0 ASPEED_GPIO(Z, 5) GPIO_ACTIVE_HIGH>;
-+		cs-gpios = <&gpio0 ASPEED_GPIO(Z, 0) GPIO_ACTIVE_LOW>;
-+		num-chipselects = <1>;
-+
-+		tpm@0 {
-+			compatible = "infineon,slb9670", "tcg,tpm_tis-spi";
-+			spi-max-frequency = <33000000>;
-+			reg = <0>;
-+		};
-+	};
-+};
-+
-+&adc0 {
-+	vref-supply = <&p1v8_bmc_aux>;
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_adc0_default &pinctrl_adc1_default
-+		&pinctrl_adc2_default &pinctrl_adc3_default
-+		&pinctrl_adc4_default &pinctrl_adc5_default
-+		&pinctrl_adc6_default &pinctrl_adc7_default>;
-+};
-+
-+&adc1 {
-+	vref-supply = <&p2v5_bmc_aux>;
-+	status = "okay";
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_adc10_default>;
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
-+
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+		spi-max-frequency = <50000000>;
-+#include "openbmc-flash-layout-128.dtsi"
-+	};
-+	flash@1 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "alt-bmc";
-+		spi-max-frequency = <50000000>;
-+	};
-+};
-+
-+&gpio0 {
-+	gpio-line-names =
-+	/*A0-A7*/	"","","","","","","","",
-+	/*B0-B7*/	"BATTERY_DETECT","","","BMC_READY","","","","",
-+	/*C0-C7*/	"","","","","","","","",
-+	/*D0-D7*/	"","","","","","","","",
-+	/*E0-E7*/	"","","","","","","","",
-+	/*F0-F7*/	"","","","","","","","",
-+	/*G0-G7*/	"","","","","","","","",
-+	/*H0-H7*/	"","","","","","","","",
-+	/*I0-I7*/	"","","","","","","","",
-+	/*J0-J7*/	"","","","","","","","",
-+	/*K0-K7*/	"","","","","","","","",
-+	/*L0-L7*/	"","","","","","","","",
-+	/*M0-M7*/	"","","","","","","","",
-+	/*N0-N7*/	"","","","","","","","",
-+	/*O0-O7*/	"","","","","","","","USBDBG_IPMI_EN_L",
-+	/*P0-P7*/	"","","","","","","","",
-+	/*Q0-Q7*/	"","","","","","FM_MDIO_SW_SEL","","",
-+	/*R0-R7*/	"","","","","","","","",
-+	/*S0-S7*/	"","","","","","","","",
-+	/*T0-T7*/	"","","","","","","","",
-+	/*U0-U7*/	"","","","","","","","",
-+	/*V0-V7*/	"","","","","","","","",
-+	/*W0-W7*/	"","","","","","","","",
-+	/*X0-X7*/	"","","","","","","","",
-+	/*Y0-Y7*/	"","","","","","","","",
-+	/*Z0-Z7*/	"","","","","","","","";
-+};
-+
-+&i2c0 {
-+	status = "okay";
-+
-+	i2c-mux@77 {
-+		compatible = "nxp,pca9548";
-+		reg = <0x77>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		i2c0mux0ch0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+			status = "okay";
-+		};
-+
-+		i2c0mux0ch1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+			status = "okay";
-+		};
-+
-+		i2c0mux0ch2: i2c@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
-+			status = "okay";
-+		};
-+
-+		i2c0mux0ch3: i2c@3 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <3>;
-+			status = "okay";
-+		};
-+
-+		i2c0mux0ch4: i2c@4 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <4>;
-+			status = "okay";
-+		};
-+
-+		i2c0mux0ch5: i2c@5 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <5>;
-+			status = "okay";
-+		};
-+
-+		i2c0mux0ch6: i2c@6 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <6>;
-+			status = "okay";
-+		};
-+
-+		i2c0mux0ch7: i2c@7 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <7>;
-+			status = "okay";
-+		};
-+	};
-+};
-+
-+&i2c1 {
-+	status = "okay";
-+
-+	i2c-mux@77 {
-+		compatible = "nxp,pca9548";
-+		reg = <0x77>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		i2c1mux0ch0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+			status = "okay";
-+		};
-+
-+		i2c1mux0ch1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+			status = "okay";
-+		};
-+
-+		i2c1mux0ch2: i2c@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
-+			status = "okay";
-+		};
-+
-+		i2c1mux0ch3: i2c@3 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <3>;
-+			status = "okay";
-+		};
-+
-+		i2c1mux0ch4: i2c@4 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <4>;
-+			status = "okay";
-+		};
-+
-+		i2c1mux0ch5: i2c@5 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <5>;
-+			status = "okay";
-+		};
-+
-+		i2c1mux0ch6: i2c@6 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <6>;
-+			status = "okay";
-+		};
-+
-+		i2c1mux0ch7: i2c@7 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <7>;
-+			status = "okay";
-+		};
-+	};
-+};
-+
-+&i2c2 {
-+	status = "okay";
-+
-+	i2c-mux@77 {
-+		compatible = "nxp,pca9548";
-+		reg = <0x77>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		i2c2mux0ch0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+			status = "okay";
-+		};
-+
-+		i2c2mux0ch1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+			status = "okay";
-+		};
-+
-+		i2c2mux0ch2: i2c@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
-+			status = "okay";
-+		};
-+
-+		i2c2mux0ch3: i2c@3 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <3>;
-+			status = "okay";
-+		};
-+
-+		i2c2mux0ch4: i2c@4 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <4>;
-+			status = "okay";
-+		};
-+
-+		i2c2mux0ch5: i2c@5 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <5>;
-+			status = "okay";
-+		};
-+
-+		i2c2mux0ch6: i2c@6 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <6>;
-+			status = "okay";
-+		};
-+
-+		i2c2mux0ch7: i2c@7 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <7>;
-+			status = "okay";
-+		};
-+	};
-+};
-+
-+&i2c3 {
-+	status = "okay";
-+
-+	i2c-mux@77 {
-+		compatible = "nxp,pca9548";
-+		reg = <0x77>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		i2c3mux0ch0: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+			status = "okay";
-+		};
-+
-+		i2c3mux0ch1: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+			status = "okay";
-+		};
-+
-+		i2c3mux0ch2: i2c@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
-+			status = "okay";
-+		};
-+
-+		i2c3mux0ch3: i2c@3 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <3>;
-+
-+			adc@1f {
-+				compatible = "ti,adc128d818";
-+				reg = <0x1f>;
-+				ti,mode = /bits/ 8 <1>;
-+			};
-+
-+			fan_leds_g1_gpio: gpio@21 {
-+				compatible = "nxp,pca9555";
-+				reg = <0x21>;
-+				gpio-controller;
-+				#gpio-cells = <2>;
-+
-+				gpio-line-names =
-+				"", "",
-+				"", "",
-+				"", "",
-+				"", "",
-+				"FAN0_PRSNT", "FAN1_PRSNT",
-+				"", "",
-+				"", "",
-+				"", "";
-+			};
-+
-+			adc@35 {
-+				compatible = "maxim,max11617";
-+				reg = <0x35>;
-+			};
-+
-+			// Fan Board 0 FRU
-+			eeprom@56 {
-+				compatible = "atmel,24c128";
-+				reg = <0x56>;
-+			};
-+		};
-+
-+		i2c3mux0ch4: i2c@4 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <4>;
-+
-+			adc@1f {
-+				compatible = "ti,adc128d818";
-+				reg = <0x1f>;
-+				ti,mode = /bits/ 8 <1>;
-+			};
-+
-+			fan_leds_g2_gpio: gpio@21 {
-+				compatible = "nxp,pca9555";
-+				reg = <0x21>;
-+				gpio-controller;
-+				#gpio-cells = <2>;
-+
-+				gpio-line-names =
-+				"", "",
-+				"", "",
-+				"", "",
-+				"", "",
-+				"FAN2_PRSNT", "FAN3_PRSNT",
-+				"", "",
-+				"", "",
-+				"", "";
-+			};
-+
-+			adc@35 {
-+				compatible = "maxim,max11617";
-+				reg = <0x35>;
-+			};
-+
-+			// Fan Board 1 FRU
-+			eeprom@56 {
-+				compatible = "atmel,24c128";
-+				reg = <0x56>;
-+			};
-+		};
-+
-+		i2c3mux0ch5: i2c@5 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <5>;
-+
-+			pwm@20 {
-+				compatible = "maxim,max31790";
-+				reg = <0x20>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				channel@2 {
-+					reg = <2>;
-+					sensor-type = "TACH";
-+				};
-+				channel@5 {
-+					reg = <5>;
-+					sensor-type = "TACH";
-+				};
-+			};
-+
-+			hwmon: hwmon@23 {
-+				compatible = "nuvoton,nct7363";
-+				reg = <0x23>;
-+				#pwm-cells = <2>;
-+
-+				//fan 0 IL
-+				fan-0 {
-+					pwms = <&hwmon 0 20000>;
-+					tach-ch = /bits/ 8 <0x09>;
-+				};
-+
-+				//fan 0 OL
-+				fan-1 {
-+					pwms = <&hwmon 0 20000>;
-+					tach-ch = /bits/ 8 <0x0B>;
-+				};
-+
-+				//fan 1 IL
-+				fan-2 {
-+					pwms = <&hwmon 4 20000>;
-+					tach-ch = /bits/ 8 <0x0A>;
-+				};
-+
-+				//fan 1 OL
-+				fan-3 {
-+					pwms = <&hwmon 4 20000>;
-+					tach-ch = /bits/ 8 <0x0D>;
-+				};
-+
-+				//fan 2 IL
-+				fan-4 {
-+					pwms = <&hwmon 6 20000>;
-+					tach-ch = /bits/ 8 <0x0F>;
-+				};
-+
-+				//fan 2 OL
-+				fan-5 {
-+					pwms = <&hwmon 6 20000>;
-+					tach-ch = /bits/ 8 <0x01>;
-+				};
-+
-+				//fan 3 IL
-+				fan-6 {
-+					pwms = <&hwmon 10 20000>;
-+					tach-ch = /bits/ 8 <0x00>;
-+				};
-+
-+				//fan 3 OL
-+				fan-7 {
-+					pwms = <&hwmon 10 20000>;
-+					tach-ch = /bits/ 8 <0x03>;
-+				};
-+			};
-+		};
-+
-+		i2c3mux0ch6: i2c@6 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <6>;
-+
-+			// REAR-IO Board FRU
-+			eeprom@56 {
-+				compatible = "atmel,24c128";
-+				reg = <0x56>;
-+			};
-+		};
-+
-+		i2c3mux0ch7: i2c@7 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <7>;
-+			status = "okay";
-+		};
-+	};
-+};
-+
-+&i2c4 {
-+	status = "okay";
-+};
-+
-+&i2c5 {
-+	status = "okay";
-+
-+	// VR TEMP U399
-+	temperature-sensor@4c {
-+		compatible = "ti,tmp75";
-+		reg = <0x4c>;
-+	};
-+
-+	// VR TEMP U397
-+	temperature-sensor@4d {
-+		compatible = "ti,tmp75";
-+		reg = <0x4d>;
-+	};
-+
-+	// BRICK TEMP U398
-+	temperature-sensor@4e {
-+		compatible = "ti,tmp75";
-+		reg = <0x4e>;
-+	};
-+
-+	temperature-sensor@4f {
-+		compatible = "ti,tmp75";
-+		reg = <0x4f>;
-+	};
-+
-+	// RMC FRU
-+	eeprom@54 {
-+		compatible = "atmel,24c128";
-+		reg = <0x54>;
-+	};
-+};
-+
-+&i2c6 {
-+	status = "okay";
-+
-+	gpio@20 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x20>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
-+	gpio@21 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x21>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
-+	gpio@22 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x22>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
-+	rtc@51 {
-+		compatible = "nxp,pcf8563";
-+		reg = <0x51>;
-+	};
-+};
-+
-+&i2c7 {
-+	status = "okay";
-+	bus-frequency = <100000>;
-+	multi-master;
-+	i2c-scl-clk-low-timeout-us = <31744>;
-+
-+	//USB Debug Connector
-+	ipmb@10 {
-+		compatible = "ipmb-dev";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+		i2c-protocol;
-+	};
-+};
-+
-+&i2c9 {
-+	status = "okay";
-+
-+	// SCM TEMP SENSOR
-+	temperature-sensor@4b {
-+		compatible = "ti,tmp75";
-+		reg = <0x4b>;
-+	};
-+
-+	// SCM FRU EEPROM
-+	eeprom@50 {
-+		compatible = "atmel,24c128";
-+		reg = <0x50>;
-+	};
-+
-+	// BSM FRU EEPROM
-+	eeprom@56 {
-+		compatible = "atmel,24c64";
-+		reg = <0x56>;
-+	};
-+};
-+
-+&i2c10 {
-+	status = "okay";
-+
-+	gpio@10 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x10>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		interrupt-parent = <&sgpiom0>;
-+		interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
-+
-+		gpio-line-names =
-+		"IT_STOP_PUMP_SPARE_2", "IT_STOP_PUMP_2",
-+		"IT_STOP_PUMP_SPARE", "IT_STOP_PUMP",
-+		"", "",
-+		"", "",
-+		"wPWRGD_P12V_SCM_R", "wPWRGD_P12V_AUX_R",
-+		"wPWRGD_P24V_AUX_R", "wPWRGD_P52V_HSC_PWROK_R",
-+		"wSMB_TMC75_TEMP_ALERT_N_R", "wP48V_HSC_ALERT_N",
-+		"wP24V_AUX_INA230_ALERT_N_R", "wP24V_SM_INA230_ALERT_N_R";
-+	};
-+
-+	gpio@11 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x11>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		interrupt-parent = <&sgpiom0>;
-+		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
-+
-+		gpio-line-names =
-+		"", "",
-+		"", "wPWRGD_P24V_SMPWROK",
-+		"wPWRGD_P1V05_AUX_R", "wPWRGD_P1V5_AUX_R",
-+		"wPWRGD_P3V3_AUX_R", "wPWRGD_P5V_AUX_R",
-+		"", "",
-+		"", "",
-+		"", "",
-+		"", "";
-+	};
-+
-+	power-monitor@14 {
-+		compatible = "infineon,xdp710";
-+		reg = <0x14>;
-+	};
-+
-+	gpio@19 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x19>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		interrupt-parent = <&sgpiom0>;
-+		interrupts = <22 IRQ_TYPE_LEVEL_LOW>;
-+
-+		gpio-line-names =
-+		"", "",
-+		"", "",
-+		"", "",
-+		"", "",
-+		"wIT_GEAR_RPU_2_LINK_PRSNT_SPARE_N_R", "wIT_GEAR_RPU_2_LINK_PRSNT_N_R",
-+		"wIT_GEAR_RPU_LINK_PRSNT_SPARE_N_R", "wIT_GEAR_RPU_LINK_PRSNT_N_R",
-+		"", "",
-+		"", "";
-+	};
-+
-+	gpio@1a {
-+		compatible = "nxp,pca9555";
-+		reg = <0x1a>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		interrupt-parent = <&sgpiom0>;
-+		interrupts = <20 IRQ_TYPE_LEVEL_LOW>;
-+
-+		gpio-line-names =
-+		"wPRSNT_LEAK1_SENSOR_R_PLD_N", "wPRSNT_LEAK0_SENSOR_R_PLD_N",
-+		"", "",
-+		"", "",
-+		"", "",
-+		"", "",
-+		"", "",
-+		"", "",
-+		"", "wPRSNT_LEAK2_SENSOR_R_PLD_N";
-+	};
-+
-+	gpio@1b {
-+		compatible = "nxp,pca9555";
-+		reg = <0x1b>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		interrupt-parent = <&sgpiom0>;
-+		interrupts = <18 IRQ_TYPE_LEVEL_LOW>;
-+
-+		gpio-line-names =
-+		"", "",
-+		"", "",
-+		"", "wPRSNT_LEAK4_SENSOR_R_PLD_N",
-+		"wPRSNT_LEAK3_SENSOR_R_PLD_N", "",
-+		"", "",
-+		"", "",
-+		"", "",
-+		"", "";
-+	};
-+
-+	power-monitor@44 {
-+		compatible = "lltc,ltc4286";
-+		reg = <0x44>;
-+	};
-+};
-+
-+&i2c14 {
-+	status = "okay";
-+};
-+
-+&i2c15 {
-+	status = "okay";
-+
-+	tray_leds_g1_gpio: gpio@20 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x20>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
-+	tray_leds_g2_gpio: gpio@21 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x21>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
-+	tray_leds_g3_gpio: gpio@22 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x22>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
-+	tray_leds_g4_gpio: gpio@24 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x24>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
-+	tray_leds_g5_gpio: gpio@25 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x25>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
-+	tray_leds_g6_gpio: gpio@26 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x26>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+	};
-+
-+	// LED Board FRU
-+	eeprom@56 {
-+		compatible = "atmel,24c128";
-+		reg = <0x56>;
-+	};
-+};
-+
-+&mac3 {
-+	status = "okay";
-+	phy-mode = "rmii";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rmii4_default>;
-+	fixed-link {
-+		speed = <100>;
-+		full-duplex;
-+	};
-+};
-+
-+&mdio0 {
-+	status = "okay";
-+};
-+
-+&sgpiom0 {
-+	status = "okay";
-+	ngpios = <128>;
-+	bus-frequency = <2000000>;
-+
-+	gpio-line-names =
-+	/*"input pin","output pin"*/
-+	/*A0 - A7*/
-+	"power-chassis-good","power-chassis-control",
-+	"IOEXP1_INT_N","WATER_VALVE_CLOSED_N",
-+	"wPRSNT_RETURN_PLD_R_N","FM_MDIO_SW_SEL_PLD",
-+	"wPRSNT_SUPPLY_PLD_R_N","FM_88E6393X_BIN_UPDATE_EN_N",
-+	"LEAK3_DETECT","",
-+	"LEAK4_DETECT","",
-+	"RETURN_CNTL_FB_D_R","",
-+	"SUPPLY_CNTL_FB_D_R","",
-+	/*B0 - B7*/
-+	"IOEXP0_INT_N","",
-+	"IOEXP11_INT_N","",
-+	"IOEXP10_INT_N","",
-+	"IOEXP9_INT_N","",
-+	"RPU_2_READY_SPARE_PLD_R","",
-+	"RPU_2_READY_PLD_R","",
-+	"RPU_READY_SPARE_PLD_R","",
-+	"RPU_READY_PLD_R","",
-+	/*C0 - C7*/
-+	"wAALC_RPU_READY","",
-+	"LEAK0_DETECT","",
-+	"LEAK1_DETECT","",
-+	"LEAK2_DETECT","",
-+	"PRSNT_COMPUTE_TRAY1_N","",
-+	"PRSNT_COMPUTE_TRAY2_N","",
-+	"PRSNT_COMPUTE_TRAY3_N","",
-+	"PRSNT_COMPUTE_TRAY4_N","",
-+	/*D0 - D7*/
-+	"PRSNT_COMPUTE_TRAY5_N","",
-+	"PRSNT_COMPUTE_TRAY6_N","",
-+	"PRSNT_COMPUTE_TRAY7_N","",
-+	"PRSNT_COMPUTE_TRAY8_N","",
-+	"PRSNT_NVS_TRAY1_N","",
-+	"PRSNT_NVS_TRAY2_N","",
-+	"PRSNT_COMPUTE_TRAY11_N","",
-+	"PRSNT_COMPUTE_TRAY12_N","",
-+	/*E0 - E7*/
-+	"PRSNT_COMPUTE_TRAY13_N","",
-+	"PRSNT_COMPUTE_TRAY14_N","",
-+	"PRSNT_COMPUTE_TRAY15_N","",
-+	"PRSNT_COMPUTE_TRAY16_N","",
-+	"PRSNT_COMPUTE_TRAY17_N","",
-+	"PRSNT_COMPUTE_TRAY18_N","",
-+	"PRSNT_NVS_TRAY3_N","",
-+	"PRSNT_NVS_TRAY4_N","",
-+	/*F0 - F7*/
-+	"PRSNT_NVS_TRAY5_N","",
-+	"PRSNT_NVS_TRAY6_N","",
-+	"PRSNT_NVS_TRAY7_N","",
-+	"PRSNT_NVS_TRAY8_N","",
-+	"PRSNT_NVS_TRAY9_N","",
-+	"PRSNT_COMPUTE_TRAY9_N","",
-+	"PRSNT_COMPUTE_TRAY10_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY1_N","",
-+	/*G0 - G7*/
-+	"SMALL_LEAK_COMPUTE_TRAY2_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY3_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY4_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY5_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY6_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY7_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY8_N","",
-+	"SMALL_LEAK_NVS_TRAY1_N","",
-+	/*H0 - H7*/
-+	"SMALL_LEAK_NVS_TRAY2_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY11_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY12_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY13_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY14_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY15_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY16_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY17_N","",
-+	/*I0 - I7*/
-+	"SMALL_LEAK_COMPUTE_TRAY18_N","",
-+	"SMALL_LEAK_NVS_TRAY3_N","",
-+	"SMALL_LEAK_NVS_TRAY4_N","",
-+	"SMALL_LEAK_NVS_TRAY5_N","",
-+	"SMALL_LEAK_NVS_TRAY6_N","",
-+	"SMALL_LEAK_NVS_TRAY7_N","",
-+	"SMALL_LEAK_NVS_TRAY8_N","",
-+	"SMALL_LEAK_NVS_TRAY9_N","",
-+	/*J0 - J7*/
-+	"SMALL_LEAK_COMPUTE_TRAY9_N","",
-+	"SMALL_LEAK_COMPUTE_TRAY10_N","",
-+	"PWRGD_COMPUTE_TRAY1_N","",
-+	"PWRGD_COMPUTE_TRAY2_N","",
-+	"PWRGD_COMPUTE_TRAY3_N","",
-+	"PWRGD_COMPUTE_TRAY4_N","",
-+	"PWRGD_COMPUTE_TRAY5_N","",
-+	"PWRGD_COMPUTE_TRAY6_N","",
-+	/*K0 - K7*/
-+	"PWRGD_COMPUTE_TRAY7_N","",
-+	"PWRGD_COMPUTE_TRAY8_N","",
-+	"PWRGD_NVS_TRAY1_PWROK_N","",
-+	"PWRGD_NVS_TRAY2_PWROK_N","",
-+	"PWRGD_COMPUTE_TRAY11_N","",
-+	"PWRGD_COMPUTE_TRAY12_N","",
-+	"PWRGD_COMPUTE_TRAY13_N","",
-+	"PWRGD_COMPUTE_TRAY14_N","",
-+	/*L0 - L7*/
-+	"PWRGD_COMPUTE_TRAY15_N","",
-+	"PWRGD_COMPUTE_TRAY16_N","",
-+	"PWRGD_COMPUTE_TRAY17_N","",
-+	"PWRGD_COMPUTE_TRAY18_N","",
-+	"PWRGD_NVS_TRAY3_PWROK_N","",
-+	"PWRGD_NVS_TRAY4_PWROK_N","",
-+	"PWRGD_NVS_TRAY5_PWROK_N","",
-+	"PWRGD_NVS_TRAY6_PWROK_N","",
-+	/*M0 - M7*/
-+	"PWRGD_NVS_TRAY7_PWROK_N","",
-+	"PWRGD_NVS_TRAY8_PWROK_N","",
-+	"PWRGD_NVS_TRAY9_PWROK_N","",
-+	"PWRGD_COMPUTE_TRAY9_N","",
-+	"PWRGD_COMPUTE_TRAY10_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY1_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY2_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY3_N","",
-+	/*N0 - N7*/
-+	"LEAK_DETECT_COMPUTE_TRAY4_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY5_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY6_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY7_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY8_N","",
-+	"LEAK_DETECT_NVS_TRAY1_N","",
-+	"LEAK_DETECT_NVS_TRAY2_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY11_N","",
-+	/*O0 - O7*/
-+	"LEAK_DETECT_COMPUTE_TRAY12_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY13_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY14_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY15_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY16_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY17_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY18_N","",
-+	"LEAK_DETECT_NVS_TRAY3_N","",
-+	/*P0 - P7*/
-+	"LEAK_DETECT_NVS_TRAY4_N","",
-+	"LEAK_DETECT_NVS_TRAY5_N","",
-+	"LEAK_DETECT_NVS_TRAY6_N","",
-+	"LEAK_DETECT_NVS_TRAY7_N","",
-+	"LEAK_DETECT_NVS_TRAY8_N","",
-+	"LEAK_DETECT_NVS_TRAY9_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY9_N","",
-+	"LEAK_DETECT_COMPUTE_TRAY10_N","";
-+};
-+
-+&uhci {
-+	status = "okay";
-+};
-+
-+&wdt1 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_wdtrst1_default>;
-+	aspeed,reset-type = "soc";
-+	aspeed,external-signal;
-+	aspeed,ext-push-pull;
-+	aspeed,ext-active-high;
-+	aspeed,ext-pulse-duration = <256>;
-+};
+The updates are based on: Helios_SGPIO_BIT_MAP.xlsx (rev: 2026-02-16).
+
+The following changes are included:
+- Add BMC_AINIC0_WP_R2_L and BMC_AINIC1_WP_R2_L
+- Correct placement of LEAK_DETECT_RMC_N
+- Add PRSNT_NFC_BOARD_R
+- Add IRQ_NFC_BOARD_R and RSMRST_N
+- Add DC_OFF, EAM_MOD_PWR_GD_TIMEOUT, CPLD_AMC_STBY_PWR_EN
+- Add FM_MAIN_PWREN_RMC_EN_ISO
+---
+Changes in v2:
+- Add interrupt-parent and interrupts properties to PCA9555 nodes to
+  enable proper interrupt handling required by phosphor-gpio-monitor.
+- Clarify DFT motivation in the commit message and mention the source
+  mapping (Helios_SGPIO_BIT_MAP.xlsx rev: 2026-02-16).
+- Minor wording cleanups in the commit message (line names vs. mappings).
+- Rebase onto the latest tree to account for intervening commits.
+- Link to v1: https://lore.kernel.org/r/20260202-anacapa-dts-sgpio-v1-1-a3a7b0b087f0@gmail.com
+---
+ .../dts/aspeed/aspeed-bmc-facebook-anacapa.dts     | 147 ++++++++++++---------
+ 1 file changed, 88 insertions(+), 59 deletions(-)
+
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
+index 2cb7bd128d24..aa53ae8eb61f 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
+@@ -500,6 +500,9 @@ gpio@24 {
+ 				gpio-controller;
+ 				#gpio-cells = <2>;
+ 
++				interrupt-parent = <&sgpiom0>;
++				interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
++
+ 				gpio-line-names =
+ 					"RPDB_EAM2_PRSNT_MOS_N_R", "RPDB_EAM3_PRSNT_MOS_N_R",
+ 					"RPDB_PWRGD_P50V_HSC4_SYS_R",
+@@ -546,6 +549,9 @@ gpio@24 {
+ 				gpio-controller;
+ 				#gpio-cells = <2>;
+ 
++				interrupt-parent = <&sgpiom0>;
++				interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
++
+ 				gpio-line-names =
+ 					"LPDB_P50V_FAN1_R2_PG","LPDB_P50V_FAN2_R2_PG",
+ 					"LPDB_P50V_FAN3_R2_PG","LPDB_P50V_FAN4_R2_PG",
+@@ -864,87 +870,104 @@ &sgpiom0 {
+ 	gpio-line-names =
+ 	/*in - out - in - out */
+ 	/* A0-A7 line 0-15 */
+-	"", "FM_CPU0_SYS_RESET_N", "", "CPU0_KBRST_N",
+-	"", "FM_CPU0_PROCHOT_trigger_N", "", "FM_CLR_CMOS_R_P0",
+-	"", "Force_I3C_SEL", "", "SYSTEM_Force_Run_AC_Cycle",
+-	"", "", "", "",
++	"L_FNIC_FLT", "FM_CPU0_SYS_RESET_N",
++	"L_BNIC0_FLT", "CPU0_KBRST_N",
++	"L_BNIC1_FLT", "FM_CPU0_PROCHOT_trigger_N",
++	"L_BNIC2_FLT", "FM_CLR_CMOS_R_P0",
++	"L_BNIC3_FLT", "Force_I3C_SEL",
++	"L_RTM_SW_FLT", "SYSTEM_Force_Run_AC_Cycle",
++	"", "",
++	"", "",
+ 
+ 	/* B0-B7 line 16-31 */
+ 	"Channel0_leakage_EAM3", "FM_CPU_FPGA_JTAG_MUX_SEL",
+ 	"Channel1_leakage_EAM0", "FM_SCM_JTAG_MUX_SEL",
+ 	"Channel2_leakage_Manifold1", "FM_BRIDGE_JTAG_MUX_SEL",
+ 	"Channel3_leakage", "FM_CPU0_NMI_SYNC_FLOOD_N",
+-	"Channel4_leakage_Manifold2", "",
+-	"Channel5_leakage_EAM1", "",
+-	"Channel6_leakage_CPU_DIMM", "",
+-	"Channel7_leakage_EAM2", "",
++	"Channel4_leakage_Manifold2", "BMC_AINIC0_WP_R2_L",
++	"Channel5_leakage_EAM1", "BMC_AINIC1_WP_R2_L",
++	"Channel6_leakage_CPU_DIMM", "CPLD_BUF_R_AGPIO330",
++	"Channel7_leakage_EAM2", "CPLD_BUF_R_AGPIO331",
+ 
+ 	/* C0-C7 line 32-47 */
+-	"RSVD_RMC_GPIO3", "", "", "",
+-	"", "", "", "",
+-	"LEAK_DETECT_RMC_N", "", "", "",
+-	"", "", "", "",
++	"RSVD_RMC_GPIO3", "RTM_MUX_L",
++	"LEAK_DETECT_RMC_N", "RTM_MUX_R",
++	"HDR_P0_NMI_BTN_BUF_R_N", "",
++	"No_Leak_Sensor_flag", "",
++	"", "",
++	"", "",
++	"", "",
++	"", "",
+ 
+ 	/* D0-D7 line 48-63 */
+-	"PWRGD_PDB_EAMHSC0_CPLD_PG_R", "",
+-	"PWRGD_PDB_EAMHSC1_CPLD_PG_R", "",
+-	"PWRGD_PDB_EAMHSC2_CPLD_PG_R", "",
+-	"PWRGD_PDB_EAMHSC3_CPLD_PG_R", "",
+-	"AMC_BRD_PRSNT_CPLD_L", "", "", "",
+-	"", "", "", "",
++	"PWRGD_CHAD_CPU0_FPGA", "",
++	"PWRGD_CHEH_CPU0_FPGA", "",
++	"PWRGD_CHIL_CPU0_FPGA", "",
++	"PWRGD_CHMP_CPU0_FPGA", "",
++	"AMC_BRD_PRSNT_CPLD_L", "",
++	"", "",
++	"", "",
++	"", "",
+ 
+ 	/* E0-E7 line 64-79 */
+-	"AMC_PDB_EAMHSC0_CPLD_EN_R", "",
+-	"AMC_PDB_EAMHSC1_CPLD_EN_R", "",
+-	"AMC_PDB_EAMHSC2_CPLD_EN_R", "",
+-	"AMC_PDB_EAMHSC3_CPLD_EN_R", "",
+-	"", "", "", "",
+-	"", "", "", "",
++	"L_PRSNT_B_FENIC_R2_N", "",
++	"L_PRSNT_B_BENIC0_R2_N", "",
++	"L_PRSNT_B_BENIC1_R2_N", "",
++	"L_PRSNT_B_BENIC2_R2_N", "",
++	"L_PRSNT_B_BENIC3_R2_N", "",
++	"", "",
++	"", "",
++	"", "",
+ 
+ 	/* F0-F7 line 80-95 */
+-	"PWRGD_PVDDCR_CPU1_P0", "SGPIO_READY",
+-	"PWRGD_PVDDCR_CPU0_P0", "",
+-	"", "", "", "",
+-	"", "", "", "",
++	"R_PRSNT_B_FENIC_R2_N", "SGPIO_READY",
++	"R_PRSNT_B_BENIC0_R2_N", "",
++	"R_PRSNT_B_BENIC1_R2_N", "",
++	"R_PRSNT_B_BENIC2_R2_N", "",
++	"R_PRSNT_B_BENIC3_R2_N", "",
++	"", "",
++	"", "",
++	"", "",
+ 
+ 	/* G0-G7 line 96-111 */
+-	"PWRGD_PVDDCR_SOC_P0", "",
+-	"PWRGD_PVDDIO_P0", "",
+-	"PWRGD_PVDDIO_MEM_S3_P0", "",
+-	"PWRGD_CHMP_CPU0_FPGA", "",
+-	"PWRGD_CHIL_CPU0_FPGA", "",
+-	"PWRGD_CHEH_CPU0_FPGA", "",
+-	"PWRGD_CHAD_CPU0_FPGA", "FM_BMC_READY_PLD",
++	"L_PRSNT_EDSFF2_N", "",
++	"L_PRSNT_EDSFF3_N", "",
++	"R_PRSNT_EDSFF2_N", "",
++	"R_PRSNT_EDSFF3_N", "",
++	"", "",
++	"", "",
+ 	"", "",
++	"PRSNT_NFC_BOARD_R", "",
+ 
+ 	/* H0-H7 line 112-127 */
+-	"PWRGD_P3V3", "",
+-	"P12V_DDR_IP_PWRGD_R", "",
+-	"P12V_DDR_AH_PWRGD_R", "",
+-	"PWRGD_P12V_VRM1_CPLD_PG_R", "",
+-	"PWRGD_P12V_VRM0_CPLD_PG_R", "",
+-	"PWRGD_PDB_HSC4_CPLD_PG_R", "",
+-	"PWRGD_PVDD18_S5_P0_PG", "",
+-	"PWRGD_PVDD33_S5_P0_PG", "",
++	"R_FNIC_FLT", "",
++	"R_BNIC0_FLT", "",
++	"R_BNIC1_FLT", "",
++	"R_BNIC2_FLT", "",
++	"R_BNIC3_FLT", "",
++	"R_RTM_SW_FLT", "",
++	"", "",
++	"", "",
+ 
+ 	/* I0-I7 line 128-143 */
+ 	"EAM0_BRD_PRSNT_R_L", "",
+ 	"EAM1_BRD_PRSNT_R_L", "",
+ 	"EAM2_BRD_PRSNT_R_L", "",
+ 	"EAM3_BRD_PRSNT_R_L", "",
+-	"EAM0_CPU_MOD_PWR_GD_R", "",
+-	"EAM1_CPU_MOD_PWR_GD_R", "",
+-	"EAM2_CPU_MOD_PWR_GD_R", "",
+-	"EAM3_CPU_MOD_PWR_GD_R", "",
++	"FM_TPM_PRSNT_R_N", "",
++	"PDB_PRSNT_R_N", "",
++	"PRSNT_EDSFF0_N", "",
++	"PRSNT_CPU0_N", "",
+ 
+ 	/* J0-J7 line 144-159 */
+-	"PRSNT_L_BIRDGE_R", "",
+-	"PRSNT_R_BIRDGE_R", "",
++	"PRSNT_L_BRIDGE_R", "",
++	"PRSNT_R_BRIDGE_R", "",
+ 	"BRIDGE_L_MAIN_PG_R", "",
+ 	"BRIDGE_R_MAIN_PG_R", "",
+ 	"BRIDGE_L_STBY_PG_R", "",
+ 	"BRIDGE_R_STBY_PG_R", "",
+-	"", "", "", "",
++	"IRQ_NFC_BOARD_R", "",
++	"RSMRST_N", "",
+ 
+ 	/* K0-K7 line 160-175 */
+ 	"ADC_I2C_ALERT_N", "",
+@@ -957,10 +980,14 @@ &sgpiom0 {
+ 	"PDB_ALERT_R_N", "",
+ 
+ 	/* L0-L7 line 176-191 */
+-	"CPU0_SP7R1", "", "CPU0_SP7R2", "",
+-	"CPU0_SP7R3", "", "CPU0_SP7R4", "",
+-	"CPU0_CORETYPE0", "", "CPU0_CORETYPE1", "",
+-	"CPU0_CORETYPE2", "", "FM_BIOS_POST_CMPLT_R_N", "",
++	"CPU0_SP7R1", "",
++	"CPU0_SP7R2", "",
++	"CPU0_SP7R3", "",
++	"CPU0_SP7R4", "",
++	"CPU0_CORETYPE0", "",
++	"CPU0_CORETYPE1", "",
++	"CPU0_CORETYPE2", "",
++	"FM_BIOS_POST_CMPLT_R_N", "",
+ 
+ 	/* M0-M7 line 192-207 */
+ 	"EAM0_SMERR_CPLD_R_L", "",
+@@ -978,17 +1005,19 @@ &sgpiom0 {
+ 	"AMC_STBY_PGOOD_R", "",
+ 	"CPU_AMC_SLP_S5_R_L", "",
+ 	"AMC_CPU_EAMPG_R", "",
+-	"", "", "", "",
++	"DIMM_PMIC_PG_TIMEOUT", "",
++	"EAM_MOD_PWR_GD_TIMEOUT", "",
++	"CPLD_AMC_STBY_PWR_EN", "",
+ 
+ 	/* O0-O7 line 224-239 */
+ 	"HPM_PWR_FAIL", "Port80_b0",
+ 	"FM_DIMM_IP_FAIL", "Port80_b1",
+ 	"FM_DIMM_AH_FAIL", "Port80_b2",
+ 	"HPM_AMC_THERMTRIP_R_L", "Port80_b3",
+-	"FM_CPU0_THERMTRIP_N", "Port80_b4",
++	"cpu_thermtrip_detect", "Port80_b4",
+ 	"PVDDCR_SOC_P0_OCP_L", "Port80_b5",
+ 	"CPLD_SGPIO_RDY", "Port80_b6",
+-	"", "Port80_b7",
++	"FM_MAIN_PWREN_RMC_EN_ISO", "Port80_b7",
+ 
+ 	/* P0-P7 line 240-255 */
+ 	"CPU0_SLP_S5_N_R", "NFC_VEN",
+@@ -997,8 +1026,8 @@ &sgpiom0 {
+ 	"PWRGD_RMC", "",
+ 	"FM_RST_CPU0_RESET_N", "",
+ 	"FM_PWRGD_CPU0_PWROK", "",
+-	"wS5_PWR_Ready", "",
+-	"wS0_ON_N", "PWRGD_P1V0_AUX";
++	"AMC_FAIL", "",
++	"wS0_ON_N", "";
+ 	status = "okay";
+ };
+ 
+
+---
+base-commit: 710dbb13377c80a6e39ef049a517665841e3221e
+change-id: 20260202-anacapa-dts-sgpio-e4e0ba5c2cd5
+
+Best regards,
 -- 
-2.43.0
+Colin Huang <u8813345@gmail.com>
 
 
