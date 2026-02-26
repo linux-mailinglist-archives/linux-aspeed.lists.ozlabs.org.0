@@ -1,82 +1,61 @@
-Return-Path: <linux-aspeed+bounces-3555-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3551-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UJwPCYjOoGmdmwQAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3555-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Feb 2026 23:51:52 +0100
+	id iE32BoRhoGk0jAQAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3551-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Feb 2026 16:06:44 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C0AE1B090A
-	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Feb 2026 23:51:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 970C81A83DA
+	for <lists+linux-aspeed@lfdr.de>; Thu, 26 Feb 2026 16:06:37 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fMRXd74kzz3bf2;
-	Fri, 27 Feb 2026 09:51:45 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fMFCs5GCGz2yFc;
+	Fri, 27 Feb 2026 02:06:33 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::634"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1772114929;
-	cv=none; b=fG3JcDodu7hNgpWuZoe0060AuooNvH5eDvB1fP14zAdPLMk0P050E0EXQcgay2iRYlDN/9RJXgdBngBQGDvwhRldTuKZclHaYrCXzehYqtsrJ/Kt6v/sRd7VOnHrr/04miP0EIz12Yt+I9C6kZPJiSNifuigNf3XRMkz5mOr9Qsyr69+ZxLiphsXjQrLUj5ymEcM+LhJG/Y6Oo3vqk0suohLhvfHZTDinZHOMd2llagYV1g1Pb6kkkzg0TTAPXvG9/sm9evQNa3BlVBrX8eYPvQze9mXv3/iptIXgBhJNNhiOI+96y6ELsXUUNHWSQv8M9vXSgZFqZv+j+oup1fotw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1772118393;
+	cv=none; b=fnYW2M8Wz2cygtFGrIoUHAXmMXfXn18B67vLVswBH/loA6zi3y2qxfVrJPPXumO8jA0tQYj7nOoiHINUh+BOG7W6FHNXX+2kfvujNUebNrc+b47P1SpobQe19Cib1V1Er0GOOlvr7p39rdCwwThe4RaNN+3NFxoMgbWKzQUKNQIQtjPVqX+7AQ1X5hisi7c6tbjtfoh/5ewezbIA+zZMIhKx1nSJiQDiSatyLYcaZFr3gkyovyKgm5qJgiJRTYTgmLtux9pSeeeQlSyfCUbvhGJPWs86Kbthv1o2mPR1uCVC/5poo1sVn+HakjrdajvvFe5wLMG4F2DdPe6i6eFEVg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1772114929; c=relaxed/relaxed;
-	bh=C5lmdRrYKAkps9LQDtVzFXDdak8+cj9tclXWqs/XbLs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=MiT60yBp9XOJBlXeSKoq9jEHQxRQow56qKj0XJh5tkLtBZNcVQlEB+fid2tBTj1MtFM0uMihI6JRYkumJgkRoZ4PFJ8qK9Cn6Q2sa2yn+lWCQ4aTUo7kj5QfibNpD24sgrg2OPPx8zuPga5Xto8NFoXk1JfcAt0+58T6zDh7O5d0D8H1OqELW9yifwZ8idNSMHP4GDdwoSDw44foViRLMTgLM2Hvg7jTD4iv3ktCH+XMwl2S1GiVs6OXuRYLYaLnhA8eL0ptxx07EZHayTi1b9OwUrSvt5BfkxdDw743yOnatKEAgcsVqDm638f8PM7z1AtAl4xlXv8W54lVU9u8yg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=RQ3sUYhO; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::634; helo=mail-pl1-x634.google.com; envelope-from=u8813345@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1772118393; c=relaxed/relaxed;
+	bh=sppcnqILA2tjvw6TKSRMqAQpcumxQwdnuBhqn1AdTqk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G1m0nDAuEzSqZd3rCyHnsK8wtDqQkroWbLqc+k4HEauYE2kDOWdq37f6x+9GmsNRgwRgzv2BS/O+Ihj35RgOI7nwIWQHj1myQAzoNYDAWrZRHj5vD2J2ooMkzqcoEc+Vp593uLg7drAwPLSXDbwtQnakqZEJuTsDpMo3dw0J0migD0jfIWfPVssyfeY19QggP2Y7WQSLBnAnhLPCaOr9Uv+Oy10QklBl8vhLRd9flYswUNHzbpvwQosD1sDLzxEotDHWboQ7wvaH2YWX/sq+BrLOr5/PUWEST6x/134G7U324ydxkgpnOjmnyCpoXvlYiEbM/mTYJVnTlrbw1SAdSQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=mBBMvm05; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=RQ3sUYhO;
+	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=mBBMvm05;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::634; helo=mail-pl1-x634.google.com; envelope-from=u8813345@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fMCxC6nb7z2xHX
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Feb 2026 01:08:47 +1100 (AEDT)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-2ade574f05eso5948925ad.3
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 26 Feb 2026 06:08:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772114925; x=1772719725; darn=lists.ozlabs.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=C5lmdRrYKAkps9LQDtVzFXDdak8+cj9tclXWqs/XbLs=;
-        b=RQ3sUYhO51AG2AGi5I3UcSI9KHfTtLN46Q9hmsVLxzE2rOMZFS1b+E/Mj9UMytl+1Y
-         2T2SIdIctZfS3+2MSqYE4FPLewG5UVLNsCebhKQn9m6AOhpFFzmW+7RcUsyjSxyj2GES
-         UBkL2fHPYo3fXU7unfevAxTSomK1ja9y69TjiSIoSEM00dJAlaJ4HerolmzLY1Nj6d22
-         16PvBTymFhwCVUvwPUD6bkXFvH08TBwUvDgz6kR+3rGxATyke2NBplW+KVwgGNOM6BUz
-         tentXdKGvhGxbgI1r+bqd+PtpEdDq44m+PvbZM35x+HaHEthc/smXeHa7GmjwqAY8h/B
-         qZwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772114925; x=1772719725;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C5lmdRrYKAkps9LQDtVzFXDdak8+cj9tclXWqs/XbLs=;
-        b=ru8L9zVq4whpbD4sLvdQvrcuk0HhxlKBvlGZxufp7zz6IfCjdAwC19w03Vmb2rFW5o
-         i1UR4ZIo78+hDhObBJmweOPpBbqtGyXX8rGjq1qJRVoW/12NL0uSk0RYwbd2FHBH80bq
-         bOiyrNEEAA7naWxwqVMN+zCmhhlxVjEuUQhH2YscpahDxN8Uim4QldekV2YWW6FqZvMs
-         WUP8z2hvMOznrc44VRTZPzbpGLoTaju/XCUxvvdBUUnfYi4iszgKvP++PklwhwEnVzSm
-         QyhNjDNr3t/T3xxUY4Nrs8EdbmzOtwhqOPbjRz3HeFAs7BbCC0bnv25+UGxPJ4gRUDAL
-         RwbA==
-X-Forwarded-Encrypted: i=1; AJvYcCWJQUh9djcfw7JSeeX2xqbJmslF4evLmu8oIJjHN9CZ4lge5w901gGbINUa01F6fIa37AzsfWlgFjt6vf0=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxFNrH/+HrkF1htaAC5jqOaILbq1w1Xe4gU3U6Pm0/Le/cU0P19
-	RBVxvQkzs+ISko/t+nJp9ShcTBYD9WNtTftuWT7gooJkqB2XH3Ogy73G
-X-Gm-Gg: ATEYQzz4qpUXpj5X8t1y2Y0xcB2cKe59XsW8gyHUcPhwUBI/hyFp/JJYrC8yplV5kHY
-	CdLFnkW8I968I7hDOxKxK0/sBaVOIDNIwz3TcVJpBnRno855QAZbQs8QHM+I+J6b/3XQVf8/baR
-	c/yi37RQHC6GoRdnNN7QFObC0JuLWY+8+qAfw7vh2LIEPwuKTWNxTdByfedEXiJt4bhiFAVYkUa
-	iJGxjt16WU8DgDCJ1GohkqMZinbkqvJmRdotZGpmeELlevLzVvAn/vKBIXVT0U9gWNEw7TuJtdi
-	CeXWxjJUG0aQB4qzN8zIcxwG5KdhJDxYnTjYfjvljiOfWw29Uj9X+xrCJFXDV6cxotyHinykRnU
-	hb0P7M+Bn+OSwpjgFK5NezUEwUVdJTIkUEL05X6r/Om0YGTSM4m52K6yQIe3DQLc1x2QZncexpY
-	JKOjU7PchKhdj1/hicfYT1DdhrhbyLRg==
-X-Received: by 2002:a17:903:3848:b0:2ad:cede:3a1a with SMTP id d9443c01a7336-2ae03495f6fmr26068205ad.39.1772114924973;
-        Thu, 26 Feb 2026 06:08:44 -0800 (PST)
-Received: from [127.0.1.1] ([218.32.81.133])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb6e190fsm28037205ad.82.2026.02.26.06.08.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 06:08:44 -0800 (PST)
-From: Colin Huang <u8813345@gmail.com>
-Date: Thu, 26 Feb 2026 22:08:16 +0800
-Subject: [PATCH v2] ARM: dts: aspeed: anacapa: update SGPIO and PCA9555
- settings for DFT
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fMFCq3PCtz2xHX
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Feb 2026 02:06:30 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=sppcnqILA2tjvw6TKSRMqAQpcumxQwdnuBhqn1AdTqk=; b=mBBMvm05wtdNdy58rWBB4+xVTp
+	ZvoqQB3Hi3d4Bx2ndMvT3t/UfsnipUVE6GN//goqK3BM+evLJaox/FIoxeIyk/NKtUt+F7sEjPH78
+	1R9vHqc8kMAyWgZvrBhSwic3F6kIqW7neOJNy7XOSsaRyMpDdE35XOc+zcn7pcEYRArg=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vvcwN-008tqe-2N; Thu, 26 Feb 2026 16:06:11 +0100
+Date: Thu, 26 Feb 2026 16:06:11 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: "P.K. Lee" <pkleequanta@gmail.com>
+Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	Jason-Hsu@quantatw.com, p.k.lee@quantatw.com
+Subject: Re: [PATCH v12 2/2] arm: dts: aspeed: ventura: add Meta Ventura BMC
+Message-ID: <258747f4-9da5-44da-8eb9-24f8a8cbff3a@lunn.ch>
+References: <20260226055521.1655243-1-pkleequanta@gmail.com>
+ <20260226055521.1655243-3-pkleequanta@gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -90,352 +69,69 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260226-anacapa-dts-sgpio-v2-1-fd76828616b8@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAM9ToGkC/32NQQqDMBBFryKz7pSY1lq68h7FxSQZ40A1IRFpE
- e/e1AN08+F9+O9vkDkJZ3hUGyReJUuYC+hTBXak2TOKKwxa6ZsqgTSTpUjolozZRwnIV1aGGqu
- ta6DsYuJB3ofz2RceJS8hfY6Ltf61/2xrjTXShVqjjLq3g+r8RPI62zBBv+/7F9hMW2SyAAAA
-X-Change-ID: 20260202-anacapa-dts-sgpio-e4e0ba5c2cd5
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- Colin.Huang2@amd.com, Carl.Lee@amd.com, Peter.Shen@amd.com, 
- Colin Huang <u8813345@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772114922; l=8780;
- i=u8813345@gmail.com; s=20260202; h=from:subject:message-id;
- bh=zOozJ3zv4ZVEOtjpoT9fTG9xriUnw/ZReMGwbHGkXqE=;
- b=FPqErmaXHAqA92QS3zYhsA6YIjvUzR/2fJt5KhjFcR9qgDGYtiJvJlo2Zi02Xg35kWutD0MEo
- cF5byFwicGlD1gJ+XHDQlwjR+iLQFU6GKETWF86db6p6IBdbtgflcHl
-X-Developer-Key: i=u8813345@gmail.com; a=ed25519;
- pk=Zlg0WqpCw4qbswOqamTBTXIchwR/3SnYZpy7rjaGMdQ=
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226055521.1655243-3-pkleequanta@gmail.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[lunn.ch,none];
+	R_DKIM_ALLOW(-0.20)[lunn.ch:s=20171124];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3555-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:Colin.Huang2@amd.com,m:Carl.Lee@amd.com,m:Peter.Shen@amd.com,m:u8813345@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[u8813345@gmail.com,linux-aspeed@lists.ozlabs.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.ozlabs.org,amd.com,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_RECIPIENTS(0.00)[m:pkleequanta@gmail.com,m:robh+dt@kernel.org,m:krzysztof.kozlowski+dt@linaro.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:Jason-Hsu@quantatw.com,m:p.k.lee@quantatw.com,m:robh@kernel.org,m:krzysztof.kozlowski@linaro.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ASN_FAIL(0.00)[117.38.213.112.asn.rspamd.com:query timed out];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[lunn.ch:+];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	DBL_PROHIBIT(0.00)[0.0.0.24:email];
+	NEURAL_HAM(-0.00)[-0.999];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[u8813345@gmail.com,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.993];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	FROM_NEQ_ENVFROM(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-3551-lists,linux-aspeed=lfdr.de];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 0C0AE1B090A
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lunn.ch:mid,lunn.ch:dkim,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
+X-Rspamd-Queue-Id: 970C81A83DA
 X-Rspamd-Action: no action
 
-This update adjusts SGPIO mappings and enables interrupt support for the
-PCA9555 GPIO expanders. These changes are required as part of the DFT
-(Design For Tooling) integration and are aligned with the SGPIO signal
-definitions provided in Helios_SGPIO_BIT_MAP.xlsx (rev: 2026-02-16).
+> +&mac3 {
+> +	status = "okay";
+> +	phy-mode = "rmii";
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&pinctrl_rmii4_default>;
+> +	fixed-link {
+> +		speed = <100>;
+> +		full-duplex;
+> +	};
 
-Updates include:
-- Add interrupt-parent and interrupts properties to PCA9555 nodes to
-  enable proper interrupt handling required by phosphor-gpio-monitor.
-- Correct placement of LEAK_DETECT_RMC_N.
-- Update SGPIO line-name mappings per the latest Helios SGPIO bit map to
-  reflect leakage channels, presence pins, module power-good, and other
-  DFT-related monitoring signals.
+What is on the other end of this fixed link?
 
-Signed-off-by: Colin Huang <u8813345@gmail.com>
----
-Update SGPIO line names for the Facebook Anacapa platform and enable
-interrupt support for PCA9555 GPIO expanders. These changes are part of
-DFT (Design For Tooling) integration and align the device tree with the
-latest SGPIO bit mapping used during board validation.
+> +};
+> +
+> +&mdio0 {
+> +	status = "okay";
+> +};
 
-The updates are based on: Helios_SGPIO_BIT_MAP.xlsx (rev: 2026-02-16).
+If there are no devices on the bus, why enable it?
 
-The following changes are included:
-- Add BMC_AINIC0_WP_R2_L and BMC_AINIC1_WP_R2_L
-- Correct placement of LEAK_DETECT_RMC_N
-- Add PRSNT_NFC_BOARD_R
-- Add IRQ_NFC_BOARD_R and RSMRST_N
-- Add DC_OFF, EAM_MOD_PWR_GD_TIMEOUT, CPLD_AMC_STBY_PWR_EN
-- Add FM_MAIN_PWREN_RMC_EN_ISO
----
-Changes in v2:
-- Add interrupt-parent and interrupts properties to PCA9555 nodes to
-  enable proper interrupt handling required by phosphor-gpio-monitor.
-- Clarify DFT motivation in the commit message and mention the source
-  mapping (Helios_SGPIO_BIT_MAP.xlsx rev: 2026-02-16).
-- Minor wording cleanups in the commit message (line names vs. mappings).
-- Rebase onto the latest tree to account for intervening commits.
-- Link to v1: https://lore.kernel.org/r/20260202-anacapa-dts-sgpio-v1-1-a3a7b0b087f0@gmail.com
----
- .../dts/aspeed/aspeed-bmc-facebook-anacapa.dts     | 147 ++++++++++++---------
- 1 file changed, 88 insertions(+), 59 deletions(-)
-
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-index 2cb7bd128d24..aa53ae8eb61f 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-@@ -500,6 +500,9 @@ gpio@24 {
- 				gpio-controller;
- 				#gpio-cells = <2>;
- 
-+				interrupt-parent = <&sgpiom0>;
-+				interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
-+
- 				gpio-line-names =
- 					"RPDB_EAM2_PRSNT_MOS_N_R", "RPDB_EAM3_PRSNT_MOS_N_R",
- 					"RPDB_PWRGD_P50V_HSC4_SYS_R",
-@@ -546,6 +549,9 @@ gpio@24 {
- 				gpio-controller;
- 				#gpio-cells = <2>;
- 
-+				interrupt-parent = <&sgpiom0>;
-+				interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
-+
- 				gpio-line-names =
- 					"LPDB_P50V_FAN1_R2_PG","LPDB_P50V_FAN2_R2_PG",
- 					"LPDB_P50V_FAN3_R2_PG","LPDB_P50V_FAN4_R2_PG",
-@@ -864,87 +870,104 @@ &sgpiom0 {
- 	gpio-line-names =
- 	/*in - out - in - out */
- 	/* A0-A7 line 0-15 */
--	"", "FM_CPU0_SYS_RESET_N", "", "CPU0_KBRST_N",
--	"", "FM_CPU0_PROCHOT_trigger_N", "", "FM_CLR_CMOS_R_P0",
--	"", "Force_I3C_SEL", "", "SYSTEM_Force_Run_AC_Cycle",
--	"", "", "", "",
-+	"L_FNIC_FLT", "FM_CPU0_SYS_RESET_N",
-+	"L_BNIC0_FLT", "CPU0_KBRST_N",
-+	"L_BNIC1_FLT", "FM_CPU0_PROCHOT_trigger_N",
-+	"L_BNIC2_FLT", "FM_CLR_CMOS_R_P0",
-+	"L_BNIC3_FLT", "Force_I3C_SEL",
-+	"L_RTM_SW_FLT", "SYSTEM_Force_Run_AC_Cycle",
-+	"", "",
-+	"", "",
- 
- 	/* B0-B7 line 16-31 */
- 	"Channel0_leakage_EAM3", "FM_CPU_FPGA_JTAG_MUX_SEL",
- 	"Channel1_leakage_EAM0", "FM_SCM_JTAG_MUX_SEL",
- 	"Channel2_leakage_Manifold1", "FM_BRIDGE_JTAG_MUX_SEL",
- 	"Channel3_leakage", "FM_CPU0_NMI_SYNC_FLOOD_N",
--	"Channel4_leakage_Manifold2", "",
--	"Channel5_leakage_EAM1", "",
--	"Channel6_leakage_CPU_DIMM", "",
--	"Channel7_leakage_EAM2", "",
-+	"Channel4_leakage_Manifold2", "BMC_AINIC0_WP_R2_L",
-+	"Channel5_leakage_EAM1", "BMC_AINIC1_WP_R2_L",
-+	"Channel6_leakage_CPU_DIMM", "CPLD_BUF_R_AGPIO330",
-+	"Channel7_leakage_EAM2", "CPLD_BUF_R_AGPIO331",
- 
- 	/* C0-C7 line 32-47 */
--	"RSVD_RMC_GPIO3", "", "", "",
--	"", "", "", "",
--	"LEAK_DETECT_RMC_N", "", "", "",
--	"", "", "", "",
-+	"RSVD_RMC_GPIO3", "RTM_MUX_L",
-+	"LEAK_DETECT_RMC_N", "RTM_MUX_R",
-+	"HDR_P0_NMI_BTN_BUF_R_N", "",
-+	"No_Leak_Sensor_flag", "",
-+	"", "",
-+	"", "",
-+	"", "",
-+	"", "",
- 
- 	/* D0-D7 line 48-63 */
--	"PWRGD_PDB_EAMHSC0_CPLD_PG_R", "",
--	"PWRGD_PDB_EAMHSC1_CPLD_PG_R", "",
--	"PWRGD_PDB_EAMHSC2_CPLD_PG_R", "",
--	"PWRGD_PDB_EAMHSC3_CPLD_PG_R", "",
--	"AMC_BRD_PRSNT_CPLD_L", "", "", "",
--	"", "", "", "",
-+	"PWRGD_CHAD_CPU0_FPGA", "",
-+	"PWRGD_CHEH_CPU0_FPGA", "",
-+	"PWRGD_CHIL_CPU0_FPGA", "",
-+	"PWRGD_CHMP_CPU0_FPGA", "",
-+	"AMC_BRD_PRSNT_CPLD_L", "",
-+	"", "",
-+	"", "",
-+	"", "",
- 
- 	/* E0-E7 line 64-79 */
--	"AMC_PDB_EAMHSC0_CPLD_EN_R", "",
--	"AMC_PDB_EAMHSC1_CPLD_EN_R", "",
--	"AMC_PDB_EAMHSC2_CPLD_EN_R", "",
--	"AMC_PDB_EAMHSC3_CPLD_EN_R", "",
--	"", "", "", "",
--	"", "", "", "",
-+	"L_PRSNT_B_FENIC_R2_N", "",
-+	"L_PRSNT_B_BENIC0_R2_N", "",
-+	"L_PRSNT_B_BENIC1_R2_N", "",
-+	"L_PRSNT_B_BENIC2_R2_N", "",
-+	"L_PRSNT_B_BENIC3_R2_N", "",
-+	"", "",
-+	"", "",
-+	"", "",
- 
- 	/* F0-F7 line 80-95 */
--	"PWRGD_PVDDCR_CPU1_P0", "SGPIO_READY",
--	"PWRGD_PVDDCR_CPU0_P0", "",
--	"", "", "", "",
--	"", "", "", "",
-+	"R_PRSNT_B_FENIC_R2_N", "SGPIO_READY",
-+	"R_PRSNT_B_BENIC0_R2_N", "",
-+	"R_PRSNT_B_BENIC1_R2_N", "",
-+	"R_PRSNT_B_BENIC2_R2_N", "",
-+	"R_PRSNT_B_BENIC3_R2_N", "",
-+	"", "",
-+	"", "",
-+	"", "",
- 
- 	/* G0-G7 line 96-111 */
--	"PWRGD_PVDDCR_SOC_P0", "",
--	"PWRGD_PVDDIO_P0", "",
--	"PWRGD_PVDDIO_MEM_S3_P0", "",
--	"PWRGD_CHMP_CPU0_FPGA", "",
--	"PWRGD_CHIL_CPU0_FPGA", "",
--	"PWRGD_CHEH_CPU0_FPGA", "",
--	"PWRGD_CHAD_CPU0_FPGA", "FM_BMC_READY_PLD",
-+	"L_PRSNT_EDSFF2_N", "",
-+	"L_PRSNT_EDSFF3_N", "",
-+	"R_PRSNT_EDSFF2_N", "",
-+	"R_PRSNT_EDSFF3_N", "",
-+	"", "",
-+	"", "",
- 	"", "",
-+	"PRSNT_NFC_BOARD_R", "",
- 
- 	/* H0-H7 line 112-127 */
--	"PWRGD_P3V3", "",
--	"P12V_DDR_IP_PWRGD_R", "",
--	"P12V_DDR_AH_PWRGD_R", "",
--	"PWRGD_P12V_VRM1_CPLD_PG_R", "",
--	"PWRGD_P12V_VRM0_CPLD_PG_R", "",
--	"PWRGD_PDB_HSC4_CPLD_PG_R", "",
--	"PWRGD_PVDD18_S5_P0_PG", "",
--	"PWRGD_PVDD33_S5_P0_PG", "",
-+	"R_FNIC_FLT", "",
-+	"R_BNIC0_FLT", "",
-+	"R_BNIC1_FLT", "",
-+	"R_BNIC2_FLT", "",
-+	"R_BNIC3_FLT", "",
-+	"R_RTM_SW_FLT", "",
-+	"", "",
-+	"", "",
- 
- 	/* I0-I7 line 128-143 */
- 	"EAM0_BRD_PRSNT_R_L", "",
- 	"EAM1_BRD_PRSNT_R_L", "",
- 	"EAM2_BRD_PRSNT_R_L", "",
- 	"EAM3_BRD_PRSNT_R_L", "",
--	"EAM0_CPU_MOD_PWR_GD_R", "",
--	"EAM1_CPU_MOD_PWR_GD_R", "",
--	"EAM2_CPU_MOD_PWR_GD_R", "",
--	"EAM3_CPU_MOD_PWR_GD_R", "",
-+	"FM_TPM_PRSNT_R_N", "",
-+	"PDB_PRSNT_R_N", "",
-+	"PRSNT_EDSFF0_N", "",
-+	"PRSNT_CPU0_N", "",
- 
- 	/* J0-J7 line 144-159 */
--	"PRSNT_L_BIRDGE_R", "",
--	"PRSNT_R_BIRDGE_R", "",
-+	"PRSNT_L_BRIDGE_R", "",
-+	"PRSNT_R_BRIDGE_R", "",
- 	"BRIDGE_L_MAIN_PG_R", "",
- 	"BRIDGE_R_MAIN_PG_R", "",
- 	"BRIDGE_L_STBY_PG_R", "",
- 	"BRIDGE_R_STBY_PG_R", "",
--	"", "", "", "",
-+	"IRQ_NFC_BOARD_R", "",
-+	"RSMRST_N", "",
- 
- 	/* K0-K7 line 160-175 */
- 	"ADC_I2C_ALERT_N", "",
-@@ -957,10 +980,14 @@ &sgpiom0 {
- 	"PDB_ALERT_R_N", "",
- 
- 	/* L0-L7 line 176-191 */
--	"CPU0_SP7R1", "", "CPU0_SP7R2", "",
--	"CPU0_SP7R3", "", "CPU0_SP7R4", "",
--	"CPU0_CORETYPE0", "", "CPU0_CORETYPE1", "",
--	"CPU0_CORETYPE2", "", "FM_BIOS_POST_CMPLT_R_N", "",
-+	"CPU0_SP7R1", "",
-+	"CPU0_SP7R2", "",
-+	"CPU0_SP7R3", "",
-+	"CPU0_SP7R4", "",
-+	"CPU0_CORETYPE0", "",
-+	"CPU0_CORETYPE1", "",
-+	"CPU0_CORETYPE2", "",
-+	"FM_BIOS_POST_CMPLT_R_N", "",
- 
- 	/* M0-M7 line 192-207 */
- 	"EAM0_SMERR_CPLD_R_L", "",
-@@ -978,17 +1005,19 @@ &sgpiom0 {
- 	"AMC_STBY_PGOOD_R", "",
- 	"CPU_AMC_SLP_S5_R_L", "",
- 	"AMC_CPU_EAMPG_R", "",
--	"", "", "", "",
-+	"DIMM_PMIC_PG_TIMEOUT", "",
-+	"EAM_MOD_PWR_GD_TIMEOUT", "",
-+	"CPLD_AMC_STBY_PWR_EN", "",
- 
- 	/* O0-O7 line 224-239 */
- 	"HPM_PWR_FAIL", "Port80_b0",
- 	"FM_DIMM_IP_FAIL", "Port80_b1",
- 	"FM_DIMM_AH_FAIL", "Port80_b2",
- 	"HPM_AMC_THERMTRIP_R_L", "Port80_b3",
--	"FM_CPU0_THERMTRIP_N", "Port80_b4",
-+	"cpu_thermtrip_detect", "Port80_b4",
- 	"PVDDCR_SOC_P0_OCP_L", "Port80_b5",
- 	"CPLD_SGPIO_RDY", "Port80_b6",
--	"", "Port80_b7",
-+	"FM_MAIN_PWREN_RMC_EN_ISO", "Port80_b7",
- 
- 	/* P0-P7 line 240-255 */
- 	"CPU0_SLP_S5_N_R", "NFC_VEN",
-@@ -997,8 +1026,8 @@ &sgpiom0 {
- 	"PWRGD_RMC", "",
- 	"FM_RST_CPU0_RESET_N", "",
- 	"FM_PWRGD_CPU0_PWROK", "",
--	"wS5_PWR_Ready", "",
--	"wS0_ON_N", "PWRGD_P1V0_AUX";
-+	"AMC_FAIL", "",
-+	"wS0_ON_N", "";
- 	status = "okay";
- };
- 
-
----
-base-commit: 710dbb13377c80a6e39ef049a517665841e3221e
-change-id: 20260202-anacapa-dts-sgpio-e4e0ba5c2cd5
-
-Best regards,
--- 
-Colin Huang <u8813345@gmail.com>
-
+   Andrew
 
