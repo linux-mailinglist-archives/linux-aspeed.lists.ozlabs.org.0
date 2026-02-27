@@ -1,69 +1,67 @@
-Return-Path: <linux-aspeed+bounces-3556-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3565-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IEWvLF9DoWndrgQAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3556-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Feb 2026 08:10:23 +0100
+	id MMKQExHXpGnYtgUAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3565-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 02 Mar 2026 01:17:21 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D8E1B3A84
-	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Feb 2026 08:10:22 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A07761D20EF
+	for <lists+linux-aspeed@lfdr.de>; Mon, 02 Mar 2026 01:17:15 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fMfbv4J6jz2xLv;
-	Fri, 27 Feb 2026 18:10:19 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fPKHs21qbz2xR4;
+	Mon, 02 Mar 2026 11:17:13 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1772176219;
-	cv=none; b=Q7m0bIRJElNVE/vILy4ahEyCMSQXvmMvv/LMihzDmBkAsIEwqhjEYhJvogIHzC5wSf1Rxqeu70OFGfsBy8zrNPTRaZeRWyfyZdogOmUYzfdrsPJUEShScgALNBTv+BEwdKzLaxJ/Z/m01TA6LocOoGnq7MW0FiP4/0RDz/rKjsdGPGwTe5iw13SkWSTYyJzBOdIz28Ug/BRSlz3kbmnORGMD7Re32i6I1gsl8HOGbwNcTMdXk03jUQnkiJPSujfAQDlc6hPq+p90dJozAEPyB557/sGDfEFxRPSesfcM+ZbY12YyykUL9K3ivN1jflCUZ4pypUpTDBpjEeknp0tU/Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=117.135.210.2
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1772196169;
+	cv=none; b=cA0MFKlD4c16RmNoR7PMUbogMPLoVbdNDO6hGrf34kpEHzz9ut+BIshjfgQU+gvJsVhvdWJfYUyLgjJ9pcBTlMciggLxmzn1VvBb+PkLCYrDoTGYrHWyvoPEV2v+l98D09rhmLB7K5/PC7wWsvJ22/NgJlZmaFen5xK95uWV+hok+jS1gGuyATB3SHfucCyUlY9U0eWbDvhOjVSG9mtFo6qj625OZ+mnNdBeRTNOXsAfXEuVCiqPvcL6xEb5MObfAprZRtdBEb1LBVDIludj4vzVNrmg0xItbLDvVHCUXNjRgDCDMuaPmm985kf5e82Fd1cIeSBZqM/swqy+XghLbg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1772176219; c=relaxed/relaxed;
-	bh=0Vpg5MT/uJia7N5MMZ/7BXUU57HnV5goJapelioLMeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OBBM4D+LYt0k1wTmeXS4ffe/kk3A6E7vq/bam/+vHrauLFn6e5uVkN6Fiti1L+sCc8kPxB1CzgmKzCzLb8ag6+Dx645yG0YwXop0z10qSMqLyBwrpgE6YP+wu4pHBEY4RrMrKlQUO70VpRi1vo1yyUy9KRODCWAkfGPMHjtbGRP/daDJ9snX6zXfw2jfhESSCpLZpfstfes8zy0I1qUWpGyern4iTcBncnrdmlz5/8WOixlpl0RRh+bX+GHsvd65ed2J22qlLeJ2Z4HWLS3xhXC0fWFCMdQWBXmZ3zGEx9HOoTead0CAvazR5ZBF/tJFr6h09Cv3dSIq2gSGp1Z0NQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=lOqvjHTI; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1772196169; c=relaxed/relaxed;
+	bh=NXTTrP09ok8P1ADALF0SM5UyW54TzFEn7w+8c0zTzDU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J54qQtzK3jPCvC0RVi0PgrAR8Zkk4nAVZXBPSd4qsi6vX7Fbpn4BLz4hI0SV+4ShNyaRPkNsigqPPMePZK374GHXm9xhDlqwSVsyJkHtbYZ4Th5xd3K7Qif7//bWcVqUI7obxGu4faUZQynS8ZTdpzMnTnMdUK5QHahHlDjv0FSQCIrsqTmz9NEB7OuaaLSy86aHSixwOwNzixZAi+AF3NgZPG9XybyhYpL2m19y+OvpzwP97MZjCDQ/il3exAqh0pb+veLRwX+P4S7s34MiIclCD/2P/Ib6NFKSFFiTf1sKBK9HWGm5vsVtDdDbtVLUx/X7JucyYMuFGACz7jfDHQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=163.com; dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=KZvqmy3m; dkim-atps=neutral; spf=pass (client-ip=117.135.210.2; helo=m16.mail.163.com; envelope-from=haiyuewa@163.com; receiver=lists.ozlabs.org) smtp.mailfrom=163.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=lOqvjHTI;
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=KZvqmy3m;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=163.com (client-ip=117.135.210.2; helo=m16.mail.163.com; envelope-from=haiyuewa@163.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 164 seconds by postgrey-1.37 at boromir; Fri, 27 Feb 2026 23:42:44 AEDT
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fMfbt2tQYz2xKh;
-	Fri, 27 Feb 2026 18:10:18 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id BB7E343BD8;
-	Fri, 27 Feb 2026 07:10:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EB63C116C6;
-	Fri, 27 Feb 2026 07:10:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772176215;
-	bh=93SPmf8E1jF/TUfDZS9PtOn4hN3P8OgjiQA0WaPpkyc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lOqvjHTIbBmGaLmKo7MKt67M5+Af+GJ86NRwN2OlqEJLzdbtTezhxOjbSjJZP+xAs
-	 SOZErT7krFSIlClMQH0xvETYKDJOpapuDbdCtTZSTSWGC8nt8nqpJNkgapfjQQDACw
-	 d1Lx7lLoAcgJOYBlHEMNH0OU7AKP/WTMdKXZyYZzcx0ytP6la3SlCiXC3fH9WOEbJw
-	 oFi2oLFSaoUuE+grq3S68v8jO7xA6iCmPBD5ny1o2eGrcvZhBJXjb3t3YxumCGQIAg
-	 CTL5f2NtnpBhwgj1RoEpk/UyD1mf0sMQWtZJ6As3q0P8c3K8caAMYahDY0HMawDNcv
-	 EuQGP1TFrpOyw==
-Date: Fri, 27 Feb 2026 08:10:13 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Cc: jk@codeconstruct.com.au, andriy.shevchenko@linux.intel.com, 
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, Rayn Chen <rayn_chen@aspeedtech.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	openbmc@lists.ozlabs.org
-Subject: Re: [PATCH v25 1/4] dt-bindings: i2c: Split AST2600 binding into a
- new YAML
-Message-ID: <20260227-fragrant-industrious-aardwark-bdb63b@quoll>
-References: <20260225-upstream_i2c-v25-0-9f4bdd954f3f@aspeedtech.com>
- <20260225-upstream_i2c-v25-1-9f4bdd954f3f@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fMnzS3wKfz30N8
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Feb 2026 23:42:40 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=NX
+	TTrP09ok8P1ADALF0SM5UyW54TzFEn7w+8c0zTzDU=; b=KZvqmy3mWTikNkQyaz
+	q9CZknh6ZVkKzVdWMH0Z/djgs5syMgzsZUtcH1SfhRohy0uAMYPdTD+S+Lr88GBV
+	ArCknp5cNn4fskWfepxhVLgZCmpyGpyWRQri1T9Z3e5EM8EN+rZ41gG1bGK2EO1m
+	ihtJCUtCvkUe6D4krGETxHvhc=
+Received: from haiyue-pc.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wCHdgpQkKFphei7Mw--.10871S2;
+	Fri, 27 Feb 2026 20:38:42 +0800 (CST)
+From: Haiyue Wang <haiyuewa@163.com>
+To: linux-aspeed@lists.ozlabs.org
+Cc: Haiyue Wang <haiyuewa@163.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Jammy Huang <jammy_huang@aspeedtech.com>,
+	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/ASPEED MACHINE SUPPORT),
+	linux-kernel@vger.kernel.org (open list),
+	linux-clk@vger.kernel.org (open list:COMMON CLK FRAMEWORK)
+Subject: [PATCH v1] media: aspeed: Fix driver probe failure
+Date: Fri, 27 Feb 2026 20:38:24 +0800
+Message-ID: <20260227123837.70079-1-haiyuewa@163.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -77,147 +75,123 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260225-upstream_i2c-v25-1-9f4bdd954f3f@aspeedtech.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wCHdgpQkKFphei7Mw--.10871S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGw1fKF45tF17Gw4DZw47Arb_yoW5Ww48pa
+	yUCFWvq3ySgF45t34UGF9rKr1kAa15JF4F9rsIk34UXrW3X3sYqr1ftrZaq34UXr4kCw1a
+	gFn7Xr9Fqw1kXaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0z_sjjJUUUUU=
+X-Originating-IP: [101.228.113.192]
+X-CM-SenderInfo: 5kdl53xhzdqiywtou0bp/xtbC7xL6ZmmhkFLb7wAA3f
+X-Spam-Status: No, score=0.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
+	HK_RANDOM_FROM,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.21 / 15.00];
+X-Spamd-Result: default: False [1.79 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	DATE_IN_PAST(1.00)[59];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3556-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-3565-lists,linux-aspeed=lfdr.de];
+	FREEMAIL_FROM(0.00)[163.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[haiyuewa@163.com,linux-aspeed@lists.ozlabs.org];
+	FREEMAIL_CC(0.00)[163.com,kernel.org,jms.id.au,codeconstruct.com.au,baylibre.com,aspeedtech.com,vger.kernel.org,lists.infradead.org];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt,cisco];
+	NEURAL_HAM(-0.00)[-1.000];
+	HAS_XOIP(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	DKIM_TRACE(0.00)[163.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
-	DBL_PROHIBIT(0.00)[0.0.0.80:email];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,aspeedtech.com:email,devicetree.org:url]
-X-Rspamd-Queue-Id: A3D8E1B3A84
+	DBL_BLOCKED_OPENRESOLVER(0.00)[1e700000:email]
+X-Rspamd-Queue-Id: A07761D20EF
 X-Rspamd-Action: no action
 
-On Wed, Feb 25, 2026 at 05:19:38PM +0800, Ryan Chen wrote:
-> The AST2600 I2C controller introduces a completely new register layout
-> with separate controller and target register blocks, unlike the mixed
-> register layout used by AST2400/AST2500.
-> 
-> To describe this properly, split out the AST2600 I2C binding into its
-> own YAML file. The compatible string remains unchanged.
+The aspeed video (be compatible for ast2400, ast2500, ast2600) now needs
+the reset DTS handle specified, otherwise it will fail to load:
 
-But you made other changes in the binding. You must list them, because
-otherwise it sounds like you only SPLIT. It's not true. You actually
-changed the binding in at least two places, maybe more.
+[    0.000000] OF: reserved mem: initialized node video, compatible id shared-dma-pool
+[    0.000000] OF: reserved mem: 0xbb000000..0xbeffffff (65536 KiB) map reusable video
+[    0.377039] videodev: Linux video capture interface: v2.00
+[    4.809494] aspeed-video 1e700000.video: irq 57
+[    4.809977] aspeed-video 1e700000.video: Unable to get reset
+[    4.810341] aspeed-video 1e700000.video: probe with driver aspeed-video failed with error -2
 
-> 
-> The example section is updated to reflect the actual AST2600 SoC
-> register layout and interrupt configuration (aspeed-g6.dtsi,
-> lines 885-897):
-> 
-> - I2C bus and buffer register offsets
->   - AST2600 I2C controller register base starts at 0x80, and the
->     buffer region is located at 0xc00, per the AST2600 SoC register map.
-> 
-> - Interrupt configuration
->   - AST2600 I2C controllers are connected to the ARM GIC, not the legacy
->     internal interrupt controller.
+Fixes: e83f8dd668ea ("media: aspeed: Fix dram hang at res-change")
+Signed-off-by: Haiyue Wang <haiyuewa@163.com>
+---
+ arch/arm/boot/dts/aspeed/aspeed-g4.dtsi   | 1 +
+ arch/arm/boot/dts/aspeed/aspeed-g5.dtsi   | 1 +
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi   | 1 +
+ include/dt-bindings/clock/ast2600-clock.h | 1 +
+ 4 files changed, 4 insertions(+)
 
-Example is irrelevant, don't mention it. We discuss here binding.
-
-> 
-> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
-> ---
->  .../bindings/i2c/aspeed,ast2600-i2c.yaml           | 62 ++++++++++++++++++++++
->  .../devicetree/bindings/i2c/aspeed,i2c.yaml        |  3 +-
->  2 files changed, 63 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/i2c/aspeed,ast2600-i2c.yaml b/Documentation/devicetree/bindings/i2c/aspeed,ast2600-i2c.yaml
-> new file mode 100644
-> index 000000000000..077be85137c9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/i2c/aspeed,ast2600-i2c.yaml
-> @@ -0,0 +1,62 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/i2c/aspeed,ast2600-i2c.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ASPEED I2C on the AST26XX SoCs
-
-s/26XX/2600/ probably
-
-> +
-> +maintainers:
-> +  - Ryan Chen <ryan_chen@aspeedtech.com>
-> +
-> +allOf:
-> +  - $ref: /schemas/i2c/i2c-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - aspeed,ast2600-i2c-bus
-> +
-> +  reg:
-> +    items:
-> +      - description: controller registers
-> +      - description: controller buffer space
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-frequency:
-> +    description: Desired operating frequency of the I2C bus in Hz.
-> +    minimum: 500
-> +    maximum: 4000000
-> +    default: 100000
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +required:
-> +  - reg
-> +  - compatible
-> +  - clocks
-> +  - resets
-> +  - interrupts
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/aspeed-clock.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    i2c@80 {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-
-Please follow DTS coding style.
-
-Best regards,
-Krzysztof
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi
+index c3d4d916c69b..1547e28d77e2 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi
+@@ -242,6 +242,7 @@ video: video@1e700000 {
+ 					 <&syscon ASPEED_CLK_GATE_ECLK>;
+ 				clock-names = "vclk", "eclk";
+ 				interrupts = <7>;
++				resets = <&syscon ASPEED_RESET_VIDEO>;
+ 				status = "disabled";
+ 			};
+ 
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+index 39500bdb4747..793570ca2518 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+@@ -296,6 +296,7 @@ video: video@1e700000 {
+ 					 <&syscon ASPEED_CLK_GATE_ECLK>;
+ 				clock-names = "vclk", "eclk";
+ 				interrupts = <7>;
++				resets = <&syscon ASPEED_RESET_VIDEO>;
+ 				status = "disabled";
+ 			};
+ 
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+index 189bc3bbb47c..3adf48987a17 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+@@ -428,6 +428,7 @@ video: video@1e700000 {
+ 					 <&syscon ASPEED_CLK_GATE_ECLK>;
+ 				clock-names = "vclk", "eclk";
+ 				interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
++				resets = <&syscon ASPEED_RESET_VIDEO>;
+ 				status = "disabled";
+ 			};
+ 
+diff --git a/include/dt-bindings/clock/ast2600-clock.h b/include/dt-bindings/clock/ast2600-clock.h
+index f60fff261130..7b9b80c38a8b 100644
+--- a/include/dt-bindings/clock/ast2600-clock.h
++++ b/include/dt-bindings/clock/ast2600-clock.h
+@@ -124,6 +124,7 @@
+ #define ASPEED_RESET_PCIE_RC_OEN	18
+ #define ASPEED_RESET_MAC2		12
+ #define ASPEED_RESET_MAC1		11
++#define ASPEED_RESET_VIDEO		6
+ #define ASPEED_RESET_PCI_DP		5
+ #define ASPEED_RESET_HACE		4
+ #define ASPEED_RESET_AHB		1
+-- 
+2.53.0
 
 
