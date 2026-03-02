@@ -1,34 +1,34 @@
-Return-Path: <linux-aspeed+bounces-3572-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3573-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4HDuFXplpWnb/gUAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3572-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Mon, 02 Mar 2026 11:24:58 +0100
+	id 2OTMKntlpWnb/gUAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3573-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 02 Mar 2026 11:24:59 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D211D66EF
-	for <lists+linux-aspeed@lfdr.de>; Mon, 02 Mar 2026 11:24:57 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8E11D66F9
+	for <lists+linux-aspeed@lfdr.de>; Mon, 02 Mar 2026 11:24:58 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fPZn14VCgz3bll;
-	Mon, 02 Mar 2026 21:24:53 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fPZn23y7hz3blr;
+	Mon, 02 Mar 2026 21:24:54 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1772447093;
-	cv=none; b=KQcEEByNp4CXOOmc2KLXcdZR4b7BnbuwfkmPfCbP6BqOJ6xbo9GevOc6srwSpBqcRjkknX9Dq8d74MJ+Df8aHcQXHnfasKUjQZce6ZcVcirjEgu21Dmjmnl+xkhbr8Uu4gRq7BHrB1o0lbMjHacxnJPywTlNyNbHEWFS2fHA7iVysjONBsnTKRH3oubmwnGqmoTy3b6wttFnuti8tuMSXeRi2XIzRqohJKFA+xqRI8f7HQYNJWwzG+Ul2DUCWYPvcAWaFDN9mTNUch/r6YJaQrVNno4SekKG9rYe6QnI+hX4wznaEq4wPVrTO6CLVckIv3PJcXtbFNtQQTGRjlY04g==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1772447094;
+	cv=none; b=VZRTsQMq68xkJ468pP454ijCFe1YDrAikXInb46QKIrEQZT0iKW7S49tyOKoUidJotvjKYKFuXM6HGweWlHWC3CJdPa75MB7TpWxXunVF8OAj5fZ2jXenh1gO1El57QjQ1/bCODhlN+nc3nGIkd4AcoBV82OyEkv5q6o3ev1KSPRm6LnTukWpliGeBtqss/mH8VhLyD/qLxG746hA/wwX9HwCT4kGC0OW5a+IGY/xWm41L0qMl+Tg5Q4a/gKOEtkklsV+T1HTBf+yLz8QWRFTXAgAEtwMSRJPjFlRAdbq4b4fTT8lpNb9Y9oXADG1eHb1uEA4rE0FjBfUgpyptGk3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1772447093; c=relaxed/relaxed;
-	bh=rOkw9FfDBGCkerITFGafKBy3Fv/osobwB6tvgMjHYJk=;
+	t=1772447094; c=relaxed/relaxed;
+	bh=EgA5OzDkI+WQQjoquL/3iUBSc8VTuagklvsHHxGK6eQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=nPeM8t6sVuAHQFK+AGy2X8ZrmyjluETql0YWpvyKH0LZm1EzIVm/HlnvxPLmm5b89phsGFhlSwszNyihbszojxbHx6cQ6e4hGfYRq6vL9C2w/PcuNqThd4Q7UBiZli0jfb0m9mVhBlg/A1/p5HCvF1twODED1Kf1q8BWn42rG6kp6LAlVURcglMo9aX+OBDhYLpOGjWLmeQSumCTh5UyvikSXtZpLc5ga/cTYyKsHEfuaV4gxq+445RY+b7y/Ggz8zJGKOOEUe2rFlKM5P6KMe1wiqeOVUF2dIYK+P5c3IDIPsh3AvcgopRduF7qUXBfJjtAfTgahrtbiwROo9oEtQ==
+	 In-Reply-To:To:CC; b=CIlUE6cEEe1UPJwO+eYEaF01uonelcgWg5GB5O8XT8V46P1w5pkLn/43FCXnKdo0BYtwHy9S9vCURm1sagQOqVKEHKO2sJ62aGDWjGykrsQZG7b9eKC6Ii1DHorU4w2RAG4dLiCWpqFuoPQxXcwu117UntNhwLAwR08jN3FD/cVJUqgJJBK8X69ZAdOwhMccxZLfYozUJXuHQm15FWs5ggvajxux2gqSPX1FuzPmyicoMLqtXanbb6H+JBWhQ9EUNamMV3E0+9ShErNWUudqb1sNBfVhgLqzJzz3I2+Gj1HixXGzG1DuX/SS0ByYPI+Q4oGMOktbrDx+mm+1BDniXg==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fPZn05vcrz2xGF
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 02 Mar 2026 21:24:52 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fPZn160DSz2xGF
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 02 Mar 2026 21:24:53 +1100 (AEDT)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Mon, 2 Mar
@@ -37,9 +37,9 @@ Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
  Transport; Mon, 2 Mar 2026 18:24:30 +0800
 From: Jacky Chou <jacky_chou@aspeedtech.com>
-Date: Mon, 2 Mar 2026 18:24:30 +0800
-Subject: [PATCH net-next v6 3/5] net: ftgmac100: Add RGMII delay support
- for AST2600
+Date: Mon, 2 Mar 2026 18:24:31 +0800
+Subject: [PATCH net-next v6 4/5] net: ftgmac100: Support rgmii delay in old
+ dts with AST2600
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260302-rgmii_delay_2600-v6-3-68319a4c4110@aspeedtech.com>
+Message-ID: <20260302-rgmii_delay_2600-v6-4-68319a4c4110@aspeedtech.com>
 References: <20260302-rgmii_delay_2600-v6-0-68319a4c4110@aspeedtech.com>
 In-Reply-To: <20260302-rgmii_delay_2600-v6-0-68319a4c4110@aspeedtech.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
@@ -69,11 +69,11 @@ CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-aspeed@lists.ozlabs.org>, <taoren@meta.com>, Jacky Chou
 	<jacky_chou@aspeedtech.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772447070; l=9482;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772447070; l=9969;
  i=jacky_chou@aspeedtech.com; s=20251031; h=from:subject:message-id;
- bh=UqUrbBeIvhqRy5zO6BS/+j9eXsnua0SQu5iczuiSWSw=;
- b=Hyr5u52113fwYtjR+T2Fm/3UsyYDONXJfpqXEsy8g25AktaHUXp+Pcu8OMkaETISqf6d1pcm7
- athTal752XkDnVYQaARVK5Gve5sWto8CrQ21396tYPhVQJqjnpLvAxA
+ bh=GNBVN9sBooVec+i3k+OhnV9U0vINAXVIEnxZwRMxiok=;
+ b=/Bemo3MJ8tUHzhfUnL8BRt6fHMNk16GVTHCryga+He7Qx/E3WIeI75NSxIPE1QjxRyJlBQ92c
+ Pg1w8WIDO3ICGJ+2i9ebXm3zyVQWtrO2KGY771P9ZVmGgCCNag8otkm
 X-Developer-Key: i=jacky_chou@aspeedtech.com; a=ed25519;
  pk=8XBx7KFM1drEsfCXTH9QC2lbMlGU4XwJTA6Jt9Mabdo=
 X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
@@ -85,11 +85,11 @@ X-Spamd-Result: default: False [1.49 / 15.00];
 	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3572-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3573-lists,linux-aspeed=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[jacky_chou@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -98,302 +98,328 @@ X-Spamd-Result: default: False [1.49 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[jacky_chou@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.971];
+	NEURAL_HAM(-0.00)[-0.965];
 	MID_RHS_MATCH_FROM(0.00)[];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,netdev,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,aspeedtech.com:mid,aspeedtech.com:email]
-X-Rspamd-Queue-Id: B2D211D66EF
+X-Rspamd-Queue-Id: 0C8E11D66F9
 X-Rspamd-Action: no action
 
-On the AST2600 platform, the RGMII delay is controlled via the
-SCU registers. The delay chain configuration differs between MAC0/1
-and MAC2/3, even though all four MACs use a 32-stage delay chain.
-+------+----------+-----------+-------------+-------------+
-|      |Delay Unit|Delay Stage|TX Edge Stage|RX Edge Stage|
-+------+----------+-----------+-------------+-------------+
-|MAC0/1|     45 ps|        32 |           0 |           0 |
-+------+----------+-----------+-------------+-------------+
-|MAC2/3|    250 ps|        32 |           0 |          26 |
-+------+----------+-----------+-------------+-------------+
-For MAC2/3, the "no delay" condition starts from stage 26.
-Setting the RX delay stage to 26 means that no additional RX
-delay is applied.
-Here lists the RX delay setting of MAC2/3 below.
-26 -> 0   ns, 27 -> 0.25 ns, ... , 31 -> 1.25 ns,
-0  -> 1.5 ns, 1  -> 1.75 ns, ... , 25 -> 7.75 ns
-
-Therefore, we calculate the delay stage from the
-rx-internal-delay-ps of MAC2/3 to add 26. If the stage is equel
-to or bigger than 32, the delay stage will be mask 0x1f to get
-the correct setting.
-The delay chain is like a ring for configuration.
-Example for the rx-internal-delay-ps of MAC2/3 is 2000 ps,
-we will get the delay stage is 2.
+Strating to this patch, driver will remind the legacy dts to update the
+"phy-mode" to "rgmii-id, and if necessary, add small
+"rx-internal-delay-ps" and "tx-internal-delay-ps.
+If lack the two properties, driver will accord to the original delay
+value from bootloader to disable RGMII delay and to change the phy
+interface to phy driver.
 
 Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
 ---
- drivers/net/ethernet/faraday/ftgmac100.c | 162 ++++++++++++++++++++++++++++++-
- drivers/net/ethernet/faraday/ftgmac100.h |  20 ++++
- 2 files changed, 178 insertions(+), 4 deletions(-)
+ drivers/net/ethernet/faraday/ftgmac100.c | 190 +++++++++++++++++++++++++++----
+ drivers/net/ethernet/faraday/ftgmac100.h |   5 +
+ 2 files changed, 174 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/net/ethernet/faraday/ftgmac100.c b/drivers/net/ethernet/faraday/ftgmac100.c
-index 1e91e79c8134..0b2a0bb8a4a9 100644
+index 0b2a0bb8a4a9..5f5b9199a9ef 100644
 --- a/drivers/net/ethernet/faraday/ftgmac100.c
 +++ b/drivers/net/ethernet/faraday/ftgmac100.c
-@@ -26,6 +26,9 @@
- #include <linux/if_vlan.h>
- #include <linux/of_net.h>
- #include <linux/phy_fixed.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/regmap.h>
-+#include <linux/bitfield.h>
- #include <net/ip.h>
- #include <net/ncsi.h>
+@@ -1871,10 +1871,40 @@ static int ftgmac100_probe_ncsi(struct net_device *netdev,
+ 	return err;
+ }
  
-@@ -42,6 +45,7 @@ enum ftgmac100_mac_id {
- 
- struct ftgmac100_match_data {
- 	enum ftgmac100_mac_id mac_id;
-+	bool rgmii_delay_conf;
- };
- 
- /* Arbitrary values, I am not sure the HW has limits */
-@@ -1919,10 +1923,148 @@ static int ftgmac100_probe_dt(struct net_device *netdev,
++static struct phy_device *ftgmac100_ast2600_phy_get(struct net_device *dev,
++						    struct device_node *np,
++						    void (*hndlr)(struct net_device *),
++						    phy_interface_t phy_intf)
++{
++	struct device_node *phy_np;
++	struct phy_device *phy;
++	int ret;
++
++	if (of_phy_is_fixed_link(np)) {
++		ret = of_phy_register_fixed_link(np);
++		if (ret < 0) {
++			netdev_err(dev, "broken fixed-link specification\n");
++			return NULL;
++		}
++		phy_np = of_node_get(np);
++	} else {
++		phy_np = of_parse_phandle(np, "phy-handle", 0);
++		if (!phy_np)
++			return NULL;
++	}
++
++	phy = of_phy_connect(dev, phy_np, hndlr, 0, phy_intf);
++
++	of_node_put(phy_np);
++
++	return phy;
++}
++
+ static int ftgmac100_probe_dt(struct net_device *netdev,
+ 			      struct platform_device *pdev,
+ 			      struct ftgmac100 *priv,
+-			      struct device_node *np)
++			      struct device_node *np,
++			      phy_interface_t phy_intf)
+ {
+ 	struct phy_device *phy;
+ 	int err;
+@@ -1890,8 +1920,16 @@ static int ftgmac100_probe_dt(struct net_device *netdev,
+ 		 * them. 2600 has an independent MDIO controller, not
+ 		 * part of the MAC.
+ 		 */
+-		phy = of_phy_get_and_connect(priv->netdev, np,
+-					     &ftgmac100_adjust_link);
++		if (priv->mac_id == FTGMAC100_AST2600)
++			/* Because AST2600 will use the RGMII delay to determine
++			 * which phy interface to use.
++			 */
++			phy = ftgmac100_ast2600_phy_get(priv->netdev, np,
++							&ftgmac100_adjust_link,
++							phy_intf);
++		else
++			phy = of_phy_get_and_connect(priv->netdev, np,
++						     &ftgmac100_adjust_link);
+ 		if (!phy) {
+ 			dev_err(&pdev->dev, "Failed to connect to phy\n");
+ 			return -EINVAL;
+@@ -1923,10 +1961,62 @@ static int ftgmac100_probe_dt(struct net_device *netdev,
  	return 0;
  }
  
-+static int ftgmac100_set_ast2600_rgmii_delay(struct ftgmac100 *priv,
-+					     u32 rgmii_tx_delay,
-+					     u32 rgmii_rx_delay,
-+					     phy_interface_t phy_intf)
++static int ftgmac100_get_ast2600_rgmii_flag(u32 delay)
 +{
-+	struct device *dev = priv->dev;
-+	struct device_node *np;
-+	u32 rgmii_delay_unit;
-+	u32 rx_delay_index;
-+	u32 tx_delay_index;
-+	struct regmap *scu;
-+	int dly_mask;
-+	int dly_reg;
-+	int mac_id;
++	if ((delay > 500 && delay < 1500) ||
++	    (delay > 2500 && delay < 7500))
++		return AST2600_RGMII_KEEP_DELAY;
 +
-+	np = dev->of_node;
++	return AST2600_RGMII_DIS_DELAY;
++}
 +
-+	scu = syscon_regmap_lookup_by_phandle(np, "aspeed,scu");
-+	if (IS_ERR(scu)) {
-+		dev_err(dev, "failed to get aspeed,scu");
-+		return PTR_ERR(scu);
++static int ftgmac100_check_ast2600_rgmii_delay(struct regmap *scu,
++					       u32 delay_unit,
++					       int mac_id, int dly_reg)
++{
++	u32 delay_value;
++	u32 tx_delay;
++	u32 rx_delay;
++	int tx_flag;
++	int rx_flag;
++
++	regmap_read(scu, dly_reg, &delay_value);
++	if (mac_id == 0 || mac_id == 2) {
++		tx_delay = FIELD_GET(ASPEED_MAC0_2_TX_DLY, delay_value);
++		rx_delay = FIELD_GET(ASPEED_MAC0_2_RX_DLY, delay_value);
++	} else {
++		tx_delay = FIELD_GET(ASPEED_MAC1_3_TX_DLY, delay_value);
++		rx_delay = FIELD_GET(ASPEED_MAC1_3_RX_DLY, delay_value);
 +	}
 +
-+	/* According to the register base address to specify the corresponding
-+	 * values.
-+	 */
-+	switch (priv->res->start) {
-+	case AST2600_MAC0_BASE_ADDR:
-+		mac_id = 0;
-+		rgmii_delay_unit = AST2600_MAC01_CLK_DLY_UNIT;
-+		dly_reg = AST2600_MAC01_CLK_DLY;
-+		break;
-+	case AST2600_MAC1_BASE_ADDR:
-+		mac_id = 1;
-+		rgmii_delay_unit = AST2600_MAC01_CLK_DLY_UNIT;
-+		dly_reg = AST2600_MAC01_CLK_DLY;
-+		break;
-+	case AST2600_MAC2_BASE_ADDR:
-+		mac_id = 2;
-+		rgmii_delay_unit = AST2600_MAC23_CLK_DLY_UNIT;
-+		dly_reg = AST2600_MAC23_CLK_DLY;
-+		break;
-+	case AST2600_MAC3_BASE_ADDR:
-+		mac_id = 3;
-+		rgmii_delay_unit = AST2600_MAC23_CLK_DLY_UNIT;
-+		dly_reg = AST2600_MAC23_CLK_DLY;
-+		break;
-+	default:
-+		dev_err(dev, "Invalid mac base address");
-+		return -EINVAL;
-+	}
-+
-+	/* Please refer to ethernet-controller.yaml. */
-+	if (phy_intf == PHY_INTERFACE_MODE_RGMII &&
-+	    (rgmii_tx_delay == 2000 || rgmii_rx_delay == 2000)) {
-+		dev_warn(dev, "RX/TX delay cannot set to 2000 on 'rgmii'\n");
-+		return -EINVAL;
-+	}
-+
-+	tx_delay_index = DIV_ROUND_CLOSEST(rgmii_tx_delay, rgmii_delay_unit);
-+	if (tx_delay_index >= 32) {
-+		dev_err(dev, "The %u ps of TX delay is out of range\n",
-+			rgmii_tx_delay);
-+		return -EINVAL;
-+	}
-+
-+	rx_delay_index = DIV_ROUND_CLOSEST(rgmii_rx_delay, rgmii_delay_unit);
-+	if (rx_delay_index >= 32) {
-+		dev_err(dev, "The %u ps of RX delay is out of range\n",
-+			rgmii_rx_delay);
-+		return -EINVAL;
-+	}
-+
-+	/* Due to the hardware design reason, for MAC2/3 on AST2600, the zero
-+	 * delay ns on RX is configured by setting value 0x1a.
++	/* Due to the hardware design reason, for MAC2/3 on AST2600,
++	 * the zero delay ns on RX is configured by setting value 0x1a.
 +	 * List as below:
-+	 * 0x1a -> 0   ns, 0x1b -> 0.25 ns, ... , 0x1f -> 1.25 ns,
-+	 * 0x00 -> 1.5 ns, 0x01 -> 1.75 ns, ... , 0x19 -> 7.75 ns, 0x1a -> 0 ns
++	 * 0x1a, 0x1b, ... , 0x1f, 0x00, 0x01, ... , 0x19
++	 * Covert for calculation purpose.
++	 * 0x00, 0x01, ... , 0x19, 0x1a, 0x1b, ... , 0x1f
 +	 */
 +	if (mac_id == 2 || mac_id == 3)
-+		rx_delay_index = (AST2600_MAC23_RX_DLY_0_NS + rx_delay_index) &
-+				 AST2600_MAC_TX_RX_DLY_MASK;
++		rx_delay = (rx_delay + 0x06) & 0x1f;
 +
-+	if (mac_id == 0 || mac_id == 2) {
-+		dly_mask = ASPEED_MAC0_2_TX_DLY | ASPEED_MAC0_2_RX_DLY;
-+		tx_delay_index = FIELD_PREP(ASPEED_MAC0_2_TX_DLY, tx_delay_index);
-+		rx_delay_index = FIELD_PREP(ASPEED_MAC0_2_RX_DLY, rx_delay_index);
-+	} else {
-+		dly_mask = ASPEED_MAC1_3_TX_DLY | ASPEED_MAC1_3_RX_DLY;
-+		tx_delay_index = FIELD_PREP(ASPEED_MAC1_3_TX_DLY, tx_delay_index);
-+		rx_delay_index = FIELD_PREP(ASPEED_MAC1_3_RX_DLY, rx_delay_index);
++	tx_delay *= delay_unit;
++	rx_delay *= delay_unit;
++
++	tx_flag = ftgmac100_get_ast2600_rgmii_flag(tx_delay);
++	rx_flag = ftgmac100_get_ast2600_rgmii_flag(rx_delay);
++
++	if (tx_flag == AST2600_RGMII_KEEP_DELAY ||
++	    rx_flag == AST2600_RGMII_KEEP_DELAY) {
++		return AST2600_RGMII_KEEP_DELAY;
 +	}
 +
-+	regmap_update_bits(scu, dly_reg, dly_mask, tx_delay_index | rx_delay_index);
-+
-+	return 0;
++	return AST2600_RGMII_DIS_DELAY;
 +}
 +
-+static int ftgmac100_config_rgmii_delay(struct ftgmac100 *priv)
-+{
-+	struct device_node *np = priv->dev->of_node;
-+	phy_interface_t phy_intf;
-+	u32 rgmii_tx_delay;
-+	u32 rgmii_rx_delay;
-+	int err = 0;
+ static int ftgmac100_set_ast2600_rgmii_delay(struct ftgmac100 *priv,
+-					     u32 rgmii_tx_delay,
+-					     u32 rgmii_rx_delay,
+-					     phy_interface_t phy_intf)
++					     s32 rgmii_tx_delay,
++					     s32 rgmii_rx_delay,
++					     phy_interface_t *phy_intf)
+ {
+ 	struct device *dev = priv->dev;
+ 	struct device_node *np;
+@@ -1975,13 +2065,59 @@ static int ftgmac100_set_ast2600_rgmii_delay(struct ftgmac100 *priv,
+ 		return -EINVAL;
+ 	}
+ 
+-	/* Please refer to ethernet-controller.yaml. */
+-	if (phy_intf == PHY_INTERFACE_MODE_RGMII &&
+-	    (rgmii_tx_delay == 2000 || rgmii_rx_delay == 2000)) {
+-		dev_warn(dev, "RX/TX delay cannot set to 2000 on 'rgmii'\n");
+-		return -EINVAL;
++	if (of_phy_is_fixed_link(np)) {
++		if (rgmii_tx_delay < 0 || rgmii_rx_delay < 0) {
++			dev_err(dev,
++				"Add rx/tx-internal-delay-ps for fixed-link\n");
++			/* Keep original RGMII delay value*/
++			return 0;
++		}
 +
-+	/* Because some old dts using NC-SI mode does not include phy-mode
-+	 * property, here need to skip RGMII delay configuration and prevent
-+	 * of_get_phy_mode() from returning error.
-+	 */
-+	if (of_get_property(np, "use-ncsi", NULL))
-+		return 0;
-+
-+	err = of_get_phy_mode(np, &phy_intf);
-+	if (err) {
-+		dev_err(priv->dev, "Failed to get phy mode: %d\n", err);
-+		return err;
++		/* Must have both of rx/tx-internal-delay-ps for fixed-link */
++		goto conf_delay;
 +	}
 +
-+	/* RMII does not need to configure RGMII delay */
-+	if (!phy_interface_mode_is_rgmii(phy_intf))
-+		return 0;
++	if (*phy_intf == PHY_INTERFACE_MODE_RGMII_RXID ||
++	    *phy_intf == PHY_INTERFACE_MODE_RGMII_TXID)
++		goto out_warn;
 +
-+	if (of_property_read_u32(np, "tx-internal-delay-ps", &rgmii_tx_delay))
++	/* Both rx/tx-internal-delay-ps are not existed. */
++	if (rgmii_tx_delay < 0 && rgmii_rx_delay < 0) {
++		int flag;
++
++		flag = ftgmac100_check_ast2600_rgmii_delay(scu,
++							   rgmii_delay_unit,
++							   mac_id,
++							   dly_reg);
++		if (flag == AST2600_RGMII_KEEP_DELAY)
++			goto out_warn;
++
++		if (*phy_intf == PHY_INTERFACE_MODE_RGMII) {
++			dev_err(dev, "Update phy-mode to 'rgmii-id'\n");
++			/* Forced phy interface to RGMII_ID and MAC will disable
++			 * RGMII delay.
++			 */
++			*phy_intf = PHY_INTERFACE_MODE_RGMII_ID;
++		}
++	} else {
++		/* Please refer to ethernet-controller.yaml. */
++		if (*phy_intf == PHY_INTERFACE_MODE_RGMII &&
++		    (rgmii_tx_delay == 2000 || rgmii_rx_delay == 2000)) {
++			dev_warn(dev,
++				 "RX/TX delay cannot set to 2000 on 'rgmii'\n");
++			return -EINVAL;
++		}
+ 	}
+ 
++	/* The value is negative, which means the rx/tx-internal-delay-ps
++	 * property is not existed in dts. Therefore, set to default 0.
++	 */
++	if (rgmii_tx_delay < 0)
 +		rgmii_tx_delay = 0;
-+	if (of_property_read_u32(np, "rx-internal-delay-ps", &rgmii_rx_delay))
++	if (rgmii_rx_delay < 0)
 +		rgmii_rx_delay = 0;
 +
-+	if (priv->mac_id == FTGMAC100_AST2600)
-+		err = ftgmac100_set_ast2600_rgmii_delay(priv,
-+							rgmii_tx_delay,
-+							rgmii_rx_delay,
-+							phy_intf);
++conf_delay:
+ 	tx_delay_index = DIV_ROUND_CLOSEST(rgmii_tx_delay, rgmii_delay_unit);
+ 	if (tx_delay_index >= 32) {
+ 		dev_err(dev, "The %u ps of TX delay is out of range\n",
+@@ -2018,15 +2154,21 @@ static int ftgmac100_set_ast2600_rgmii_delay(struct ftgmac100 *priv,
+ 
+ 	regmap_update_bits(scu, dly_reg, dly_mask, tx_delay_index | rx_delay_index);
+ 
++	return 0;
 +
-+	return err;
-+}
++out_warn:
++	/* Print the warning message. Keep the phy-mode and the RGMII delay value. */
++	dev_warn(dev, "Update phy-mode to 'rgmii-id' and add rx/tx-internal-delay-ps\n");
 +
- static int ftgmac100_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int ftgmac100_config_rgmii_delay(struct ftgmac100 *priv)
++static int ftgmac100_config_rgmii_delay(struct ftgmac100 *priv,
++					phy_interface_t *phy_intf)
  {
- 	const struct ftgmac100_match_data *match_data;
- 	enum ftgmac100_mac_id mac_id;
-+	bool rgmii_delay_conf;
+ 	struct device_node *np = priv->dev->of_node;
+-	phy_interface_t phy_intf;
+-	u32 rgmii_tx_delay;
+-	u32 rgmii_rx_delay;
++	s32 rgmii_tx_delay;
++	s32 rgmii_rx_delay;
+ 	int err = 0;
+ 
+ 	/* Because some old dts using NC-SI mode does not include phy-mode
+@@ -2036,20 +2178,23 @@ static int ftgmac100_config_rgmii_delay(struct ftgmac100 *priv)
+ 	if (of_get_property(np, "use-ncsi", NULL))
+ 		return 0;
+ 
+-	err = of_get_phy_mode(np, &phy_intf);
++	err = of_get_phy_mode(np, phy_intf);
+ 	if (err) {
+ 		dev_err(priv->dev, "Failed to get phy mode: %d\n", err);
+ 		return err;
+ 	}
+ 
+ 	/* RMII does not need to configure RGMII delay */
+-	if (!phy_interface_mode_is_rgmii(phy_intf))
++	if (!phy_interface_mode_is_rgmii(*phy_intf))
+ 		return 0;
+ 
++	/* AST2600 needs to know if the "tx/rx-internal-delay-ps" properties
++	 * are existed in dts. If not existed, set -1 and delay is equal to 0.
++	 */
+ 	if (of_property_read_u32(np, "tx-internal-delay-ps", &rgmii_tx_delay))
+-		rgmii_tx_delay = 0;
++		rgmii_tx_delay = -1;
+ 	if (of_property_read_u32(np, "rx-internal-delay-ps", &rgmii_rx_delay))
+-		rgmii_rx_delay = 0;
++		rgmii_rx_delay = -1;
+ 
+ 	if (priv->mac_id == FTGMAC100_AST2600)
+ 		err = ftgmac100_set_ast2600_rgmii_delay(priv,
+@@ -2068,10 +2213,13 @@ static int ftgmac100_probe(struct platform_device *pdev)
  	struct resource *res;
  	int irq;
  	struct net_device *netdev;
-@@ -1936,8 +2078,10 @@ static int ftgmac100_probe(struct platform_device *pdev)
- 		if (!match_data)
- 			return -EINVAL;
- 		mac_id = match_data->mac_id;
-+		rgmii_delay_conf = match_data->rgmii_delay_conf;
- 	} else {
- 		mac_id = FTGMAC100_FARADAY;
-+		rgmii_delay_conf = false;
- 	}
++	phy_interface_t phy_intf;
+ 	struct ftgmac100 *priv;
+ 	struct device_node *np;
+ 	int err = 0;
  
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-@@ -2006,6 +2150,12 @@ static int ftgmac100_probe(struct platform_device *pdev)
- 		priv->txdes0_edotr_mask = BIT(15);
- 	}
- 
-+	if (rgmii_delay_conf) {
-+		err = ftgmac100_config_rgmii_delay(priv);
-+		if (err)
-+			return err;
-+	}
++	phy_intf = PHY_INTERFACE_MODE_NA;
 +
- 	if (priv->mac_id == FTGMAC100_FARADAY ||
- 	    priv->mac_id == FTGMAC100_AST2400 ||
- 	    priv->mac_id == FTGMAC100_AST2500) {
-@@ -2100,19 +2250,23 @@ static void ftgmac100_remove(struct platform_device *pdev)
- }
+ 	np = pdev->dev.of_node;
+ 	if (np) {
+ 		match_data = of_device_get_match_data(&pdev->dev);
+@@ -2151,7 +2299,7 @@ static int ftgmac100_probe(struct platform_device *pdev)
+ 	}
  
- static const struct ftgmac100_match_data ftgmac100_match_data_ast2400 = {
--	.mac_id = FTGMAC100_AST2400
-+	.mac_id = FTGMAC100_AST2400,
-+	.rgmii_delay_conf = false
- };
+ 	if (rgmii_delay_conf) {
+-		err = ftgmac100_config_rgmii_delay(priv);
++		err = ftgmac100_config_rgmii_delay(priv, &phy_intf);
+ 		if (err)
+ 			return err;
+ 	}
+@@ -2165,7 +2313,7 @@ static int ftgmac100_probe(struct platform_device *pdev)
+ 	}
  
- static const struct ftgmac100_match_data ftgmac100_match_data_ast2500 = {
--	.mac_id = FTGMAC100_AST2500
-+	.mac_id = FTGMAC100_AST2500,
-+	.rgmii_delay_conf = false
- };
- 
- static const struct ftgmac100_match_data ftgmac100_match_data_ast2600 = {
--	.mac_id = FTGMAC100_AST2600
-+	.mac_id = FTGMAC100_AST2600,
-+	.rgmii_delay_conf = true
- };
- 
- static const struct ftgmac100_match_data ftgmac100_match_data_faraday = {
--	.mac_id = FTGMAC100_FARADAY
-+	.mac_id = FTGMAC100_FARADAY,
-+	.rgmii_delay_conf = false
- };
- 
- static const struct of_device_id ftgmac100_of_match[] = {
+ 	if (np) {
+-		err = ftgmac100_probe_dt(netdev, pdev, priv, np);
++		err = ftgmac100_probe_dt(netdev, pdev, priv, np, phy_intf);
+ 		if (err)
+ 			goto err;
+ 	}
 diff --git a/drivers/net/ethernet/faraday/ftgmac100.h b/drivers/net/ethernet/faraday/ftgmac100.h
-index 4968f6f0bdbc..d19d44d1b8e0 100644
+index d19d44d1b8e0..1b2f79a104ea 100644
 --- a/drivers/net/ethernet/faraday/ftgmac100.h
 +++ b/drivers/net/ethernet/faraday/ftgmac100.h
-@@ -271,4 +271,24 @@ struct ftgmac100_rxdes {
- #define FTGMAC100_RXDES1_UDP_CHKSUM_ERR	(1 << 26)
- #define FTGMAC100_RXDES1_IP_CHKSUM_ERR	(1 << 27)
+@@ -291,4 +291,9 @@ struct ftgmac100_rxdes {
+ #define AST2600_MAC2_BASE_ADDR		0x1e670000
+ #define AST2600_MAC3_BASE_ADDR		0x1e690000
  
-+/* Aspeed SCU */
-+#define AST2600_MAC01_CLK_DLY	0x340
-+#define AST2600_MAC23_CLK_DLY	0x350
-+#define AST2600_MAC01_CLK_DLY_UNIT	45	/* ps */
-+#define AST2600_MAC01_TX_DLY_0_NS	0
-+#define AST2600_MAC01_RX_DLY_0_NS	0
-+#define AST2600_MAC23_CLK_DLY_UNIT	250	/* ps */
-+#define AST2600_MAC23_TX_DLY_0_NS	0
-+#define AST2600_MAC23_RX_DLY_0_NS	0x1a
-+#define AST2600_MAC_TX_RX_DLY_MASK	0x1f
-+#define ASPEED_MAC0_2_TX_DLY		GENMASK(5, 0)
-+#define ASPEED_MAC0_2_RX_DLY		GENMASK(17, 12)
-+#define ASPEED_MAC1_3_TX_DLY		GENMASK(11, 6)
-+#define ASPEED_MAC1_3_RX_DLY		GENMASK(23, 18)
-+
-+#define AST2600_MAC0_BASE_ADDR		0x1e660000
-+#define AST2600_MAC1_BASE_ADDR		0x1e680000
-+#define AST2600_MAC2_BASE_ADDR		0x1e670000
-+#define AST2600_MAC3_BASE_ADDR		0x1e690000
++/* Keep original delay */
++#define AST2600_RGMII_KEEP_DELAY	0x01
++/* Need to disable delay on MAC side */
++#define AST2600_RGMII_DIS_DELAY		0x02
 +
  #endif /* __FTGMAC100_H */
 
