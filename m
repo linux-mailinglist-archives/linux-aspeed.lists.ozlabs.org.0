@@ -1,50 +1,50 @@
-Return-Path: <linux-aspeed+bounces-3578-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3583-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MKCyMSjSpWk0HAAAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3578-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Mon, 02 Mar 2026 19:08:40 +0100
+	id ALsxBOQ5pmnQMgAAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3583-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 03 Mar 2026 02:31:16 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C987D1DE41A
-	for <lists+linux-aspeed@lfdr.de>; Mon, 02 Mar 2026 19:08:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B9F1E7B39
+	for <lists+linux-aspeed@lfdr.de>; Tue, 03 Mar 2026 02:31:13 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fPn445dHRz3bn7;
-	Tue, 03 Mar 2026 05:08:36 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fPytk4phmz2xpk;
+	Tue, 03 Mar 2026 12:31:10 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1772474916;
-	cv=none; b=E+5KoWWWl1iEk+4SBM7Ug6WdgW+kJzwVLDkeCbFs/cIcUkXEF3t9Ky2zo96aMkd+hKB+gV4/2MNNtwh9pW+nkTLhrqykXM2vY2vt+JBvlvkF2xfpmD4UCpPfX8Q3lY9NfTzAysZeQCmW0lz57Iejty1+9HEBS0zZUu1cLQwBaIjwIe/icqXmprVyew5LvYNPpqIW+Hprm4dul/syUBixAdxQvprR5haAD85S6cFZeq+BzTfCFmbLAuKKN5MMmCjkajlsNKLHW11xTvs12b3TUA9WRWKkPVn5c4+xVKSLQFZ3QvbAfYcxxWtop2DJwvy8ofnh8N7CpN9uC/elKgQgog==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1772501470;
+	cv=none; b=a1+2nftMNoVRgT+oZnCSdHHEFjvyejOFrIMf3Ca9Fb4toPuJ2S6KT4LR2+TA7FogoEussmcPoDSQwyPfM4V5ESVZ97fZmeWg9t2gS4+3+bUYYK+ydzFqTiiz3d9wnakbX8ZUBteSfoUqtHV7FFG323gwugnmg6ccPI/bYuYe8tYgUelny/BiVDoQTaZ+vptzKmiZEyRZZ27nL7iNA7FROYl5v3BsPPaYvS1w0eonxG4fBxom6Ex1AdbNqEDUH+wQBUpGDTLf+NlBRtKra2TMuuL+Lmb5oG5lAB3ZNk50yrc8fXxSnmSUBEMToEFi/pfT25/VCTuyMiHm+h41XlKJZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1772474916; c=relaxed/relaxed;
-	bh=CLPUXhVrrl5QkMzjH5mUtpnyTmkgWM8SI70aL7C8RrU=;
+	t=1772501470; c=relaxed/relaxed;
+	bh=HUKL9Y5s8qQvy223sWGjb++3da04HXQ26Z6GEuwMerc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j8CLKaCFOKls6rWjo2Sh/KU+aFiNOxbDV8Nmm0S46SR7t7K+ssBRH/5qwLAz2AeYw3qqZCG4taGoQ76+KOjiXnhpyqkSsSc+dixdpLCREYGOt1CkIfk93GIF026GhGIpTohPIWRjxL15ovzza9rQfqf9CHT9LbgcGzsPScFdzpSnjV9l5hYAiVBEiFjij3QdIkJSDYLAf1X8JF1U7cDmzbkTbmPmIh8bho+a/aVNAeiu7tX5v058Dw9EufgZNMapg1By49AelUe8Zxw5aLsx5rGofewltzKU+RirexbTzyJjaeVfN53+4cLXe0i3Qjz2O9U463QE0b6Q0eJLXs6mXw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=XRRBkTEc; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=i6x0g9jFKC4wv8ergnDhrdMHYERgb1y00ipBtiIIO0q4dSnZf/AhXx5IowBtq4+U2hWSm0kcbiFJNlMzt05lryY4FyKaxWF2df98K5VZlTHY8cGZqXswjUQ76eMIwM/Sqj9FhXxyjEksQZlF73QaQKZKhJGCqVNJfhgEQhZzIh5ICm2AhFM2RCd9EKOleQMZwguSjx21M4LIvpq+0e+hayKrW6Z0VQgJdjUTRL+n21AeIskBjGDQ3MgB/FQaniZg7t00NgwUBHj+KVhV8wHzjiOqVktYHu3ApxFMNNhwTPSC48uuUiaB9mLCviB2D9u6tc1RZuHv2dZ9E/70VjNw0Q==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=TF5B/smj; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=XRRBkTEc;
+	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=TF5B/smj;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fPn440HNMz3bn4
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 03 Mar 2026 05:08:35 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fPytj2D49z2xRq
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 03 Mar 2026 12:31:08 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=CLPUXhVrrl5QkMzjH5mUtpnyTmkgWM8SI70aL7C8RrU=; b=XRRBkTEc7bDHuakd9vZCJt1Y9V
-	lmFV+qXLMCNS+d3/vQGdUf6hoC3xENg1EfuBry1YYdFrL0yFAZ24Ng0TTYhcp02X0XVBKSOseFIwY
-	8ACEGFnOmF/iz2Li8QsKlwljsx5Z2EgReewomye0gve3PHj2RrDE60S1OvVBNIPiEM5Y=;
+	bh=HUKL9Y5s8qQvy223sWGjb++3da04HXQ26Z6GEuwMerc=; b=TF5B/smjiLlQUtcGCfFsFPta+Q
+	1ont1wMORchdXMOo5dHeQKh92q1h4bXTT8IichY2T2BiPzhYhKw9xqEvdkPCBG6A50bik8lgs2ZTZ
+	b0F8FKG1cnbzD68qMusKDyL+TXyi/JRRIkyxbRJ/c5cUfoXXONa7rrnAkTQctM7hqLR8=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1vx7gj-009idt-Cp; Mon, 02 Mar 2026 19:08:13 +0100
-Date: Mon, 2 Mar 2026 19:08:13 +0100
+	id 1vxEar-009mO2-I2; Tue, 03 Mar 2026 02:30:37 +0100
+Date: Tue, 3 Mar 2026 02:30:37 +0100
 From: Andrew Lunn <andrew@lunn.ch>
 To: Jacky Chou <jacky_chou@aspeedtech.com>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -61,7 +61,7 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org, taoren@meta.com
 Subject: Re: [PATCH net-next v6 0/5] Add AST2600 RGMII delay into ftgmac100
-Message-ID: <81c7c39f-8e52-4749-9f87-0ea707114821@lunn.ch>
+Message-ID: <ef88bb50-9f2c-458d-a7e5-dc5ecb9c777a@lunn.ch>
 References: <20260302-rgmii_delay_2600-v6-0-68319a4c4110@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
@@ -83,7 +83,7 @@ X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: C987D1DE41A
+X-Rspamd-Queue-Id: E9B9F1E7B39
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -91,11 +91,11 @@ X-Spamd-Result: default: False [-0.71 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[lunn.ch,none];
 	MAILLIST(-0.20)[generic];
 	R_DKIM_ALLOW(-0.20)[lunn.ch:s=20171124];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3578-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3583-lists,linux-aspeed=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_SENDER(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -116,24 +116,47 @@ X-Spamd-Result: default: False [-0.71 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:rdns,lists.ozlabs.org:helo,lunn.ch:dkim,lunn.ch:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lunn.ch:dkim,lunn.ch:mid,lists.ozlabs.org:rdns,lists.ozlabs.org:helo]
 X-Rspamd-Action: no action
 
 On Mon, Mar 02, 2026 at 06:24:27PM +0800, Jacky Chou wrote:
 > This patch series adds support for configuring RGMII internal delays for the
-> Aspeed AST2600 FTGMAC100 Ethernet MACs. It introduces new compatible strings to
-> distinguish between MAC0/1 and MAC2/3, as their delay chains and configuration
-> units differ.
-> The device tree bindings are updated to restrict the allowed phy-mode and delay
-> properties for each MAC type. Corresponding changes are made to the device tree
-> source files and the FTGMAC100 driver to support the new delay configuration.
-> 
-> This enables precise RGMII timing configuration for AST2600-based platforms,
-> improving interoperability with various PHYs
+> Aspeed AST2600 FTGMAC100 Ethernet MACs.
 
-Please add more about backwards compatibility. With just a quick look,
-i'm not convinced it is. So it is missing text in the commit message
-and probably comments in the code explaining how it works.
+I've been thinking about this some more. And i would like to propose a
+completely different solution.
 
-    Andrew
+What we are trying to achieve is allowing the correct phy-mode to be
+used in DT, rgmii-id. Being able to specify internal delays is nice to
+have, but for most platforms should not be needed. It is only needed
+for badly designed boards where the designer of the PCB did not take
+care with the length of the traces.
+
+Part of the problem is that the MAC driver is not actually
+"broken". It does what we recommend, read the phy-mode value from DT,
+and pass it to the PHY. The real issue is that the bootloader enabled
+delays in the MAC, behind the MAC drivers back. Because the MAC driver
+is not "broken", it is hard to "fix" the issue in the MAC driver.
+
+So lets solve this in the bootloader. I suggest you patch the
+bootloader to no longer enable the delays in the MAC. It also needs to
+patch the DT blob. If the blob says "rgmii", change it to
+"rgmii-id". u-boot should be able to do this.
+
+That should give backwards compatibility:
+
+* Existing DT blobs with old bootloader gain the delays in the MAC.
+
+* Existing DT blobs with the new bootloader gain delays in the PHY.
+
+* For new boards being added to Linux, we NACK them with "rgmii", tell
+  the developer to upgrade the bootloader, and use the correct
+  rgmii-id. This is a power we do have.
+
+* Developers of existing .dts files can submit patches to replace
+  "rgmii" with "rgmii-id" once they are happy all platforms have had
+  their bootloader upgraded. That might be never, since developers are
+  lazy, and we cannot force this on them.
+
+	Andrew
 
