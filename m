@@ -1,97 +1,44 @@
-Return-Path: <linux-aspeed+bounces-3620-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3599-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oEkIEtzIrGmPuQEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3620-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Sun, 08 Mar 2026 01:54:52 +0100
+	id 4MeJGfV3qmlcSAEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3599-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Fri, 06 Mar 2026 07:45:09 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD68322E2F2
-	for <lists+linux-aspeed@lfdr.de>; Sun, 08 Mar 2026 01:54:49 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D49E121C2CF
+	for <lists+linux-aspeed@lfdr.de>; Fri, 06 Mar 2026 07:45:07 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fT1rQ4yWmz3bhG;
-	Sun, 08 Mar 2026 11:54:46 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fRxjW1XJBz3bnJ;
+	Fri, 06 Mar 2026 17:45:03 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2607:f8b0:4864:20::e2f" arc.chain=google.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1772777196;
-	cv=pass; b=j+Lv3DZltZ/yvQq73VXkIwfGbt/sAAVhwExl3iJjMEPzEPwcOazyEdblOlHZltjprd3dnopQWFCyJCs5nwH5Jcq83zEQ/vjuMiO+3gt+hFHHEiFvgJfI+l4DnZRp1BFC5AN0+aPLE2dzTcKAykFzwI1MTcOIkoVxxQH8Nt+NPizT4iQ0Lr9NWp4vxsW99ep1Ue2t8Or/1RW2mYVVYE/p/NQKhZQJ8s6jIoCFAKIOAPWFBlTlQauFL103cEJt6TyRrmY1s4GWIKYR9YLXcKpGFiCPR279GGAC7IwhQAsTc/Gi5JPym7n45cye61jrMMZ3zfyN0s8ie0Us3vUXNNe5fg==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1772777196; c=relaxed/relaxed;
-	bh=EGovAVgDeech9oAFJyAwU6fo6Sipfg2mUwR4uyiECh8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fnHTdfLDFaoupLM6X7ufHc2enxoJg2WWGBPRj3UmT1ischIoYD+qbLBp1CGtwqlSKLJH+sllZbeJFDLi5xG4ku2IeklkHDYieVJIbMmsGLKwds/iXPLcj67+z5zBmas9QN3xGoBnIkC5ptb+TBVerbgp7bSNMhre58KF8JsCmMcZej//MWEYvHXTmx88Q52rRv+h6sq1zOZX1d3xe7jLgiPyyzgmAi3yMxqi9yLgTfEPleKP/gakFBXRmIDT45BVzXoSXSqcjNKTufJ71MAK+IW0HJjIXD77a+eVxAcOq0lT6E4g3KimUG7FRWwHZmtrCfo/vBcAZ9XTYG2tnj4dmA==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jpBRZ5FW; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::e2f; helo=mail-vs1-xe2f.google.com; envelope-from=u8813345@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jpBRZ5FW;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::e2f; helo=mail-vs1-xe2f.google.com; envelope-from=u8813345@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1772779503;
+	cv=none; b=YWltA8Fh0CKC2WHRmPYv5i3eUkK3DeqrsjvSdFkQ5Ib8osvjl9Z8uCbh9a0YVZya0XhBVGQ3Vc7mlK2HP/tecG9UAU/s3A8ZW0wlUqlXJEmBoIxkVDumKcW/E3Rnaw3WpFP0VMgCf8fdb/wAK++w2V7Fj+vbcl7GIba9GSR0o+9Wv2qSoWjVhQbmozFjDWb5aDjXjdVqUKJh4u8ssLvUp/eenYMLT7hnvp0uErHZe8/09lTwHBV602bAG9OYccIvfNGdxDjfn8S5quHnB+9NYe4Z3GB02fl8Z38noKre7z3PA7BqYZO1GWt9D4MFVFLJfaSWtsMvOC1Jie7EEvflhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1772779503; c=relaxed/relaxed;
+	bh=weVje6VkStlr/WzV2kfkWiuSUPkbEVkQwhRLMAxr5Ko=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=j/SXB9M+lzXQk9kSeyBeURvX/cYowgRRjwjAbiIsZdyroiAjF6XaFJf2Gioav4ZcJ1V2yln1mRXksP0iN2qATLjupdCMWvDLM0ZQ5S5RMd0U1VNv+1hlvmvF9tYpP8bwhB57XTpHxjf9TnFB4BSUtF/ypIXaABSNVyLTSjmYHu0i3O5mK8SpLdYyyYN9Aj2dmpHjxKHsFxuujiqOY6yR3WS8jyo8T4OjC52fznvu9FPjG1Xble34XjpfdU27qyoWxs+Ykd8+9u32VSiptKfaeiTtT2DWzHim0w7LW/qyPqp54/NWbsXzvG8RCPcAEOKCvaUJTJjswm5Tuwe0kH9i1Q==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fRws76mK3z3bn7
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 06 Mar 2026 17:06:34 +1100 (AEDT)
-Received: by mail-vs1-xe2f.google.com with SMTP id ada2fe7eead31-5ffbd778410so752333137.3
-        for <linux-aspeed@lists.ozlabs.org>; Thu, 05 Mar 2026 22:06:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772777192; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Pn08UtWe6gQKae/luDLQZXFPCTP+xGs3kCX3Nqq29/H8g/BIQiVdcnuObSA7vedJZD
-         Hj+7dF7JFSoqWcdl5p1bZrblanW4ymP7V7qjKhzG0LEy7ikL5OdBikF+qwtaMZMKWNv2
-         fm+UtXshaxpvoedLPqlVAamPe3P4VSWaz3UVmgQoIT6YzK2cRStFbMDImbDiY78/e7A7
-         UIyKLy4X8USReDnrqFowjLgw7b9OemtIsL4jWHXkyJSbTYBPWmS2rqTJ/1bgpOjANmHS
-         JDRMesSaGMFbJ0NL6sD/mljXGQ8D/ZP1DSXZXLUndI02UoY7/DPvHUTvNhcfMgVC2LZL
-         1yrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EGovAVgDeech9oAFJyAwU6fo6Sipfg2mUwR4uyiECh8=;
-        fh=BpLVP8KmGPhjkX5VEqGt+uF/71urwx4UtTbokXKgg8k=;
-        b=FYnkK7BVHKKIbUiLMUUXVVWvkoDnMVcoCagnj7WrXIQ62fNSC+QuuTaHAMdtcxrvs0
-         7o2tSYPsLeuPAzUsxSTjr6Tp5f1AIrdnX8+HYziMG+xSyPx7yP8AEiyPxuBkLddHiECk
-         dWSIytIv9pE17In9luQbEk0jatMD+9XZDkv36jkk9wXXTNEW1ElMF8QidYh0nZxknEOg
-         sU7rUgi3Pnp5WZ6TdzpLP/JX383Srzy0qsiidh2LfVW65bV6t/PMF1QvMNGxPwn1tWIG
-         ug2T8TWXi4CeN52KGVdpJ+n5ZX/G0k7sUiRUeZ7yMuUQQUnmJog42+aJhOoF/53LFCI6
-         eI7A==;
-        darn=lists.ozlabs.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772777192; x=1773381992; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EGovAVgDeech9oAFJyAwU6fo6Sipfg2mUwR4uyiECh8=;
-        b=jpBRZ5FWW8Uh1piosAybPNHSu97ZSgo6ar3ABO9MnpjnJlC+W0iiqLT9vTXsMubZSX
-         lyoJ7bLtC49RUEMxOGhusVSayQGdDH4+nKURxc/J8b7AiGk1Q4FoZ2KUfqVPwbNQ3YiG
-         ezYjLhyHCiH98LNIpjMEHZx9Wr426BceKRxSLa5CRLSS0U15q7sY4PulNV8umGAaWzPR
-         ND0cL6bHHgMW2wwDXxQzgQ5jhfydu2f6arkdOsNRTjOK8YkOrDRqRZq7pC9KBVjjG89Q
-         EtkmTfx3pXZDVP4WWykIpYahgeOSQPIgto7xcnzpNmr9tb4H2HprB3fxM69Ym8PsdRUu
-         do7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772777192; x=1773381992;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EGovAVgDeech9oAFJyAwU6fo6Sipfg2mUwR4uyiECh8=;
-        b=aBFN48Q+gxO3ceCx21c+djYWegINvwaPy+Uu2Y2pETf8gHjGb6cjuspfgFBy/PAwVw
-         2XGi1du9tJT1+MSHasF2DXQl7gcoREAzT5L+cVw0ffMMypsMJ9cZl3Lc5Ac2CMfLr4fS
-         9gDTlWdAH/z3VpJ1GDktfYFTttQx2JSWv02utfDwBkQL8Xhz6tv+bHBAScUeVN2ZsHfB
-         z7gFsEpl+yFZJ34kGqsYaBERBZfS/r4tSOJqTuxzSKf/eF2meBexr1YYOTMRCnK2qhyM
-         kzXanxsYxQjwZRI15KJGOpD6vL+xSb+6UEUIKJodpceQ3jw1u4hKHWwO+pjlnQju+n4m
-         /INA==
-X-Forwarded-Encrypted: i=1; AJvYcCWdBgsTJ+2pYmj/Oq83RsiGP1kyr2BwUEc2/flKnCw/SdfdxxPKVb+L8/e3FkGsAUw/qxjvsV3rBafU53g=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxkxJHZVJbIHL5d0PoPrbwqmeXUXQpaw36EY5zwuz+11fmtbPIO
-	6JpJ+E6GS6jcm4R8E6Rg9rF+EbTCOylLhB/rwmh/OdayY5gV8783PjT9rAvGb4UjAFJcAX/8blD
-	cQ0je6Wpj9jkHwUOSD5F7a6ZEcBjr9lo=
-X-Gm-Gg: ATEYQzxR6tYayT3ThLcI0RZ8a1jKmxvdjoOlGMdQElA130kouEMyx9jR71cocse64Wb
-	T/qxKNn7lbMHlq1ruVAxtrILrLyBSKKGDh3bvIqIaItx72NaOLHph5tLHPrYiYgZjVmId+bBi9c
-	20ZBe13BNcN6JXujEqEV3dMFBp+XYFvmLetg/LztEw+6niei0mMd2b6BAeaMzEObpGPh3N76Goi
-	iMM/RkuZXBdgLJQNZzX641RuHdJ+RHsB7OZIXAhDrb/7P9UJWhASCiFze+Ks1Ihs/AQDhjH7vDN
-	a2oDVQ==
-X-Received: by 2002:a05:6102:c02:b0:5df:8f4:61e6 with SMTP id
- ada2fe7eead31-5ffe61bf1f4mr409120137.32.1772777192540; Thu, 05 Mar 2026
- 22:06:32 -0800 (PST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fRxjT6nHBz30T9
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 06 Mar 2026 17:45:00 +1100 (AEDT)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 6 Mar
+ 2026 14:44:43 +0800
+Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Fri, 6 Mar 2026 14:44:43 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+Date: Fri, 6 Mar 2026 14:44:31 +0800
+Subject: [PATCH] hwmon: (aspeed-g6-pwm-tach): fix driver data handling in
+ probe/remove
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -105,117 +52,100 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260302-add-new-eeprom-node-v1-1-2bcf87bc22e4@gmail.com> <fd932aa3f0cae64f40c3b207657032e7bf61066a.camel@codeconstruct.com.au>
-In-Reply-To: <fd932aa3f0cae64f40c3b207657032e7bf61066a.camel@codeconstruct.com.au>
-From: Colin Huang <u8813345@gmail.com>
-Date: Fri, 6 Mar 2026 14:06:21 +0800
-X-Gm-Features: AaiRm50kmoskXtONuaiHe2cCtn5FjwA6MJ2fKHVggzbYT0hgr46ptkqqm2zNPM0
-Message-ID: <CAPBH0A9oatx7U2+3dvGVgonHEm+yq5TFM9mTcdStau2Lk1XytA@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: aspeed: anacapa: Add eeprom device node
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, colin.huang2@amd.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=0.1 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20260306-pwm_fixes-v1-1-e8ede6fbaf47@aspeedtech.com>
+X-B4-Tracking: v=1; b=H4sIAM53qmkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDYwMz3YLy3Pi0zIrUYl1zSwujxBRTE4s0A3MloPqColSwBFB5dGxtLQA
+ 7d/zWWwAAAA==
+X-Change-ID: 20260306-pwm_fixes-7982ad548f07
+To: Guenter Roeck <linux@roeck-us.net>, Joel Stanley <joel@jms.id.au>, "Andrew
+ Jeffery" <andrew@codeconstruct.com.au>
+CC: <linux-hwmon@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>, Billy Tsai
+	<billy_tsai@aspeedtech.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772779483; l=1393;
+ i=billy_tsai@aspeedtech.com; s=20251118; h=from:subject:message-id;
+ bh=Hp31w4Jdd8sbOX4FBY/G7j05d+Zg3ydoO83w3jExP4Y=;
+ b=09OrdeecveOCl4q7/xzNvFn8RPwEs0VhaZWGUH3DjxtVv/MYLVRvpS5M+R/B7fmZ9Wu/kcLtQ
+ 7t0gVAB7TCBBGFnoYzwXx3sDDYB8WQH3a8GZW4Y54TPRZDxzAppIi5m
+X-Developer-Key: i=billy_tsai@aspeedtech.com; a=ed25519;
+ pk=/A8qvgZ6CPfnwKgT6/+k+nvXOkN477MshEGJvVdzeeQ=
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: DD68322E2F2
+X-Rspamd-Queue-Id: D49E121C2CF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.29 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DATE_IN_PAST(1.00)[42];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [-0.01 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3620-lists,linux-aspeed=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:colin.huang2@amd.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[u8813345@gmail.com,linux-aspeed@lists.ozlabs.org];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-3599-lists,linux-aspeed=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	NEURAL_HAM(-0.00)[-0.985];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[u8813345@gmail.com,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[billy_tsai@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS(0.00)[m:linux@roeck-us.net,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:linux-hwmon@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:billy_tsai@aspeedtech.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[codeconstruct.com.au:email,lists.ozlabs.org:rdns,lists.ozlabs.org:helo,mail.gmail.com:mid]
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[billy_tsai@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	NEURAL_HAM(-0.00)[-0.998];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[aspeedtech.com:mid,aspeedtech.com:email]
 X-Rspamd-Action: no action
 
-Hi Andrew,
+Ensure proper association of driver data by setting and retrieving
+the platform device's driver data during probe and remove.
 
-Thanks for the feedback.
+Fixes: 7e1449cd15d1 ("hwmon: (aspeed-g6-pwm-tacho): Support for ASPEED g6 PWM/Fan tach")
+Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+---
+ drivers/hwmon/aspeed-g6-pwm-tach.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-In our case the only functional difference between DCSCM rev=E2=80=AFB/C an=
-d
-rev=E2=80=AFD is the EEPROM I=C2=B2C address change (0x50 =E2=86=92 0x51).
-Other than this, the hardware is identical and all device-tree
-described components share the same wiring and behaviour.
+diff --git a/drivers/hwmon/aspeed-g6-pwm-tach.c b/drivers/hwmon/aspeed-g6-pwm-tach.c
+index 44e1ecba205d..0c03d272279a 100644
+--- a/drivers/hwmon/aspeed-g6-pwm-tach.c
++++ b/drivers/hwmon/aspeed-g6-pwm-tach.c
+@@ -490,6 +490,7 @@ static int aspeed_pwm_tach_probe(struct platform_device *pdev)
+ 	if (IS_ERR(chip))
+ 		return PTR_ERR(chip);
+ 
++	platform_set_drvdata(pdev, chip);
+ 	pwmchip_set_drvdata(chip, priv);
+ 	chip->ops = &aspeed_pwm_ops;
+ 
+@@ -519,7 +520,8 @@ static int aspeed_pwm_tach_probe(struct platform_device *pdev)
+ 
+ static void aspeed_pwm_tach_remove(struct platform_device *pdev)
+ {
+-	struct aspeed_pwm_tach_data *priv = platform_get_drvdata(pdev);
++	struct pwm_chip *chip = platform_get_drvdata(pdev);
++	struct aspeed_pwm_tach_data *priv = aspeed_pwm_chip_to_data(chip);
+ 
+ 	reset_control_assert(priv->reset);
+ }
 
-Maintaining two separate devicetrees for a single=E2=80=91byte address shif=
-t
-doesn=E2=80=99t scale well for us. Only side effect of listing both EEPROM
-nodes is that the non=E2=80=91matching node produces a harmless driver bind
-error in dmesg. It does not affect functionality on either revision =E2=80=
-=94
-the correct node always binds, and the unused one simply fails probe
-and is ignored by the driver. From a system behaviour standpoint both
-board revisions operate normally.
+---
+base-commit: af4e9ef3d78420feb8fe58cd9a1ab80c501b3c08
+change-id: 20260306-pwm_fixes-7982ad548f07
 
-So the trade=E2=80=91off we chose is:
+Best regards,
+-- 
+Billy Tsai <billy_tsai@aspeedtech.com>
 
-  * One DT shared across all revisions =E2=86=92 low maintenance cost, one
-source of truth.
-  * A benign bind failure on the unused EEPROM =E2=86=92 visible in logs bu=
-t
-functionally harmless.
-
-If more hardware differences appear in later revisions, separating the
-devicetrees would make sense. But given the current situation, keeping
-a unified DT is the most maintainable choice.
-
-Thanks,
-Colin
-
-Andrew Jeffery <andrew@codeconstruct.com.au> =E6=96=BC 2026=E5=B9=B43=E6=9C=
-=885=E6=97=A5=E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=888:12=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> On Mon, 2026-03-02 at 12:20 +0800, Colin Huang wrote:
-> > eeprom address changed (0x50 to 0x51) in DCSCM rev D
-> > To support previous rev (B/C) and rev D,
-> > add eeprom device node for DCSCM rev D.
-> >
-> > Signed-off-by: Colin Huang <u8813345@gmail.com>
-> > ---
-> > DCSCM rev D changed the eeprom address from 0x50 t0 0x51
-> > To support previous rev(B/C) and rev D.
-> > add new eeprom node for devscm rev d.
->
-> I feel different hardware revisions may deserved different devicetrees.
-> What are the trade-offs that lead you to avoiding that?
->
-> Why is it better to cause driver bind errors on both revisions?
->
-> Andrew
 
