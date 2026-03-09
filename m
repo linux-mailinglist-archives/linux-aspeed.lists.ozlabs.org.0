@@ -1,97 +1,97 @@
-Return-Path: <linux-aspeed+bounces-3633-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3628-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8B/FNBFQr2lzTwIAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3633-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Mon, 09 Mar 2026 23:56:17 +0100
+	id 6ARiAX5Or2noTgIAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3628-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 09 Mar 2026 23:49:34 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEBB2242697
-	for <lists+linux-aspeed@lfdr.de>; Mon, 09 Mar 2026 23:56:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25B992425ED
+	for <lists+linux-aspeed@lfdr.de>; Mon, 09 Mar 2026 23:49:33 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fVC6k0xlcz3c9l;
-	Tue, 10 Mar 2026 09:56:14 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fVByy4wWDz3c8W;
+	Tue, 10 Mar 2026 09:49:30 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2607:f8b0:4864:20::429" arc.chain=google.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1773081284;
-	cv=pass; b=AAVvyxoasdoZ55KfKuK9P/aIdzgxoL3vXxUvKyOqgDCvv/goFd3golqPPkeLTEa3CrkHu3OOxQmHbeOX/34cDCNffG5joMB5faa49JB0cmU+hNcy4yQsrPDn6VAx+tylb+vY2jSBY1Rz6KqW4spOPUe2e1HgpOdsyUs+8vhvjvYqkAoxC56ekxIQdQebj8U8/o8O/nSlottgEBxJWN6ORBEzYVu5sQoHlFrYUQCJPNA76hi65HNSMh6MSnpTuK+kZlZ8RKOyp5XJLhGjFft8qHADc1lqZ2Ng6eZn9T/NIhbszChtuPryH7SpTAQClag7ehIamvjFpVhiij6EUiUXaw==
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2607:f8b0:4864:20::102c" arc.chain=google.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1773081707;
+	cv=pass; b=TBlqeT1aWvwJc3p++b9iATNq5qeuPnq0MLJDDykjgeKZZWrmNkYhbnzKYJcJbgmceyvL88aS5qkeJGAgcmS3+l270b7VUr+M4fyKNWs3O6IdTD/QlrkM558b/QFlXdk4bAQWO4zCugRMlodRo55GAlqB0H78q24D/M0n9YkY638Ktci7F57/cCLN3MyC5XFVG80MnUsfjzzLrCEz7eucp4suJjRbBDvpuY6F19ez+x8RrrLwGkuvNI6KEx/b4KkwbtOLnIya/++LNriPm5pJ/Xh9YC7NWFGVgrzY/Yd8X/wTWbgwqSFBbH86H25LjM7EGEPRH4D4ycSuDh8hx5PRqA==
 ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1773081284; c=relaxed/relaxed;
-	bh=nrRcaBEzpRcULN7gKFTCVsNJUuuezDvP0uC3H3YtDbs=;
+	t=1773081707; c=relaxed/relaxed;
+	bh=PJfZbulraOO59O/eR/pHIsZdb8/5q9XObxeBXoWSK88=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O0lA4oRjF200X0zr+MNmLStmgPLKdpZuy5CL6Mtd01FJRNoCwCrlDDYBfEMkZOn6NVC/XbPjjkaisGrvOVmTm0UvpbYYkZly6cEG8Uw8vPodH4wlv7fC1/fPUkM6dU1LNEtNau/q4aeDPYuX5/WUnkfDk9VrYz3QxN6/3D63EwNBs5TfK7nWbxw6v83pRrLIHgfIpwD8QRY/cfTGDprd++eXSHYE9S9/NuD1NtgZUBQ+7Plr4dfOshfM4ki3OpMG55MVcOxJAw4OjvRNo3OtKzneeYwAeqNUvCRRjIGN7tfu343ccUAiqYeYM4E3inwsckLVccR20ISX+WHL52nG8w==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XJ65jzi6; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::429; helo=mail-pf1-x429.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=DSIJSkRlpDBQJwvEhQh5FvHM9alLHhnpRmWsEgsWziKyLdmq+VQrxSkrG1GEktcnwtDY4qjwAhWLdQ+78UGnfwSWaFl/ShTs0/YV+fd6LR/GB1T/9iOspGXZvoaJ3NiDsEdpdSwH4jCNIuXn8g+N4feHxadlS8Jg3ZcWUvqnK65+eJlgIw4wRPlj48v2GZieNIFHYPzbbcVj4SIbhQU8oc2xhunIeW6xGx+0BisIeX4UToI7QTF4Egz56C3M1E3QS5QpIzkE44sJn09o1kScul2BR1vSj8hZ/4Pw+UNTJiwlN3/TvoNWWlwCb0rHhGsaer7Jbquq18eWTwutuRW8lg==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=I3T9KrMa; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::102c; helo=mail-pj1-x102c.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XJ65jzi6;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=I3T9KrMa;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::429; helo=mail-pf1-x429.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::102c; helo=mail-pj1-x102c.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fV5Jz0Pbhz3c8h
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Mar 2026 05:34:41 +1100 (AEDT)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-82985f42664so2609511b3a.0
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 09 Mar 2026 11:34:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773081280; cv=none;
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fV5T60PdFz3c8h
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Mar 2026 05:41:45 +1100 (AEDT)
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-358d80f60ccso6462836a91.3
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 09 Mar 2026 11:41:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773081703; cv=none;
         d=google.com; s=arc-20240605;
-        b=TSxNT6QcCVvyv0nWx4RpbqV/JhDWj740xoh5uCVeKIbx0Gur1rOgHnq/9zm5IgY/IN
-         RDCoRzinrCYVK6wM19Hng7xKBW3Uue5lu3eiDVfnoVSCfF5DtUSmqZF+S/U+q8sfwy5t
-         7/P3u3bmIdtM5q1hCJxfqbRFud2zB6l8WKtlhl8SVRARynzfk0wU5dGuV/hPve4H6E2e
-         hIQ+1dePnJ/2ZiXUl4G0cnwgsZnb7BCOIy2bqcdKq20soPr1cv/UWTcM/sg0zPghB39k
-         dQd6c+rOn7HMClfHeX5NMjQPPhMgn70/PehJnO4NbGkN1l5E4jW7SH3a29gl6QTKAMko
-         P0Xw==
+        b=e1mKolbmv86HxcD1K726ZyUsd45uLxahWolbDIS+ZeigOcnntCYd1NrqUtyMGL4bGm
+         VUQYj43/5vifxabHBh0F0CHuMXIWym0dO+ZbUbHtvgkbuc8ywEtYNc7lS6HX0xKCfdl0
+         ECsUFhYQhS5iBQCCPogsjD8wobGv1jmskpzZMtGMMBFyitaVIjDfeiYF/AmK53HE5xOh
+         x1QgiAWklcgS/ZxnE14z/F6HRTR40SpApAHeJfTw2ZPwNgGbVUxTZApQTmOrHYIYuUAu
+         klkACqVGDInf4N7+z8QeYjNBZ6pXIcaxyFDla7fsHypF4Y6+0ZwfIfH5ZUudDreLQw19
+         G1bA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=nrRcaBEzpRcULN7gKFTCVsNJUuuezDvP0uC3H3YtDbs=;
-        fh=BBvSwiwcAJghrbvJkUOjtFR8QW+LN11Nhyacfl1Qitk=;
-        b=MZxQmG/Wum/4Ho5kkzm+e7EUwlX0tD594xi+IdQIOqRn1yYYNoYtXPm5S1GKyz6S37
-         Gr1uKWZXyF8OFp7oSsEEMNovLn5yLC/yBhgpRw60uIJ+gYuPT+GOeL6kj/BJCYbNnu8r
-         wZHHoxZGRwxBq9WH0BIT0WJG7dobM3Ms14LbnWkd/J40MHt6CrFSwa89GhSHfT+bBVDP
-         lkL8I8SYGouab5S9edOHeiukxTIlaX1XN+A5aTFDkIhYV+Y8LXZgVrEs4JSH+xiu5l0i
-         HOuyLYG/F0/GY5+WCEQAz4Eq9G7JPCH8mtBdwka+Mq9RejwlruD49RIxyBh9SgKKO60N
-         D/jg==;
+        bh=PJfZbulraOO59O/eR/pHIsZdb8/5q9XObxeBXoWSK88=;
+        fh=8bnuJIP9ifglE7iVDBhYt0/cQ73VQGhYI3gA5qiZknQ=;
+        b=FGQAqBaxhmv1sLOQldF2j0cBGOTF48Xmq7uAd8lPN6ptERk52LCOtK5lKSAaxZvqk7
+         O5rc2eQCMDZqDKej7TgCXlhUvHg8AUcznZpIze+yyZbfuHSCDw8BGWaSpEAKWTo4DpwX
+         i3xxBgDWcmU778fAhxrMzpcA1+q9lIpzwWYYLxjYzWVWUEtnPXiucFIcQpRX3nbT4QWo
+         edMnRN+X13929u2e+cYFPJ6TJGTd+ZVeMMM2inrUZ1GjHdME7hEh6t0NF68Q4/K5hQk/
+         d7qaCfCQSZUJLCHnOwaoe6PXUQadM8sfP4aBtw9YbscAgqwbMvpyuRWDcIrfSomkw3En
+         /c7Q==;
         darn=lists.ozlabs.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773081280; x=1773686080; darn=lists.ozlabs.org;
+        d=gmail.com; s=20230601; t=1773081703; x=1773686503; darn=lists.ozlabs.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nrRcaBEzpRcULN7gKFTCVsNJUuuezDvP0uC3H3YtDbs=;
-        b=XJ65jzi66Rg9UC4hsJCgQWCbrM7LDnHqNUdzBRtoppwIKKKndtTNk5XWxdEuQhRpSw
-         1cQ/X1AqabpCPWHy+u+eGHk9m43hMQ2vi3sXQORiZa+QzNt0H6liCynP+1OarN2ef0Jw
-         YBSk0C/JC/SXkb0xuIdefnbc05gcrYFLrsVR9ZS7sYErt0OzEvsH8pf2FLm601IRWUDo
-         8Zt9Dk5t8MTrVOK50STK5x1U1aNS0eIDOhCSbFD2c4NHPAaOW46veWNw3UKhkKzwcVMr
-         gRcG9WrXulnyaHlxWI5+MZ4qLcjFDXXeA7vfP/BZg6lnDmwVCZdxTrRlScWjdZ4IglD+
-         pOAQ==
+        bh=PJfZbulraOO59O/eR/pHIsZdb8/5q9XObxeBXoWSK88=;
+        b=I3T9KrMak8Fd9cRN/dtJ16jysN7KV3fpBSELg26sB3K9wEhKULSp0gH+/fpLvc4LGM
+         wMgxIl/hedsMTPee/p75of2RB2Hs2OGUf4gWctnCVh++Q5+q/n39Hx/AhsXxMExrQ2ij
+         J20zAsGOV2eog95lA/OO+KhyGTWo1pWZ7gfU1g38E8wojNewJZoDFJLkYnPFOUQh11QD
+         ut5nVAuFP40ParzA4g1opxqSu/TjyFbqhIvnmINrlLVpHFxquarAGKO3NjCHp5/cX8ex
+         HzoLebdQJ0UQcYwhmLHK4bKLndT5kess0sPZLxcUmPGTemN2sw30wkeCLPSxs23MyvHq
+         7BAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773081280; x=1773686080;
+        d=1e100.net; s=20230601; t=1773081703; x=1773686503;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=nrRcaBEzpRcULN7gKFTCVsNJUuuezDvP0uC3H3YtDbs=;
-        b=sD+8cMnvYOfCZeL7797/hcjEBVqZ3JYoV1ukGXHTn7aJFpD/KzF+VfxX6onJoQFbLE
-         AuB7/R2n20Sz+ECPvmzpidSORlp7wI0f29DY41HHD+sTJiXG0mQFuukzgO+hm6f94FXI
-         j5G5D/SFRJHzqOfTHE2e6NjjS6VcwUs55Qf6yd6LoJRDicq5T3ZTq9X/kHY31yhy87Ou
-         U9cQJn+Xu2MAd0BQh4JqNIKb7Lw9xYkZ5qHeo0rMLO0MG5LuGHtX88n2oUThEOMhS2nE
-         pNniyzndNef/OHeKrLZ8L2OO28FXs2MMUBMqxYjVZcQwK+x/TWNrcI0+wFUdl+9FCI2h
-         OShQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUili537/75Vz9RobBehc36UMK4445XId6/ctWvLot3gl7So1B54CL4zxfu2BtzboMTjYF95msZSb/MsRI=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yz4r0AHQnnLJWgdFHXRLZ12IHFzg3R+ufqgNa+9f3qIr5ZuNoE7
-	6B+9H1XvQaTcwPLhebV8/xcrVMndd4L3MFpER7Pllq6eWY2QfUxg8P0EOQLgPmJyD+qDGCT2gZ+
-	F1joufTzOjTWJ+D79hRTSxy4pi/xAsC4=
-X-Gm-Gg: ATEYQzxPJZt+M0iQ7E1XcccLn9QqtGBSf0u4E9pjbN+Y5RtmSYhUQIAenvZL8w2eUzY
-	GT0DoigrV5nl/fFGQq66ZM9d3VXb4ZKdO5XGP0ywlGtZIC5aQYuYqGOOU2v4FVUfixxWKJueqPd
-	wsH9qL2FjUVAHKo4ecFWt96AokoSpHAiASO7knunUO7xOhwWsBS6QID4gMkXuLYu4HdUq6id76F
-	khCVmNMKtQYRh/3bcemT/JiASa370HmaN1/0VSiwRF1nVjHoCAtpZ0qDyVdx/h1LhxuDJ9OBsRQ
-	/SiD/lqHk287kJ8=
-X-Received: by 2002:a05:6a00:8d4:b0:828:fba4:f738 with SMTP id
- d2e1a72fcca58-829a30cd00dmr10989334b3a.63.1773081279962; Mon, 09 Mar 2026
- 11:34:39 -0700 (PDT)
+        bh=PJfZbulraOO59O/eR/pHIsZdb8/5q9XObxeBXoWSK88=;
+        b=wkfGvvwyG6vOvtf5r0h3r8F5LpbccrUInTRhvtsSjIg6geTiAVVw7PdmGg2fRYj/Ne
+         FqGki2MYGN0WaBhrR/eORTJY5nx3Oe3XEWmUs5Y8DRSs1SgVIY6/y+AF2F0Nd8LbCIGX
+         lVQ40QVch7l+PUtmQ1TyXIRL+91FaIh4VV4/UO+31wDkSJQ15HTxky0DuGfYF4VExAf0
+         JYVpC9MMvCA3Ni840qkcqa+CZ6Z/av0Fp67KfuV8XnddmFd5zkiecy+axWTILL6xniWp
+         EstGYbVKhThd2P5coQrlSJxtTQUPIl45l7OH2KV7yH5sXXSm7MuPFd4RNVBWE6VL2OT7
+         U5mA==
+X-Forwarded-Encrypted: i=1; AJvYcCUJRHQVCfQVUfI7jXS8MqHO0L24NRZMIEVU7+j/3ah0FgG96tzrKD8ZVJr5Y0zQMeImQM/A1OseMKKd7vw=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzRDKQxSZII0PWD3LPB28MKqQnMTeAjf857TtEs6lDAM1VHrpZQ
+	iKm4gJEMKujIINrr+gGN17aPNDE5K5QTAReLacQL5KMBR3vSE07LjLENJAg1ToF0wQOvs/RQVJM
+	ygupab+mw7XZrwy4vjdQHt24DzmBoYF4=
+X-Gm-Gg: ATEYQzzLj5/mVlaln2T7tA+tJkaDIipq3stly0vLQqWDEgYljNN1puSzmIE8ojhrfkR
+	jNKN3KaZF6Zo3RpTGhj2g+TC5XLMOHfXeE9W0zPJF+atV/Zfi7bVNS5NjS9AfVk++kMfhxKh06w
+	vinINMKGsKrWZx5GYzaEXs+Oq7lnoSwm6VYqvCkAsAyw9OLw/1p4Vi1ISVvHoZe8j9sPmd4hWRi
+	ZOhKd1ufKwKTqEhcWxyofs6J/XrR2p/jKXUxMpoNhtH/8Zr6x3BIdz2g/RrlP2eX03opOmhvRBR
+	vJp4
+X-Received: by 2002:a17:90b:164a:b0:356:2fc5:30f5 with SMTP id
+ 98e67ed59e1d1-359be2b927cmr11377904a91.13.1773081703130; Mon, 09 Mar 2026
+ 11:41:43 -0700 (PDT)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -106,14 +106,14 @@ List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
 References: <20260223-yv5_revise_dts-v5-0-fc913e902488@gmail.com>
- <20260223-yv5_revise_dts-v5-3-fc913e902488@gmail.com> <391b9b912492c07fd1fd7a737b7f49382d361fe2.camel@codeconstruct.com.au>
-In-Reply-To: <391b9b912492c07fd1fd7a737b7f49382d361fe2.camel@codeconstruct.com.au>
+ <20260223-yv5_revise_dts-v5-2-fc913e902488@gmail.com> <73ea41bf341df0e3215c58a029c9ea2386c4ef8a.camel@codeconstruct.com.au>
+In-Reply-To: <73ea41bf341df0e3215c58a029c9ea2386c4ef8a.camel@codeconstruct.com.au>
 From: Kevin Tung <kevin.tung.openbmc@gmail.com>
-Date: Mon, 9 Mar 2026 11:34:21 -0700
-X-Gm-Features: AaiRm50UUFPrZASIttjIHF4s9Vp0-viz-S5hm4dYkV_SMFCL3uBX0HPxRWEoCcI
-Message-ID: <CABh9gBe2BcgnONwx=cmcOAsT15HgVGjxSChgFMvckTAW_8JfMQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/8] ARM: dts: aspeed: yosemite5: Add new SGPIO line
- names and rename signal
+Date: Mon, 9 Mar 2026 11:41:25 -0700
+X-Gm-Features: AaiRm52uT5JRZlFgMZjCJC1DCOwOGUav3xI3jvI4TX-E-U-Zc80rWPyZ4TjKbeU
+Message-ID: <CABh9gBd3b9TB1-s=Gq1q-M8bX+4UioXePUF0DPVrU2N3N8S9yw@mail.gmail.com>
+Subject: Re: [PATCH v5 2/8] ARM: dts: aspeed: yosemite5: Remove ambiguous
+ power monitor DTS nodes
 To: Andrew Jeffery <andrew@codeconstruct.com.au>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, devicetree@vger.kernel.org, 
@@ -124,12 +124,13 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Daniel Hsu <Daniel-Hsu@quantatw.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
+X-Spam-Status: No, score=2.1 required=5.0 tests=ARC_SIGNED,ARC_VALID,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
-	version=4.0.1
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,TVD_SUBJ_WIPE_DEBT
+	autolearn=disabled version=4.0.1
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: EEBB2242697
+X-Rspamd-Queue-Id: 25B992425ED
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -140,7 +141,7 @@ X-Spamd-Result: default: False [-0.71 / 15.00];
 	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3633-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3628-lists,linux-aspeed=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER(0.00)[kevintungopenbmc@gmail.com,linux-aspeed@lists.ozlabs.org];
@@ -169,55 +170,40 @@ X-Rspamd-Action: no action
 On Tue, Mar 3, 2026 at 6:41=E2=80=AFPM Andrew Jeffery
 <andrew@codeconstruct.com.au> wrote:
 >
+> Hi Kevin,
+>
+> Sorry for the patchy replies so far, but this series bothers me and
+> other priorities keep bumping it down the list.
+>
 > On Mon, 2026-02-23 at 19:17 +0800, Kevin Tung wrote:
-> > Add new SGPIO line names for user space monitoring and event logging.
+> > Two different power monitor devices, using different drivers, reuse
+> > I2C addresses 0x40 and 0x45 on bus 10 across Yosemite5 board variants.
+> > Defining these devices statically in the DTS can lead to incorrect
+> > driver binding on newer boards when the wrong device is instantiated.
+>
+> There are effective methods of maintaining devicetrees for variants.
+> Why are we choosing to remove information about the platform rather
+> than use existing techniques to properly describe them?
+>
+Hi Andrew,
+
+This is due to hardware design changes during earlier development
+stages, and the fix is expected to remain stable as the design has
+matured.
+Could you guide me on the best way to maintain devicetrees for
+variants? Thank you :)
 > >
-> > Also rename PADDLE_BD_IOEXP_INT to ALERT_IRQ_PMBUS_PWR2_N to match
-> > hardware naming. The original PADDLE_BD_IOEXP_INT is unused, so this
-> > change does not affect current system functionality.
+> > Therefore, remove 10-0040 and 10-0045 device nodes, and let the driver
+> > selection is instead handled in user space by the OpenBMC Entity
+> > Manager based on the actual board configuration.
 >
-> Why are these two problems being solved in the one patch?
+> As a separate problem to the one above, while you may run OpenBMC on
+> this platform, I'd rather keep the description abstract. We can finish
+> the sentence at "... is instead handled in user space" and remove the
+> rest.
 >
-> https://docs.kernel.org/process/submitting-patches.html#split-changes
->
-> Essentially, your use of "Also" is a bit of a red flag here.
->
-Hi Andew, sorry for addressing two issues in a single patch. I will
-split them into two separate patches.
+Noted. Thanks.
 
-> However, on the specifics, why was the PADDLE_BD_IOEXP_INT hardware
-> naming wrong to begin with? What changed?
->
-Originally the signal was named PADDLE_BD_IOEXP_INT by the hardware team,
-but the name did not clearly reflect its actual function. After
-discussion with the EE team,
-it was renamed to ALERT_IRQ_PMBUS_PWR2_N to better match its use as
-the PMBus PWR2 alert interrupt in the system.
-
-> Broadly, it feels a lot like you're revising platform designs, then
-> trying to make the one devicetree fit the current design, and are not
-> explicitly communicating that this is what you're doing.
->
-> If that _is_ what you're doing, then we can come up with much better
-> schemes to handle it that aren't a constant stream of compatibility
-> breaks.
->
-> I need you to engage with this concern.
->
-Thanks for your feedback. I realize there may be a lack of knowledge
-on my side regarding the best practices here.
-Could you kindly guide me on how we might implement a better approach
-that avoids a constant stream of compatibility breaks?
-I=E2=80=99d like to ensure we handle this correctly and align with the
-expected workflow.
-
-> From inspection, I only find patches 1, 4 and 7 of this series to be
-> something I'd consider applying without further discussion.
->
-Got it. Should I split patches 1, 4, and 7 into a separate series?
-This would keep the current series shorter by excluding items that
-don=E2=80=99t require further discussion.
-
-Kevin
+Kevin,
 BR
 
