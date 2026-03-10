@@ -1,144 +1,97 @@
-Return-Path: <linux-aspeed+bounces-3634-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3638-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +O8REAG3r2mKbwIAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3634-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Mar 2026 07:15:29 +0100
+	id aKmdHhalsGnQlQIAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3638-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Mar 2026 00:11:18 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070A7245BFC
-	for <lists+linux-aspeed@lfdr.de>; Tue, 10 Mar 2026 07:15:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8878B2592E2
+	for <lists+linux-aspeed@lfdr.de>; Wed, 11 Mar 2026 00:11:17 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fVNsQ4zr8z2yFY;
-	Tue, 10 Mar 2026 17:15:22 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fVqPZ5sGwz3bmM;
+	Wed, 11 Mar 2026 10:11:14 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:c405::5" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1773123322;
-	cv=pass; b=FAtltdDD2QHx3fM7vw9xamZtBS9wGfeRxdT2Qy5QjzBLeohm0wjFPcWSYKwxAbRHif/nCNm0c+zSNUlmQKXE/EAkMSUMUpDFFNtTSsxK8/CCH+XE4BnwjrVuWlfRGnrJeWal72fOfiJlbClhPWYz5QUqlYDobc0VLbiLTf0mytUW16XgETvxxtyavV05t4Td3BQrThCMHb8qfI1VMsoVWrzDhecP468sWJu+t+zd962IyhufKCfODTZgeGAbFdYlhchkBVsrDBW9txQvTmENfNyTqZHxOd5n8Vpkdb5tXkNoDnVN8sKOZ9QOYQ6gF5hthCe3UD6SP43e8AWuJciA0w==
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2607:f8b0:4864:20::e2b" arc.chain=google.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1773133636;
+	cv=pass; b=ZT8dvqIVtI7OuaX5viyOgvW0VQmnqO95wjksB7nsO3NzWBOitHF7LxoHfGbwby3e8W0gUJuvJ3mqeBp0uhqI5ZHIVss8hH/7cHYhRMUZiNmVOw40HwGJazUV+lkEXCs/CSeRRulLV2bsHLnq6UU2op4bKnjhaAXSZijoQu5NLn5zYgwlBAy23kwc2cvP9WzX4y480JEhxTSeL7q2EhDAbW6h7bx2riMiAd2IQpOLC1s0wNiTN7tGnodGearVAtFAymy61G6jMsERkCbp/kB6bMqSx2gC+Pi/jje5iJUK08jiUzh2VvxPbfMTP9ggXtG2iVuoeW5zwuW378MRpBzqWg==
 ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1773123322; c=relaxed/relaxed;
-	bh=75Y7HSdBKnhDxJg2vGWjrjhb/aZWKIbjSP1VfNAlDog=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=cb6Lk4VclfnMvFzPA6GQMPtlMDAXQkmeWOnLRIL9Ab6NoN5fGFlIzErXTsVUc454Ie78jfDrns9HXQwS/+aCTLdZcnMveLWWyPm7/h/kmM2yIsAa8EBovskpn6kDQnisB/NAEDm2fRcBoY3HtrwA4v+SQzLrUWhI3cSTMZ6l6lFdKuHZQjIVvpjjXsErXGzepbxZjAqQkbmw3B8xlr3/UHXO8U166bRFsCVvE7yytzqjUPhk8edlYCwxj0NXntQRm2uibeyPBSgXJadiHE90yNFRSZ8VHKOv0WuLvt3aZ3TrkBFguomQ4q+3bM+2qRtdnmOlXdIUDOk4VU5+7chvNA==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=Vn8DZja3; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c405::5; helo=typpr03cu001.outbound.protection.outlook.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+	t=1773133636; c=relaxed/relaxed;
+	bh=B+nNz1AInMAO3E2JjYDfzpBLfMNk8UG5uq7SrYEhfjI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=imYX7C7hI9+K7q4Bq3VoYqe1yEEz/kxComi9Y4fU6W1D8IzviF037RiNS+ceWXDbSUb0WICceDzUlNI9FgqhHVennSDCSKEYlYLY+0DlAtMR/t8JpAi2Uw3WHrGOtvH8mkJlT7gADGrpoDRVGWSMcQpNxH3+8weTcu1yZO6gO9/RwgvSWYf9SMre/BWzZ85fjLJOCyRvOy7jbYps9Y8GkjMc49Y7ZT8G8ouezKF4Goof70IqPooTx64+ElP7WHxEGVuwn7a7XRc1/dehisL40SDNhGNUiWY7cnEwXD3ZRewQh74fslye2mfULlW8CJTdUugu5+O6Okm/n2qskmcihg==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=iP6RJKos; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::e2b; helo=mail-vs1-xe2b.google.com; envelope-from=u8813345@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=Vn8DZja3;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=iP6RJKos;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:c405::5; helo=typpr03cu001.outbound.protection.outlook.com; envelope-from=jacky_chou@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazlp170120005.outbound.protection.outlook.com [IPv6:2a01:111:f403:c405::5])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::e2b; helo=mail-vs1-xe2b.google.com; envelope-from=u8813345@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fVNsN0mMtz2xlh
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Mar 2026 17:15:19 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DJGBhfh2DUymeriJs43L/IKdEopLg7NfaYokZfGDTpo+7wFgbd/UvZRxDWwKp7IZ8neiYzxIhzq2I+AiCbKkuFP7KbV43m6MpmVgswGdsWad302zscya3DjzmYdWB80YCWTWuhw+im1CXH2N6KcpuRBdljOANQnI7eWrNsJVfYJaxAB+4FqnPlbvkhq11bHmcr33yVeatoJSGb+Q80Me0gpjvmvhdKRsAM1lJDAlz+VeMyUL2yCjRGBwgkA/jNHJqjH8hls+iSbIhLFiKsQIMYGDa0cvjtxzHP9jARcJqs4l/3tACcmbGXUJ7bcPdWYzz7879EZWSGN2JC0rFh0cbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=75Y7HSdBKnhDxJg2vGWjrjhb/aZWKIbjSP1VfNAlDog=;
- b=BAcK7qMzsB+0a1/AqSXIXwIkiKOtVj2ILOlFXvSJiN+qULP+noMhC7Eo+Fv2SigD//nYo+urffGj7rwngG901kEVaz1gGn77HLdVMRcjfGpGyFp5Zys4Wmbrp+mC4g0dFfs9pkm3uCvShAp2mFIzdEbU5lfozSdfXIqR3fH1XxplHQqs85mDQvlTCfMtsUavHGmVrIWtXpWVpr/jZrOTvcNXkFWeTopDokfZ1s9Nc5SyFClKA+yqA6vEBv70Jf444/T8W656XNSOCrvEcAGO2pE+jDRxF5LHSY+gOsdBwWtfEpwUQJq6BEOXSFmopqFOBSJwRNaxyhHyg/z7hZer3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=75Y7HSdBKnhDxJg2vGWjrjhb/aZWKIbjSP1VfNAlDog=;
- b=Vn8DZja39hoH/SPWE5mdf4rJEiZ78Z707V0D4Sr/nv1kIFTcYd4co/+kQW+aFa5OmRFtHfyx6O/jwtlgJXvAeZQ69XpSyjInYCVOYushZ21VJF2v8cm5y2n7Ri27wl+jp5hv7HqegDSPHXCf4iEPICW0OZZkxm0OsU+hCAUxOhoiGQ//IDzGqEDkACf+unp5jqqybHNZpHfapc4SQF99WrmP4t/p20uuMKb+h6VNh+cUQU4eYBOQc3jSoKX3rrz14ZLRJfxmJm4k1DOg2W7bxq8tNYY2t1R1IcUq/+Ghge2+2x6hY11fyIStbNXZ7VVA10mkOmuQWHThY0YkPlgTCA==
-Received: from SEYPR06MB5134.apcprd06.prod.outlook.com (2603:1096:101:5a::12)
- by TYZPR06MB5712.apcprd06.prod.outlook.com (2603:1096:400:280::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Tue, 10 Mar
- 2026 06:14:52 +0000
-Received: from SEYPR06MB5134.apcprd06.prod.outlook.com
- ([fe80::f53d:547a:8c11:fc6c]) by SEYPR06MB5134.apcprd06.prod.outlook.com
- ([fe80::f53d:547a:8c11:fc6c%4]) with mapi id 15.20.9678.024; Tue, 10 Mar 2026
- 06:14:52 +0000
-From: Jacky Chou <jacky_chou@aspeedtech.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Po-Yu Chuang <ratbert@faraday-tech.com>, Joel Stanley
-	<joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "taoren@meta.com" <taoren@meta.com>
-Subject: [PATCH net-next v6 5/5] ARM: dts: aspeed: ast2600-evb: Configure
- RGMII delay for MAC
-Thread-Topic: [PATCH net-next v6 5/5] ARM: dts: aspeed: ast2600-evb: Configure
- RGMII delay for MAC
-Thread-Index:
- AQHcqi7Gxnd/yfDNn0+qSBvgjkBecbWbib0AgAPdJDCAAIk4AIABCqiggACUNYCABcZ5QA==
-Date: Tue, 10 Mar 2026 06:14:51 +0000
-Message-ID:
- <SEYPR06MB51348C264DE5FE428F6EF4329D46A@SEYPR06MB5134.apcprd06.prod.outlook.com>
-References: <20260302-rgmii_delay_2600-v6-0-68319a4c4110@aspeedtech.com>
- <20260302-rgmii_delay_2600-v6-5-68319a4c4110@aspeedtech.com>
- <d38f54b2-4a99-4a54-8403-e4f4a9704386@lunn.ch>
- <SEYPR06MB5134AE0B0042E05E8E58A5239D7DA@SEYPR06MB5134.apcprd06.prod.outlook.com>
- <70ed84fd-ac9d-4157-ad20-36deec0c5f82@lunn.ch>
- <SEYPR06MB51341775B041AF86CC8769F69D7AA@SEYPR06MB5134.apcprd06.prod.outlook.com>
- <344e1aed-f2a5-4249-90c1-2b848ee39d7c@lunn.ch>
-In-Reply-To: <344e1aed-f2a5-4249-90c1-2b848ee39d7c@lunn.ch>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEYPR06MB5134:EE_|TYZPR06MB5712:EE_
-x-ms-office365-filtering-correlation-id: 6b2faf28-0e2a-43f0-bdca-08de7e6c5751
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|366016|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- cQrVmPKIsodJDg3U9MRX4LWXDA1Y1hgPf3Modknq8dwMeezscR3mcdVVs5UXXb+6c88Gc2GA9o3ymtb4J2FjDEGwq/Hb2TcCN+4B5+soZD505TgbDHhpAFO75x1eHj6+keHf4DVT9gjEddR4Qi1z/F1gCaixE8aihm0vJrBOwKSuDf2udMxPH8NtxUhnsDgBHZ4JGVDIle4n8f/LwEMWcMQeixuakyTSOA3uQlb1zImMtRt5tw68QnvssRsrxobm27wq7dkfIyLK/PQKhaIS2i9utWvuU9KVQWsNEDAB+c5AAogcDl/SEfoNcUCofkYidH02zPCYvtRTcE5+/5edwRGKLkHEtcXSgjPWCVlAktgH6VxYNk2qiz0UiaE7apGsYP8g1bX3RcMOWaHVMNUuiyDUTKdH9r/1hYTwLmjeEAa3kz4Jy3mVEjpwiltMPvHgbkpyFLCKDkV5vc9du/3NBTz323cvwR8UsUpVKYWia02S8xfKAf/g3+PXWwumQlV3x+y/Kcx/cY2YdZyl29x7rmL4apRcI5XP0fHtzEg8hqI/WyWGBxASHqTCg/cCY37mvD7yxX1+1GiCj6nRdxd11O4tEYkOTshsCekdP6NMV/4g0uyT8CWGKOO4crH4zHmCmGEx8A6MhKAWLECPpZCsXragff8czEWTm5b6smj3XQ192ZWRYh1yni5FZtJiGxDUZVT3Zo2E03afnT2VPesC3Fj4/VHyy6EuBIeocnBWmksHSwoBMoQM/8SA6J/4u6R5BTm1wWxnVWhe8oajlyLtC7LZtT34R9ZoX15dZjDM3Mc=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR06MB5134.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?5/jpOJ04g9jC+qzwm1jVax8NPl7CY50iJLL5gJTHGEUP/8mx8xwkpsdwCRli?=
- =?us-ascii?Q?5i3cf7vIS1/uGAa6uHxyfnGV2krNCA+OAtTCL7Yg6HkHAGKX9tixjTkvrxmn?=
- =?us-ascii?Q?QSKWWROSrLpl0i3vuVFUByQ5HAXguc3c8X0+YMdobsOMffp++lhl3aewHYfs?=
- =?us-ascii?Q?fPjaPb6rVUVgeABLFnC4SjPpiUg2hxWDqss/CwSG7HKgKwH/f+LlDXKF6BWx?=
- =?us-ascii?Q?bIdk/UIeW2bX9fCeYFcrPbPEzXaCe5TbFMJ1ZbuMGBGtfY4eAYmMcAegW2EO?=
- =?us-ascii?Q?3m84tF8C/jRMjO+157Yzr1lkOI1pGVtoIV8LcPL8fY7UTqizE0loTsc2NE7k?=
- =?us-ascii?Q?IktwDJ87xu3rfI8v+h8d6dfJa281ztquMFjWeKnB/yfUn9zbVyhlfVyL78qZ?=
- =?us-ascii?Q?AD/IxJcEL4EI7cb6GxHCW4ui4wjq5YyrQMuhIcyAZBrIXj9g2VGv3haQHryD?=
- =?us-ascii?Q?YTO8UfHD9tu8u1s3dEqtpGBc99A2pkcY2Hvl8IzLpSWOiF0YniSa6PfY/jia?=
- =?us-ascii?Q?JDuHyUXAFa8J7noNdAnkifsLSKaJBpKhpU/GTpx04pli9A8e9KmOMADhbcBM?=
- =?us-ascii?Q?zk84ALDmnf5Q4Pa9TcQ+GrOSHmMUMx1svHXBaAxvhyO43uYe/slgTd7x0Ne0?=
- =?us-ascii?Q?WK2eIdhxAxFwdQ6bej9FA65hKV28FxnZ2Qs/yA07GEVhdLKEtWaPYpr2eqQh?=
- =?us-ascii?Q?zJ+Gt+V3AKwzifYewSeq0julDmyDlvyNDb/DBc8Hns9V2eNoqaheUPNEoaBx?=
- =?us-ascii?Q?0DYIQGANGjfuann+z7OtqizuPgefCyOpZZptr8TRBlNGMsfKPbHEF+Vgmv9v?=
- =?us-ascii?Q?87dolOmRMaz2ndvLKEBTaI0DVj1FR7CxN/MvN7E+u0ymVVH8qFRWyQ/XOQ16?=
- =?us-ascii?Q?OpJhLZQEV/J3WUul/X0gIFPLYDICarCp6SGp72VHlYPMKwH0i/ai+jvJdpVN?=
- =?us-ascii?Q?V9eEdGCDz4OgoLOoFvOS/nkTb+rnsb34SUiLZ20s//VclZZ3lUFSMCcg1IHd?=
- =?us-ascii?Q?e/rAXxYfZMqgnjxk/43Y1tL8t9KqYIDid70oTSuOxJs6VG4uiW82BxbuaeTx?=
- =?us-ascii?Q?Z5WhKLm396KWCyrGyxBlH7+oV/dqYyZ0SC1tmpbK50xCMLq92fGD6yEZJBJI?=
- =?us-ascii?Q?46RgSWj91ahf9yW8UHfwkwF5DuNzFIz1Ev435U1VAvdFYjRmS1HQX4g7fQ+t?=
- =?us-ascii?Q?den1AnEkWmsCwZfzVYHJxjiPa38u9/ebogd8bGjjm/WaaNtgEyePEdb9cmly?=
- =?us-ascii?Q?0Qe0SMMmhd2Nsf+BDl9Qu3h9jsCf0AaFjqq1OU3j2DdfpQ4CEJhL+o3PsccX?=
- =?us-ascii?Q?tS/Pa01dKHaTI7/osUemcT+oJuVPInvkOezd6MhDOFULxhLwVjX4sn/5KFK2?=
- =?us-ascii?Q?3PRDg3tCYrb5omyn94PMPSSVDt94G6H8OYrx/FxqaEAwHjA4yMcjfzgk8Suf?=
- =?us-ascii?Q?0+f93L0KVA5jItuUqH+Fry+5GhedJ5gnsgyqz18FaHCgAWtaW0TGX6m0uLpt?=
- =?us-ascii?Q?x1zlLDQnJS9yr8t0i9cJgr8oIztYUXCN+MkA0speTSVjpyV3LHL65kvGl+Th?=
- =?us-ascii?Q?cOFfliDE1VnRs8O+K+GxmOxMmEfzoHOfbWcyBFeLN6pvljSodpNWm511AWfP?=
- =?us-ascii?Q?kBEX4Fp0TH23tAYMAw301yHJss7Cu3yfI/09E9/627K2xnoATnqPptSsI/dN?=
- =?us-ascii?Q?sOQVMY7Tn8+njn5UwXTSEFme7AGFCPz1WGWMdjVyVQ78i0RzCyrmotL32pYp?=
- =?us-ascii?Q?q7HBAC0Gtw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fVSgk5lXPz2yFY
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Mar 2026 20:07:13 +1100 (AEDT)
+Received: by mail-vs1-xe2b.google.com with SMTP id ada2fe7eead31-5ffe9a5b128so982327137.2
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 10 Mar 2026 02:07:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773133630; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZipfdcQcGkCg55jr2PhaMorMQ8sImxaNps/u72BVlCEQsBycVx8WtZlh5VGGsGTZ3j
+         M9baJn3Eqqfg+75fwtO/K3Tp85LYir4U71hRvRqL0MYUEMl5efLt20LiI3xWJkephwaY
+         I3D/cUEr+I4Q9GLikbbvkfRd/TspipMsYz4mO4kZ4AWd1IeeLiJVShd0h0/ufn/BCfYe
+         vkgko0baKM3X0MyfbijrQleXje0PGYk6tXpiD4FcYUfbB5A1SuQiKM+bgxYrZni0H3uf
+         dp56/3jNWAP5nAzlRycw5N3xO7ioEGE69p+ZNpWpTZIRAFbKDKeBZu833mYyXjD3u9Ai
+         TcNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=B+nNz1AInMAO3E2JjYDfzpBLfMNk8UG5uq7SrYEhfjI=;
+        fh=u2h2VdrVmD3S67eX967DgFL5cmJypfyncgNWxEeR0ww=;
+        b=Ol2SHQkdR6BsQctl4QoJG8ofD8iSzo9eC1wYA+3U36ULP7Jv1b/7n2P435citjO894
+         LSbu1GTa96KmE0IpkkxeLd7BWBlCvlpy4TSJ20qkEPFH0QRLdlFnFZXlMlBKjwaIn6WF
+         1iOeIW7/GSGai7o4o9/fTA6nZ12ya+V7xyFBij/3afBuGBuKHweImgPBwkfJkP8Hk0xg
+         pUz34SrNLraRyOSckwdZvIqKfNmQf6j3oly8sPRCwomUJTkVe2SUBnqMP/0Y+9rjPPk8
+         pNWwYF2IH2cw1l6xWPXGiLC76q1PlZtX+4QzrwH4CPztdsRRzLrSfmO9I256NzWvjglO
+         0KNg==;
+        darn=lists.ozlabs.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773133630; x=1773738430; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B+nNz1AInMAO3E2JjYDfzpBLfMNk8UG5uq7SrYEhfjI=;
+        b=iP6RJKosGPKr82OI2/PYC0++DQqiqlelK4s+Lh+dHF+4ww+LDmnFf41c0g9FAu8ciH
+         lGvGsVpB+s8vworxM1p8tWDjg//00AaUi+l5gyYB5lMOOoAB1/U0c9ph+plhFrEUmn6l
+         1ec0cQFkb4thdEhNTn9lBfFDlWUqEdiHllCzkd+6pvJ/NSGp9sw4Qd+ArVDcNEVa2Khw
+         Z5tY+czYl543qR5DsuuFHsdZWDq8AYaFRH0LbpRPct/237V97kWLStNwcUuU1EwEVRZ0
+         MSWL29KfFEDqV9o+jIplIuNvDJpunqXOlhBA0ui93/vIbRl44ostZU37JWyWxlRy6I2J
+         tQdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773133630; x=1773738430;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=B+nNz1AInMAO3E2JjYDfzpBLfMNk8UG5uq7SrYEhfjI=;
+        b=JhkVYjvjZRzq14v781mTTMwZacjPzdOUS69db23TReceYZJ0JqcYQ55syS6x2Af4jA
+         eT9rZrRKsXH91GAHcdBRHfqbTqk2vUi3VsbHyqL2Qn8cUI/Ps5V+l9+L5XhzEmuj2OIN
+         3qMjB/QYPc2u2G8bnLSw8VQR3Gz2+jHLfxKjnej6h3jf62qYgdomCr1F+7dlHXakOmsx
+         6ROaeIp+PQxhoP/c5gaILRvIlN3mAwZgFMoNfpuwBroHEldbQGBLYKN6AIUXCJeZYLuj
+         PP14aWxaZ1tUGHH3UIwJCA6BU7zOc1ZrtaDJLbunQ4zZ90skFfLeIv33BG1jtVyaZPKH
+         ujEw==
+X-Forwarded-Encrypted: i=1; AJvYcCU9OEc9KoEGBT1UV0LcZGXreLJ98UjhcIQxrRAxvCyteo6fKE0Alj+ISKxJalKJ4gFwun+gohe0/UqvwZY=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzNmQG+cF58a89zW7wXL7jXWZU63VKFVsc/3cQ2HpblaFprduhM
+	AUt4xaI2/xERwmrMM2UygdU6WL7IR7V4RhzZQouMvjMVwcPq+OsErZMhm1C950y7531SygbN7nw
+	z6tHw7Oe8fBsldckTpEF4WLGt5bWfBmM=
+X-Gm-Gg: ATEYQzz/J3DF9w6VnbALTgE/FvuBFiwqbOMnXyA/hXW+qP05vAc7WoMAwZPKSbZGvt0
+	ZzEOMPrblKc/lRgvOtA4R6C12NlSIctwodcWRRoe5wonVtQu+zuWgth3FC42MIk9vHX+JxRfx27
+	MhPDeoI6HwD5kRnUaS59JcWYQqU80ssqIzCIZv2VGiyZyagtj4yh6veCvgJHoaH2WvBTeBWJASM
+	O1Oe1VRJyrgHvfYP1O+Yi/p4SkY9YwR3/5Ku8PNI6glOTb3NWj+ujLanlieMNLy+/QunFu95QMZ
+	NITg2A==
+X-Received: by 2002:a05:6102:dce:b0:5f5:4eac:cd2e with SMTP id
+ ada2fe7eead31-5ffe61bf0c7mr5730209137.32.1773133630078; Tue, 10 Mar 2026
+ 02:07:10 -0700 (PDT)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -152,97 +105,107 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB5134.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b2faf28-0e2a-43f0-bdca-08de7e6c5751
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2026 06:14:51.9106
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7lihV60QjzccLfx0nPYPbvd/S1OHU14s6G3kXxc4l9eYuodg66fKZ04n0Kenn67rAZSfUcZ7++/ys4xGmLPhL21Fa370pOVays/fQ9wuf2A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5712
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
-	SPF_PASS autolearn=disabled version=4.0.1
+References: <20260226-anacapa-dts-sgpio-v2-1-fd76828616b8@gmail.com> <3e9d0b356ad2871de0b3a47194726d3503ef136e.camel@codeconstruct.com.au>
+In-Reply-To: <3e9d0b356ad2871de0b3a47194726d3503ef136e.camel@codeconstruct.com.au>
+From: Colin Huang <u8813345@gmail.com>
+Date: Tue, 10 Mar 2026 17:06:59 +0800
+X-Gm-Features: AaiRm52146tZ5iflavx_AsTSdrRXnGzrXSl7eTyC_eatkyvt9sjGedxW7uv8FZY
+Message-ID: <CAPBH0A-x6Mve=9C_4OFRCCQBfEr8e1mnjstG=EaRKc1wKdhuQQ@mail.gmail.com>
+Subject: Re: [PATCH v2] ARM: dts: aspeed: anacapa: update SGPIO and PCA9555
+ settings for DFT
+To: Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, Colin.Huang2@amd.com, Carl.Lee@amd.com, 
+	Peter.Shen@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.1 required=5.0 tests=ARC_SIGNED,ARC_VALID,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: 070A7245BFC
+X-Rspamd-Queue-Id: 8878B2592E2
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[aspeedtech.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[aspeedtech.com:s=selector1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-3638-lists,linux-aspeed=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3634-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[jacky_chou@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_RECIPIENTS(0.00)[m:andrew@lunn.ch,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:ratbert@faraday-tech.com,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:netdev@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:taoren@meta.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER(0.00)[u8813345@gmail.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:Colin.Huang2@amd.com,m:Carl.Lee@amd.com,m:Peter.Shen@amd.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_NEQ_ENVFROM(0.00)[jacky_chou@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[aspeedtech.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-aspeed,netdev,dt];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[u8813345@gmail.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[SEYPR06MB5134.apcprd06.prod.outlook.com:mid,aspeedtech.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:rdns,lists.ozlabs.org:helo,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-> > Could you please help confirm how we should proceed with this project?
->=20
-> That is up to you.
->=20
-> If you do lots of small patches with good comments, you probably can do i=
-t in
-> Linux. But you need to convince reviewers you are not breaking backwards
-> compatibility.
->=20
-> I think the bootloader change is simpler. But i've not worked on bootload=
-ers for
-> a long time.
->=20
-> > 3. Send a patch to correct the phy-mode settings in
-> > aspeed-ast2600-evb.dts so that they match the bootloader after the fix.
+Hi Andrew,
+ Thanks for your feedback.
+ I will separate more patches and remove the document name from comment.
+BR,
+Colin Huang
+
+Andrew Jeffery <andrew@codeconstruct.com.au> =E6=96=BC 2026=E5=B9=B43=E6=9C=
+=885=E6=97=A5=E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=887:57=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+
+>
+> Hi Colin,
+>
+> On Thu, 2026-02-26 at 22:08 +0800, Colin Huang wrote:
+> > This update adjusts SGPIO mappings and enables interrupt support for th=
+e
+> > PCA9555 GPIO expanders. These changes are required as part of the DFT
+> > (Design For Tooling) integration and are aligned with the SGPIO signal
+> > definitions provided in Helios_SGPIO_BIT_MAP.xlsx (rev: 2026-02-16).
+>
+> Where can I access Helios_SGPIO_IT_MAP.xslx?
+>
+> My suspicion is I can't, in which case this doesn't have any business
+> being the commit message.
+>
 > >
-> > mac0: "rgmii-rxid" -> "rgmii-id"
-> > mac1: "rgmii-rxid" -> "rgmii-id"
-> > mac2: "rgmii" -> "rgmii-id"
-> > mac3: "rgmii" -> "rgmii-id"
->=20
-> You will do this anyway. However, just so that backwards comparability ge=
-ts
-> tested all the time, i would suggest you only change mac0 and mac3. Leave
-> mac1 and mac2 with old settings, and add comments that old values are bei=
-ng
-> used for testing, and they should not be cut/paste into new .dts files. A=
-nd add a
-> comment that mac0 and mac3 require the new bootloader, if you decide to
-> solve it that way.
->=20
-
-Thank you for your patience and for the detailed guidance.
-
-I will discuss the possible approaches internally with the team and decide =
-on the=20
-direction for the fix.=20
-Thanks again for your feedback.
-
-Thanks,
-Jacky
-
+> > Updates include:
+> > - Add interrupt-parent and interrupts properties to PCA9555 nodes to
+> >   enable proper interrupt handling required by phosphor-gpio-monitor.
+> > - Correct placement of LEAK_DETECT_RMC_N.
+> > - Update SGPIO line-name mappings per the latest Helios SGPIO bit map t=
+o
+> >   reflect leakage channels, presence pins, module power-good, and other
+> >   DFT-related monitoring signals.
+>
+> Please take some time to read through the documentation on separating
+> your changes:
+>
+> https://docs.kernel.org/process/submitting-patches.html#separate-your-cha=
+nges
+>
+> If you haven't already, please also take the time to read the rest of
+> the document.
+>
+> Andrew
 
