@@ -1,145 +1,44 @@
-Return-Path: <linux-aspeed+bounces-3652-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3654-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sHizCmnMs2n2awAAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3652-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Mar 2026 09:35:53 +0100
+	id GP24McXgs2ktcQAAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3654-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Mar 2026 11:02:45 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C60A27FC78
-	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Mar 2026 09:35:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44F52810BD
+	for <lists+linux-aspeed@lfdr.de>; Fri, 13 Mar 2026 11:02:44 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fXHr52k0Dz3cJk;
-	Fri, 13 Mar 2026 19:35:49 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fXKmK5x1Lz3cJk;
+	Fri, 13 Mar 2026 21:02:41 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:c405::5" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1773390949;
-	cv=pass; b=le1BO6MmPSmSfj6Z2vt6qEuE2XwnKUFskUprg6Rid1GGJoJWq53dnFjFs94TphLCxNXlrDZkFJCrGm64DJiZLJAFjT95cOj9cw7o9TduAUsulzqy+V/m2v3KUqk6tmB/9Jr8fgNMo8ecJEpY3ZIrtmX5k43oi+ipNApWKG/NwiUKgacz/sJWkgNP+iaOQiCz7q7KtmsXHaRmfTiR83ZpI3d9OhfEd+Z0l4cNSyqqCFHJz+YjjkeKPNVFaUJQopdi094qOLAHXF7+MsrM+LpiRrGe7BQYaGnJ72DVjwvL8IsH5ZajZ+j7E2gcOvq0wyWOPne5+12uN6Ig0Pp+L/ttDg==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1773390949; c=relaxed/relaxed;
-	bh=gMWg3F5EEKBPmmpuEvb/JbjJMebxNu3Bx5SW/Yrh5V0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=F5XMA2S0SNjGivu6UNQJT150w6deZZNCADRZBEaUzsVHSmqBGUehDaN0jZ+6mu0UIDc6fyazU5N1kGUagtGub6CggdCmEaD6HCy1rSpS0c04x/ZEqcwa3nUflQjDl7ugF8uaTPfm2z9zLbz5cI6yyNnYiV/nREXHTnewgVao9MuxRwQTbmNNkJSyoC3BEjgTkGf88sOsknbMAd10rQwY4uZhnOkpdCUR0K2rp+UJpbh5r/Ns97cmPGhVlKkftOIpV3rLse7nHoEBvyxFaIxmapk4rp77k/E4P9AkNyeSTqKLo9J6dlWYht2LGaWCM0J2+FQmJalK7WY7mvCbzHKXVA==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=WZMkz6JE; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c405::5; helo=typpr03cu001.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1773396161;
+	cv=none; b=Px/tvjPTHfTb2ilsQyxhhHKTDAgjV0U8TFrEbNkntTH94sDRddHZFREPSlVmEaflBfr0yiFruZtxXuSz5Zgjgn6KqXkcMj5X7rB7+8A2EnCUzUq3HOj0BhPGt/osVJclqQIsDmOBkygsGHghmdtYEPP7K1lqED54lWcAwSHuLklUtv2TD+DAmJ8/c/O3u+LRiD2MSQua4/FI2yhFNqMt0v7Ba6OdwIKC79jGNjP3PQS1HQE5v3izwidcts2bVUNBZ4BEvhdDqR+evGo8MHenN/4W8l/fsA9vlLlmOtYFnLZikACVxT+D/bHO6wk6qiIwL/XpoM9Xb76isgW/dyylHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1773396161; c=relaxed/relaxed;
+	bh=A939J4iWGdtlVWArFdZqUZziIm4200CdJ3vSkDQy8t4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=U0E2BO1YyvqfO52B6gVOW5+LfSGXIg0IPUCHQ05KYBn/wfGt8XQjpmMlSgOU4WDGhSp8+6PWettqK2c6/NRjEv5tVvrhQ3TqXIGSRwXaARa41hvfe5ESDjyPR2ErPKtInxQiCATkT0HQOBbiwQWhda1/S594IVR+VuN/3f8NnViAp2g+cimQa2WwqSJ8QGQYj1inlNaBPoYUSpoOZKn+QSGHRkhG34AoUFVBPv6ASm/ohS7GaG3qP0ssHKSjtwI9/UsLqoGmvyEzkiHkiIRV4p5BQh0tR7cA0hwt9fwnCu1F5f5XB3zOCAxUNcaaV3xRRPceq4gBIxdlGOfn1Ztgtw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=WZMkz6JE;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:c405::5; helo=typpr03cu001.outbound.protection.outlook.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazlp170120005.outbound.protection.outlook.com [IPv6:2a01:111:f403:c405::5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fXHr43LsSz3cGf;
-	Fri, 13 Mar 2026 19:35:48 +1100 (AEDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=coprM28oc0lm0768lFLpmyAO8DK278wOQt+HFIELxrAgq/XrUXPGpq2uupIdyMfatMhx7y54EzY/Q1a3Spfmqw9125uXy5pYhlkiw7FwaIlbTp+wT/UnB9Rtdi9v2znpSzQkccyawiW2qOWlmYu73vhyHaV06c3wsttYTSrw41Bfxr1di8EJplrC5GTU1jcMbSPNQX7U5Uwc5tx9UCjpktovGBxN1TWWe8OODm+bNnEata0U55nshd6od3MANnosFuU519fkifQAYrj3z6ao1GX8VNVIKmudM9h7Qh7rU9OZgP/zbLGfCAAsH1aZb2HIKPEOBEwxUiZj5TBmjeLDRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gMWg3F5EEKBPmmpuEvb/JbjJMebxNu3Bx5SW/Yrh5V0=;
- b=EV9rjtAKTOLMazH8b4LIAYzgs7dRaf7ZSEhyUPQW9JIi2FIxsUBUo6tgZhl/MiR3vFYh8JHlnOUIcK6iaG0HQK6gXtN1HZ/Q2Vfj0iXfweBbjInfWUh2mwXH9DR4Wqt4aaSwpyRlIBpqK68SSxQqKA6KIcEk6pQMpfblapfo1t9/IRgSJrO5lRPw+SEFshniuOM778sXawrcV7GXGQ1xVSI1B3TRo+seoJHAWpNJZsy9Nxnqk1/QIly36sWUjbA4SWwbXejo4biXzP7ge6RcC6iILXHVBL3Zp0+TjrytFHvA3M5uDHrBZrxEsATYdvMnReiBxR/hBLCQaOAmhZV1tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gMWg3F5EEKBPmmpuEvb/JbjJMebxNu3Bx5SW/Yrh5V0=;
- b=WZMkz6JEGSSUDTdCMW1/+OMBPvWZiTGzSaSUCaWGvIZ23w+xAop/3N+KqE9IfJXjj5o5mfa/xcVw+wfw1vzmxVaxgQnkP56zhuSrwLpJK9orXj2QmDtw+46MW/rp7Sx8GQwhgLWsll2CB3pyUq3rU/cp+Cbd+rNdUuk4TBsgWYLVlz2uRReSFKA9sZJk9GGCJ8O2TfkLvWfbZgUVKDHUoBgy0EM4FN3J9vSCtT7ohMr9pkcc5a5wJPPCX22tS7BXqItCpuXF20bk5K5TmpGeGCqslMOx638/CtYwJnrPuxu7MAWShe3WktRi/6rhyTakmGfOu7kglQXgRI0SvjP1tQ==
-Received: from TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com (2603:1096:408::791)
- by TY1PPF492B3076A.apcprd06.prod.outlook.com (2603:1096:408::90f) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Fri, 13 Mar
- 2026 08:35:24 +0000
-Received: from TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com
- ([fe80::8c70:cb01:78fb:d9c0]) by TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com
- ([fe80::8c70:cb01:78fb:d9c0%6]) with mapi id 15.20.9678.024; Fri, 13 Mar 2026
- 08:35:23 +0000
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, Andrew Jeffery
-	<andrew@codeconstruct.com.au>, Ulf Hansson <ulf.hansson@linaro.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Ryan Chen
-	<ryanchen.aspeed@gmail.com>, Adrian Hunter <adrian.hunter@intel.com>
-CC: Andrew Jeffery <andrew@aj.id.au>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org"
-	<openbmc@lists.ozlabs.org>, "linux-mmc@vger.kernel.org"
-	<linux-mmc@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 2/2] mmc: sdhci-of-aspeed: Add ast2700 support
-Thread-Topic: [PATCH 2/2] mmc: sdhci-of-aspeed: Add ast2700 support
-Thread-Index: AQHcsqoqa/wkH2eIMUucFBg3jcknirWsIJ8AgAAB8kA=
-Date: Fri, 13 Mar 2026 08:35:23 +0000
-Message-ID:
- <TY2PPF5CB9A1BE6C2F2EFFA36CD917C623CF245A@TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com>
-References: <20260313-sdhci-v1-0-91cea19c8a67@aspeedtech.com>
-	 <20260313-sdhci-v1-2-91cea19c8a67@aspeedtech.com>
- <352a522b5325e9db80c880dd7a3a052516f3b673.camel@pengutronix.de>
-In-Reply-To: <352a522b5325e9db80c880dd7a3a052516f3b673.camel@pengutronix.de>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY2PPF5CB9A1BE6:EE_|TY1PPF492B3076A:EE_
-x-ms-office365-filtering-correlation-id: 0ff19f7f-7860-45ef-4eb7-08de80db7862
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|7416014|376014|1800799024|18002099003|22082099003|56012099003|38070700021;
-x-microsoft-antispam-message-info:
- mdeeNGye0mTqwVej5mxgYHRLKZUDRp7GFPw2BUfV9+2dJM7XDekqT3r0ZA8kIr4tIXdtPLRzQBT4CVRwTY1MyqUqKZkUwxTXIF7ywVL3/W1Vm6PHAtlf6mW2sanUZCctDS56pT4oN4gLmrrw3avDyDEMIl289vyt0dpMh3/oS4YegtMHkr3GbAyAN3rvdvrkCaysOb6oZllunknowd2ViH42Zvrnsm6yehJz4VYxS4RzsVXfZ6jO7OgrN62NwbC0RglwGUzDipiuJgK57LglIXKSGgAqBoGX+CX63OROC8i+rq84zsYk2sSLHcw08d8UBE/4LolD/nYXFbITNgDITAdCTkQxN338195MHr3BdqoPz4w12vMVchgDei5TD10nKwzjh8BH804wl5LmxwFexAwqmoelYNEoEaIV9Gu9/JzdBB5b2zEiJSY29ooCnbNDI6a5p4K1fub6miLSesVbFfa1+/FPuTzNos90bihnRNhIA1m7LDgYN7bfe7UD7kNnnnpzv2dxEyOXzr+Q1Yn4uTHCj41Y2eA8PgWmpe3AcO+jo0oCz1QofM8hF1awU7kCZIcjBVzC7V6XOGTU99aTEE5A3iIlE7aK+QsO5r/i6/xYPSgpHIwTOtDU+boVXbCPFgoWQ/tDJtjLoMCXyVz2OQaFvfG/q5ZHAUbGhQcJk0N+mzJ7qIopBM9fuZCk8tI9WpM0GI538iQG/tCmyoaPsc+LDbOe4AK8+1B51j1ssDFs21QEjUKC2/E4VkZMprlLysxzjW2SnzhrJ9BJcHqU3qlqQpe9zpCMEYauw0AblkY=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(18002099003)(22082099003)(56012099003)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?dk82S2RZdnk5MlM3eFNCdmNqL3NyZStqZFhDaXdRVTkyd2RLVDU1cnI0VlVm?=
- =?utf-8?B?cDVaVjh6M1hPUFFleFJGWkJmMzFoNGZyQzExRkc3RTJhTFlwQm1RZEJTUnhr?=
- =?utf-8?B?UTJuY2gwUU1qVm56RG94NWk4bnhRK2pZL0NROWpCRkZwOTlEbkgrWWR0ajlS?=
- =?utf-8?B?SFlsbkZjVWh0MElKdEU1andYWWZWZWxWUHFrZ2dCblVIbHRrdGZqNGRQYXV5?=
- =?utf-8?B?VVdIeWxScE9LY054M05KSHpQc3Z5SW9qd29mYXZscTNmNWsxSXpSQjFLZ0x5?=
- =?utf-8?B?Tm13d1ZOOWsrU2xwZ3pIMGhwRXl2NW9USzY3VTJBS1lxeDVIZHNJRUhoM1Iy?=
- =?utf-8?B?ZWFzTURYRC9SRGwwMVpqdkY0Vk9Va2Z4K3M5SFFvRmt2VitneUZHT2RHQjdr?=
- =?utf-8?B?dndiU3N2STd1emFWTDdoNWFoT0ZjTkJ4M3kyL2Y3YlM1ekEyQXhHSzI0VEFr?=
- =?utf-8?B?OXlQR1Jsa29teXRuK2VvVzM2QnhLYURmd281L1FybTlROW82d0N5MXgzVHdj?=
- =?utf-8?B?WTNkdWZNUkxjVGViVC94cDJ4azcvdkhmbjZTN3hpWW5oSVpzL0k3UmtXQnR6?=
- =?utf-8?B?ZU1YcU03KzZoTzhBaU1UTWtMcUdOSFg2V1ozVWdLSHVFR0RHeTdpUVM1Nkox?=
- =?utf-8?B?dDJQV01pQ1pPU3RlSTRkaEptaGtHbkdrV0VmZGM5VXc4UmNPdTNiY2V4dVRM?=
- =?utf-8?B?ZGNnNzZ6cGxobHkyOFl1UHJVMGFVNHpDd0pxTEdia2k4d3I0RkRhYXZGUE1u?=
- =?utf-8?B?RVhLTGIwUlAvcVZDQUFkY3NwRlZWcjNLMUhYbVBWVW9CcTRjN2hHY2Q5OWFE?=
- =?utf-8?B?YjBKbG5PdzR4V2Z5QW5Cd1NvK1lVaDlSdkhUR0lUdExhS21RZFliL3gyM2M5?=
- =?utf-8?B?cTlPUkhyZUNvVlZqQ2ZubjE3bEg2QXM3K1hiajhGcUlzVDV0Z1YrVXA3U2Yv?=
- =?utf-8?B?ekhrT1QzSGFUUk85WkNma2pqbTdRZWI5K1dYN01iL1duNGVZQ1hBQ3cxaHBR?=
- =?utf-8?B?RHN5bFViRGh2UU80blJsS3BZaVNtZDkvd2JneDFnVTA2Vk1mRW44bE1FV1Vm?=
- =?utf-8?B?a2QvUUJWTHlTc1RFY21RejRIbGdZWTVzaXJxdTFsZ1JDT3JOS3dZb2M5THNt?=
- =?utf-8?B?WDZPMVZNNkE3VTljVlpkTVZ3eEU1VWlNS1NHMVVKMnZaU3BJeUtGU2RCUW5J?=
- =?utf-8?B?eGtkV2tnY2hvTGV1ajRrd2VoZXc5UURiSUtmUlRCRzlJdmJRQU13ZDVpU3Vr?=
- =?utf-8?B?SkhweThOSDBsQ3MzMnVsWVhTVDhIWGJDenhTZ0xWeFY3cktuU1kyUDJxRDM2?=
- =?utf-8?B?b2pvdGhOUjVWdEhNcGYzTE9EQkxuaUVmWFlVZVVVQmRXdi9QRS9iRE4veml0?=
- =?utf-8?B?R1hxZW9XV1NlSm82c1BDZFJkY1l5Q0N5bXpqMnhiYXFZNlh0aDdCWDRsSXRo?=
- =?utf-8?B?NlBUYkNKVTVqcGlZaU9lbHV3SjhrblhQNzhNU09qQlkyRy90THh0TTlDOEp6?=
- =?utf-8?B?TmZXRGpocnRkYWpOVkMxRWJVQlpXRzEvTEFHM2pTZzhDVmI3NWVlSDZmMTF1?=
- =?utf-8?B?cFE3OXROVGhWbmJsOWlRdm81aXl1VmlPMFQ0dDFCWTNkMERHVVpFRzVNMXA0?=
- =?utf-8?B?WncxanV0ekMwQzZxTzZTbzF3Y1BYVXhrZzR5OEdzL2REUlBWRVVMV3FQSXNX?=
- =?utf-8?B?Y2ZMT3RDWkVqY1hVd3ZPWFNDekdKWDFzNURoWmVBYlNQYmpERTRSUEd4OHEy?=
- =?utf-8?B?ZG5zYnV1ZzkydExpQXhBemxNQ1ZYY3E0MHY0NGZoa3lnZXQ3Ylduazg0NE8x?=
- =?utf-8?B?cXBzTDRNTXBQTUxUZnpmWFVJclZ1SnhHakVPNTdTOVdDNExJYXN5RmRPWnRS?=
- =?utf-8?B?ckF4M2ZsVTVOYlNEbHlydk9SUU1mSkt0bW5TVUVOVk9QdTlSRkd4cVJ2ZE9E?=
- =?utf-8?B?T2plNWN4eDlRLyt0b1NVclVWeFlidktnZjNvYVluU2tROVArdzgveXZwb1dm?=
- =?utf-8?B?eGZrYVhOM1JjSFNtWURTMUd3NzRFZmZCUitVWjEwdFJqTmtPU2dvSENnMW1Z?=
- =?utf-8?B?TkkxNm9tRTVVb2MzQ1BJbW9YSDFKdzJlUHNSK1hRK0tzWElhSXZxNzNJcFp4?=
- =?utf-8?B?NXUya0Zma1FBUis0QUhZaWJRd09GYUVzMkpKNlR6ZW5najRRZHYxcjc1akZs?=
- =?utf-8?B?dllOZElUWUcyMzNRMkJacTZZSVFabGRhcWsxZmdDY095LzdzNm11TkNpbkRu?=
- =?utf-8?B?cmFwVjAvUHBFK0hHdVNOVTJtcmpNenhpOE9tY1Vjcm5tbWtLdEJPRmt0NFhS?=
- =?utf-8?B?Z2RKRDh3bUQ1Ym9qLzJlL0NTaVhwS1ZqOW5IK3dvN3JyRkg5ZEdRZz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fXKmJ6LQPz3cGf
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 13 Mar 2026 21:02:40 +1100 (AEDT)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 13 Mar
+ 2026 18:02:24 +0800
+Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Fri, 13 Mar 2026 18:02:24 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+Date: Fri, 13 Mar 2026 18:02:16 +0800
+Subject: [PATCH] iio: adc: aspeed: Reserve battery sensing channel for
+ on-demand use
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -153,84 +52,228 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	cfWONp2+Ga/VSrTrmus2UnAdrDK/ahoyw/Wuj/R7VmrpDlOqEIdvumuumnhB4BHW3rCsGogKrvDLw3flqkDb6x8hij/O82w+O1hj6JyfmZ5FWxmZkHs7XckxM4XYeA9xeTUygs21NAcKi7kENh5Fqs3e4RxGQwJxhoexy6LVHsce0cnAInzIiQae3sDSpJEQF0N/FFRtFbGDEIoPGPfwNf5ZR7UHlTOvGFuVopQUGh2TkPRhSPO9Jz1OaTSI7pLB+jCrlRlSNPKk4w9xDI+AvrlPZJ4y/Mlg9J48C4YaiIZNlEdgVwa7fugFlkhnvfWjpolAwbCYIzk98dJMjquU2g==
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ff19f7f-7860-45ef-4eb7-08de80db7862
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2026 08:35:23.8890
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hnjfT/BJwOYxmC/aNDlxAb1tWlaPAsbZVWi7ifOZAOlANriXuWPK3sjz5xutuOqlc+4OQ+xJYi75sIaNuTwPnGAaXiYaYzduVK8g4DrIM5g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PPF492B3076A
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,
-	SPF_PASS autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20260313-adc-v1-1-7a2edb4e5664@aspeedtech.com>
+X-B4-Tracking: v=1; b=H4sIAKfgs2kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDY0Nj3cSUZF0Tc8skg8QkA8ukxFQloMqCotS0zAqwKdGxtbUA9f8ANlU
+ AAAA=
+X-Change-ID: 20260313-adc-479b0ab09bae
+To: Jonathan Cameron <jic23@kernel.org>, David Lechner
+	<dlechner@baylibre.com>, =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, "Andy
+ Shevchenko" <andy@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+	<andrew@codeconstruct.com.au>
+CC: <linux-iio@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+	<morris_mao@aspeedtech.com>, Billy Tsai <billy_tsai@aspeedtech.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773396144; l=6286;
+ i=billy_tsai@aspeedtech.com; s=20251118; h=from:subject:message-id;
+ bh=EUOMjFM/rFziWkFH4VEIzdpUTOeldEDjn+7qcp7rxEU=;
+ b=Xdi0AH3kN54e+ecLGXWjtxc7b+xDzUWduaZgLFqjkrogFUSi/KvCrfGlJtR0QmP5YdPGmMu0T
+ t6RU8GR6a30DS4/VyYBoJNw5xiFAQstlILViGDMnPRhmy8HU4rJCFwR
+X-Developer-Key: i=billy_tsai@aspeedtech.com; a=ed25519;
+ pk=/A8qvgZ6CPfnwKgT6/+k+nvXOkN477MshEGJvVdzeeQ=
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [0.39 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[aspeedtech.com,quarantine];
+X-Spamd-Result: default: False [-0.01 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	MAILLIST(-0.20)[generic];
 	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
-	R_DKIM_ALLOW(-0.20)[aspeedtech.com:s=selector1];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[pengutronix.de,codeconstruct.com.au,linaro.org,kernel.org,jms.id.au,gmail.com,intel.com];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-3654-lists,linux-aspeed=lfdr.de];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[aspeedtech.com:+];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3652-lists,linux-aspeed=lfdr.de];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:jic23@kernel.org,m:dlechner@baylibre.com,m:nuno.sa@analog.com,m:andy@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:linux-iio@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:morris_mao@aspeedtech.com,m:billy_tsai@aspeedtech.com,s:lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[aspeedtech.com:dkim,aspeedtech.com:email,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
-X-Rspamd-Queue-Id: 3C60A27FC78
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[billy_tsai@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[billy_tsai@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	NEURAL_HAM(-0.00)[-0.998];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: C44F52810BD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-PiBTdWJqZWN0OiBSZTogW1BBVENIIDIvMl0gbW1jOiBzZGhjaS1vZi1hc3BlZWQ6IEFkZCBhc3Qy
-NzAwIHN1cHBvcnQNCj4gDQo+IE9uIEZyLCAyMDI2LTAzLTEzIGF0IDEzOjI3ICswODAwLCBSeWFu
-IENoZW4gd3JvdGU6DQo+ID4gQWRkIHN1cHBvcnQgZm9yIHRoZSBBU1QyNzAwIFNPQyBpbiB0aGUg
-c2QgY29udHJvbGxlciBkcml2ZXIuIEFTVDI3MDANCj4gPiBzZCBjb250cm9sbGVyIHJlcXVpcmVz
-IGFuIHJlc2V0IGxpbmUsIHNvIGhvb2sgdXAgdGhlIG9wdGlvbmFsIHJlc2V0DQo+ID4gY29udHJv
-bCBhbmQgZGVhc3NlcnQgaXQgZHVyaW5nIHByb2JlLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTog
-UnlhbiBDaGVuIDxyeWFuX2NoZW5AYXNwZWVkdGVjaC5jb20+DQo+ID4gLS0tDQo+ID4gIGRyaXZl
-cnMvbW1jL2hvc3Qvc2RoY2ktb2YtYXNwZWVkLmMgfCAxMSArKysrKysrKysrKw0KPiA+ICAxIGZp
-bGUgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvbW1jL2hvc3Qvc2RoY2ktb2YtYXNwZWVkLmMNCj4gPiBiL2RyaXZlcnMvbW1jL2hvc3Qvc2Ro
-Y2ktb2YtYXNwZWVkLmMNCj4gPiBpbmRleCBjYTk3YjAxOTk2YjEuLjkxYzM2MjQ1ZTUwNiAxMDA2
-NDQNCj4gPiAtLS0gYS9kcml2ZXJzL21tYy9ob3N0L3NkaGNpLW9mLWFzcGVlZC5jDQo+ID4gKysr
-IGIvZHJpdmVycy9tbWMvaG9zdC9zZGhjaS1vZi1hc3BlZWQuYw0KPiA+IEBAIC01MjAsNiArNTIw
-LDcgQEAgc3RhdGljIGludCBhc3BlZWRfc2RjX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UN
-Cj4gPiAqcGRldikNCj4gPg0KPiA+ICB7DQo+ID4gIAlzdHJ1Y3QgZGV2aWNlX25vZGUgKnBhcmVu
-dCwgKmNoaWxkOw0KPiA+ICsJc3RydWN0IHJlc2V0X2NvbnRyb2wgKnJlc2V0Ow0KPiA+ICAJc3Ry
-dWN0IGFzcGVlZF9zZGMgKnNkYzsNCj4gPiAgCWludCByZXQ7DQo+ID4NCj4gPiBAQCAtNTI5LDYg
-KzUzMCwxNSBAQCBzdGF0aWMgaW50IGFzcGVlZF9zZGNfcHJvYmUoc3RydWN0DQo+ID4gcGxhdGZv
-cm1fZGV2aWNlICpwZGV2KQ0KPiA+DQo+ID4gIAlzcGluX2xvY2tfaW5pdCgmc2RjLT5sb2NrKTsN
-Cj4gPg0KPiA+ICsJcmVzZXQgPSByZXNldF9jb250cm9sX2dldF9vcHRpb25hbF9leGNsdXNpdmUo
-JnBkZXYtPmRldiwgTlVMTCk7DQo+IA0KPiBUaGlzIGlzIG1pc3NpbmcgYSByZXNldF9jb250cm9s
-X3B1dCgpIGluIGFzcGVlZF9zZGNfcmVtb3ZlKCkuIE9yIHVzZQ0KPiBkZXZtX3Jlc2V0X2NvbnRy
-b2xfZ2V0X29wdGlvbmFsX2V4Y2x1c2l2ZSgpLg0KPiANCj4gSXMgaXQgb2sgdG8gYXNzZXJ0IHRo
-aXMgcmVzZXQgY29udHJvbCBpbiBfcmVtb3ZlKCk/IElmIHNvLCB5b3UgY291bGQgdXNlDQo+IGRl
-dm1fcmVzZXRfY29udHJvbF9nZXRfb3B0aW9uYWxfZXhjbHVzaXZlX2RlYXNzZXJ0ZWQoKS4NCj4g
-DQpUaGFua3MgdGhlIGd1aWRhbmNlLg0KSSB3aWxsIHVwZGF0ZSB1c2UNCnNkYy0+cnN0ID0gZGV2
-bV9yZXNldF9jb250cm9sX2dldF9vcHRpb25hbF9leGNsdXNpdmUoJnBkZXYtPmRldiwgTlVMTCk7
-DQppZiAoSVNfRVJSKHNkYy0+cnN0KSkNCglyZXR1cm4gZGV2X2Vycl9wcm9iZSgmcGRldi0+ZGV2
-LCBQVFJfRVJSKHNkYy0+cnN0KSwNCgkJCSAgICAgInVuYWJsZSB0byBhY3F1aXJlIHJlc2V0XG4i
-KTsNCg0KUnlhbg0K
+For controllers with battery sensing capability (AST2600/AST2700), the last
+channel uses a different circuit design optimized for battery voltage
+measurement. This channel should not be enabled by default along with other
+channels to avoid potential interference and power efficiency issues.
+
+Changes made:
+- Introduce aspeed_adc_get_active_channels() to return the number of
+  channels that should be enabled by default
+- For battery sensing capable controllers, exclude the last channel
+  from the default channel enable mask
+- Enable the battery sensing channel only when explicitly accessed
+  via read_raw()
+- Replace hardcoded channel numbers with ASPEED_ADC_BATTERY_CHANNEL macro
+- Add helper functions for cleaner channel management
+
+This ensures optimal power efficiency for normal ADC operations while
+maintaining full functionality when battery sensing is needed.
+
+Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+---
+ drivers/iio/adc/aspeed_adc.c | 88 ++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 76 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/iio/adc/aspeed_adc.c b/drivers/iio/adc/aspeed_adc.c
+index 4be44c524b4d..376a024341e3 100644
+--- a/drivers/iio/adc/aspeed_adc.c
++++ b/drivers/iio/adc/aspeed_adc.c
+@@ -73,6 +73,31 @@
+ #define ASPEED_ADC_CTRL_CHANNEL			GENMASK(31, 16)
+ #define ASPEED_ADC_CTRL_CHANNEL_ENABLE(ch)	FIELD_PREP(ASPEED_ADC_CTRL_CHANNEL, BIT(ch))
+ 
++/*
++ * Enable multiple consecutive channels starting from channel 0.
++ * This creates a bitmask for channels 0 to (num_channels - 1).
++ * For example: num_channels=3 creates mask 0x0007 (channels 0,1,2)
++ */
++static inline u32 aspeed_adc_channels_mask(unsigned int num_channels)
++{
++	if (num_channels == 0)
++		return 0;
++	if (num_channels >= 16)
++		return GENMASK(15, 0);
++	return GENMASK(num_channels - 1, 0);
++}
++
++/*
++ * Helper function to enable multiple channels in the control register
++ */
++static inline u32 aspeed_adc_enable_channels(unsigned int num_channels)
++{
++	return FIELD_PREP(ASPEED_ADC_CTRL_CHANNEL, aspeed_adc_channels_mask(num_channels));
++}
++
++/* Battery sensing is typically on the last channel */
++#define ASPEED_ADC_BATTERY_CHANNEL		7
++
+ #define ASPEED_ADC_INIT_POLLING_TIME	500
+ #define ASPEED_ADC_INIT_TIMEOUT		500000
+ /*
+@@ -121,6 +146,18 @@ struct aspeed_adc_data {
+ 	struct adc_gain		battery_mode_gain;
+ };
+ 
++static inline unsigned int aspeed_adc_get_active_channels(const struct aspeed_adc_data *data)
++{
++	/*
++	 * For controllers with battery sensing capability, the last channel
++	 * is reserved for battery sensing and should not be included in
++	 * normal channel operations.
++	 */
++	if (data->model_data->bat_sense_sup)
++		return data->model_data->num_channels - 1;
++	return data->model_data->num_channels;
++}
++
+ #define ASPEED_CHAN(_idx, _data_reg_addr) {			\
+ 	.type = IIO_VOLTAGE,					\
+ 	.indexed = 1,						\
+@@ -281,13 +318,35 @@ static int aspeed_adc_read_raw(struct iio_dev *indio_dev,
+ 			       int *val, int *val2, long mask)
+ {
+ 	struct aspeed_adc_data *data = iio_priv(indio_dev);
+-	u32 adc_engine_control_reg_val;
++	u32 adc_engine_control_reg_val = readl(data->base + ASPEED_REG_ENGINE_CONTROL);
+ 
+ 	switch (mask) {
+ 	case IIO_CHAN_INFO_RAW:
+-		if (data->battery_sensing && chan->channel == 7) {
+-			adc_engine_control_reg_val =
+-				readl(data->base + ASPEED_REG_ENGINE_CONTROL);
++		/*
++		 * For battery sensing capable controllers, we need to enable
++		 * the specific channel before reading. This is required because
++		 * the battery channel may not be enabled by default.
++		 */
++		if (data->model_data->bat_sense_sup &&
++		    chan->channel == ASPEED_ADC_BATTERY_CHANNEL) {
++			u32 ctrl_reg = adc_engine_control_reg_val & ~ASPEED_ADC_CTRL_CHANNEL;
++
++			ctrl_reg |= ASPEED_ADC_CTRL_CHANNEL_ENABLE(chan->channel);
++			writel(ctrl_reg, data->base + ASPEED_REG_ENGINE_CONTROL);
++			/*
++			 * After enable a new channel need to wait some time for adc stable
++			 * Experiment result is 1ms.
++			 */
++			mdelay(1);
++		}
++
++		/*
++		 * Battery sensing mode requires special configuration:
++		 * - Set channel 7 to battery mode
++		 * - Enable battery sensing functionality
++		 * - Apply voltage divider compensation
++		 */
++		if (data->battery_sensing && chan->channel == ASPEED_ADC_BATTERY_CHANNEL) {
+ 			writel(adc_engine_control_reg_val |
+ 				       FIELD_PREP(ASPEED_ADC_CH7_MODE,
+ 						  ASPEED_ADC_CH7_BAT) |
+@@ -301,15 +360,15 @@ static int aspeed_adc_read_raw(struct iio_dev *indio_dev,
+ 			*val = readw(data->base + chan->address);
+ 			*val = (*val * data->battery_mode_gain.mult) /
+ 			       data->battery_mode_gain.div;
+-			/* Restore control register value */
+-			writel(adc_engine_control_reg_val,
+-			       data->base + ASPEED_REG_ENGINE_CONTROL);
+ 		} else
+ 			*val = readw(data->base + chan->address);
++		/* Restore control register value */
++		writel(adc_engine_control_reg_val,
++				data->base + ASPEED_REG_ENGINE_CONTROL);
+ 		return IIO_VAL_INT;
+ 
+ 	case IIO_CHAN_INFO_OFFSET:
+-		if (data->battery_sensing && chan->channel == 7)
++		if (data->battery_sensing && chan->channel == ASPEED_ADC_BATTERY_CHANNEL)
+ 			*val = (data->cv * data->battery_mode_gain.mult) /
+ 			       data->battery_mode_gain.div;
+ 		else
+@@ -607,10 +666,15 @@ static int aspeed_adc_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	aspeed_adc_compensation(indio_dev);
+-	/* Start all channels in normal mode. */
+-	adc_engine_control_reg_val =
+-		readl(data->base + ASPEED_REG_ENGINE_CONTROL);
+-	adc_engine_control_reg_val |= ASPEED_ADC_CTRL_CHANNEL;
++	adc_engine_control_reg_val = readl(data->base + ASPEED_REG_ENGINE_CONTROL);
++	/*
++	 * Enable channels for normal operation. For battery sensing capable
++	 * controllers, the battery channel is handled separately and is not
++	 * included in the normal channel enable mask.
++	 */
++	adc_engine_control_reg_val |=
++		aspeed_adc_enable_channels(aspeed_adc_get_active_channels(data));
++
+ 	writel(adc_engine_control_reg_val,
+ 	       data->base + ASPEED_REG_ENGINE_CONTROL);
+ 
+
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260313-adc-479b0ab09bae
+
+Best regards,
+-- 
+Billy Tsai <billy_tsai@aspeedtech.com>
+
 
