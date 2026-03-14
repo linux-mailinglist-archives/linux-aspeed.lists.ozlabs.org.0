@@ -1,54 +1,54 @@
-Return-Path: <linux-aspeed+bounces-3673-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3674-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8DcEFUI3tWkXxwAAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3673-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Mar 2026 11:24:02 +0100
+	id sAo1KVo3tWkXxwAAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3674-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Mar 2026 11:24:26 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6003728CAA9
-	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Mar 2026 11:24:01 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 044FE28CAC2
+	for <lists+linux-aspeed@lfdr.de>; Sat, 14 Mar 2026 11:24:25 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fXyBQ5gKzz2xjb;
-	Sat, 14 Mar 2026 21:23:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fXyBv3LVKz2xl0;
+	Sat, 14 Mar 2026 21:24:23 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1773483838;
-	cv=none; b=kX+YVC++BgiqhKfoYHKb6u0mIMRZg+WYEl6ZAsvw4bGDXSMEpxqHcZu4K6nGQSLsRj0T8tkD8vaBnjw/z100FJlKzDBhcYXgwPPB8+Yo+/pPJ8FkU0Q8kaUcm35FISu5McMi0xrRKVyIN2IkJcDImNYCiNv6Abn3zYHE1NqZL/j8FewknZS8gu8DZLz/OKH2DrTjCf9zahol8hiL/J5Catp/fn/FiBP3QB84smvzXseSkULvgLp5yftq2nwsYU3Hnx8KjvFRorjzqWwzEYdP1MwKwC7jQ56UY8dAhBPAZvrltniEV/eID0WjYwlk03XLWIXvYdnXiASYvjZ7MOmjMQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1773483863;
+	cv=none; b=DesGSFsYZf7YYc97uoZ4Nz6OvnHAE2BEh+6iVt0NpwyyBoDsVG0yOtUmQnSHESXzAo46G/9CwDgEqt6BcQMEsK09ZG4qdHI77rNetegg/trCroBYJy7sor/q9yEacxp3YsT8Re7cQGl8jXdxFJmloGERoXl4zWmFlR0hx0BClRgNXZ1WPn7XJU2OppRnZme9dcg2aF+OdQ1mT4LB+LF3803rc44NWLGVm4gbjLumi1xT+6h67JimaG4esiZp2XMobMaANbxHz6J39pB6eeH2vY53g94+aFmsqPiM3+0xEEeHoR7qUqSZpayqPa5VoAO0j1tqPjAa6cumGGu1fU0A9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1773483838; c=relaxed/relaxed;
-	bh=ecIC7Cx0+X4PyCdNszbHSRQ/JqEk6Yq8c3tc3oyYojk=;
+	t=1773483863; c=relaxed/relaxed;
+	bh=VT63MoyDk2yYg/aMmxJ3ylplQ1G1el+CFqngQaWxD9Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mL80Mgm2SpdxL+AF8BAP6PXzhf9ARw1H56gsSKaCwuuxTM2fPvbHpwS0KLdPLAyh/XpH2Fi9qdpOMPyLXYBx1pXNA+JnYs6A74k0eJ9Uw01bAdOYsCP1UKnXhvLa6HNJsfpGeFwAZVJOAqQ7lOq1NB074Rm5GVILe2wnjNNP0WXxtMbf0NCVXJSTdpbBNH/zjZQnBz5sXGgnCtd/UJ+JbBn+fLX+dtkG0Hf+iQSm4Bzj/hFarKZpQP0nPVXYOHOtxUF847KXqqL5UsMh+r4EP58xrAbe8iO5L5ZUP2ILsNk5XNbzXIPSRi8pfHDr04/9k+Bvh4l6sis9ucxdWQ4W5Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=fQfZyiSM; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=XdCSIc6nDkmq255x1yY2pDfmayAhm/l2qFkfBgFbhtrLnJNnXnFCb8gtiqf8RGNZG+MSdhLUxvX0QtftL6IxMRKOB3TS4oOMFnOk6ouK92BH2KyYqItFPs0e4M8c32NlmUZw2MVmSecwL4wenVT/+3OopxjTHFi2TPt8Yw0HgG/1WTIu7qCmBIeFpt4x3Dwnxx8iSx21BrZete0GT/O3nWeJBjOEl3A0ZKocEJT74P4KdnFpHUwunpQ5yo+NCZFezr+qzPB84BqGuZFZ0GI5DQlYxRMXUR/gol+4VUy3yL8AIj8j1vG+ikyAFYAJunk5Ji+RHTuxKyz4aFSjSl7AKA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=RQDW6WnV; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=fQfZyiSM;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=RQDW6WnV;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fXyBQ1hLhz2xVT;
-	Sat, 14 Mar 2026 21:23:58 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fXyBt4t3bz2xVT;
+	Sat, 14 Mar 2026 21:24:22 +1100 (AEDT)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id CE7426013A;
-	Sat, 14 Mar 2026 10:23:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFDDCC116C6;
-	Sat, 14 Mar 2026 10:23:53 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id DBF10440A5;
+	Sat, 14 Mar 2026 10:24:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33F45C116C6;
+	Sat, 14 Mar 2026 10:24:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773483834;
-	bh=9tW88wtC23Nu5H1ydEbU0qbXKKzXQG4pyrrMW/FnfBs=;
+	s=k20201202; t=1773483860;
+	bh=Ml/lEKonYkIliYF/LMmTBJQ2qVPdHCM46twoQHPrNRU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fQfZyiSMrQ8sCNW+FgXGj8pS7B2I71bND85ID+aaX+dyaNsrK6Z2WF/Yzq8rtLc3z
-	 lNaSGk7qEyKg8lTXtkndoebnJx74Dqadt3FXTYRtREm/THj6j5Avdy41R5Cxk2d1h3
-	 mesHyl4ABmGIceuHiM7EXsWb9UPDGrFIRoTe5JMnsvzThU4FAdtKZKhgG9oECf5wiX
-	 ulYn08uz4fXLtcA/kVRXmLW7ttkpPwe3ljwaMQEzlhicaKrmih08Kc6z8F3TqHuvTN
-	 JWeKzyYRcIXCWoZHTqBB8VWbu1OTO4Q4TgOd2WBc6U3hzsQ9tTa1ZdBQ7wgdEUJaC1
-	 51rErr4AXPbPA==
-Date: Sat, 14 Mar 2026 11:23:52 +0100
+	b=RQDW6WnVIy3RVOdnc3BHCsn3XXqrqpnd2AvzdZZ6jrrQAw9WJsdW5yO+Ppow/KV3y
+	 FtgNQaV9jv2MDtwed31KOHgxokOTuyavl8vkljbG7mau4u+XMfn9U/zgDQ40dbWWwT
+	 A7NErRvwFl4pfvg/tmLP5Oz1m2Cl8KhkTCbFXj64+ot8INpfqS/Mz6PyxDRN0AE1kj
+	 7vHEnSZDW3XFLMGt+N+SSiDPrJWbNG3kvB3dYMsBoBGEBrBbIdZflpxniq2ioGg6kj
+	 RJW34RJhg12PgAlPWmt4uRL+ghUyONP3iygDFL0397wIr33UbzzkbC8+uz8CSNQA2x
+	 qMomNsmNPtbSA==
+Date: Sat, 14 Mar 2026 11:24:18 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Ryan Chen <ryan_chen@aspeedtech.com>
 Cc: Andrew Jeffery <andrew@codeconstruct.com.au>, 
@@ -59,10 +59,11 @@ Cc: Andrew Jeffery <andrew@codeconstruct.com.au>,
 	Andrew Jeffery <andrew@aj.id.au>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
 	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] mmc: sdhci-of-aspeed: Add ast2700 support
-Message-ID: <20260314-flat-topaz-peacock-440a9c@quoll>
+Subject: Re: [PATCH 1/2] dt-bindings: mmc: sdhci-of-aspeed : Add ast2700
+ support
+Message-ID: <20260314-perch-of-eminent-swiftness-e4efcf@quoll>
 References: <20260313-sdhci-v1-0-91cea19c8a67@aspeedtech.com>
- <20260313-sdhci-v1-2-91cea19c8a67@aspeedtech.com>
+ <20260313-sdhci-v1-1-91cea19c8a67@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -78,7 +79,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260313-sdhci-v1-2-91cea19c8a67@aspeedtech.com>
+In-Reply-To: <20260313-sdhci-v1-1-91cea19c8a67@aspeedtech.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
@@ -89,11 +90,11 @@ X-Spamd-Result: default: False [-0.21 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3673-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3674-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[17];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -108,59 +109,34 @@ X-Spamd-Result: default: False [-0.21 / 15.00];
 	FREEMAIL_CC(0.00)[codeconstruct.com.au,linaro.org,kernel.org,jms.id.au,gmail.com,intel.com,pengutronix.de,aj.id.au,lists.ozlabs.org,vger.kernel.org,lists.infradead.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[aspeedtech.com:email,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
-X-Rspamd-Queue-Id: 6003728CAA9
+X-Rspamd-Queue-Id: 044FE28CAC2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 13, 2026 at 01:27:57PM +0800, Ryan Chen wrote:
-> Add support for the AST2700 SOC in the sd controller driver. AST2700 sd
-> controller requires an reset line, so hook up the optional reset control
-> and deassert it during probe.
+On Fri, Mar 13, 2026 at 01:27:56PM +0800, Ryan Chen wrote:
+> Add the "aspeed,ast2700-sd-controller" compatible. The ast2700 sdhci
+> controller requires an reset, so make the "resets" property mandatory
+> for this compatible to reflect the hardware requirement.
 > 
 > Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
 > ---
->  drivers/mmc/host/sdhci-of-aspeed.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
-> diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-> index ca97b01996b1..91c36245e506 100644
-> --- a/drivers/mmc/host/sdhci-of-aspeed.c
-> +++ b/drivers/mmc/host/sdhci-of-aspeed.c
-> @@ -520,6 +520,7 @@ static int aspeed_sdc_probe(struct platform_device *pdev)
->  
->  {
->  	struct device_node *parent, *child;
-> +	struct reset_control *reset;
->  	struct aspeed_sdc *sdc;
->  	int ret;
->  
-> @@ -529,6 +530,15 @@ static int aspeed_sdc_probe(struct platform_device *pdev)
->  
->  	spin_lock_init(&sdc->lock);
->  
-> +	reset = reset_control_get_optional_exclusive(&pdev->dev, NULL);
-> +	if (IS_ERR(reset))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(reset),
-> +				     "unable to acquire reset\n");
-> +	ret = reset_control_deassert(sdc->rst);
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "reset deassert failed\n");
-> +
->  	sdc->clk = devm_clk_get(&pdev->dev, NULL);
->  	if (IS_ERR(sdc->clk))
->  		return PTR_ERR(sdc->clk);
-> @@ -577,6 +587,7 @@ static const struct of_device_id aspeed_sdc_of_match[] = {
->  	{ .compatible = "aspeed,ast2400-sd-controller", },
->  	{ .compatible = "aspeed,ast2500-sd-controller", },
->  	{ .compatible = "aspeed,ast2600-sd-controller", },
-> +	{ .compatible = "aspeed,ast2700-sd-controller", },
+> diff --git a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> index d24950ccea95..a2ff9a94db13 100644
+> --- a/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+> @@ -26,6 +26,7 @@ properties:
+>        - aspeed,ast2400-sd-controller
+>        - aspeed,ast2500-sd-controller
+>        - aspeed,ast2600-sd-controller
+> +      - aspeed,ast2700-sd-controller
 
-So devices are fully compatible. You must express it in the bindings and
-drop this hunk.
+Also, not matching your driver.
 
 Best regards,
 Krzysztof
