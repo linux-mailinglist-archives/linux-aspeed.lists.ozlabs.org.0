@@ -1,81 +1,69 @@
-Return-Path: <linux-aspeed+bounces-3759-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3744-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WJ+JJIUVw2lCoAQAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3759-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Mar 2026 23:51:49 +0100
+	id IEbcIX2PwWmuTwQAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3744-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Mar 2026 20:07:41 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6AE031D7AC
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Mar 2026 23:51:48 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5BE2FBE49
+	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Mar 2026 20:07:39 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fgQJR3b15z2ynn;
-	Wed, 25 Mar 2026 09:51:35 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ffjNM5Wymz2yWK;
+	Tue, 24 Mar 2026 06:07:31 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::62b"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774288690;
-	cv=none; b=SvILixPfLLRjvPjrko29rs+56KVd73+gi91JSjtOsGhej7DD7afLK720Kl+bgpMIxY51yKE9icIplHIKhAqebpP+TRtSZ8CtBoeujHLkXrr9OYcnHj5U/vavrynq8V0Cz/YHg1Amiq2i46L3tCBOc8ceQmzIpDx/Z15XT2FOuEoDDAGwu5A+ulYEEEmXjv1YfWwTW+JBl/u635s3Hoc+dAeJUl2sY8QFwrxx8hXM4Wji/VkPTKawd1R3LBmAvrdTRFVeFciJUpQ2fVxyA3nsJIIZEmMmfxRAGFe6kZugUPpZiHd6XQrwoFVXeU4AH2lJNNNHkBKudPsYrJaF+F1cpw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774292851;
+	cv=none; b=jC9q7jjv7yIogG+tYY4IjDQHNXnChwDidS01CLLYTlQKq4wfeJtKzaoqxXipZZe7WHhLwjoj5uTH4dheP6ViK1TA/DlYdVo/wW9gWFFhOCzDHrqa+Z8QYWt07s9XN7tm+ryUPkIMbVr0WK/DR14JjeKm2K6Or1Bb43w/b8Av0kzhJ/jmbsR77rfCp74oOlsBOYBSJuoq4W2e3ucJErCb+pHeNR9JhuRr+IAJBCDIOVDU8p2+ytASFFgwFbJMQ9LURVCl9lYUxcdet5BywmcJbc7LgQRMZA3eq79vpe0LBMFvONunukSLF/9yodRBl6i39OUdazRhJsyk6f9GM4jEFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1774288690; c=relaxed/relaxed;
-	bh=DAFVmIYqCpTk7YHQuUKCiaGw6d7SaBhhkzvznBNGhns=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fSZImmjMLG7KmnDDqwGybXU+yzOfdVtKIxpSedq82d3tqTi144TTKJYkis/dmQx4+FJPd0c52nDtIzEr318tCMB6yUq8+hoI1x1oLwlXCrAWkh+fovGXeVjoUYGbWoIYVAa2q/EALTTQKxZzjZHdIEo210QMaM/z0AtldT3MCOMFWoDgEKY1UihM3LAtcY6Zq1wl9XxUtMsEq7EeGwczi6iObVFINpy9MDM9agk0aV5c2p36dApkok4AH9MSb6VneU90i9T3lHAC9xIqb7/dxNisyg/JZu9SpfaSWhce0WQtaEwxrGIOvt9uin61QqOD4lTAxfOriTzyfzgvGnHj3Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ra4MmNX3; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::62b; helo=mail-pl1-x62b.google.com; envelope-from=ustc.gu@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1774292851; c=relaxed/relaxed;
+	bh=fYL/eXlpQ0Y3emk7cgWwMjvtgVKbtEgeXwbwH+DCrqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BCHPlevap8WeYbknLWMHo2VwMNfBXOlKjEGe4/zBSnz184I5K1kHsBjoBd1XIXbeQgBM+k4sYD7XdUU+gH7tl/5icgZxAwvn69yXl7riit2DapIKteNRzFdI7WoTm9n87joIxtgbAEr8W0KcVh8m/9VSwEBYEAmgh0jAsoAJiai27M8gqcMZvgoHIeU3QnZV2Hwp9g7KIhZdPZeN3NJdeP7kqaRaa6pbSw/a1XvVBFKopo7G9gXdECoQnQiNH97+nTShjkhMGVhBwl5EkyS09KqQK7h72tkDPxQDhL2dN99VRuPLozzk0pz8Cd46UHrTK5esyuae7gniOWXps+MXRw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Pp5aJvVL; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ra4MmNX3;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Pp5aJvVL;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::62b; helo=mail-pl1-x62b.google.com; envelope-from=ustc.gu@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ffgrJ55hrz2xs4
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 24 Mar 2026 04:58:07 +1100 (AEDT)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-2b056b7f783so23064935ad.1
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 23 Mar 2026 10:58:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774288685; x=1774893485; darn=lists.ozlabs.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DAFVmIYqCpTk7YHQuUKCiaGw6d7SaBhhkzvznBNGhns=;
-        b=ra4MmNX3Y8dbdcacJXQ779O9dOosbNMRXjKO7iGqWbUOVS+8EGIK6Z+Z75lbOBmTHT
-         bJD6IGq29PPlgKd7oJpFTPKNuo1w+yOXcpixi9//ZKXifkK+kGJQIbqmbbAyJWhaRlkm
-         U48vxfVyvkpppoBKQWxWwXi3MU0OJr89yrieNZsYjgnxFaVGBkSE2Jm7U4wTF+7/c7nb
-         aA5I8twP7C2k71xOnOeTb2OHy2wN8YN77gA5B9YbkhPtToj75mDopiGfy5NBbxfWJDLg
-         RM9BJoxnFIyiMKuor9PNQCBEFWuZ/JfIuo3hX2Oop+TnB8HRPDw1WHUDZ1fQibdLOScS
-         LZUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774288685; x=1774893485;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DAFVmIYqCpTk7YHQuUKCiaGw6d7SaBhhkzvznBNGhns=;
-        b=R5a1yftftOU6D4UD/+YkvTEh5pcBnrjTxiZHBgvUdVOoCjuA+2Oqmv+lGnXzzZVwLB
-         hHqhvgJbd1251kCyY6e77te0Ob7is6MUBT8PW5+6CYmZ6mw99ljMBEXLNOLenJ3Q+Ph2
-         BAHzweG++WFs9pmsr+0krljd4ViW1hZWB5cDPtQb2LVfeWaJ+EMC0nHerYTA7f7e7yzQ
-         Qz8OSaoGOlj3AyLWu2S6bnY58TJ6/pi62l6xzg5E3ALzUr22hs+2nf0LxfEqGttTWIA2
-         KOIrvJfF+ccoI34gueevsPGCYdisB4Fff/PJYZ3sPSxxqm8DwKjBeO1LugPPpceS1Xj4
-         1JvQ==
-X-Gm-Message-State: AOJu0Yzv7Ch6Dz1y0Zd7CpsQMJBOnctAs3a8cYa7rm7UR9Vnli3kManN
-	C3178H7GL56iZ39Sdbam96A2cHfwU+N3a8c8vhD6AdhiK7Qlp3eOKRVt
-X-Gm-Gg: ATEYQzxJ4YTwTBKE3XGr2SjomkUcKqn6kaFplHjxYpKWA35qLe3zgGO/J324SClXLLg
-	AUw/seurX0PCkaekUReYR20/PBAtxNS4aqSzfopntI8KE5eXP8ZX30FEwXQwk8xzqJdZjj28q2u
-	7EsgCEKIOj/yj8oDBi68ig3TsFghR2NLL8Jlmuy7ZtZ95Cw6Gd4kW775phAwJrsWMRqV++ycoxi
-	YETuB86Zn+Qsg8DLVvhq9PRNQncG/jalY4GdDKLVfuT2FZlfYT+weQ+zfz2NcfuAzcJhQcRaMZX
-	QO1zwqkdibS1ELSwfUSsWfJtJy52kHPPQT41sZbAnyyhlQylts1KUt8xvDeR4Ix0B7RF89ZpBY5
-	AiPLbGGrpNveiqGDKotcso2yJIJURrWk4Hnijj/1i3d6BaDExGBCXngP9iZctOLCd1bDm2UEBMT
-	TnvPj0rBXjyuhkH3vv7ps6jgxFE95RTXCr+uuI
-X-Received: by 2002:a17:903:2acc:b0:2ae:7f85:33d1 with SMTP id d9443c01a7336-2b0a4cd49e4mr4562165ad.0.1774288684737;
-        Mon, 23 Mar 2026 10:58:04 -0700 (PDT)
-Received: from junjungu-PC.localdomain ([223.167.147.240])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0835551c3sm113415065ad.35.2026.03.23.10.58.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 10:58:04 -0700 (PDT)
-From: Felix Gu <ustc.gu@gmail.com>
-Date: Tue, 24 Mar 2026 01:57:59 +0800
-Subject: [PATCH] PCI: aspeed: Fix IRQ domain leak on platform_get_irq()
- failure
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ffjNL0lX6z2yFb
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 24 Mar 2026 06:07:29 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 5147860130;
+	Mon, 23 Mar 2026 19:07:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5743C4CEF7;
+	Mon, 23 Mar 2026 19:07:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774292842;
+	bh=k6BhAGxLMFl7NhzH/eXpQ1O6oylKp7QR8k5ui8nFSuY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pp5aJvVLMskMT+uHs+8toanS07SNVmScgY4HSZwxwVtCMSxkqe/cl1nwC+NrDzzL7
+	 EX7lkaLUhURW2iUOMK2TBztiG09AN+WqeLTQR/m+GqX4uBMt+DSW/QT85CC2TZJBOn
+	 zknjGTx9FBb4/d3pnkvTZ8ywMM4I3mHrtZwsB+HNU8G65s3fTS+JjaijntUWGYtUN6
+	 wA6CtKzZ6NXUOFvyP4Y7xjk8taLp51T06KbQ9eV2zvr4guwBNzUU/gWEPQt58Ok7fO
+	 O/rRVxRvASHHvTOEJj65e4zOQZd519YAOO4mwXTXbVIt5dFH1oRisWNyNkAR8pnGH9
+	 ThTjzjl6agDGw==
+Date: Mon, 23 Mar 2026 14:07:21 -0500
+From: Rob Herring <robh@kernel.org>
+To: Ryan Chen <ryan_chen@aspeedtech.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Thomas Gleixner <tglx@kernel.org>, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v2 1/5] dt-bindings: interrupt-controller: aspeed: Add
+ AST2700-A2 support
+Message-ID: <20260323190721.GA1013496-robh@kernel.org>
+References: <20260306-irqchip-v2-0-f8512c09be63@aspeedtech.com>
+ <20260306-irqchip-v2-1-f8512c09be63@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -89,120 +77,294 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260324-aspeed-v1-1-354181624c00@gmail.com>
-X-B4-Tracking: v=1; b=H4sIACZ/wWkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDYyMT3cTigtTUFN0kA1MTUxNLM8MUc1MloOKCotS0zAqwQdGxtbUAgHK
- gQ1gAAAA=
-X-Change-ID: 20260324-aspeed-b05454961d75
-To: Jacky Chou <jacky_chou@aspeedtech.com>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: linux-aspeed@lists.ozlabs.org, linux-pci@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Felix Gu <ustc.gu@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774288681; l=1574;
- i=ustc.gu@gmail.com; h=from:subject:message-id;
- bh=cYrcg8cZ1OOgmV+TAbZ97fcCPC0PWmH/iybgc6SDMxs=;
- b=l+RPKAQMkKB3prPtTq61GiYDOiTZZEVvZpdPRmil5aMf0ygzxdGhIKpTojXIdqk8Guifwxe3Y
- UOj7efLJOKnAPRYwxbJvxbBY6Iz1Z6VcYRmZbAzVLfAw5weD9l6RPeg
-X-Developer-Key: i=ustc.gu@gmail.com; a=ed25519;
- pk=fjUXwmjchVN7Ja6KGP55IXOzFeCl9edaHoQIEUA+/hw=
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260306-irqchip-v2-1-f8512c09be63@aspeedtech.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+	T_FILL_THIS_FORM_SHORT autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Spamd-Result: default: False [0.29 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DATE_IN_PAST(1.00)[28];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-3759-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3744-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[ustcgu@gmail.com,linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:jacky_chou@aspeedtech.com,m:lpieralisi@kernel.org,m:kwilczynski@kernel.org,m:mani@kernel.org,m:robh@kernel.org,m:bhelgaas@google.com,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:linux-aspeed@lists.ozlabs.org,m:linux-pci@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:ustc.gu@gmail.com,m:ustcgu@gmail.com,s:lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS(0.00)[m:ryan_chen@aspeedtech.com,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:pjw@kernel.org,m:palmer@dabbelt.com,m:aou@eecs.berkeley.edu,m:alex@ghiti.fr,m:tglx@kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-riscv@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[robh@kernel.org,linux-aspeed@lists.ozlabs.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	NEURAL_HAM(-0.00)[-1.000];
+	DBL_PROHIBIT(0.00)[0.184.161.160:email];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ustcgu@gmail.com,linux-aspeed@lists.ozlabs.org];
-	FREEMAIL_CC(0.00)[lists.ozlabs.org,vger.kernel.org,lists.infradead.org,gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
-X-Rspamd-Queue-Id: A6AE031D7AC
+	DBL_BLOCKED_OPENRESOLVER(0.00)[devicetree.org:url,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,aspeedtech.com:email,codeconstruct.com.au:email]
+X-Rspamd-Queue-Id: BD5BE2FBE49
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The aspeed_pcie_probe() function calls aspeed_pcie_init_irq_domain()
-which allocates pcie->intx_domain and initializes MSI. However, if
-platform_get_irq() fails afterwards, the cleanup action was not yet
-registered via devm_add_action_or_reset(), causing the IRQ domain
-resources to leak.
+On Fri, Mar 06, 2026 at 04:07:23PM +0800, Ryan Chen wrote:
+> Introduce a new binding describing the AST2700 interrupt controller
+> architecture implemented in the A2 production silicon.
+> 
+> The AST2700 SoC has undergone multiple silicon revisions (A0, A1, A2)
+> prior to mass production. The interrupt architecture was substantially
+> reworked after the A0 revision for A1, and the A1 design is retained
+> unchanged in the A2 production silicon.
+> 
+> The existing AST2700 interrupt controller binding was written against
+> the pre-production A0 design. That binding does not accurately describe
+> the interrupt hierarchy and routing model present in A1/A2, where
+> interrupts can be routed to multiple processor-local interrupt
+> controllers (Primary Service Processor (PSP) GIC, Secondary Service
+> Processor (SSP)/Tertiary Service Processor (TSP) NVICs, and BootMCU
+> APLIC) depending on the execution context.
 
-Fix this by registering the devm cleanup action immediately after
-aspeed_pcie_init_irq_domain() succeeds, before calling
-platform_get_irq(). This ensures proper cleanup on any subsequent
-failure.
+Unless you intend to maintain both bindings for some period, then you 
+should just squash the removal here. If both are going to be maintained 
+then patch 5 should not be applied yet.
 
-Fixes: 9aa0cb68fcc1 ("PCI: aspeed: Add ASPEED PCIe RC driver")
-Signed-off-by: Felix Gu <ustc.gu@gmail.com>
----
- drivers/pci/controller/pcie-aspeed.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> Hardware connectivity between interrupt controllers is expressed using
+> the aspeed,interrupt-ranges property.
+> 
+> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> 
+> ---
+> Changes in v2:
+> - Describe AST2700 A0/A1/A2 design evolution.
+> - Drop the redundant '-ic' suffix from compatible strings.
+> - Expand commit message to match the series cover letter context.
+> - fix ascii diagram
+> - remove intc0 label
+> - remove spaces before >
+> - drop intc1 example
+> ---
+>  .../aspeed,ast2700-interrupt.yaml                  | 189 +++++++++++++++++++++
+>  1 file changed, 189 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-interrupt.yaml b/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-interrupt.yaml
+> new file mode 100644
+> index 000000000000..13398ff8be12
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-interrupt.yaml
+> @@ -0,0 +1,189 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/interrupt-controller/aspeed,ast2700-interrupt.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ASPEED AST2700 Interrupt Controllers (INTC0/INTC1)
+> +
+> +description: |
+> +  The ASPEED AST2700 SoC integrates two interrupt controller designs:
+> +
+> +    - INTC0: Primary controller that routes interrupt sources to upstream,
+> +      processor-specific interrupt controllers
+> +
+> +    - INTC1: Secondary controller whose interrupt outputs feed into
+> +      INTC0
 
-diff --git a/drivers/pci/controller/pcie-aspeed.c b/drivers/pci/controller/pcie-aspeed.c
-index 3e1a39d1e648..6acfae7d026e 100644
---- a/drivers/pci/controller/pcie-aspeed.c
-+++ b/drivers/pci/controller/pcie-aspeed.c
-@@ -1052,14 +1052,14 @@ static int aspeed_pcie_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	irq = platform_get_irq(pdev, 0);
--	if (irq < 0)
--		return irq;
--
- 	ret = devm_add_action_or_reset(dev, aspeed_pcie_irq_domain_free, pcie);
- 	if (ret)
- 		return ret;
- 
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return irq;
-+
- 	ret = devm_request_irq(dev, irq, aspeed_pcie_intr_handler, IRQF_SHARED,
- 			       dev_name(dev), pcie);
- 	if (ret)
+Wrap lines at 80 char.
 
----
-base-commit: 785f0eb2f85decbe7c1ef9ae922931f0194ffc2e
-change-id: 20260324-aspeed-b05454961d75
+> +
+> +  The SoC contains four processors to which interrupts can be routed:
+> +
+> +    - PSP: Primary Service Processor (Cortex-A35)
+> +    - SSP: Secondary Service Processor (Cortex-M4)
+> +    - TSP: Tertiary Sevice Processor (Cortex-M4)
+> +    - BMCU: Boot MCU (a RISC-V microcontroller)
+> +
+> +  The following diagram illustrates the overall architecture of the
+> +  ASPEED AST2700 interrupt controllers:
+> +
+> +                  +-----------+                +-----------+
+> +                  |   INTC0   |                | INTC1(0)  |
+> +                  +-----------+                +-----------+
+> +                  |   Router  | +-----------+  |   Router  |
+> +                  | out   int | +Peripheral +  | out   int |
+> +  +-----------+   |  0     0  <-+Controllers+  | INTM      | +-----------+
+> +  |PSP GIC  <-|---+  .     .  | +-----------+  |  .     .  <-+Peripheral +
+> +  +-----------+   |  .     .  |                |  .     .  | +Controllers+
+> +  +-----------+   |  .     .  |                |  .     .  | +-----------+
+> +  |SSP NVIC <-|---+  .     .  <----------------+  .     .  |
+> +  +-----------+   |  .     .  |                |  .     .  |
+> +  +-----------+   |  .     .  <--------        |  .     .  |
+> +  |TSP NVIC <-|---+  .     .  |       |    ----+  .     .  |
+> +  +-----------+   |  .     .  |       |    |   |  O     P  |
+> +                  |  .     .  |       |    |   +-----------+
+> +                  |  .     .  <----   |    --------------------
+> +                  |  .     .  |   |   |        +-----------+  |
+> +                  |  M     N  |   |   ---------+  INTC1(1) |  |
+> +                  +-----------+   |            +-----------+  |
+> +                                  |                  .        |
+> +                                  |            +-----------+  |
+> +                                  -------------+  INTC1(N) |  |
+> +                                               +-----------+  |
+> +  +--------------+                                            |
+> +  + BMCU APLIC <-+---------------------------------------------
+> +  +--------------+
+> +
+> +  INTC0 supports:
+> +    - 128 local peripheral interrupt inputs
+> +    - Fan-in from up to three INTC1 instances via banked interrupt lines (INTM)
+> +    - Local peripheral interrupt outputs
+> +    - Merged interrupt outputs
+> +    - Software interrupt outputs (SWINT)
+> +    - Configurable interrupt routes targeting the PSP, SSP, and TSP
+> +
+> +  INTC1 supports:
+> +    - 192 local peripheral interrupt inputs
+> +    - Banked interrupt outputs (INTM, 5 x 6 banks x 32 interrupts per bank)
+> +    - Configurable interrupt routes targeting the PSP, SSP, TSP, and BMCU
+> +
+> +  One INTC1 instance is always present, on the SoC's IO die. A further two
+> +  instances may be attached to the SoC's one INTC0 instance via LTPI (LVDS
+> +  Tunneling Protocol & Interface).
+> +
+> +  Interrupt numbering model
+> +  -------------------------
+> +  The binding uses a controller-local numbering model. Peripheral device
+> +  nodes use the INTCx local interrupt number (hwirq) in their 'interrupts' or
+> +  'interrupts-extended' properties.
+> +
+> +  For AST2700, INTC0 exposes the following (inclusive) input ranges:
+> +
+> +    - 000..479: Independent interrupts
+> +    - 480..489: INTM0-INTM9
+> +    - 490..499: INTM10-INTM19
+> +    - 500..509: INTM20-INTM29
+> +    - 510..519: INTM30-INTM39
+> +    - 520..529: INTM40-INTM49
+> +
+> +  INTC0's (inclusive) output ranges are as follows:
+> +
+> +    - 000..127: 1:1 local peripheral interrupt output to PSP
+> +    - 144..151: Software interrupts from the SSP output to PSP
+> +    - 152..159: Software interrupts from the TSP output to PSP
+> +    - 192..201: INTM0-INTM9 banked outputs to PSP
+> +    - 208..217: INTM30-INTM39 banked outputs to PSP
+> +    - 224..233: INTM40-INTM49 banked outputs to PSP
+> +    - 256..383: 1:1 local peripheral interrupt output to SSP
+> +    - 384..393: INTM10-INTM19 banked outputs to SSP
+> +    - 400..407: Software interrupts from the PSP output to SSP
+> +    - 408..415: Software interrupts from the TSP output to SSP
+> +    - 426..553: 1:1 local peripheral interrupt output to TSP
+> +    - 554..563: INTM20-INTM29 banked outputs to TSP
+> +    - 570..577: Software interrupts from the PSP output to TSP
+> +    - 578..585: Software interrupts from the SSP output to TSP
+> +
+> +  Inputs and outputs for INTC1 instances are context-dependent. However, for the
+> +  first instance of INTC1, the (inclusive) output ranges are:
+> +
+> +    - 00..05: INTM0-INTM5
+> +    - 10..15: INTM10-INTM15
+> +    - 20..25: INTM20-INTM25
+> +    - 30..35: INTM30-INTM35
+> +    - 40..45: INTM40-INTM45
+> +    - 50..50: BootMCU
+> +
+> +maintainers:
+> +  - ryan_chen@aspeedtech.com
+> +  - andrew@codeconstruct.com.au
 
-Best regards,
--- 
-Felix Gu <ustc.gu@gmail.com>
+Name and email address please.
 
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - aspeed,ast2700-intc0
+> +      - aspeed,ast2700-intc1
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupt-controller: true
+> +
+> +  '#interrupt-cells':
+> +    const: 1
+> +    description: Single cell encoding the INTC local interrupt number (hwirq).
+> +
+> +  aspeed,interrupt-ranges:
+> +    description: |
+> +      Describes how ranges of controller output pins are routed to a parent
+> +      interrupt controller.
+> +
+> +      Each range entry is encoded as:
+> +
+> +        <out count phandle parent-specifier...>
+> +
+> +      where:
+> +        - out:     First controller interrupt output index in the range.
+> +        - count:   Number of consecutive controller interrupt outputs and parent
+> +                   interrupt inputs in this range.
+> +        - phandle: Phandle to the parent interrupt controller node.
+> +        - parent-specifier: Interrupt specifier, as defined by the parent
+> +                            interrupt controller binding.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 3
+> +    items:
+> +      description: Range descriptors with a parent interrupt specifier.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupt-controller
+> +  - '#interrupt-cells'
+> +  - aspeed,interrupt-ranges
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    interrupt-controller@12100000 {
+> +        compatible = "aspeed,ast2700-intc0";
+> +        reg = <0x12100000 0x3b00>;
+> +        interrupt-parent = <&gic>;
+> +        interrupt-controller;
+> +        #interrupt-cells = <1>;
+> +
+> +        aspeed,interrupt-ranges =
+> +          <0 128 &gic GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
+> +          <144 8 &gic GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>,
+> +          <152 8 &gic GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>,
+> +          <192 10 &gic GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>,
+> +          <208 10 &gic GIC_SPI 208 IRQ_TYPE_LEVEL_HIGH>,
+> +          <224 10 &gic GIC_SPI 224 IRQ_TYPE_LEVEL_HIGH>,
+> +          <256 128 &ssp_nvic 0 0>,
+> +          <384 10 &ssp_nvic 160 0>,
+> +          <400 8 &ssp_nvic 144 0>,
+> +          <408 8 &ssp_nvic 152 0>,
+> +          <426 128 &tsp_nvic 0 0>,
+> +          <554 10 &tsp_nvic 160 0>,
+> +          <570 8 &tsp_nvic 144 0>,
+> +          <578 8 &tsp_nvic 152 0>;
+> +    };
+> 
+> -- 
+> 2.34.1
+> 
 
