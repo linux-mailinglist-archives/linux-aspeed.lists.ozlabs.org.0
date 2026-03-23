@@ -1,45 +1,69 @@
-Return-Path: <linux-aspeed+bounces-3738-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3739-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GLV9KIGgwGmLJQQAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3738-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Mar 2026 03:08:01 +0100
+	id +MPEJO3vwGkUOwQAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3739-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Mar 2026 08:46:53 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D97722EBD75
-	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Mar 2026 03:08:00 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id F393E2EDBCB
+	for <lists+linux-aspeed@lfdr.de>; Mon, 23 Mar 2026 08:46:52 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ffGlQ12qVz2ySc;
-	Mon, 23 Mar 2026 13:07:30 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ffQGx1fT2z2yZN;
+	Mon, 23 Mar 2026 18:46:49 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774231650;
-	cv=none; b=ZSEosYUrs0A3hmo6n53IMrnbQ97n+lUB0hu6hzsjwqC+o3Nj0vWjnDpxOLgS5VR4iUnLOVNfqSSl/B0HLVIhTf6+s7NOc+M/0O9pA5pg2fcmawBolTzt9X76kBqs/rcH4Sue4SxG6v5pOoaHdRCw1BmBXKA5meE0Q6ASUonavLba37dBIv8VMFOHNl7xaFzepzthbhYnm9DUcG3GxM4qNFMJ4PMOAdP04hErELX4tCY80CXPhKkabnnYfSrXk6qVLmwwXITYYhsSF6mkfoOAWEFkCUB+bv+VmlGeEmGXo9/5ywtITWJ7AgRgT88FAt1n74eSydm2kihXg/+dBzXG+Q==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774252009;
+	cv=none; b=Qho8TXNfI7RpWoWVRKW2oQ7Q0FvbGjWLVAWw7OLyBzuJ28z4t+YU4SoHXCb1XpIq8y6JtfeNuNOdrMt+uPcAtMqIm4V4nxjy+f13nzI9cx8455toPfhTwo2wFtJumtoymNA2a3FsORtFhaEvsVBuT1vrNrieiHHQdwho0zHAhFdeDC+ke4nWtQZc8yPZSZWVFixbxOwb7rewTpFNhPu9tICwZm6kMU1QtqvLXH3tBRgsVLTojUkdihH3MVb519KKue6nP+Czn/Rtt31elrd+E2I2cYz73rRYCxHCpnAakdpuynOkPMH2qHqnhPXJEohQdMyrQ/y7uLJT58IUN+iqTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1774231650; c=relaxed/relaxed;
-	bh=BHtZECZh1lccSMdvYoO6Obq74NAnMNmsVszX85g9OrM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=VMA0+kKkWCssjiR4vW8cZrwNetykiquwzIqrJNfxeIB889RNCvfaIwXunQYFQ7GpqA6PMYsa+fjwnNRcIuZBXeHTuv/lyz4FheW5Uy06Yu868Lk2DADCKIzmIAX7gOHehxVua1+oc7MbIst+51jVzkgfkwTevoeTEkmRgvTN3iMhHDCotWzxQgyZkMBXhCo3x6LCFL1CDQqBPGg/BzGUeb6PX3+i5M8WSKsYyWdgBKfW3hv8OTdbx3n+WK+h7GqxcnZokbPcBC2ouTpymJKmccqxX5+yYNS8OE2ruFHFFCbII2mP+TqdchnhYeKHDXpXpEOzbzYxVgtDHj89at0xCQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1774252009; c=relaxed/relaxed;
+	bh=a3cJ44yM+NmRrca7V3uKaOczEtsL7ikYY/fGrJvDBzQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bm1U0iYJGoU90yDir6l1JjhJvu5kG3KrfaCxiYSQ9JPaANX39ftYcfJt+8gFQeDVpdhq40bAxHe1cEBVxUZfDoGkKBWIhbksiM1PnZxPpc5Guv7Hhe5mLPeKecUBQw+FnWGPJoHmveZ34ckh0Najo4Lz0NsIppoX0bS2rNQ56PsZpS1ST8FpZegJy6XzGdqkohFX45tNFb+CNKrpOILncZ72y80/J6v5l3rraWSPdgXO82Zio+D6PUwd1INwYV+tcImf8OmkUlrgrkQw+cnGBEfomrSd0s7ZhPfwSSWBY2cnQP/8ez8VWZBtcncGA/jybEBiumYDmPLwlBE5vE41ug==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=DKBIV45S; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=DKBIV45S;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ffGlP2XnWz2ybR;
-	Mon, 23 Mar 2026 13:07:29 +1100 (AEDT)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Mon, 23 Mar
- 2026 10:07:08 +0800
-Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Mon, 23 Mar 2026 10:07:08 +0800
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-Date: Mon, 23 Mar 2026 10:07:08 +0800
-Subject: [PATCH v3 2/2] mmc: sdhci-of-aspeed: Handle optional controller
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ffQGw2HFlz2yYy;
+	Mon, 23 Mar 2026 18:46:48 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 995A7600CB;
+	Mon, 23 Mar 2026 07:46:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0E54C4CEF7;
+	Mon, 23 Mar 2026 07:46:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774252005;
+	bh=Wio9gMPqHdSGHZEDnEngY8SYE39grryI9XLE6l3oDWE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DKBIV45SW7jYRmcJVtvHXKV3XffQQLnB0h0o4rBJ+x8MFpB7spa4sWYcUb9zxJtSR
+	 Em44JRqOzEDzoaRis98/wG516c2uGmuUGklH9kmt1y1IzaLaijhkCMRZR2veXVcUH8
+	 7h+YLi9Kq/iP4P8oYnFMQvWhEvy1e43lDIUJykhe4ZntsdfJkWZ3SmOMhIFan24bwB
+	 gukcErCqbnAR2V2EpMabOvh9Ad7fw59C3pwWL1FmmrXRh9ODcfG/HpGb3wZHbqq2rp
+	 lkEvMpfz7OZVB2Cno8KiSZNO83VNnlyJBs8OfPwRDrfysDNJIk0HcRDRB0rlIkbzdW
+	 I55lgMa+UJkRQ==
+Date: Mon, 23 Mar 2026 08:46:42 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Ryan Chen <ryan_chen@aspeedtech.com>
+Cc: Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Joel Stanley <joel@jms.id.au>, Ryan Chen <ryanchen.aspeed@gmail.com>, 
+	Adrian Hunter <adrian.hunter@intel.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Andrew Jeffery <andrew@aj.id.au>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] mmc: sdhci-of-aspeed: Handle optional controller
  reset
+Message-ID: <20260323-glossy-industrious-dog-63b1e6@quoll>
+References: <20260323-sdhci-v3-0-93555b8f6411@aspeedtech.com>
+ <20260323-sdhci-v3-2-93555b8f6411@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -53,108 +77,62 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260323-sdhci-v3-2-93555b8f6411@aspeedtech.com>
-References: <20260323-sdhci-v3-0-93555b8f6411@aspeedtech.com>
-In-Reply-To: <20260323-sdhci-v3-0-93555b8f6411@aspeedtech.com>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>, Ulf Hansson
-	<ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley
-	<joel@jms.id.au>, Ryan Chen <ryanchen.aspeed@gmail.com>, Adrian Hunter
-	<adrian.hunter@intel.com>, Philipp Zabel <p.zabel@pengutronix.de>
-CC: Andrew Jeffery <andrew@aj.id.au>, <linux-aspeed@lists.ozlabs.org>,
-	<openbmc@lists.ozlabs.org>, <linux-mmc@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, Ryan Chen <ryan_chen@aspeedtech.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774231627; l=1614;
- i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
- bh=DSoqlna8u7OCuF3/5m/l2C6jTM9r0dUx3ka7UV6Fe8A=;
- b=2NOHNRMbWSjIf/Q/IGPuiAKn1Vu1+RK6ULNl8RyuYHEoNAv7haKXCiQvAHzYZcUQ3tQiauXL/
- l/4s4jb0FsODeF4YQjLp1AJ3x4lXXyFKlTC9oyYeNVjOoky+husJTOm
-X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
- pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260323-sdhci-v3-2-93555b8f6411@aspeedtech.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [1.49 / 15.00];
+X-Spamd-Result: default: False [-0.21 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
-	FREEMAIL_TO(0.00)[codeconstruct.com.au,linaro.org,kernel.org,jms.id.au,gmail.com,intel.com,pengutronix.de];
-	TAGGED_FROM(0.00)[bounces-3738-lists,linux-aspeed=lfdr.de];
-	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_FROM(0.00)[bounces-3739-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	R_DKIM_NA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: D97722EBD75
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-aspeed@lists.ozlabs.org];
+	FREEMAIL_CC(0.00)[codeconstruct.com.au,linaro.org,kernel.org,jms.id.au,gmail.com,intel.com,pengutronix.de,aj.id.au,lists.ozlabs.org,vger.kernel.org,lists.infradead.org];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,qualcomm.com:email]
+X-Rspamd-Queue-Id: F393E2EDBCB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Get the optional reset line for the ASPEED SD controller during probe by
-using devm_reset_control_get_optional_exclusive_deasserted().
+On Mon, Mar 23, 2026 at 10:07:08AM +0800, Ryan Chen wrote:
+> Get the optional reset line for the ASPEED SD controller during probe by
+> using devm_reset_control_get_optional_exclusive_deasserted().
+> 
+> This allows platforms such as AST2700, which require the SD controller
+> to be taken out of reset before use, to work with the existing driver.
+> 
+> Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+> ---
+> Changes in v2:
+> - use devm_reset_control_get_optional_exclusive_deasserted replace
+>   reset_control_get_optional_exclusive.
+> - add include reset.h
 
-This allows platforms such as AST2700, which require the SD controller
-to be taken out of reset before use, to work with the existing driver.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
----
-Changes in v2:
-- use devm_reset_control_get_optional_exclusive_deasserted replace
-  reset_control_get_optional_exclusive.
-- add include reset.h
----
- drivers/mmc/host/sdhci-of-aspeed.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-index ca97b01996b1..8f638ffb55ae 100644
---- a/drivers/mmc/host/sdhci-of-aspeed.c
-+++ b/drivers/mmc/host/sdhci-of-aspeed.c
-@@ -13,6 +13,7 @@
- #include <linux/of.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
-+#include <linux/reset.h>
- #include <linux/spinlock.h>
- 
- #include "sdhci-pltfm.h"
-@@ -520,6 +521,7 @@ static int aspeed_sdc_probe(struct platform_device *pdev)
- 
- {
- 	struct device_node *parent, *child;
-+	struct reset_control *reset;
- 	struct aspeed_sdc *sdc;
- 	int ret;
- 
-@@ -529,6 +531,10 @@ static int aspeed_sdc_probe(struct platform_device *pdev)
- 
- 	spin_lock_init(&sdc->lock);
- 
-+	reset = devm_reset_control_get_optional_exclusive_deasserted(&pdev->dev, NULL);
-+	if (IS_ERR(reset))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(reset), "unable to acquire reset\n");
-+
- 	sdc->clk = devm_clk_get(&pdev->dev, NULL);
- 	if (IS_ERR(sdc->clk))
- 		return PTR_ERR(sdc->clk);
-
--- 
-2.34.1
+Best regards,
+Krzysztof
 
 
