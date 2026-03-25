@@ -1,96 +1,56 @@
-Return-Path: <linux-aspeed+bounces-3757-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3760-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MPx1CAqowmkyggQAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3757-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Mar 2026 16:04:42 +0100
+	id YB2QBmU+w2kFpgQAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3760-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 25 Mar 2026 02:46:13 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E33317A7E
-	for <lists+linux-aspeed@lfdr.de>; Tue, 24 Mar 2026 16:04:41 +0100 (CET)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5826F31E649
+	for <lists+linux-aspeed@lfdr.de>; Wed, 25 Mar 2026 02:46:11 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fgCxf3CS1z2ynP;
-	Wed, 25 Mar 2026 02:04:38 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fgV9p4QFdz2ygh;
+	Wed, 25 Mar 2026 12:46:06 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a00:1450:4864:20::133" arc.chain=google.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774364678;
-	cv=pass; b=mBFBlJQ5IMdP1SyoX0prNEVN4wRdFLfx2DfALHdGlOTyfHxrkhSyXKJ29yb8/SAKrunlqrmYnSomB2GhDYT/nnNpA/RXHW54z4yzm5cheXXsjcxY9zITs/m/xnKL1PCRQW98PrdR0dUj/dRfzrkjOIaGtX9HfS2uGusAaRB0zYBf1YNt7Sm3Sl1TEZ44lBEJymKm92nrc8Uj2vNrS61AyWrtM34q2pIzok6cv/skTsJLguQSQHdFdBUbkHAuwFOntg8xhpeu6jUoCwKghCVGG7bvqUiHaFJ/CdxAnmniu3MFfSf0NJou5KfKrboXCJRgh/rGvssu0G8yi2RL0A0OPw==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1774364678; c=relaxed/relaxed;
-	bh=EF8mh8aKz3LIz19P1c3H9JBQd1g9ZFsPluy4phQ6zIg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Pi/8+1rPY+XvDZ7zod7G9YtbN0e6FSIMbznAmptaDqmwcAR0KAnEIRBrRhBhy18uwUbZteM0+848cQUq/3XiKN7AB++1XvBOQfojEInv/e8VZG8w+0cWn6qzdhJQqogyuBbkDtwMgYQ2uhX6fGi/6q1Pwn32SSpVkIL6jrxkg1UcB9yf2gt7ZOuulA6DKnn8LFWq8n5iAvbW3+8L67CEjAjwuG4U06a9oJeyEotZTmPVzhfStCWKw76t654XjvYO6qPyPQ2pqi8cpcqM7rpfduzsZMFK37s/4voDOkGHmUYFswZy58EXu3rWiF00nINoz8gLpJHQ8PeAP/aUHw47ew==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org; dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=UmRpkGBZ; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::133; helo=mail-lf1-x133.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org) smtp.mailfrom=linaro.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774403166;
+	cv=none; b=MkyvA1EtrqESPefMzuiI9MAD7UB2yyWwNOzu4hyFS8b1C5t9cmBju9JKYWLMREHsrwPBE1Y/C8eHh2C+DA+uPtR4f2O6eOy80FW0r/JDUt68GPWhNNCHyNWs6jLYV+N+1mEkXircyMWCOQva+FCCQBh4kB3r/MXUPAeDkrTxuiSKShSyVPi59CQdqWPQ4JDKhJaLzXOw/ooznPFXUelxcumWaRGuPWPg9nUOMyLkM5GxvUGT3KaLB5aSoFDWDjweGzP5GclzKSh6AS+tjCovV6supQ+M3fZNncPsWtvmq+5TadrMN+78S2yBWoe0HCOi2mjzWY98X3CaEzTGCOnYCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1774403166; c=relaxed/relaxed;
+	bh=07p2AHTHoMybNDBcsrSuuplzOKpydQ2b3XLkDqGvEbg=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=JKXk8W7CgJTFq2gWPhj3a/QNBHKy9Ihb2jbGBhNDQTMXKADAGbCsxywwR4sqZkQelCTtwPPULniDke2/dmX9erKrtj++Y56dpT8nb0DGo3aMQdzpD4Xui6oR8pCYW95Fkubi0FQbR+M5ahLovD5ZTaFYJ1nQgh7j11nQct99CQfGhYcDgM6zfKRAbTzlrOzg43xCFdmHzuR12t1kczpVL2DY+2+ukF52hw0gc36rAw/sigM4jt8+rOQsHShlpAhSrEu6jmtfhse3jhMg+azB+5IO4oRn2/APPln39NPE8Mm17zj6pkVwuDzuAbuPY4re2kUoPyjhTqZ8uF1Rfbj0nw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=P44exNmx; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=UmRpkGBZ;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=P44exNmx;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linaro.org (client-ip=2a00:1450:4864:20::133; helo=mail-lf1-x133.google.com; envelope-from=ulf.hansson@linaro.org; receiver=lists.ozlabs.org)
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fgCxc5jkfz2yj3
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 25 Mar 2026 02:04:35 +1100 (AEDT)
-Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-5a133b686f7so1544582e87.0
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 24 Mar 2026 08:04:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774364670; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SRwycGsFbZNJoUphQhZ1/MTt/rc/0VCedoV8fLipTpM+bRSI5dWk4gtDofFiUotnTv
-         ImDRcA1H2t+3lieNN1K9Tt7MV+1+GFphjeuuZPgtWt8DfEDSnadgsye61PNPOUzQygl2
-         Zsyi9jJXqggsEY/NR2rJAXpfV0C04JV68eWdOg2O4JpaQoqUd2GMI1Q5XddjrKsS/XRx
-         04GI08KWxCd4N2WZEhQirHNGbDB2ZJzQli2sZnzOiPQdWz1wiZnDzb7Gxy2rwcXQR9I5
-         T0TAlv5Kirld+er8jQXQ/9RP5itgm6L9kf9mDPvInmmzqXttCPCyeTYdDGAhcAHyi/cq
-         ET+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=EF8mh8aKz3LIz19P1c3H9JBQd1g9ZFsPluy4phQ6zIg=;
-        fh=rmZWZZqsRLeB+YVYMhUmivy+8AugUkwNET2atqO2zY8=;
-        b=jYCwNjF89WAGAfrwhpkc4yY60mKfLGtzTFS3n1/9il0caoR/N8JKg2wIaz2Pddqg0F
-         02zMlDI/pWjZsAoLdMd/S1gSrKvIsdr0t4ee3plGS71DT5d2k/buyYV79tSh6nE5QLBf
-         mE2ZMkYLh7Xa2L3yQBEmSk4SVoUhrWGX9Uv/qxVPXZ9KWXyIhniWuoAlAdwzb7ZdRh54
-         x3XV2K8VgmvfP0c3DInIIcFFCgcs9jBX3SDwrRUFm4y/+28D3pVQVzQkH95gHKvoFW/U
-         HmHDhc8u4sKSpqbKV8/9aEHb58ucrZZwSVFYC3djUKBTEGZb+TwzF7LJPp9A+RiMBzxA
-         V6ng==;
-        darn=lists.ozlabs.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1774364670; x=1774969470; darn=lists.ozlabs.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=EF8mh8aKz3LIz19P1c3H9JBQd1g9ZFsPluy4phQ6zIg=;
-        b=UmRpkGBZCrMoOnte2ssfGrUyzBdH06mjCh3OeysoTfX2/FdilVfbYlpyZOQ7dCi/1N
-         IjzkVMkzM5d2FuuZ567SF8DIY6ecLP/rBU4664iQ8Mm7lmtWbXwD9jTmqDEXpSXPvuGW
-         j+W37qk4ibPyOcAzMN0ssUa14Yb5v4UOr6hbZzYDGsrZz8O5CtqNjDJ13VUb0T/bBlAp
-         z3L2MLBILDfvbmCKfdPySTbyQGxUc8W0of2tZEqhG/lCh4YxPDiOKZ3eSCtVDYvNoYL/
-         guwi+onJHobW0HmEM90vIncSLnvokiMChMqcFhMnyiOhg21o+3TJ564scM2nxKTbRrha
-         0O/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774364670; x=1774969470;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EF8mh8aKz3LIz19P1c3H9JBQd1g9ZFsPluy4phQ6zIg=;
-        b=BpB/d8zlrr9nuoxgqUu1XhPer2olx7YdR0YeKOs/NQzKW8da+qOjCxNvG+mrqtvAZ1
-         1yLJL8Nc7n68yM+j5m2c/ULbxC9qw37BdDmBc9WoeE6Y6m9ebeY6OUKUR2b2228YsE1B
-         eWbrbqIqGe4hlisOw3N3LSKlw/7+3wb9awhMQgHWRqlxRtvAT/daemZL5+euXWCntq3x
-         HsoktgFfDIZjq3TVhUit7wp/0Z5IqL3X7nTg+Pk5e3BoETcOt/v/myb7MYZqwVVusUZL
-         HuAyW6OlGXNbWE2Q+88a/2qtYaC5kfbtahqgNE2+3g3zTNbl+dT8Wp7ledlL/ps8GYlK
-         WGxg==
-X-Forwarded-Encrypted: i=1; AJvYcCVP0QMHUXWRPB6uaN6p/zMGcxTHeDSJjUhy4fox3UbqlfGSLR0+HLOKMwohvGXoGNVO/pWAg5OfuiH7NoM=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxJ5zyu1AMDnfHPW8jvcBCiIfdz1T/uSBxhEETflGryBGeYDa9x
-	Z7Lhk7qPJJcxAcWLaS2leH1RXUsQTtHmN0J9RwYEV5gWTIF9zDDT99wbEBhLnMvRv6NG8DyRNs0
-	+nDKg8uj2kLWLfs8AMTir7jOB/w1v+1eQkkS8zTF+0g==
-X-Gm-Gg: ATEYQzzRyrsM9yQSXXJWVeyJ+MedL62Pj3wAJcFFF4iwHUz9lOBreoyY7dP4+mrP2U0
-	LfFWGCR4m4u4GvKPmx2Y/0zqkqorTGL83SbYkCsTRTgslJvkHhIWm2GsOXWLqWQdgcUcdQRg9Jc
-	/eacdAcuSN32XHRRh5rE9aqj4QnD7RDvJSBlrYJBX2Sykf52G01L25EYUUFqujo/psHV8N2nUEX
-	vuErmSx7j4Cuu66evexYLePgUGGOyUGz96SA5CjzEjDOicETQAKZN3NqIwmxw/05fA1eDnWUCMF
-	zSRYqCXD
-X-Received: by 2002:a05:6512:15a9:b0:5a2:7d84:6a44 with SMTP id
- 2adb3069b0e04-5a285ae4b8dmr5600779e87.6.1774364670294; Tue, 24 Mar 2026
- 08:04:30 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fgV9m62DFz2y7r;
+	Wed, 25 Mar 2026 12:46:04 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 3951260103;
+	Wed, 25 Mar 2026 01:46:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B82E9C19424;
+	Wed, 25 Mar 2026 01:46:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774403161;
+	bh=HvRVk/YPY3gKc9XAyt9raBZ1qgC/+JELgZiZx+SJ6N4=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=P44exNmxQ70a5hsAAw7auqSfc7E3xhP6zmBLbY4VKOeDbOBlza3XzQg6kWsfAEFW4
+	 cxI9ZsxnlQhX9NxVYWkUAdeng9+r8dhX1Mr0hig5YUDL/Yr8c5UPAjWhSxiW1CCZ1D
+	 qKBJyAingduujPrMri2ea23aolKVEqeXU3CUIvZEVczw73geOtQ5rqVYe4vxQW1PM4
+	 KjkJa4P0bYdQY4fC6Yk1YdbFO25qrm0jaz73De8BF3IAnl/pleeGI6tadvBh5ypnE5
+	 K92aL6SnMpHQUMSE54vM7nGYX5crg96AMONStV7M3W1ZL1M/1hSbrRMMPsY238m1GR
+	 q/XKQSgLSUtIg==
+Date: Tue, 24 Mar 2026 20:46:00 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -104,81 +64,105 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260324-sdhci-v4-0-c8c2060ccb5c@aspeedtech.com>
-In-Reply-To: <20260324-sdhci-v4-0-c8c2060ccb5c@aspeedtech.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 24 Mar 2026 16:03:54 +0100
-X-Gm-Features: AQROBzDGb2O61nTd0QV3ZdTm6lrh7bdMvQHr7qGN2e1GOEsGjRP5W0BZL_IWEd0
-Message-ID: <CAPDyKFqwCahQCw7kB495Ym1JmSkn0PAkXVn==oV9_pKcb9zj9w@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] Add AST2700 support for aspeed sdhci
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: jk@codeconstruct.com.au, devicetree@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Rayn Chen <rayn_chen@aspeedtech.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-i2c@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>, 
+ andriy.shevchenko@linux.intel.com, Philipp Zabel <p.zabel@pengutronix.de>, 
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, 
+ linux-aspeed@lists.ozlabs.org, 
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>
 To: Ryan Chen <ryan_chen@aspeedtech.com>
-Cc: Andrew Jeffery <andrew@codeconstruct.com.au>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
-	Ryan Chen <ryanchen.aspeed@gmail.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Andrew Jeffery <andrew@aj.id.au>, linux-aspeed@lists.ozlabs.org, 
-	openbmc@lists.ozlabs.org, linux-mmc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+In-Reply-To: <20260324-upstream_i2c-v27-2-f19b511c8c28@aspeedtech.com>
+References: <20260324-upstream_i2c-v27-0-f19b511c8c28@aspeedtech.com>
+ <20260324-upstream_i2c-v27-2-f19b511c8c28@aspeedtech.com>
+Message-Id: <177440316087.2477729.6574194979133287654.robh@kernel.org>
+Subject: Re: [PATCH v27 2/4] dt-bindings: i2c: ast2600-i2c.yaml: Add
+ global-regs and transfer-mode properties
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [0.29 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3757-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-3760-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[ulf.hansson@linaro.org,linux-aspeed@lists.ozlabs.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[17];
-	FORGED_RECIPIENTS(0.00)[m:ryan_chen@aspeedtech.com,m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:ryanchen.aspeed@gmail.com,m:adrian.hunter@intel.com,m:p.zabel@pengutronix.de,m:andrew@aj.id.au,m:linux-aspeed@lists.ozlabs.org,m:openbmc@lists.ozlabs.org,m:linux-mmc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:ryanchenaspeed@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ulf.hansson@linaro.org,linux-aspeed@lists.ozlabs.org];
-	FREEMAIL_CC(0.00)[codeconstruct.com.au,kernel.org,jms.id.au,gmail.com,intel.com,pengutronix.de,aj.id.au,lists.ozlabs.org,vger.kernel.org,lists.infradead.org,oss.qualcomm.com];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	DBL_PROHIBIT(0.00)[0.0.0.80:email];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linaro.org:dkim,aspeedtech.com:email]
-X-Rspamd-Queue-Id: 13E33317A7E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[aspeedtech.com:email,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
+X-Rspamd-Queue-Id: 5826F31E649
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, 24 Mar 2026 at 02:58, Ryan Chen <ryan_chen@aspeedtech.com> wrote:
->
-> This series add aspeed sdhci support for AST2700. The AST2700 sdhci
-> requires an reset. This series updates the binding and driver to
-> support reset requirements.
->
+
+On Tue, 24 Mar 2026 11:06:27 +0800, Ryan Chen wrote:
+> The AST2600 I2C controller supports three transfer modes (byte, buffer,
+> DMA). Add "aspeed,transfer-mode" so DT can select the preferred transfer
+> method per controller instance. Also add the "aspeed,global-regs"
+> phandle to reference the AST2600 global registers syscon/regmap used by
+> the controller.
+> 
+> These properties apply only to the AST2600 binding and are not part of
+> the legacy binding, which uses a mixed controller/target register layout
+> and does not have the split register blocks or these new configuration
+> registers. Legacy DTs remain unchanged.
+> 
 > Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
 > ---
-> Changes in v4:
-> - 2/2 rebase git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git
->   next branch fix the conflit.
-> - Link to v3: https://lore.kernel.org/r/20260323-sdhci-v3-0-93555b8f6411@aspeedtech.com
->
+> Changes in v27:
+> - change aspeed,transfer-mode to aspeed,enable-dma.
+> ---
+>  .../devicetree/bindings/i2c/aspeed,ast2600-i2c.yaml     | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
 
-The series applied for next, thanks!
+My bot found errors running 'make dt_binding_check' on your patch:
 
-[...]
+yamllint warnings/errors:
 
-Kind regards
-Uffe
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/i2c/aspeed,ast2600-i2c.example.dtb: i2c@80 (aspeed,ast2600-i2c-bus): Unevaluated properties are not allowed ('aspeed,transfer-mode' was unexpected)
+	from schema $id: http://devicetree.org/schemas/i2c/aspeed,ast2600-i2c.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260324-upstream_i2c-v27-2-f19b511c8c28@aspeedtech.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
