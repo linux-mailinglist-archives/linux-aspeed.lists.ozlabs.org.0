@@ -1,70 +1,85 @@
-Return-Path: <linux-aspeed+bounces-3793-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3791-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qJvMDWovx2kyUAUAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3793-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Sat, 28 Mar 2026 02:31:22 +0100
+	id +B54Fn3vxmmpQQUAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3791-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Mar 2026 21:58:37 +0100
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52BAA34CE92
-	for <lists+linux-aspeed@lfdr.de>; Sat, 28 Mar 2026 02:31:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7230B34B6B7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 27 Mar 2026 21:58:36 +0100 (CET)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fjKjC2cWRz2yhD;
-	Sat, 28 Mar 2026 12:31:11 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fjCfd6R15z2yVt;
+	Sat, 28 Mar 2026 07:58:33 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=185.171.202.116
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774604018;
-	cv=none; b=KdJ+MRbFFbwFf/E9Leya6Zwq5CkYJOVTNIEkYss/Izj/gGkt0mzwIeE/FZadrO6r2JMj0Abx83pDNvxSAUeCQbnzwayLMHtHSC9PDWdyWOJL+vjLoODgULIMvQv9mtuvoKIYcMR0f/LLOjV7drnKeikbylRRPsPt54HXws2OCUkzZNgR8kTj66M5VF8Lt9vWFGiteFoPr09HVu/QQmQmCnBfTYyKwlIB8p0kWpsCXYJ/3ekeHSz8C3O3avcUZDrKDv39jGqHePpuT/GzB3Zrp9V4RQhrnVqzKmN9xMuPTSkxuQZx6DPCk7WyfHsUqQrxvCv/GE3EXJEB4o1Z9kI5Sw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=198.175.65.20
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774645113;
+	cv=none; b=YpCuKXpcy9BDsmGSxnTM0cW0LrqVGruHB9cXjJni7FKGhbRC9SHunLbVlYJ09yciCbeZwaUDd1hH+ggsZmivC6gcIj9n+SJry4fVHhDkqgyRNfEW7GtXZAsQ6aeZt8rhcaiD6b+K5i2EJhCziJsh2NEFGKTKDwO4op/HNrdfJzKmT1JhrWSQ4tAeAM+XbxAwxreVvs0MIvtNVW5gLGfoj22S1lF2QpRXgJjyzGVK5ow4CBmBtj7chHLi6CwRPrEVt3GGEdi3gTFV8Tzcs75doICE7zdOayhjWEf2z6iheuYGux7AgKBIRkZP9o9LKgoxuyfJs75bOGzywzb/1RK7Zg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1774604018; c=relaxed/relaxed;
-	bh=uX0ZkDshfrjUuQd8q4yz2ndynx0ogljmjvdsdmFxGS0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HpS+zqVb1Hty7mppw3GBCWWGDOSt7+3soydKbNmXflkq9tRrLHZa8ih8UvDyeq4blc3bZlts97KIqHY397musxrlM3250Z48PY1qjU4X2P6byrmN+Z1OXgbA4jtTItTDX44SYqSlGfvg4DxdjCviKMC3oDam5gHi76U+1/0asgA7/rlHBEle6VGGU2sUzwWedmFEYB0LRwNYtQdkHxKsDSLzEGMRXiTwOBUda/QP3ngMM0BBbZ4/ZBmLaA7NZfrh3nt5oie/94H6dijVbSkPfmnmXJxB7cHeOhJW97koLBrEiFYbWn8AYNGG+BSo43TVuircmbQCo2qwor9DRhO/EA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=xSWvcl8I; dkim-atps=neutral; spf=pass (client-ip=185.171.202.116; helo=smtpout-04.galae.net; envelope-from=paul.louvel@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+	t=1774645113; c=relaxed/relaxed;
+	bh=DwAKLwoYIfJJCtkX3cFuEqma6KKhnGBwbiyeffmGJmE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cWpWNjWxKbrlKwfoZqLpkUpahNkGgk1QDuIHB9fOm2pHn4d8V74lHP9FpkED6PeeUwSrzlreJg/ifjFTZ5HGBE2NwaeUAddC80Y/kyLaN813ODyn557k1ezxYSG2LeRDQfNMIwUgmKASvKWnqQ8WcpPW6X3AbqT/nQcPHgcTS5t00e687R9WKS1tV5hqW+NCPfDwzYJ6knQ2UpxL30YpeLFQ/nF3o8YbxZppeYNa4cRNB8w6JWVSqwIQI3AG+Gka/XAgWW1DAHpZcGCIjNsvArCKjxsDpK82XqcAkPOD/IylMn8LxjVpvs90LJGhu73cXkKDfcMWqmcpKr14NR16Pw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gsrfWlra; dkim-atps=neutral; spf=pass (client-ip=198.175.65.20; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=xSWvcl8I;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gsrfWlra;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=185.171.202.116; helo=smtpout-04.galae.net; envelope-from=paul.louvel@bootlin.com; receiver=lists.ozlabs.org)
-X-Greylist: delayed 524 seconds by postgrey-1.37 at boromir; Fri, 27 Mar 2026 20:33:36 AEDT
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=198.175.65.20; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fhwSJ05g3z2xC3
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 27 Mar 2026 20:33:34 +1100 (AEDT)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 8F54BC406B4;
-	Fri, 27 Mar 2026 09:25:13 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EBE7960230;
-	Fri, 27 Mar 2026 09:24:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C40C210450F33;
-	Fri, 27 Mar 2026 10:24:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1774603484; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=uX0ZkDshfrjUuQd8q4yz2ndynx0ogljmjvdsdmFxGS0=;
-	b=xSWvcl8Isbuq0d92ng8BHqR2A3YD/pHQymygkKgvTGzvpJ/9TUPBQ5jualNb6iSeS3B/5i
-	+57n2WSDTy/VWyaeVK08FOZkJNuKikPRGIapifgdHbDCJ9ZVFrsduV9/fUrJANVTpnRhrx
-	2ld29wYDZxahiOPJwVtWp8hdCr5cDNzBt/sfpvNU57UZAp3f0cKeGC0wxuEhl6/8F/JBN5
-	nxf5oYT+3UZw0LCt+nwOAmrVcAk20MBawzmq2bBImMdMoN4/plhIY/2oA6nx1SxCpCOKRi
-	PDQ/77dJF6F5/n3wOy/p0eR4hlX9LJIZNRVgRSGfYVLDb+B37c4uG8wyb//msQ==
-From: Paul Louvel <paul.louvel@bootlin.com>
-To: Neal Liu <neal_liu@aspeedtech.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Paul Louvel <paul.louvel@bootlin.com>,
-	linux-aspeed@lists.ozlabs.org,
-	linux-crypto@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] crypto: aspeed/hash: Use memcpy_from_sglist() in aspeed_ahash_dma_prepare()
-Date: Fri, 27 Mar 2026 10:24:18 +0100
-Message-ID: <20260327092418.10476-1-paul.louvel@bootlin.com>
-X-Mailer: git-send-email 2.53.0
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fjCfb080nz2yS4
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 28 Mar 2026 07:58:28 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774645111; x=1806181111;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SQR0YyvvNKZ19ivSH0b+y9Tjg/QCeOc1Y/8TMEN1CZY=;
+  b=gsrfWlra4xdkarPOuu2MdyGSExjDG838aQr/sKzHQgSgLFle6lA2KJOl
+   9OU6jtyyFZImTpcgJ45jtUwHhRd0xLYaGWonANdgppWSzDXR/pBxphxJO
+   xOhGw5XlqA4QuRqPALllfOeRbMlm8To0usBRWpBdQOvyV0Wr97kDgnhAK
+   uYUYdaHUxVgLyQGuvv5egwslIcVJYYqYAN1HC7x45LevRliwTqiO+0BRP
+   +go/NYQ36q/4Glca45hB9GceIQZOaOmIfUt4jtKo73U+GDJgPPqOJQoCY
+   M5RCf1IWqB9n0/1AUCZe+ENbtxzttYZj58tvhFvEBIzOhJPyYrppQXIXd
+   Q==;
+X-CSE-ConnectionGUID: pH8Xp1MwRwaWXZEJlT83gQ==
+X-CSE-MsgGUID: TJvg/9qwQ16l2oI6SQdZng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="75439712"
+X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
+   d="scan'208";a="75439712"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 13:58:25 -0700
+X-CSE-ConnectionGUID: UYhKLyDwTgG2QT2x7s+T8g==
+X-CSE-MsgGUID: hT6cdgmqQ9CvuiYlrtr0LA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,144,1770624000"; 
+   d="scan'208";a="221023310"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 27 Mar 2026 13:58:21 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w6EG2-00000000Ak1-2ELz;
+	Fri, 27 Mar 2026 20:58:18 +0000
+Date: Sat, 28 Mar 2026 04:58:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ryan Chen <ryan_chen@aspeedtech.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Thomas Gleixner <tglx@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: Re: [PATCH v3 3/4] irqchip/ast2700-intc: Add KUnit tests for route
+ resolution
+Message-ID: <202603280415.xv0eHt8u-lkp@intel.com>
+References: <20260326-irqchip-v3-3-366739f57acf@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -78,76 +93,144 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260326-irqchip-v3-3-366739f57acf@aspeedtech.com>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+	SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [0.29 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:neal_liu@aspeedtech.com,m:herbert@gondor.apana.org.au,m:davem@davemloft.net,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:thomas.petazzoni@bootlin.com,m:paul.louvel@bootlin.com,m:linux-aspeed@lists.ozlabs.org,m:linux-crypto@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-3793-lists,linux-aspeed=lfdr.de];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-3791-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER(0.00)[paul.louvel@bootlin.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER(0.00)[lkp@intel.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_RECIPIENTS(0.00)[m:ryan_chen@aspeedtech.com,m:robh@kernel.org,m:krzk@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:pjw@kernel.org,m:palmer@dabbelt.com,m:aou@eecs.berkeley.edu,m:alex@ghiti.fr,m:tglx@kernel.org,m:oe-kbuild-all@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-riscv@lists.infradead.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_NEQ_ENVFROM(0.00)[paul.louvel@bootlin.com,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
-X-Rspamd-Queue-Id: 52BAA34CE92
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,01.org:url,intel.com:dkim,intel.com:email,intel.com:mid]
+X-Rspamd-Queue-Id: 7230B34B6B7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Replace scatterwalk_map_and_copy() with memcpy_from_sglist() in
-aspeed_ahash_dma_prepare(). The latter provides a simpler interface
-without requiring a direction parameter, making the code easier to
-read and less error-prone.
+Hi Ryan,
 
-No functional change intended.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Paul Louvel <paul.louvel@bootlin.com>
----
- drivers/crypto/aspeed/aspeed-hace-hash.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+[auto build test WARNING on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
 
-diff --git a/drivers/crypto/aspeed/aspeed-hace-hash.c b/drivers/crypto/aspeed/aspeed-hace-hash.c
-index f8f37c9d5f3c..6f0d03cfbefc 100644
---- a/drivers/crypto/aspeed/aspeed-hace-hash.c
-+++ b/drivers/crypto/aspeed/aspeed-hace-hash.c
-@@ -182,8 +182,7 @@ static int aspeed_ahash_dma_prepare(struct aspeed_hace_dev *hace_dev)
- 			final = true;
- 	} else
- 		length -= remain;
--	scatterwalk_map_and_copy(hash_engine->ahash_src_addr, rctx->src_sg,
--				 rctx->offset, length, 0);
-+	memcpy_from_sglist(hash_engine->ahash_src_addr, rctx->src_sg, rctx->offset, length);
- 	aspeed_ahash_update_counter(rctx, length);
- 	if (final)
- 		length += aspeed_ahash_fill_padding(
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/dt-bindings-interrupt-controller-Describe-AST2700-A2-hardware-instead-of-A0/20260327-190127
+base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+patch link:    https://lore.kernel.org/r/20260326-irqchip-v3-3-366739f57acf%40aspeedtech.com
+patch subject: [PATCH v3 3/4] irqchip/ast2700-intc: Add KUnit tests for route resolution
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260328/202603280415.xv0eHt8u-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260328/202603280415.xv0eHt8u-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603280415.xv0eHt8u-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/irqchip/irq-ast2700-intc0-test.c: In function 'aspeed_intc0_resolve_route_c1i1o1mc0i2o1':
+>> drivers/irqchip/irq-ast2700-intc0-test.c:351:1: warning: the frame size of 1296 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     351 | }
+         | ^
+   drivers/irqchip/irq-ast2700-intc0-test.c: In function 'aspeed_intc0_resolve_route_c1i2o2mc0i1o1':
+   drivers/irqchip/irq-ast2700-intc0-test.c:292:1: warning: the frame size of 1296 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+     292 | }
+         | ^
+
+
+vim +351 drivers/irqchip/irq-ast2700-intc0-test.c
+
+   293	
+   294	static void aspeed_intc0_resolve_route_c1i1o1mc0i2o1(struct kunit *test)
+   295	{
+   296		struct device_node intc0_node = {
+   297			.fwnode = { .ops = &intc0_fwnode_ops },
+   298		};
+   299		struct aspeed_intc_interrupt_range c1ranges[] = {
+   300			{
+   301				.start = 0,
+   302				.count = 1,
+   303				.upstream = {
+   304					.fwnode = &intc0_node.fwnode,
+   305					.param_count = 1,
+   306					.param = { 510 }
+   307				}
+   308			},
+   309		};
+   310		static const u32 c1outs[] = { 0 };
+   311		struct aspeed_intc_interrupt_range resolved;
+   312		struct aspeed_intc_interrupt_range intc0_ranges[] = {
+   313			{
+   314				.start = 192,
+   315				.count = 1,
+   316				.upstream = {
+   317					.fwnode = NULL,
+   318					.param_count = 0,
+   319					.param = {0},
+   320				}
+   321			},
+   322			{
+   323				.start = 208,
+   324				.count = 1,
+   325				.upstream = {
+   326					.fwnode = NULL,
+   327					.param_count = 0,
+   328					.param = {0},
+   329				}
+   330			}
+   331		};
+   332		struct aspeed_intc0 intc0 = {
+   333			.ranges = {
+   334				.ranges = intc0_ranges,
+   335				.nranges = ARRAY_SIZE(intc0_ranges),
+   336			}
+   337		};
+   338		const struct irq_domain c0domain = {
+   339			.host_data = &intc0,
+   340			.fwnode = &intc0_node.fwnode
+   341		};
+   342		int rc;
+   343	
+   344		rc = aspeed_intc0_resolve_route(&c0domain, ARRAY_SIZE(c1outs), c1outs,
+   345						ARRAY_SIZE(c1ranges), c1ranges,
+   346						&resolved);
+   347		KUNIT_EXPECT_EQ(test, rc, 0);
+   348		KUNIT_EXPECT_EQ(test, resolved.start, 0);
+   349		KUNIT_EXPECT_EQ(test, resolved.count, 1);
+   350		KUNIT_EXPECT_EQ(test, resolved.upstream.param[0], 510);
+ > 351	}
+   352	
+
 -- 
-2.53.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
