@@ -1,97 +1,45 @@
-Return-Path: <linux-aspeed+bounces-3808-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3797-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yCS6Ekn8ymmlBwYAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3808-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 31 Mar 2026 00:42:17 +0200
+	id 8Cf6JAEZyml85AUAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3797-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Mar 2026 08:32:33 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50C836208E
-	for <lists+linux-aspeed@lfdr.de>; Tue, 31 Mar 2026 00:42:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C53355F51
+	for <lists+linux-aspeed@lfdr.de>; Mon, 30 Mar 2026 08:32:32 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fl5pr5mwHz2ySf;
-	Tue, 31 Mar 2026 09:42:12 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fkhHx4t8Sz2xpt;
+	Mon, 30 Mar 2026 17:32:29 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2607:f8b0:4864:20::1029" arc.chain=google.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774840550;
-	cv=pass; b=KYgs+SWAAyqMn6OjACTVTqh+yhRJS1fr1JTqJUw96GJ0KPOwGbUYNV7qjQ4TM1fXrLZycJtieCLGQdRrIORUJAHMzqn+M1oRZZ1UfJifekP8JzFaXienqon422Sl3XAI2fFRsuvgDcVTFHV0fM7Itua1p3GrNT/tAFGPZgOoFiQnyPZYfN6HpwnHxoYU5k6IY4xKh4mRuMqQEipKmkZyQMQn1woY4CVxCjjEM2wI8QsHtfyWpvLF/3HYVfFZj7uytzvMOmL1Qe1MwRKmtac6rYgUMnlE+7TRJ9B96KCrraCuscDQgMZ6l1jTjz+zDdJG7qUdgoUzGzzIHHPHoGKofg==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1774840550; c=relaxed/relaxed;
-	bh=FVMXYmRNSK5Aq3wZtSGqZwzT1AZquu20CiOVo+iR0q8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R13AUmLyL60BR6GJsPiGhubrTXoYeARMe5MWSfB/GhoG92XkG/zxvwqN4eOMpVb0Oa7fj/zvx4SgFmWLDLoXp3HeQ23qeYtDeAtYSeHKe1yCmolNpI3A87wxRSiN6JJZrZXSQLdKhMAf9IiF/sG2FhgTAr2LVNMwO5fviEmeM8M9LfNrOZLIx314tMFq53XrYr5JQyI0tmj0ydC9+FPeTHm1jL5zGyBtkLHGMbu7ptGheh7ru1kEDxb5LThenoEZuIpGCZWwbfG43ejYzFcuxOMFVLxfoOsAts8nflBESHpTLlOqE5kW99IhssqBFFdvuUa+vTr/jniguHT5Ze+3YA==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=LvWAwBwV; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1029; helo=mail-pj1-x1029.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=LvWAwBwV;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1029; helo=mail-pj1-x1029.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774852349;
+	cv=none; b=TvJIr5P2fqBaaO/G4xmLU6DD0UxMJ6UABAZ8oWsuNwBYKwKVJ2dlJRDVB8qPeEKThjJPnpcgmlWlcxIPazQ42aYdwS9QmXMVCbinI88oj9gebx4Ve4OZ7Pn2oy0gxetBLf6Sc6u+EKWtaMq5CBC1+WvF5vdM0uUtUmbKNV5VDavO9xiK5sgEYMttwpgIwcoX5JnKHxmcH1Lyn4qPxUhuxMnNGjHMSYPjOyKyo/+2szMbCeXxb/wzyIACs5qe/J87OxvMvhwxYk35sVW4NINiDtea6ltQbg62Mt1g2tWfLKK3ayHY+0+c+RGI7bqZSzaVQyqnPUt8XMcEbw1zOEbaEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1774852349; c=relaxed/relaxed;
+	bh=OpCetiyBauYYAJ8SysJ96ijPY9Mk7kbQLyBHdlccLBI=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=kkqTwEV2bAOePJWA+WGJc0dFbf7mO4pqGpIobgsc32ChlM1hxTEguG4x0x300xGS7MCSPgbqzsNH8mD2WLkMIrlSUFesKF/oA0V7uaZp/KdhyPGf2IuP30DjPV3KygjL+JE4Q7v8YuM6sXMeLzyVWDjWlJgMW7ctI52sCn3E/oc86TExrVQtirpLreqr+naq43Xuvav9j17DlD4iV71HgtcWuO2CPU+c8HDf4QDwS63E+xH8+M3atXiETL9BDIxs4ErAL1mJbfkX87b5+ACv1/L0S4uOqfGYDXHHeP+cSYWlxD2pLPMsT9VaKrnZ2C+levJSqdDhY8IcOKIWKxEtQg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fkbx12p0kz2ygG
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Mar 2026 14:15:49 +1100 (AEDT)
-Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-35d971fb6f1so1074826a91.0
-        for <linux-aspeed@lists.ozlabs.org>; Sun, 29 Mar 2026 20:15:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774840546; cv=none;
-        d=google.com; s=arc-20240605;
-        b=W95bZx7J/z6xVqycpbELwPWNPIIwbDHd884Lw0nA41NZCRVs/uulz+PqzOIBVECxeb
-         p9BZ1p9S5k5be+XJh6X+Mj/fP01IXFAb/3Q2/4qgY3VmFi9FZy4YS8JBZIBm82LXLmAk
-         jekCRXnWt23FqbLrKU9lf+U0BueXL5mQXdTH2BDUogmRxKsYs4WJUqm40E7N3eh8ay84
-         wxlEI4wJTD8dgqY+xlhC9+Rr+GQtBap0K5AK6Bh9erDN7EgDx8npLZIiJ4huy+iW9RKL
-         pOL5g6ytWj2c//XMflSQxydjKK4VkDlarZEu83qgk4AXrF8n9rzn+IIm0RYwYdPbiu5G
-         8TDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FVMXYmRNSK5Aq3wZtSGqZwzT1AZquu20CiOVo+iR0q8=;
-        fh=PFWV2Gjyf9OiAaRksTjXl/D6wMD5Ds4VS5EwQ58O5L0=;
-        b=I5+X6KPnSZWrtQcYWo3HTpevgJUhdnVCQ/n9aD83o+hKS/6lYCeTonqe40pQMulang
-         xn8MB+h4ZDoVNpTib7faMc87poY7+U8Cc8a5oIp9XxlrZyb8jP648V5NolMZw3I7wYu1
-         Kzcii7dBKxscx7YKtPjoMexUHHu2fQELSHIHlbEZS5ELx5lCNXjlk/DewTmw3ZjCwpUe
-         JxrZQMb8JHzjHMVUJv2s1HlbU/Xm0NbsK1M3d0fmz59ByBiM9sPBKVvR1CxjdMJ87MbD
-         ejJs3ZsdmMrXWpMxHPsTXxd/izA7FbkLSHcn7x5ihctPQd1GOZCDzUgqEDpgqMdJDRzR
-         EFbg==;
-        darn=lists.ozlabs.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774840546; x=1775445346; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FVMXYmRNSK5Aq3wZtSGqZwzT1AZquu20CiOVo+iR0q8=;
-        b=LvWAwBwV4fpfpBGRW9XXWjiwAPhLUReA4f+Yn9zO70yJ9jQkMBwn0cKR/cBSAOUrjX
-         onEb0aLLbDRO65SW4IghFobHKl7l6P2Xzcb3CEpCMiae+iPjzyV/5q5jgkADj0ycu0va
-         e0Rl1xhYzy3zUXLKZl/D1BMVYQYsnPZXQI6YtUPn6GPcsIP1ag8lnGgEK2jnbsLtr/kO
-         /yt4oancKRdFHgnPzUK2+3yNHVU2FkG4jWa+3PAA4ic+BT7/tfAJAxxWAW5LSlywJGJR
-         LZTRHkQRr8ySP52TX73pmJOAQ8IahKpQfVVmAtxYUvtccOrWTdz3fd4/9mA6VLi6lcqY
-         i4bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774840546; x=1775445346;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FVMXYmRNSK5Aq3wZtSGqZwzT1AZquu20CiOVo+iR0q8=;
-        b=OivGr0mVxt9aJSifEDmRy2ojiZNJtviQMGIRGPmWhXJRIqah3EefMls3pxD479hmAX
-         UHA4jrcgOTIh49JoqFnIKhjrBI8RbNd2sSuiy6pF6CT32hs58VmLSltp0eI1hsILvwxL
-         zWR2ZvhP2PiPust4DHZ6oXPq3Nugf8/Vdel2dyUjS853cg3XKgF6MKGSI6yt5mO5RjjO
-         YAxYsxxZGeGTCpT6OlxkueIyScxOE9awg+Wjsjb79JPr44KXYrwmcO454vGcEWccg0gP
-         E4llsNmmcWZSY+Mvvh8XNpsE46bxueiMA9I4yx56W6vcTiC3qi2SoG7d+Wr4DjB0GxUe
-         jUQA==
-X-Forwarded-Encrypted: i=1; AJvYcCWHigH58OgezjLVAXXtjOTPgsaPfAOe4hLrE3HARqWmBsnQNSmYsCD0XcBpLMSgVvRjOJKTTn0e2hlt3nM=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yz1DJ24oWSg3ZeSoCGHr2IzrA928pNq+IptV2C0i2rGZIeepF0U
-	6VrETldlX+TadIGVJIW79YgcSqBFy3XtKSC1ur4ztGkjQpvl59+xRR8JwWwbWEb7M9y2TRTlSAX
-	nQ3RbbOK1blVBH8LEwwoZB281FqsCcYQ=
-X-Gm-Gg: ATEYQzzQrrl0Q85gYJcHaPOWa5cuMEcNDjQHR4JJsTvg30Dx4GzstjFjtcOO39o4EqJ
-	zWc8842MfJpUUu4DdqSrfG6KjgTbEi3QCrDzjgdQHayY+EPk5rB7OvppN92rUsnYAcus8nxKayC
-	nVeMhEmAiV1v3VsDYnRJjVd0KZ0EyOoJ3Hv5CXEYAFnjz0ZXd1lMgGueQ1B3HT4rrf+4QCYuT8B
-	haRpNp3XU/czlehtBoqFe2QF6+gPoLj3uoX0enP1X7/Kk0LKQ/reUx5AWzXh2L60pJj6p0tnQvC
-	S41pWIc9dUbLJ7lbJQc=
-X-Received: by 2002:a17:90a:38c6:b0:35d:9d4f:f595 with SMTP id
- 98e67ed59e1d1-35d9d4ff8a6mr3077625a91.17.1774840546438; Sun, 29 Mar 2026
- 20:15:46 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fkhHw2Yfrz2xT6
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Mar 2026 17:32:27 +1100 (AEDT)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Mon, 30 Mar
+ 2026 14:32:10 +0800
+Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Mon, 30 Mar 2026 14:32:10 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: [PATCH v4 0/4] AST2700-A2 interrupt controller hierarchy and route
+ support
+Date: Mon, 30 Mar 2026 14:32:09 +0800
+Message-ID: <20260330-irqchip-v4-0-3c0f1620cc06@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -105,148 +53,182 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260223-yv5_revise_dts-v5-0-fc913e902488@gmail.com>
- <20260223-yv5_revise_dts-v5-2-fc913e902488@gmail.com> <73ea41bf341df0e3215c58a029c9ea2386c4ef8a.camel@codeconstruct.com.au>
- <CABh9gBd3b9TB1-s=Gq1q-M8bX+4UioXePUF0DPVrU2N3N8S9yw@mail.gmail.com> <d7794f74b26bbc1ee0a70e39c5671acc018f80eb.camel@codeconstruct.com.au>
-In-Reply-To: <d7794f74b26bbc1ee0a70e39c5671acc018f80eb.camel@codeconstruct.com.au>
-From: Kevin Tung <kevin.tung.openbmc@gmail.com>
-Date: Mon, 30 Mar 2026 11:15:53 +0800
-X-Gm-Features: AQROBzAgZ9-0Ybc9ZvULPVMA1y-kfdj-DVMBBwWYIa1fxoX4faQR_SIhsXqj-zQ
-Message-ID: <CABh9gBddmoLWyJpuKr8ieWCCHXgPPNn+zCS2WDkUn8x2NBkzqQ@mail.gmail.com>
-Subject: Re: [PATCH v5 2/8] ARM: dts: aspeed: yosemite5: Remove ambiguous
- power monitor DTS nodes
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, Amithash Prasasd <amithash@meta.com>, 
-	Kevin Tung <Kevin.Tung@quantatw.com>, Ken Chen <Ken.Chen@quantatw.com>, 
-	Leo Yang <Leo-Yang@quantatw.com>, Jackson Liu <Jackson.Liu@quantatw.com>, 
-	Daniel Hsu <Daniel-Hsu@quantatw.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=2.1 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,TVD_SUBJ_WIPE_DEBT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOkYymkC/23MQQ6DIBCF4as0rEszgIJ21Xs0XSAOhUXVgiFtj
+ HcvutHELt9kvn8iEYPHSK6niQRMPvq+y6M4n4hxunsi9W3ehAOXwKGkPryN8wNVqNEKqYoWa5K
+ /h4DWf9bS/ZG383Hsw3cNJ7Zcj43EKNAGBAMEaaBSNx0HxHZE4y6mf5EllPiGBcgN84xtVTJuo
+ G5Qir9Y7DDfYZGxkFKJ2pZKG3vA8zz/AChwD+EdAQAA
+X-Change-ID: 20260205-irqchip-7eaef3674de9
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
+ Jeffery" <andrew@codeconstruct.com.au>, Paul Walmsley <pjw@kernel.org>,
+	"Palmer Dabbelt" <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+	"Alexandre Ghiti" <alex@ghiti.fr>, Thomas Gleixner <tglx@kernel.org>, Thomas
+ Gleixner <tglx@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-riscv@lists.infradead.org>, Ryan Chen <ryan_chen@aspeedtech.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774852330; l=5545;
+ i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
+ bh=2YRtrcIEpOWrAdhNl8A+m416MZj9b+AOfhV4PMTCzGI=;
+ b=leRN0msFH+xIpM4fUICSbtFYte3oLzDxzhAtPEcwoTq4GYx9ofeYmNq1hqsiK8ncZKawLKdXR
+ PO4jDW9dHmlAR3HstgEdBKZWeixlFBiNRPhzwAzRydugWrpCWAniR8O
+X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
+ pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
 	autolearn=disabled version=4.0.1
-X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [1.49 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3808-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[kevintungopenbmc@gmail.com,linux-aspeed@lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-3797-lists,linux-aspeed=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:amithash@meta.com,m:Kevin.Tung@quantatw.com,m:Ken.Chen@quantatw.com,m:Leo-Yang@quantatw.com,m:Jackson.Liu@quantatw.com,m:Daniel-Hsu@quantatw.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:pjw@kernel.org,m:palmer@dabbelt.com,m:aou@eecs.berkeley.edu,m:alex@ghiti.fr,m:tglx@kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-riscv@lists.infradead.org,m:ryan_chen@aspeedtech.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kevintungopenbmc@gmail.com,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
-X-Rspamd-Queue-Id: C50C836208E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
+X-Rspamd-Queue-Id: 52C53355F51
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Mar 26, 2026 at 2:07=E2=80=AFPM Andrew Jeffery
-<andrew@codeconstruct.com.au> wrote:
->
-> Hi Kevin,
->
-> Sorry for the delay.
->
-> On Mon, 2026-03-09 at 11:41 -0700, Kevin Tung wrote:
-> > On Tue, Mar 3, 2026 at 6:41=E2=80=AFPM Andrew Jeffery
-> > <andrew@codeconstruct.com.au> wrote:
-> > >
-> > > Hi Kevin,
-> > >
-> > > Sorry for the patchy replies so far, but this series bothers me and
-> > > other priorities keep bumping it down the list.
-> > >
-> > > On Mon, 2026-02-23 at 19:17 +0800, Kevin Tung wrote:
-> > > > Two different power monitor devices, using different drivers, reuse
-> > > > I2C addresses 0x40 and 0x45 on bus 10 across Yosemite5 board varian=
-ts.
-> > > > Defining these devices statically in the DTS can lead to incorrect
-> > > > driver binding on newer boards when the wrong device is instantiate=
-d.
-> > >
-> > > There are effective methods of maintaining devicetrees for variants.
-> > > Why are we choosing to remove information about the platform rather
-> > > than use existing techniques to properly describe them?
-> > >
-> > Hi Andrew,
-> >
-> > This is due to hardware design changes during earlier development
-> > stages, and the fix is expected to remain stable as the design has
-> > matured.
-> > Could you guide me on the best way to maintain devicetrees for
-> > variants? Thank you :)
->
-> My expectation is your platforms move through several design phases
-> prior to (mass?) production. My suspicion is that you have sent a
-> devicetree for the pre-production design phases, and you're trying to
-> evolve that one devicetree to match the design for whatever current
-> phase you're in.
->
-> So, ideally: Send a devicetree only for the finalised design. Don't
-> send devicetrees for pre-production designs.
->
-> If you feel you can't do that for some reason, an alternative is to
-> have a separate .dts file for each phase in the design process.
->
-> This may sound tedious but it doesn't have to be a burden to maintain.
->
-> For instance, you can use one or more .dtsi files to describe the
-> common components and relationships for your platform. These .dtsi
-> files are then #included into .dts files as usual. Often .dtsi files
-> are used to isolate different hardware scopes (SoC vs board, for
-> instance), but we're not limited to that, we can use them for the
-> purpose outlined above too.
->
-> If there are only (very) minor differences, there's also the option of
-> #including another .dts file. From there you can adjust properties or
-> even delete nodes where it makes sense. For example, we maintain a .dts
-> file for the latest revision of the AST2600-EVB, but we also have a
-> separate .dts for the A1 revision with a different regulator setup:
->
-> - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts?h=3Dv7.0-rc5
-> - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb-a1.dts?h=3Dv7.0-rc5
->
-> Any of these are better options than this current approach of trying to
-> justify incompatible changes against unclear design boundaries.
->
-> Andrew
+The AST2700 SoC has undergone multiple silicon revisions (A0, A1, A2)
+prior to mass production.
 
-Hi Andrew,
+A0 laid the ground-work with a split controller design (INTC0 and
+INTC1) used for early development and bring-up. The interrupt
+architecture was substantially reworked in the A1 to introduce an
+explicit routing model and clearer hierarchy, though the split
+controllers remained. The A1 interrupt architecture is unchanged in A2.
 
-Thank you for the guidance.
-We will submit devicetree changes for the finalized design and ensure
-they align with the hardware to maintain stability and avoid
-incompatible changes.
+A2 is the production design. A0 and A1 are pre-production silicon and
+are no longer intended for deployment outside of ASPEED.
 
-Kevin
+The existing binding and driver were written against A0 prior to the A1
+rework. The A0 design directly wired INTC1 instances to INTC0, and
+INTC0 to the GIC of the Primary Service Processor (PSP, a Cortex-A35).
+The A0 binding and driver therefore do not account for the alternative
+destinations of the Secondary and Tertiary Service Processors (SSP,
+TSP) and BootMCU, or the necessary route selection logic present in the
+production design.
+
+With the above context, this series replaces the existing binding and
+driver.
+
+It is not necessary for projects to maintain support for A0 due to its
+pre-production nature, and between Linux, U-Boot and Zephyr there are
+no upstream devicetree users of the current binding.
+
+The new binding uses localised interrupt numbers and models the
+hardware connectivity between interrupt controllers using the
+aspeed,interrupt-ranges property. It is introduced in a new file before
+the existing binding is removed in order to keep the diff readable.
+
+The INTC0 driver creates a hierarchical irqdomain under the selected
+upstream interrupt controller and implements route resolution logic.
+INTC1 driver instances defer route selection to INTC0 and expose a
+linear interrupt namespace to their parent.
+
+A brief history of related submissions
+--------------------------------------
+
+Some modifications to the existing binding were sent to the lists in
+the past. Due to process choices the revisions were difficult to track.
+They are listed below.
+
+The approaches took several forms but ended in the minor adjustment in
+v6 being applied. This enabled use of the A1 design but requires
+assumptions about platform route configuration defined in firmware.
+These assumptions are removed by this current series.
+
+* [PATCH] dt-bindings: interrupt-controller: aspeed: Refine AST2700 binding description and example
+  https://lore.kernel.org/all/20250714071753.2653620-1-ryan_chen@aspeedtech.com/
+
+* [PATCH v2] dt-bindings: interrupt-controller: aspeed: Add parent node compatibles and refine documentation
+  https://lore.kernel.org/all/20250715024258.2304665-1-ryan_chen@aspeedtech.com/
+
+* [PATCH v3 0/2] irqchip: aspeed: Add AST2700 INTC debugfs support and yaml update
+  https://lore.kernel.org/all/20250722095156.1672873-1-ryan_chen@aspeedtech.com/
+
+* [PATCH v4 0/2] irqchip/ast2700-intc: Add AST2700 INTC debugfs support and yaml update
+  https://lore.kernel.org/all/20250812100830.145578-1-ryan_chen@aspeedtech.com/
+
+* [PATCH v5 0/3] AST2700 interrupt controller hierarchy support
+  https://lore.kernel.org/all/20251022065507.1152071-1-ryan_chen@aspeedtech.com/
+
+* [PATCH v6 0/1] Update correct AST2700 interrupt controller binding
+  https://lore.kernel.org/all/20251030060155.2342604-1-ryan_chen@aspeedtech.com/
+
+Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+---
+Changes in v4:
+- 3/4 fix warning: the frame size of 1296 bytes is larger than 1280 bytes
+- Link to v3: https://lore.kernel.org/r/20260326-irqchip-v3-0-366739f57acf@aspeedtech.com
+
+Changes in v3:
+- 1/4 Squash patch 5/5 and 1/5.
+- 1/4 modify wrap lines at 80 char.
+- 1/4 modify maintainers name and email.
+- 1/4 modify typo Sevice-> Service
+- Link to v2: https://lore.kernel.org/r/20260306-irqchip-v2-0-f8512c09be63@aspeedtech.com
+
+Changes in v2:
+- Change suject to "AST2700-A2 interrupt controller hierarchy and route
+  support".
+- Describe timeline for (pre-)production design evolution and
+  binding development to support the break in compatibility.
+- fix "make dt_binding_check" compatible string consistance with
+  example.
+- Split KUnit coverage out of the main driver patch.
+- Link to v1: https://lore.kernel.org/r/20260205-irqchip-v1-0-b0310e06c087@aspeedtech.com
+
+---
+Ryan Chen (4):
+      dt-bindings: interrupt-controller: Describe AST2700-A2 hardware instead of A0
+      irqchip/ast2700-intc: Add AST2700-A2 support
+      irqchip/ast2700-intc: Add KUnit tests for route resolution
+      irqchip/aspeed-intc: Remove AST2700-A0 support
+
+ .../interrupt-controller/aspeed,ast2700-intc.yaml  |  90 ----
+ .../aspeed,ast2700-interrupt.yaml                  | 188 +++++++
+ drivers/irqchip/.kunitconfig                       |   5 +
+ drivers/irqchip/Kconfig                            |  23 +
+ drivers/irqchip/Makefile                           |   3 +-
+ drivers/irqchip/irq-aspeed-intc.c                  | 139 -----
+ drivers/irqchip/irq-ast2700-intc0-test.c           | 473 +++++++++++++++++
+ drivers/irqchip/irq-ast2700-intc0.c                | 584 +++++++++++++++++++++
+ drivers/irqchip/irq-ast2700-intc1.c                | 282 ++++++++++
+ drivers/irqchip/irq-ast2700.c                      | 106 ++++
+ drivers/irqchip/irq-ast2700.h                      |  47 ++
+ 11 files changed, 1710 insertions(+), 230 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260205-irqchip-7eaef3674de9
+
+Best regards,
+-- 
+Ryan Chen <ryan_chen@aspeedtech.com>
+
 
