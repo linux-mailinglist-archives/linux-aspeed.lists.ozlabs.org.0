@@ -1,64 +1,97 @@
-Return-Path: <linux-aspeed+bounces-3796-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3808-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wP8AOpuayGmOnwUAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3796-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Sun, 29 Mar 2026 05:20:59 +0200
+	id yCS6Ekn8ymmlBwYAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3808-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 31 Mar 2026 00:42:17 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08EA350903
-	for <lists+linux-aspeed@lfdr.de>; Sun, 29 Mar 2026 05:20:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C50C836208E
+	for <lists+linux-aspeed@lfdr.de>; Tue, 31 Mar 2026 00:42:15 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fk05J6mQZz2yft;
-	Sun, 29 Mar 2026 14:20:52 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fl5pr5mwHz2ySf;
+	Tue, 31 Mar 2026 09:42:12 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774754452;
-	cv=none; b=jRlATTVfsaKWsBjtVqxwwYOdEn8GxOYt2GCeMnz5afELPqrHcPy8zUzFYdpQAX9HbzSRC2E9RKXXgJ/JtzABgDljH008tletxckMFE8FYuGJY7xwzmG8A8BpKWrmvOTO+izDYUHCTv5dCAH5wqTFQg0/YzXH4MtcaYiDH7JqE+wc2gHUVKI+nB1dAofc+jq/ARdXP3LmvalPdmU8ltCmsJtw/O/oIQjDJspglVN4GcVa1WNumTFFx/YXJz0CWoXBj/Dt7TNtM2N6JtyDCCeC5w+L4ZMHlr7vT2Vo3frULoK06koc5mJ46s/inE+qza5lFkN01RnL9KcDg7CWxT7/Mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1774754452; c=relaxed/relaxed;
-	bh=gUuZHrDWxaaWF4+/n4z56tn8qK+LyT2Zab514kfOXec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bxdzOyEM8ZAv3ygcLLkqMYEZFAjf4ze2IJ39vpGdKtmH5oq+eiFyRnqB9d+VwKgmEdhjZOq1Z8CO7XHRwVo33+muHLAdAkU/+DpCD/AcrxhzNBHdSBnK+xmJ6gbd2Bfy/s6WmCGKiD+GibqpKbJPO2nfyDltW7/1Zm0cQNJE7dJWOtWqf48+qE+OugTtlR04LBJJXCJ9S7ZG0+QOQkEken9iSsp6kfXP6i4wopYPN1qbYS44bqmBxfQ330YoOL20uL6QQSIoGG6JUUbwq0erb2F4L5OSY6rP6c7p/xhREcYmIltBuyDa5GhzmxkE0RQmDzvng97kCnUpgRO4kiccVw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=1Rwsmr+7; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2607:f8b0:4864:20::1029" arc.chain=google.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774840550;
+	cv=pass; b=KYgs+SWAAyqMn6OjACTVTqh+yhRJS1fr1JTqJUw96GJ0KPOwGbUYNV7qjQ4TM1fXrLZycJtieCLGQdRrIORUJAHMzqn+M1oRZZ1UfJifekP8JzFaXienqon422Sl3XAI2fFRsuvgDcVTFHV0fM7Itua1p3GrNT/tAFGPZgOoFiQnyPZYfN6HpwnHxoYU5k6IY4xKh4mRuMqQEipKmkZyQMQn1woY4CVxCjjEM2wI8QsHtfyWpvLF/3HYVfFZj7uytzvMOmL1Qe1MwRKmtac6rYgUMnlE+7TRJ9B96KCrraCuscDQgMZ6l1jTjz+zDdJG7qUdgoUzGzzIHHPHoGKofg==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1774840550; c=relaxed/relaxed;
+	bh=FVMXYmRNSK5Aq3wZtSGqZwzT1AZquu20CiOVo+iR0q8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R13AUmLyL60BR6GJsPiGhubrTXoYeARMe5MWSfB/GhoG92XkG/zxvwqN4eOMpVb0Oa7fj/zvx4SgFmWLDLoXp3HeQ23qeYtDeAtYSeHKe1yCmolNpI3A87wxRSiN6JJZrZXSQLdKhMAf9IiF/sG2FhgTAr2LVNMwO5fviEmeM8M9LfNrOZLIx314tMFq53XrYr5JQyI0tmj0ydC9+FPeTHm1jL5zGyBtkLHGMbu7ptGheh7ru1kEDxb5LThenoEZuIpGCZWwbfG43ejYzFcuxOMFVLxfoOsAts8nflBESHpTLlOqE5kW99IhssqBFFdvuUa+vTr/jniguHT5Ze+3YA==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=LvWAwBwV; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1029; helo=mail-pj1-x1029.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=1Rwsmr+7;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=LvWAwBwV;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1029; helo=mail-pj1-x1029.google.com; envelope-from=kevin.tung.openbmc@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fk05H441Pz2xl0
-	for <linux-aspeed@lists.ozlabs.org>; Sun, 29 Mar 2026 14:20:51 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=gUuZHrDWxaaWF4+/n4z56tn8qK+LyT2Zab514kfOXec=; b=1R
-	wsmr+7CebtxmeC7zSCRBXBzSP8TtlMe1LeiLLkDCkbO6f1YWfIH9XlyyRJk9qfQmjPkiqnYrcJbYX
-	fMvITKt05bjHr+c22rl8xd158RD+PJo097oMNQod4FzDa4iVhmf15I0Syp5CHamydP7ETNHRJKNb2
-	A4sxszRKx5ltQz4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1w6ghV-00Dr5E-2n; Sun, 29 Mar 2026 05:20:33 +0200
-Date: Sun, 29 Mar 2026 05:20:33 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Anirudh Srinivasan <anirudhsriniv@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ARM: dts: aspeed: Enable networking for Asus Kommando
- IPMI Card
-Message-ID: <b8e4da26-ae8e-4b2d-b259-c13e3a4d0aa0@lunn.ch>
-References: <20260328-asus-kommando-networking-v1-1-66d308b88536@gmail.com>
- <ed3d39df-0a0e-427b-86cf-b9b2d2094b51@lunn.ch>
- <CAJ13v3S7ucjd-ifmKFBDGtsg32MbOar2OBeiGMVEJBsH8+JP7Q@mail.gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fkbx12p0kz2ygG
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 30 Mar 2026 14:15:49 +1100 (AEDT)
+Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-35d971fb6f1so1074826a91.0
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 29 Mar 2026 20:15:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774840546; cv=none;
+        d=google.com; s=arc-20240605;
+        b=W95bZx7J/z6xVqycpbELwPWNPIIwbDHd884Lw0nA41NZCRVs/uulz+PqzOIBVECxeb
+         p9BZ1p9S5k5be+XJh6X+Mj/fP01IXFAb/3Q2/4qgY3VmFi9FZy4YS8JBZIBm82LXLmAk
+         jekCRXnWt23FqbLrKU9lf+U0BueXL5mQXdTH2BDUogmRxKsYs4WJUqm40E7N3eh8ay84
+         wxlEI4wJTD8dgqY+xlhC9+Rr+GQtBap0K5AK6Bh9erDN7EgDx8npLZIiJ4huy+iW9RKL
+         pOL5g6ytWj2c//XMflSQxydjKK4VkDlarZEu83qgk4AXrF8n9rzn+IIm0RYwYdPbiu5G
+         8TDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FVMXYmRNSK5Aq3wZtSGqZwzT1AZquu20CiOVo+iR0q8=;
+        fh=PFWV2Gjyf9OiAaRksTjXl/D6wMD5Ds4VS5EwQ58O5L0=;
+        b=I5+X6KPnSZWrtQcYWo3HTpevgJUhdnVCQ/n9aD83o+hKS/6lYCeTonqe40pQMulang
+         xn8MB+h4ZDoVNpTib7faMc87poY7+U8Cc8a5oIp9XxlrZyb8jP648V5NolMZw3I7wYu1
+         Kzcii7dBKxscx7YKtPjoMexUHHu2fQELSHIHlbEZS5ELx5lCNXjlk/DewTmw3ZjCwpUe
+         JxrZQMb8JHzjHMVUJv2s1HlbU/Xm0NbsK1M3d0fmz59ByBiM9sPBKVvR1CxjdMJ87MbD
+         ejJs3ZsdmMrXWpMxHPsTXxd/izA7FbkLSHcn7x5ihctPQd1GOZCDzUgqEDpgqMdJDRzR
+         EFbg==;
+        darn=lists.ozlabs.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774840546; x=1775445346; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FVMXYmRNSK5Aq3wZtSGqZwzT1AZquu20CiOVo+iR0q8=;
+        b=LvWAwBwV4fpfpBGRW9XXWjiwAPhLUReA4f+Yn9zO70yJ9jQkMBwn0cKR/cBSAOUrjX
+         onEb0aLLbDRO65SW4IghFobHKl7l6P2Xzcb3CEpCMiae+iPjzyV/5q5jgkADj0ycu0va
+         e0Rl1xhYzy3zUXLKZl/D1BMVYQYsnPZXQI6YtUPn6GPcsIP1ag8lnGgEK2jnbsLtr/kO
+         /yt4oancKRdFHgnPzUK2+3yNHVU2FkG4jWa+3PAA4ic+BT7/tfAJAxxWAW5LSlywJGJR
+         LZTRHkQRr8ySP52TX73pmJOAQ8IahKpQfVVmAtxYUvtccOrWTdz3fd4/9mA6VLi6lcqY
+         i4bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774840546; x=1775445346;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=FVMXYmRNSK5Aq3wZtSGqZwzT1AZquu20CiOVo+iR0q8=;
+        b=OivGr0mVxt9aJSifEDmRy2ojiZNJtviQMGIRGPmWhXJRIqah3EefMls3pxD479hmAX
+         UHA4jrcgOTIh49JoqFnIKhjrBI8RbNd2sSuiy6pF6CT32hs58VmLSltp0eI1hsILvwxL
+         zWR2ZvhP2PiPust4DHZ6oXPq3Nugf8/Vdel2dyUjS853cg3XKgF6MKGSI6yt5mO5RjjO
+         YAxYsxxZGeGTCpT6OlxkueIyScxOE9awg+Wjsjb79JPr44KXYrwmcO454vGcEWccg0gP
+         E4llsNmmcWZSY+Mvvh8XNpsE46bxueiMA9I4yx56W6vcTiC3qi2SoG7d+Wr4DjB0GxUe
+         jUQA==
+X-Forwarded-Encrypted: i=1; AJvYcCWHigH58OgezjLVAXXtjOTPgsaPfAOe4hLrE3HARqWmBsnQNSmYsCD0XcBpLMSgVvRjOJKTTn0e2hlt3nM=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yz1DJ24oWSg3ZeSoCGHr2IzrA928pNq+IptV2C0i2rGZIeepF0U
+	6VrETldlX+TadIGVJIW79YgcSqBFy3XtKSC1ur4ztGkjQpvl59+xRR8JwWwbWEb7M9y2TRTlSAX
+	nQ3RbbOK1blVBH8LEwwoZB281FqsCcYQ=
+X-Gm-Gg: ATEYQzzQrrl0Q85gYJcHaPOWa5cuMEcNDjQHR4JJsTvg30Dx4GzstjFjtcOO39o4EqJ
+	zWc8842MfJpUUu4DdqSrfG6KjgTbEi3QCrDzjgdQHayY+EPk5rB7OvppN92rUsnYAcus8nxKayC
+	nVeMhEmAiV1v3VsDYnRJjVd0KZ0EyOoJ3Hv5CXEYAFnjz0ZXd1lMgGueQ1B3HT4rrf+4QCYuT8B
+	haRpNp3XU/czlehtBoqFe2QF6+gPoLj3uoX0enP1X7/Kk0LKQ/reUx5AWzXh2L60pJj6p0tnQvC
+	S41pWIc9dUbLJ7lbJQc=
+X-Received: by 2002:a17:90a:38c6:b0:35d:9d4f:f595 with SMTP id
+ 98e67ed59e1d1-35d9d4ff8a6mr3077625a91.17.1774840546438; Sun, 29 Mar 2026
+ 20:15:46 -0700 (PDT)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -72,90 +105,148 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ13v3S7ucjd-ifmKFBDGtsg32MbOar2OBeiGMVEJBsH8+JP7Q@mail.gmail.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+References: <20260223-yv5_revise_dts-v5-0-fc913e902488@gmail.com>
+ <20260223-yv5_revise_dts-v5-2-fc913e902488@gmail.com> <73ea41bf341df0e3215c58a029c9ea2386c4ef8a.camel@codeconstruct.com.au>
+ <CABh9gBd3b9TB1-s=Gq1q-M8bX+4UioXePUF0DPVrU2N3N8S9yw@mail.gmail.com> <d7794f74b26bbc1ee0a70e39c5671acc018f80eb.camel@codeconstruct.com.au>
+In-Reply-To: <d7794f74b26bbc1ee0a70e39c5671acc018f80eb.camel@codeconstruct.com.au>
+From: Kevin Tung <kevin.tung.openbmc@gmail.com>
+Date: Mon, 30 Mar 2026 11:15:53 +0800
+X-Gm-Features: AQROBzAgZ9-0Ybc9ZvULPVMA1y-kfdj-DVMBBwWYIa1fxoX4faQR_SIhsXqj-zQ
+Message-ID: <CABh9gBddmoLWyJpuKr8ieWCCHXgPPNn+zCS2WDkUn8x2NBkzqQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/8] ARM: dts: aspeed: yosemite5: Remove ambiguous
+ power monitor DTS nodes
+To: Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, Amithash Prasasd <amithash@meta.com>, 
+	Kevin Tung <Kevin.Tung@quantatw.com>, Ken Chen <Ken.Chen@quantatw.com>, 
+	Leo Yang <Leo-Yang@quantatw.com>, Jackson Liu <Jackson.Liu@quantatw.com>, 
+	Daniel Hsu <Daniel-Hsu@quantatw.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=2.1 required=5.0 tests=ARC_SIGNED,ARC_VALID,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,TVD_SUBJ_WIPE_DEBT
+	autolearn=disabled version=4.0.1
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[lunn.ch,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
-	R_DKIM_ALLOW(-0.20)[lunn.ch:s=20171124];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[generic];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3796-lists,linux-aspeed=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:anirudhsriniv@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-3808-lists,linux-aspeed=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[kevintungopenbmc@gmail.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[lunn.ch:+];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:amithash@meta.com,m:Kevin.Tung@quantatw.com,m:Ken.Chen@quantatw.com,m:Leo-Yang@quantatw.com,m:Jackson.Liu@quantatw.com,m:Daniel-Hsu@quantatw.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	FROM_NEQ_ENVFROM(0.00)[kevintungopenbmc@gmail.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: A08EA350903
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
+X-Rspamd-Queue-Id: C50C836208E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, Mar 28, 2026 at 07:14:04PM -0500, Anirudh Srinivasan wrote:
-> Hi Andrew
-> 
-> On Sat, Mar 28, 2026 at 7:05 PM Andrew Lunn <andrew@lunn.ch> wrote:
-> >
-> > On Sat, Mar 28, 2026 at 06:39:59PM -0500, Anirudh Srinivasan wrote:
-> > > Adds the DT nodes needed for ethernet support for Asus Kommando, with
-> > > phy mode set to rgmii-id.
+On Thu, Mar 26, 2026 at 2:07=E2=80=AFPM Andrew Jeffery
+<andrew@codeconstruct.com.au> wrote:
+>
+> Hi Kevin,
+>
+> Sorry for the delay.
+>
+> On Mon, 2026-03-09 at 11:41 -0700, Kevin Tung wrote:
+> > On Tue, Mar 3, 2026 at 6:41=E2=80=AFPM Andrew Jeffery
+> > <andrew@codeconstruct.com.au> wrote:
 > > >
-> > > When this DT was originally added, the phy mode was set to rgmii (which
-> > > was incorrect). It was suggested to remove networking support from the
-> > > DT till the Aspeed networking driver was patched so that the correct phy
-> > > mode could be used.
+> > > Hi Kevin,
 > > >
-> > > The discussion in [1] mentions that u-boot was inserting clk delays that
-> > > weren't needed, which resulted in needing to set the phy mode in linux
-> > > to rgmii incorrectly. The solution suggested there was to patch u-boot to
-> > > no longer insert these clk delays and use rgmii-id as the phy mode for
-> > > any future DTs added to linux.
+> > > Sorry for the patchy replies so far, but this series bothers me and
+> > > other priorities keep bumping it down the list.
 > > >
-> > > This DT was tested with a u-boot DT modified to insert clk delays of 0
-> > > (instead of patching u-boot itself). [2] adds a u-boot DT for this
-> > > device (without networking) and describes how to patch it to add
-> > > networking support. If this patched DT is used, then networking works
-> > > with rgmii-id phy mode in both u-boot and linux.
+> > > On Mon, 2026-02-23 at 19:17 +0800, Kevin Tung wrote:
+> > > > Two different power monitor devices, using different drivers, reuse
+> > > > I2C addresses 0x40 and 0x45 on bus 10 across Yosemite5 board varian=
+ts.
+> > > > Defining these devices statically in the DTS can lead to incorrect
+> > > > driver binding on newer boards when the wrong device is instantiate=
+d.
+> > >
+> > > There are effective methods of maintaining devicetrees for variants.
+> > > Why are we choosing to remove information about the platform rather
+> > > than use existing techniques to properly describe them?
+> > >
+> > Hi Andrew,
 > >
-> > I've been looking at
-> >
-> > https://elixir.bootlin.com/u-boot/v2026.04-rc5/source/drivers/clk/aspeed/clk_ast2600.c
-> >
-> > And i don't see where mac2-clk-delay is implemented. Could you point
-> > out the code?
-> 
-> I'm testing against the u-boot version that openbmc uses for its
-> builds. I don't think upstream u-boot is used by openbmc.
-> 
-> https://github.com/openbmc/u-boot/blob/v2019.04-aspeed-openbmc/drivers/clk/aspeed/clk_ast2600.c#L999
+> > This is due to hardware design changes during earlier development
+> > stages, and the fix is expected to remain stable as the design has
+> > matured.
+> > Could you guide me on the best way to maintain devicetrees for
+> > variants? Thank you :)
+>
+> My expectation is your platforms move through several design phases
+> prior to (mass?) production. My suspicion is that you have sent a
+> devicetree for the pre-production design phases, and you're trying to
+> evolve that one devicetree to match the design for whatever current
+> phase you're in.
+>
+> So, ideally: Send a devicetree only for the finalised design. Don't
+> send devicetrees for pre-production designs.
+>
+> If you feel you can't do that for some reason, an alternative is to
+> have a separate .dts file for each phase in the design process.
+>
+> This may sound tedious but it doesn't have to be a burden to maintain.
+>
+> For instance, you can use one or more .dtsi files to describe the
+> common components and relationships for your platform. These .dtsi
+> files are then #included into .dts files as usual. Often .dtsi files
+> are used to isolate different hardware scopes (SoC vs board, for
+> instance), but we're not limited to that, we can use them for the
+> purpose outlined above too.
+>
+> If there are only (very) minor differences, there's also the option of
+> #including another .dts file. From there you can adjust properties or
+> even delete nodes where it makes sense. For example, we maintain a .dts
+> file for the latest revision of the AST2600-EVB, but we also have a
+> separate .dts for the A1 revision with a different regulator setup:
+>
+> - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dts?h=3Dv7.0-rc5
+> - https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb-a1.dts?h=3Dv7.0-rc5
+>
+> Any of these are better options than this current approach of trying to
+> justify incompatible changes against unclear design boundaries.
+>
+> Andrew
 
-Please include in the commit message that you need to use a fork of
-u-boot.
+Hi Andrew,
 
-	Andrew
+Thank you for the guidance.
+We will submit devicetree changes for the finalized design and ensure
+they align with the hardware to maintain stability and avoid
+incompatible changes.
+
+Kevin
 
