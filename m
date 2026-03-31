@@ -1,59 +1,95 @@
-Return-Path: <linux-aspeed+bounces-3824-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3822-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8GYAAzRYzGn/SQYAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3824-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 01 Apr 2026 01:26:44 +0200
+	id 6IbNMQhXzGn/SQYAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3822-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 01 Apr 2026 01:21:44 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2972B372C83
-	for <lists+linux-aspeed@lfdr.de>; Wed, 01 Apr 2026 01:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB573372AF1
+	for <lists+linux-aspeed@lfdr.de>; Wed, 01 Apr 2026 01:21:43 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4flklh544dz2yVt;
-	Wed, 01 Apr 2026 10:26:40 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4flkdw3fnTz2yVt;
+	Wed, 01 Apr 2026 10:21:40 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774944156;
-	cv=none; b=ao5VNFX318wlBB86SJnAe0jXlP9bbuNvReKFijeersy88/+dAYKloo6Lhq1X790dgVEhkNSBIB3UApX8HPHEqMejpvLALH5TE7TnqXI6NUNqCzOcSUjXvCGdDWjjgaagTtIQ/wPbtYaLFBs4OY3uOXKLdx7vgKRRlmDPivG1+MMLx1wq6SkFvFQqbmdLKXRkULh09WkI7kU78nybGy2jZHDRwwKX1HbL5XgiYHxFQj8PbQQdUhlVPD26O915d1FVetJ304pH08/P4T3VHh3PZIZQD7GVJcddKDEtaRSk6VxVpKpEoSgeRSjA4vupxCz4jcGCWGoYXQw33nbU7ACItA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::632"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774958994;
+	cv=none; b=c5NhF/5v33RZ/Fh5c5ZkvgZat/DDtDxT0MmIyWGKclS6WaojRZ87txN5eTMVHs46gmrgIM9nU8P160ph2Y3VFrcdAU95C+Dz3x1Unz1ntETCBwR+kTqoolAlvMQXRAZlsPphoxfCVs3s+3apur8u3m4BHB0rFWsTYdQckAB0nWY1hCiJ0wClgJPFgstIuSmCyRFCsWH3uqKnH+QmbRo97pAlCAJ+1EfvXpw600qqclTxYOYdMYtfACOUlytV44ycA5ZyB90QV9pZOGOGoYGG7kMADo5e/j/nhwknqESjcCopI2K5jpv0cJ6Fp9ssoNPQquOygye1YHKYLPmc4HTh7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1774944156; c=relaxed/relaxed;
-	bh=4+Rajdgs98gDiyqfvDa5F4qhl4LCm3l64nsMUlhxgzQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YCvB8AkGeFvHidOpyDQikTe2FpZKI7mK/Vj5mpUj1oGrWvzuUSDEYtiiAxmgKABv3FqDmYF9a0HTj7ONMpwbZWkgovqZXWiF0cgJfyhoJonYDXBayOPuCdwrkivgqUmh4lFZCx0MRsEq6YEikBK9fPpNxCOEZYxJgs1Ro3ZCIgWCSzbNiJDX6Zei4eQs9ZH4M/+zQ76Qap9mzhqpgHXQze/4ljltfHlFqZvcEfcbTcfmZ8wWqQ1I5fUKH2tj1323QrcznzY9fagwodXKWcM+UJoerD3oGaQoLKJlypl6sXJ2/Tyma3i/DJbl+R2Wxg+2SC1TR93VP++qFBhsMYVgxg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jCKeezCV; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=devnull+carl.lee.amd.com@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+	t=1774958994; c=relaxed/relaxed;
+	bh=YJsN9xOorEStaNzhqVyskGIBPrVNwL+4GmqbmijKTAk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LHv6OCjMA5zkHmf0ahSnE/nnfMwYi9yd48qnTDBq+bIXdiokmaLTbrN2XFmK+BOUo1L9dPADDPDbbcmjHG2pBPBOZ3/NmQVshLYsrItXY0Rrv6ybiHPh0tXDM9T7LOkxZarK1lOWgxQ5WhM48GNV43N/6qy6CcFI7DjEdZYYoa69BOGAJMiEVQaUOcB5YdGKtClEThq6C5joMBCe/DGQWYV7w2jeH7C38H8wcDPQEyv2DDPPpmuTJl+x9PRJbe83A5cP+WyJf6JjYDkvf0acAC9XusP5LE7aWM//n8Dci4JOpAJEc6IRojED3CxF7RU4YBaT0AXm7i5mH4h0p8cUNg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q/JWp//x; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::632; helo=mail-pl1-x632.google.com; envelope-from=d486250@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jCKeezCV;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=q/JWp//x;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=devnull+carl.lee.amd.com@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::632; helo=mail-pl1-x632.google.com; envelope-from=d486250@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4flLFR1HG0z2xSb
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 31 Mar 2026 19:02:35 +1100 (AEDT)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 53E1C60120;
-	Tue, 31 Mar 2026 08:02:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 01E7CC19423;
-	Tue, 31 Mar 2026 08:02:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774944152;
-	bh=PHDS2VPVRfSiE1Ru3nMVenx5VOLgrNd57TaF4gFMkw8=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=jCKeezCV7gOu8EsUna52MOAbD/vJd6+TOoiXmoWUVdUwQgQlSB6e77O8yhHFpGo6W
-	 98/nqwfP/inkJf+50mikcI3Lj2ivG0kYl7uIbh5s/ETVIqPike6C4VyZzAVbR/cR9R
-	 pg7KSc0lh+bk1z/HMqrA2Yvb6xkzE0WlFEISgQQ3j/Oet7jPC3T77+S3YmQTtpxTLk
-	 C9Hd2y0FrqFuqFcudJcKWmio64F4totGu3+uJIn1fnHOQLMGyO/ilk1ltchMQQpUJs
-	 hl6uqrHroubCY4cZVzGnMbQxmbDfrtYGHwrfLqEFkpFf8O2k7hTnrSCjVy1y/cfm9/
-	 Bas+84KuZ31RQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB251FF60D0;
-	Tue, 31 Mar 2026 08:02:31 +0000 (UTC)
-From: Carl Lee via B4 Relay <devnull+carl.lee.amd.com@kernel.org>
-Date: Tue, 31 Mar 2026 16:02:28 +0800
-Subject: [PATCH v3] ARM: dts: aspeed: anacapa: Add eeprom device node for
- NFC adaptor board
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4flRkn20Ctz2xSb
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 31 Mar 2026 23:09:52 +1100 (AEDT)
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-2b2503753efso18561175ad.0
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 31 Mar 2026 05:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774958989; x=1775563789; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YJsN9xOorEStaNzhqVyskGIBPrVNwL+4GmqbmijKTAk=;
+        b=q/JWp//xivD4ZAKFQOP5msyZM8j5+R7W4vl4QhB3CHXd8aIdodvcTVITpGJXyDGZBH
+         8l6ea7ZTkJd/aE3MuvAhg05cF2nOiHIM40VtlbrLpkcgNDXUqHAGDDffmSpDZpN0YJxz
+         VkC7lEeUUq+13kvlIUMP7MmT8qkfxx5fkQ5wr+01KlIRUvIj+VxHojWRJkQsCLDeSCSc
+         +3Ez2FhzSp/bF6F1+lMoNiPCInskLF3O7NIXF2SVEQnJq9PBd5aU/PFDindjGNHhkjsP
+         EsmRh9cdZehrrE4wtzhcgzxAjCd2wWKqqVpI+k/iIPPqanZ6ZhaNFC6TOIwGVP8/S0vI
+         SY1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774958989; x=1775563789;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YJsN9xOorEStaNzhqVyskGIBPrVNwL+4GmqbmijKTAk=;
+        b=C1EZHh5vcENPaSKuc2EHD7r710sJ0jtA4RpwTXxtUT6Nln82yWc2LWFn+lCHW72Qi0
+         Z2sky9x8e5qZ3p+Z1mfQbMZBZmnLGHnpcggzW5tumiYhlk+Ubrznu0HDR+5tox3qYmLM
+         tG1RUPfxVN4cUvu7ySKCx4gxtmbYiqw0aheRZxY/yCPN+gYKSHNnOPza6WWAQ1ezRpyw
+         mQ0wBOefFogzldMaskHD4T7hOWqNPc3VJCvzFvN+C8H/ecCLqbrFiTpC3tyAdob2YkHa
+         jbDJ8UwNjc59CEFyflLHhlRpWOUjnb1hLa+ciIZg09cde3je4a2Y1MNAdvDnvO0OVg1R
+         7Jmw==
+X-Forwarded-Encrypted: i=1; AJvYcCUaqeZjc7hSbPmwLTE5DnbXCgAi9hdpthCzewbsCKPhPWcql6Nh4kwICJR2mxtIl8QVAnUXBlDNDM6R8tM=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YyDNtn+3mqHREpIQAQ0sTylcpH2Y410dHD+eqrch03I22OCQtW2
+	HUiwLZ1uAMD2mW3M2FVdtkCUxBZu+jSb+oCNg8SIgLzZivxvrniIxN0E
+X-Gm-Gg: ATEYQzxjjLEcDtZbKtmHhaF44awevip684l0MmGoK6XI1bAgd/Iou3JHxmiq0slertc
+	+GDN9OvHsXQ0YEFoNNtYeo9PgHQ7RnQ8dgdeHL23kkP4nB0J80d3gJ1GQ+Xl3ZXtVa5aMZ29lpd
+	/ZAbXxD47y4W2JyDXG0mUQar5iOAfzZMVvBRyMHuZQydiRx4UkFStQam3lbjrrqkwV+Vo3zaK1L
+	rGBnTVftJioYVYFl2ooCdFV2Z7pmDsA4kEV4wijKybDG4nKgcccqOCzoueYJMZ/SJsqbBefJI2W
+	nBineuMHxUG0a2a/xv0H81GYTLyLhWpiTxWrIshXEyT0yLMO2dMZwVHxroYflbuSM+drbjOtYXn
+	veJqO4R/PgKhd3u3Ja2LBqXe/DQbHUtgBKrFRAOltr3H4ilX20QetmUf9ya2nBbDOGa+6r1Q4Zj
+	E72Mj9MzTsySTjVWt+5yfwj730YdOSEu+2vP8dfG4h1b1A+D8TD/khTn85iJwVQe70z3GAigOOF
+	yBnBaz9HK8OyLy3lByoYg==
+X-Received: by 2002:a17:902:e846:b0:2b2:490c:411e with SMTP id d9443c01a7336-2b2490c53c4mr108364095ad.6.1774958989240;
+        Tue, 31 Mar 2026 05:09:49 -0700 (PDT)
+Received: from bu9-daniel.dhcpserver.bu9bmc.local (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b242642c5asm109350915ad.7.2026.03.31.05.09.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 05:09:48 -0700 (PDT)
+From: Daniel Hsu <d486250@gmail.com>
+X-Google-Original-From: Daniel Hsu <Daniel-Hsu@quantatw.com>
+To: andrew@codeconstruct.com.au
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	joel@jms.id.au,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	Daniel Hsu <Daniel-Hsu@quantatw.com>
+Subject: [PATCH v2] ARM: dts: aspeed: yosemite5: Add MP5998 power monitor
+Date: Tue, 31 Mar 2026 20:07:34 +0800
+Message-ID: <20260331120734.39260-1-Daniel-Hsu@quantatw.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -67,120 +103,79 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260331-arm-dts-aspeed-anacapa-add-eeprom-device-v3-1-2bb2226fbb4e@amd.com>
-X-B4-Tracking: v=1; b=H4sIAJN/y2kC/52NOw6DMBAFr4JcZyN/+Mipco8oxeLdBBdgZCMrE
- eLuMTTpKec9aWYViaPnJG7VKiJnn3yYCphLJdyA05vBU2GhpW6lkRYwjkBLAkwzMwFO6HBGQCJ
- gnmMob9E4BlSIPcsWTdOLopsjv/znSD2ehQeflhC/RzmrfT0RyQok1I202ijJkts7jnR1YRR7I
- uuzWg0KrHIdEdd9Z+mv3bbtB6vL7to1AQAA
-X-Change-ID: 20260309-arm-dts-aspeed-anacapa-add-eeprom-device-a1aabe06a35b
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- carl.lee@amd.com, peter.shen@amd.com, colin.huang2@amd.com
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774944151; l=1502;
- i=carl.lee@amd.com; s=20260203; h=from:subject:message-id;
- bh=tK4ZlqqLdi/4bQSFXDH6JCKjm/zDadASdjOjaR1GT4A=;
- b=SaG/KqMDLIxRikW7LI9c8QOG9XIn/wzre1v8BpnxvZL8oSWTfadp8FR8SP4Lf7sUfnMLULhG0
- NjbP5yWI7GmC0NzJJoaRnpZ72jo1n6xtViWE2VC6hqD6/Q/kYVsRVaK
-X-Developer-Key: i=carl.lee@amd.com; a=ed25519;
- pk=pyq7QaQvoxMg806KVkRwpCbiah+7ncWr4MBpK1AEyjA=
-X-Endpoint-Received: by B4 Relay for carl.lee@amd.com/20260203 with
- auth_id=623
-X-Original-From: Carl Lee <carl.lee@amd.com>
-Reply-To: carl.lee@amd.com
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [-0.21 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-3822-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3824-lists,linux-aspeed=lfdr.de,carl.lee.amd.com];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[devnull@kernel.org,linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:Daniel-Hsu@quantatw.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[d486250@gmail.com,linux-aspeed@lists.ozlabs.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:carl.lee@amd.com,m:peter.shen@amd.com,m:colin.huang2@amd.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[carl.lee@amd.com];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	DBL_PROHIBIT(0.00)[0.0.0.50:email];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FROM_NEQ_ENVFROM(0.00)[d486250@gmail.com,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_PROHIBIT(0.00)[0.0.0.45:email];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:replyto,amd.com:mid,0.0.0.28:email]
-X-Rspamd-Queue-Id: 2972B372C83
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[quantatw.com:email,quantatw.com:mid,0.0.0.46:email,0.0.0.47:email]
+X-Rspamd-Queue-Id: DB573372AF1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Carl Lee <carl.lee@amd.com>
+Add an MP5998 power monitor used to monitor the power consumption
+of the Paddle_P12V_HSC rail on the Yosemite5 paddle board.
 
-Add eeprom device node for NFC adaptor board FRU.
+[v2]
+- Describe the purpose of the power monitor
+- Remove software/driver related description
 
-Signed-off-by: Carl Lee <carl.lee@amd.com>
+Signed-off-by: Daniel Hsu <Daniel-Hsu@quantatw.com>
 ---
-Add eeprom device node to store FRU data for NFC adapter
-board on Anacapa platform.
----
-Changes in v3:
-- Fix node ordering to follow ascending unit address
-- Update commit message to match actual changes
-- Link to v2: https://lore.kernel.org/r/20260309-arm-dts-aspeed-anacapa-add-eeprom-device-v2-1-91c7dde4b79d@amd.com
-
-Changes in v2:
-- Remove PRoT module eeprom commit since it is already included in another series under review.
-- Only include NFC adapter board eeprom node.
-- Link to v1: https://lore.kernel.org/r/20260309-arm-dts-aspeed-anacapa-add-eeprom-device-v1-0-45092310e0e6@amd.com
----
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts | 5 +++++
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-index 2cb7bd128d24..57fd81e931d6 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-@@ -824,6 +824,11 @@ nfc@28 {
- 
- 				enable-gpios = <&sgpiom0 241 GPIO_ACTIVE_HIGH>;
- 			};
-+
-+			eeprom@50 {
-+				compatible = "atmel,24c128";
-+				reg = <0x50>;
-+			};
- 		};
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts
+index 2486981f3d6b..6287f80d70d9 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts
+@@ -422,6 +422,11 @@ power-sensor@45 {
+ 		shunt-resistor = <1000>;
  	};
- };
-
----
-base-commit: a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
-change-id: 20260309-arm-dts-aspeed-anacapa-add-eeprom-device-a1aabe06a35b
-
-Best regards,
+ 
++	power-monitor@46 {
++		compatible = "mps,mp5998";
++		reg = <0x46>;
++	};
++
+ 	power-monitor@47 {
+ 		compatible = "ti,tps25990";
+ 		reg = <0x47>;
 -- 
-Carl Lee <carl.lee@amd.com>
-
+2.53.0
 
 
