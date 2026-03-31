@@ -1,82 +1,69 @@
-Return-Path: <linux-aspeed+bounces-3820-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3823-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4OclDaXXy2mILwYAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3820-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 31 Mar 2026 16:18:13 +0200
+	id iCOYAglXzGn/SQYAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3823-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 01 Apr 2026 01:21:45 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EDEC36ACDF
-	for <lists+linux-aspeed@lfdr.de>; Tue, 31 Mar 2026 16:18:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5BA372AF3
+	for <lists+linux-aspeed@lfdr.de>; Wed, 01 Apr 2026 01:21:43 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4flVZm6ZLnz2ybR;
-	Wed, 01 Apr 2026 01:18:08 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4flkdw4L1Mz2yYY;
+	Wed, 01 Apr 2026 10:21:40 +1100 (AEDT)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::b12d"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774966688;
-	cv=none; b=d9dbHVaCYtU82UucC6Gpknfr66w96M//dzgOP8DXa5wf0+a+DpuNtwzbJq9OPufLGuVYH5Ja426ghEKkpW+J5uBIOwr8jKPV1GPY5ysyBYPMiyHNYPpDXBspMcVqi4Ubx97uDODeJk1/ZPPh57z1dO1ucyROcc+T0YJNm2YWKMsTUKmcjqIdlQqaChOyH2yAu4oTS5/BvtXI9qZfXuz5X+EiBHWV1HZbQf4zTpWYIAQo2pn+LOt9YyH7vde1qMDCfeMU0AIuhpRfffjO4Un12bE9Y/3T3qmesqpwBLgnote45RfeTSELtNKafFb1H44Iae/pLhnC/iYxsRrrSQTekA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1774973416;
+	cv=none; b=HrUwRxZlUiauDHI0/w0CMT7qqyMDM5HhvlW5G5iXeJpg5lVQz/A3W1yC7O15uVpDNuaH9RklyLFlKk+Dqp4SoCNEvfhUyQYjzdlhEbGzjq5jSI7k0AkuhvHehGA6m0ste3H2OiRig9+l6GE8s3Kuebe8V0UgorcUhtC6fHGdQJEaPG+P54qrFkg3RmgFq95wpksdXK9P0U3JORhyrmY3PrBcqLks8qSz6RU0ZQLqA1Rjjz8/2WG/kiMKh1CxmWhD2rylMbH6QPy5Y7FI2YGjPEQMVnFxEllJ51SPG7Opr2URCf+Ou0SDwZS1icb6KgW4mL2CVu/bXOuQaP+aATIIFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1774966688; c=relaxed/relaxed;
-	bh=Wmozg0m3DQsYpGD8orkO2ipP4TyyaAJHZKLp0sbHtfk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Mn8Dq+N/KfrtQbJB2+NsP4/ewmb7w8phKKCoGbrooLjP7QPJpyeZ9Hd5JTvva5lB+1aAXVVY2aYrwlnVSqsRuYedraXhgv9SolioVvqvWKBz9YgbdKbYL+zBkG3dvelz42Ntzr19CBe/KzPXOBWc3NbhVjNSn3+ex0BErLNDnvwjG0EcbqTTPWpHs1VBVBlnh257+kX9yOem0I1M8q0pSyPArOIJwgdHKUtGkCLjw4E6nMr7sYS/DhqRhGImRY4TDxfvnDu9FCdK2C9NF28AdExLfEZr5f01ER9wE024jsU03ICKoj4//xeycWw2K1pit52SC73yir6L9qeMNHAlFA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FidLX4DP; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::b12d; helo=mail-yx1-xb12d.google.com; envelope-from=anirudhsriniv@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1774973416; c=relaxed/relaxed;
+	bh=lDMDu+KQNPl9LVsfF1SGzQusDF9mr9eDLdnCQE4KcXY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=m+ERBfszulOQ54b9WwQ+pF4SqdOUZsPI2wtFLPEigHLMapx6zcpFT9W5CBsalzN2qdOXdJztrLLOsw2dLJSZSJpd74360cZjYa4Vz/8PmmA7+zue2DDyYWgz5ECuEq7WUtlAIBI+b0tVOpUUgDmm8ZrXsdsaH7uBU3SIK6LFYx4IMrymLA6Cj6zUdClGapG0VHBmjeD9P7N4QszFOYp66P7Aw1GcxXWbQo1Tp1+MDKqsb2bsak7cOBnMMbM77KG7zYO/zdtIUesRzlbDonHUI69SpWNLzJeD/tkJkElZEBoM8TMiaDgCuCIdJ9AC2j2K436G2J0sAFqDZZpFNGGV/g==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rQI73jqX; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=tglx@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FidLX4DP;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rQI73jqX;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::b12d; helo=mail-yx1-xb12d.google.com; envelope-from=anirudhsriniv@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-yx1-xb12d.google.com (mail-yx1-xb12d.google.com [IPv6:2607:f8b0:4864:20::b12d])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=tglx@kernel.org; receiver=lists.ozlabs.org)
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4flVZm0mlrz2xSb
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 01 Apr 2026 01:18:08 +1100 (AEDT)
-Received: by mail-yx1-xb12d.google.com with SMTP id 956f58d0204a3-6500040f172so8188106d50.1
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 31 Mar 2026 07:18:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774966685; x=1775571485; darn=lists.ozlabs.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wmozg0m3DQsYpGD8orkO2ipP4TyyaAJHZKLp0sbHtfk=;
-        b=FidLX4DPShLCp8u9EaadedywqOShtSf6ODKAzRqa/BerX9YXLXAclIBoZ7XlQrYRQS
-         IzbzwYZucYGdy+5Jy2/zEqRQon/chLmpvEpmZJ3Joe12wubjMavaSJx3M0mf8MspT4yF
-         LK/TKCov96SsPNMiabNZGcuclZykVWaa8SrT4IqyT9HHyZUzk4kPDctZmYExXkt9KcJr
-         LY+Sa7r/TMd3JO54O/K30VpM4ykmoyB61MygkpaF1mON+/2PRQh2deL/qPocr20LYKQ0
-         9MctSAhE1/e0IFBQk+pvXmsUzINoyVuD7Kp5vspiCRnUG35A+i4gpfHEycoYFQVqnlPP
-         jb9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774966685; x=1775571485;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wmozg0m3DQsYpGD8orkO2ipP4TyyaAJHZKLp0sbHtfk=;
-        b=lYErhdVqEhI4KFYam2Vr20zBsWjypARHBCuAvcCgCdmVaI4o+IArmPOI5yfvmuP6vs
-         s8cCs/HR+bSM0dY/0mhmnFLo1g4EVGAGXsAc/nx23xZyIg0zJkl1t5Laq4QKNKUJDavi
-         sJJIxg19jyk7vxwllyObzZfz8C9TePRhBxlnSTU14n2vEZpvSFPU8lxClS4Ngu3SSnDi
-         wYuVHPrZIHnYuBefFGhebrfF7yqY+npRmHXbE5EI6Cb5czKIFbnR/FNvoVdC3xkqDM1f
-         dv0GEl/6hBZH7L1VTiLKuon3it0FnuUWjRzeCIZyN/yYc13LI0OXewt5Hol3nez1gPsY
-         rrDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX0+j2oY733M4OpftPhOvzVmJK9+Ee6+pmNUODQYFtxd0hoLm9ccnDbS9lHDE1R2VXJB14OF9hrtXzjHCw=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YwoCk8qsFyT7pQVvdG8AYHBEqaUyp2/xFEFsVF9QygOm1lNB/FH
-	j1hJHwtvevlgd30jWcidjY6AhQQhFmCou3QBdbyGfAgx1laegyuJdQN6k/wytctZ
-X-Gm-Gg: ATEYQzzPT5Nj00y62ONbMCa6lgwmKIvav6Mo2RVm3/poUpVqZD2lSWJsweTsNvJcNJx
-	PsWqOskShpzgehU9rwLNVg+7S/QVadwcgRzsriZ7HuqhGYBW39NmrWkNxDlM+vRJOUVjN2X4e/O
-	XLyUMlyBSMTteF/E3eULcNN2M4cuyH38isTt10ObQvdF4eexC3Py4WSU5TSNENYYlTtFvld4UZQ
-	DeENb0+ybY8XRA4RieF1gv1CLIzKIoXb5/SrBhXmmmKBxDW6TTInIj+8LXBlfSdTBhCpF3JTZm+
-	G08x8EtICuYUF3YZKY1r+WizXYH/kQt0wsYm0xueuNKnqDkZBdQMFvmNNTLk2v1r7VZWTZgbZXm
-	UiyWyN37mscJzPl8pK2N5TkgETaB1EWQ+YtCBaElzgelvpjVKG6wtdQD4F2sAWy12c1EWYo2EXh
-	18hOhkpkmhf5J9bLSL
-X-Received: by 2002:a05:690e:4408:10b0:64d:6cf8:f8c with SMTP id 956f58d0204a3-64ff73d4236mr13831172d50.40.1774966685293;
-        Tue, 31 Mar 2026 07:18:05 -0700 (PDT)
-Received: from [192.168.2.165] ([2600:1700:220:59e0::914])
-        by smtp.googlemail.com with ESMTPSA id 956f58d0204a3-65009326eddsm5590599d50.13.2026.03.31.07.18.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 07:18:04 -0700 (PDT)
-From: Anirudh Srinivasan <anirudhsriniv@gmail.com>
-Date: Tue, 31 Mar 2026 09:18:00 -0500
-Subject: [PATCH v2] ARM: dts: aspeed: Enable networking for Asus Kommando
- IPMI Card
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4flY47277kz2ygf
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 01 Apr 2026 03:10:15 +1100 (AEDT)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 03EA1417F5;
+	Tue, 31 Mar 2026 16:10:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 336A5C19423;
+	Tue, 31 Mar 2026 16:10:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774973412;
+	bh=ijpDo/7JDayOQ1D9eDJjCZ11/E2WfbQpZeWsZEqb6ww=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=rQI73jqXU6YI2gkO3mK+iz8h5EIxdGh44HXO3c1FtbeD3FDDwWl7IWu8703NDHEob
+	 LhJNtt5HQRbebcFdvfX7gid3ym3Lf6UOsPdBPBVRpAucPdSpc69l/qDMWpKsyM9mlS
+	 xIiF+1IR3jKxi+b81z9psAZGWpPT6XRQXSP5B1hp3/naLfjosz/ze3RkgiK9Nieqo6
+	 fK0LLxoihbzuVGdXoZKVMzuHLXfaJWHjMi+RHa2dELqC1QNjZlahKUDiOkTLoyFo6W
+	 BA7vhj+kPd7x1OWadIzRBTH3YyxIXIMcNu2LcDwA0r5V3p9SlxKB12q28gL8bgqjx9
+	 CKBur4Mj/yn5w==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Ryan Chen <ryan_chen@aspeedtech.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew
+ Jeffery <andrew@codeconstruct.com.au>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: Re: [PATCH v4 2/4] irqchip/ast2700-intc: Add AST2700-A2 support
+In-Reply-To: <20260330-irqchip-v4-2-3c0f1620cc06@aspeedtech.com>
+References: <20260330-irqchip-v4-0-3c0f1620cc06@aspeedtech.com>
+ <20260330-irqchip-v4-2-3c0f1620cc06@aspeedtech.com>
+Date: Tue, 31 Mar 2026 18:10:08 +0200
+Message-ID: <87tstw7zfj.ffs@tglx>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -90,135 +77,99 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260331-asus-kommando-networking-v2-1-f7d72ae5d40d@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WOTU7DMBBGrxJ5jZF/iD3qinugLsb2JB2V2GCnA
- VTl7pj0ACzfSPO+dxeNKlMTp+EuKm3cuOQO5mkQ8YJ5JsmpszDKOGUNSGy3Jq9lWTCnIjOtX6V
- eOc9yjMppg+gCRNHfPypN/H2o384PrvR56wvr4ygCNpKxq3g9Dd6FF4pAU4oWwMcUJm9VQkPjC
- KCnqFGD90r8uS7c1lJ/jupNH7L/AzcttXQuWQUBYLTudV6Q3597gTjv+/4LK7ziOQwBAAA=
-X-Change-ID: 20260328-asus-kommando-networking-5c0612aa6b8c
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Andrew Lunn <andrew@lunn.ch>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, Anirudh Srinivasan <anirudhsriniv@gmail.com>
-X-Mailer: b4 0.14.2
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS,WEIRD_QUOTING autolearn=disabled version=4.0.1
+Content-Type: text/plain
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [4.29 / 15.00];
+	MID_END_EQ_FROM_USER_PART(4.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3820-lists,linux-aspeed=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:andrew@lunn.ch,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:anirudhsriniv@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[anirudhsriniv@gmail.com,linux-aspeed@lists.ozlabs.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[lunn.ch,vger.kernel.org,lists.infradead.org,lists.ozlabs.org,gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	GREYLIST(0.00)[pass,body];
+	FORGED_SENDER(0.00)[tglx@kernel.org,linux-aspeed@lists.ozlabs.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FORGED_RECIPIENTS(0.00)[m:ryan_chen@aspeedtech.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:pjw@kernel.org,m:palmer@dabbelt.com,m:aou@eecs.berkeley.edu,m:alex@ghiti.fr,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-riscv@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-3823-lists,linux-aspeed=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[anirudhsriniv@gmail.com,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tglx@kernel.org,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,0.0.0.0:email]
-X-Rspamd-Queue-Id: 8EDEC36ACDF
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 0C5BA372AF3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Adds the DT nodes needed for ethernet support for Asus Kommando, with
-phy mode set to rgmii-id.
+On Mon, Mar 30 2026 at 14:32, Ryan Chen wrote:
+> +static int resolve_parent_range_for_output(const struct aspeed_intc0 *intc0,
+> +					   const struct fwnode_handle *parent,
+> +					   u32 output,
+> +					   struct aspeed_intc_interrupt_range *resolved)
 
-When this DT was originally added, the phy mode was set to rgmii (which
-was incorrect). It was suggested to remove networking support from the
-DT till the Aspeed networking driver was patched so that the correct phy
-mode could be used.
+Please reduce the number of line breaks. You still have 100 characters.
 
-The discussion in [1] mentions that u-boot was inserting clk delays that
-weren't needed, which resulted in needing to set the phy mode in linux
-to rgmii incorrectly. The solution suggested there was to patch u-boot to
-no longer insert these clk delays and use rgmii-id as the phy mode for
-any future DTs added to linux.
+> +{
+> +	for (size_t i = 0; i < intc0->ranges.nranges; i++) {
+> +		struct aspeed_intc_interrupt_range range =
+> +			intc0->ranges.ranges[i];
 
-This DT was tested (on the OpenBMC u-boot fork [2]) with a u-boot DT
-modified to insert clk delays of 0 (instead of patching u-boot itself).
-[3] adds a u-boot DT for this device (without networking) and describes
-how to patch it to add networking support. If this patched DT is used,
-then networking works with rgmii-id phy mode in both u-boot and linux.
+No line break required.
 
-[1] https://lore.kernel.org/linux-aspeed/ef88bb50-9f2c-458d-a7e5-dc5ecb9c777a@lunn.ch/
-[2] https://github.com/openbmc/u-boot/tree/v2019.04-aspeed-openbmc
-[3] https://lore.kernel.org/openbmc/20260328-asus-kommando-v2-1-2a656f8cd314@gmail.com/
+> +static int aspeed_intc1_irq_domain_activate(struct irq_domain *domain,
+> +					    struct irq_data *data, bool reserve)
+> +{
+> +	struct aspeed_intc1 *intc1 = irq_data_get_irq_chip_data(data);
+> +	struct aspeed_intc_interrupt_range resolved;
+> +	int rc, bank, bit;
+> +	u32 mask;
+> +
+> +	if (WARN_ON_ONCE((data->hwirq >> INTC1_ROUTE_SHIFT) >= ARRAY_SIZE(aspeed_intc1_routes)))
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * outpin may be an error if the upstream is the BootMCU APLIC node, or
+> +	 * anything except a valid intc0 driver instance
+> +	 */
+> +	rc = aspeed_intc0_resolve_route(intc1->upstream, INTC1_ROUTE_NUM,
+> +					aspeed_intc1_routes[data->hwirq >> INTC1_ROUTE_SHIFT],
+> +					intc1->ranges.nranges,
+> +					intc1->ranges.ranges, &resolved);
 
-Signed-off-by: Anirudh Srinivasan <anirudhsriniv@gmail.com>
----
-This patch is based off aspeed/arm/dt from bmc tree
----
-Changes in v2:
-- Commit message now mentions that the u-boot tested against is the
-  openbmc u-boot fork
-- Link to v1: https://lore.kernel.org/r/20260328-asus-kommando-networking-v1-1-66d308b88536@gmail.com
----
- .../dts/aspeed/aspeed-bmc-asus-kommando-ipmi-card.dts  | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Please test your code with CONFIG_PROVE_LOCKING=y, which is mandatory
+for submission according to documentation.
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-asus-kommando-ipmi-card.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-asus-kommando-ipmi-card.dts
-index ab7ad320067c1ddc0fea9ac386fd488c8ef28184..e0f7d92efa18ccbad2c336236c3b9d01b7de1bba 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-asus-kommando-ipmi-card.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-asus-kommando-ipmi-card.dts
-@@ -107,6 +107,24 @@ &gpio1 {
- 	/*18E0 32*/ "","","","","","","","";
- };
- 
-+&mac2 {
-+	status = "okay";
-+
-+	phy-mode = "rgmii-id";
-+	phy-handle = <&ethphy2>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rgmii3_default>;
-+};
-+
-+&mdio2 {
-+	status = "okay";
-+
-+	ethphy2: ethernet-phy@0 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <0>;
-+	};
-+};
-+
- &vhub {
- 	status = "okay";
- };
+This is invoked with the interrupt descriptor lock held and interrupts
+disabled.
 
----
-base-commit: 76b4ec8efdc3887cdbf730da2e55881fc1a18770
-change-id: 20260328-asus-kommando-networking-5c0612aa6b8c
+       aspeed_intc0_resolve_route()
+                ....
+                irq_find_matching_fwspec()
+                	mutex_lock(&irq_domain_mutex); <---- FAIL
 
-Best regards,
--- 
-Anirudh Srinivasan <anirudhsriniv@gmail.com>
+Thanks,
 
+        tglx
+
+        
 
