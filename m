@@ -1,125 +1,116 @@
-Return-Path: <linux-aspeed+bounces-3837-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3844-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EN16M1NW0GmR6gYAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3837-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Sat, 04 Apr 2026 02:07:47 +0200
+	id qDlxEZFJ1GkqsgcAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3844-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Apr 2026 02:02:25 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1541399399
-	for <lists+linux-aspeed@lfdr.de>; Sat, 04 Apr 2026 02:07:46 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6863A85B5
+	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Apr 2026 02:02:24 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fnbWh5scJz2ySc;
-	Sat, 04 Apr 2026 11:07:44 +1100 (AEDT)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fqRFk4CFvz2ykf;
+	Tue, 07 Apr 2026 10:02:02 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::1330"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775261264;
-	cv=none; b=obNKi3xVr5pTs86mR53LqEJ+khiAA7hQLR3+p9jSKTOY0jCcmafdrvbQBK74UdiI1y3xn1iD4tmZNSm4dnBIRQ9ITLwgByyJSO2DeZ5TTmvKli2XzZ3XxPU+svUrdua1G+ZqEIZwl4HjUkBngZVJKhzW5z9WwhAntbN0ZB9ei+H3UPZNWAEj/0NWzstExrmGxV8QCRshnwhCtiQG7HPzKZ6S5XjnH483v6FrAgCwW5KQQZBoSPmJOtUzUECBGh35TdwWYef3uvvTG4Pp47ccqAaERA5bUQszP+mI5gVg+4GijKxYrcZm236841//npnVliFvOsMI6HFbJAntEwXK/A==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775298953;
+	cv=none; b=G2J6jCa/g5tJJpzSsgl9nVjjhDy069P48XKnIcioTzEpAlfZL4KntZH6C3UchizR0aQ1BCxRYV0e9hDAJ2In9EgZM9ajZym2KKmwQCdGDG2x4obsBKMEMoLuB186HHVHrRKeknwKH9os5ZazzWE9bfwwO37isASMUjtiCBZmWeWVAiocUuniDjcyppSlHoKP/eCzODh3NQUjh7vZnQ6dbFMKgQLLIAKPrzj+g21a2jg1oQkE0i1qkh6IgXQClFjNCq3MvD8sgR7MATaqE5QXEGNKIbo0dzor4z5WIBYU5pkwl1zHYuuZiXw0yFOYOcB/2e10nLuQtIn39priBTGdUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1775261264; c=relaxed/relaxed;
-	bh=P2v/+uE3FItR13RHlHLOGT8kS+I6Lrtj4w+A1WuT72k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O1ihZwBRrMs+d/9zkeUO5an3Y9+8fKf05xD6OEZQUdXUc+0AwSRXxSaNJs5KFI9kWtgig2QAq2NJPNT2+Q3ovKMcvR8QYX3KidK278o4t5HdXRtVUapHKSw2fTsZaeBIb4ERznuC3hV1K68pC6BlwYtOTHHJlGjH6DKOKoXK1C9pGVKoTIhezq7hS4KCIJTgdv7z0tT9YLbXaesi/mVsme94G+of7pvufAJqAAh/646Ymgc07BTcmyNvAdRdHOFa06+xEH8R6KFs/xdKPpd0CkBLT1LCzli/BaaIq+wvDjciuuK9r5w3IizCY86dHpbc9TUyNcwe3XBewfnTB4T1bQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org; dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=Pj755A1Y; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1330; helo=mail-dy1-x1330.google.com; envelope-from=dianders@chromium.org; receiver=lists.ozlabs.org) smtp.mailfrom=chromium.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+	t=1775298953; c=relaxed/relaxed;
+	bh=1bO120ElN5GMnWdl/iLo9s25UFJEb0/bZvzF/MWV+gs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=B4QAkDSTcApAX91KttGEphS8DPC8nQXUCQuipYc255o57lrjaYsGyGUlF3r/rKDZDVktbtpErwBuG4V3Ucf7Iwru8O4gf0nJbDFgPjXA9j9x89c2BOuhNdADXhW6u7TH688L3fMZk+nx6pLv6k4LKgM0Fh6eOTzevk3Yeq5M4w/qDZ2eXr2BkBS4cV+49V2vqbrMbL2aj+6Jd9Gs7KEc+O9bZpgcqHST7cjBny8+EJltZcPwA5tIn9pqFTxwctmOcjXhLlCxJ5xmmJUMkThseGXSiLwORqAz+8K43XlhWwh2EcR3/hPN+qsdz8pmhwXtL8wuIcCEhsICPSSRlSVrFQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Zwtf+2JI; dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=HTiJw5ZL; dkim-atps=neutral; spf=pass (client-ip=205.220.168.131; helo=mx0a-0031df01.pphosted.com; envelope-from=manivannan.sadhasivam@oss.qualcomm.com; receiver=lists.ozlabs.org) smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=Pj755A1Y;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Zwtf+2JI;
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=HTiJw5ZL;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::1330; helo=mail-dy1-x1330.google.com; envelope-from=dianders@chromium.org; receiver=lists.ozlabs.org)
-Received: from mail-dy1-x1330.google.com (mail-dy1-x1330.google.com [IPv6:2607:f8b0:4864:20::1330])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=oss.qualcomm.com (client-ip=205.220.168.131; helo=mx0a-0031df01.pphosted.com; envelope-from=manivannan.sadhasivam@oss.qualcomm.com; receiver=lists.ozlabs.org)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fnbWh1J84z2yL8
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 04 Apr 2026 11:07:44 +1100 (AEDT)
-Received: by mail-dy1-x1330.google.com with SMTP id 5a478bee46e88-2bd9a485bd6so5530882eec.1
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 03 Apr 2026 17:07:43 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fnsSR6pYMz2yVL
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 04 Apr 2026 21:35:50 +1100 (AEDT)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6344deRw2971715
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 4 Apr 2026 10:35:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	1bO120ElN5GMnWdl/iLo9s25UFJEb0/bZvzF/MWV+gs=; b=Zwtf+2JIvBHyCEHt
+	TOCl2X0UthuJLuf6IMMf3PRzMt4tFGc5sxt2xDq0clX9P0WkI89LsO4cSpawImjJ
+	DtH0x/i3SR7npq8BOynIfD9dae6rHb31NrfmAIDoKrxdePIc/FlEDK5XWclpLiy8
+	MzFamo6PfeaoM3DQH9Kkn8K4SEdf/E3WYRqnZVsDdd9yus0hB37s2i6i9hcoS/Fv
+	MWZRyh0JYTrgmoyH/5H+z9d6jhwCPjWs/DgoNqxm+Ev9HR3NuDpm5J/oNYQ79U88
+	xpRGQOx7ZCSbVQxhLm+MvZtHrmbHARVaQ3Gg0jJZAK8DAON99V3YROyQlz4ubtF3
+	8pHOSg==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dauth8hv1-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-aspeed@lists.ozlabs.org>; Sat, 04 Apr 2026 10:35:46 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-35d9278587bso2533222a91.2
+        for <linux-aspeed@lists.ozlabs.org>; Sat, 04 Apr 2026 03:35:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1775261262; x=1775866062; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=oss.qualcomm.com; s=google; t=1775298946; x=1775903746; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=P2v/+uE3FItR13RHlHLOGT8kS+I6Lrtj4w+A1WuT72k=;
-        b=Pj755A1YcUJ0gMxZF4qE8c7RlkQX2V9u8aYuh2pQAPfCNKHv2D8IsG0rAe2UDH8fn8
-         eE80YE8xDnDisBDOeWODbImtA53oGfjROJV/EOLWLktuy7vNjJnlHvswZVqxP3tkpysY
-         4oUkSmJtKuXcy94vXLaQaZG5RtUc0hWjRSCfo=
+        bh=1bO120ElN5GMnWdl/iLo9s25UFJEb0/bZvzF/MWV+gs=;
+        b=HTiJw5ZLLYe8RURmqh7VMN8nr5mH6bGQb0em2zaYtY8vZGXWBZFnomh5NFAlQ5oTCb
+         XVCoQilJEL6dsDoY65JmjioCrA9JaynbUVzX6HUx7ErAR+suLzXJBAJJlwon7PgPLDBy
+         ADhZ586Pg8fNae1HRsAPgJKPI0oxIdq6tUw5jFPDtepsSl2iEuI+r1dsno7HbIyZplcf
+         ulbius/c4YNOEYLja+6BhCMwhGkcdbTrlzazkGsTNpz7L0jeZmPqHpCkLuh7nJY2WYwh
+         4Hm85KtEY266yd90PdhY39b6v96dB8rpLjm96TElrPAEef7LXCeSYeMQgaFERKIPyHUq
+         rd5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775261262; x=1775866062;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1775298946; x=1775903746;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=P2v/+uE3FItR13RHlHLOGT8kS+I6Lrtj4w+A1WuT72k=;
-        b=MskCBQzg85nQG+MQqrEd1c7U6d5HUCFbxTUNBLNiPUKLTlhaZzFHfEoyBTlO2HXBcP
-         6b5OMrPnWtVpnufgqHrn5Z2+ANQ6ybWanHVto7TkaqNGcD55CXHlJekpFbc/F5z2Zz9A
-         7Viu7AHikCYOfu/DY/VLbzU8bBlUGQUAn90ZJ9G+Xj4aknSbD6+itODEEEU685N5HS4T
-         qZ0X3OodNThx2fDZ+AjV/bsTOBQ1Bt7oInAz5OHvyCNytbkF9Qe96Go/u38imqTvMUcs
-         XXYBtJCnV8H11ApjQgTlFtCagS7fzBvmWAN1ZbpbSGFOqNLn8bEBGTFQOStXWArEP6TF
-         BZHg==
-X-Forwarded-Encrypted: i=1; AJvYcCUdeAbhHg5CkReJygz7VjGo5EwfTsIM58bYFtHtsxEy8v5kg9THOMFPMAxX58XCESEB+/x7Dvej6eC/11U=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YzYsksAvBrsI+PDi3rCqDbwmbQzY1VelZ08uxpVbtlLEjnntSLl
-	OsjM68+TpEQpFGBMoCM56LRGcRK5ahHGlg6p/4lYQXkmOjWAD+Y21Q0s07tuiSS3Pg==
-X-Gm-Gg: AeBDieubcVnyAF565m4vW7EMuw451COqK9SS3zqJTcMTaAkBhIfXXxEveN1h0roSYIH
-	ZqtT04lya4FWc7sAeqrAe0WSuLwFZT+12UylU9p8DkIoOgsJsZkl561/AGyAv0jrcXx2/3Ja6Wj
-	wIc9D9Yhu7Cwy+uMfl1ljSI7RfQHH6R18lxaY2GUe1ncoc3RIVNrtkxkZig5monsf0RDquXdpgr
-	FzQuMNF53sXb8BdhsT4cK7APGr22nY3VPclZeraPq4+8cs96zddl5WNBUtj28SIuCjmLxxPuKfn
-	MlQsaB4id9BSO58zh2xRm8kyQAVXnBNbmI6HsaOlkhDD8Qdf84gZGgvf/A1APVWxb8GlIp1DbPf
-	lvW19+Lev4riZ6kcfKc1m5wSp1Ps5I6bGzNI920CR5b0ZvAKvIFZRkR5R8GqSIr4UG86rFCGYsp
-	ZZoMiq2VdkmiJ+qU90dOgPjr0qXHeLLEcV8qH2cdS5elkmK10WRRv2ldpnnMVJ5ibjYwX+gvd5Z
-	6BrAR0TC+4=
-X-Received: by 2002:a05:7300:b54b:b0:2c5:347:e628 with SMTP id 5a478bee46e88-2cbfbf77d5bmr2583156eec.21.1775261262312;
-        Fri, 03 Apr 2026 17:07:42 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com ([2a00:79e0:2e7c:8:a8b6:55b2:3eb6:2c0e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca79e1d93bsm6520716eec.12.2026.04.03.17.07.39
+        bh=1bO120ElN5GMnWdl/iLo9s25UFJEb0/bZvzF/MWV+gs=;
+        b=drTpGyR8Y0R8iQP3c0q9V4DyOMbpifymJa64hFaGEX3iutBkusceIB5oz44qUQqXFd
+         G6aOP7k/ic5ugiDmWesnqpoJGlor8otRCuD24aS92yrmwsYp4yuMtm3cbUcJu5xjymZe
+         mp1K9whfxSrPDvkGHLOCFRRPkfrU/pFAUlJQqOylREXxx13G4Y7Q74ZaXTzPFpOKmetR
+         1JY/lrMAUd5DRNvoLMUkZikMvDw6gnzmehixidGFD8r0kgtD1Ver0fsYvCQvwBS/DC2h
+         4Fvl+A6Kktu6txOj4jbwi2ggABkkiTciu3n+TIMYJHWlHsW+wllP1oxZxkFxxIeB0RSh
+         C0Pw==
+X-Gm-Message-State: AOJu0YwiugPiqb5nD87M6Y7prid3i80YSzKO/kffEhhqLVRy0IFfc4Sm
+	cIcEZhw/p9bgMro7WMU6iktWJeCzu0co5EE9dqhY3URUbRzsmUkTY8vKGib5iIQFf9DKpkpHcJ0
+	SKs51pZJRGLBxNYsxVY5Jh27ZVvjDs3RVTwVQCyFHzEes1OpnyP9ok8E3lIZal1pRNZxm
+X-Gm-Gg: AeBDieum9LxRrcNgMXr7IndHHuyjrJjJXOymA1f0xBYH6+m1J8WEWRyHJMWQZ+eOV1j
+	ZfjLF0qRnoxTbd6YNGpoDga2t28c7gKpq5Bd7oomUsuNdHk/XQPDRpAniKyjJNllWmmA7m6OLh8
+	j6ITEK+9XBV+J2hw8G5I2Gu3NYEY6JZLoZWG8ogHXTA52icoOUi3vPeOrSmBh45/SEY6ZPlDEXs
+	PRxkRvsiWRlZyaMroPJe3NIwZn9usWoQraLCwnpzCoYE3juL7ip+1eA8Xpe3OaSynlS2N341imA
+	pipLsssUzPo51/OLXq6tGO7w6nBbvFjuoTSKOBQ+bS+w8PwPCrCK22IaLurwsrgjLl2xtDE4Cee
+	XJRtqQ/E3mAn0SpU=
+X-Received: by 2002:a17:90a:d2c7:b0:35c:cba:344f with SMTP id 98e67ed59e1d1-35de68414eemr5858995a91.13.1775298945796;
+        Sat, 04 Apr 2026 03:35:45 -0700 (PDT)
+X-Received: by 2002:a17:90a:d2c7:b0:35c:cba:344f with SMTP id 98e67ed59e1d1-35de68414eemr5858970a91.13.1775298945252;
+        Sat, 04 Apr 2026 03:35:45 -0700 (PDT)
+Received: from work.lan ([2409:4091:a0f4:6806:d6bf:182:1f3d:df20])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35de680b5c4sm2154469a91.5.2026.04.04.03.35.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 17:07:41 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>
-Cc: Saravana Kannan <saravanak@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Eric Dumazet <edumazet@google.com>,
-	Johan Hovold <johan@kernel.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Mark Brown <broonie@kernel.org>,
-	alexander.stein@ew.tq-group.com,
-	andrew@codeconstruct.com.au,
-	andrew@lunn.ch,
-	andriy.shevchenko@linux.intel.com,
-	bhelgaas@google.com,
-	brgl@kernel.org,
-	davem@davemloft.net,
-	devicetree@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	hkallweit1@gmail.com,
-	jirislaby@kernel.org,
-	joel@jms.id.au,
-	kees@kernel.org,
-	kuba@kernel.org,
-	lgirdwood@gmail.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux@armlinux.org.uk,
-	mani@kernel.org,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	robh@kernel.org
-Subject: [PATCH v4 8/9] driver core: Replace dev->of_node_reused with dev_of_node_reused()
-Date: Fri,  3 Apr 2026 17:05:02 -0700
-Message-ID: <20260403170432.v4.8.I806b8636cd3724f6cd1f5e199318ab8694472d90@changeid>
-X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
-In-Reply-To: <20260404000644.522677-1-dianders@chromium.org>
-References: <20260404000644.522677-1-dianders@chromium.org>
+        Sat, 04 Apr 2026 03:35:44 -0700 (PDT)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+X-Google-Original-From: Manivannan Sadhasivam <mani@kernel.org>
+To: Jacky Chou <jacky_chou@aspeedtech.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+        Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@codeconstruct.com.au>,
+        Felix Gu <ustc.gu@gmail.com>
+Cc: linux-aspeed@lists.ozlabs.org, linux-pci@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260324-aspeed-v1-1-354181624c00@gmail.com>
+References: <20260324-aspeed-v1-1-354181624c00@gmail.com>
+Subject: Re: [PATCH] PCI: aspeed: Fix IRQ domain leak on platform_get_irq()
+ failure
+Message-Id: <177529894081.11406.7307362893690177391.b4-ty@b4>
+Date: Sat, 04 Apr 2026 16:05:40 +0530
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -133,289 +124,96 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA0MDA5NiBTYWx0ZWRfX+sV/2oCIStbq
+ OUcsBqUuHrOhMQaStub5NcFTJClhlMTlwkF8fV+AysOis8srAs3d5Jd7fwL2VbDAa30/eNVE9Ct
+ E1JV62gRe3KYv4qGl131NGV7gaeu0+Dox/3eepfxAbxmCNrqS3VIcuug5x8qDxhQs02NB/stFkP
+ g5XAJU0HxLqeYRoYdxtzVkMQCwd4k6wNLTep3FWiSRyARfPWC7icwQ7kjJ6fnTBYw6XVqFSU2J0
+ OZLkMtUgx3h30h0GCK4eE/WyCjClsu3rsdmCXqrGQa1v3XrlY3WdJfSlIQuvV+yawpsxWVfgR9q
+ wwldkmZVAlgKEco7/TxEIKWp0mtnjZ29C1vyp/KbZ+++QbZKwh0GHJb7W4G6xx2irRrG7tsQiZW
+ kr8zbkbD5JLzSZvnwbzZKpk/7O1xDj3rHHdSihZqHj167JcRfKX1c04lqPIjFroTVDy8PQM65Vs
+ Evt07eJfwZxszfck5OQ==
+X-Proofpoint-GUID: yxzgY5Gr8BWl-ghNh3ZJHCMgsjGNho9A
+X-Authority-Analysis: v=2.4 cv=MIptWcZl c=1 sm=1 tr=0 ts=69d0e982 cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=VwQbUJbxAAAA:8
+ a=xCZdhqmVAa86G4UcJK0A:9 a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-ORIG-GUID: yxzgY5Gr8BWl-ghNh3ZJHCMgsjGNho9A
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-03_07,2026-04-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 adultscore=0 impostorscore=0 phishscore=0 bulkscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2604040096
+X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [-1.21 / 15.00];
+X-Spamd-Result: default: False [0.79 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DATE_IN_PAST(1.00)[61];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.20)[generic];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3837-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3844-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:dakr@kernel.org,m:stern@rowland.harvard.edu,m:saravanak@kernel.org,m:hch@lst.de,m:edumazet@google.com,m:johan@kernel.org,m:leon@kernel.org,m:aleksander.lobakin@intel.com,m:aik@ozlabs.ru,m:robin.murphy@arm.com,m:dianders@chromium.org,m:broonie@kernel.org,m:alexander.stein@ew.tq-group.com,m:andrew@codeconstruct.com.au,m:andrew@lunn.ch,m:andriy.shevchenko@linux.intel.com,m:bhelgaas@google.com,m:brgl@kernel.org,m:davem@davemloft.net,m:devicetree@vger.kernel.org,m:driver-core@lists.linux.dev,m:hkallweit1@gmail.com,m:jirislaby@kernel.org,m:joel@jms.id.au,m:kees@kernel.org,m:kuba@kernel.org,m:lgirdwood@gmail.com,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:linux-pci@vger.kernel.org,m:linux-serial@vger.kernel.org,m:linux-usb@vger.kernel.org,m:linux@armlinux.org.uk,m:mani@kernel.org,m:netdev@vger.kernel.org,m:pabeni@redhat.com,m:robh@kernel.org,s:lists@lfdr.de
- ];
-	FORGED_SENDER(0.00)[dianders@chromium.org,linux-aspeed@lists.ozlabs.org];
-	RCPT_COUNT_TWELVE(0.00)[40];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:jacky_chou@aspeedtech.com,m:lpieralisi@kernel.org,m:kwilczynski@kernel.org,m:robh@kernel.org,m:bhelgaas@google.com,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:ustc.gu@gmail.com,m:linux-aspeed@lists.ozlabs.org,m:linux-pci@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:ustcgu@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[manivannan.sadhasivam@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[aspeedtech.com,kernel.org,google.com,jms.id.au,codeconstruct.com.au,gmail.com];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FREEMAIL_CC(0.00)[kernel.org,lst.de,google.com,intel.com,ozlabs.ru,arm.com,chromium.org,ew.tq-group.com,codeconstruct.com.au,lunn.ch,linux.intel.com,davemloft.net,vger.kernel.org,lists.linux.dev,gmail.com,jms.id.au,lists.infradead.org,lists.ozlabs.org,armlinux.org.uk,redhat.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_NEQ_ENVFROM(0.00)[dianders@chromium.org,linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[manivannan.sadhasivam@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-aspeed];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,chromium.org:dkim,chromium.org:email]
-X-Rspamd-Queue-Id: F1541399399
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 7F6863A85B5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-In C, bitfields are not necessarily safe to modify from multiple
-threads without locking. Switch "of_node_reused" over to the "flags"
-field so modifications are safe.
 
-Cc: Johan Hovold <johan@kernel.org>
-Acked-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-Not fixing any known bugs; problem is theoretical and found by code
-inspection. Change is done somewhat manually and only lightly tested
-(mostly compile-time tested).
+On Tue, 24 Mar 2026 01:57:59 +0800, Felix Gu wrote:
+> The aspeed_pcie_probe() function calls aspeed_pcie_init_irq_domain()
+> which allocates pcie->intx_domain and initializes MSI. However, if
+> platform_get_irq() fails afterwards, the cleanup action was not yet
+> registered via devm_add_action_or_reset(), causing the IRQ domain
+> resources to leak.
+> 
+> Fix this by registering the devm cleanup action immediately after
+> aspeed_pcie_init_irq_domain() succeeds, before calling
+> platform_get_irq(). This ensures proper cleanup on any subsequent
+> failure.
+> 
+> [...]
 
-Changes in v4:
-- Use accessor functions for flags
+Applied, thanks!
 
-Changes in v3:
-- New
+[1/1] PCI: aspeed: Fix IRQ domain leak on platform_get_irq() failure
+      commit: c54d5f5b33990f2649c20f35407f340bcadb8a53
 
- drivers/base/core.c                      | 2 +-
- drivers/base/pinctrl.c                   | 2 +-
- drivers/base/platform.c                  | 2 +-
- drivers/net/pcs/pcs-xpcs-plat.c          | 2 +-
- drivers/of/device.c                      | 6 +++---
- drivers/pci/of.c                         | 2 +-
- drivers/pci/pwrctrl/core.c               | 2 +-
- drivers/regulator/bq257xx-regulator.c    | 2 +-
- drivers/regulator/rk808-regulator.c      | 2 +-
- drivers/tty/serial/serial_base_bus.c     | 2 +-
- drivers/usb/gadget/udc/aspeed-vhub/dev.c | 2 +-
- include/linux/device.h                   | 7 ++++---
- 12 files changed, 17 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 531f02a5469a..f12f3b53b4d0 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -5281,7 +5281,7 @@ void device_set_of_node_from_dev(struct device *dev, const struct device *dev2)
- {
- 	of_node_put(dev->of_node);
- 	dev->of_node = of_node_get(dev2->of_node);
--	dev->of_node_reused = true;
-+	dev_set_of_node_reused(dev);
- }
- EXPORT_SYMBOL_GPL(device_set_of_node_from_dev);
- 
-diff --git a/drivers/base/pinctrl.c b/drivers/base/pinctrl.c
-index 6e250272c843..0bbc83231234 100644
---- a/drivers/base/pinctrl.c
-+++ b/drivers/base/pinctrl.c
-@@ -24,7 +24,7 @@ int pinctrl_bind_pins(struct device *dev)
- {
- 	int ret;
- 
--	if (dev->of_node_reused)
-+	if (dev_of_node_reused(dev))
- 		return 0;
- 
- 	dev->pins = devm_kzalloc(dev, sizeof(*(dev->pins)), GFP_KERNEL);
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index d44591d52e36..199e6fb25770 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -856,7 +856,7 @@ struct platform_device *platform_device_register_full(
- 	pdev->dev.parent = pdevinfo->parent;
- 	pdev->dev.fwnode = pdevinfo->fwnode;
- 	pdev->dev.of_node = of_node_get(to_of_node(pdev->dev.fwnode));
--	pdev->dev.of_node_reused = pdevinfo->of_node_reused;
-+	dev_assign_of_node_reused(&pdev->dev, pdevinfo->of_node_reused);
- 
- 	if (pdevinfo->dma_mask) {
- 		pdev->platform_dma_mask = pdevinfo->dma_mask;
-diff --git a/drivers/net/pcs/pcs-xpcs-plat.c b/drivers/net/pcs/pcs-xpcs-plat.c
-index b8c48f9effbf..f4b1b8246ce9 100644
---- a/drivers/net/pcs/pcs-xpcs-plat.c
-+++ b/drivers/net/pcs/pcs-xpcs-plat.c
-@@ -349,7 +349,7 @@ static int xpcs_plat_init_dev(struct dw_xpcs_plat *pxpcs)
- 	 * up later. Make sure DD-core is aware of the OF-node being re-used.
- 	 */
- 	device_set_node(&mdiodev->dev, fwnode_handle_get(dev_fwnode(dev)));
--	mdiodev->dev.of_node_reused = true;
-+	dev_set_of_node_reused(&mdiodev->dev);
- 
- 	/* Pass the data further so the DW XPCS driver core could use it */
- 	mdiodev->dev.platform_data = (void *)device_get_match_data(dev);
-diff --git a/drivers/of/device.c b/drivers/of/device.c
-index f7e75e527667..be4e1584e0af 100644
---- a/drivers/of/device.c
-+++ b/drivers/of/device.c
-@@ -26,7 +26,7 @@
- const struct of_device_id *of_match_device(const struct of_device_id *matches,
- 					   const struct device *dev)
- {
--	if (!matches || !dev->of_node || dev->of_node_reused)
-+	if (!matches || !dev->of_node || dev_of_node_reused(dev))
- 		return NULL;
- 	return of_match_node(matches, dev->of_node);
- }
-@@ -192,7 +192,7 @@ ssize_t of_device_modalias(struct device *dev, char *str, ssize_t len)
- {
- 	ssize_t sl;
- 
--	if (!dev || !dev->of_node || dev->of_node_reused)
-+	if (!dev || !dev->of_node || dev_of_node_reused(dev))
- 		return -ENODEV;
- 
- 	sl = of_modalias(dev->of_node, str, len - 2);
-@@ -254,7 +254,7 @@ int of_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *
- {
- 	int sl;
- 
--	if ((!dev) || (!dev->of_node) || dev->of_node_reused)
-+	if ((!dev) || (!dev->of_node) || dev_of_node_reused(dev))
- 		return -ENODEV;
- 
- 	/* Devicetree modalias is tricky, we add it in 2 steps */
-diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-index 9f8eb5df279e..1f9b669abdb0 100644
---- a/drivers/pci/of.c
-+++ b/drivers/pci/of.c
-@@ -38,7 +38,7 @@ int pci_set_of_node(struct pci_dev *dev)
- 	struct device *pdev __free(put_device) =
- 		bus_find_device_by_of_node(&platform_bus_type, node);
- 	if (pdev)
--		dev->bus->dev.of_node_reused = true;
-+		dev_set_of_node_reused(&dev->bus->dev);
- 
- 	device_set_node(&dev->dev, of_fwnode_handle(no_free_ptr(node)));
- 	return 0;
-diff --git a/drivers/pci/pwrctrl/core.c b/drivers/pci/pwrctrl/core.c
-index 7754baed67f2..72963a92362a 100644
---- a/drivers/pci/pwrctrl/core.c
-+++ b/drivers/pci/pwrctrl/core.c
-@@ -39,7 +39,7 @@ static int pci_pwrctrl_notify(struct notifier_block *nb, unsigned long action,
- 		 * If we got here then the PCI device is the second after the
- 		 * power control platform device. Mark its OF node as reused.
- 		 */
--		dev->of_node_reused = true;
-+		dev_set_of_node_reused(dev);
- 		break;
- 	}
- 
-diff --git a/drivers/regulator/bq257xx-regulator.c b/drivers/regulator/bq257xx-regulator.c
-index dab8f1ab4450..40e0f1a7ae81 100644
---- a/drivers/regulator/bq257xx-regulator.c
-+++ b/drivers/regulator/bq257xx-regulator.c
-@@ -143,7 +143,7 @@ static int bq257xx_regulator_probe(struct platform_device *pdev)
- 	struct regulator_config cfg = {};
- 
- 	pdev->dev.of_node = pdev->dev.parent->of_node;
--	pdev->dev.of_node_reused = true;
-+	dev_set_of_node_reused(&pdev->dev);
- 
- 	pdata = devm_kzalloc(&pdev->dev, sizeof(struct bq257xx_reg_data), GFP_KERNEL);
- 	if (!pdata)
-diff --git a/drivers/regulator/rk808-regulator.c b/drivers/regulator/rk808-regulator.c
-index e66408f23bb6..8297d31cde9f 100644
---- a/drivers/regulator/rk808-regulator.c
-+++ b/drivers/regulator/rk808-regulator.c
-@@ -2115,7 +2115,7 @@ static int rk808_regulator_probe(struct platform_device *pdev)
- 	int ret, i, nregulators;
- 
- 	pdev->dev.of_node = pdev->dev.parent->of_node;
--	pdev->dev.of_node_reused = true;
-+	dev_set_of_node_reused(&pdev->dev);
- 
- 	regmap = dev_get_regmap(pdev->dev.parent, NULL);
- 	if (!regmap)
-diff --git a/drivers/tty/serial/serial_base_bus.c b/drivers/tty/serial/serial_base_bus.c
-index a12935f6b992..5f23284a8778 100644
---- a/drivers/tty/serial/serial_base_bus.c
-+++ b/drivers/tty/serial/serial_base_bus.c
-@@ -74,7 +74,7 @@ static int serial_base_device_init(struct uart_port *port,
- 	dev->parent = parent_dev;
- 	dev->bus = &serial_base_bus_type;
- 	dev->release = release;
--	dev->of_node_reused = true;
-+	dev_set_of_node_reused(dev);
- 
- 	device_set_node(dev, fwnode_handle_get(dev_fwnode(parent_dev)));
- 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-index 2ecd049dacc2..8b9449d16324 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-@@ -593,7 +593,7 @@ int ast_vhub_init_dev(struct ast_vhub *vhub, unsigned int idx)
- 		d->gadget.max_speed = USB_SPEED_HIGH;
- 	d->gadget.speed = USB_SPEED_UNKNOWN;
- 	d->gadget.dev.of_node = vhub->pdev->dev.of_node;
--	d->gadget.dev.of_node_reused = true;
-+	dev_set_of_node_reused(&d->gadget.dev);
- 
- 	rc = usb_add_gadget_udc(d->port_dev, &d->gadget);
- 	if (rc != 0)
-diff --git a/include/linux/device.h b/include/linux/device.h
-index fca986cef2ed..8132aab17e04 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -483,6 +483,8 @@ struct device_physical_location {
-  *		driver/bus sync_state() callback.
-  * @DEV_FLAG_DMA_COHERENT: This particular device is dma coherent, even if the
-  *		architecture supports non-coherent devices.
-+ * @DEV_FLAG_OF_NODE_REUSED: Set if the device-tree node is shared with an
-+ *		ancestor device.
-  */
- enum struct_device_flags {
- 	DEV_FLAG_READY_TO_PROBE = 0,
-@@ -492,6 +494,7 @@ enum struct_device_flags {
- 	DEV_FLAG_DMA_OPS_BYPASS = 4,
- 	DEV_FLAG_STATE_SYNCED = 5,
- 	DEV_FLAG_DMA_COHERENT = 6,
-+	DEV_FLAG_OF_NODE_REUSED = 7,
- 
- 	DEV_FLAG_COUNT
- };
-@@ -573,8 +576,6 @@ enum struct_device_flags {
-  *
-  * @offline_disabled: If set, the device is permanently online.
-  * @offline:	Set after successful invocation of bus type's .offline().
-- * @of_node_reused: Set if the device-tree node is shared with an ancestor
-- *              device.
-  * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
-  *
-  * At the lowest level, every device in a Linux system is represented by an
-@@ -681,7 +682,6 @@ struct device {
- 
- 	bool			offline_disabled:1;
- 	bool			offline:1;
--	bool			of_node_reused:1;
- 
- 	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
- };
-@@ -715,6 +715,7 @@ __create_dev_flag_accessors(dma_skip_sync, DEV_FLAG_DMA_SKIP_SYNC);
- __create_dev_flag_accessors(dma_ops_bypass, DEV_FLAG_DMA_OPS_BYPASS);
- __create_dev_flag_accessors(state_synced, DEV_FLAG_STATE_SYNCED);
- __create_dev_flag_accessors(dma_coherent, DEV_FLAG_DMA_COHERENT);
-+__create_dev_flag_accessors(of_node_reused, DEV_FLAG_OF_NODE_REUSED);
- 
- /**
-  * struct device_link - Device link representation.
+Best regards,
 -- 
-2.53.0.1213.gd9a14994de-goog
+Manivannan Sadhasivam <mani@kernel.org>
 
 
