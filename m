@@ -1,127 +1,45 @@
-Return-Path: <linux-aspeed+bounces-3841-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3846-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +PvkKwBB1GmRsQcAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3841-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Apr 2026 01:25:52 +0200
+	id OK9PMit11GmyuAcAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3846-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Apr 2026 05:08:27 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD0A3A8204
-	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Apr 2026 01:25:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20BE3A950F
+	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Apr 2026 05:08:26 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fqQRx5B5mz2yft;
-	Tue, 07 Apr 2026 09:25:49 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fqWNm4N2Gz2ydq;
+	Tue, 07 Apr 2026 13:08:24 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::1336"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775517949;
-	cv=none; b=LL7Ao9owEwdA65+AX+XBn9D/MxBMUJQdQUaaR0cKBwyc95b2QVCIoa/m7OhEWYZtA73ucJ64bxaxuSP9TqzIhhK2VDj2msXpT5GslArcyBSChAuM9JFl8voMVeXpxPzTGMAXCEUs5Ra9xG1bWQ1PvEevKx1RJOAaoKHMfxyfe3ufvuCE589mUmfCMnTzW9CdcEPBycvbteqVmhRNFDRuy3boBCyrHVvJuJwkpuXO+yiaW7DD4hFTfLAZlxtQPaphuJDydHmK0AH71ud5eXSO4SdyK0gOn6CYvpSw5Y3DYfJhXQrxHyZ9XRZa6weQ0NzP4EUgzDcw/i/87v4XB7HgPQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775531304;
+	cv=none; b=Hxnrn+JSIs0TCHbfIz4d1Bd0yE5Wj1WOtRDGII02Ttcf22hMkolikFUrBE/NFxYER2x1g/4IxnIiT+1mQPqQOuZqkwaXm3/8VLT7dyucPnfJIbjAtuelHw2LMyY8Ts7AHF31ifP3RFTE1eVJoPF+812E6OZRJa2Kb0OSl29+m8SoyUBFS1PtvF1pm4enCgHqygvY1VWc/x8bZguhftVdFVlJSGwkX7mDdZq30AXDzvJTE7+aMOJmOVbdEzFjFSawzDigr+T2zvQ9+Cb825UOL5I79br35asHpYdJxESyD8EkZTPSS8gQuqxiRMSsC1DzmUpanUWlT7gFKOlUmmeXBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1775517949; c=relaxed/relaxed;
-	bh=ZXh4AAlJDAdDMt/mfgmqe7SUyEdUcOFGra/HATmG4Zg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Rm0GREJCtPqyO9wYtAHgt45nq3+HQV4wh0NeRi2aIP4QsqJCRPL+5o7sk/+QwD9GKkahWKi2Fw+S/tZeXbnS98who/2fR/tKBnDgCGJPxGlL01bfYI1xlKXtfqLoLFTIYkGyQh8PAak5DSSm6fZpbeb2j38qw3BIxZk+MacHcQ5Q9Wgc+itOQvZBDL9vjKAo4EZ/CoFhzrQLnaPIC6fft8X6neYdnbFADSf/GH/0mkS9roYZkxsVPRwT2GxrhSQ+WQYKiIjsl06G9ILV57ordXCj5ZFg0OLpNy62Q2fX9de9nSLFddS0Oyp8NS3GMUUnI2iGbPQo4apYb5Xl2TQSMA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org; dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=KqGc7yzW; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1336; helo=mail-dy1-x1336.google.com; envelope-from=dianders@chromium.org; receiver=lists.ozlabs.org) smtp.mailfrom=chromium.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=KqGc7yzW;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=chromium.org (client-ip=2607:f8b0:4864:20::1336; helo=mail-dy1-x1336.google.com; envelope-from=dianders@chromium.org; receiver=lists.ozlabs.org)
-Received: from mail-dy1-x1336.google.com (mail-dy1-x1336.google.com [IPv6:2607:f8b0:4864:20::1336])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	t=1775531304; c=relaxed/relaxed;
+	bh=LJuGlCRyoMo6IwUhRg/haWnhInp199xouFigOgFor2M=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=KRy9ZYgzYCXLx2VU8o17MiZnfA9Cj4eqNGphGfvZBePJY5WmeJyWXq7MAFJkWYyAt0rk7Mq9dgQMVvbHhQjCeHXH8noMN5/UcBbOBPkuvVRx45u9yuhAkKFSHUTws35N8S/5M8b+GlczWiHBVuag+dN1UA1wPGowWUtQ0kMfgjtxKNibJIEKDFQrSYmX9014t0ma45QScxdTFTxO5BgXxwK3fclaFg5KPQ+3FpdFsZvNrv3c01rVVIIXvO6okIK9qxBDWIw5Fr83abxgn5HnB9Vtkj8JPncMC0/vYvkNoWyHFDcOBJZumU9cOnB72swm3meO2qxXAjJgCeKg3O7xMg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fqQRw6KgXz2yfs
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Apr 2026 09:25:48 +1000 (AEST)
-Received: by mail-dy1-x1336.google.com with SMTP id 5a478bee46e88-2c15849aa2cso5682217eec.0
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Apr 2026 16:25:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1775517947; x=1776122747; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZXh4AAlJDAdDMt/mfgmqe7SUyEdUcOFGra/HATmG4Zg=;
-        b=KqGc7yzWxCvOq4oQFbwp9cdvWJVrovnR1wLVYlRUtJT+s8uY82YUBdvW1ebak2RoNR
-         qIVN8JaiUxNWcL7ep8i9Wnjh9AQCTJwdEiZalPZwwz/R+gxuwfhDOL+oqvsmmP7D8PeU
-         RGoP4WTTU/iJYWsDWPs5ggMzPX2pscgPmFwpA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775517947; x=1776122747;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZXh4AAlJDAdDMt/mfgmqe7SUyEdUcOFGra/HATmG4Zg=;
-        b=ffKoE6Gr28fd6bAys0YE9qELq7Q5ClNlXBN9rK6rLmhywRi4DeVBjwYqo0uR22FUdg
-         HxaOspndj5qs7DNNSPmGiBdGcTxWuuiEze4GVce9U7FWTldCNBAUlvMrkfC5FoIj9WtG
-         HG+udheXZ1yRwaZ9w3gFf9xbpEpI+spUouWmZvgM2ooNy08t9d7Ev4t6LlqHiRpxsm3y
-         D05ydvHAzbhDBTwnsHyr2WZZDht3FXdnuJh1BTNw/ket1tXN5M9DbPAPORtAqviY2FW6
-         Cz8T+T930CdQbNVE0gFqepYbCB2MiW+dlpfwTjtzdKjh6KLPCDRw88L5KXSCWaCDfhRB
-         liDg==
-X-Forwarded-Encrypted: i=1; AJvYcCVxN2glhrXgfqPh0FDo0q/3MOFZz3l0JZ5RdprPn5tmnjGq88TUrpwSk3ynMrZe/gM8CuHTUyIuVJufRVc=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yxk/qVYagapm6L64JIqUeYP7VO81UFBlIVWcSupGrhg40qtE7lX
-	XNXdfGMFcUvUtbHSnaUdGaH+VvPUghGaodV3fMBUdt1qbh8x8KuUjBsz4sCFl48Lkg==
-X-Gm-Gg: AeBDieuR5ynXtdI+cArjdgT3ZtP2KrH40+Pp/OQzYmA73/s6BYir05VjgKFtO8Chv1Y
-	ULYhYfPyvj2hzKobpLgjuq7/oXcDGv04qJAOU5nh6u8ruquQJifm/xARO2f15E1/sJLLHdDaTu1
-	WNg3/L/zywYH9ZAczCxIolm4cY/52pGVGIrenvnIfaureV+VUmtoOEvOZPDaBmu0FGxQYMkESnE
-	NLrCbYWXcKJYE859jBp7r75ocRDnkfhE1LhKrW8mnJTDB8JfMSyCvSrYTkLTIMPMosjyrKOa/zG
-	wHnOWmJx/VHZSWQTMfpUyqrQdMNgIwr96EEpATL4axL7bKjYgh0RUZXpc/ZChV7Kmik+OgyJHYn
-	qNsf0hAGDxEqTa2Ulz4J5CBail2KKLxmOLbwPSlMJvSv02UtTfEaZs1/vrT7d83hXXO7QntmI08
-	JuFzrt+3OK8lUQQyO6d4QcXFXhaRQ7bc404knkVHhbQwTVGjJa5UORUMWYTY77NKlwtzls5W9/z
-	kKeabsVfg==
-X-Received: by 2002:a05:7300:d509:b0:2c7:2cac:8123 with SMTP id 5a478bee46e88-2cbf99ec1d3mr6819121eec.4.1775517946892;
-        Mon, 06 Apr 2026 16:25:46 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com ([2a00:79e0:2e7c:8:c071:3b78:5a5:824a])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca760b0518sm14730975eec.0.2026.04.06.16.25.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2026 16:25:45 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Johan Hovold <johan@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Robin Murphy <robin.murphy@arm.com>,
-	maz@kernel.org,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Mark Brown <broonie@kernel.org>,
-	alexander.stein@ew.tq-group.com,
-	andrew@codeconstruct.com.au,
-	andrew@lunn.ch,
-	andriy.shevchenko@linux.intel.com,
-	astewart@tektelic.com,
-	bhelgaas@google.com,
-	brgl@kernel.org,
-	davem@davemloft.net,
-	devicetree@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	hkallweit1@gmail.com,
-	jirislaby@kernel.org,
-	joel@jms.id.au,
-	kees@kernel.org,
-	kuba@kernel.org,
-	lgirdwood@gmail.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux@armlinux.org.uk,
-	mani@kernel.org,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	robh@kernel.org
-Subject: [PATCH v5 8/9] driver core: Replace dev->of_node_reused with dev_of_node_reused()
-Date: Mon,  6 Apr 2026 16:23:01 -0700
-Message-ID: <20260406162231.v5.8.I806b8636cd3724f6cd1f5e199318ab8694472d90@changeid>
-X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
-In-Reply-To: <20260406232444.3117516-1-dianders@chromium.org>
-References: <20260406232444.3117516-1-dianders@chromium.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fqWNl1w55z2xQs
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Apr 2026 13:08:22 +1000 (AEST)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 7 Apr
+ 2026 11:08:04 +0800
+Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Tue, 7 Apr 2026 11:08:04 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: [PATCH v5 0/4] AST2700-A2 interrupt controller hierarchy and route
+ support
+Date: Tue, 7 Apr 2026 11:08:03 +0800
+Message-ID: <20260407-irqchip-v5-0-c0b0a300a057@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -135,292 +53,188 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABN11GkC/23MwQ6CMAzG8VcxOzvTrdCJJ9/DeMDSyQ4KboRoD
+ O/u8AKJHr+mv/9bJYlBkjps3irKGFLo7nmU243itr5fRYcmb2XBElgodYgPbkOvndTikVzRSKX
+ ydx/Fh+e3dDrn3YY0dPH1DY9mvv42RqNBXwANCBDD3h3r1Is0g3C74+6m5tBoF4xAC7YZ+31pL
+ EN1EcK/GFfYrjBmjEQOK1+6mv1fXKwwwoKLGTN4QxaYgX7wNE0f47db+1oBAAA=
+X-Change-ID: 20260205-irqchip-7eaef3674de9
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
+ Jeffery" <andrew@codeconstruct.com.au>, Paul Walmsley <pjw@kernel.org>,
+	"Palmer Dabbelt" <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+	"Alexandre Ghiti" <alex@ghiti.fr>, Thomas Gleixner <tglx@kernel.org>, Thomas
+ Gleixner <tglx@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-riscv@lists.infradead.org>, Ryan Chen <ryan_chen@aspeedtech.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775531284; l=5780;
+ i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
+ bh=6+9skIeBKMpnp8/9FeVOV83soZuwsa79YV+g8KhVhnk=;
+ b=R8aMVBjns27VKqiyV93c13Nm6t9MPe4j7TnbDqdkWPiXENeG3jLCkUG5QkRrq/LRVEKiyt76d
+ neKofaKyLIvBxvHYL1XrRogFPZnhbUxv4hsq2aCiEtI7vr83M4vIWIx
+X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
+ pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [-1.21 / 15.00];
+X-Spamd-Result: default: False [1.49 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	MID_RHS_NOT_FQDN(0.50)[];
 	MAILLIST(-0.20)[generic];
 	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-3846-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[dianders@chromium.org,linux-aspeed@lists.ozlabs.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[42];
-	FORGED_RECIPIENTS(0.00)[m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:dakr@kernel.org,m:stern@rowland.harvard.edu,m:aik@ozlabs.ru,m:johan@kernel.org,m:edumazet@google.com,m:leon@kernel.org,m:hch@lst.de,m:robin.murphy@arm.com,m:maz@kernel.org,m:aleksander.lobakin@intel.com,m:saravanak@kernel.org,m:dianders@chromium.org,m:broonie@kernel.org,m:alexander.stein@ew.tq-group.com,m:andrew@codeconstruct.com.au,m:andrew@lunn.ch,m:andriy.shevchenko@linux.intel.com,m:astewart@tektelic.com,m:bhelgaas@google.com,m:brgl@kernel.org,m:davem@davemloft.net,m:devicetree@vger.kernel.org,m:driver-core@lists.linux.dev,m:hkallweit1@gmail.com,m:jirislaby@kernel.org,m:joel@jms.id.au,m:kees@kernel.org,m:kuba@kernel.org,m:lgirdwood@gmail.com,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:linux-pci@vger.kernel.org,m:linux-serial@vger.kernel.org,m:linux-usb@vger.kernel.org,m:linux@armlinux.org.uk,m:mani@kernel.org,m:netdev@vger.kernel.org,m:pabeni@red
- hat.com,m:robh@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:pjw@kernel.org,m:palmer@dabbelt.com,m:aou@eecs.berkeley.edu,m:alex@ghiti.fr,m:tglx@kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-riscv@lists.infradead.org,m:ryan_chen@aspeedtech.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	TAGGED_FROM(0.00)[bounces-3841-lists,linux-aspeed=lfdr.de];
-	DKIM_TRACE(0.00)[chromium.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dianders@chromium.org,linux-aspeed@lists.ozlabs.org];
-	FREEMAIL_CC(0.00)[ozlabs.ru,kernel.org,google.com,lst.de,arm.com,intel.com,chromium.org,ew.tq-group.com,codeconstruct.com.au,lunn.ch,linux.intel.com,tektelic.com,davemloft.net,vger.kernel.org,lists.linux.dev,gmail.com,jms.id.au,lists.infradead.org,lists.ozlabs.org,armlinux.org.uk,redhat.com];
+	FROM_NEQ_ENVFROM(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	NEURAL_SPAM(0.00)[0.205];
+	R_DKIM_NA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: CAD0A3A8204
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,aspeedtech.com:email,aspeedtech.com:mid]
+X-Rspamd-Queue-Id: F20BE3A950F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-In C, bitfields are not necessarily safe to modify from multiple
-threads without locking. Switch "of_node_reused" over to the "flags"
-field so modifications are safe.
+The AST2700 SoC has undergone multiple silicon revisions (A0, A1, A2)
+prior to mass production.
 
-Cc: Johan Hovold <johan@kernel.org>
-Acked-by: Mark Brown <broonie@kernel.org>
-Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
-Reviewed-by: Danilo Krummrich <dakr@kernel.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
+A0 laid the ground-work with a split controller design (INTC0 and
+INTC1) used for early development and bring-up. The interrupt
+architecture was substantially reworked in the A1 to introduce an
+explicit routing model and clearer hierarchy, though the split
+controllers remained. The A1 interrupt architecture is unchanged in A2.
+
+A2 is the production design. A0 and A1 are pre-production silicon and
+are no longer intended for deployment outside of ASPEED.
+
+The existing binding and driver were written against A0 prior to the A1
+rework. The A0 design directly wired INTC1 instances to INTC0, and
+INTC0 to the GIC of the Primary Service Processor (PSP, a Cortex-A35).
+The A0 binding and driver therefore do not account for the alternative
+destinations of the Secondary and Tertiary Service Processors (SSP,
+TSP) and BootMCU, or the necessary route selection logic present in the
+production design.
+
+With the above context, this series replaces the existing binding and
+driver.
+
+It is not necessary for projects to maintain support for A0 due to its
+pre-production nature, and between Linux, U-Boot and Zephyr there are
+no upstream devicetree users of the current binding.
+
+The new binding uses localised interrupt numbers and models the
+hardware connectivity between interrupt controllers using the
+aspeed,interrupt-ranges property. It is introduced in a new file before
+the existing binding is removed in order to keep the diff readable.
+
+The INTC0 driver creates a hierarchical irqdomain under the selected
+upstream interrupt controller and implements route resolution logic.
+INTC1 driver instances defer route selection to INTC0 and expose a
+linear interrupt namespace to their parent.
+
+A brief history of related submissions
+--------------------------------------
+
+Some modifications to the existing binding were sent to the lists in
+the past. Due to process choices the revisions were difficult to track.
+They are listed below.
+
+The approaches took several forms but ended in the minor adjustment in
+v6 being applied. This enabled use of the A1 design but requires
+assumptions about platform route configuration defined in firmware.
+These assumptions are removed by this current series.
+
+* [PATCH] dt-bindings: interrupt-controller: aspeed: Refine AST2700 binding description and example
+  https://lore.kernel.org/all/20250714071753.2653620-1-ryan_chen@aspeedtech.com/
+
+* [PATCH v2] dt-bindings: interrupt-controller: aspeed: Add parent node compatibles and refine documentation
+  https://lore.kernel.org/all/20250715024258.2304665-1-ryan_chen@aspeedtech.com/
+
+* [PATCH v3 0/2] irqchip: aspeed: Add AST2700 INTC debugfs support and yaml update
+  https://lore.kernel.org/all/20250722095156.1672873-1-ryan_chen@aspeedtech.com/
+
+* [PATCH v4 0/2] irqchip/ast2700-intc: Add AST2700 INTC debugfs support and yaml update
+  https://lore.kernel.org/all/20250812100830.145578-1-ryan_chen@aspeedtech.com/
+
+* [PATCH v5 0/3] AST2700 interrupt controller hierarchy support
+  https://lore.kernel.org/all/20251022065507.1152071-1-ryan_chen@aspeedtech.com/
+
+* [PATCH v6 0/1] Update correct AST2700 interrupt controller binding
+  https://lore.kernel.org/all/20251030060155.2342604-1-ryan_chen@aspeedtech.com/
+
+Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
 ---
-Not fixing any known bugs; problem is theoretical and found by code
-inspection. Change is done somewhat manually and only lightly tested
-(mostly compile-time tested).
-
-(no changes since v4)
+Changes in v5:
+- 2/4 reduce unnecessary line breaks.
+- 2/4, 3/4 fix enable CONFIG_PROVE_LOCKING irq lock inversion dependency
+  detected.
+- Link to v4: https://lore.kernel.org/r/20260330-irqchip-v4-0-3c0f1620cc06@aspeedtech.com
 
 Changes in v4:
-- Use accessor functions for flags
+- 3/4 fix warning: the frame size of 1296 bytes is larger than 1280 bytes
+- Link to v3: https://lore.kernel.org/r/20260326-irqchip-v3-0-366739f57acf@aspeedtech.com
 
 Changes in v3:
-- New
+- 1/4 Squash patch 5/5 and 1/5.
+- 1/4 modify wrap lines at 80 char.
+- 1/4 modify maintainers name and email.
+- 1/4 modify typo Sevice-> Service
+- Link to v2: https://lore.kernel.org/r/20260306-irqchip-v2-0-f8512c09be63@aspeedtech.com
 
- drivers/base/core.c                      | 2 +-
- drivers/base/pinctrl.c                   | 2 +-
- drivers/base/platform.c                  | 2 +-
- drivers/net/pcs/pcs-xpcs-plat.c          | 2 +-
- drivers/of/device.c                      | 6 +++---
- drivers/pci/of.c                         | 2 +-
- drivers/pci/pwrctrl/core.c               | 2 +-
- drivers/regulator/bq257xx-regulator.c    | 2 +-
- drivers/regulator/rk808-regulator.c      | 2 +-
- drivers/tty/serial/serial_base_bus.c     | 2 +-
- drivers/usb/gadget/udc/aspeed-vhub/dev.c | 2 +-
- include/linux/device.h                   | 7 ++++---
- 12 files changed, 17 insertions(+), 16 deletions(-)
+Changes in v2:
+- Change suject to "AST2700-A2 interrupt controller hierarchy and route
+  support".
+- Describe timeline for (pre-)production design evolution and
+  binding development to support the break in compatibility.
+- fix "make dt_binding_check" compatible string consistance with
+  example.
+- Split KUnit coverage out of the main driver patch.
+- Link to v1: https://lore.kernel.org/r/20260205-irqchip-v1-0-b0310e06c087@aspeedtech.com
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 8a83d7c93361..30825bf83234 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -5283,7 +5283,7 @@ void device_set_of_node_from_dev(struct device *dev, const struct device *dev2)
- {
- 	of_node_put(dev->of_node);
- 	dev->of_node = of_node_get(dev2->of_node);
--	dev->of_node_reused = true;
-+	dev_set_of_node_reused(dev);
- }
- EXPORT_SYMBOL_GPL(device_set_of_node_from_dev);
- 
-diff --git a/drivers/base/pinctrl.c b/drivers/base/pinctrl.c
-index 6e250272c843..0bbc83231234 100644
---- a/drivers/base/pinctrl.c
-+++ b/drivers/base/pinctrl.c
-@@ -24,7 +24,7 @@ int pinctrl_bind_pins(struct device *dev)
- {
- 	int ret;
- 
--	if (dev->of_node_reused)
-+	if (dev_of_node_reused(dev))
- 		return 0;
- 
- 	dev->pins = devm_kzalloc(dev, sizeof(*(dev->pins)), GFP_KERNEL);
-diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-index d44591d52e36..199e6fb25770 100644
---- a/drivers/base/platform.c
-+++ b/drivers/base/platform.c
-@@ -856,7 +856,7 @@ struct platform_device *platform_device_register_full(
- 	pdev->dev.parent = pdevinfo->parent;
- 	pdev->dev.fwnode = pdevinfo->fwnode;
- 	pdev->dev.of_node = of_node_get(to_of_node(pdev->dev.fwnode));
--	pdev->dev.of_node_reused = pdevinfo->of_node_reused;
-+	dev_assign_of_node_reused(&pdev->dev, pdevinfo->of_node_reused);
- 
- 	if (pdevinfo->dma_mask) {
- 		pdev->platform_dma_mask = pdevinfo->dma_mask;
-diff --git a/drivers/net/pcs/pcs-xpcs-plat.c b/drivers/net/pcs/pcs-xpcs-plat.c
-index b8c48f9effbf..f4b1b8246ce9 100644
---- a/drivers/net/pcs/pcs-xpcs-plat.c
-+++ b/drivers/net/pcs/pcs-xpcs-plat.c
-@@ -349,7 +349,7 @@ static int xpcs_plat_init_dev(struct dw_xpcs_plat *pxpcs)
- 	 * up later. Make sure DD-core is aware of the OF-node being re-used.
- 	 */
- 	device_set_node(&mdiodev->dev, fwnode_handle_get(dev_fwnode(dev)));
--	mdiodev->dev.of_node_reused = true;
-+	dev_set_of_node_reused(&mdiodev->dev);
- 
- 	/* Pass the data further so the DW XPCS driver core could use it */
- 	mdiodev->dev.platform_data = (void *)device_get_match_data(dev);
-diff --git a/drivers/of/device.c b/drivers/of/device.c
-index f7e75e527667..be4e1584e0af 100644
---- a/drivers/of/device.c
-+++ b/drivers/of/device.c
-@@ -26,7 +26,7 @@
- const struct of_device_id *of_match_device(const struct of_device_id *matches,
- 					   const struct device *dev)
- {
--	if (!matches || !dev->of_node || dev->of_node_reused)
-+	if (!matches || !dev->of_node || dev_of_node_reused(dev))
- 		return NULL;
- 	return of_match_node(matches, dev->of_node);
- }
-@@ -192,7 +192,7 @@ ssize_t of_device_modalias(struct device *dev, char *str, ssize_t len)
- {
- 	ssize_t sl;
- 
--	if (!dev || !dev->of_node || dev->of_node_reused)
-+	if (!dev || !dev->of_node || dev_of_node_reused(dev))
- 		return -ENODEV;
- 
- 	sl = of_modalias(dev->of_node, str, len - 2);
-@@ -254,7 +254,7 @@ int of_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *
- {
- 	int sl;
- 
--	if ((!dev) || (!dev->of_node) || dev->of_node_reused)
-+	if ((!dev) || (!dev->of_node) || dev_of_node_reused(dev))
- 		return -ENODEV;
- 
- 	/* Devicetree modalias is tricky, we add it in 2 steps */
-diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-index 9f8eb5df279e..1f9b669abdb0 100644
---- a/drivers/pci/of.c
-+++ b/drivers/pci/of.c
-@@ -38,7 +38,7 @@ int pci_set_of_node(struct pci_dev *dev)
- 	struct device *pdev __free(put_device) =
- 		bus_find_device_by_of_node(&platform_bus_type, node);
- 	if (pdev)
--		dev->bus->dev.of_node_reused = true;
-+		dev_set_of_node_reused(&dev->bus->dev);
- 
- 	device_set_node(&dev->dev, of_fwnode_handle(no_free_ptr(node)));
- 	return 0;
-diff --git a/drivers/pci/pwrctrl/core.c b/drivers/pci/pwrctrl/core.c
-index 7754baed67f2..72963a92362a 100644
---- a/drivers/pci/pwrctrl/core.c
-+++ b/drivers/pci/pwrctrl/core.c
-@@ -39,7 +39,7 @@ static int pci_pwrctrl_notify(struct notifier_block *nb, unsigned long action,
- 		 * If we got here then the PCI device is the second after the
- 		 * power control platform device. Mark its OF node as reused.
- 		 */
--		dev->of_node_reused = true;
-+		dev_set_of_node_reused(dev);
- 		break;
- 	}
- 
-diff --git a/drivers/regulator/bq257xx-regulator.c b/drivers/regulator/bq257xx-regulator.c
-index dab8f1ab4450..40e0f1a7ae81 100644
---- a/drivers/regulator/bq257xx-regulator.c
-+++ b/drivers/regulator/bq257xx-regulator.c
-@@ -143,7 +143,7 @@ static int bq257xx_regulator_probe(struct platform_device *pdev)
- 	struct regulator_config cfg = {};
- 
- 	pdev->dev.of_node = pdev->dev.parent->of_node;
--	pdev->dev.of_node_reused = true;
-+	dev_set_of_node_reused(&pdev->dev);
- 
- 	pdata = devm_kzalloc(&pdev->dev, sizeof(struct bq257xx_reg_data), GFP_KERNEL);
- 	if (!pdata)
-diff --git a/drivers/regulator/rk808-regulator.c b/drivers/regulator/rk808-regulator.c
-index e66408f23bb6..8297d31cde9f 100644
---- a/drivers/regulator/rk808-regulator.c
-+++ b/drivers/regulator/rk808-regulator.c
-@@ -2115,7 +2115,7 @@ static int rk808_regulator_probe(struct platform_device *pdev)
- 	int ret, i, nregulators;
- 
- 	pdev->dev.of_node = pdev->dev.parent->of_node;
--	pdev->dev.of_node_reused = true;
-+	dev_set_of_node_reused(&pdev->dev);
- 
- 	regmap = dev_get_regmap(pdev->dev.parent, NULL);
- 	if (!regmap)
-diff --git a/drivers/tty/serial/serial_base_bus.c b/drivers/tty/serial/serial_base_bus.c
-index a12935f6b992..5f23284a8778 100644
---- a/drivers/tty/serial/serial_base_bus.c
-+++ b/drivers/tty/serial/serial_base_bus.c
-@@ -74,7 +74,7 @@ static int serial_base_device_init(struct uart_port *port,
- 	dev->parent = parent_dev;
- 	dev->bus = &serial_base_bus_type;
- 	dev->release = release;
--	dev->of_node_reused = true;
-+	dev_set_of_node_reused(dev);
- 
- 	device_set_node(dev, fwnode_handle_get(dev_fwnode(parent_dev)));
- 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-index 2ecd049dacc2..8b9449d16324 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-@@ -593,7 +593,7 @@ int ast_vhub_init_dev(struct ast_vhub *vhub, unsigned int idx)
- 		d->gadget.max_speed = USB_SPEED_HIGH;
- 	d->gadget.speed = USB_SPEED_UNKNOWN;
- 	d->gadget.dev.of_node = vhub->pdev->dev.of_node;
--	d->gadget.dev.of_node_reused = true;
-+	dev_set_of_node_reused(&d->gadget.dev);
- 
- 	rc = usb_add_gadget_udc(d->port_dev, &d->gadget);
- 	if (rc != 0)
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 5b0fb6ad4c72..a79865a212e9 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -483,6 +483,8 @@ struct device_physical_location {
-  *		driver/bus sync_state() callback.
-  * @DEV_FLAG_DMA_COHERENT: This particular device is dma coherent, even if the
-  *		architecture supports non-coherent devices.
-+ * @DEV_FLAG_OF_NODE_REUSED: Set if the device-tree node is shared with an
-+ *		ancestor device.
-  */
- enum struct_device_flags {
- 	DEV_FLAG_READY_TO_PROBE = 0,
-@@ -492,6 +494,7 @@ enum struct_device_flags {
- 	DEV_FLAG_DMA_OPS_BYPASS = 4,
- 	DEV_FLAG_STATE_SYNCED = 5,
- 	DEV_FLAG_DMA_COHERENT = 6,
-+	DEV_FLAG_OF_NODE_REUSED = 7,
- 
- 	DEV_FLAG_COUNT
- };
-@@ -573,8 +576,6 @@ enum struct_device_flags {
-  *
-  * @offline_disabled: If set, the device is permanently online.
-  * @offline:	Set after successful invocation of bus type's .offline().
-- * @of_node_reused: Set if the device-tree node is shared with an ancestor
-- *              device.
-  * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
-  *
-  * At the lowest level, every device in a Linux system is represented by an
-@@ -681,7 +682,6 @@ struct device {
- 
- 	bool			offline_disabled:1;
- 	bool			offline:1;
--	bool			of_node_reused:1;
- 
- 	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
- };
-@@ -715,6 +715,7 @@ __create_dev_flag_accessors(dma_skip_sync, DEV_FLAG_DMA_SKIP_SYNC);
- __create_dev_flag_accessors(dma_ops_bypass, DEV_FLAG_DMA_OPS_BYPASS);
- __create_dev_flag_accessors(state_synced, DEV_FLAG_STATE_SYNCED);
- __create_dev_flag_accessors(dma_coherent, DEV_FLAG_DMA_COHERENT);
-+__create_dev_flag_accessors(of_node_reused, DEV_FLAG_OF_NODE_REUSED);
- 
- #undef __create_dev_flag_accessors
- 
+---
+Ryan Chen (4):
+      dt-bindings: interrupt-controller: Describe AST2700-A2 hardware instead of A0
+      irqchip/ast2700-intc: Add AST2700-A2 support
+      irqchip/ast2700-intc: Add KUnit tests for route resolution
+      irqchip/aspeed-intc: Remove AST2700-A0 support
+
+ .../interrupt-controller/aspeed,ast2700-intc.yaml  |  90 ----
+ .../aspeed,ast2700-interrupt.yaml                  | 188 +++++++
+ drivers/irqchip/.kunitconfig                       |   5 +
+ drivers/irqchip/Kconfig                            |  23 +
+ drivers/irqchip/Makefile                           |   3 +-
+ drivers/irqchip/irq-aspeed-intc.c                  | 139 -----
+ drivers/irqchip/irq-ast2700-intc0-test.c           | 473 +++++++++++++++++
+ drivers/irqchip/irq-ast2700-intc0.c                | 582 +++++++++++++++++++++
+ drivers/irqchip/irq-ast2700-intc1.c                | 280 ++++++++++
+ drivers/irqchip/irq-ast2700.c                      | 107 ++++
+ drivers/irqchip/irq-ast2700.h                      |  48 ++
+ 11 files changed, 1708 insertions(+), 230 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260205-irqchip-7eaef3674de9
+
+Best regards,
 -- 
-2.53.0.1213.gd9a14994de-goog
+Ryan Chen <ryan_chen@aspeedtech.com>
 
 
