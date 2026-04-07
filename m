@@ -1,44 +1,76 @@
-Return-Path: <linux-aspeed+bounces-3850-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3856-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GHpgKzF11GmyuAcAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3850-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Apr 2026 05:08:33 +0200
+	id AJUlDmqR1WmZ7gcAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3856-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 08 Apr 2026 01:21:14 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26ECE3A9533
-	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Apr 2026 05:08:33 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 427123B56DE
+	for <lists+linux-aspeed@lfdr.de>; Wed, 08 Apr 2026 01:21:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fqWNt3Mkwz2yh4;
-	Tue, 07 Apr 2026 13:08:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fr2J60sl8z2ySW;
+	Wed, 08 Apr 2026 09:21:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775531310;
-	cv=none; b=cTtpqf3jCjkvitiKnHA6HBh3isIG0KwTCqRpB8amHT9Xz0bH4vCAbBJT8x2o2uvBb9hN8plDtTfIgUtGL9Ir8YhNbGJjxBcYebRTNoqJpaeiUbTD6iUKKWuoZGo/ixzFjuJ5vRDzsn5pHG3QnDrAiqOAKHG/dO9HPnRNepuIRT5h6SLwJ7PoqInrmc3M/x8ok1KJDQnTDPIeaKSc1SFiBX+QTikCvNu/afILpfC2ocifb9fnhJwpbTNr6JOEsGVMW1sU/2dnSSM2nkRrB5QQYjaxyVEQ1AIEnfkUYDQ0Kx4p4jB+MVQOf/Iz2I4pjHvx4srpww6jnTqNTXDKitqiuw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775546860;
+	cv=none; b=Q0g4lEcz7JNSjCRwN84OpSPY9/j2SY9nGDKFsNavdJQDdGX5VAJ7wzA0hHr4NQBMYSfMKtopdIytV9PWADajmPYrQGpEtACmMsSbfnsStJh1tXit9tFVC1oAcSjBo84TY0oCyZFIBsT5s2bDtpPubqq1sXt9xisJZqGYA5MUnZIBSBa4sPg6p5ZAp5chtlDhqxZiIDgi+l7kutmMSMiFYxGBBbNNaun4wmxEVms9MMAIysdavEpaVLKNxucGNnSNyxpARPLT4GJFwlrDdQEjnP2gE1zjdcJz5WsbZ1qXnz9lFBpcO+tU/jjysDNx1g2o6cEvFqIMbnZfRMtxo2mERQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1775531310; c=relaxed/relaxed;
-	bh=D+c1qdcTxTsOTTYgUvUzO1k2tuphITL/5mx7UqECEuI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=jzfgRt+TJ6c9A+/sTlbaomXL4fkJYCqJGQ2XUxGSkR9juGAcoH4tuTQP3AD7XstKjrf+RWIUwuF55U9p4X7Zv+VFb8OQLOzZs9c6QRjRhJqEO3qT4Hw/urNQhW353bt3z/czE1JfhSNh+S8LZP3VNntwKdqMYmtgBnspLTIx7rm4bedpWY9w1oC0cYys54R1gnPhkfB64jkWzmSCeonAC98e7c//1OU3WgOX8kckRN3hUR7NxFbDRN6rf/Fp4dJEcYgEFd2qSfaAHkJr/OzVK068I1VUhZ2WrTv9LHh52IyYuXuvWaG5H+9zlwjBe8CSlVU9c8f40VzOyfkGR4+LxA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeed.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org)
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1775546860; c=relaxed/relaxed;
+	bh=kT01Kxko0Mdfvco+cwdX7xfZEHOufw2OA9hulGs7J8w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TYfMyUKw+MvUd2hlpho7WyyFnABMlrooyBJ3wXJd/9KhAKHORdh0yw3pivSIlpkiqN9gq+RCudxMv5H0Nys2s4B+3mpAQ9ETJqLWtmz9lrVCrtBMxrSoR50cxPxm8t3tqJ8xQZAyxqb1YaktbUc85+HkscI7a/+3bXpyzL+0LZlCucq3fg5a1aFjwz0LUV+cyfESEg2Qd9BiwjWmKrKyuEydEZ372b03NisjLPd5dUjQkpZ+PGIOoj3RjWsUGYjsBq1CHM4DHJFQbaSHGz013t+l3X+KJFE8Em4A4PjC/MhJ89FvuGNwokVjNAzZImPuWCzke7dPN5+1VXstg+uQYw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=m30OgZ4+; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=mani@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=m30OgZ4+;
+	dkim-atps=neutral
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=mani@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fqWNs4ZGCz2xQs
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Apr 2026 13:08:29 +1000 (AEST)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 7 Apr
- 2026 11:08:05 +0800
-Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Tue, 7 Apr 2026 11:08:05 +0800
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-Date: Tue, 7 Apr 2026 11:08:07 +0800
-Subject: [PATCH v5 4/4] irqchip/aspeed-intc: Remove AST2700-A0 support
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fqd7v1WWnz2ySS
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Apr 2026 17:27:39 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 7B29360126;
+	Tue,  7 Apr 2026 07:27:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F639C116C6;
+	Tue,  7 Apr 2026 07:27:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775546856;
+	bh=Ke+4cfFIuUyaAYRB85WlhtaSzn9Vsqf7eLubNm2wrC8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m30OgZ4+3p1ReP/oAexgtmU1wpHtdCwMpqLsPQ1M0sfld/z/FFzZXpYDh4e3fybYj
+	 /pxqvDO1Tk2YWl7SwXOzZpmgZPuybaqhOnBhM2OusK35qXxa6nPe47jMcbyPObRx9A
+	 LIBBR24hxE+0GEJyrHG5Mor7C5RciZv0K1Y119quGDDpBWRKWuWFCrZtXtkdQBW4P/
+	 0NSGF1V4uZmeRTPBIIxtlEIQSD1QF0mJS+7VB4QuEvtYAR4nRExM1YEGb6Y1NIFanM
+	 5dyrIFv4Z+WGfhdSU+6/pMy8q4brJ4lkLN1g/LKq88orVqzymK08dPIflO6p1CiWaw
+	 stDhRXnwwdSEw==
+Date: Tue, 7 Apr 2026 12:57:19 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Alan Stern <stern@rowland.harvard.edu>, Alexey Kardashevskiy <aik@ozlabs.ru>, 
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@google.com>, 
+	Leon Romanovsky <leon@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+	Robin Murphy <robin.murphy@arm.com>, maz@kernel.org, Alexander Lobakin <aleksander.lobakin@intel.com>, 
+	Saravana Kannan <saravanak@kernel.org>, Mark Brown <broonie@kernel.org>, alexander.stein@ew.tq-group.com, 
+	andrew@codeconstruct.com.au, andrew@lunn.ch, andriy.shevchenko@linux.intel.com, 
+	astewart@tektelic.com, bhelgaas@google.com, brgl@kernel.org, davem@davemloft.net, 
+	devicetree@vger.kernel.org, driver-core@lists.linux.dev, hkallweit1@gmail.com, 
+	jirislaby@kernel.org, joel@jms.id.au, kees@kernel.org, kuba@kernel.org, 
+	lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org, 
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, linux@armlinux.org.uk, 
+	netdev@vger.kernel.org, pabeni@redhat.com, robh@kernel.org
+Subject: Re: [PATCH v5 8/9] driver core: Replace dev->of_node_reused with
+ dev_of_node_reused()
+Message-ID: <xoo5ymm44t66hr5ti2apl3u7mmenbic66gi7siiiwxtdgn6bhh@hvfzixit53pf>
+References: <20260406232444.3117516-1-dianders@chromium.org>
+ <20260406162231.v5.8.I806b8636cd3724f6cd1f5e199318ab8694472d90@changeid>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -52,245 +84,305 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260407-irqchip-v5-4-c0b0a300a057@aspeedtech.com>
-References: <20260407-irqchip-v5-0-c0b0a300a057@aspeedtech.com>
-In-Reply-To: <20260407-irqchip-v5-0-c0b0a300a057@aspeedtech.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
- Jeffery" <andrew@codeconstruct.com.au>, Paul Walmsley <pjw@kernel.org>,
-	"Palmer Dabbelt" <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
-	"Alexandre Ghiti" <alex@ghiti.fr>, Thomas Gleixner <tglx@kernel.org>, Thomas
- Gleixner <tglx@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
-	<linux-riscv@lists.infradead.org>, Ryan Chen <ryan_chen@aspeedtech.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775531284; l=5800;
- i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
- bh=dDHK26Pv3om1nVVi9t4wNhYIZIKE7ffity4S2AcBKdE=;
- b=EgifjVaGNpahwnxXHrY3d69Ezgnv6PSHeKxETeudSv9LVUggb4Xt0FarWuL24mCSH86gJjL2c
- qm0HQ2YPx2OCXVZGnvgv6+u3zkfaK+6MNMpeXiJsrASHVi7ikJl9ef/
-X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
- pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_FAIL,SPF_PASS
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260406162231.v5.8.I806b8636cd3724f6cd1f5e199318ab8694472d90@changeid>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [1.49 / 15.00];
-	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.71 / 15.00];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3850-lists,linux-aspeed=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-3856-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS(0.00)[m:dianders@chromium.org,m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:dakr@kernel.org,m:stern@rowland.harvard.edu,m:aik@ozlabs.ru,m:johan@kernel.org,m:edumazet@google.com,m:leon@kernel.org,m:hch@lst.de,m:robin.murphy@arm.com,m:maz@kernel.org,m:aleksander.lobakin@intel.com,m:saravanak@kernel.org,m:broonie@kernel.org,m:alexander.stein@ew.tq-group.com,m:andrew@codeconstruct.com.au,m:andrew@lunn.ch,m:andriy.shevchenko@linux.intel.com,m:astewart@tektelic.com,m:bhelgaas@google.com,m:brgl@kernel.org,m:davem@davemloft.net,m:devicetree@vger.kernel.org,m:driver-core@lists.linux.dev,m:hkallweit1@gmail.com,m:jirislaby@kernel.org,m:joel@jms.id.au,m:kees@kernel.org,m:kuba@kernel.org,m:lgirdwood@gmail.com,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:linux-pci@vger.kernel.org,m:linux-serial@vger.kernel.org,m:linux-usb@vger.kernel.org,m:linux@armlinux.org.uk,m:netdev@vger.kernel.org,m:pabeni@redhat.com,m:robh@ker
+ nel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:pjw@kernel.org,m:palmer@dabbelt.com,m:aou@eecs.berkeley.edu,m:alex@ghiti.fr,m:tglx@kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-riscv@lists.infradead.org,m:ryan_chen@aspeedtech.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[41];
+	FORGED_SENDER(0.00)[mani@kernel.org,linux-aspeed@lists.ozlabs.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,kernel.org,rowland.harvard.edu,ozlabs.ru,google.com,lst.de,arm.com,intel.com,ew.tq-group.com,codeconstruct.com.au,lunn.ch,linux.intel.com,tektelic.com,davemloft.net,vger.kernel.org,lists.linux.dev,gmail.com,jms.id.au,lists.infradead.org,lists.ozlabs.org,armlinux.org.uk,redhat.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
-	NEURAL_SPAM(0.00)[0.194];
-	R_DKIM_NA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mani@kernel.org,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,aspeedtech.com:email,aspeedtech.com:mid]
-X-Rspamd-Queue-Id: 26ECE3A9533
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
+X-Rspamd-Queue-Id: 427123B56DE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The existing AST2700 interrupt controller driver
-("aspeed,ast2700-intc-ic") was written against the A0 pre-production
-design.
+On Mon, Apr 06, 2026 at 04:23:01PM -0700, Douglas Anderson wrote:
+> In C, bitfields are not necessarily safe to modify from multiple
+> threads without locking. Switch "of_node_reused" over to the "flags"
+> field so modifications are safe.
+> 
+> Cc: Johan Hovold <johan@kernel.org>
+> Acked-by: Mark Brown <broonie@kernel.org>
+> Reviewed-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+> Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-From A1 onwards (retained in the A2 production silicon), the interrupt
-fabric was re-architected: interrupt routing is programmable and
-interrupt outputs can be directed to multiple upstream controllers
-(PSP GIC, Secondary Service Processor (SSP) NVIC, Tertiary Service
-Processor (TSP) NVIC, and Boot MCU interrupt controller). This design
-requires route resolution and a controller hierarchy model which the
-A0 driver cannot represent.
+Acked-by: Manivannan Sadhasivam <mani@kernel.org> # PCI_PWRCTRL
 
-Remove driver support for A0 in favour of the driver for the A2
-production design.
+- Mani
 
-Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
----
- drivers/irqchip/Makefile          |   1 -
- drivers/irqchip/irq-aspeed-intc.c | 139 --------------------------------------
- 2 files changed, 140 deletions(-)
-
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index ac04a4b97797..3d02441b3ee6 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -92,7 +92,6 @@ obj-$(CONFIG_LS_SCFG_MSI)		+= irq-ls-scfg-msi.o
- obj-$(CONFIG_ASPEED_AST2700_INTC)	+= irq-ast2700.o irq-ast2700-intc0.o irq-ast2700-intc1.o
- obj-$(CONFIG_ASPEED_AST2700_INTC_TEST)	+= irq-ast2700-intc0-test.o
- obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-vic.o irq-aspeed-i2c-ic.o irq-aspeed-scu-ic.o
--obj-$(CONFIG_ARCH_ASPEED)		+= irq-aspeed-intc.o
- obj-$(CONFIG_STM32MP_EXTI)		+= irq-stm32mp-exti.o
- obj-$(CONFIG_STM32_EXTI) 		+= irq-stm32-exti.o
- obj-$(CONFIG_QCOM_IRQ_COMBINER)		+= qcom-irq-combiner.o
-diff --git a/drivers/irqchip/irq-aspeed-intc.c b/drivers/irqchip/irq-aspeed-intc.c
-deleted file mode 100644
-index 4fb0dd8349da..000000000000
---- a/drivers/irqchip/irq-aspeed-intc.c
-+++ /dev/null
-@@ -1,139 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- *  Aspeed Interrupt Controller.
-- *
-- *  Copyright (C) 2023 ASPEED Technology Inc.
-- */
--
--#include <linux/bitops.h>
--#include <linux/irq.h>
--#include <linux/irqchip.h>
--#include <linux/irqchip/chained_irq.h>
--#include <linux/irqdomain.h>
--#include <linux/of_address.h>
--#include <linux/of_irq.h>
--#include <linux/io.h>
--#include <linux/spinlock.h>
--
--#define INTC_INT_ENABLE_REG	0x00
--#define INTC_INT_STATUS_REG	0x04
--#define INTC_IRQS_PER_WORD	32
--
--struct aspeed_intc_ic {
--	void __iomem		*base;
--	raw_spinlock_t		gic_lock;
--	raw_spinlock_t		intc_lock;
--	struct irq_domain	*irq_domain;
--};
--
--static void aspeed_intc_ic_irq_handler(struct irq_desc *desc)
--{
--	struct aspeed_intc_ic *intc_ic = irq_desc_get_handler_data(desc);
--	struct irq_chip *chip = irq_desc_get_chip(desc);
--
--	chained_irq_enter(chip, desc);
--
--	scoped_guard(raw_spinlock, &intc_ic->gic_lock) {
--		unsigned long bit, status;
--
--		status = readl(intc_ic->base + INTC_INT_STATUS_REG);
--		for_each_set_bit(bit, &status, INTC_IRQS_PER_WORD) {
--			generic_handle_domain_irq(intc_ic->irq_domain, bit);
--			writel(BIT(bit), intc_ic->base + INTC_INT_STATUS_REG);
--		}
--	}
--
--	chained_irq_exit(chip, desc);
--}
--
--static void aspeed_intc_irq_mask(struct irq_data *data)
--{
--	struct aspeed_intc_ic *intc_ic = irq_data_get_irq_chip_data(data);
--	unsigned int mask = readl(intc_ic->base + INTC_INT_ENABLE_REG) & ~BIT(data->hwirq);
--
--	guard(raw_spinlock)(&intc_ic->intc_lock);
--	writel(mask, intc_ic->base + INTC_INT_ENABLE_REG);
--}
--
--static void aspeed_intc_irq_unmask(struct irq_data *data)
--{
--	struct aspeed_intc_ic *intc_ic = irq_data_get_irq_chip_data(data);
--	unsigned int unmask = readl(intc_ic->base + INTC_INT_ENABLE_REG) | BIT(data->hwirq);
--
--	guard(raw_spinlock)(&intc_ic->intc_lock);
--	writel(unmask, intc_ic->base + INTC_INT_ENABLE_REG);
--}
--
--static struct irq_chip aspeed_intc_chip = {
--	.name			= "ASPEED INTC",
--	.irq_mask		= aspeed_intc_irq_mask,
--	.irq_unmask		= aspeed_intc_irq_unmask,
--};
--
--static int aspeed_intc_ic_map_irq_domain(struct irq_domain *domain, unsigned int irq,
--					 irq_hw_number_t hwirq)
--{
--	irq_set_chip_and_handler(irq, &aspeed_intc_chip, handle_level_irq);
--	irq_set_chip_data(irq, domain->host_data);
--
--	return 0;
--}
--
--static const struct irq_domain_ops aspeed_intc_ic_irq_domain_ops = {
--	.map = aspeed_intc_ic_map_irq_domain,
--};
--
--static int __init aspeed_intc_ic_of_init(struct device_node *node,
--					 struct device_node *parent)
--{
--	struct aspeed_intc_ic *intc_ic;
--	int irq, i, ret = 0;
--
--	intc_ic = kzalloc_obj(*intc_ic);
--	if (!intc_ic)
--		return -ENOMEM;
--
--	intc_ic->base = of_iomap(node, 0);
--	if (!intc_ic->base) {
--		pr_err("Failed to iomap intc_ic base\n");
--		ret = -ENOMEM;
--		goto err_free_ic;
--	}
--	writel(0xffffffff, intc_ic->base + INTC_INT_STATUS_REG);
--	writel(0x0, intc_ic->base + INTC_INT_ENABLE_REG);
--
--	intc_ic->irq_domain = irq_domain_create_linear(of_fwnode_handle(node), INTC_IRQS_PER_WORD,
--						    &aspeed_intc_ic_irq_domain_ops, intc_ic);
--	if (!intc_ic->irq_domain) {
--		ret = -ENOMEM;
--		goto err_iounmap;
--	}
--
--	raw_spin_lock_init(&intc_ic->gic_lock);
--	raw_spin_lock_init(&intc_ic->intc_lock);
--
--	/* Check all the irq numbers valid. If not, unmaps all the base and frees the data. */
--	for (i = 0; i < of_irq_count(node); i++) {
--		irq = irq_of_parse_and_map(node, i);
--		if (!irq) {
--			pr_err("Failed to get irq number\n");
--			ret = -EINVAL;
--			goto err_iounmap;
--		}
--	}
--
--	for (i = 0; i < of_irq_count(node); i++) {
--		irq = irq_of_parse_and_map(node, i);
--		irq_set_chained_handler_and_data(irq, aspeed_intc_ic_irq_handler, intc_ic);
--	}
--
--	return 0;
--
--err_iounmap:
--	iounmap(intc_ic->base);
--err_free_ic:
--	kfree(intc_ic);
--	return ret;
--}
--
--IRQCHIP_DECLARE(ast2700_intc_ic, "aspeed,ast2700-intc-ic", aspeed_intc_ic_of_init);
+> ---
+> Not fixing any known bugs; problem is theoretical and found by code
+> inspection. Change is done somewhat manually and only lightly tested
+> (mostly compile-time tested).
+> 
+> (no changes since v4)
+> 
+> Changes in v4:
+> - Use accessor functions for flags
+> 
+> Changes in v3:
+> - New
+> 
+>  drivers/base/core.c                      | 2 +-
+>  drivers/base/pinctrl.c                   | 2 +-
+>  drivers/base/platform.c                  | 2 +-
+>  drivers/net/pcs/pcs-xpcs-plat.c          | 2 +-
+>  drivers/of/device.c                      | 6 +++---
+>  drivers/pci/of.c                         | 2 +-
+>  drivers/pci/pwrctrl/core.c               | 2 +-
+>  drivers/regulator/bq257xx-regulator.c    | 2 +-
+>  drivers/regulator/rk808-regulator.c      | 2 +-
+>  drivers/tty/serial/serial_base_bus.c     | 2 +-
+>  drivers/usb/gadget/udc/aspeed-vhub/dev.c | 2 +-
+>  include/linux/device.h                   | 7 ++++---
+>  12 files changed, 17 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 8a83d7c93361..30825bf83234 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -5283,7 +5283,7 @@ void device_set_of_node_from_dev(struct device *dev, const struct device *dev2)
+>  {
+>  	of_node_put(dev->of_node);
+>  	dev->of_node = of_node_get(dev2->of_node);
+> -	dev->of_node_reused = true;
+> +	dev_set_of_node_reused(dev);
+>  }
+>  EXPORT_SYMBOL_GPL(device_set_of_node_from_dev);
+>  
+> diff --git a/drivers/base/pinctrl.c b/drivers/base/pinctrl.c
+> index 6e250272c843..0bbc83231234 100644
+> --- a/drivers/base/pinctrl.c
+> +++ b/drivers/base/pinctrl.c
+> @@ -24,7 +24,7 @@ int pinctrl_bind_pins(struct device *dev)
+>  {
+>  	int ret;
+>  
+> -	if (dev->of_node_reused)
+> +	if (dev_of_node_reused(dev))
+>  		return 0;
+>  
+>  	dev->pins = devm_kzalloc(dev, sizeof(*(dev->pins)), GFP_KERNEL);
+> diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+> index d44591d52e36..199e6fb25770 100644
+> --- a/drivers/base/platform.c
+> +++ b/drivers/base/platform.c
+> @@ -856,7 +856,7 @@ struct platform_device *platform_device_register_full(
+>  	pdev->dev.parent = pdevinfo->parent;
+>  	pdev->dev.fwnode = pdevinfo->fwnode;
+>  	pdev->dev.of_node = of_node_get(to_of_node(pdev->dev.fwnode));
+> -	pdev->dev.of_node_reused = pdevinfo->of_node_reused;
+> +	dev_assign_of_node_reused(&pdev->dev, pdevinfo->of_node_reused);
+>  
+>  	if (pdevinfo->dma_mask) {
+>  		pdev->platform_dma_mask = pdevinfo->dma_mask;
+> diff --git a/drivers/net/pcs/pcs-xpcs-plat.c b/drivers/net/pcs/pcs-xpcs-plat.c
+> index b8c48f9effbf..f4b1b8246ce9 100644
+> --- a/drivers/net/pcs/pcs-xpcs-plat.c
+> +++ b/drivers/net/pcs/pcs-xpcs-plat.c
+> @@ -349,7 +349,7 @@ static int xpcs_plat_init_dev(struct dw_xpcs_plat *pxpcs)
+>  	 * up later. Make sure DD-core is aware of the OF-node being re-used.
+>  	 */
+>  	device_set_node(&mdiodev->dev, fwnode_handle_get(dev_fwnode(dev)));
+> -	mdiodev->dev.of_node_reused = true;
+> +	dev_set_of_node_reused(&mdiodev->dev);
+>  
+>  	/* Pass the data further so the DW XPCS driver core could use it */
+>  	mdiodev->dev.platform_data = (void *)device_get_match_data(dev);
+> diff --git a/drivers/of/device.c b/drivers/of/device.c
+> index f7e75e527667..be4e1584e0af 100644
+> --- a/drivers/of/device.c
+> +++ b/drivers/of/device.c
+> @@ -26,7 +26,7 @@
+>  const struct of_device_id *of_match_device(const struct of_device_id *matches,
+>  					   const struct device *dev)
+>  {
+> -	if (!matches || !dev->of_node || dev->of_node_reused)
+> +	if (!matches || !dev->of_node || dev_of_node_reused(dev))
+>  		return NULL;
+>  	return of_match_node(matches, dev->of_node);
+>  }
+> @@ -192,7 +192,7 @@ ssize_t of_device_modalias(struct device *dev, char *str, ssize_t len)
+>  {
+>  	ssize_t sl;
+>  
+> -	if (!dev || !dev->of_node || dev->of_node_reused)
+> +	if (!dev || !dev->of_node || dev_of_node_reused(dev))
+>  		return -ENODEV;
+>  
+>  	sl = of_modalias(dev->of_node, str, len - 2);
+> @@ -254,7 +254,7 @@ int of_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *
+>  {
+>  	int sl;
+>  
+> -	if ((!dev) || (!dev->of_node) || dev->of_node_reused)
+> +	if ((!dev) || (!dev->of_node) || dev_of_node_reused(dev))
+>  		return -ENODEV;
+>  
+>  	/* Devicetree modalias is tricky, we add it in 2 steps */
+> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+> index 9f8eb5df279e..1f9b669abdb0 100644
+> --- a/drivers/pci/of.c
+> +++ b/drivers/pci/of.c
+> @@ -38,7 +38,7 @@ int pci_set_of_node(struct pci_dev *dev)
+>  	struct device *pdev __free(put_device) =
+>  		bus_find_device_by_of_node(&platform_bus_type, node);
+>  	if (pdev)
+> -		dev->bus->dev.of_node_reused = true;
+> +		dev_set_of_node_reused(&dev->bus->dev);
+>  
+>  	device_set_node(&dev->dev, of_fwnode_handle(no_free_ptr(node)));
+>  	return 0;
+> diff --git a/drivers/pci/pwrctrl/core.c b/drivers/pci/pwrctrl/core.c
+> index 7754baed67f2..72963a92362a 100644
+> --- a/drivers/pci/pwrctrl/core.c
+> +++ b/drivers/pci/pwrctrl/core.c
+> @@ -39,7 +39,7 @@ static int pci_pwrctrl_notify(struct notifier_block *nb, unsigned long action,
+>  		 * If we got here then the PCI device is the second after the
+>  		 * power control platform device. Mark its OF node as reused.
+>  		 */
+> -		dev->of_node_reused = true;
+> +		dev_set_of_node_reused(dev);
+>  		break;
+>  	}
+>  
+> diff --git a/drivers/regulator/bq257xx-regulator.c b/drivers/regulator/bq257xx-regulator.c
+> index dab8f1ab4450..40e0f1a7ae81 100644
+> --- a/drivers/regulator/bq257xx-regulator.c
+> +++ b/drivers/regulator/bq257xx-regulator.c
+> @@ -143,7 +143,7 @@ static int bq257xx_regulator_probe(struct platform_device *pdev)
+>  	struct regulator_config cfg = {};
+>  
+>  	pdev->dev.of_node = pdev->dev.parent->of_node;
+> -	pdev->dev.of_node_reused = true;
+> +	dev_set_of_node_reused(&pdev->dev);
+>  
+>  	pdata = devm_kzalloc(&pdev->dev, sizeof(struct bq257xx_reg_data), GFP_KERNEL);
+>  	if (!pdata)
+> diff --git a/drivers/regulator/rk808-regulator.c b/drivers/regulator/rk808-regulator.c
+> index e66408f23bb6..8297d31cde9f 100644
+> --- a/drivers/regulator/rk808-regulator.c
+> +++ b/drivers/regulator/rk808-regulator.c
+> @@ -2115,7 +2115,7 @@ static int rk808_regulator_probe(struct platform_device *pdev)
+>  	int ret, i, nregulators;
+>  
+>  	pdev->dev.of_node = pdev->dev.parent->of_node;
+> -	pdev->dev.of_node_reused = true;
+> +	dev_set_of_node_reused(&pdev->dev);
+>  
+>  	regmap = dev_get_regmap(pdev->dev.parent, NULL);
+>  	if (!regmap)
+> diff --git a/drivers/tty/serial/serial_base_bus.c b/drivers/tty/serial/serial_base_bus.c
+> index a12935f6b992..5f23284a8778 100644
+> --- a/drivers/tty/serial/serial_base_bus.c
+> +++ b/drivers/tty/serial/serial_base_bus.c
+> @@ -74,7 +74,7 @@ static int serial_base_device_init(struct uart_port *port,
+>  	dev->parent = parent_dev;
+>  	dev->bus = &serial_base_bus_type;
+>  	dev->release = release;
+> -	dev->of_node_reused = true;
+> +	dev_set_of_node_reused(dev);
+>  
+>  	device_set_node(dev, fwnode_handle_get(dev_fwnode(parent_dev)));
+>  
+> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+> index 2ecd049dacc2..8b9449d16324 100644
+> --- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+> +++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+> @@ -593,7 +593,7 @@ int ast_vhub_init_dev(struct ast_vhub *vhub, unsigned int idx)
+>  		d->gadget.max_speed = USB_SPEED_HIGH;
+>  	d->gadget.speed = USB_SPEED_UNKNOWN;
+>  	d->gadget.dev.of_node = vhub->pdev->dev.of_node;
+> -	d->gadget.dev.of_node_reused = true;
+> +	dev_set_of_node_reused(&d->gadget.dev);
+>  
+>  	rc = usb_add_gadget_udc(d->port_dev, &d->gadget);
+>  	if (rc != 0)
+> diff --git a/include/linux/device.h b/include/linux/device.h
+> index 5b0fb6ad4c72..a79865a212e9 100644
+> --- a/include/linux/device.h
+> +++ b/include/linux/device.h
+> @@ -483,6 +483,8 @@ struct device_physical_location {
+>   *		driver/bus sync_state() callback.
+>   * @DEV_FLAG_DMA_COHERENT: This particular device is dma coherent, even if the
+>   *		architecture supports non-coherent devices.
+> + * @DEV_FLAG_OF_NODE_REUSED: Set if the device-tree node is shared with an
+> + *		ancestor device.
+>   */
+>  enum struct_device_flags {
+>  	DEV_FLAG_READY_TO_PROBE = 0,
+> @@ -492,6 +494,7 @@ enum struct_device_flags {
+>  	DEV_FLAG_DMA_OPS_BYPASS = 4,
+>  	DEV_FLAG_STATE_SYNCED = 5,
+>  	DEV_FLAG_DMA_COHERENT = 6,
+> +	DEV_FLAG_OF_NODE_REUSED = 7,
+>  
+>  	DEV_FLAG_COUNT
+>  };
+> @@ -573,8 +576,6 @@ enum struct_device_flags {
+>   *
+>   * @offline_disabled: If set, the device is permanently online.
+>   * @offline:	Set after successful invocation of bus type's .offline().
+> - * @of_node_reused: Set if the device-tree node is shared with an ancestor
+> - *              device.
+>   * @flags:	DEV_FLAG_XXX flags. Use atomic bitfield operations to modify.
+>   *
+>   * At the lowest level, every device in a Linux system is represented by an
+> @@ -681,7 +682,6 @@ struct device {
+>  
+>  	bool			offline_disabled:1;
+>  	bool			offline:1;
+> -	bool			of_node_reused:1;
+>  
+>  	DECLARE_BITMAP(flags, DEV_FLAG_COUNT);
+>  };
+> @@ -715,6 +715,7 @@ __create_dev_flag_accessors(dma_skip_sync, DEV_FLAG_DMA_SKIP_SYNC);
+>  __create_dev_flag_accessors(dma_ops_bypass, DEV_FLAG_DMA_OPS_BYPASS);
+>  __create_dev_flag_accessors(state_synced, DEV_FLAG_STATE_SYNCED);
+>  __create_dev_flag_accessors(dma_coherent, DEV_FLAG_DMA_COHERENT);
+> +__create_dev_flag_accessors(of_node_reused, DEV_FLAG_OF_NODE_REUSED);
+>  
+>  #undef __create_dev_flag_accessors
+>  
+> -- 
+> 2.53.0.1213.gd9a14994de-goog
+> 
 
 -- 
-2.34.1
-
+மணிவண்ணன் சதாசிவம்
 
