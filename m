@@ -1,82 +1,53 @@
-Return-Path: <linux-aspeed+bounces-3854-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3855-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YOwnMZ5s1Wm96AcAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3854-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Apr 2026 22:44:14 +0200
+	id W6R5FkKQ1Wl87gcAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3855-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 08 Apr 2026 01:16:18 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A94A3B4A41
-	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Apr 2026 22:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3373B3B56CB
+	for <lists+linux-aspeed@lfdr.de>; Wed, 08 Apr 2026 01:16:16 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fqypx3BGzz2ydq;
-	Wed, 08 Apr 2026 06:44:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fr2BQ42jpz2yZ6;
+	Wed, 08 Apr 2026 09:16:14 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=172.105.4.254
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775594649;
-	cv=none; b=cpvIDwEAnkpGENWhaVpjiQPl7/Gyz2sJNoZkViZ9CA7IX3DRHi2cFltxE6gD5LmCX4MS1l/cEWrEFT77QCkD1XB455wjkw0socJqf0HHpY7HPJJ80wz/QPaofW6MSjuCBIR95nJEH3oj0+WwjlwBc6dxGn7xaoOw5nIHA0DTqqBV9ZdrAMVWWLxqDGApxSVDnsDRvRjvBNhTx/NOKU9CZjnvugKOqvhY6lKVGK/5f1v0FLLA65OQ9aM2QjcsJ2xC84aeN5Vr35KhqL4u9e2XRFjGyWOrcBO3ywzjj2+iueJLnCkIwycLw5zIxIQz5sh/l2LW25QGPoL9ChcpkXopWg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775602731;
+	cv=none; b=KceDmhLVn0LiutejVZA0Q43kOv754+Z+mUQBQezdjwg0b7rH0csahqWHRSAoijxRISkHRWcwKpYvDjtWyz4fIH1AJntx+KznHmBl2fj8LEsxdfbkEQPIaD+9z5RY2OalThjNKgCd7xRFQt1QJSulEfNYEZ/0p89CT2WbZcR9lEaQszWfK7eMgAATBwKLngRL4isuDtJMdDwuwrv2XHrlY7efAQL16ewIvgwpivVXrMCnkJXIkQWx+A3ZvD2gjlZBgS567V0hV4yYWi4n7r+Fiz0kw/kC3N/oVSnBt9y9ZPx3TU8lqWhVI5c5qSuzN8c3c6ZkGuJSZKte1RbqSzq92Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1775594649; c=relaxed/relaxed;
-	bh=QEpYJNZFtz9B/pHhKHhy3x4ZNPm/kdA6HWB88/fNLBg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IHnqABdiZPZW1ixnWS2PSnyS9n7BXPgnRwHHCCPyoJ2XkqXKHDVU8MExml3V3hgh5ze55qUwxXj5n9WOuFKj+NFGn1oxRLn8opp3We6Eke1rHy0dwcSCYZcBADFW20Rgq5RssTAjhWKvfNiIYCd1Cmajn0amESJ5D4nOpnuATaFNQBfbPzL6SErcVSbDBascpSLc56c3vv9myo8SKBH8GgFOBK9Vy4ewvDxdCyLE+YKoPn+ixQPppPN37qG8LjUx/nr/hIdbrGE58sz0lzq7+yAU5zkRGmMb2i+gdYUSvohHRGa/1rqdFW7TkS95BdSX9Cg+Ebl3lmljVMYbYeoseQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=uHhCe4tP; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	t=1775602731; c=relaxed/relaxed;
+	bh=WMbYOgaDr/Kx+71TeWTaVBU+sUYdKg1v+oxDqlB4JDE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=OZCNau/W+3jjmpAqljEqbE+oDYmThqrNuC/JNeNN1Oq8j0gwa9uJ7rz+Vf92bajt3P5FMdd6HvTmQXkkuLOlhGkyvxvcqF6pceQMAxpZyGHG+h5fPHzTGsXwQFUcZUzhvUY+TvY3zRULxySn5+x29Q0BpkUxETPWW4/d9vIEWcYqF9fxJX32Hu3g8DUFChrBJBU5HkQMA0Ba1w4TLEoQvanBVjC1RsOf0lUBv0/87MTKGHuV5mYWrT/BWwiNG6aTckntesd138Fiq3LPHVTXSiDh70EQgYB+nYM0sVso2jeC55wKFlzMb4IRIwpNcTsdVwE0fOgRc8brqsmCkLp16Q==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=YxT4H0gM; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=dakr@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=uHhCe4tP;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=YxT4H0gM;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=dakr@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fqypw2h7Qz2ySC;
-	Wed, 08 Apr 2026 06:44:08 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fr1pL5NCPz2xSB;
+	Wed, 08 Apr 2026 08:58:50 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id A5B5C600CB;
-	Tue,  7 Apr 2026 20:44:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12689C116C6;
-	Tue,  7 Apr 2026 20:44:03 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 4480660128;
+	Tue,  7 Apr 2026 22:58:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C69C116C6;
+	Tue,  7 Apr 2026 22:58:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775594645;
-	bh=ds5g5d0oS4MQyIT0BsNumaIh8fLF8x9rw6OQMpQU+uY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uHhCe4tPmGbkZTpZN9Rrs8D9dJOiIv2+bHWFiMZ05TIVDwiWNoTVOdsISivUCHNdY
-	 uCuf/fSBK6RrsOStoyi2Okr5nk4MOznSQj10P3JNd/6irEulWYqNBPnKslaDUQIJ3f
-	 Hj+V7I+uJcQFzJAgHHV+lrK9Gb8PQDExW7z4fv93cQW++Ewq9qBpP2QPRoWGq0l6Et
-	 /r7HB6hAI23z8VWUxp+IfNQ/IyUTqRyP1I0y1UyTHm5Jv28gWGNiAAO2XFgdEKBAc0
-	 y5vUDrgnoN632A0GrlK152WVlrb87NPl6IEJCSqpqS1eBli2miQHa6Za+VbO/ZGA8h
-	 fBG0bbMHEtcfQ==
-Date: Tue, 7 Apr 2026 15:44:02 -0500
-From: Rob Herring <robh@kernel.org>
-To: Ryan Chen <ryan_chen@aspeedtech.com>
-Cc: Jeremy Kerr <jk@codeconstruct.com.au>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>
-Subject: Re: [PATCH v28 2/4] dt-bindings: i2c: ast2600-i2c.yaml: Add
- global-regs and enable-dma properties
-Message-ID: <20260407204402.GA3641251-robh@kernel.org>
-References: <20260330-upstream_i2c-v28-0-17bdae39c5cb@aspeedtech.com>
- <20260330-upstream_i2c-v28-2-17bdae39c5cb@aspeedtech.com>
- <20260331-fanatic-certain-bustard-fb13bc@quoll>
- <TY2PPF5CB9A1BE6F267C60EEC34B6A75400F253A@TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com>
- <09cbc12bea5707f794e139ea1bfafac82c2d2c12.camel@codeconstruct.com.au>
- <TY2PPF5CB9A1BE6EA5BABE55EB8A7003D22F253A@TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com>
- <72517fcf99a7453841ee75243dc54e735c10238f.camel@codeconstruct.com.au>
- <TY2PPF5CB9A1BE64B7988CD85A7189164E1F253A@TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com>
+	s=k20201202; t=1775602726;
+	bh=ZxMhQkn/NMJTsfUq+eNI5wRqTDBwCQBg1cjTyGaGSzA=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=YxT4H0gMU1uiOeHwbtOxxGkfFWJBaCzthqg03Sftf8l9d186Y09INkfJ8VCpcsjUT
+	 Qfd/Qlw+XjxQGpsD/+wtJtFtyh3etr3/mtV9qhSmixByvSXfzBB7nBSEJNPsodmdHd
+	 n6aWnXLqcu6DDQCkFID7N0ab2dedIpF0ftmNXCcvehsYTzafVVvpTSGtJI0Yt78qAh
+	 7zcrBzbK4e2mGEgKbxfT4/RQOcj3aPhgKqv9IwN+ABisbMsvBq2hQAvVVGI9l26vIJ
+	 NOji8KIk0pikMh4DCWmZrmRQsTJnp7fjTB24k9B9hx+3b4Laf7gnEUw1IEsuOG28xo
+	 +wM+h43SmOleg==
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -89,94 +60,107 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TY2PPF5CB9A1BE64B7988CD85A7189164E1F253A@TY2PPF5CB9A1BE6.apcprd06.prod.outlook.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 08 Apr 2026 00:58:28 +0200
+Message-Id: <DHNAMNISZJ9O.3B58NWX64GBGE@kernel.org>
+Subject: Re: [PATCH v5 0/9] driver core: Fix some race conditions
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
+ <rafael@kernel.org>, "Alan Stern" <stern@rowland.harvard.edu>, "Alexey
+ Kardashevskiy" <aik@ozlabs.ru>, "Johan Hovold" <johan@kernel.org>, "Eric
+ Dumazet" <edumazet@google.com>, "Leon Romanovsky" <leon@kernel.org>,
+ "Christoph Hellwig" <hch@lst.de>, <maz@kernel.org>, "Alexander Lobakin"
+ <aleksander.lobakin@intel.com>, "Saravana Kannan" <saravanak@kernel.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>, <Frank.Li@kernel.org>, "Jason
+ Gunthorpe" <jgg@ziepe.ca>, <alex@ghiti.fr>,
+ <alexander.stein@ew.tq-group.com>, <andre.przywara@arm.com>,
+ <andrew@codeconstruct.com.au>, <andrew@lunn.ch>,
+ <andriy.shevchenko@linux.intel.com>, <aou@eecs.berkeley.edu>,
+ <ardb@kernel.org>, <astewart@tektelic.com>, <bhelgaas@google.com>,
+ <brgl@kernel.org>, <broonie@kernel.org>, <catalin.marinas@arm.com>,
+ <chleroy@kernel.org>, <davem@davemloft.net>, <david@kernel.org>,
+ <devicetree@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+ <driver-core@lists.linux.dev>, <gbatra@linux.ibm.com>,
+ <gregory.clement@bootlin.com>, <hkallweit1@gmail.com>,
+ <iommu@lists.linux.dev>, <jirislaby@kernel.org>, <joel@jms.id.au>,
+ <joro@8bytes.org>, <kees@kernel.org>, <kevin.brodsky@arm.com>,
+ <kuba@kernel.org>, <lenb@kernel.org>, <lgirdwood@gmail.com>,
+ <linux-acpi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-cxl@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-pci@vger.kernel.org>,
+ <linux-riscv@lists.infradead.org>, <linux-serial@vger.kernel.org>,
+ <linux-snps-arc@lists.infradead.org>, <linux-usb@vger.kernel.org>,
+ <linux@armlinux.org.uk>, <linuxppc-dev@lists.ozlabs.org>,
+ <maddy@linux.ibm.com>, <mani@kernel.org>, <miko.lenczewski@arm.com>,
+ <mpe@ellerman.id.au>, <netdev@vger.kernel.org>, <npiggin@gmail.com>,
+ <osalvador@suse.de>, <oupton@kernel.org>, <pabeni@redhat.com>,
+ <palmer@dabbelt.com>, <peter.ujfalusi@gmail.com>, <peterz@infradead.org>,
+ <pjw@kernel.org>, <robh@kernel.org>, <sebastian.hesselbarth@gmail.com>,
+ <tglx@kernel.org>, <tsbogend@alpha.franken.de>, <vgupta@kernel.org>,
+ <vkoul@kernel.org>, <will@kernel.org>, <willy@infradead.org>,
+ <yangyicong@hisilicon.com>, <yeoreum.yun@arm.com>
+To: "Douglas Anderson" <dianders@chromium.org>, <m.szyprowski@samsung.com>,
+ "Robin Murphy" <robin.murphy@arm.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260406232444.3117516-1-dianders@chromium.org>
+In-Reply-To: <20260406232444.3117516-1-dianders@chromium.org>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [0.29 / 15.00];
+X-Spamd-Result: default: False [-0.21 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	MID_CONTAINS_FROM(1.00)[];
+	MV_CASE(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[generic];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MAILLIST(-0.20)[generic];
 	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3854-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-aspeed@lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-3855-lists,linux-aspeed=lfdr.de];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,kernel.org,rowland.harvard.edu,ozlabs.ru,google.com,lst.de,intel.com,linux-foundation.org,ziepe.ca,ghiti.fr,ew.tq-group.com,arm.com,codeconstruct.com.au,lunn.ch,linux.intel.com,eecs.berkeley.edu,tektelic.com,davemloft.net,vger.kernel.org,lists.linux.dev,linux.ibm.com,bootlin.com,gmail.com,jms.id.au,8bytes.org,lists.infradead.org,lists.ozlabs.org,kvack.org,armlinux.org.uk,ellerman.id.au,suse.de,redhat.com,dabbelt.com,infradead.org,alpha.franken.de,hisilicon.com];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[85];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed];
+	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
-X-Rspamd-Queue-Id: 8A94A3B4A41
+X-Rspamd-Queue-Id: 3373B3B56CB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 31, 2026 at 07:30:58AM +0000, Ryan Chen wrote:
-> > Subject: Re: [PATCH v28 2/4] dt-bindings: i2c: ast2600-i2c.yaml: Add global-regs
-> > and enable-dma properties
-> > 
-> > Hi Ryan,
-> > 
-> > > > Sounds reasonable, but before you do so, how are you planning to
-> > > > manage the allocation of DMA channels across multiple i2c peripherals?
-> > > >
-> > > The AST2600 I2C hardware has only one can use DMA at a time.
-> > > To avoid the complexity of managing DMA channel contention, I plan to
-> > > use buffer mode by default for all controllers, which still provides
-> > > better performance than byte mode without requiring DMA channel
-> > allocation.
-> > 
-> > OK, but your wording there ("by default") implies that DMA is still selectable
-> > for one controller peripheral. In which case: you still have the problem of
-> > managing DMA channel contention, but now it's at runtime instead.
-> > 
-> > So my question still stands: how are you planning to enforce that DMA is only
-> > enabled for one controller?
-> > 
-> > Or are you planning to disable I2C DMA entirely on AST2600?
-> Yes, This is my intent to do.
-> Disable I2C DMA entirely on AST2600.
-> If I remove DMA, should can I keep byte and buffer for sysfs? 
+On Tue Apr 7, 2026 at 1:22 AM CEST, Douglas Anderson wrote:
 
-28 versions and it's still not clear when you need what mode. Sigh. The 
-only thing better about sysfs then it's not my problem, but that really 
-doesn't sound much better.
+Applied to driver-core-testing, thanks!
 
-DMA is only going to be useful for transfers above a certain size. If 
-you are doing the typical SMBus style register accesses, then DMA is 
-completely useless. The setup DMA overhead is going to be greater than 
-just directly reading/writing the I2C controller FIFOs. What's the size 
-that makes DMA useful? 16, 32, 64 bytes? Something greater than the max 
-size in buffer mode probably. Really, provide some data that DMA gives 
-better performance and/or less CPU usage. If you set some minimum size 
-and request DMA only above that size, is there really that much 
-contention? If there's some specific device that really needs DMA, then 
-make that device's driver request it and reserve it. 
+> Douglas Anderson (9):
+>   driver core: Don't let a device probe until it's ready
+>   driver core: Replace dev->can_match with dev_can_match()
+>   driver core: Replace dev->dma_iommu with dev_dma_iommu()
+>   driver core: Replace dev->dma_skip_sync with dev_dma_skip_sync()
+>   driver core: Replace dev->dma_ops_bypass with dev_dma_ops_bypass()
+>   driver core: Replace dev->state_synced with dev_state_synced()
+>   driver core: Replace dev->dma_coherent with dev_dma_coherent()
 
-For byte mode, there's not a clear need nor description of why. Someone 
-once long ago asked for it... Who cares, if they really want it, then 
-the issue needs to be described. If a certain device requires certain 
-timing that byte mode provides, then that should be some property the 
-driver for the device communicates to the controller. No need for DT 
-nor sysfs in that case.
+    [ Since all DEV_FLAG_DMA_COHERENT accessors are exposed unconditionally=
+,
+      also drop the CONFIG guards around dev_assign_dma_coherent() in
+      device_initialize() to ensure a correct default value. - Danilo ]
 
-Rob
+>   driver core: Replace dev->of_node_reused with dev_of_node_reused()
+>   driver core: Replace dev->offline + ->offline_disabled with accessors
 
