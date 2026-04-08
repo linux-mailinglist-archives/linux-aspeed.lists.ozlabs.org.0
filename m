@@ -1,96 +1,65 @@
-Return-Path: <linux-aspeed+bounces-3876-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3869-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oL2hCtDc1mlhJQgAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3876-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Thu, 09 Apr 2026 00:55:12 +0200
+	id QCtiGXdL1ml8DQgAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3869-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 08 Apr 2026 14:35:03 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D063C494F
-	for <lists+linux-aspeed@lfdr.de>; Thu, 09 Apr 2026 00:55:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09D23BC2BC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 08 Apr 2026 14:35:01 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4frdgd2k8Qz2xb3;
-	Thu, 09 Apr 2026 08:55:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4frMw16tzLz2yDk;
+	Wed, 08 Apr 2026 22:34:57 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2607:f8b0:4864:20::32d" arc.chain=google.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775642783;
-	cv=pass; b=PmBgY0aRoylb4DKnvqwS+IMT+UYnUm3IWmpi6U/x1/46iWc3wEVah2eE5oEE+obvgpFYeiyrla7DDTnXI1u8bkTfyIXVY0po8PbcGk/KTj4Qc68ciSObrgwQX3aRcXeCCCdqC1Rui6CIzCBXTYTS2w7SmJRe/2zDVdAmKzs3QnyLX2e8CKuIi7JwpxPico3BePzqzYwJpi7nkCNtCTEZaeuGudiScuLZnWyVNX/d8a/4kYRWZLDw4TReUobExAOAf74sYk1K1hYhxvFOUs7ZPeGknrKB1CVNkD23s+aYxQOWxgGSQy0LydQNOmE1LDmjWWmavZo1oAmAjkUYNLjBEQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1775642783; c=relaxed/relaxed;
-	bh=vcyUmIQWBRIN2bVxClZ8Li2ITCNwZ/GpA68S4b0OhXA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RbJsReplHyJk/bqL+I0INNKKt2/lUX2cFlJSFBl+eUFj0hk87bBZyM9U9Nctq1HLlgTO6iKKBM6XfnxrgQlimj8udS2gUguLe7U3XwP3R9CZp41kaCzTmv3ArBJbN3sU2mJ1AshkGNHsA8nhia696V6Xtw9NOMO2BO5dayemaj4z+wekMKbz6tK05kKg3fL1Hi4gr5/DwVHLgaF7wet32kR1/FGUXnCUUm1JJPiPubvGK+j8No8DN3MN+fpeQjuqT/K8UDxed3s5rG16ZXqb6ob1APrjnoim6dwrUqD5XuOTRd9TQ8Nr9TAq/F6buYt4WULXa1kfbcsofMlGN0H5zQ==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=n2mAp/2k; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::32d; helo=mail-ot1-x32d.google.com; envelope-from=pkleequanta@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775651697;
+	cv=none; b=lgiQ6O9stLClspovSajL5NPcKYCrehCzSyadvOFCyX52c6s7VoeB7YC2GgsTPEB5xeeQfEuOgfIM/nDGD4QZt344s3OuNbI9Uu9fEHyt6szzyKVG5yUESqzVyVeYxEiTJq/5zMD/g5rObwiPAXV1I6Lpy7y9OLy6gb3ecsN4lTsRre2QPpmwwxvfvFMQ9rVZO6yxN37qCyRNOphMsHcw8eRvhhy9Nbn2SMA/OdMPEM6ookvUP3m6n+uSV016udh4ljzTFu9fBamkzawbL6DeiI528YSz9VF1HN0H0nzVUS8MACNg84+teEw1I+GzGSXAFGw1ad7lpHc1V3gAqGgyJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1775651697; c=relaxed/relaxed;
+	bh=UZm0OMiCYQ+7g0KMOOJaEeMtCB1NoXIae3H5HwDH82U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yz2Bq0XB37rIuRMz1kzoWD8RWWfx5ByNgRVxCLXeQGq5oaWFZe+UKEt9tiLcEaQ9KH6UnaIxLIBvgIbKOSu3Fjh3oKgHCkcITr5g5SqpSjZPF44EJC6VYnoEirC68rHpnkGAM0Xq8sppDb+x+XuCCAgsn/xsKeNjr0miJSqYXp4NCokzyG5v4AcnbDsHjHdunp5lSo07wyvMuRCOnXSMXBY8AKnKjhFZr/oTgqNFLn0YDCu7NlYMC8l9jI74ly41EsHco6nI5/xgNfJccMSDNYRuyZfusKaeUgPX148tpbM8y04L5FNDdGNf8khcJg5G4J5e/P0tSmHg+5yK8koEvA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=lUcQs91s; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=n2mAp/2k;
+	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=lUcQs91s;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::32d; helo=mail-ot1-x32d.google.com; envelope-from=pkleequanta@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4frJcY4sZ9z2yC9
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Apr 2026 20:06:21 +1000 (AEST)
-Received: by mail-ot1-x32d.google.com with SMTP id 46e09a7af769-7dbce74e537so3316990a34.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Apr 2026 03:06:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775642778; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XJqhbeUgZIux5fFeBdJdlfium92+6V8bVePYvKDat9DtRfkBjHw8bubAUtGqVAKdi2
-         7Oe1BtpaCAH+OLGWA0M/Bw1fOU0GGC4ZuYS6T71DNKXAwUFKc/gnuisaYYS+riUenE46
-         bn7NezQZm5etguooo2MK5S+bUWhm+y5TorNHNpslSWbK8E347zEsNqHcJ3ZHA3oeuzkl
-         Qw5jpR2h3eOfrVApkARn1Lmyg0ExW7EZBUF7bygAiZ0mBtNz0kL+FycFh73DKr7CpSlP
-         y0/+4VXQkQA7FgkToaATwCOUosfoo9li8qj3GWR2GTkN77m+SUDmpu8y5WgJNtyp15sf
-         +S0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vcyUmIQWBRIN2bVxClZ8Li2ITCNwZ/GpA68S4b0OhXA=;
-        fh=ozeMQFr31W/YjnGsFnqPPCcZrou0rKkBQ3YSAjgyOWo=;
-        b=HcCPMLsVYPvYWvTaS3JBQ3RkNQSksq0Qgt4DiS5MC7xKqHQ4BCFUYDrVW6jRpvbfeF
-         reZpjMfM/eu+rYCDlVsNECTokz0uLqCljoxqEzI61xQjPnwgHrQ1tj8JashczRlGvC+i
-         /gu6+WJJisrZs4uk7HPQ5NIXlBZYpRqcz7zq+WMV851gF9NSNvo4eUyTnkHCmpGJbWXO
-         3PVHkmTDpCgXO7FgW2twLQr6FOm5iTcwWtnyj5Ood9ERUwA6Yoekb/RnzoBYqntSZJJc
-         oKx62SmAg/BvGFfIyKE/Tm9zMTqYWx5BfUV3UtdHGXB1ggZG2HHMZtnleXwBaH9nJEgI
-         QRkg==;
-        darn=lists.ozlabs.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775642778; x=1776247578; darn=lists.ozlabs.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vcyUmIQWBRIN2bVxClZ8Li2ITCNwZ/GpA68S4b0OhXA=;
-        b=n2mAp/2k2tBWTMwIO18nYHpqS3VTQ1YOT2qcw5u2z+puNRGxkgvpqXTwxtZ//hkbQM
-         TQl9StxvgjFe+5+sSkBsWMUwJ0B8Sh+XcYh1TAwMg0mnrHgVBVIJQpuqVgQ4yJa5A7y/
-         8Y5WkMt5SyQLPIc72JwUJN6obUuXQwMA1Kdgni+dhwfljAW3DE6ZqRSEGavwChGWZpmP
-         QzZajDJRI2Y2sXd9ma3qPixXakFsvubrZXelP9k4NpRPzXuXqXgxF8Aingiv+iWWzUNb
-         cOrYF+bVnOrwiD3NMfFHuoS7CAraK31bwJqvhLmQ41Aq0KHM7Sc3/QIirkCBe5Nq3GNf
-         ltIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775642778; x=1776247578;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vcyUmIQWBRIN2bVxClZ8Li2ITCNwZ/GpA68S4b0OhXA=;
-        b=HrI2UwLQy+VnoZJTM1w1lrq0mJdQm6QU8aNZELKbRi1u3IO4MXn+7ggaJF3yBp9Zf2
-         w87kTWw5nweJ4kWZNAOZHsFo+s7eMmzYttNv4Yr9tVeZQWCzA3wmeX1+JvorV4O74YkT
-         kDZYXNjAuvz3wo1sNNs3XsWyr4Mv0XN4GcXnYXL4bY/sTvezFehv6fDiU4mEi/g43GIs
-         xMlkNaGd5flUenyMKXPtmCkB31xvrNGEuzNe6ILrwlfEI1bb1o7eUVG1GpbMA9rdDPIO
-         SOxhmbrhOoVEgysntQWREMrjYRsV5GRabSekx3c3ECAow+dutnqGoVp0P5EnfeqfdTaF
-         p8rg==
-X-Forwarded-Encrypted: i=1; AJvYcCWk2zZXaC8KygXYPWrckdz3cxCdWq+HRNZd3DjbcNgsHEvG/uNUhcL49DBpxkf3Z+cip5eXHCg+irNkto8=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YwtdsqcH/iKINFvq7u9spXmu8mdDADMWCy58Dr6vVOgwlWzp09M
-	pfvI+eU/5mCJ+Z38cIVg6WUHrsGMfa9TSDhbt7jngqvySDS26bzHEjnmQs2dgXG5k8inceyKePN
-	O3r7J24YRMeCACGQjVL5c+pRT8VELEAw=
-X-Gm-Gg: AeBDiesWr18cOOR/X7lcjNn751iQUhbstMZyVKNtvujB6iLdkVthSxzc1FbMt3Zm6MA
-	oxsz2iHamxoy0/b5+Lr6kmEXNsf/v+5qTnoy5lSEEqA53c3t/0CZTXzMIfw6oKYnh+l6/BSxoE7
-	8OwZ0f2zeq/Hvg295SfLveD4dbwnDvHzLLAGH+UNNzbrKaHXKCBYGh1b5h7rdU8ul0Van+P+yDK
-	bMJ2qdnEDpqVXWxvyvzQ4XBTp4MU7IzZENYFAJzO2uXWhr2Xj+/gB/BQOsy/9fbtjXGp8N52fjN
-	PNzyE36fSosZFHDEjUA=
-X-Received: by 2002:a05:6820:4c81:b0:689:dfc8:5e39 with SMTP id
- 006d021491bc7-689dfd7aa8emr204810eaf.43.1775642778479; Wed, 08 Apr 2026
- 03:06:18 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4frMvz5HkLz2yC9
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Apr 2026 22:34:55 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=UZm0OMiCYQ+7g0KMOOJaEeMtCB1NoXIae3H5HwDH82U=; b=lUcQs91sIVusfR1u89Stz05ODI
+	AMhxret+/edGus9rBRyTcLUGXHf1+j7vips6AbSB6HSPe9HBw1p0HiJ6vLRsEXaM20P3nzGqQFLn7
+	Efio5MaldMKsoTnJqx0IzS6klKtDGHTB874frDoDMPk7FfEAj85BYwcWdzltEDxPDzEM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wAS7A-00FHkV-QP; Wed, 08 Apr 2026 14:34:36 +0200
+Date: Wed, 8 Apr 2026 14:34:36 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: "P.K. Lee" <pkleequanta@gmail.com>
+Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	Jason-Hsu@quantatw.com, p.k.lee@quantatw.com
+Subject: Re: [PATCH v12 2/2] arm: dts: aspeed: ventura: add Meta Ventura BMC
+Message-ID: <e7a1588d-b4d4-4aa7-ba94-da3e2591d49c@lunn.ch>
+References: <20260226055521.1655243-1-pkleequanta@gmail.com>
+ <20260226055521.1655243-3-pkleequanta@gmail.com>
+ <258747f4-9da5-44da-8eb9-24f8a8cbff3a@lunn.ch>
+ <CAK8yEODCyYxkggU+7=xzWFcXP6RMTpNbHyYRHZhahX7=b6reqA@mail.gmail.com>
+ <435616b8-8d4c-4814-8f21-d667755473f1@lunn.ch>
+ <CAK8yEOAYC0iApNHBApt+xu1Fz=+N1wX0XrLGOPzmeRq=OjWnhg@mail.gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -104,112 +73,74 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260226055521.1655243-1-pkleequanta@gmail.com>
- <20260226055521.1655243-3-pkleequanta@gmail.com> <258747f4-9da5-44da-8eb9-24f8a8cbff3a@lunn.ch>
- <CAK8yEODCyYxkggU+7=xzWFcXP6RMTpNbHyYRHZhahX7=b6reqA@mail.gmail.com> <435616b8-8d4c-4814-8f21-d667755473f1@lunn.ch>
-In-Reply-To: <435616b8-8d4c-4814-8f21-d667755473f1@lunn.ch>
-From: "P.K. Lee" <pkleequanta@gmail.com>
-Date: Wed, 8 Apr 2026 18:06:07 +0800
-X-Gm-Features: AQROBzCq50vj9APjUGuuVNzjUTGEAXBg2-1gD7Ml450ww7_QTh7MwqGYJLjBzS8
-Message-ID: <CAK8yEOAYC0iApNHBApt+xu1Fz=+N1wX0XrLGOPzmeRq=OjWnhg@mail.gmail.com>
-Subject: Re: [PATCH v12 2/2] arm: dts: aspeed: ventura: add Meta Ventura BMC
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	joel@jms.id.au, andrew@codeconstruct.com.au, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, Jason-Hsu@quantatw.com, p.k.lee@quantatw.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8yEOAYC0iApNHBApt+xu1Fz=+N1wX0XrLGOPzmeRq=OjWnhg@mail.gmail.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[lunn.ch,none];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_DKIM_ALLOW(-0.20)[lunn.ch:s=20171124];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3876-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3869-lists,linux-aspeed=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FORGED_SENDER(0.00)[pkleequanta@gmail.com,linux-aspeed@lists.ozlabs.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_RECIPIENTS(0.00)[m:andrew@lunn.ch,m:robh+dt@kernel.org,m:krzysztof.kozlowski+dt@linaro.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:Jason-Hsu@quantatw.com,m:p.k.lee@quantatw.com,m:robh@kernel.org,m:krzysztof.kozlowski@linaro.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:pkleequanta@gmail.com,m:robh+dt@kernel.org,m:krzysztof.kozlowski+dt@linaro.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:Jason-Hsu@quantatw.com,m:p.k.lee@quantatw.com,m:robh@kernel.org,m:krzysztof.kozlowski@linaro.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	NEURAL_HAM(-0.00)[-0.992];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pkleequanta@gmail.com,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[lunn.ch:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 68D063C494F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lunn.ch:dkim,lunn.ch:mid]
+X-Rspamd-Queue-Id: D09D23BC2BC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-> > > > +&mac3 {
-> > > > +     status = "okay";
-> > > > +     phy-mode = "rmii";
-> > > > +     pinctrl-names = "default";
-> > > > +     pinctrl-0 = <&pinctrl_rmii4_default>;
-> > > > +     fixed-link {
-> > > > +             speed = <100>;
-> > > > +             full-duplex;
-> > > > +     };
+> > > > If there are no devices on the bus, why enable it?
 > > >
-> > > What is on the other end of this fixed link?
+> > > We intentionally enable it so user-space tools can access the switch
+> > > registers. I have added a comment in v13 to clarify this.
 > >
-> > The other end of this fixed link is the CPU port of a Marvell 88E6393X
-> > switch. We are using this switch in unmanaged mode rather than using
-> > the DSA subsystem. Therefore, we use a fixed-link to force the mac3 to
-> > 100Mbps full-duplex RMII to match the CPU port configuration.
->
-> You are mixing up terms. The 88E6393X does not have a dedicated port
-> for connecting to the host CPU. Any port can be connected to the host,
-> using DSA tags. And all the ports are 1G or faster, so it seems odd to
-> limit it to 100Mbps. There is something consider a CPU port, but that
-> connects the internal Z80 CPU to the switch fabric.
->
-
-I apologize for the confusing terminology. I meant the port 0 of the
-88E6393X is connected to the AST2600 mac3. Regarding the 100Mbps RMII
-limitation, this is a strict hardware design constraint on our
-specific board.
-
-> > > > +};
-> > > > +
-> > > > +&mdio0 {
-> > > > +     status = "okay";
-> > > > +};
-> > >
-> > > If there are no devices on the bus, why enable it?
+> > Why would user space want to access the switch registers for an
+> > unmanaged switch? It sounds like you are using Marvells SDK in
+> > userspace to manage the switch, rather than using DSA.
 > >
-> > We intentionally enable it so user-space tools can access the switch
-> > registers. I have added a comment in v13 to clarify this.
->
-> Why would user space want to access the switch registers for an
-> unmanaged switch? It sounds like you are using Marvells SDK in
-> userspace to manage the switch, rather than using DSA.
->
+> 
+> We do have a custom user-space daemon that configures the switch
+> registers for our specific use case. Should I remove the &mdio0 node
+> if it is only enabled and has no other configuration in the upstream
+> device tree?
 
-We do have a custom user-space daemon that configures the switch
-registers for our specific use case. Should I remove the &mdio0 node
-if it is only enabled and has no other configuration in the upstream
-device tree?
+Please just be truthful that you have a user space driver, so need the
+bus enabled.
 
-P.K. Lee
+I also guess you have some other kernel code that allows you to
+actually use the bus from user space? The typical ethernet IOCTL
+handler does not work for you, since you don't have an ethernet device
+using this bus. Such code is unlikely to be accepted into mainline. We
+don't like user space drivers when there is a perfectly good kernel
+driver for this switch.
+
+	Andrew
 
