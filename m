@@ -1,64 +1,64 @@
-Return-Path: <linux-aspeed+bounces-3872-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3873-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 56EVCcTc1mlhJQgAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3872-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	id x5BFEMTc1mljJQgAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3873-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
 	for <lists+linux-aspeed@lfdr.de>; Thu, 09 Apr 2026 00:55:00 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 345003C4934
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id F32BA3C4932
 	for <lists+linux-aspeed@lfdr.de>; Thu, 09 Apr 2026 00:54:57 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4frdgL2gVSz2xc8;
+	by lists.ozlabs.org (Postfix) with ESMTP id 4frdgL3DJmz2xjQ;
 	Thu, 09 Apr 2026 08:54:54 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=192.198.163.10
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775677325;
-	cv=none; b=g/XUR2W8MPPFcxFNFoOcTywnF6YeLkdVFAMxDIdb7/qAuiMxqqEHpKDTXdZzVF6uigcG6Zel+BBTC5RFwjlirk6vzmQV1FYfVOez0Ilw+5b3odQaeXFgJ6o5dKF9awxY0VgjoKjRpN3687ENjqMt0upeC8eWMvduWG+UlaB7wgVyl8+9EmCmpn3qoqD6SwTc46lJMybV8pWr80lIah0CIiv5c38knv3fDS3UAnztAV1sZDNjmjgh0oqBHVpPPu0ZU+dVAM/N2mOmr1Cd7uKf60DtpxjNbJ7fFiCwFfJptXRCpBjlVLUx2MOKMP0QffaS8DWgt6VTuiQ2yt9xIpe8Bg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775677332;
+	cv=none; b=gx6OYHhVk3XqnVDJKg9gN5UaNCikk8kV0GwXIq9yMUDTKFjmddV9fSaa4GTiHCUuusRjC21fIgGVft84Wy07skRgwlLh3S/flSlITsGQKxZvRjsuMimSV1RvR+fzCkYL/S21h1aODJjWLgT/a3yDjpk3KW+Lu1w6+Z222MvbX9Z8wa5LnS8prir1NX7gkOBaiAsyV+BaTZiQwPZcuKxjm4ZeHt+1Y3L/KR17JWTapLRlz8LTYWX0bA0q6Aiy8uk1Cgx0qVKdpIcPLTkUyzsY7u67GRK16hr8veusHKariIr3LbB8AsLCZ3Nb/f4GKxboVCUwU21euX7/C4H4eXMu1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1775677325; c=relaxed/relaxed;
-	bh=JHj7gjj1D1yA/EFj38EA0iN8+3lz3HIFKmJ7PEWQ+Co=;
+	t=1775677332; c=relaxed/relaxed;
+	bh=eOJEsvDTW4Ey/lUSDp0kL7esO3ZCACa219SbXwsk7Js=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oDQAKyVwttGFMQmIEMYmMvRbL8E+6Xe64qd9s4KIJ1rLwlmKKuzbZtfsdfQzUmz1mRNXBXrKSKw9J0YSVUAUL47TtrXkqvhUSWo3Dgx+6N/m+n5uivKQIdCYz5vsRrjVlPDrRH9OPBA2dSPvO4Dw/e84kajuwnfwDogEbro2bbtD2Zlf61A6w24FtymD0F5h3Bcos29TcjWQJAOikL0oF/SzDnBsUy4e/RVemjK5IF/VLYFcKMKMHxOWyTMDMHYChaMjgBtoJRrG5pNmszCnBzJyRKaGLgmU+jlASbrHPvIic52lHZ2p4pP7w2deyJ4Mkkg04jaetrwFzn0SYJAcUQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Pt+AS4ks; dkim-atps=neutral; spf=pass (client-ip=192.198.163.10; helo=mgamail.intel.com; envelope-from=dawid.glazik@linux.intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.intel.com
+	 MIME-Version; b=Q//H7GWD3fvPsnyHdp3B0fzHvA21/g+Y1NNMPnQe8dIbrudTFF2yHSA7/BJMD9mOrk0Qds2E1yJ089LWcPwsEO7vji7sNBQhHY7zQHFCLZamoTD7Eopd2mbxYdS6K+bpjNXDo7AYQQ+CUTeHy6il9inm0BZrtU/wgFX03TK3xPt/mnJO+n5qxLbwoRvQrayN4a0dWACfQWSMMheHeglq/1NWmL7KtulOKsmn/1vuwYPRGo5Z4POaNci0MTaYcIURwrEZqoZYtpBpmXEjW+a8hyexl1U3DE7a7OFZVnbt8HRFZ3kSq2DdmUXuE1ilCLqws3QoAJTtijnNexWwnMPJvw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AIHNVI3N; dkim-atps=neutral; spf=pass (client-ip=192.198.163.10; helo=mgamail.intel.com; envelope-from=dawid.glazik@linux.intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.intel.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Pt+AS4ks;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AIHNVI3N;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.intel.com (client-ip=192.198.163.10; helo=mgamail.intel.com; envelope-from=dawid.glazik@linux.intel.com; receiver=lists.ozlabs.org)
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4frYNr31C6z2yC9
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 09 Apr 2026 05:42:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4frYNz1wTyz2yC9
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 09 Apr 2026 05:42:10 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775677325; x=1807213325;
+  t=1775677332; x=1807213332;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=k7GFqr8iVjM9fGnPESeuAJUAMk8q27E6YsZrl96Pn0w=;
-  b=Pt+AS4ksgHZlI7rfJ1qrtjSnUpzcv3r5awS43YVqOy2RJfW5Rjj6ua1Q
-   7eFBkpo05iGsV+14C0eEiuuQ9/zEo3b8XZ8zRGXKCgj+7Vq17zpxiCYB7
-   F/md2QsPY2AHcuixdLdRbMBl6lHeYB/08LjPH67OZPnfq8bjnky6bX+Qa
-   XVPBsaV2rWwNLWdpngW3hO0QYMpeyd04lffJMPY3BK1JEe0Y40ssxJX9P
-   Jlo5ypSv1PaZWkUN7C0J7YxFbkrCl7OFfBMitCr65OUxhSBX1nHmoPe88
-   u5xFiqOMHXwvg56moSeEFAhGD8Hq1mvIsYnPPlGhmW/W79cKJyN9+ik8A
-   A==;
-X-CSE-ConnectionGUID: dLFZLA8tQua9wG0Kc4FpSw==
-X-CSE-MsgGUID: LyR5+jzySA2TBtuKyoop0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="88056914"
+  bh=JswzvqIUM/Y0snFlKb+yBLx2iydNCgWMkhaiYqyvcrU=;
+  b=AIHNVI3NJjgawVk5GFVY/JBn5YVxEk11tVWcPumobZQSbCsK4wHkTJU9
+   8WjDnRMVREELr8VIcjq4+aqE6vDtZwLuxLCUX+Lg4rL6XprCKjNQoEWu+
+   OAkfXUl92MXtEJPuPgWetIPE6BwrmbiY3MeVodfywSjBJOPAWYuKq5uzr
+   dy4NLt8p9+COq6T6feLvcMXq9s/azptEntpFmD0SZ5qKDjAdtXgrcgE/J
+   L1LE2Ju6OMNOM3vAq5xXEeDenGkZArGjM50ujQfv0ZKYmVdLRf0oD6G7h
+   2IiHzrfqeiKBGgfaOWT2W5eddlmLBDPY4Quj5I+IzhI4zJbk++ZP5zR0M
+   g==;
+X-CSE-ConnectionGUID: PuaVttiMS1OiQG/OKAYTiQ==
+X-CSE-MsgGUID: FWA17Gb4Rii3HsS+Q8JjGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="88056924"
 X-IronPort-AV: E=Sophos;i="6.23,168,1770624000"; 
-   d="scan'208";a="88056914"
+   d="scan'208";a="88056924"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 12:42:04 -0700
-X-CSE-ConnectionGUID: ZxCq1cQ/T3Kj4nHh+MIksg==
-X-CSE-MsgGUID: Zc7l3OXLRPOe5SNMKJ1z6A==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 12:42:11 -0700
+X-CSE-ConnectionGUID: fU2drvZHTDqcQFHupFc6zg==
+X-CSE-MsgGUID: ecX8swQCSCSeREGdg7ZbOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,168,1770624000"; 
-   d="scan'208";a="222053368"
+   d="scan'208";a="222053381"
 Received: from gklab-103a-129.igk.intel.com ([10.91.103.129])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 12:42:00 -0700
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 12:42:07 -0700
 From: Dawid Glazik <dawid.glazik@linux.intel.com>
 To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	Rob Herring <robh@kernel.org>,
@@ -72,11 +72,10 @@ Cc: linux-i3c@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	Frank Li <Frank.Li@nxp.com>,
 	Dawid Glazik <dawid.glazik@linux.intel.com>,
-	Maciej Lawniczak <maciej.lawniczak@intel.com>,
-	Jeremy Kerr <jk@codeconstruct.com.au>
-Subject: [PATCH v3 2/3] ARM: dts: aspeed-g6: Add nodes for i3c controllers
-Date: Wed,  8 Apr 2026 22:34:34 +0200
-Message-ID: <51c4bdc02b45f67a0e32610a228091e137c135a6.1775679285.git.dawid.glazik@linux.intel.com>
+	Maciej Lawniczak <maciej.lawniczak@intel.com>
+Subject: [PATCH v3 3/3] dt-bindings: i3c: Add AST2600 I3C global registers
+Date: Wed,  8 Apr 2026 22:34:35 +0200
+Message-ID: <7f55458097ef651b4fc46650254afd3fa7b87348.1775679285.git.dawid.glazik@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1775679285.git.dawid.glazik@linux.intel.com>
 References: <cover.1775679285.git.dawid.glazik@linux.intel.com>
@@ -107,19 +106,19 @@ X-Spamd-Result: default: False [0.79 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[generic];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	FORGED_SENDER(0.00)[dawid.glazik@linux.intel.com,linux-aspeed@lists.ozlabs.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_RECIPIENTS(0.00)[m:alexandre.belloni@bootlin.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:linux-aspeed@lists.ozlabs.org,m:linux-i3c@lists.infradead.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:Frank.Li@nxp.com,m:dawid.glazik@linux.intel.com,m:maciej.lawniczak@intel.com,m:jk@codeconstruct.com.au,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_RECIPIENTS(0.00)[m:alexandre.belloni@bootlin.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:linux-aspeed@lists.ozlabs.org,m:linux-i3c@lists.infradead.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:Frank.Li@nxp.com,m:dawid.glazik@linux.intel.com,m:maciej.lawniczak@intel.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	HAS_ORG_HEADER(0.00)[];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	TAGGED_FROM(0.00)[bounces-3872-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3873-lists,linux-aspeed=lfdr.de];
 	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -128,146 +127,90 @@ X-Spamd-Result: default: False [0.79 / 15.00];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	NEURAL_HAM(-0.00)[-0.946];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	NEURAL_HAM(-0.00)[-0.939];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_SENDER_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 345003C4934
+X-Rspamd-Queue-Id: F32BA3C4932
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add the i3c controller devices to the ast2600 g6 common dts. We add all
-6 busses to the common g6 definition, but leave disabled through the
-status property, to be enabled per-platform.
+Introduce the device-tree bindings for I3C global registers found on
+AST2600 SoCs.
 
-Originally-by: Jeremy Kerr <jk@codeconstruct.com.au>
 Signed-off-by: Dawid Glazik <dawid.glazik@linux.intel.com>
 ---
-v3:
- - add i3c aliases
- - rebase on top of latest tree and solve conflicts
- - as agreed with Jeremy off-list, he said I can take authorship of this going forward
-v2:
- - use inline bus representation, without the i3c: label
+I wasn't sure if I should add newline at the end of the
+file or not so I took
+https://github.com/torvalds/linux/tree/master/Documentation/devicetree/bindings/i3c
+as an example.
 ---
- arch/arm/boot/dts/aspeed/aspeed-g6.dtsi | 97 +++++++++++++++++++++++++
- 1 file changed, 97 insertions(+)
+ .../i3c/aspeed,ast2600-i3c-global.yaml        | 55 +++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/i3c/aspeed,ast2600-i3c-global.yaml
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-index f5641128614f..f986fcbed604 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-@@ -29,6 +29,12 @@ aliases {
- 		i2c13 = &i2c13;
- 		i2c14 = &i2c14;
- 		i2c15 = &i2c15;
-+		i3c0 = &i3c0;
-+		i3c1 = &i3c1;
-+		i3c2 = &i3c2;
-+		i3c3 = &i3c3;
-+		i3c4 = &i3c4;
-+		i3c5 = &i3c5;
- 		serial0 = &uart1;
- 		serial1 = &uart2;
- 		serial2 = &uart3;
-@@ -1066,6 +1072,97 @@ i2c15: i2c@800 {
- 				};
- 			};
- 
-+			bus@1e7a0000 {
-+				compatible = "simple-bus";
-+				#address-cells = <1>;
-+				#size-cells = <1>;
-+				ranges = <0 0x1e7a0000 0x8000>;
+diff --git a/Documentation/devicetree/bindings/i3c/aspeed,ast2600-i3c-global.yaml b/Documentation/devicetree/bindings/i3c/aspeed,ast2600-i3c-global.yaml
+new file mode 100644
+index 000000000000..edecc18796a9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/i3c/aspeed,ast2600-i3c-global.yaml
+@@ -0,0 +1,55 @@
++# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/i3c/aspeed,ast2600-i3c-global.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+				i3c_global: i3c-global@0 {
-+					compatible = "aspeed,ast2600-i3c-global", "syscon";
-+					reg = <0x0 0x1000>;
-+					resets = <&syscon ASPEED_RESET_I3C_DMA>;
-+				};
++title: ASPEED AST2600 I3C Global Registers
 +
-+				i3c0: i3c@2000 {
-+					compatible = "aspeed,ast2600-i3c";
-+					reg = <0x2000 0x1000>;
-+					#address-cells = <3>;
-+					#size-cells = <0>;
-+					clocks = <&syscon ASPEED_CLK_GATE_I3C0CLK>;
-+					pinctrl-names = "default";
-+					pinctrl-0 = <&pinctrl_i3c1_default>;
-+					interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
-+					aspeed,global-regs = <&i3c_global 0>;
-+					status = "disabled";
-+				};
++description: |
++  The AST2600 SoC provides a shared I3C global register block used by all
++  I3C controller instances. This block contains per-instance global
++  configuration fields, including controller instance ID and SDA pull-up
++  configuration.
++  Each I3C controller references this syscon node through the
++  aspeed,global-regs property.
 +
-+				i3c1: i3c@3000 {
-+					compatible = "aspeed,ast2600-i3c";
-+					reg = <0x3000 0x1000>;
-+					#address-cells = <3>;
-+					#size-cells = <0>;
-+					clocks = <&syscon ASPEED_CLK_GATE_I3C1CLK>;
-+					pinctrl-names = "default";
-+					pinctrl-0 = <&pinctrl_i3c2_default>;
-+					interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-+					aspeed,global-regs = <&i3c_global 1>;
-+					status = "disabled";
-+				};
++maintainers:
++  - Dawid Glazik <dawid.glazik@linux.intel.com>
 +
-+				i3c2: i3c@4000 {
-+					compatible = "aspeed,ast2600-i3c";
-+					reg = <0x4000 0x1000>;
-+					#address-cells = <3>;
-+					#size-cells = <0>;
-+					clocks = <&syscon ASPEED_CLK_GATE_I3C2CLK>;
-+					pinctrl-names = "default";
-+					pinctrl-0 = <&pinctrl_i3c3_default>;
-+					interrupts = <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>;
-+					aspeed,global-regs = <&i3c_global 2>;
-+					status = "disabled";
-+				};
++allOf:
++  - $ref: /schemas/mfd/syscon-common.yaml#
 +
-+				i3c3: i3c@5000 {
-+					compatible = "aspeed,ast2600-i3c";
-+					reg = <0x5000 0x1000>;
-+					#address-cells = <3>;
-+					#size-cells = <0>;
-+					clocks = <&syscon ASPEED_CLK_GATE_I3C3CLK>;
-+					pinctrl-names = "default";
-+					pinctrl-0 = <&pinctrl_i3c4_default>;
-+					interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
-+					aspeed,global-regs = <&i3c_global 3>;
-+					status = "disabled";
-+				};
++properties:
++  compatible:
++    items:
++      - const: aspeed,ast2600-i3c-global
++      - const: syscon
 +
-+				i3c4: i3c@6000 {
-+					compatible = "aspeed,ast2600-i3c";
-+					reg = <0x6000 0x1000>;
-+					#address-cells = <3>;
-+					#size-cells = <0>;
-+					clocks = <&syscon ASPEED_CLK_GATE_I3C4CLK>;
-+					pinctrl-names = "default";
-+					pinctrl-0 = <&pinctrl_i3c5_default>;
-+					interrupts = <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>;
-+					aspeed,global-regs = <&i3c_global 4>;
-+					status = "disabled";
-+				};
++  reg:
++    maxItems: 1
 +
-+				i3c5: i3c@7000 {
-+					compatible = "aspeed,ast2600-i3c";
-+					reg = <0x7000 0x1000>;
-+					#address-cells = <3>;
-+					#size-cells = <0>;
-+					clocks = <&syscon ASPEED_CLK_GATE_I3C5CLK>;
-+					pinctrl-names = "default";
-+					pinctrl-0 = <&pinctrl_i3c6_default>;
-+					interrupts = <GIC_SPI 107 IRQ_TYPE_LEVEL_HIGH>;
-+					aspeed,global-regs = <&i3c_global 5>;
-+					status = "disabled";
-+				};
-+			};
++  resets:
++    maxItems: 1
 +
- 			fsim0: fsi@1e79b000 {
- 				#interrupt-cells = <1>;
- 				compatible = "aspeed,ast2600-fsi-master";
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    bus@1e7a0000 {
++        compatible = "simple-bus";
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges = <0 0x1e7a0000 0x8000>;
++
++        i3c-global@0 {
++            compatible = "aspeed,ast2600-i3c-global", "syscon";
++            reg = <0x0 0x1000>;
++            resets = <&syscon ASPEED_RESET_I3C_DMA>;
++        };
++    };
++...
+\ No newline at end of file
 -- 
 2.43.0
 
