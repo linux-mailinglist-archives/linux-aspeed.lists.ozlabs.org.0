@@ -1,65 +1,78 @@
-Return-Path: <linux-aspeed+bounces-3869-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3870-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QCtiGXdL1ml8DQgAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3869-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 08 Apr 2026 14:35:03 +0200
+	id oJS9A6pY1mlJEAgAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3870-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 08 Apr 2026 15:31:22 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D09D23BC2BC
-	for <lists+linux-aspeed@lfdr.de>; Wed, 08 Apr 2026 14:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D79B3BCF34
+	for <lists+linux-aspeed@lfdr.de>; Wed, 08 Apr 2026 15:31:20 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4frMw16tzLz2yDk;
-	Wed, 08 Apr 2026 22:34:57 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4frP925jntz2yVP;
+	Wed, 08 Apr 2026 23:31:18 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775651697;
-	cv=none; b=lgiQ6O9stLClspovSajL5NPcKYCrehCzSyadvOFCyX52c6s7VoeB7YC2GgsTPEB5xeeQfEuOgfIM/nDGD4QZt344s3OuNbI9Uu9fEHyt6szzyKVG5yUESqzVyVeYxEiTJq/5zMD/g5rObwiPAXV1I6Lpy7y9OLy6gb3ecsN4lTsRre2QPpmwwxvfvFMQ9rVZO6yxN37qCyRNOphMsHcw8eRvhhy9Nbn2SMA/OdMPEM6ookvUP3m6n+uSV016udh4ljzTFu9fBamkzawbL6DeiI528YSz9VF1HN0H0nzVUS8MACNg84+teEw1I+GzGSXAFGw1ad7lpHc1V3gAqGgyJg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1775655078;
+	cv=none; b=JkK0w20IQqsKU0czDBWTJEwzWsG6Tcww8UA2iUNp2DmAouIYel4VU0O3Yvx6t3PtKpV818M9wBoaoLlwDHRnjpQY1SvXjx6YRQkFAT1xHnxSL0CW/7VRkkItKNnb7vTuHgyTheRtiJia7x2Md3Tlgf70hxJj4vfzTT7rIkY/mTaN3ZUjmtlKJuBMNJRbDynEGDEbR7mr4i4teBuA/FSTTuh8WcaYV1w7PbGQRnaUc6P5i90m5JwAlzRPSO/U+IhP5EsOU7ZiYy2+6iQQs3e3pBMsSDtsThIpVLbekL+22Sh+pP/Ph0qfsLUo8FGeoWAflw1CRj4JStfNoN1TANoRxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1775651697; c=relaxed/relaxed;
-	bh=UZm0OMiCYQ+7g0KMOOJaEeMtCB1NoXIae3H5HwDH82U=;
+	t=1775655078; c=relaxed/relaxed;
+	bh=H6LbHcTTP9FZbItc1diImmtUZwjMhLQ4smYNl2k6uQo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yz2Bq0XB37rIuRMz1kzoWD8RWWfx5ByNgRVxCLXeQGq5oaWFZe+UKEt9tiLcEaQ9KH6UnaIxLIBvgIbKOSu3Fjh3oKgHCkcITr5g5SqpSjZPF44EJC6VYnoEirC68rHpnkGAM0Xq8sppDb+x+XuCCAgsn/xsKeNjr0miJSqYXp4NCokzyG5v4AcnbDsHjHdunp5lSo07wyvMuRCOnXSMXBY8AKnKjhFZr/oTgqNFLn0YDCu7NlYMC8l9jI74ly41EsHco6nI5/xgNfJccMSDNYRuyZfusKaeUgPX148tpbM8y04L5FNDdGNf8khcJg5G4J5e/P0tSmHg+5yK8koEvA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=lUcQs91s; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=mSvnEkXzMWOkLzzLDs4QoCr2sPS2aXmGkOfju8uXgiI06ILPbXDGEaurjCuw0+l9Raa2rfpoN5hOr9H5dD8omgAMOwgFlyZH2bRMhJd1+7UzyZxuT9SrMnqckhV/4BBWKu6zXBn7XoCsXtVv9m2BmaGaMKr1dhDPP+Rj+o/4fUBDC6c3JMBNTu3oqfKyhgmseNmohTv7UWevEcHWhEMJgDFeUpDe/ugQmYOkyByUMuTX5AGYno2VUw4BdEpL1PlGIlzP6WuP7KtyHEEtgXo7xCP6UzqfBIRK3k3bsfTVrg/4pQGtT823RLDtuR7rD06x49il3QmSoYyP2OoWofaBIA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rtN7MGYB; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=lUcQs91s;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rtN7MGYB;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org)
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4frMvz5HkLz2yC9
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Apr 2026 22:34:55 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=UZm0OMiCYQ+7g0KMOOJaEeMtCB1NoXIae3H5HwDH82U=; b=lUcQs91sIVusfR1u89Stz05ODI
-	AMhxret+/edGus9rBRyTcLUGXHf1+j7vips6AbSB6HSPe9HBw1p0HiJ6vLRsEXaM20P3nzGqQFLn7
-	Efio5MaldMKsoTnJqx0IzS6klKtDGHTB874frDoDMPk7FfEAj85BYwcWdzltEDxPDzEM=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wAS7A-00FHkV-QP; Wed, 08 Apr 2026 14:34:36 +0200
-Date: Wed, 8 Apr 2026 14:34:36 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: "P.K. Lee" <pkleequanta@gmail.com>
-Cc: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, joel@jms.id.au, andrew@codeconstruct.com.au,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	Jason-Hsu@quantatw.com, p.k.lee@quantatw.com
-Subject: Re: [PATCH v12 2/2] arm: dts: aspeed: ventura: add Meta Ventura BMC
-Message-ID: <e7a1588d-b4d4-4aa7-ba94-da3e2591d49c@lunn.ch>
-References: <20260226055521.1655243-1-pkleequanta@gmail.com>
- <20260226055521.1655243-3-pkleequanta@gmail.com>
- <258747f4-9da5-44da-8eb9-24f8a8cbff3a@lunn.ch>
- <CAK8yEODCyYxkggU+7=xzWFcXP6RMTpNbHyYRHZhahX7=b6reqA@mail.gmail.com>
- <435616b8-8d4c-4814-8f21-d667755473f1@lunn.ch>
- <CAK8yEOAYC0iApNHBApt+xu1Fz=+N1wX0XrLGOPzmeRq=OjWnhg@mail.gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4frP920GDYz2xc8;
+	Wed, 08 Apr 2026 23:31:18 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sea.source.kernel.org (Postfix) with ESMTP id 7E3194452C;
+	Wed,  8 Apr 2026 13:31:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F7A3C2BC9E;
+	Wed,  8 Apr 2026 13:31:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775655076;
+	bh=sqUO8WthhJzcAvxM38OAUGehd9oMK+15WBmzaWNn1p0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rtN7MGYBrPtoBdayEGA8Bnd5JDJvLqhc+pJsd5pw0aUN5CcVQ2NLuFngCfmnH5qv0
+	 iefrYkl1O+7pu18psbX3QN8D4M0iDwlJ3909aUSS3aPVNKUtF8YAB06ZiNj+G57h7X
+	 EUDkawGKS+itWyQRGJCn2GDmU1bBZhnRusnH+GDjHj0JvVBlCS7LJMSfU+zpH2Vsc+
+	 nZlsRiPeyTA9ygmbXB5NjRNzIRCxFmhRDmrZd6yAzzu87c5hIJ5tF2SooEn+uLHLD3
+	 tfvz6+2KrpaupePD8ZBHGDPh7tHbtppsgqO6U7k05O8cKHBGKlZdzds0DfddJ35sX0
+	 1M1uXixj4VREA==
+Date: Wed, 8 Apr 2026 08:31:14 -0500
+From: Rob Herring <robh@kernel.org>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Ryan Chen <ryan_chen@aspeedtech.com>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v5 2/3] dt-bindings: mfd: aspeed,ast2x00-scu: Describe
+ AST2700 SCU0
+Message-ID: <20260408133114.GA1938858-robh@kernel.org>
+References: <20260331-upstream_pinctrl-v5-0-8994f59ff367@aspeedtech.com>
+ <20260331-upstream_pinctrl-v5-2-8994f59ff367@aspeedtech.com>
+ <20260401-adept-zebra-of-bloom-5bb68b@quoll>
+ <OSQPR06MB725204B2FAE543A71AEA52C38B51A@OSQPR06MB7252.apcprd06.prod.outlook.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -75,72 +88,96 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK8yEOAYC0iApNHBApt+xu1Fz=+N1wX0XrLGOPzmeRq=OjWnhg@mail.gmail.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+In-Reply-To: <OSQPR06MB725204B2FAE543A71AEA52C38B51A@OSQPR06MB7252.apcprd06.prod.outlook.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [0.29 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[lunn.ch,none];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[lunn.ch:s=20171124];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3869-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_RECIPIENTS(0.00)[m:pkleequanta@gmail.com,m:robh+dt@kernel.org,m:krzysztof.kozlowski+dt@linaro.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:Jason-Hsu@quantatw.com,m:p.k.lee@quantatw.com,m:robh@kernel.org,m:krzysztof.kozlowski@linaro.org,m:conor@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3870-lists,linux-aspeed=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[lunn.ch:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lunn.ch:dkim,lunn.ch:mid]
-X-Rspamd-Queue-Id: D09D23BC2BC
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[aspeedtech.com:email,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
+X-Rspamd-Queue-Id: 1D79B3BCF34
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-> > > > If there are no devices on the bus, why enable it?
+On Thu, Apr 02, 2026 at 06:14:06AM +0000, Billy Tsai wrote:
+> > > AST2700 consists of two interconnected SoC instances, each with its own
+> > > System Control Unit (SCU). The SCU0 provides pin control, interrupt
+> > > controllers, clocks, resets, and address-space mappings for the
+> > > Secondary and Tertiary Service Processors (SSP and TSP).
 > > >
-> > > We intentionally enable it so user-space tools can access the switch
-> > > registers. I have added a comment in v13 to clarify this.
-> >
-> > Why would user space want to access the switch registers for an
-> > unmanaged switch? It sounds like you are using Marvells SDK in
-> > userspace to manage the switch, rather than using DSA.
-> >
+> > > Describe the SSP/TSP address mappings using the standard
+> > > memory-region and memory-region-names properties.
+> > >
+> > > Disallow legacy child nodes that are not present on AST2700, including
+> > > p2a-control and smp-memram. The latter is unnecessary as software can
+> > > access the scratch registers via the SCU syscon.
+> > >
+> > > Also allow the AST2700 SoC0 pin controller to be described as a child
+> > > node of the SCU0, and add an example illustrating the SCU0 layout,
+> > > including reserved-memory, interrupt controllers, and pinctrl.
+> > >
+> > > Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> > > ---
+> > >  .../bindings/mfd/aspeed,ast2x00-scu.yaml           | 117 +++++++++++++++++++++
+> > >  1 file changed, 117 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+> > > index a87f31fce019..86d51389689c 100644
+> > > --- a/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+> > > +++ b/Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+> > > @@ -46,6 +46,9 @@ properties:
+> > >    '#reset-cells':
+> > >      const: 1
+> > >
+> > > +  memory-region: true
+> > > +  memory-region-names: true
 > 
-> We do have a custom user-space daemon that configures the switch
-> registers for our specific use case. Should I remove the &mdio0 node
-> if it is only enabled and has no other configuration in the upstream
-> device tree?
+> > Missing constraints. From where did you take such syntax (so I can fix
+> > it)?
+> 
+> The intention was to constrain these properties conditionally for
+> AST2700 SCU0 as done further down in the patch.
+> 
+> I can update the binding so that memory-region and memory-region-names
+> have baseline constraints (e.g. minItems and maxItems), and then refine them in the
+> conditional branches for AST2700SCU0, AST2700SCU1 and others
+> 
+>   memory-region:
+>     minItems: 2
+>     maxItems: 3
+>   memory-region-names:
+>     minItems: 2
+>     maxItems: 3
 
-Please just be truthful that you have a user space driver, so need the
-bus enabled.
+As of this patch, you don't need that. You can just define the regions 
+and names at the top-level. And the conditional schema only needs to 
+disallow them for the appropriate case.
 
-I also guess you have some other kernel code that allows you to
-actually use the bus from user space? The typical ethernet IOCTL
-handler does not work for you, since you don't have an ethernet device
-using this bus. Such code is unlikely to be accepted into mainline. We
-don't like user space drivers when there is a perfectly good kernel
-driver for this switch.
-
-	Andrew
+Rob
 
