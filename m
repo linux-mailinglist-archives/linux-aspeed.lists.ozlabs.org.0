@@ -1,59 +1,78 @@
-Return-Path: <linux-aspeed+bounces-3929-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3927-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ePQxL9OV5WnrlgEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3929-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Apr 2026 04:56:19 +0200
+	id s/FzD7ha4mlM5QAAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3927-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Apr 2026 18:07:20 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81AC426711
-	for <lists+linux-aspeed@lfdr.de>; Mon, 20 Apr 2026 04:56:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4F341CE82
+	for <lists+linux-aspeed@lfdr.de>; Fri, 17 Apr 2026 18:07:17 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4fzVVl1RnKz2yL8;
-	Mon, 20 Apr 2026 12:56:15 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4fy0Bj6DN5z2xc8;
+	Sat, 18 Apr 2026 02:07:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1776408114;
-	cv=none; b=LuxHxR3S3MkUA5cVOxHT+YyTrGwGX0/XBtFNEiHamcSfew+I7texQaWaiP4tN5cDJkg21JwZZwFNzVkeZaiFIjMn0fcUtSnd1SAQJmA1we4KXMHHVqQ9g5Jq4qUlxn7Z6IVEM/vggAWbSHcNDynFgqt4otyxlSnDDrAk18ep1972M2mShI4vt/xMoYzCd+k1Kb9JsefTg4kmx0obBFTUgywvuU94ogQtAr1Z/Ff8obMrLsdUOa076MhfhTdASL7YX/EDFViwCl6CPYfHE8YQ5hJU8gDkgYpjWXiEDAFbR/lTP1tDcrNNiZyxPEcNke7pEgbA5sGUF0Jll20ut4Gglg==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1776442029;
+	cv=none; b=kDx/n0mE3C6SrFNoP0vLUSDoMzV10YzVhUA5kp2rLTJddWEuGjK13ZsMPRgYWwnLiVM6MM9n8n4a8oYa9kcAYex0q8VoX8KLfSNEOf5p8N9kdJJlNyT+ddRSAFngU3Fh62jrobDbgof2nJDpNDUhoO1rUReQeljZB9EI3H0Y7zWW4EQLOzu4r6ZghnC3lIXegCPr8kwM4fWHX4FMTKyY//3U3p2dA55X7vuwDEYGM9xd2KFa5eENIdUlX80xad1wa6evtoO+ewhbcF1hUO6B/hVoeSyGLxSlKZjdogi0Z2ycDKnWmUc7s7W9QUfr0LVlKetN1VLuGRAN5ueZh+ZIHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1776408114; c=relaxed/relaxed;
-	bh=j2zHQiwS+fAyZ8BA4NB+rKHXCimGldG+ejgu1ghuEGI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=cpXfHXMZEAI1WT9GrvQPh7uYYtU6R/jO10SxfnlnFzvj0AYCh6DsuHLZPMqG+bI5UYMOxxSNWBQLBWTYoLeJ3EaSMs/KP6rjy7rBuaYDJsNmOtrAKbwyc3cBOLwgFktcjKBDEpYq+wCC1aAwUDtsTnxLjRxHzYq5ZxwSydRJZjuxTmTXaAHgpGtzyxy5gCczJ4XDuXq6/4V+xrt7UitTj/N2Zor61+PJaVdjvJnKi1BFisWErvvUeNc6H3Wgo+VDUDslVKJcaK2ZLCTv/Kzd0tsYSPicw9tRLs+L3ieqbXR3BRXdmj+Bm/PRzRjgaTZTT5dJcCe1wlbYVyFkKRbshA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NBGoPoO/; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=devnull+rex.fu.amd.com@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	t=1776442029; c=relaxed/relaxed;
+	bh=UvuIXZik6kpoAEXpZUcN/K8sqk11v8tCmvkFFZ0Cz8o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iGJoI28o6WjkynKn5+EAlx9uvwGTIT7acDtO9x5L775mvg/6OrIC/F8l0kLipHcdQB97imlnw4USE+/OGm26eMmEms0TjVy/X/oqiy0zLDxezr8ed+46SaJm8VBVGJ48VfQ5QYVgQnevy+xBk6TED+BF37mjwLIvhqPQdG0GBo5+TM/h5rhC6ATmBBMBR6G8DYnwArDLHzDJqrXIElAbtRr5MqlQegDOPUDLJy5DqFVUriSMdcUJfB64Z0hXobLzKyW5JkwfruhD0i7cZub+XylJ4CeGSzRwMAskOiNLVVocdnqqyxe9SqhgZM3RSGmxPo+vRha/MxHOOJAl60wv5w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=O+ZilaRD; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=NBGoPoO/;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=O+ZilaRD;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=devnull+rex.fu.amd.com@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org)
+Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4fxlfT5Sc6z2xNT
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 17 Apr 2026 16:41:53 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4fy0Bh5G72z2xTh;
+	Sat, 18 Apr 2026 02:07:08 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id CC4116012A;
-	Fri, 17 Apr 2026 06:41:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 74632C19425;
-	Fri, 17 Apr 2026 06:41:50 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 3E7894035F;
+	Fri, 17 Apr 2026 16:07:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C29ACC19425;
+	Fri, 17 Apr 2026 16:07:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776408110;
-	bh=5ILW9ovCD9rkcdvfce9O9NVrQf0affa8qsElbU+IUSU=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=NBGoPoO/ysm/6kB1rqLeSuI0cda6XCijr57MuJr48/DLaikWp+TxXklLuhWiur8aa
-	 ZW4UxAwNr07BWcxpa3h8hYtNuVx+znRS+lHzb031Jrv8UJ/X47I54EUj1J20R16pz4
-	 7155x4O7LNQ/Zb78Nv89nGwmyjtvP1+oedUrIDKzT4QEAs23zsZO5LbeiiJgvp+rdX
-	 OebX2KXEs182I3WZ3hCOaYbYb846LkCdyMVaIor7Cod1iUgWbBwZNP8F8y5gNuQa/Q
-	 MXM7JO4hm8ZnoxoW6TFxhv3dAHDx1gkv2PG6/kn1Xk1DVe3inXml88N9/7uAcx29RH
-	 yn8kZSaE5C7LQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69D51F8E49D;
-	Fri, 17 Apr 2026 06:41:50 +0000 (UTC)
-From: Rex Fu via B4 Relay <devnull+Rex.Fu.amd.com@kernel.org>
-Date: Fri, 17 Apr 2026 14:41:49 +0800
-Subject: [PATCH] ARM: dts: aspeed: anacapa: add interrupt properties for
- PDB PCA9555
+	s=k20201202; t=1776442025;
+	bh=NQgku0XmKRU6rgKiAn/DW7pVK31ikSdLl/YitlLG/B0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=O+ZilaRDHbIpuk+btUy0PJqf2nDXeW9zyi9F0lc1bgO07JLLXlhdnIAxV0pt3QMbJ
+	 OZFjEc0Y4ag0wOuAXrdgkKVpb+Ivj0UkYvf9rieoR7CGQXx1W4NmEtWs+AuaMI/nrH
+	 hugHPhq3slfvFe/Yk0er0AkKjCzK1BYcR9U0RlhZmJAaDri7QRdLTGRBBGRu6USD84
+	 HnJe9ERiefV9hM7c0qA11VHA8ZpivyLxv/QjHa5cMtcfm2Aico6mlC+UUyCPz/RVI5
+	 dVsYHkDOne5Z1zIpQyWFf4YLtAkzqyKyOyVcKiyGzyaaZkpHkgMGS9qB/orNZUrrGG
+	 8yLX+nhkmwKeg==
+Date: Fri, 17 Apr 2026 17:06:57 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Billy Tsai <billy_tsai@aspeedtech.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Ryan Chen <ryan_chen@aspeedtech.com>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v7 1/3] dt-bindings: pinctrl: Add
+ aspeed,ast2700-soc0-pinctrl
+Message-ID: <20260417-anemia-borrower-fb90ac02b417@spud>
+References: <20260416-upstream_pinctrl-v7-0-d72762253163@aspeedtech.com>
+ <20260416-upstream_pinctrl-v7-1-d72762253163@aspeedtech.com>
+ <20260416-brutishly-saga-ba7168a4cd14@spud>
+ <OSQPR06MB7252EB0C2A1A3313DE49406B8B202@OSQPR06MB7252.apcprd06.prod.outlook.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -67,138 +86,194 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260417-anacapa-pca9555-irq-v1-1-9a6d28b1b656@amd.com>
-X-B4-Tracking: v=1; b=H4sIACzW4WkC/yXMQQ6CMBCF4auQWTvJFKhNvYpxMZRRx0WtLRISw
- t0puvyS9/4VimSVApdmhSyzFn3HCnNqIDw5PgR1rIaW2jP1xiFHDpwYU2BvrUXNH+zI09ibunE
- E9Zmy3HX5Va+3v8t3eEmYjhRs2w40R47BdwAAAA==
-X-Change-ID: 20260417-anacapa-pca9555-irq-3090d4120270
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- Rex Fu <Rex.Fu@amd.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776408109; l=2007;
- i=Rex.Fu@amd.com; s=20260417; h=from:subject:message-id;
- bh=o8qWPDdSQIz2wmiJKXl6X/Ju2Iig3de8Ah1xPVk1Lb4=;
- b=9MQxnVgP2xpf8cl0ReSJT9bCAGSgrGLhuJrX1lJDGwcxn2Z0N5+8gjRkpTj50taQzIWiLxU4L
- Rb3uKLvuM8zCiSq+XVL/I8mP31UxsiKnatCzhTZShNcZeUVeGzJucDu
-X-Developer-Key: i=Rex.Fu@amd.com; a=ed25519;
- pk=26ECoh24fxrbXDKgA4hCmgg0xjQ+IxU97kXb46ovwgc=
-X-Endpoint-Received: by B4 Relay for Rex.Fu@amd.com/20260417 with
- auth_id=738
-X-Original-From: Rex Fu <Rex.Fu@amd.com>
-Reply-To: Rex.Fu@amd.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/e075MT9JwuwmUji"
+Content-Disposition: inline
+In-Reply-To: <OSQPR06MB7252EB0C2A1A3313DE49406B8B202@OSQPR06MB7252.apcprd06.prod.outlook.com>
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [0.29 / 15.00];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DATE_IN_PAST(1.00)[68];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-3927-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3929-lists,linux-aspeed=lfdr.de,Rex.Fu.amd.com];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:Rex.Fu@amd.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[devnull@kernel.org,linux-aspeed@lists.ozlabs.org];
-	TO_DN_SOME(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	DBL_PROHIBIT(0.00)[0.0.0.22:email];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	HAS_REPLYTO(0.00)[Rex.Fu@amd.com];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:replyto,amd.com:mid,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,0.0.0.24:email]
-X-Rspamd-Queue-Id: A81AC426711
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 5E4F341CE82
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Rex Fu <Rex.Fu@amd.com>
 
-Add interrupt-parent and interrupts properties to the PDB PCA9555
-nodes in the anacapa DTS.
+--/e075MT9JwuwmUji
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Rex Fu <Rex.Fu@amd.com>
----
-Single DTS update for the PDB PCA9555 interrupt wiring on anacapa.
----
- arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+On Fri, Apr 17, 2026 at 02:20:25AM +0000, Billy Tsai wrote:
+> > > +=A0=A0=A0 properties:
+> > > +=A0=A0=A0=A0=A0 function:
+> > > +=A0=A0=A0=A0=A0=A0=A0 enum:
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - EMMC
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - JTAGDDR
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - JTAGM0
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - JTAGPCIEA
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - JTAGPCIEB
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - JTAGPSP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - JTAGSSP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - JTAGTSP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - JTAGUSB3A
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - JTAGUSB3B
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - PCIERC0PERST
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - PCIERC1PERST
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - TSPRSTN
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - UFSCLKI
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AD0
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AD1
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AH
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AHP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AHPD0
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AXH
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AXH2B
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AXHD1
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AXHP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AXHP2B
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AXHPD1
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BD0
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BD1
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BH
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BHP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BHPD0
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BXH
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BXH2A
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BXHD1
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BXHP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BXHP2A
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BXHPD1
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3AXH
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3AXH2B
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3AXHD
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3AXHP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3AXHP2B
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3AXHPD
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3BXH
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3BXH2A
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3BXHD
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3BXHP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3BXHP2A
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3BXHPD
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - VB
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - VGADDC
+> > > +
+> > > +=A0=A0=A0=A0=A0 groups:
+> > > +=A0=A0=A0=A0=A0=A0=A0 enum:
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - EMMCCDN
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - EMMCG1
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - EMMCG4
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - EMMCG8
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - EMMCWPN
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - JTAG0
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - PCIERC0PERST
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - PCIERC1PERST
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - TSPRSTN
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - UFSCLKI
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2A
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AAP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2ABP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2ADAP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AH
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2AHAP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2B
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BAP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BBP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BDBP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BH
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB2BHBP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3A
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3AAP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3ABP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3B
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3BAP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - USB3BBP
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - VB0
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - VB1
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - VGADDC
+> > > +=A0=A0=A0=A0=A0 pins:
+> > > +=A0=A0=A0=A0=A0=A0=A0 enum:
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - AB13
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - AB14
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - AC13
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - AC14
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - AD13
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - AD14
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - AE13
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - AE14
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - AE15
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - AF13
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - AF14
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - AF15
+>=20
+> > Why do you have groups and pins?
+>=20
+> > Is it valid in your device to have groups and pins in the same node?
+>=20
+> The intent is to support both group-based mux selection and
+> configuration, as well as per-pin configuration.
+>=20
+> In our hardware:
+>=20
+> - `function` + `groups` are used for pinmux selection.
+> - `pins` is used for per-pin configuration (e.g. drive strength,
+>   bias settings).
+> - `groups` may also be used for group-level configuration.
+>=20
+> As a result, both `groups` and `pins` may appear in the same node,
+> but they serve different purposes and do not conflict:
+>=20
+> - `groups` selects the mux function and may apply configuration to
+>   the entire group.
+> - `pins` allows overriding or specifying configuration for individual
+>   pins.
+>=20
+> In most cases, only one of them is needed, but both are allowed when
+> both group-level and per-pin configuration are required.
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-index 2cb7bd128d24..7319f2319bb7 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-@@ -481,6 +481,9 @@ gpio@22 {
- 				gpio-controller;
- 				#gpio-cells = <2>;
- 
-+				interrupt-parent = <&sgpiom0>;
-+				interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
-+
- 				gpio-line-names =
- 					"RPDB_FAN_FULL_SPEED_R_N", "RPDB_I2C_TEMP75_U8_ALERT_R_N",
- 					"RPDB_I2C_TMP432_U29_ALERT_R_N", "RPDB_GLOBAL_WP",
-@@ -500,6 +503,9 @@ gpio@24 {
- 				gpio-controller;
- 				#gpio-cells = <2>;
- 
-+				interrupt-parent = <&sgpiom0>;
-+				interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
-+
- 				gpio-line-names =
- 					"RPDB_EAM2_PRSNT_MOS_N_R", "RPDB_EAM3_PRSNT_MOS_N_R",
- 					"RPDB_PWRGD_P50V_HSC4_SYS_R",
-@@ -529,6 +535,9 @@ gpio@22 {
- 				gpio-controller;
- 				#gpio-cells = <2>;
- 
-+				interrupt-parent = <&sgpiom0>;
-+				interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
-+
- 				gpio-line-names =
- 					"LPDB_FAN_FULL_SPEED_R_N","LPDB_I2C_TEMP75_U8_ALERT_R_N",
- 					"LPDB_I2C_TMP432_U29_ALERT_R_N","LPDB_GLOBAL_WP",
-@@ -546,6 +555,9 @@ gpio@24 {
- 				gpio-controller;
- 				#gpio-cells = <2>;
- 
-+				interrupt-parent = <&sgpiom0>;
-+				interrupts = <174 IRQ_TYPE_LEVEL_LOW>;
-+
- 				gpio-line-names =
- 					"LPDB_P50V_FAN1_R2_PG","LPDB_P50V_FAN2_R2_PG",
- 					"LPDB_P50V_FAN3_R2_PG","LPDB_P50V_FAN4_R2_PG",
+To be honest, that sounds like your groups are not sufficiently
+granular and should be reduced such that you can use them for pin
+settings.=20
 
----
-base-commit: 76b4ec8efdc3887cdbf730da2e55881fc1a18770
-change-id: 20260417-anacapa-pca9555-irq-3090d4120270
+--/e075MT9JwuwmUji
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best regards,
---  
-Rex Fu <Rex.Fu@amd.com>
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaeJaoQAKCRB4tDGHoIJi
+0oi8AQDp1gAb3AolAjABIl6fBvoBypslFDHqFAcNj6E2DlBE3QEA6Q6j2LCAIPOl
+0A+dbl1IvfSrQZC4005IZCZMYdRgOgE=
+=ZteU
+-----END PGP SIGNATURE-----
 
+--/e075MT9JwuwmUji--
 
