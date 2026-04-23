@@ -1,80 +1,93 @@
-Return-Path: <linux-aspeed+bounces-3952-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3954-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eMWdBoRa6mnXyQIAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3952-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Apr 2026 19:44:36 +0200
+	id oQI4ADzB6mkWDQAAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3954-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Apr 2026 03:02:52 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821D0455AF2
-	for <lists+linux-aspeed@lfdr.de>; Thu, 23 Apr 2026 19:44:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CC5458A38
+	for <lists+linux-aspeed@lfdr.de>; Fri, 24 Apr 2026 03:02:49 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4g1k4H60lsz2yFm;
-	Fri, 24 Apr 2026 03:44:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4g1vny3BTkz2ybQ;
+	Fri, 24 Apr 2026 11:02:46 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1776966271;
-	cv=none; b=nwij3zKhZTCZ0whxedGUAyaSe8/dHFTTGHu/QN6NoABXKHDyFHGJ+ZeulYpwOGDP/bC6kw+3HIv8baaEfxyKUTSGKHMbQ+r5015RA2atmc/5qCrDjaqzv13u+6MNbPMhjaSXkWayjljXlrdjSKkb7xCHixOhZbxzrY+d9yudLjtalBPoPI8YqzIUr+0+r+CReOiX+bWdV55zcRNbCvJg1RBX5Wxm88snQAka2RUaVZpFzZ0BEYQf1UTl6FLDuEhD6ZhnZsXuNM207lel1ELUMxLj4ptB+Ch2oYDJ47lSRXIG1gbrOcPKSxUhgtsc8rIBb3G5jisGdwp0dWMhoic+VA==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1776966271; c=relaxed/relaxed;
-	bh=pN1bHXTr1LlOb/G1azX3CC1+rwLeWTb7QNVStx+Ul2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mD9P2Uv4vkTeyMqVIUoS/4qEFFJRuZOABkjk4KG1iAffuzf7akvQt1UAb4IsEyAFZj7mVI3EuXt6xlI1W56NDX/xmvwIEPIS4CYU0bT2ErmHn2WKUw79GTXVjN4nbP4Fc+dG7pgF3tayALK1nzieoc0YTsmAUClUBKwX0DxI/LoRLYPSFGZOMIyBfsw+deYROzCOgK82UhUZV3bmmtpeWu9dUqW8DoB317eAdXoW7sOEjF7Ouq6ZEszo7s5ewdMqXeZiHzLGD6B7MXWXmmJ2ex2i8wUBafIZklxwEfK1MjEirU3SmfvjA4WOKIkX+ZiWz8UyiB1RtA7wrYU6BGl42A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=aBu8iRtF; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a00:1450:4864:20::22d" arc.chain=google.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1776970837;
+	cv=pass; b=Uenh9DSFQLv5zYpJKqEmC2ZgEAztZRFQQSEwtyDgCgYJRzvg/OzIqcBRVXmCJebBVm1doZFIUsPwmi7OwMpyIyYtUAnn7fgQAO8B09urPUWAqFPD77DtCjIEWC8dQw7+NGnMC+bXmAo1/9xYyCL82/VrJ3wUGXrqZlW0gfwjM4UiYH74rVAsKaKUWtzyPuRBym2atTv01Xs0+Etgfv3kEtYMdtSCoymXd71UrICBHirBRgdIwAuZZIYiFeXN26plhpu9CgohSUPqPLlr9umRieXHGxXFU8Lcs7BhPPpXK57wwnmZqGDb6BokJosL7ad9Ob4EMVsxpWcE9FtF5yHKzA==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1776970837; c=relaxed/relaxed;
+	bh=iaSZGDSTIt1t0vqnrwKkzM3vMPJqVoykTgkWKgeHifU=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=OUbOMVAnGJWSq/4HxrDsQC3OMunYR4fYL3TSGv4gymSQBehwWHWsZXTY9qdk0/O2NPD/ad8WF5WqulQQg+VcHtZecRYgV424O5wsNTKVoTbvrDHLQulwSVqArChhsrTHB56yGthftUvtCFuYwGSQ6BI3J4anUsmANyIphVsv1KzWFsDiB96UGeMqXkuezG00Bt8j3luNpxeGEkENlxClJ8ZbZQf5XzxQZ+hYb4CnUFi+yRPBMMbchyY/vRQPVag88dunLCQmJRp+zipozkTDyMOmPsfDwewq2z0Hie5YagrOZmasYWhgqXMW+8tepA2fJnT7k1mneL6ddePiDzYyog==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ZKeimGo0; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::22d; helo=mail-lj1-x22d.google.com; envelope-from=karthiproffesional@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=aBu8iRtF;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ZKeimGo0;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org)
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::22d; helo=mail-lj1-x22d.google.com; envelope-from=karthiproffesional@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4g1k4G4N6Cz2xlt;
-	Fri, 24 Apr 2026 03:44:30 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by tor.source.kernel.org (Postfix) with ESMTP id 5119760139;
-	Thu, 23 Apr 2026 17:44:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B558DC2BCAF;
-	Thu, 23 Apr 2026 17:44:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776966268;
-	bh=Ca6918fcOAXDM3mevQIr9UFJydEQNXb86m/+edpbIC8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aBu8iRtFL+Ml28WAMlWVSTzNQysPYMICkXs8iHwEl66fo33PA83dxwmevXPQQ+8r+
-	 03oNzphPXfEn2JbEdywqHe7tIQBtSWk2smDoiP5qJEz4T9SIQJTUmfhl4b9SQHt5je
-	 ZOwt4sdI6EeBvPuh2YSRd1/7Nzc0ld+fSTlcJlo/M6Q/KKZVTJ9Yb0rkFLeCpYg3vq
-	 RUXInthqnG+cSRYc7ZytRSXcRZSrWI99++7ZWujhmzXACHfFkIte2jw04JlDIc58OZ
-	 +EYO0HeTnSkElit8Iw3fYHtGMH0IddZ9VlxfAChsS1CaEM59XvTguRxlE6Em7hXYYF
-	 Onb3Y/C9LQ6gA==
-Date: Thu, 23 Apr 2026 18:44:22 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Ryan Chen <ryan_chen@aspeedtech.com>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v7 1/3] dt-bindings: pinctrl: Add
- aspeed,ast2700-soc0-pinctrl
-Message-ID: <20260423-clever-swooned-a06907e9101e@spud>
-References: <20260416-upstream_pinctrl-v7-0-d72762253163@aspeedtech.com>
- <20260416-upstream_pinctrl-v7-1-d72762253163@aspeedtech.com>
- <20260416-brutishly-saga-ba7168a4cd14@spud>
- <OSQPR06MB7252EB0C2A1A3313DE49406B8B202@OSQPR06MB7252.apcprd06.prod.outlook.com>
- <20260417-anemia-borrower-fb90ac02b417@spud>
- <OSQPR06MB7252BD7967D2567AD6DA7A1D8B2F2@OSQPR06MB7252.apcprd06.prod.outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4g1lm40Xnlz2xSB
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 24 Apr 2026 05:00:35 +1000 (AEST)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-38e7d983f50so78937591fa.1
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 23 Apr 2026 12:00:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776970828; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XiwpZp6JjiqzQrn8G9MOSBCF1OQWqxzfQ7RNCcvTJGL/kitJHRRhr24uubntzOJSoc
+         LIl5odRLS7OIf7ExenQzcctdvzDJswBpMCFv0KeNP5eH4H/Y45yJBkTYM4QqF++6mw+j
+         YUzXnN7Ts1FFy4AiV3EjWvYHMo/0U7gtSutqVf0fHVlg+AU3Vn0q41vKht71qHtf0Qbi
+         2e7r0U1qltHWy+wpOagMB+RSJWV0LcKSupEXVtFs3exI4EQ4eHUTKXr4QQG8oTFblmZn
+         YcR3aL9A31WWIqxgzi0kmMBY8zQLmL7WD+eM31xJRNbTI3d5JyYrNBIyv9OtJ/lo3Hus
+         vyGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=iaSZGDSTIt1t0vqnrwKkzM3vMPJqVoykTgkWKgeHifU=;
+        fh=OfYKBNJpNTfJ7uHCjlUb3MEzh/4PPOOIoyT6ItS5CWA=;
+        b=RgqfBeTci9J+8mVsDmKQl/2cCaOI6m4lNf/nNA0udLGoWZy2GuVgXSOUPRwWekJo2j
+         U2Bqx6168b0Lfu87l1bbtaRFG3zTrT5EFmKhMTm5mbsJ9QaXzlBBLAaWQW5HBs8c7aYg
+         qi011DK2OwkUHhzuMoOcIXw8oj2I4k1z6pknJMHTB3/RInimtP//BisE/fap2/zZmlhG
+         bpgR5YNbtqRkfb1Tyq0byN//wvL9uarkEKbfzrj9eDOt0DNLLOcBlAydWNm04EYy5pi1
+         JE7gpuVhJPMcWuaPj+UbtECdq0mzUaozLm4MKbXwFP5cCuX/eUT+cmuXI3i53n+aJ4O+
+         gMbg==;
+        darn=lists.ozlabs.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776970828; x=1777575628; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=iaSZGDSTIt1t0vqnrwKkzM3vMPJqVoykTgkWKgeHifU=;
+        b=ZKeimGo0NpsM0LNtu6JhXoJ5+nWjIiTnTARuN2KAz0cspnVNNUxBPaJJ+tZ6RhGQz+
+         O97GFm41VSCzeA7l1rE/VFlG6d2ttbBX6vLTGXJKk1d9q1rND57oa19BoIHG2RF74rIV
+         quYVKxlQBYTPhTyIWYUJO+G9N/ypNCvu9gyJob0OHgM0BSBq5HG0B377zODC0SK5+0bY
+         r2Uu2p+yizp3NvYza2OQFu44V79YuxITW1kP1lfvPhGrto2ZONzkjRhuS/TRD9tqceTf
+         hkGiaM0XDjGnQiWqPTDsbPxDmigjyxcm5lqvBO6Y0VH30RQiSBhTM3+zLS/X+NEsXceg
+         9izg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776970828; x=1777575628;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iaSZGDSTIt1t0vqnrwKkzM3vMPJqVoykTgkWKgeHifU=;
+        b=rrMB2vPI/6P+nzAEqyrtn35J+CdiKp6vnW0pgY2y+eBBV8I0CGbq6IBA6pNsA6EzUZ
+         DBqiO905f3U6OSuB7/aPNVUVHZnjP8mrtJMLZitG07BdOpwg+SmzdXz/SxfYqOfVXPgF
+         69B3ijjDKW0wbg7EYcIArKQEzwBTReP97qtqLqmP8bS2pDYR24FBw1XL2pghBsNgIxsr
+         c28RFt7g+n0WCocRvWQ/JJGiqxyS1UYI4n7aQeH2KBCa5Kir2tfpmiQquVPrlYip4mZU
+         Qpvn4zqMxl0WyrxLKso4uxVlY7xbtkJjECLe9PbjzuCEwfQRvjqyb0+xkfAlUpDfscIl
+         EcDA==
+X-Forwarded-Encrypted: i=1; AFNElJ9pocYmEqRQNrsMOxasq+tj0DQKsGi05M3ZmFjEjZ75N83OJkbkXeHy6WhYpygRyKW+fNhypVA/j+xgGtk=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzO2DEtTqlQ7+tDK4wY7CsWM99kuy8BbzRTJ34K2bSgLfxk/51T
+	OFQ+VOxeILUQBAPgLYMmQaGJAaxfbJjEf9xrz4YFkN418mmRhiUniyerYvNkuk2np8YYX9EXMdI
+	eeyXYuTwKAoXh+xXzlS7uiJT4cX1b4IE=
+X-Gm-Gg: AeBDietCK3o3TDSQLfk49jwZQo4BqdM8Ui2b2cjYkvuzu8ZnSYmwZSRq1hgzShezoEa
+	ZYRb8QD3WX1lExuG9Zlai8kfyoDUJFVUQRLWMj7sbGArVzMUZVMBt3fV8HWDhOYEYA3DeNgLhG6
+	SRk2x8Rr6v4spznuQutQxF5UVEkQVTjM8kU8aQ+4xK3vI3jFkxgh87WSYYOy5raW6vjEcDuX01B
+	rJK7C/5pmg9wTvpV++yluTs+KFrs5ExKJ3mTwtrtFqKwQf7ZIG3S630i9rS9hY/tiWfQ643EctT
+	EuBZOv+ibZs2hogBy0peNy9poWEPxe8Rw620pTHV5cpb/SrwvQ==
+X-Received: by 2002:a05:6512:3b8d:b0:5a4:19f3:f2bf with SMTP id
+ 2adb3069b0e04-5a419f3f386mr8816464e87.24.1776970827228; Thu, 23 Apr 2026
+ 12:00:27 -0700 (PDT)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -88,119 +101,156 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JAt2RGrDeiha8/Di"
-Content-Disposition: inline
-In-Reply-To: <OSQPR06MB7252BD7967D2567AD6DA7A1D8B2F2@OSQPR06MB7252.apcprd06.prod.outlook.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+From: karthikeyan K S <karthiproffesional@gmail.com>
+Date: Fri, 24 Apr 2026 00:30:11 +0530
+X-Gm-Features: AQROBzAACTNKgczWUdLDKoK0N8p6t9ZSbvUCg1HXPCRwXkUzT9c4U3H7ST8sp-U
+Message-ID: <CAP_JKPter_ggMMvUY=pDZyZupSQb5KWGVPeig41Uw2wBDXepMg@mail.gmail.com>
+Subject: [PATCH] soc: aspeed: lpc-snoop: Fix usercopy overflow in snoop_file_read
+To: joel@jms.id.au, andrew@codeconstruct.com.au
+Cc: jdelvare@suse.de, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: multipart/alternative; boundary="000000000000eee9cc06502542fe"
+X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+	HTML_MESSAGE,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	MAILLIST(-0.20)[generic];
-	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3952-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
-X-Rspamd-Queue-Id: 821D0455AF2
+X-Rspamd-Queue-Id: 33CC5458A38
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
+X-Spamd-Result: default: False [-2.21 / 15.00];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	MAILLIST(-0.20)[generic];
+	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
+	HAS_LIST_UNSUB(-0.01)[];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-3954-lists,linux-aspeed=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[karthiproffesional@gmail.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:jdelvare@suse.de,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	TO_DN_NONE(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[karthiproffesional@gmail.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	TAGGED_RCPT(0.00)[linux-aspeed];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
 
+--000000000000eee9cc06502542fe
+Content-Type: text/plain; charset="UTF-8"
 
---JAt2RGrDeiha8/Di
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From c50ff07baf2032ca12133775c61c50a38e8a2029 Mon Sep 17 00:00:00 2001
+From: Karthikeyan KS <karthiproffesional@gmail.com>
+Date: Thu, 23 Apr 2026 21:26:08 +0300
+Subject: [PATCH] soc: aspeed: lpc-snoop: Fix usercopy overflow in
+ snoop_file_read
+
+snoop_file_read() passes the userspace count directly to
+kfifo_to_user() without clamping. The kfifo backing buffer is
+2048 bytes (SNOOP_FIFO_SIZE), allocated from kmalloc-2k slab.
+A read larger than 2048 bytes triggers a BUG under
+CONFIG_HARDENED_USERCOPY:
+
+  kernel BUG at mm/usercopy.c:99!
+
+Reproducer:
+  hexdump /dev/aspeed-lpc-snoop0
+
+Fix by clamping count to SNOOP_FIFO_SIZE before the copy.
+
+Fixes: 3772e5da4454 ("drivers/misc: Aspeed LPC snoop output using misc
+chardev")
+Cc: stable@vger.kernel.org
+Signed-off-by: Karthikeyan KS <karthiproffesional@gmail.com>
+---
+ drivers/soc/aspeed/aspeed-lpc-snoop.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c
+b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+index b03310c0830d..5b59e826cc68 100644
+--- a/drivers/soc/aspeed/aspeed-lpc-snoop.c
++++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c
+@@ -125,6 +125,7 @@ static ssize_t snoop_file_read(struct file *file, char
+__user *buffer,
+        if (ret == -ERESTARTSYS)
+            return -EINTR;
+    }
++   count = min(count, (size_t)SNOOP_FIFO_SIZE);
+    ret = kfifo_to_user(&chan->fifo, buffer, count, &copied);
+    if (ret)
+        return ret;
+-- 
+2.34.1
+
+--000000000000eee9cc06502542fe
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 20, 2026 at 07:22:57AM +0000, Billy Tsai wrote:
-> In particular, I'll split the constraints as follows:
->=20
-> - For pinmux, the presence of `function` will require `groups`, and
->   `pins` will not be allowed. This reflects the hardware design, where
->   the groups are defined by the pins affected by a given mux expression
->=20
-> - For pin configuration, exactly one of `groups` or `pins` will be
->   required (using oneOf), so that configuration is applied either at
->   group level or per-pin, but not both.
->=20
->=20
-> - if:
->     required:
->       - function
->   then:
->     required:
->       - groups
->     not:
->       required:
->         - pins
+<div dir=3D"ltr"><div dir=3D"ltr"><div style=3D"margin:0px;min-width:0px;pa=
+dding:0px 0px 20px;width:auto;font-family:&quot;Google Sans&quot;,Roboto,Ro=
+botoDraft,Helvetica,Arial,sans-serif;font-size:medium"><div><div id=3D"m_-6=
+80033585644009664gmail-:ou" style=3D"direction:ltr;margin:8px 0px 0px;paddi=
+ng:0px;font-size:0.875rem;overflow-x:hidden"><div id=3D"m_-6800335856440096=
+64gmail-:pb" style=3D"direction:ltr;font-style:normal;font-variant:normal;f=
+ont-size-adjust:none;font-kerning:auto;font-feature-settings:normal;font-st=
+retch:normal;font-size:small;line-height:1.5;font-family:Arial,Helvetica,sa=
+ns-serif;overflow:auto hidden"><div id=3D"m_-680033585644009664gmail-avWBGd=
+-83"><div dir=3D"ltr"><div style=3D"color:rgb(187,190,191);background-color=
+:rgb(18,19,20);font-family:Consolas,&quot;Courier New&quot;,monospace;font-=
+size:14px;line-height:19px;white-space:pre-wrap"><div>From c50ff07baf2032ca=
+12133775c61c50a38e8a2029 Mon Sep 17 00:00:00 2001</div><div>From: Karthikey=
+an KS &lt;<a href=3D"mailto:karthiproffesional@gmail.com" target=3D"_blank"=
+>karthiproffesional@gmail.com</a>&gt;</div><div>Date: Thu, 23 Apr 2026 21:2=
+6:08 +0300</div><div>Subject: [PATCH] soc: aspeed: lpc-snoop: Fix usercopy =
+overflow in</div><div>=C2=A0snoop_file_read</div><br><div>snoop_file_read()=
+ passes the userspace count directly to</div><div>kfifo_to_user() without c=
+lamping. The kfifo backing buffer is</div><div>2048 bytes (SNOOP_FIFO_SIZE)=
+, allocated from kmalloc-2k slab.</div><div>A read larger than 2048 bytes t=
+riggers a BUG under</div><div>CONFIG_HARDENED_USERCOPY:</div><br><div>=C2=
+=A0 kernel BUG at mm/usercopy.c:99!</div><br><div>Reproducer:</div><div>=C2=
+=A0 hexdump /dev/aspeed-lpc-snoop0</div><br><div>Fix by clamping count to S=
+NOOP_FIFO_SIZE before the copy.</div><br><div>Fixes: 3772e5da4454 (&quot;dr=
+ivers/misc: Aspeed LPC snoop output using misc chardev&quot;)</div><div>Cc:=
+ <a href=3D"mailto:stable@vger.kernel.org" target=3D"_blank">stable@vger.ke=
+rnel.org</a></div><div>Signed-off-by: Karthikeyan KS &lt;<a href=3D"mailto:=
+karthiproffesional@gmail.com" target=3D"_blank">karthiproffesional@gmail.co=
+m</a>&gt;</div><div><span style=3D"color:rgb(121,192,255);font-weight:bold"=
+>---</span></div><div>=C2=A0drivers/soc/aspeed/aspeed-lpc-snoop.c | 1 +</di=
+v><div>=C2=A01 file changed, 1 insertion(+)</div><br><div><span style=3D"co=
+lor:rgb(121,192,255)">diff --git a/drivers/soc/aspeed/aspeed-lpc-snoop.c b/=
+drivers/soc/aspeed/aspeed-lpc-snoop.c</span></div><div>index b03310c0830d..=
+5b59e826cc68 100644</div><div><span style=3D"color:rgb(255,161,152)">--- a/=
+drivers/soc/aspeed/aspeed-lpc-snoop.c</span></div><div><span style=3D"color=
+:rgb(126,231,135)">+++ b/drivers/soc/aspeed/aspeed-lpc-snoop.c</span></div>=
+<div><span style=3D"color:rgb(210,168,255);font-weight:bold">@@ -125,6 +125=
+,7 @@</span> static ssize_t snoop_file_read(struct file *file, char __user =
+*buffer,</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret =3D=3D -ERESTARTSYS)=
+</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EINTR;</div><d=
+iv>=C2=A0 =C2=A0 }</div><div><span style=3D"color:rgb(126,231,135)">+ =C2=
+=A0 count =3D min(count, (size_t)SNOOP_FIFO_SIZE);</span></div><div>=C2=A0 =
+=C2=A0 ret =3D kfifo_to_user(&amp;chan-&gt;fifo, buffer, count, &amp;copied=
+);</div><div>=C2=A0 =C2=A0 if (ret)</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 r=
+eturn ret;</div><div><span style=3D"color:rgb(255,161,152)">-- </span></div=
+><div>2.34.1</div><div></div><div><br><br></div></div></div><div></div></di=
+v></div></div><div id=3D"m_-680033585644009664gmail-avWBGd-84" style=3D"cle=
+ar:both"></div></div></div><br></div>
+</div>
 
->   else:
-
-I think this is a separate section under an allOf, rather than an else.
-You can also simplify the condition above to just be
-- if:
-    required:
-      - function
-  then:
-    required:
-      - groups
-since the node will then always be tested against what you have below
-
->     oneOf:
->       - required:
->           - groups
->         not:
->           required:
->             - pins
->       - required:
->           - pins
->         not:
->           required:
->             - groups
-
-I think this here simplifies to
-oneOf:
-  - required:
-     - groups
-  - required:
-     - pins
-
-You'd also need to note that pin level config settings should take
-precedence over group level ones.
-
---JAt2RGrDeiha8/Di
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaepadgAKCRB4tDGHoIJi
-0iGUAQCSvZRjl2it7AaROKHK0Bp704DuQXDbJXJ0D6NcO6IYSQD/TPXLQsCR9Y10
-jtbhzr6qfBOMLqlIhuZTFyJ2Xq5jBAw=
-=i4l7
------END PGP SIGNATURE-----
-
---JAt2RGrDeiha8/Di--
+--000000000000eee9cc06502542fe--
 
