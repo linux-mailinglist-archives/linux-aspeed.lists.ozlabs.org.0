@@ -1,62 +1,161 @@
-Return-Path: <linux-aspeed+bounces-3976-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3991-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2GVnLWAA8mmElwEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3976-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 14:58:08 +0200
+	id QDs7JlGf8mlutAEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3991-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Apr 2026 02:16:17 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6701D4945E9
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 14:58:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1216549B99F
+	for <lists+linux-aspeed@lfdr.de>; Thu, 30 Apr 2026 02:16:17 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4g5HR10C69z2yVL;
-	Wed, 29 Apr 2026 22:58:05 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4g5ZSc4kbvz2yqs;
+	Thu, 30 Apr 2026 10:15:28 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1777467484;
-	cv=none; b=O9xNwmu6iX9SEtxvfudtYmaTaGvRzGaF6ku/uKEfaM2I6AJFSAUZLb0v1ThE2uWOEWE+foD/3pkuPibiyOXT5rplz/N06cWZnv2t8Ccf0DZknUfvg6TwMxv1420W3fnDAkzvSjJD7x8NqnJEEnB8hXYVxW12KWGyEJqHQ8MHArrw8+RAtCjG7xn/D7KWVOMpoOtWXgmYMs18bWgyqbHmtCoYEjw2f3wx55iWU9cZX78rVcWL81n3YbW8J3zBOg413G7Bb58u3VsV11c/JSJWOaja+cDGHzGYX7uRcUXxJ2517oZ9Y3m07Mb7EHt+p8tqLikFbO7s6Kmqtq+bKDDcYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1777467484; c=relaxed/relaxed;
-	bh=Ct2pD6eOtO9PvBCttFPIKGh9xJAlja9V7gGV1f2aOrs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S1oEXpoSRdbRpIxwuBxgklYP5xvyaDEgyBdeURbSftGKj9A5bkVawaNR1l1KjZRUpFN9oqLzlDUDH2LfSuwOUQwHDcbTgZaTtjYaRdeh/J4hYXlwXVK+dnV9/7M1uCzDdhWGgDD/qi0CSpEUDSHvdp1PijOCDP84qZrLtV5+8cATW2/xKHAZXteCbyJI38QwSyZJjkUKmPze6oY8oopJ8H8QG3NFLqoOLY8KoS7KJ5O12uHnU8nHW35x6g/9dOhsCq/+XTzKQWKtPhL9Ot0DNoBFyosvRPYwodGbZD5npUZmJSrpkpsSQb0yAjY8DyCB3uCXTnEJR44XJrtNzEM55w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=Eh15RP9p; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: lists.ozlabs.org; arc=fail smtp.remote-ip=192.198.163.16
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1777471523;
+	cv=fail; b=OD7xV4dF+l1KnZ8GCKAAGlGuzcuXA4yQSwG6t0Y1KYcw/K3U11ecPeTUMEV1p+8K6B4hA2/+gWUOOG9kUmOYXbfhk4KDjvjIauAPtyVEW0KYMqXeQJ/hXCfUKfmEa7DPtb/C/+wzXE0kPPusVcMkqhsr1gvCu1ez1mhGrxXWAkj7TZe74p2/jZlxUUKlhpZo8qBbtCr7gNSYU/MYOuIDpLKvkgyoeUGE9fFbNuBFCzbxiPaAhgmnAFvRiT0VBvkjjWp2kOW84rDJpsmfr2JvcDBGU4TcFhU/zyVv9GN4uxL1boehxYVoo7Pq5su790tmCOOX6zSLq7Nj5Nsb/Xsoqg==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1777471523; c=relaxed/relaxed;
+	bh=0lMxF9yhFuCOWUx3jbXky2CfzDvxrPHncg6LrnDWXDs=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=m5ha0UsHj4JErAXPcbgDQZle3dzHb2pXhq7Kg6io1Q1MZBuzf8qL1nSyqbvnuCoT2IhjntwvVs9YiMIugm6gwNhO2RPMtn2APgmeldqL4sJrIbcc3CVDcASBoDOLRRt5viF4wIJPD1a1gZn6ob+whniIbPN/OHY8UUgxX2vWazJjA84gCuDlFOdTdhLlKxuM6ahw8yOTjLvQM2mSsVKf5hrTfJsIyhpscFH0ByExmQGJa9pzBetmFZAEXsgQd0H8F6tQjUKhrDKH5HtHl6Z02G4ibg/5xdj/EpSGSPc7EW0yivH2dr8JCsbg5UUGpk+3k+sQwyW1VePU8bolu/8o0g==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eJtUWslv; dkim-atps=neutral; spf=pass (client-ip=192.198.163.16; helo=mgamail.intel.com; envelope-from=oleksandr.shulzhenko@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=Eh15RP9p;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=eJtUWslv;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=intel.com (client-ip=192.198.163.16; helo=mgamail.intel.com; envelope-from=oleksandr.shulzhenko@intel.com; receiver=lists.ozlabs.org)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4g5HQy5ztgz2y7M
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 29 Apr 2026 22:58:02 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=Ct2pD6eOtO9PvBCttFPIKGh9xJAlja9V7gGV1f2aOrs=; b=Eh
-	15RP9pympRHZWMV4ZiZ+hYbVC+2zSKdb2Fo+blTeh3gBRi02zqnB5/XAN2JY4+IXjsMGqgsz6wG+m
-	AkTo/K3gDwGhBezNzd7Lv9b127mY62fXIfxrWus2CE0zY/M72XfUMFL9/uf/TQmKMGM2yvzhXtHEv
-	KfxUTbe69yOWqxQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wI4UI-000X6s-3c; Wed, 29 Apr 2026 14:57:58 +0200
-Date: Wed, 29 Apr 2026 14:57:58 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Jacky Chou <jacky_chou@aspeedtech.com>
-Cc: Ender Hsieh <andhsieh@nvidia.com>,
-	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-	Marc Olberding <molberding@nvidia.com>
-Subject: Re: =?utf-8?B?5Zue6KaGOiBOVkwzMiBCTUMgZW5h?=
- =?utf-8?B?YmxlbWVudCDigJQ=?= offering help on ftgmac100 work
-Message-ID: <eac09481-0ba1-4ac2-ad8c-d859822ff0d5@lunn.ch>
-References: <SEYPR06MB513489D0B8F5BC77258EA1FF9D372@SEYPR06MB5134.apcprd06.prod.outlook.com>
- <20260428151416.1700609-1-andhsieh@nvidia.com>
- <SEYPR06MB5134EAEAB53E80B69F73131B9D342@SEYPR06MB5134.apcprd06.prod.outlook.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4g5JwZ1lxJz2ySf;
+	Thu, 30 Apr 2026 00:05:15 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777471519; x=1809007519;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=7qUCteMeRbjP8ZSRtDp1YZdlHVxF/+4Krp9exwA7zUA=;
+  b=eJtUWslvvla2+HIv58By4QlRvlfaeNsS4aoWTeAv+IyCbokfbemhUJVB
+   8jIVOvM+bplsJniYbjQmnzqi+qJtxEJcfVFhq11MbBe/iE+GiDUlJ0tcB
+   tpq1Cf9+akROhiZSPmKWP/oozP4P5sUgLS4o9pDrnJ5WcBrdvqFOQEd9c
+   in47dNogdepbzEnUI6WaJeBnGAF2SCKW0kqBojreGzZRyNSNIuUwFRlLj
+   OWl9oAmVkYOlJOWig39JZIuuAzD7UeeJWh8oEOC/3pbpBy6TqHjWmnLhG
+   3v3D0wGI8vDvMgfR8zJTEkzZd+yF34xWnslUOpTF/D09XIInbz+JU1LIm
+   w==;
+X-CSE-ConnectionGUID: s+y/GVB3TqW47UrTTcK81w==
+X-CSE-MsgGUID: G4CmBknWSqKWXqMhtKET/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="65929857"
+X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
+   d="scan'208,217";a="65929857"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 07:05:10 -0700
+X-CSE-ConnectionGUID: 6SieK2vtSRK3wgL78HNfTw==
+X-CSE-MsgGUID: qCboto/0QI2iJiVjtK1B0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,206,1770624000"; 
+   d="scan'208,217";a="238602891"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 07:05:10 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Wed, 29 Apr 2026 07:05:09 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Wed, 29 Apr 2026 07:05:09 -0700
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.1) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Wed, 29 Apr 2026 07:05:08 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=knMlk4uy+o5JPcM7vskluXkLyy5PrForetvke9cXEHWt6h6A5DoLOu7TPSqz6pRAaU//18w0eJd1og3JBfhdgFajS/HqZGB8rvfmWJkSvHBgVSqtH8QLHYD361A+euz9nylxkMiZrXgOjDy7ZC/wNUWNCYjyiyEcgCDzw/qD/tkrzpqzZLEcuH/wS4ylEQ933GfJZtdCplCya/taVqGt7GtU3Nz0mELpCenopbRhGdTEoAHEAPRnYNAMAUqs+ImPRENxPcT02+Fq4CRPc6FP24fhWfCfcY9yr9NKlocVxEYB2hr0aLBctjWsuUT99fT9TuoLJMbgp1wSu1Z3mn+ftQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x6IfZABs3ZAQoS9r/qJwvqXW6BQ0EmUxWInnZvobg98=;
+ b=iATBBYCubxQ4ukQeIjqRgUzsomguqyoUNTZWHE1Zz4hX5UjUMP3Sz1/TgKhDhL1/C2AOqoYgcsYMGSIac1t+vKZSNZKAq6nLmogi+moFjgDuJGGEZp8u5Pc+uh0ASZ3sbCXLqo5jgd3m6Bt8Qvw/1YN0QKYHl/kygzjDMzXFeq260XYw7IyelrgmHL4rJejlO0s1j1UoDIosmpv9ba89ELcZUedynjqEDWQ96Uw3C0zNB0Z/KcIc3hKz2lIvkNzXBuM3aRbxvDfA3nS+mjcWNokoZhweWulv6a5BpBlBGHXKxBEoCxSiBm/3IML1tFZxdcXtSCrInENneeXffeSlmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA1PR11MB8152.namprd11.prod.outlook.com (2603:10b6:208:446::8)
+ by PH8PR11MB6564.namprd11.prod.outlook.com (2603:10b6:510:1c3::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.20; Wed, 29 Apr
+ 2026 14:05:04 +0000
+Received: from IA1PR11MB8152.namprd11.prod.outlook.com
+ ([fe80::4895:dd55:dbe9:73bf]) by IA1PR11MB8152.namprd11.prod.outlook.com
+ ([fe80::4895:dd55:dbe9:73bf%4]) with mapi id 15.20.9870.020; Wed, 29 Apr 2026
+ 14:05:04 +0000
+From: "Shulzhenko, Oleksandr" <oleksandr.shulzhenko@intel.com>
+To: "yh_chung@aspeedtech.com" <yh_chung@aspeedtech.com>
+CC: "andrew@codeconstruct.com.au" <andrew@codeconstruct.com.au>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "joel@jms.id.au" <joel@jms.id.au>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "Lawniczak, Maciej"
+	<maciej.lawniczak@intel.com>, "openbmc@lists.ozlabs.org"
+	<openbmc@lists.ozlabs.org>, "p.zabel@pengutronix.de"
+	<p.zabel@pengutronix.de>, "robh@kernel.org" <robh@kernel.org>, "Chen, Ryan"
+	<ryan_chen@aspeedtech.com>
+Subject: Re: [PATCH 2/7] soc: aspeed: Introduce core eSPI controller support
+Thread-Topic: Re: [PATCH 2/7] soc: aspeed: Introduce core eSPI controller
+ support
+Thread-Index: AdzX4O5gznii2OlWTEOwzGmIksiJdw==
+Date: Wed, 29 Apr 2026 14:05:04 +0000
+Message-ID: <IA1PR11MB8152D824BEBEBDD4668F97EC99342@IA1PR11MB8152.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA1PR11MB8152:EE_|PH8PR11MB6564:EE_
+x-ms-office365-filtering-correlation-id: be6128c8-7ffc-4d5f-d860-08dea5f84fe9
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|38070700021|8096899003|56012099003|18002099003;
+x-microsoft-antispam-message-info: xKmZ9LRjLLolgEW7IjUod00Kj2yn1UoZ9cT2nl9SlShnqBrJbbmJS4N/yhqWcUmTQvl/p1338EAU14Fzc9CtGQNSdnUGvept9GAZ9PMqrU7ymOG9bcBmDdiNOS02hUcV1+wrGf/3CTetDw/YhPKLoVEfx34tG09Wvxj2AFFc5wQQvBuyBI0P5xE6pjnkhp7Mqy/9OtM3RLgpmSVVZKHPEnmR4WRNbkAgeJem6U9FKnsz2tN9cTGeF1rX1e3/wlkIDN0MimT6iZK+PW83tKoRdMwYmqFCL1Ctl6l0e6IDlvFsQJdnQ0lu1BdfdpiIRna+7+XuWLVdJmxpzSq5N+PdTltLbbrQX6G/HqgA4x9Tr6gXXW/CrnawHxPBzkgOtIVsTyp7/H0c7f1K7T0YQMYqBPrkLpPoMq8LwLZqzagRJWlkc2ieBYWAem6nPhy3NTdhv2hNo03z0j3DxSkZ/SZQj+nAaKHncuur7AD9xwmDXs3XIe6z2Jh6U4/l2Gv9oYQLqgJPCkRtb7XF0F7R6czfuOYQ24QrmRh0Oe6TWBWsi64RS4NmRQc/JtjyrK7OZwGLO/FHl3ysPKiag98PsSU36H8MWoUKE/bzdygIr1VL/65RqEF4JJYMtPooOlT/elg61IMiEy7BnM7AJZnkVFx9PawlXYJDqHh8hhSj+8oLkRIEgwER+bH8n9VwWCuzIR+8IFcdni1QJPS/hgY2MuOkLIHnWiaWZnoH2mVKBiU3Nb5RjUjJZPBJEVE7cuIKM1ytPQC3e0wBAISHsNgjsn9OakIezuePKC1QXGL5BmMl/88=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB8152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700021)(8096899003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?hhuSKhYLoJS+3RiIyGWYJrMIiAbWH/ZmIhW+uolfErv3WdKUsz4CMeGQpDKd?=
+ =?us-ascii?Q?X/b5hw57GBJabDkzrATCU3jEjVAFFAyYukB2CgnEd1I2zdbyudXTutN4v1G/?=
+ =?us-ascii?Q?fuFaO8thBGi+I9MvoJLaN3SeG4BYfSRC55l6BUvp/2QNdRXYAbhLx0EQbFvX?=
+ =?us-ascii?Q?SY0f7Z1wMhcN/lTGQub+xnOWH/3B0GytYSBlP2SyfcYVl6qEumu3vAqrZ6qr?=
+ =?us-ascii?Q?mc4kt7fAQ1ly3ttPet+H11u9+paFg/NAVS4dLqg5LesYphXYPaWtq9WS5ix1?=
+ =?us-ascii?Q?+hw3tOvjUtE/vRTtFlGGI82WZNVktI7JvWwCMIjrpftByV6fzxAZsD5WjMqB?=
+ =?us-ascii?Q?3UDtZuFrcTo71QClaUq4zFI8hCCP1T5jNRv1I7D8oYGUTCAGS47odcXICBX6?=
+ =?us-ascii?Q?tFbxvesYUTW34yuaIrZRVFKt893yFwjACFDpj5uRxZo3+SUsQqoVq1VDvDqb?=
+ =?us-ascii?Q?vfxf0PEfhxYJ5Zey1DrdI56sjRZt/OwLN0Z/JQ2ExCsSTdkpichdQAaLGOb/?=
+ =?us-ascii?Q?ARGSFTk+YHNuzAWi+lOHw9OgMfEKAficbN8tT5C0b7EN2UGjvWh/AvPLOAtP?=
+ =?us-ascii?Q?kV93SJyxKfos9jdGsOl6IyJgU3Vv015cp1/KXgIp7Hg41Bd1ksQGzibpHtJp?=
+ =?us-ascii?Q?YQkKc6fxIUzeumf9C0zfQ0fl3aUWsjL7DyCE6UqwhCN0mzI0CW5LDgLTaEE2?=
+ =?us-ascii?Q?sT0YL/E3IdOfvws1NcZUheiZ4opqzFWo+hzRkNJPlxG7+x0kXN20VIpwWT9V?=
+ =?us-ascii?Q?7LMKZwbRxiQ/hVKIP7tzX5Bx77J12XdsvLoPKytqnuNCxulkFqOZFv9zjcGv?=
+ =?us-ascii?Q?f15uYWPMk6TiKTjpobo8FVTRI5X60rx9kgX3JSqwuwAXFqqRzkNijcNenfN6?=
+ =?us-ascii?Q?OYp4NZquEkb8cT4z7g43psjoHG7lvpMhja7jwXPrCyG5k/JfslovZ01XxjCc?=
+ =?us-ascii?Q?1r5gV0BLfj1gqL4b0Qf8h5Lspja5FfBUnvF/52Vd2cS3n+HCkvljxs8QiEjR?=
+ =?us-ascii?Q?Gak7O9CLazbKgEHz2iSZK2ig/9KIZioqNIFQWwDJFLmjw/zcICY+QnSB4OPk?=
+ =?us-ascii?Q?wQuSSFLxnW9mVAu9sUqB80w8RDMUqb58GF4vKmpWeOPF6NYKPWYI527utybp?=
+ =?us-ascii?Q?0tSOjFgJR8GJf6/RUb/6HKBxwKNwvNfI2sQZpidGSplu9RFq7vpEUPJfDoUX?=
+ =?us-ascii?Q?als8G1WEg1iYLHqqKPC+rAtnJ381ghCOpSUE5LFxMZQ/bCNCHd+PyO/keZMp?=
+ =?us-ascii?Q?c2fOj4W1DzL0GWQkVXkpiYn/X8PTznp7R7yOzRQTIfOp21SLVnlCQkX9vZJH?=
+ =?us-ascii?Q?nijXQkvlv09hT7oR/8h3Hzusyk6PidWLp6Mp1vIHpjbAbDDIuBGiqoCRhZBa?=
+ =?us-ascii?Q?7s3cb69WE9tI9CVyoYym1KPpp1ZoCp4KR9XTOAI2r9tFbGabn1Hon+sn/JdM?=
+ =?us-ascii?Q?ok+SQx9VsZ5MeLlUfyuxPVjs+7L5QdlId442Egernu5NiOmre/L2ztsdce1r?=
+ =?us-ascii?Q?V/2ddLZEP5+xLV5UKvqukqRlNkNtSrrET7bOYS41FRoX3nVlCsro0otkE7oo?=
+ =?us-ascii?Q?hGWh5lsjZozbk3KqeCaqwfy7Iz3R+2ojVaLWNZNmZYRPxAnZtEjd+EDt2LPz?=
+ =?us-ascii?Q?r/ZW5vbpBscGAOIiPEpWfS0yLKUnWZqAd9ioFTZeklvLmHhpv7Plgb6un9KF?=
+ =?us-ascii?Q?zaYXCuspdkqJXfG6NI/cLhowc60IlTGQzwu6Z2Wf07JdThY2OCGeoKl/C/+A?=
+ =?us-ascii?Q?RCaFV7WYsLBu2pRiRWNMunNngBU5W+Q=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_IA1PR11MB8152D824BEBEBDD4668F97EC99342IA1PR11MB8152namp_"
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -70,129 +169,625 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <SEYPR06MB5134EAEAB53E80B69F73131B9D342@SEYPR06MB5134.apcprd06.prod.outlook.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+X-Exchange-RoutingPolicyChecked: iBbdoo6rYD7meZzfJhIyFlDRgTa+cSHbu4BKAFgcNPZMBjpuSVED5hkxL/LXJXnsoG29zSU6vxoH6NbND7pOxN+zDCHMSG8BXjo+XU3GbzpdmjO/+yAblxnvPCAeZxVLoF+6PZFboOEsptIGlNpBMjOagylhoh6XIzGnDIYjMin5dskeQa7dFa66Zc1yIcGlssKWkav1DVTPg0/R0ExXu2oL6IXbW7yuZj5GBp4z2qr/sHe/jQAgH0AEfzCMpi885+Eg0ggkatMrzumyhFz+8QKacKqmzvakSw3ucskAdndEHSGe0DbFVb/91FKcfA975juhcRGK5vc1rQGkrvAKeA==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB8152.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: be6128c8-7ffc-4d5f-d860-08dea5f84fe9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2026 14:05:04.3535
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wNvLW19uSRT0z0HrHiSpSt2cUi6bbMlCsTD//08bhmd3xJ9VQMdrhpWW/1jkhuyWPXCVzX/A6aWiAMDiA0y3Ru6whawLE9wq0oy9hpmAZFA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6564
+X-OriginatorOrg: intel.com
+X-Spam-Status: No, score=-2.4 required=5.0 tests=ARC_INVALID,ARC_SIGNED,
+	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+	HTML_MESSAGE,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: 6701D4945E9
+X-Rspamd-Queue-Id: 1216549B99F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.21 / 15.00];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[lunn.ch,none];
-	MAILLIST(-0.20)[generic];
+X-Spamd-Result: default: False [2.29 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	FAKE_REPLY(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
-	R_DKIM_ALLOW(-0.20)[lunn.ch:s=20171124];
-	MIME_GOOD(-0.10)[text/plain];
+	MAILLIST(-0.20)[generic];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3976-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS(0.00)[m:jacky_chou@aspeedtech.com,m:andhsieh@nvidia.com,m:linux-aspeed@lists.ozlabs.org,m:molberding@nvidia.com,s:lists@lfdr.de];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[bounces-3991-lists,linux-aspeed=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,intel.com:dkim,aspeedtech.com:email,IA1PR11MB8152.namprd11.prod.outlook.com:mid];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	NEURAL_HAM(-0.00)[-0.999];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[lunn.ch:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[oleksandr.shulzhenko@intel.com,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	FORGED_SENDER_MAILLIST(0.00)[]
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[9]
 
-On Wed, Apr 29, 2026 at 02:08:51AM +0000, Jacky Chou wrote:
-> Hi Ender,
-> 
-> We stopped to submit the RGMII delay configuration in ftgmac100 driver, please
-> adjust the correct RGMII delay and configure in bootloader.
-> 
-> Currently, we suggest the PHY side to enable TX and RX internal delay, which
-> means the phy-mode is set to 'rgmii-id' to tell the PHY driver to enable both
-> delay to its PHY device.
+--_000_IA1PR11MB8152D824BEBEBDD4668F97EC99342IA1PR11MB8152namp_
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-Please don't top post. It makes it harder to make the emails
-understandable.
+Subject: Re: [PATCH 2/7] soc: aspeed: Introduce core eSPI controller support
 
-> Thanks for the update on the AST2700 ftgmac100 plans.
-> 
-> A bit of context from our side: we're working on the OpenBMC upstream
-> effort for nvl32 (the AST2600-based msx4 platform Marc Olberding
-> upstreamed in commit f28674fab34f). To get host networking working on
-> our test platform we currently carry a local kernel patch in the
-> OpenBMC layer that re-adds the mac0/mdio3/ethphy3 nodes, but holding
-> it there long-term goes against upstream-first principles and the
-> Gerrit reviewer has flagged it.
-> 
-> Given AST2600 ftgmac100 work is sequenced after the AST2700 series,
-> do you have any suggestions on how we could resolve this using
-> upstream resources — e.g. an interim path that's acceptable to the
-> community while we wait for the proper driver fix? Any pointer on
-> the right shape (RFC PATCH, openbmc/linux backport, something else)
-> would help us a lot.
+Add core eSPI controller support and common code for ASPEED SoCs. The
+eSPI engine is a slave device in BMC to communicate with the Host over
+the eSPI interface.
 
-Hi Ender
+The initial support includes basic eSPI driver probe/remove operations,
+and provides operators for ASPEED SoCs to implement their own eSPI slave
+device drivers that are different among SoC models.
 
-The problem about getting stuff upstream is phy-mode. If you don't
-have the PCB adding the delays, you need to use phy-mode='rmgii-id'.
-Which is the typical design.
+Signed-off-by: aspeedyh yh_chung@aspeedtech.com<mailto:yh_chung@aspeedtech.=
+com>
+---
+[...]
+diff --git a/drivers/soc/aspeed/espi/aspeed-espi.c b/drivers/soc/aspeed/esp=
+i/aspeed-espi.c
+new file mode 100644
+index 000000000000..15d58b38bbe4
+--- /dev/null
++++ b/drivers/soc/aspeed/espi/aspeed-espi.c
+@@ -0,0 +1,143 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Unified Aspeed eSPI driver framework for different generation SoCs
++ */
++
++#include <linux/clk.h>
++#include <linux/dma-mapping.h>
++#include <linux/interrupt.h>
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/reset.h>
++
++#include "aspeed-espi.h"
++
++struct aspeed_espi_ops {
++       void (*espi_pre_init)(struct aspeed_espi *espi);
++       void (*espi_post_init)(struct aspeed_espi *espi);
++       void (*espi_deinit)(struct aspeed_espi *espi);
++       irqreturn_t (*espi_isr)(int irq, void *espi);
++};
++
++static const struct of_device_id aspeed_espi_of_matches[] =3D {
++       { }
++};
++MODULE_DEVICE_TABLE(of, aspeed_espi_of_matches);
++
++static int aspeed_espi_probe(struct platform_device *pdev)
++{
++       const struct of_device_id *match;
++       struct aspeed_espi *espi;
++       struct resource *res;
++       struct device *dev;
++       int rc;
++
++       dev =3D &pdev->dev;
++       espi =3D devm_kzalloc(dev, sizeof(*espi), GFP_KERNEL);
++       if (!espi)
++               return -ENOMEM;
++
++       espi->dev =3D dev;
++       match =3D of_match_device(aspeed_espi_of_matches, dev);
++       if (!match)
++               return -ENODEV;
++
++       espi->pdev =3D pdev;
++       espi->ops =3D match->data;
++       if (!espi->ops || !espi->ops->espi_isr)
++               return -EINVAL;
++
++       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
++       if (!res) {
++               dev_err(dev, "cannot get resource\n");
++               return -ENODEV;
++       }
++
++       espi->regs =3D devm_ioremap_resource(dev, res);
++       if (IS_ERR(espi->regs)) {
++               dev_err(dev, "cannot map registers\n");
++               return PTR_ERR(espi->regs);
++       }
++
++       espi->irq =3D platform_get_irq(pdev, 0);
++       if (espi->irq < 0) {
++               dev_err(dev, "cannot get IRQ number\n");
++               return espi->irq;
++       }
++
++       espi->rst =3D devm_reset_control_get_optional(dev, NULL);
++       if (IS_ERR(espi->rst)) {
++               dev_err(dev, "cannot get reset control\n");
++               return PTR_ERR(espi->rst);
++       }
++
++       espi->clk =3D devm_clk_get(dev, NULL);
++       if (IS_ERR(espi->clk)) {
++               dev_err(dev, "cannot get clock control\n");
++               return PTR_ERR(espi->clk);
++       }
++
++       rc =3D clk_prepare_enable(espi->clk);
++       if (rc) {
++               dev_err(dev, "cannot enable clocks\n");
++               return rc;
++       }
+> +
+> +     if (espi->ops->espi_pre_init)
+> +             espi->ops->espi_pre_init(espi);
+is there a chance ops are unitialized? In any place you do this check
++
++       rc =3D devm_request_irq(dev, espi->irq, espi->ops->espi_isr, 0,
++                             dev_name(dev), espi);
++       if (rc) {
++               dev_err(dev, "cannot request IRQ\n");
++               goto err_deinit;
++       }
++
++       if (espi->ops->espi_post_init)
++               espi->ops->espi_post_init(espi);
++
++       platform_set_drvdata(pdev, espi);
++
++       dev_info(dev, "module loaded\n");
++
++       return 0;
++
++err_deinit:
++       if (espi->ops->espi_deinit)
++               espi->ops->espi_deinit(espi);
++       clk_disable_unprepare(espi->clk);
++
++       return rc;
++}
++
+> +static void aspeed_espi_remove(struct platform_device *pdev)
+> +{
+> +     struct aspeed_espi *espi;
+> +
+> +     espi =3D platform_get_drvdata(pdev);
+> +
+> +     if (!espi)
+> +             return;
+espi pointer is unlikely to be null here, I suggest removing the NULL check
++
++       if (espi->ops->espi_deinit)
++               espi->ops->espi_deinit(espi);
++
++       clk_disable_unprepare(espi->clk);
++}
++
++static struct platform_driver aspeed_espi_driver =3D {
++       .driver =3D {
++               .name =3D "aspeed-espi",
++               .of_match_table =3D aspeed_espi_of_matches,
++       },
++       .probe =3D aspeed_espi_probe,
++       .remove =3D aspeed_espi_remove,
++};
++
++module_platform_driver(aspeed_espi_driver);
++
++MODULE_AUTHOR("Aspeed Technology Inc.");
++MODULE_DESCRIPTION("Aspeed eSPI controller");
++MODULE_LICENSE("GPL");
+[...]
 
-The root cause of the problem is actually the bootloader. It enables
-the delays in the MAC. The Linux MAC driver leaves them untouched, but
-it also passed the phy-mode direct to the PHY, not taking into account
-that the MAC has added delays.
+---------------------------------------------------------------------
+Intel Technology Poland sp. z o.o.
+ul. Slowackiego 173 | 80-298 Gdansk | Sad Rejonowy Gdansk Polnoc | VII Wydz=
+ial Gospodarczy Krajowego Rejestru Sadowego - KRS 101882 | NIP 957-07-52-31=
+6 | Kapital zakladowy 200.000 PLN.
+Spolka oswiadcza, ze posiada status duzego przedsiebiorcy w rozumieniu usta=
+wy z dnia 8 marca 2013 r. o przeciwdzialaniu nadmiernym opoznieniom w trans=
+akcjach handlowych.
 
-The quick and easy fix for getting patches merged into Mainline Linux
-is to patch the bootloader. Stop it enabling delays in the MAC. You
-can then use the correct phy-mode. If you go this way, place make it
-clear in the commit message you have modified the bootloader.
+Ta wiadomosc wraz z zalacznikami jest przeznaczona dla okreslonego adresata=
+ i moze zawierac informacje poufne. W razie przypadkowego otrzymania tej wi=
+adomosci, prosimy o powiadomienie nadawcy oraz trwale jej usuniecie; jakiek=
+olwiek przegladanie lub rozpowszechnianie jest zabronione.
+This e-mail and any attachments may contain confidential material for the s=
+ole use of the intended recipient(s). If you are not the intended recipient=
+, please contact the sender and delete all copies; any review or distributi=
+on by others is strictly prohibited.
 
-The more complex way to solve this is to make the Linux MAC driver
-look at how the bootloader has configured the delays, compare it
-against phy-mode, and decide what to do. I've not thought through all
-the combinations but something like:
+--_000_IA1PR11MB8152D824BEBEBDD4668F97EC99342IA1PR11MB8152namp_
+Content-Type: text/html; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-* If the bootloader MAC configuration is not adding delays, do
-  nothing. (This covers what i just suggested)
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Aptos;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:12.0pt;
+	font-family:"Aptos",sans-serif;
+	mso-ligatures:standardcontextual;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#467886;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Aptos",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#467886" vlink=3D"#96607D" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Subject: Re: [PATCH 2/7] soc: aspeed: Introduce core=
+ eSPI controller support<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Add core eSPI controller support and common code for=
+ ASPEED SoCs. The<o:p></o:p></p>
+<p class=3D"MsoNormal">eSPI engine is a slave device in BMC to communicate =
+with the Host over<o:p></o:p></p>
+<p class=3D"MsoNormal">the eSPI interface.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">The initial support includes basic eSPI driver probe=
+/remove operations,<o:p></o:p></p>
+<p class=3D"MsoNormal">and provides operators for ASPEED SoCs to implement =
+their own eSPI slave<o:p></o:p></p>
+<p class=3D"MsoNormal">device drivers that are different among SoC models.<=
+o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Signed-off-by: aspeedyh <a href=3D"mailto:yh_chung@a=
+speedtech.com">
+yh_chung@aspeedtech.com</a><o:p></o:p></p>
+<p class=3D"MsoNormal">---<o:p></o:p></p>
+<p class=3D"MsoNormal">[...]<o:p></o:p></p>
+<p class=3D"MsoNormal">diff --git a/drivers/soc/aspeed/espi/aspeed-espi.c b=
+/drivers/soc/aspeed/espi/aspeed-espi.c<o:p></o:p></p>
+<p class=3D"MsoNormal">new file mode 100644<o:p></o:p></p>
+<p class=3D"MsoNormal">index 000000000000..15d58b38bbe4<o:p></o:p></p>
+<p class=3D"MsoNormal">--- /dev/null<o:p></o:p></p>
+<p class=3D"MsoNormal">+++ b/drivers/soc/aspeed/espi/aspeed-espi.c<o:p></o:=
+p></p>
+<p class=3D"MsoNormal">@@ -0,0 +1,143 @@<o:p></o:p></p>
+<p class=3D"MsoNormal">+// SPDX-License-Identifier: GPL-2.0+<o:p></o:p></p>
+<p class=3D"MsoNormal">+/*<o:p></o:p></p>
+<p class=3D"MsoNormal">+ * Unified Aspeed eSPI driver framework for differe=
+nt generation SoCs<o:p></o:p></p>
+<p class=3D"MsoNormal">+ */<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+#include &lt;linux/clk.h&gt;<o:p></o:p></p>
+<p class=3D"MsoNormal">+#include &lt;linux/dma-mapping.h&gt;<o:p></o:p></p>
+<p class=3D"MsoNormal">+#include &lt;linux/interrupt.h&gt;<o:p></o:p></p>
+<p class=3D"MsoNormal">+#include &lt;linux/module.h&gt;<o:p></o:p></p>
+<p class=3D"MsoNormal">+#include &lt;linux/of_device.h&gt;<o:p></o:p></p>
+<p class=3D"MsoNormal">+#include &lt;linux/of.h&gt;<o:p></o:p></p>
+<p class=3D"MsoNormal">+#include &lt;linux/platform_device.h&gt;<o:p></o:p>=
+</p>
+<p class=3D"MsoNormal">+#include &lt;linux/reset.h&gt;<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+#include &quot;aspeed-espi.h&quot;<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+struct aspeed_espi_ops {<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void (*espi_pr=
+e_init)(struct aspeed_espi *espi);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void (*espi_po=
+st_init)(struct aspeed_espi *espi);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void (*espi_de=
+init)(struct aspeed_espi *espi);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; irqreturn_t (*=
+espi_isr)(int irq, void *espi);<o:p></o:p></p>
+<p class=3D"MsoNormal">+};<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+static const struct of_device_id aspeed_espi_of_mat=
+ches[] =3D {<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { }<o:p></o:p>=
+</p>
+<p class=3D"MsoNormal">+};<o:p></o:p></p>
+<p class=3D"MsoNormal">+MODULE_DEVICE_TABLE(of, aspeed_espi_of_matches);<o:=
+p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+static int aspeed_espi_probe(struct platform_device=
+ *pdev)<o:p></o:p></p>
+<p class=3D"MsoNormal">+{<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const struct o=
+f_device_id *match;<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct aspeed_=
+espi *espi;<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct resourc=
+e *res;<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct device =
+*dev;<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int rc;<o:p></=
+o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dev =3D &amp;p=
+dev-&gt;dev;<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; espi =3D devm_=
+kzalloc(dev, sizeof(*espi), GFP_KERNEL);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!espi)<o:p=
+></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return -ENOMEM;<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; espi-&gt;dev =
+=3D dev;<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; match =3D of_m=
+atch_device(aspeed_espi_of_matches, dev);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!match)<o:=
+p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return -ENODEV;<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; espi-&gt;pdev =
+=3D pdev;<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; espi-&gt;ops =
+=3D match-&gt;data;<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!espi-&gt;=
+ops || !espi-&gt;ops-&gt;espi_isr)<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return -EINVAL;<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; res =3D platfo=
+rm_get_resource(pdev, IORESOURCE_MEM, 0);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!res) {<o:=
+p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dev_err(dev, &quot;cannot get resource\n&=
+quot;);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return -ENODEV;<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></=
+p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; espi-&gt;regs =
+=3D devm_ioremap_resource(dev, res);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (IS_ERR(esp=
+i-&gt;regs)) {<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dev_err(dev, &quot;cannot map registers\n=
+&quot;);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return PTR_ERR(espi-&gt;regs);<o:p></o:p>=
+</p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></=
+p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; espi-&gt;irq =
+=3D platform_get_irq(pdev, 0);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (espi-&gt;i=
+rq &lt; 0) {<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dev_err(dev, &quot;cannot get IRQ number\=
+n&quot;);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return espi-&gt;irq;<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></=
+p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; espi-&gt;rst =
+=3D devm_reset_control_get_optional(dev, NULL);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (IS_ERR(esp=
+i-&gt;rst)) {<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dev_err(dev, &quot;cannot get reset contr=
+ol\n&quot;);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return PTR_ERR(espi-&gt;rst);<o:p></o:p><=
+/p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></=
+p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; espi-&gt;clk =
+=3D devm_clk_get(dev, NULL);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (IS_ERR(esp=
+i-&gt;clk)) {<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dev_err(dev, &quot;cannot get clock contr=
+ol\n&quot;);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return PTR_ERR(espi-&gt;clk);<o:p></o:p><=
+/p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></=
+p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rc =3D clk_pre=
+pare_enable(espi-&gt;clk);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (rc) {<o:p>=
+</o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dev_err(dev, &quot;cannot enable clocks\n=
+&quot;);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return rc;<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></=
+p>
+<p class=3D"MsoNormal">&gt; +<o:p></o:p></p>
+<p class=3D"MsoNormal">&gt; +&nbsp;&nbsp;&nbsp;&nbsp; if (espi-&gt;ops-&gt;=
+espi_pre_init)<o:p></o:p></p>
+<p class=3D"MsoNormal">&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp; espi-&gt;ops-&gt;espi_pre_init(espi);<o:p></o:p>=
+</p>
+<p class=3D"MsoNormal">is there a chance ops are unitialized? In any place =
+you do this check<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rc =3D devm_re=
+quest_irq(dev, espi-&gt;irq, espi-&gt;ops-&gt;espi_isr, 0,<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dev_name(dev), espi);<o:p></o:p>=
+</p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (rc) {<o:p>=
+</o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dev_err(dev, &quot;cannot request IRQ\n&q=
+uot;);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; goto err_deinit;<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<o:p></o:p></=
+p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (espi-&gt;o=
+ps-&gt;espi_post_init)<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; espi-&gt;ops-&gt;espi_post_init(espi);<o:=
+p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; platform_set_d=
+rvdata(pdev, espi);<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dev_info(dev, =
+&quot;module loaded\n&quot;);<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 0;<o:p>=
+</o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+err_deinit:<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (espi-&gt;o=
+ps-&gt;espi_deinit)<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; espi-&gt;ops-&gt;espi_deinit(espi);<o:p><=
+/o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; clk_disable_un=
+prepare(espi-&gt;clk);<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return rc;<o:p=
+></o:p></p>
+<p class=3D"MsoNormal">+}<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">&gt; +static void aspeed_espi_remove(struct platform=
+_device *pdev)<o:p></o:p></p>
+<p class=3D"MsoNormal">&gt; +{<o:p></o:p></p>
+<p class=3D"MsoNormal">&gt; +&nbsp;&nbsp;&nbsp;&nbsp; struct aspeed_espi *e=
+spi;<o:p></o:p></p>
+<p class=3D"MsoNormal">&gt; +<o:p></o:p></p>
+<p class=3D"MsoNormal">&gt; +&nbsp;&nbsp;&nbsp;&nbsp; espi =3D platform_get=
+_drvdata(pdev);<o:p></o:p></p>
+<p class=3D"MsoNormal">&gt; +<o:p></o:p></p>
+<p class=3D"MsoNormal">&gt; +&nbsp;&nbsp;&nbsp;&nbsp; if (!espi)<o:p></o:p>=
+</p>
+<p class=3D"MsoNormal">&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp; return;<o:p></o:p></p>
+<p class=3D"MsoNormal">espi pointer is unlikely to be null here, I suggest =
+removing the NULL check<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (espi-&gt;o=
+ps-&gt;espi_deinit)<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; espi-&gt;ops-&gt;espi_deinit(espi);<o:p><=
+/o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; clk_disable_un=
+prepare(espi-&gt;clk);<o:p></o:p></p>
+<p class=3D"MsoNormal">+}<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+static struct platform_driver aspeed_espi_driver =
+=3D {<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .driver =3D {<=
+o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .name =3D &quot;aspeed-espi&quot;,<o:p></=
+o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .of_match_table =3D aspeed_espi_of_matche=
+s,<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; },<o:p></o:p><=
+/p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .probe =3D asp=
+eed_espi_probe,<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .remove =3D as=
+peed_espi_remove,<o:p></o:p></p>
+<p class=3D"MsoNormal">+};<o:p></o:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+module_platform_driver(aspeed_espi_driver);<o:p></o=
+:p></p>
+<p class=3D"MsoNormal">+<o:p></o:p></p>
+<p class=3D"MsoNormal">+MODULE_AUTHOR(&quot;Aspeed Technology Inc.&quot;);<=
+o:p></o:p></p>
+<p class=3D"MsoNormal">+MODULE_DESCRIPTION(&quot;Aspeed eSPI controller&quo=
+t;);<o:p></o:p></p>
+<p class=3D"MsoNormal">+MODULE_LICENSE(&quot;GPL&quot;);<o:p></o:p></p>
+<p class=3D"MsoNormal">[...]<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+<p>
+    <hr/>
+    <strong style=3D"line-height: 11.25pt;">
+        <span style=3D"font-size: 9pt; color: #595959;">
+            <span style=3D"font-family: 'Arial Narrow', sans-serif;">Intel =
+Technology Poland sp. z o.o.<br>
+            </span>
+        </span>
+    </strong>
+    <span style=3D"color:#595959; font-family: 'Arial Narrow', sans-serif; =
+font-size: 9pt; line-height: 11.25pt;">
+        ul. S&#322;owackiego 173 | 80-298 Gda&#324;sk | S&#261;d Rejonowy G=
+da&#324;sk P&#243;&#322;noc | VII Wydzia&#322; Gospodarczy Krajowego Rejest=
+ru S&#261;dowego - KRS 101882 | NIP 957-07-52-316 | Kapita&#322; zak&#322;a=
+dowy 200.000 PLN.<br/>
+              Sp&#243;&#322;ka o&#347;wiadcza, &#380;e posiada status du&#3=
+80;ego przedsi&#281;biorcy w rozumieniu ustawy z dnia 8 marca 2013 r. o prz=
+eciwdzia&#322;aniu nadmiernym op&#243;&#378;nieniom w transakcjach handlowy=
+ch.
+    </span>
+</p>
+<p>
+    <span style=3D"font-size:8.0pt;  font-family:'Arial Narrow',sans-serif;=
+ mso-fareast-font-family: 'Times New Roman';mso-bidi-font-family:Arial; col=
+or:#595959; mso-ansi-language:EN-US; mso-fareast-language:EN-US; mso-bidi-l=
+anguage: PL-PL">
+        Ta wiadomo&#347;&#263; wraz z za&#322;&#261;cznikami jest przeznacz=
+ona dla okre&#347;lonego adresata i mo&#380;e zawiera&#263; informacje pouf=
+ne. W razie przypadkowego otrzymania tej wiadomo&#347;ci, prosimy o powiado=
+mienie nadawcy oraz trwa&#322;e jej usuni&#281;cie; jakiekolwiek przegl&#26=
+1;danie lub rozpowszechnianie jest zabronione.<br>
+        This e-mail and any attachments may contain confidential material f=
+or the sole use of the intended recipient(s). If you are not the intended r=
+ecipient, please contact the sender and delete all copies; any review or di=
+stribution by others is strictly prohibited.
+    </span>
+</p>
+<p class=3D"MsoNormal"><o:p></o:p></p>
+</body>
+</html>
 
-* If the bootloader MAC configuration is adding delays, and phy-mode
-  == 'rmgii', turn off the delays and pass phy-mode=rgmii-id to the PHY
-  (This covers any DT blobs which got passed me and merged)
-  
-* If the bootloader MAC configuration is adding delays, and phy-mode
-  == 'rmgii-id', turn off the delays and pass phy-mode=rgmii-id to the
-  PHY (This covers how it should be)
-
-What makes it more complex is that delays are not simple on/off, but a
-range of values. If the PCB is badly designed you sometimes need small
-delays to compensate. So rather than having a delay of 2ns, it might
-be 2.1ns. Or it might be 0.1ns. If it is 2.1ns, when you turn it off,
-you need to set the MAC to actually add 0.1ns delay. And you need to
-consider 0.1ns as not adding delays, and keep the 0.1ns. And if the
-delay is actually 1.8ns, it gets even more interesting, because i
-doubt the hardware can add a delay of -0.2ns, so you should actually
-leave the MAC delay alone, and pass phy-mode = rgmii to the PHY so it
-does not add delays as well.
-
-If you decide you want to make changes to the MAC driver, do it, post
-patches, and they will get reviewed. And given the number of dts files
-i've stopped getting merged, it should not be hard to find others to
-do testing for you, and you might end up with a crate of beer/box of
-wine from other openBMC users.
-
-     Andrew
-
+--_000_IA1PR11MB8152D824BEBEBDD4668F97EC99342IA1PR11MB8152namp_--
 
 
