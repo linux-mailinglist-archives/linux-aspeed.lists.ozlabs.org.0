@@ -1,59 +1,59 @@
-Return-Path: <linux-aspeed+bounces-3984-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3981-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8HCFMv9H8mm1pQEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3984-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:03:43 +0200
+	id KNG9L/tH8mm1pQEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3981-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:03:39 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6F4498886
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:03:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE45498871
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:03:39 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4g5QCb3XcJz2yqP;
-	Thu, 30 Apr 2026 04:03:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4g5QCY17MKz2ySc;
+	Thu, 30 Apr 2026 04:03:37 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=185.171.202.116
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1777485819;
-	cv=none; b=FW1BwKNAcbJdz2Vo76kPXEk7lsDNymL+bw9LWLIm4UygIArvCERWv1LaX491YvRIywxhhSJPmj9xfWK6kA32u+Rq9fi5K6DsFQ8xOLZ5DWBon0I/glSfaP9JnoUTRpwTaNBPSHHtbGyQd7iuqwt4mlY3qbzTMn7XaGYZ1rHIvpNbtHvPb+kQgbnk3UKCL2T0G6fn+2LOgyUCyb9x3mqxlWxox4OlN9B4ycMVLu9pDyVBSP3pf/X/TvdVfvvd0SaUK87eqhwPwbCruMR5tWH8GwhcseSad8njw8/06zXT1/fM0etqKq8tINM0RS9eJ7B4gg3LqFEExz9UVwEK1AORvw==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1777485817;
+	cv=none; b=WctPCELOaJAsVMv0ypFogB8LgR0MfuUEU6VmFJ+3VpkrHTXQFw00id6Ajz51lIU/bR9CjW3YFAXe+gXaSpUrIQ2v/jsS3DMuHkVY4gU/JPDBC4n4dn859IaEnGQ3nmmmV9gtwYngomRSspQiutQ0NvquwDuPk9yUE3jwcjwEjKV/iOMxDJ0CSTuy4QLVaIp6HoNRIxN2tTH7llpPPY+R3LPB0vIdX7CBgVoWdNUv+u76qsHUgz0VxOjAW0g/uP+tdhbOKRlr13TjNdHN6tmcpghzQPQ94qYB4rhc2h1xZwJ6GrpL4A6jBtYvrdFJ5Do/fGjQqkeGXJhcJrzDN6WzLQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1777485819; c=relaxed/relaxed;
-	bh=djNQC+WiehgbSjZPUHPGAOR2nkZcZmEr0KjHIcYf3t4=;
+	t=1777485817; c=relaxed/relaxed;
+	bh=MmcPFcCFT0gegKw7/GAlAOSTHc6JlaEROIWqR2nOl4k=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Wu0FyXn9ZnVbmtqlahyzwzfG2mjC/U0hhiOiRbslV+qSP0+kszuVE+31iiutvfnUsBSEaKK6+uq5YRcGBD6LkIG8xo2nf40eiFAPpe7gVRHlXbnvf/9xu9HrlWsfeSMgg60TxEi7UGc2jxclzSsJqENipoTd+FGVLYbXEy9O4DCTTULwgcW1mfShTn5rWSqKvDEorHAouGSEu4N3rd538pE4kvJDJVdnFskq/ZOk40uqt9WXdoGJKD3N0G3VVMHpBM5kbnXFHBeCFCWAozoh0/vRmq1v62ZFMXgm+anXLk5UIhezbH6J7DqXHdVWj/L1u3bHw80+w7QmFJ25JAySig==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=NmSZF+iW; dkim-atps=neutral; spf=pass (client-ip=185.171.202.116; helo=smtpout-04.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
+	 In-Reply-To:To:Cc; b=XxcaR6ddRdo5Ge2BC6mm8xGg7eeiXaZxFLzC7zPOl1gUcxzpMbfvGAfuLJyPWIVtLoe5AfhWdmywKFb3z8c0mfNVaoDXRphlMbQNh3W7vaWQ9YKnFljmAfFrvKy2Gp7Q8GBLLR96hdxTg/lrIzsRzrVdqHtbtK7vJiV66cS2NE8RHdjl4KXUQfAiZqjsyAZlUwGHkKNASjmVp1Owm8iqHvI/aRLqo2nbt9ILOal/+3QQ21JA0x2rINnwxW7UeOfgy7Mf3w0s4qMNZPBD7gQZJrtMW95PWhMrRyp2eonioBQJ+DMtlR0wCpumfWBydS49BhZCXcUWwZHNhkV15dpSLw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Kc0vRRlq; dkim-atps=neutral; spf=pass (client-ip=185.171.202.116; helo=smtpout-04.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=NmSZF+iW;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Kc0vRRlq;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=185.171.202.116; helo=smtpout-04.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org)
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4g5QCZ1r4Rz2yjp
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Apr 2026 04:03:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4g5QCW2t8Vz2yqT
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Apr 2026 04:03:34 +1000 (AEST)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 3F4D4C5CD60;
-	Wed, 29 Apr 2026 17:59:02 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 290B4C5CD63;
+	Wed, 29 Apr 2026 17:59:06 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 0CCFF5FD43;
-	Wed, 29 Apr 2026 17:58:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3C0971072B171;
-	Wed, 29 Apr 2026 19:58:12 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E99E35FD43;
+	Wed, 29 Apr 2026 17:58:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6FE631072B176;
+	Wed, 29 Apr 2026 19:58:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777485495; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1777485500; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=djNQC+WiehgbSjZPUHPGAOR2nkZcZmEr0KjHIcYf3t4=;
-	b=NmSZF+iWjEyn2SmSbXR4+EkHCCLdjDtILUG9X51p5SCiphlxZnjKNNGhMMDdv6+IE8Z0pT
-	ASIHf/oK5ins8abEGkf3OT/DpAh4+l/rTkVjcESvNc56zjX3c6MzBilErApZ2Bhx8qWhnA
-	q4skr5wiZcq3mmwHq2jiVNGW1mYCJN/tNbDh2F3BzrrvyfD4fdGmhsSID0jKhhjNOiGAz6
-	jJJPYq8QKvuUtagfzMs9+zJqCAJairETws7j+Woa85G71iDosgPBr85dnsTyIGKlD82Shb
-	llYfvCKlpMGTCJF/Xyt0qdAzxC71iYXH4L/FxQpv9jVgln0FJY4chh9edS6YQw==
+	bh=MmcPFcCFT0gegKw7/GAlAOSTHc6JlaEROIWqR2nOl4k=;
+	b=Kc0vRRlqvfSudEFr1jF1Gd7LJngYIVk/OpJ9Xy8LuG253NtHk6/h4qCUHyLC/uelRVb4cc
+	4dtdIBzKI2GiH9nxWVLuBkH0XM6+60TUTV3lPbduunRwVmtsS7NZANu7HdJhAtQLgyg/XC
+	qfAyvlNfSlYsoOKdexYgZ4wm/bWSodcggsYCwEBKkDHvzztBYmluC6xuKPrOLpX9/h7Qic
+	pT6L6tnkencqHbZvV4EVzLeBhMxFjsgykFNa9YcAAIpXCmpJMwhvoG1NFc/Ior2L3DtbkU
+	3DKkjUd9tAEKhfs0hEhZ7womvlhnP/h4dMJsvpfuXnYvpxywIGUMsaSX8ch/9Q==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Wed, 29 Apr 2026 19:56:47 +0200
-Subject: [PATCH v3 10/11] mtd: spinand: winbond: Create a helper to detect
- the need for the HS bit
+Date: Wed, 29 Apr 2026 19:56:48 +0200
+Subject: [PATCH v3 11/11] mtd: spinand: winbond: Add support for continuous
+ reads on W25NxxJW
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -69,7 +69,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260429-winbond-v6-18-rc1-cont-read-v3-10-0f38b3c229ad@bootlin.com>
+Message-Id: <20260429-winbond-v6-18-rc1-cont-read-v3-11-0f38b3c229ad@bootlin.com>
 References: <20260429-winbond-v6-18-rc1-cont-read-v3-0-0f38b3c229ad@bootlin.com>
 In-Reply-To: <20260429-winbond-v6-18-rc1-cont-read-v3-0-0f38b3c229ad@bootlin.com>
 To: Mark Brown <broonie@kernel.org>, Richard Weinberger <richard@nod.at>, 
@@ -99,7 +99,7 @@ X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: 3E6F4498886
+X-Rspamd-Queue-Id: 3EE45498871
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
@@ -111,7 +111,7 @@ X-Spamd-Result: default: False [-0.71 / 15.00];
 	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3984-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3981-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,nod.at,ti.com,bootlin.com,infineon.com,airoha.com,aspeedtech.com,kaod.org,jms.id.au,codeconstruct.com.au,gmail.com,google.com,foss.st.com,gmx.net];
@@ -129,7 +129,7 @@ X-Spamd-Result: default: False [-0.71 / 15.00];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[miquel.raynal@bootlin.com,linux-aspeed@lists.ozlabs.org];
 	DKIM_TRACE(0.00)[bootlin.com:+];
-	NEURAL_HAM(-0.00)[-0.965];
+	NEURAL_HAM(-0.00)[-0.968];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	MID_RHS_MATCH_FROM(0.00)[];
@@ -137,66 +137,181 @@ X-Spamd-Result: default: False [-0.71 / 15.00];
 	TAGGED_RCPT(0.00)[linux-aspeed];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
 
-The logic is not complex but might be reused to cleanup a bit the
-section by moving it to a dedicated helper.
+As for the W35NxxJW family, add support for W25N{01,02}JW continuous
+read support. Similar operations require to be done, such as setting a
+specific bit in a configuration register, and providing a set of read
+variants without the address cycles.
+
+As read from cache variants are badly supported by SPI memory
+controllers, we create a new set of read from cache templates with a
+fake address cycle and just enough dummy cycles. There are two
+unsupported configurations (which would require 4.5 dummy bytes), so we
+just do not provide them.
+
+The same extra value in the ECC is possible as with the W35NxxJW family,
+so we reference the same helper to retrieve the ECC status.
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- drivers/mtd/nand/spi/winbond.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+All variants have been validated on a Nuvoton MA35D1 platform.
+---
+ drivers/mtd/nand/spi/winbond.c | 108 +++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 98 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/mtd/nand/spi/winbond.c b/drivers/mtd/nand/spi/winbond.c
-index b30a343a6672..ffbcd25b0366 100644
+index ffbcd25b0366..578f702528ee 100644
 --- a/drivers/mtd/nand/spi/winbond.c
 +++ b/drivers/mtd/nand/spi/winbond.c
-@@ -421,30 +421,33 @@ static int w25n0xjw_set_sr4_hs(struct spinand_device *spinand, bool enable)
- 	return spinand_write_reg_op(spinand, W25N0XJW_SR4, sr4);
- }
+@@ -46,6 +46,62 @@
+ 		   SPI_MEM_OP_DATA_IN(len, buf, 1),			\
+ 		   SPI_MEM_OP_MAX_FREQ(freq))
  
-+/*
-+ * SDR dual and quad I/O operations over 104MHz require the HS bit to
-+ * enable a few more dummy cycles.
-+ */
-+static bool w25n0xjw_op_needs_hs(const struct spi_mem_op *op)
-+{
-+	if (op->cmd.dtr || op->addr.dtr || op->dummy.dtr || op->data.dtr)
-+		return false;
-+	else if (op->cmd.buswidth != 1 || op->addr.buswidth == 1)
-+		return false;
-+	else if (op->max_freq && op->max_freq <= 104 * HZ_PER_MHZ)
-+		return false;
++#define WINBOND_CONT_READ_FROM_CACHE_1S_1D_1D_OP(ndummy, buf, len, freq) \
++	SPI_MEM_OP(SPI_MEM_OP_CMD(0x0d, 1),				\
++		   SPI_MEM_DTR_OP_ADDR(2, 0, 1),			\
++		   SPI_MEM_DTR_OP_DUMMY(ndummy, 1),			\
++		   SPI_MEM_DTR_OP_DATA_IN(len, buf, 1),			\
++		   SPI_MEM_OP_MAX_FREQ(freq))
 +
-+	return true;
-+}
++#define WINBOND_CONT_READ_FROM_CACHE_1S_1S_2S_OP(ndummy, buf, len, freq) \
++	SPI_MEM_OP(SPI_MEM_OP_CMD(0x3b, 1),				\
++		   SPI_MEM_OP_ADDR(1, 0, 1),				\
++		   SPI_MEM_OP_DUMMY(ndummy - 1, 1),			\
++		   SPI_MEM_OP_DATA_IN(len, buf, 2),			\
++		   SPI_MEM_OP_MAX_FREQ(freq))
 +
- static int w25n0xjw_hs_cfg(struct spinand_device *spinand,
- 			   enum spinand_bus_interface iface)
- {
- 	const struct spi_mem_op *op;
--	bool hs;
++#define WINBOND_CONT_READ_FROM_CACHE_1S_2S_2S_OP(ndummy, buf, len, freq) \
++	SPI_MEM_OP(SPI_MEM_OP_CMD(0xbb, 1),				\
++		   SPI_MEM_OP_ADDR(1, 0, 2),				\
++		   SPI_MEM_OP_DUMMY(ndummy - 1, 2),			\
++		   SPI_MEM_OP_DATA_IN(len, buf, 2),			\
++		   SPI_MEM_OP_MAX_FREQ(freq))
++
++#define WINBOND_CONT_READ_FROM_CACHE_1S_2D_2D_OP(ndummy, buf, len, freq) \
++	SPI_MEM_OP(SPI_MEM_OP_CMD(0xbd, 1),				\
++		   SPI_MEM_DTR_OP_ADDR(1, 0, 2),			\
++		   SPI_MEM_DTR_OP_DUMMY(ndummy - 1, 2),			\
++		   SPI_MEM_DTR_OP_DATA_IN(len, buf, 2),			\
++		   SPI_MEM_OP_MAX_FREQ(freq))
++
++#define WINBOND_CONT_READ_FROM_CACHE_1S_1S_4S_OP(ndummy, buf, len, freq) \
++	SPI_MEM_OP(SPI_MEM_OP_CMD(0x6b, 1),				\
++		   SPI_MEM_OP_ADDR(1, 0, 1),				\
++		   SPI_MEM_OP_DUMMY(ndummy - 1, 1),			\
++		   SPI_MEM_OP_DATA_IN(len, buf, 4),			\
++		   SPI_MEM_OP_MAX_FREQ(freq))
++
++#define WINBOND_CONT_READ_FROM_CACHE_1S_1D_4D_OP(ndummy, buf, len, freq) \
++	SPI_MEM_OP(SPI_MEM_OP_CMD(0x6d, 1),				\
++		   SPI_MEM_DTR_OP_ADDR(1, 0, 1),			\
++		   SPI_MEM_DTR_OP_DUMMY(ndummy - 1, 1),			\
++		   SPI_MEM_DTR_OP_DATA_IN(len, buf, 4),			\
++		   SPI_MEM_OP_MAX_FREQ(freq))
++
++#define WINBOND_CONT_READ_FROM_CACHE_1S_4S_4S_OP(ndummy, buf, len, freq) \
++	SPI_MEM_OP(SPI_MEM_OP_CMD(0xeb, 1),				\
++		   SPI_MEM_OP_ADDR(1, 0, 4),				\
++		   SPI_MEM_OP_DUMMY(ndummy - 1, 4),			\
++		   SPI_MEM_OP_DATA_IN(len, buf, 4),			\
++		   SPI_MEM_OP_MAX_FREQ(freq))
++
++#define WINBOND_CONT_READ_FROM_CACHE_1S_4D_4D_OP(ndummy, buf, len, freq) \
++	SPI_MEM_OP(SPI_MEM_OP_CMD(0xed, 1),				\
++		   SPI_MEM_DTR_OP_ADDR(1, 0, 4),			\
++		   SPI_MEM_DTR_OP_DUMMY(ndummy - 1, 4),			\
++		   SPI_MEM_DTR_OP_DATA_IN(len, buf, 4),			\
++		   SPI_MEM_OP_MAX_FREQ(freq))
++
+ #define WINBOND_CONT_READ_FROM_CACHE_1S_1S_8S_OP(ndummy, buf, len, freq) \
+ 	SPI_MEM_OP(SPI_MEM_OP_CMD(0x8b, 1),				\
+ 		   SPI_MEM_OP_ADDR(1, 0, 1),				\
+@@ -133,6 +189,20 @@ static SPINAND_OP_VARIANTS(read_cache_dual_quad_dtr_variants,
+ 		SPINAND_PAGE_READ_FROM_CACHE_FAST_1S_1S_1S_OP(0, 1, NULL, 0, 0),
+ 		SPINAND_PAGE_READ_FROM_CACHE_1S_1S_1S_OP(0, 1, NULL, 0, 54 * HZ_PER_MHZ));
  
++static SPINAND_OP_VARIANTS(cont_read_cache_dual_quad_dtr_variants,
++		WINBOND_CONT_READ_FROM_CACHE_1S_4D_4D_OP(11, NULL, 0, 80 * HZ_PER_MHZ),
++		WINBOND_CONT_READ_FROM_CACHE_1S_1D_4D_OP(5, NULL, 0, 80 * HZ_PER_MHZ),
++		WINBOND_CONT_READ_FROM_CACHE_1S_4S_4S_OP(7, NULL, 0, 0),
++		WINBOND_CONT_READ_FROM_CACHE_1S_4S_4S_OP(6, NULL, 0, 104 * HZ_PER_MHZ),
++		WINBOND_CONT_READ_FROM_CACHE_1S_1S_4S_OP(4, NULL, 0, 0),
++		WINBOND_CONT_READ_FROM_CACHE_1S_2D_2D_OP(6, NULL, 0, 80 * HZ_PER_MHZ),
++		/* The 1S_1D_2D variant would require 4.5 dummy bytes, this is not possible */
++		WINBOND_CONT_READ_FROM_CACHE_1S_2S_2S_OP(5, NULL, 0, 0),
++		WINBOND_CONT_READ_FROM_CACHE_1S_2S_2S_OP(4, NULL, 0, 104 * HZ_PER_MHZ),
++		WINBOND_CONT_READ_FROM_CACHE_1S_1S_2S_OP(4, NULL, 0, 0),
++		/* The 1S_1D_1D variant would require 4.5 dummy bytes, this is not possible */
++		WINBOND_CONT_READ_FROM_CACHE_FAST_1S_1S_1S_OP(4, NULL, 0, 0));
++
+ static SPINAND_OP_VARIANTS(read_cache_variants,
+ 		SPINAND_PAGE_READ_FROM_CACHE_1S_4S_4S_OP(0, 2, NULL, 0, 0),
+ 		SPINAND_PAGE_READ_FROM_CACHE_1S_1S_4S_OP(0, 1, NULL, 0, 0),
+@@ -445,11 +515,25 @@ static int w25n0xjw_hs_cfg(struct spinand_device *spinand,
  	if (iface != SSDR)
  		return -EOPNOTSUPP;
  
--	/*
--	 * SDR dual and quad I/O operations over 104MHz require the HS bit to
--	 * enable a few more dummy cycles.
--	 */
++	/*
++	 * At this stage, we do not yet know the continuous read template, nor
++	 * if there is going to be one. Let's assume the continuous read
++	 * template will be selected with the same heuristics as the buffered
++	 * read variant, as there cannot be a HS configuration mismatch between
++	 * them.
++	 */
  	op = spinand->op_templates->read_cache;
--	if (op->cmd.dtr || op->addr.dtr || op->dummy.dtr || op->data.dtr)
--		hs = false;
--	else if (op->cmd.buswidth != 1 || op->addr.buswidth == 1)
--		hs = false;
--	else if (op->max_freq && op->max_freq <= 104 * HZ_PER_MHZ)
--		hs = false;
--	else
--		hs = true;
  
--	return w25n0xjw_set_sr4_hs(spinand, hs);
-+	return w25n0xjw_set_sr4_hs(spinand, w25n0xjw_op_needs_hs(op));
+ 	return w25n0xjw_set_sr4_hs(spinand, w25n0xjw_op_needs_hs(op));
  }
  
++static int w25n0xjw_set_cont_read(struct spinand_device *spinand, bool enable)
++{
++	u8 mask = enable ? 0 : WINBOND_CFG_BUF_READ;
++
++	return spinand_upd_cfg(spinand, WINBOND_CFG_BUF_READ, mask);
++}
++
  static int w35n0xjw_write_vcr(struct spinand_device *spinand, u8 reg, u8 val)
+ {
+ 	struct spi_mem_op op = SPINAND_OP(spinand, winbond_write_vcr,
+@@ -580,12 +664,14 @@ static const struct spinand_info winbond_spinand_table[] = {
+ 		     SPINAND_ID(SPINAND_READID_METHOD_OPCODE_DUMMY, 0xbc, 0x21),
+ 		     NAND_MEMORG(1, 2048, 64, 64, 1024, 20, 1, 1, 1),
+ 		     NAND_ECCREQ(1, 512),
+-		     SPINAND_INFO_OP_VARIANTS(&read_cache_dual_quad_dtr_variants,
+-					      &write_cache_variants,
+-					      &update_cache_variants),
++		     SPINAND_INFO_OP_VARIANTS_WITH_CONT(&read_cache_dual_quad_dtr_variants,
++							&write_cache_variants,
++							&update_cache_variants,
++							&cont_read_cache_dual_quad_dtr_variants),
+ 		     SPINAND_HAS_QE_BIT,
+-		     SPINAND_ECCINFO(&w25n01jw_ooblayout, NULL),
+-		     SPINAND_CONFIGURE_CHIP(w25n0xjw_hs_cfg)),
++		     SPINAND_ECCINFO(&w25n01jw_ooblayout, w25w35nxxjw_ecc_get_status),
++		     SPINAND_CONFIGURE_CHIP(w25n0xjw_hs_cfg),
++		     SPINAND_CONT_READ(w25n0xjw_set_cont_read)),
+ 	SPINAND_INFO("W25N01KV", /* 3.3V */
+ 		     SPINAND_ID(SPINAND_READID_METHOD_OPCODE_DUMMY, 0xae, 0x21),
+ 		     NAND_MEMORG(1, 2048, 96, 64, 1024, 20, 1, 1, 1),
+@@ -624,12 +710,14 @@ static const struct spinand_info winbond_spinand_table[] = {
+ 		     SPINAND_ID(SPINAND_READID_METHOD_OPCODE_DUMMY, 0xbf, 0x22),
+ 		     NAND_MEMORG(1, 2048, 64, 64, 1024, 20, 1, 2, 1),
+ 		     NAND_ECCREQ(1, 512),
+-		     SPINAND_INFO_OP_VARIANTS(&read_cache_dual_quad_dtr_variants,
+-					      &write_cache_variants,
+-					      &update_cache_variants),
++		     SPINAND_INFO_OP_VARIANTS_WITH_CONT(&read_cache_dual_quad_dtr_variants,
++							&write_cache_variants,
++							&update_cache_variants,
++							&cont_read_cache_dual_quad_dtr_variants),
+ 		     SPINAND_HAS_QE_BIT,
+-		     SPINAND_ECCINFO(&w25m02gv_ooblayout, NULL),
+-		     SPINAND_CONFIGURE_CHIP(w25n0xjw_hs_cfg)),
++		     SPINAND_ECCINFO(&w25m02gv_ooblayout, w25w35nxxjw_ecc_get_status),
++		     SPINAND_CONFIGURE_CHIP(w25n0xjw_hs_cfg),
++		     SPINAND_CONT_READ(w25n0xjw_set_cont_read)),
+ 	SPINAND_INFO("W25N02KV", /* 3.3V */
+ 		     SPINAND_ID(SPINAND_READID_METHOD_OPCODE_DUMMY, 0xaa, 0x22),
+ 		     NAND_MEMORG(1, 2048, 128, 64, 2048, 40, 1, 1, 1),
 
 -- 
 2.53.0
