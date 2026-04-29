@@ -1,59 +1,59 @@
-Return-Path: <linux-aspeed+bounces-3988-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3984-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qIq0DstI8mm1pQEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3988-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:07:07 +0200
+	id 8HCFMv9H8mm1pQEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3984-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:03:43 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A990F498954
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6F4498886
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:03:43 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4g5QHW1pNLz2yr0;
-	Thu, 30 Apr 2026 04:07:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4g5QCb3XcJz2yqP;
+	Thu, 30 Apr 2026 04:03:39 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=185.246.85.4
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1777486023;
-	cv=none; b=VVVK/25mVX8DW87DBS10Pl1It5zWDKOdkiMk2d64Eh5i7tLVn5Oj4cl6nLzKgVxYIhVgqOFJVQVYtCHZWI8BHznCiLhlgbgVNqWoWt+xqdCM18J6Q+qzuVzoj4XjxQoCU+9117FLOEsnDcDFSumKGo9EPGmuGjJTFoN8pO9C+sFDsrzD3Tb1vXSn00IjO2vV/5rjHC+CJEzZ22kECGgfTiPxF7b8r/G9TwvaZL3eiTRPTD6NkHoiQOn0CJUcwf/QJNPN97pqvf/yViVrK67DatxvsbAf4KDvsfavZNAMK5Q5ICG90R5HfbeHpgbW3YtGsycFz0vJSwwvv53rQcBOCw==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=185.171.202.116
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1777485819;
+	cv=none; b=FW1BwKNAcbJdz2Vo76kPXEk7lsDNymL+bw9LWLIm4UygIArvCERWv1LaX491YvRIywxhhSJPmj9xfWK6kA32u+Rq9fi5K6DsFQ8xOLZ5DWBon0I/glSfaP9JnoUTRpwTaNBPSHHtbGyQd7iuqwt4mlY3qbzTMn7XaGYZ1rHIvpNbtHvPb+kQgbnk3UKCL2T0G6fn+2LOgyUCyb9x3mqxlWxox4OlN9B4ycMVLu9pDyVBSP3pf/X/TvdVfvvd0SaUK87eqhwPwbCruMR5tWH8GwhcseSad8njw8/06zXT1/fM0etqKq8tINM0RS9eJ7B4gg3LqFEExz9UVwEK1AORvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1777486023; c=relaxed/relaxed;
-	bh=5tIkRnE1ORjoj4u0h1eWmFg73tjo03bMRc5hBjhSYqM=;
+	t=1777485819; c=relaxed/relaxed;
+	bh=djNQC+WiehgbSjZPUHPGAOR2nkZcZmEr0KjHIcYf3t4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=n34AuCYCfaavJX2nHCMM26Skg6ROWkEwJYO62XPnytxRL7BwtRbknLd32kFAtclvoZuXDTlGGe4NQv714KyFe6TJK/tI5HG5PG/Fb1euku4VF8fu98tTMPpEHc5UYHmnDSbgr42ebTT4NUDkl8eFggWTR5A6dbPGV+wpifxQMfz6nhWnmrBbA/+ubSdZCgHiExheDMsX8GuGaskBfRyDMQvuJ91C25Z8ITVZGictowb5ym5PXNr9cUwHSww0CC1bAF1Nz5oy5wtuCjoEGU+46U6MSLIoSAtpIGk09QBmoTlajzJJ86RLjd2NuQwrO37tYJViXK3UfZl2m+EhVNuyaQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Vmb/o8DH; dkim-atps=neutral; spf=pass (client-ip=185.246.85.4; helo=smtpout-03.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
+	 In-Reply-To:To:Cc; b=Wu0FyXn9ZnVbmtqlahyzwzfG2mjC/U0hhiOiRbslV+qSP0+kszuVE+31iiutvfnUsBSEaKK6+uq5YRcGBD6LkIG8xo2nf40eiFAPpe7gVRHlXbnvf/9xu9HrlWsfeSMgg60TxEi7UGc2jxclzSsJqENipoTd+FGVLYbXEy9O4DCTTULwgcW1mfShTn5rWSqKvDEorHAouGSEu4N3rd538pE4kvJDJVdnFskq/ZOk40uqt9WXdoGJKD3N0G3VVMHpBM5kbnXFHBeCFCWAozoh0/vRmq1v62ZFMXgm+anXLk5UIhezbH6J7DqXHdVWj/L1u3bHw80+w7QmFJ25JAySig==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=NmSZF+iW; dkim-atps=neutral; spf=pass (client-ip=185.171.202.116; helo=smtpout-04.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Vmb/o8DH;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=NmSZF+iW;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=185.246.85.4; helo=smtpout-03.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=185.171.202.116; helo=smtpout-04.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4g5QHQ4WL8z2yqP
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Apr 2026 04:06:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4g5QCZ1r4Rz2yjp
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Apr 2026 04:03:38 +1000 (AEST)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 35F694E42B73;
-	Wed, 29 Apr 2026 17:58:14 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 3F4D4C5CD60;
+	Wed, 29 Apr 2026 17:59:02 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 09E735FD43;
-	Wed, 29 Apr 2026 17:58:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1A14B1072B175;
-	Wed, 29 Apr 2026 19:58:07 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0CCFF5FD43;
+	Wed, 29 Apr 2026 17:58:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3C0971072B171;
+	Wed, 29 Apr 2026 19:58:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777485491; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1777485495; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=5tIkRnE1ORjoj4u0h1eWmFg73tjo03bMRc5hBjhSYqM=;
-	b=Vmb/o8DHri8qfjlDxdgxVCmz1cOiWo5fai2OHnEYLHyIsyVdpDTgWD44JJKYBik+Bop6+W
-	qO/mPLDC2HvVPtzzFzJzmO0zmj8Ud0q8Cl6mkOzfLIV5t4BqhYfAOS/P4cCduBkSpSOfmM
-	5M8eLmzfXkqP4D5NBRKhvhmcWtsq9c1mg0MVwung6UnlsGwZeb4fsNZ/pNVgjm2S/Vrlqz
-	cQsoBDbxgbA6MAC7jdwUUgJJZj7f2xsTfwFvpawEIDwOwqd6ZhkIt1k16aESiXmhdrWfdA
-	Wg5O+8KVvlIUYgrSqKw5HE7tXplaioeNXtYi4yXBgQzvAFVe4lpxohvMt0C13A==
+	bh=djNQC+WiehgbSjZPUHPGAOR2nkZcZmEr0KjHIcYf3t4=;
+	b=NmSZF+iWjEyn2SmSbXR4+EkHCCLdjDtILUG9X51p5SCiphlxZnjKNNGhMMDdv6+IE8Z0pT
+	ASIHf/oK5ins8abEGkf3OT/DpAh4+l/rTkVjcESvNc56zjX3c6MzBilErApZ2Bhx8qWhnA
+	q4skr5wiZcq3mmwHq2jiVNGW1mYCJN/tNbDh2F3BzrrvyfD4fdGmhsSID0jKhhjNOiGAz6
+	jJJPYq8QKvuUtagfzMs9+zJqCAJairETws7j+Woa85G71iDosgPBr85dnsTyIGKlD82Shb
+	llYfvCKlpMGTCJF/Xyt0qdAzxC71iYXH4L/FxQpv9jVgln0FJY4chh9edS6YQw==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Wed, 29 Apr 2026 19:56:46 +0200
-Subject: [PATCH v3 09/11] mtd: spinand: winbond: Create a helper to write
- the HS bit
+Date: Wed, 29 Apr 2026 19:56:47 +0200
+Subject: [PATCH v3 10/11] mtd: spinand: winbond: Create a helper to detect
+ the need for the HS bit
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -69,7 +69,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260429-winbond-v6-18-rc1-cont-read-v3-9-0f38b3c229ad@bootlin.com>
+Message-Id: <20260429-winbond-v6-18-rc1-cont-read-v3-10-0f38b3c229ad@bootlin.com>
 References: <20260429-winbond-v6-18-rc1-cont-read-v3-0-0f38b3c229ad@bootlin.com>
 In-Reply-To: <20260429-winbond-v6-18-rc1-cont-read-v3-0-0f38b3c229ad@bootlin.com>
 To: Mark Brown <broonie@kernel.org>, Richard Weinberger <richard@nod.at>, 
@@ -99,7 +99,7 @@ X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: A990F498954
+X-Rspamd-Queue-Id: 3E6F4498886
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
@@ -111,7 +111,7 @@ X-Spamd-Result: default: False [-0.71 / 15.00];
 	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3988-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3984-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,nod.at,ti.com,bootlin.com,infineon.com,airoha.com,aspeedtech.com,kaod.org,jms.id.au,codeconstruct.com.au,gmail.com,google.com,foss.st.com,gmx.net];
@@ -129,7 +129,7 @@ X-Spamd-Result: default: False [-0.71 / 15.00];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[miquel.raynal@bootlin.com,linux-aspeed@lists.ozlabs.org];
 	DKIM_TRACE(0.00)[bootlin.com:+];
-	NEURAL_HAM(-0.00)[-0.968];
+	NEURAL_HAM(-0.00)[-0.965];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	MID_RHS_MATCH_FROM(0.00)[];
@@ -137,69 +137,63 @@ X-Spamd-Result: default: False [-0.71 / 15.00];
 	TAGGED_RCPT(0.00)[linux-aspeed];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
 
-Updating the HS bit is not complex but implies reading, setting/clearing
-a bit and writing. Clean a bit this section by moving this logic in its
-own helper.
+The logic is not complex but might be reused to cleanup a bit the
+section by moving it to a dedicated helper.
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- drivers/mtd/nand/spi/winbond.c | 34 ++++++++++++++++++----------------
- 1 file changed, 18 insertions(+), 16 deletions(-)
+ drivers/mtd/nand/spi/winbond.c | 31 +++++++++++++++++--------------
+ 1 file changed, 17 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/mtd/nand/spi/winbond.c b/drivers/mtd/nand/spi/winbond.c
-index 6c11f59a9f8d..b30a343a6672 100644
+index b30a343a6672..ffbcd25b0366 100644
 --- a/drivers/mtd/nand/spi/winbond.c
 +++ b/drivers/mtd/nand/spi/winbond.c
-@@ -404,13 +404,28 @@ static int w25w35nxxjw_ecc_get_status(struct spinand_device *spinand, u8 status)
- 	return -EINVAL;
+@@ -421,30 +421,33 @@ static int w25n0xjw_set_sr4_hs(struct spinand_device *spinand, bool enable)
+ 	return spinand_write_reg_op(spinand, W25N0XJW_SR4, sr4);
  }
  
-+static int w25n0xjw_set_sr4_hs(struct spinand_device *spinand, bool enable)
++/*
++ * SDR dual and quad I/O operations over 104MHz require the HS bit to
++ * enable a few more dummy cycles.
++ */
++static bool w25n0xjw_op_needs_hs(const struct spi_mem_op *op)
 +{
-+	int ret;
-+	u8 sr4;
++	if (op->cmd.dtr || op->addr.dtr || op->dummy.dtr || op->data.dtr)
++		return false;
++	else if (op->cmd.buswidth != 1 || op->addr.buswidth == 1)
++		return false;
++	else if (op->max_freq && op->max_freq <= 104 * HZ_PER_MHZ)
++		return false;
 +
-+	ret = spinand_read_reg_op(spinand, W25N0XJW_SR4, &sr4);
-+	if (ret)
-+		return ret;
-+
-+	if (enable)
-+		sr4 |= W25N0XJW_SR4_HS;
-+	else
-+		sr4 &= ~W25N0XJW_SR4_HS;
-+
-+	return spinand_write_reg_op(spinand, W25N0XJW_SR4, sr4);
++	return true;
 +}
 +
  static int w25n0xjw_hs_cfg(struct spinand_device *spinand,
  			   enum spinand_bus_interface iface)
  {
  	const struct spi_mem_op *op;
- 	bool hs;
--	u8 sr4;
--	int ret;
+-	bool hs;
  
  	if (iface != SSDR)
  		return -EOPNOTSUPP;
-@@ -429,20 +444,7 @@ static int w25n0xjw_hs_cfg(struct spinand_device *spinand,
- 	else
- 		hs = true;
  
--	ret = spinand_read_reg_op(spinand, W25N0XJW_SR4, &sr4);
--	if (ret)
--		return ret;
--
--	if (hs)
--		sr4 |= W25N0XJW_SR4_HS;
+-	/*
+-	 * SDR dual and quad I/O operations over 104MHz require the HS bit to
+-	 * enable a few more dummy cycles.
+-	 */
+ 	op = spinand->op_templates->read_cache;
+-	if (op->cmd.dtr || op->addr.dtr || op->dummy.dtr || op->data.dtr)
+-		hs = false;
+-	else if (op->cmd.buswidth != 1 || op->addr.buswidth == 1)
+-		hs = false;
+-	else if (op->max_freq && op->max_freq <= 104 * HZ_PER_MHZ)
+-		hs = false;
 -	else
--		sr4 &= ~W25N0XJW_SR4_HS;
--
--	ret = spinand_write_reg_op(spinand, W25N0XJW_SR4, sr4);
--	if (ret)
--		return ret;
--
--	return 0;
-+	return w25n0xjw_set_sr4_hs(spinand, hs);
+-		hs = true;
+ 
+-	return w25n0xjw_set_sr4_hs(spinand, hs);
++	return w25n0xjw_set_sr4_hs(spinand, w25n0xjw_op_needs_hs(op));
  }
  
  static int w35n0xjw_write_vcr(struct spinand_device *spinand, u8 reg, u8 val)
