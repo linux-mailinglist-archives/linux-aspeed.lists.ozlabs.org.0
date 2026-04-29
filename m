@@ -1,58 +1,58 @@
-Return-Path: <linux-aspeed+bounces-3978-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3989-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IFb9IvFH8mmTpQEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3978-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:03:29 +0200
+	id 0CidGcxI8mm1pQEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3989-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:07:08 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83CC498852
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:03:28 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D74B849895C
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:07:07 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4g5QCK3w5Zz2yqT;
-	Thu, 30 Apr 2026 04:03:25 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4g5QHY0FSYz2yps;
+	Thu, 30 Apr 2026 04:07:05 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=185.246.84.56
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1777485805;
-	cv=none; b=OPXKSs995pgZK00sx5gV3S/kJiZf+jqm6UG8isWEClesarMV9fEOCbSIlZXPsPR0LTXFsH8UWhSjpBYwWTD0hQS/bGxloPGt0ncznvMcdF6K99she/7sp3Gnstz4qS6CXwrZjwgKsbVKdoF1Y8CzX2ZoVCt6yESRjywOK8pambeQgni1jpkWpTJslbpV2C1d76WWtol0ZbsQ22OgdXMn2jZ4r5bUS3NiZ3KgNzkz5OeVvmlEa3zzVzKaE1bL69MPyiOGQdpJByQrU2OzYUwQfvrXYSqbC0nkz5cPtC+kimPbWrLTjVXVviz5iZDGPLWG7rjGQxpaFqqd19u6MuZVFQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=185.246.85.4
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1777486024;
+	cv=none; b=G/XXYNzlVyA/EFxu5XOFS6Igv6FCPhlK8iZZcZQTyNXyixsHsTGo9dZx+vhTjZVShA+wxydOfQ9NhddVYJZ2vL8wMK07UhUAWJD/xyqmfL8Upepn6NuqE/sjm60xfPzASRM574Go/HthUoWAz5h1JJb3PCGyry24eEZpGibT4ThDnXSnpPZoG4n0puHMkY42BA0mQKRKGo5KTog8Ae2ZIDD3vQAgFTQC2Cz8DIOD5UrdmnWiQiVbjLD1nGFkv/wCRzOpbkQNn8Czy+Xq0NL+mOMMayhoGYRJp88UGru1FrYyL+Cs6O51CA42MkUxoIf+jfYu+n3/HbOoLaqCTeASow==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1777485805; c=relaxed/relaxed;
-	bh=pRtlUGFfk1AjNaQYKbHs4RmZNZ5DHT9f7bq1vbOMB34=;
+	t=1777486024; c=relaxed/relaxed;
+	bh=QdHHmy5KibUj7IOUfvRAtvrskjTvNN+KNx7nY11cePM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CG3vO4vQrus5JrKgDxvCXVeripH2dPaDLjbwPfchLfvxT9lLteNFSwoSYR9m90DXZ4D38TjJRtL+BbDYZKJirDr+7/5hs7QjVZNVhXTdht2zV935K/uIaPd0p69/uU+YU/68ip6YOSxYyVgBu+FCtAOgR7Nrr/CjpcznMGhK6MAJqZe4fx+74yh2oqQzZnXH/p3i3yes6Cc26FNyVeZ3zzmK2/iLqccPVL3XutyyizcDUQ4IQZChJUGrvEZ0J32ipwdTPk3CA25LbqrBm9qTP5vipBcN9zbvmzS+BYAKqfGSMvPyKSEkiEH1kExz8y/D4lcAXiQ7W62A01mTyD6X+A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=NXWUJIFz; dkim-atps=neutral; spf=pass (client-ip=185.246.84.56; helo=smtpout-02.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
+	 In-Reply-To:To:Cc; b=W8IZ69ZIZvxbdy/5jdRMVkaUhiWN3VMBK6QAL+CjP13UgcrkfeSy7QOX/mZJKpacLejuu/DTscLKdYi14sO6nI+WOJ9lEq53mKxhDVGakvAeHQhzvUoIOHihvhjRCk8an+NLue+a4ozw4ntPVIAh7BPjIvFXQUg2lMo92oXy3Pn/uQs2+sHdKSxEJwKVWcStTCnrMsOS6qbj8/q/N8A/6x0yh4hR5i+nHpm6UF7z69snNpiKq1kDGj8tfijwg5t9lTamLeJgyJO7g1q+tE9MpZ6H4E/iEuS6CUUNIY1ptk1WnnJcCGQNNhVu6wBc0bz3O7kADK+s2heebxAWI9l4zA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=uDsKwvQO; dkim-atps=neutral; spf=pass (client-ip=185.246.85.4; helo=smtpout-03.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=NXWUJIFz;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=uDsKwvQO;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=185.246.84.56; helo=smtpout-02.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=185.246.85.4; helo=smtpout-03.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4g5QCH2yDRz2ykf
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Apr 2026 04:03:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4g5QHT6vlTz2ySc
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Apr 2026 04:07:01 +1000 (AEST)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id CF4001A33F4;
-	Wed, 29 Apr 2026 17:57:43 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id E77054E42B6A;
+	Wed, 29 Apr 2026 17:57:47 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id A25475FD43;
-	Wed, 29 Apr 2026 17:57:43 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 811921072B16D;
-	Wed, 29 Apr 2026 19:57:37 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BABB15FD43;
+	Wed, 29 Apr 2026 17:57:47 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C966E1072B171;
+	Wed, 29 Apr 2026 19:57:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777485461; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1777485465; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=pRtlUGFfk1AjNaQYKbHs4RmZNZ5DHT9f7bq1vbOMB34=;
-	b=NXWUJIFzygDfQ7zjIeyD37p2jDhewvoKDSntinFms7jvk9dOXJLWtQHw+UkFYO0NhJeIjM
-	STfpzdg2sYIjGY6C7+Fzr4WXsn+KBSuIu5UyfYzZlD/U1c7XLIx37jF1O1AhcTxI21N33E
-	DQmxcpFD41RJYWNdmP5qpl3rNVUo2uPxARHR+n5Z8u599+GT+0ka1catIfl/VshOMoAu0W
-	fsSlRi+NTvVI+VHtDf4qZIFZMj6xPiJCYPTqUPkB2Nns0fWL31gmeq1mdv9+6WcM7lGBeO
-	JbHctYaj9m9K68JL+5ZH58LGrBE1dl+Luq9ZVrU4Z8dxJGq188aCiwAdf5nSSA==
+	bh=QdHHmy5KibUj7IOUfvRAtvrskjTvNN+KNx7nY11cePM=;
+	b=uDsKwvQOEhv6WrNXDMP9ss0SW/69JMJHgvqRB8tshJUyUYKiLRCiM6vONo8b0Y8rcmqBd2
+	BEABK7qva7LRm2ch44uFcuvG8mx9hdH2X0tMsCNHyRze3nTQMetp+I0I/QJ1rfejdggIGn
+	X7Xzyl0AgBsSQxWeM+jW9LzsFGHgo6auF20jWVlet49Oi87WBUUHrFYCqb5wVjUTTO6+yA
+	+bQzEtHGMLjcg6DzVm6/oVnNpjZlHFj0tm5qYGe1o5kqgg46w9Ku3um13/qpvofCq3I6Fj
+	5YbuqF48vQSXbuDiBZE7f2ssG/IeOKERTDFuPuNGrlmT8oGKR7YlaxyAhJQT3Q==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Wed, 29 Apr 2026 19:56:39 +0200
-Subject: [PATCH v3 02/11] mtd: spinand: Expose spinand_op_is_odtr()
+Date: Wed, 29 Apr 2026 19:56:40 +0200
+Subject: [PATCH v3 03/11] mtd: spinand: Drop ECC dirmaps
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -68,7 +68,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260429-winbond-v6-18-rc1-cont-read-v3-2-0f38b3c229ad@bootlin.com>
+Message-Id: <20260429-winbond-v6-18-rc1-cont-read-v3-3-0f38b3c229ad@bootlin.com>
 References: <20260429-winbond-v6-18-rc1-cont-read-v3-0-0f38b3c229ad@bootlin.com>
 In-Reply-To: <20260429-winbond-v6-18-rc1-cont-read-v3-0-0f38b3c229ad@bootlin.com>
 To: Mark Brown <broonie@kernel.org>, Richard Weinberger <richard@nod.at>, 
@@ -98,19 +98,19 @@ X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: A83CC498852
+X-Rspamd-Queue-Id: D74B849895C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MAILLIST(-0.20)[generic];
 	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-3978-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3989-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,nod.at,ti.com,bootlin.com,infineon.com,airoha.com,aspeedtech.com,kaod.org,jms.id.au,codeconstruct.com.au,gmail.com,google.com,foss.st.com,gmx.net];
@@ -128,48 +128,161 @@ X-Spamd-Result: default: False [-0.71 / 15.00];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[miquel.raynal@bootlin.com,linux-aspeed@lists.ozlabs.org];
 	DKIM_TRACE(0.00)[bootlin.com:+];
-	NEURAL_HAM(-0.00)[-0.969];
+	NEURAL_HAM(-0.00)[-0.970];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
 
-This helper is going to be needed in a vendor driver, so expose it.
+Direct mappings are very static concepts, which allow us to reuse a
+template to perform reads or writes in a very efficient manner after a
+single initialization. With the introduction of pipelined ECC engines
+for SPI controllers, the need to differentiate between an operation with
+and without correction has arised. The chosen solution at that time has
+been to create new direct mappings for these operations, jumping from 2
+to 4 dirmaps per target. Enabling ECC was done by choosing the correct
+dirmap.
+
+Today, we need to further parametrize dirmaps. With the goal to enable
+continuous reads on a wider range of devices, we will need more
+flexibility regarding the read from cache operation template to pick at
+run time, for instance to use shorter "continuous read from cache"
+variants.
+
+We could create other direct mappings, but it would increase the matrix
+by a power of two, bringing the theoretical number of dirmaps to
+8 (read/write, ecc, shorter read variants) per target. This grow is not
+sustainable, so let's change how dirmaps work - a little bit.
+
+Operations already carry an ECC parameter, use it to indicate whether
+error correction is required or not. In practice this change happens
+only at the core level, SPI controller drivers do not care about the
+direct mapping structure in this case, they just pick whatever is in the
+template as a base. As a result, we allow the core to dynamically change
+the content of the templates.
+
+He who can do more can do less, so during the checking steps, make sure
+to enable the ECC requirement just for the time of the checks.
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- drivers/mtd/nand/spi/core.c | 2 +-
- include/linux/mtd/spinand.h | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/mtd/nand/spi/core.c | 52 +++++++++++++++++----------------------------
+ include/linux/mtd/spinand.h |  2 --
+ 2 files changed, 20 insertions(+), 34 deletions(-)
 
 diff --git a/drivers/mtd/nand/spi/core.c b/drivers/mtd/nand/spi/core.c
-index fba3cc213c88..1c3ac9ad650e 100644
+index 1c3ac9ad650e..663f5d6a6bd7 100644
 --- a/drivers/mtd/nand/spi/core.c
 +++ b/drivers/mtd/nand/spi/core.c
-@@ -1400,7 +1400,7 @@ static void spinand_manufacturer_cleanup(struct spinand_device *spinand)
- 		return spinand->manufacturer->ops->cleanup(spinand);
+@@ -487,10 +487,13 @@ static int spinand_read_from_cache_op(struct spinand_device *spinand,
+ 		}
+ 	}
+ 
+-	if (req->mode == MTD_OPS_RAW)
+-		rdesc = spinand->dirmaps[req->pos.plane].rdesc;
++	rdesc = spinand->dirmaps[req->pos.plane].rdesc;
++
++	if (nand->ecc.engine->integration == NAND_ECC_ENGINE_INTEGRATION_PIPELINED &&
++	    req->mode != MTD_OPS_RAW)
++		rdesc->info.op_tmpl.data.ecc = true;
+ 	else
+-		rdesc = spinand->dirmaps[req->pos.plane].rdesc_ecc;
++		rdesc->info.op_tmpl.data.ecc = false;
+ 
+ 	if (spinand->flags & SPINAND_HAS_READ_PLANE_SELECT_BIT)
+ 		column |= req->pos.plane << fls(nanddev_page_size(nand));
+@@ -579,10 +582,13 @@ static int spinand_write_to_cache_op(struct spinand_device *spinand,
+ 			       req->ooblen);
+ 	}
+ 
+-	if (req->mode == MTD_OPS_RAW)
+-		wdesc = spinand->dirmaps[req->pos.plane].wdesc;
++	wdesc = spinand->dirmaps[req->pos.plane].wdesc;
++
++	if (nand->ecc.engine->integration == NAND_ECC_ENGINE_INTEGRATION_PIPELINED &&
++	    req->mode != MTD_OPS_RAW)
++		wdesc->info.op_tmpl.data.ecc = true;
+ 	else
+-		wdesc = spinand->dirmaps[req->pos.plane].wdesc_ecc;
++		wdesc->info.op_tmpl.data.ecc = false;
+ 
+ 	if (spinand->flags & SPINAND_HAS_PROG_PLANE_SELECT_BIT)
+ 		column |= req->pos.plane << fls(nanddev_page_size(nand));
+@@ -1231,12 +1237,17 @@ static int spinand_create_dirmap(struct spinand_device *spinand,
+ 	struct nand_device *nand = spinand_to_nand(spinand);
+ 	struct spi_mem_dirmap_info info = { 0 };
+ 	struct spi_mem_dirmap_desc *desc;
++	bool enable_ecc = false;
++
++	if (nand->ecc.engine->integration == NAND_ECC_ENGINE_INTEGRATION_PIPELINED)
++		enable_ecc = true;
+ 
+ 	/* The plane number is passed in MSB just above the column address */
+ 	info.offset = plane << fls(nand->memorg.pagesize);
+ 
++	/* Write descriptor */
+ 	info.length = nanddev_page_size(nand) + nanddev_per_page_oobsize(nand);
+-	info.op_tmpl = *spinand->op_templates->update_cache;
++	info.op_tmpl.data.ecc = enable_ecc;
+ 	desc = devm_spi_mem_dirmap_create(&spinand->spimem->spi->dev,
+ 					  spinand->spimem, &info);
+ 	if (IS_ERR(desc))
+@@ -1244,38 +1255,15 @@ static int spinand_create_dirmap(struct spinand_device *spinand,
+ 
+ 	spinand->dirmaps[plane].wdesc = desc;
+ 
++	/* Read descriptor */
+ 	info.op_tmpl = *spinand->op_templates->read_cache;
++	info.op_tmpl.data.ecc = enable_ecc;
+ 	desc = spinand_create_rdesc(spinand, &info);
+ 	if (IS_ERR(desc))
+ 		return PTR_ERR(desc);
+ 
+ 	spinand->dirmaps[plane].rdesc = desc;
+ 
+-	if (nand->ecc.engine->integration != NAND_ECC_ENGINE_INTEGRATION_PIPELINED) {
+-		spinand->dirmaps[plane].wdesc_ecc = spinand->dirmaps[plane].wdesc;
+-		spinand->dirmaps[plane].rdesc_ecc = spinand->dirmaps[plane].rdesc;
+-
+-		return 0;
+-	}
+-
+-	info.length = nanddev_page_size(nand) + nanddev_per_page_oobsize(nand);
+-	info.op_tmpl = *spinand->op_templates->update_cache;
+-	info.op_tmpl.data.ecc = true;
+-	desc = devm_spi_mem_dirmap_create(&spinand->spimem->spi->dev,
+-					  spinand->spimem, &info);
+-	if (IS_ERR(desc))
+-		return PTR_ERR(desc);
+-
+-	spinand->dirmaps[plane].wdesc_ecc = desc;
+-
+-	info.op_tmpl = *spinand->op_templates->read_cache;
+-	info.op_tmpl.data.ecc = true;
+-	desc = spinand_create_rdesc(spinand, &info);
+-	if (IS_ERR(desc))
+-		return PTR_ERR(desc);
+-
+-	spinand->dirmaps[plane].rdesc_ecc = desc;
+-
+ 	return 0;
  }
  
--static bool spinand_op_is_odtr(const struct spi_mem_op *op)
-+bool spinand_op_is_odtr(const struct spi_mem_op *op)
- {
- 	return op->cmd.dtr && op->cmd.buswidth == 8;
- }
 diff --git a/include/linux/mtd/spinand.h b/include/linux/mtd/spinand.h
-index 58abd306ebe3..e1f19664bb25 100644
+index e1f19664bb25..896e9b5de0c4 100644
 --- a/include/linux/mtd/spinand.h
 +++ b/include/linux/mtd/spinand.h
-@@ -862,6 +862,8 @@ static inline void spinand_set_of_node(struct spinand_device *spinand,
- 	nanddev_set_of_node(&spinand->base, np);
- }
+@@ -684,8 +684,6 @@ struct spinand_info {
+ struct spinand_dirmap {
+ 	struct spi_mem_dirmap_desc *wdesc;
+ 	struct spi_mem_dirmap_desc *rdesc;
+-	struct spi_mem_dirmap_desc *wdesc_ecc;
+-	struct spi_mem_dirmap_desc *rdesc_ecc;
+ };
  
-+bool spinand_op_is_odtr(const struct spi_mem_op *op);
-+
- int spinand_match_and_init(struct spinand_device *spinand,
- 			   const struct spinand_info *table,
- 			   unsigned int table_size,
+ /**
 
 -- 
 2.53.0
