@@ -1,92 +1,58 @@
-Return-Path: <linux-aspeed+bounces-3977-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-3987-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0E/KBqUy8mkjowEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-3977-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 18:32:37 +0200
+	id 6HZ8OMlI8mnDpQEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-3987-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:07:05 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD28497C06
-	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 18:32:35 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16D4849894D
+	for <lists+linux-aspeed@lfdr.de>; Wed, 29 Apr 2026 20:07:05 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4g5NBT2YSBz2ySf;
-	Thu, 30 Apr 2026 02:32:33 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4g5QHS6qMSz2yjp;
+	Thu, 30 Apr 2026 04:07:00 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:c000::1" arc.chain=microsoft.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1777480353;
-	cv=pass; b=fApnAkFtwQD9DXVovBPCNOQP8cnLZqL9pel20VOsViHuVlL6fWdYsY4J0n5lGONrLYrsri1R0ezTuh96/dchQgKgd6LZGQcSNdbdpjGzj/J1l5WST/2NB51cGezDrAQ+5CBAMEb2UuA31d7tFNtTPhE5qRWQ6hjw2lVzGdGCDWgHEmCPWuZ95b3D+W0GBhVIDOjwkA6tlgJnrNG5/4amDxHaGSOA6MBKXx0XmYZn55+0VH1PVTixTnoYK6aozKCPM2/cQklFOBM2N2ZBCNKBcQhqNwn+qXvpdVBlnHpQ6lfprDIxyENuTFOgXSNSHfy4+a/i9M78ImpkEfx6Uf87EQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1777480353; c=relaxed/relaxed;
-	bh=cFrJADjjMPsC/3hrmGFUtAWKD9TwBjKFckxSK3D0XmY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LJUlWDSYGh9Ux6WECbnJFXHLiV3afRuuRNcJWzlPneRINMxEz8XbmM3khrHsR44uWatl7CPdcGsk2QaWsDVHwZYwOB9DzsGbay//5HfbVE+cTqld3oG1rj6Y5Q+qBqW1AzS3oR9fz0A0xZmB98CNGzNs1N3nQJ1bhYLTd+Q4d5Q73l/y9TiNcgKeBAyw6INjDMV58Gdp0n/AJUffBU1/m42HR6fsu1rRLxpH1gAS2xFRTXRWOcWz0cNWI+U2xomYvBsdX/HySGguZS699LjteyKiXJ8hX/9EJZ2AYUooMBikt8kIYMwN2BMfcXyOCVK0SO61zBZ+Ktg9RDSpqeu2sg==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=HIM7LFCx; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c000::1; helo=byapr05cu005.outbound.protection.outlook.com; envelope-from=andhsieh@nvidia.com; receiver=lists.ozlabs.org) smtp.mailfrom=nvidia.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=185.246.85.4
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1777486020;
+	cv=none; b=hjeeQtgWbhr0WmnIGQaWgDkXmeB8kHoZRWTVeVAAzbcB/OGawKFZJ6aJNLCK8CuT0ovBy/KuD4TlVjteOq8EQe3a9jwtVaq8bQEQNMs13OAi765ZBLv5z7kInuFxTqeNDKlRZLl55dG+bbb6xd5yg/fWlInCfh9lD8XO0Fo+QhlO3F1tXweKpvSTIynIkqTV8TtwiIO2CbLizaopXiNB02THlBsPiV6yo0Cf71ZPWg3+ZfimHDLX23fGzhQiFbTaA3VdLW7b09hRrFx5EC93GkFC0ICxgd0A8gNDO98eXs4fV4AwqBsbU8X50oU8wuf6bh9lIHYxC9AoMBADeAHUQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1777486020; c=relaxed/relaxed;
+	bh=0Vum2Qfx5+SoYzasekNBMQ+YiKVnGlZJ3ij44o9Xlgc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cqxIHn3jQqqNGJUUUVOrzVSsn4YV7wl29PdGBDIfpXKMElP+wC996OfgopUl4e1E9v2NEvNB0vXeDaCeU33PhlSPwbKoC88p7ZAShBlyGW36WDnnP+nOPMbcWUpPjS8xEXvOTZdRRc8kFcc6IVa7w+c8ilWzipFGmlUL++U9ZdRFaO0H8Kqrfm6/ctigHrieUVOF5ZrvSA3DCKVPTcpM58TqKM21dh4hCQeNQ4I9ah7WCr5cNj8DZwHUrL7OopsepfciYtQ5Vcbt38Cq86ga5AY4N2sYS4uESG0Zxdy5GmMqblJso2zMesItapG43DWxnnZKqKyW9Bzrxsl+dquuOA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Wg4UW4g2; dkim-atps=neutral; spf=pass (client-ip=185.246.85.4; helo=smtpout-03.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=HIM7LFCx;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Wg4UW4g2;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=nvidia.com (client-ip=2a01:111:f403:c000::1; helo=byapr05cu005.outbound.protection.outlook.com; envelope-from=andhsieh@nvidia.com; receiver=lists.ozlabs.org)
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazlp170100001.outbound.protection.outlook.com [IPv6:2a01:111:f403:c000::1])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bootlin.com (client-ip=185.246.85.4; helo=smtpout-03.galae.net; envelope-from=miquel.raynal@bootlin.com; receiver=lists.ozlabs.org)
+X-Greylist: delayed 556 seconds by postgrey-1.37 at boromir; Thu, 30 Apr 2026 04:06:58 AEST
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4g5NBR5Ngcz2y7M
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 30 Apr 2026 02:32:30 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XxBGfZnlIZeyf9wPRhOAm8RTQDj0nC8KMcsD8Eoo2wA/IZ6ecsRQVrjUYv1on6zk/0V7glHu4RsTWQBzkqLTgoC67wpJV20I3kRxJuPmqzgJlLaozcVPJqzeDDGCeBSAq78tiyJdJG6evQPVp9/auLv9/TBvxBgFTotOF7xRPMAXZMUJ9cB94eLFgdu1gAr1X05XPgSA9RKOdndzoUmJZ0LKsepAJ1qChzn9xWXqHZaRk6ZbaMsGL1bH7OgY8cZZm5ZdHxjvpTPqlODf2oNZgLosTqwofgQT41ru1yGsjqSKs/sJoNmYO8HVgCBf0+33FLZKtU7Vs3fZTsmxBKuqsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cFrJADjjMPsC/3hrmGFUtAWKD9TwBjKFckxSK3D0XmY=;
- b=L+vJoJCttF8cwHhRjE7GdkVMXl+WFhrQN/SN3ghjTTh1ETW/6rVJRBgxx3U9Sn4aqzqFpspL6jVi4hjbPwSKNa/vOQVSc5fANQ9bIWQRsssQgCqe8nkBKxH3uE0jgl1OQb+XTmXlyl2E4wFv4/0jwAjTbjXwix+y0osj9ASI03cTdEhki6Zr8eqBfHcHWwlWXV+w6ylmSgmRHYUf2DyVO2xO1mY0cPabUH4ayyTs1l6GAiXxU5aEjVtRxEVy9i8IRGn7RCAtU/dDgeh7dNTWNVydj+iNl6LL2wEfN9PbL95sWbKD1LHItUCf7MBenym9kZsN6mPFYpmZiq3Wf7Sacg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=lunn.ch smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cFrJADjjMPsC/3hrmGFUtAWKD9TwBjKFckxSK3D0XmY=;
- b=HIM7LFCxHJsexjDpYd6ck1/wv/cAsKBpiguICnTvIkiOdCRGi7bcNw+Doj1d7cg6QEW2+OAMkSVWnhJuPK4uI5hufbGmkKXtVbOSBxAsiLljupM+OVP4kCMgCWjYyczVG7grzq2mTk8Bo9oowtwA9q8+UJvdgiSL4XxPKHpBxBBar0sisaGVBR+HfoXIVJdL4SZtrQM6rY9o8Gaqp6HyuSHJ8y7pgPwTSstp/PY4F7oYDAl/AxQXM5K5221X8k/n3zI1W+xqxs5vfwnkiU+b5lFqG5AFZqpmMc7eJLRODBKdRBDOgZX9y7p4L9EItmGl2e/7kkpZM8tIqy9dpwkyhg==
-Received: from SJ0PR13CA0152.namprd13.prod.outlook.com (2603:10b6:a03:2c7::7)
- by DS4PR12MB9769.namprd12.prod.outlook.com (2603:10b6:8:2a9::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.17; Wed, 29 Apr
- 2026 16:32:05 +0000
-Received: from SJ1PEPF00002318.namprd03.prod.outlook.com
- (2603:10b6:a03:2c7:cafe::1c) by SJ0PR13CA0152.outlook.office365.com
- (2603:10b6:a03:2c7::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.26 via Frontend Transport; Wed,
- 29 Apr 2026 16:32:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SJ1PEPF00002318.mail.protection.outlook.com (10.167.242.228) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.18 via Frontend Transport; Wed, 29 Apr 2026 16:32:04 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 29 Apr
- 2026 09:31:35 -0700
-Received: from nvidia.com (10.126.230.37) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 29 Apr
- 2026 09:31:33 -0700
-From: Ender Hsieh <andhsieh@nvidia.com>
-To: <andrew@lunn.ch>
-CC: <jacky_chou@aspeedtech.com>, <linux-aspeed@lists.ozlabs.org>,
-	<molberding@nvidia.com>
-Subject: =?UTF-8?q?Re=3A=20NVL32=20BMC=20enablement=20=E2=80=94=20offering=20help=20on=20ftgmac100=20work?=
-Date: Thu, 30 Apr 2026 01:31:17 +0900
-Message-ID: <20260429163117.2228665-1-andhsieh@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <eac09481-0ba1-4ac2-ad8c-d859822ff0d5@lunn.ch>
-References: <eac09481-0ba1-4ac2-ad8c-d859822ff0d5@lunn.ch>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4g5QHQ0FbBz2ySc;
+	Thu, 30 Apr 2026 04:06:57 +1000 (AEST)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 6CDB74E42B57;
+	Wed, 29 Apr 2026 17:57:35 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1FD8C5FD43;
+	Wed, 29 Apr 2026 17:57:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 430B71072B158;
+	Wed, 29 Apr 2026 19:57:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1777485452; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=0Vum2Qfx5+SoYzasekNBMQ+YiKVnGlZJ3ij44o9Xlgc=;
+	b=Wg4UW4g2WGpQe+FXph6tsBHWFD0BECvRL8NLGhZLbAiM0dLXtALl0yBqIrD+0Lawp02qRd
+	L/DUtmJwUhFvT/7i6dVkrYjSR0i2aqxl97NpsmKlJePMUStXMKAKuFLrdElmd6uDrZQMrW
+	DN2MVcdBKW/CmE3V63+VSy0oolOIh9vMJaN/cxw17hZkc97U0ZfuUAPZ4yGanlQWOoatGq
+	qp6FDwvx+tvn2k6kj4NlTu0PZO5c6zF2pim5Qlv9CB37AYmDKTUNUAVKAIQsbmXwa4RuM/
+	89ov9iKbcYD//Z7K/Ck/zA6aLDSk0p904Hc5ZMnNQ2ekegrqYQiQ3Q5SeoRwvw==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH v3 00/11] mtd: spinand: Winbond continuous read support
+Date: Wed, 29 Apr 2026 19:56:37 +0200
+Message-Id: <20260429-winbond-v6-18-rc1-cont-read-v3-0-0f38b3c229ad@bootlin.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -100,101 +66,247 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.126.230.37]
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002318:EE_|DS4PR12MB9769:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0154997c-8bde-4b3f-2279-08dea60cd8ff
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|1800799024|376014|82310400026|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	mVvgPsiIE7owKNYZO0XwTsBPePqx1f2e8jUWyfHMh/xzX12xYLupDYT30UjsMUDeroNVsbj4HKUSFYaYzjMBtcTjDseQO1A/qAoKaPCOPnCiJJshAsIquxk67mi7Aa3+JrER687bBDaKt1XuDTQAaQd1Vfy8HP6u5hVVT8rOq01HCTxHyQ3Uz/OpifG2KWMnP1N8HTnaF/Malm4wq0twhdBEhpxikGtKCLrxnLIFAbrWblPJtP+z3PsmrrafRFsKWMYLXad/XUI7Xsa2qLDas9yHNbCBm49Fzert84CIaGyvr6n+KaIidB1zIzBrwmAk3P6gD+LRW/7mAnbBgbNmd0GQp1rHUq5xD4oElrC52EpU1jN3hVf79CTLFO6yRz0JlBAQeqhMIYhRN78o6OkHbczhM1isW+4HgrE8VpXfonqfuSb6FW/+RmNyV7I7qotoPak33al4fCB8bFlG2xXzvOPfdrmlpdqFDNQdlf8x8SNz8vxlV3gsJ9h9s83jriexRnhOT5S12XgOQ5el58v/M63hTdXBOLcxsMGj71rDYKNEz7i5WyVcRiKxJcx+Ns5kov2G5IpG6JPVe4634y0oWV1zX2KmCmVl+JP2g6JbUwRseUy99mAsaiSU47KX404GvKpV6M5Z3EI7N5sugbpKSqQLVCfH4qVdVSNKSRvnoCmFx4ckp9HZCzmwvVVcnZRS9t3SBczA2BhiLNfHv0XV7bBjA/GXqY9Sue3e4C/lpm3l4pjaXK4jdA53pOAuailICId/R7Dn81KyIV0JJ8Odow==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(376014)(82310400026)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	BY4GuJIrbUNeO+4H0L6gDGKkmwYf9SVOqb3yDjyLz7QJX3cDs/8xGWbWcYnUHSwVoud3UsJFY9pDmuWzK9cXJQ4dbhyIfzG1tnDfBZNAOsvd8xjPlFsuxqQNDYefqHEuhrAy/JhjH3cWaoyPFSCDZdFN75qdWdtXgmIZhPT0eaQ0ZFF690VkDZLvIUEdt604IfjlDpl/KJQoIkMbEs+KzT7ta6OGTY7+H98lSKkJVAYtaTO2BG6m2a51TqKls9Z42YnstuO8gh73dhCY+u1BVEzuRON34i6fE8WmJIczIgc7IUoUXHusjBjKG3DLeIIj8EoAscTQjEPe7mf75/i4STcz5DFVXlFQQHiXY3hvDQSLbF1I+OutrwsmmLpi0W3dv8XifUxpi/rA3MNbrXDdS0M8w7s4FD58wshba88kNsWSoHYUqQm1DjH49zI51zF4
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 16:32:04.2313
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0154997c-8bde-4b3f-2279-08dea60cd8ff
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002318.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9769
-X-Spam-Status: No, score=-0.2 required=5.0 tests=ARC_SIGNED,ARC_VALID,
-	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33NSw6CMBSF4a2Qjr2mLy7gyH0YB/ShNNHWtKRqC
+ Hu3kDBxwPA/g+9MJNnobCKnaiLRZpdc8CXEoSJ66P3dgjOlCae8ZpxKeDuvgjeQEVgLUTPQwY8
+ QbW8AUTYdM0ZxFKQIr2hv7rPql2vpwaUxxO96ltmybm6962YGFChTWrYomG7EWYUwPpw/6vAki
+ 5z5piEVHPc1XjSUwtiu6bHt/7R5nn8RUI1yFgEAAA==
+X-Change-ID: 20251204-winbond-v6-18-rc1-cont-read-664791ddb263
+To: Mark Brown <broonie@kernel.org>, Richard Weinberger <richard@nod.at>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Michael Walle <mwalle@kernel.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Takahiro Kuwano <takahiro.kuwano@infineon.com>, 
+ Lorenzo Bianconi <lorenzo@kernel.org>, Ray Liu <ray.liu@airoha.com>, 
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, 
+ =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
+ Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
+ Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+Cc: Pratyush Yadav <pratyush@kernel.org>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Steam Lin <STLin2@winbond.com>, Santhosh Kumar K <s-k6@ti.com>, 
+ linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+ linux-stm32@st-md-mailman.stormreply.com
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: ABD28497C06
+X-Rspamd-Queue-Id: 16D4849894D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.21 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
+X-Spamd-Result: default: False [-0.71 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
 	MAILLIST(-0.20)[generic];
+	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-3977-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-3987-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS(0.00)[m:andrew@lunn.ch,m:jacky_chou@aspeedtech.com,m:linux-aspeed@lists.ozlabs.org,m:molberding@nvidia.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,nod.at,ti.com,bootlin.com,infineon.com,airoha.com,aspeedtech.com,kaod.org,jms.id.au,codeconstruct.com.au,gmail.com,google.com,foss.st.com,gmx.net];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[andhsieh@nvidia.com,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[32];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andhsieh@nvidia.com,linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	NEURAL_HAM(-0.00)[-0.999];
-	HAS_XOIP(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.997];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[miquel.raynal@bootlin.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[bootlin.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,bootlin.com:dkim,bootlin.com:mid]
 
-> The quick and easy fix for getting patches merged into Mainline Linux
-> is to patch the bootloader. Stop it enabling delays in the MAC. You
-> can then use the correct phy-mode. If you go this way, place make it
-> clear in the commit message you have modified the bootloader.
+Hello,
 
-Thanks Andrew — and thanks Jacky for the earlier steer too.
+TLDR: I dropped v2 from my tree due to build issues with SPI
+controllers which I forgot about due to my testing configuration being
+minimal. This is just a respin of the same series, fixing the spi
+controller drivers which I initially missed.
 
-We're already on this path. I have a local branch with both U-Boot and
-kernel dts switched to phy-mode = "rgmii-id", and the &scu
-mac0-clk-delay block removed from the U-Boot dts.
+SPI NAND continuous read support has already been added a few releases
+ago, but only Macronix chips were benefiting from this support. Winbond
+chips also have a continuous read feature, which is slightly more
+complex to use in the scope of the Linux kernel, because they these
+chips expect a different read from cache operation once in continuous
+mode.
 
-We'll validate end-to-end on hardware first, then send the patches.
-I'll make sure the commit messages on both the U-Boot and kernel sides
-clearly note that the bootloader has been modified to stop enabling
-the MAC delays, so reviewers see the relationship between the two.
+In order to be more flexible, this series changes the logic behind
+dirmaps. Direct mappings used to be very static, not flexible. I am
+proposing to change this and turn them in to slightly more dynamic
+interfaces, where for instance we can:
+- Enable/disable the correction (was previously handled by creating yet
+  another pair of direct mappings per target).
+- Select one or another variant for the cache operations.
 
-> If you decide you want to make changes to the MAC driver, do it,
-> post patches, and they will get reviewed.
+I propose to name the variants available in a direct mapping "primary"
+and "secondary", and let the upper layer (SPI NOR or SPI NAND) point to
+the one that needs to be used for the operation. Controller drivers
+should not really care about this change, expect the fact that they
+should not keep a static representation of the template on their
+side. Because of that, I am creating a capability boolean to flag
+drivers that support this capability (the flag is ignored in the
+nodirmap case).
 
-Appreciated — but unfortunately tight timelines on our side mean I
-can't take on the smarter MAC driver work right now. I'll keep it on
-my radar as a follow-up if bandwidth allows.
+This series is now sent as v2 following a former RFC (link below).
 
-Thanks again,
-Ender
+Here is a benchmark with the faster Winbond chip I have, W35N02JW on a
+TI AM62a7 LP SK featuring the Cadence QSPI controller, clocked at
+25MHz. Speed gain for a 10-page read is about +32% in octal SDR mode,
++47% for a 10-page read in octal DTR mode and up to +83% for a entire
+block read!
+
+    1S-8S-8S, no continuous read:
+
+       64 page read speed is 15058 KiB/s
+
+    1S-8S-8S, with continuous reads:
+
+       1 page read speed is 15058 KiB/s
+       2 page read speed is 15058 KiB/s
+       3 page read speed is 16800 KiB/s
+       4 page read speed is 17066 KiB/s
+       5 page read speed is 18461 KiB/s
+       6 page read speed is 18461 KiB/s
+       7 page read speed is 19384 KiB/s
+       8 page read speed is 19692 KiB/s
+       9 page read speed is 19384 KiB/s
+       10 page read speed is 20000 KiB/s
+       11 page read speed is 20000 KiB/s
+       12 page read speed is 20000 KiB/s
+       13 page read speed is 20800 KiB/s
+       14 page read speed is 20363 KiB/s
+       15 page read speed is 20000 KiB/s
+       16 page read speed is 19692 KiB/s
+       32 page read speed is 19692 KiB/s
+       64 page read speed is 19692 KiB/s
+
+    8D-8D-8D, no continuous read:
+
+       64 page read speed is 23272 KiB/s
+
+    8D-8D-8D, with continuous read:
+
+       1 page read speed is 23272 KiB/s
+       2 page read speed is 23272 KiB/s
+       3 page read speed is 28000 KiB/s
+       4 page read speed is 32000 KiB/s
+       5 page read speed is 34285 KiB/s
+       6 page read speed is 34285 KiB/s
+       7 page read speed is 36000 KiB/s
+       8 page read speed is 36571 KiB/s
+       9 page read speed is 36000 KiB/s
+       10 page read speed is 34285 KiB/s
+       11 page read speed is 36666 KiB/s
+       12 page read speed is 40000 KiB/s
+       13 page read speed is 41600 KiB/s
+       14 page read speed is 37333 KiB/s
+       15 page read speed is 40000 KiB/s
+       16 page read speed is 36571 KiB/s
+       32 page read speed is 42666 KiB/s
+       64 page read speed is 42666 KiB/s
+
+On the Nuvoton platform, the speed gain is real, even though it is less
+impressive:
+
+       1 page read speed is 1802 KiB/s
+       2 page read speed is 1882 KiB/s
+       3 page read speed is 1938 KiB/s
+       4 page read speed is 1939 KiB/s
+       5 page read speed is 1935 KiB/s
+       6 page read speed is 1967 KiB/s
+       7 page read speed is 1968 KiB/s
+       8 page read speed is 1969 KiB/s
+       9 page read speed is 1968 KiB/s
+       10 page read speed is 2000 KiB/s
+       11 page read speed is 2000 KiB/s
+       12 page read speed is 2000 KiB/s
+       13 page read speed is 2000 KiB/s
+       14 page read speed is 2000 KiB/s
+       15 page read speed is 2000 KiB/s
+       16 page read speed is 2000 KiB/s
+       32 page read speed is 2000 KiB/s
+       64 page read speed is 2000 KiB/s
+
+Thanks!
+Miquèl
+
+---
+Changes in v3:
+- The API change in spi-mem has been applied to all SPI controller drivers
+  (fixing build failures on drivers I was not building in my test
+  config).
+  That is the only change.
+- Link to v2: https://lore.kernel.org/r/20260326-winbond-v6-18-rc1-cont-read-v2-0-643de97a68a3@bootlin.com
+
+Changes in v2:
+- Rebased on v7.0-rc1.
+- Collected tags.
+- I manually tested the integrity of the data by manually disabling all
+  possible variants one after the other using a 2 page read scenario. All
+  worked except the fastest 8D-8D-8D variant (the first one in the list)
+  which triggered the CS deassert issue on the Cadence controller. This
+  issue is orthogonal to this patchset, a follow-up series will be sent
+  to disable continuous reads on this controller.
+- All continuous read variants for the W25NxxJW chips have been tested
+  on the MA35D1 platform (which lead to several fixes) and the
+  W35NxxJW chips have been tested on TI AM62a7 LP SK.
+- Several changes have been operated in the core to stabilize the
+  feature when a secondary op is used.
+- A couple of helpers have been created to cleanup the winbond.c driver.
+- Link to v1: https://lore.kernel.org/r/20251205-winbond-v6-18-rc1-cont-read-v1-0-01bc48631c73@bootlin.com
+
+---
+Miquel Raynal (11):
+      mtd: spinand: Drop a too strong limitation
+      mtd: spinand: Expose spinand_op_is_odtr()
+      mtd: spinand: Drop ECC dirmaps
+      spi: spi-mem: Transform the read operation template
+      spi: spi-mem: Create a secondary read operation
+      mtd: spinand: Use secondary ops for continuous reads
+      mtd: spinand: winbond: Ensure chips are ordered by density
+      mtd: spinand: winbond: Add support for continuous reads on W35NxxJW
+      mtd: spinand: winbond: Create a helper to write the HS bit
+      mtd: spinand: winbond: Create a helper to detect the need for the HS bit
+      mtd: spinand: winbond: Add support for continuous reads on W25NxxJW
+
+ drivers/mtd/nand/spi/core.c    | 135 ++++++++++++------
+ drivers/mtd/nand/spi/winbond.c | 317 ++++++++++++++++++++++++++++++++---------
+ drivers/mtd/spi-nor/core.c     |  22 +--
+ drivers/spi/spi-airoha-snfi.c  |   6 +-
+ drivers/spi/spi-aspeed-smc.c   |   4 +-
+ drivers/spi/spi-intel.c        |   6 +-
+ drivers/spi/spi-mem.c          |  32 ++++-
+ drivers/spi/spi-mxic.c         |  18 +--
+ drivers/spi/spi-npcm-fiu.c     |  16 +--
+ drivers/spi/spi-rpc-if.c       |   8 +-
+ drivers/spi/spi-stm32-ospi.c   |   6 +-
+ drivers/spi/spi-stm32-qspi.c   |   6 +-
+ drivers/spi/spi-wpcm-fiu.c     |   2 +-
+ include/linux/mtd/spinand.h    |  16 ++-
+ include/linux/spi/spi-mem.h    |   8 +-
+ 15 files changed, 435 insertions(+), 167 deletions(-)
+---
+base-commit: 1e0fe839f8c4bade7b9dc358fb8eef5b2f43af49
+change-id: 20251204-winbond-v6-18-rc1-cont-read-664791ddb263
+
+Best regards,
+-- 
+Miquel Raynal <miquel.raynal@bootlin.com>
+
 
