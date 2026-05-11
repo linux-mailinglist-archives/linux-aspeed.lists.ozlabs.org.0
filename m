@@ -1,62 +1,62 @@
-Return-Path: <linux-aspeed+bounces-4013-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4010-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MGvMAYdrAmrUsgEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4013-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 May 2026 01:51:35 +0200
+	id QDdZL3hrAmqosgEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4010-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 May 2026 01:51:20 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7801C517823
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 May 2026 01:51:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF325177D2
+	for <lists+linux-aspeed@lfdr.de>; Tue, 12 May 2026 01:51:20 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gDxMC1H7wz2yGf;
-	Tue, 12 May 2026 09:51:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gDxM90JGdz2y8m;
+	Tue, 12 May 2026 09:51:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1778529906;
-	cv=none; b=jVn9HHZS8SvQfX3QoKxvr3kfKqzRYvp23loCyCKTsmHPUYNukctujeNyuqYuP0wMZkUIk2PSknpCWoczQwzfWxiQRk3JBA4LWfKEL2ysN+wBTTa+cjHh0tIpO0mXcN0TvqaMjfF0aapeaXX9jBT2lDLBmk18EodhNfKKq6+Njnlgm+XDkgL+f7GARRaF2cQHl036dcHTzfFaK6trv7FnYO7mSc9PuTuc/8wpR9fF2ofg8gC9QV5v4jkKPhETgo6nyoVbBhvdhvkbMqxmY50IwPfASYBM2Ge62Gk9/AXlUIBMol01sOxF/DdoI0wlPPHCuFzHdeOZF+I7WeY7vY/z4A==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1778529955;
+	cv=none; b=jQ0vFIxKEp2DNrG6ca8ufuiZpmEbpv/Fl/fSaH14A8cYL2PLHIUk+Sm11oD8OioXgH88noyVFmYoKJZ79g2nxjd2a6oISQtWBtAArOOtoOZmYGQ6agGIIp1hyaolKh3jH7aO0Ad774KdVGIuTLUpd18+n+I4ZJhKKvaEM9ITdDNDL++ui3y9YmL8MqHxkagRTrWc6teIw4cd0vIBN3ptWb+80TEbmzQtWeq+g4+BqwHljzo4M2At/yvJAKhmL+rZjRaG1/zAxkahhXTEjsJEdOKNvDWgZjt5+Kr2t1DlTWRcUyaOC1XqRXTf43kTEJHoQa7OAVg09m0BPm3b/o4uUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1778529906; c=relaxed/relaxed;
-	bh=vifrlnSm2hwvPtyavVza6RSqJuHvkSa7YEqnDg6i8hI=;
+	t=1778529955; c=relaxed/relaxed;
+	bh=2Xsowmeu2RyzTVACoqAzvMX79fACSIN87yT/5+JNn24=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=agSYvH/u07/FiIRdJPySn/ZNeI5+ph5QTM/TRoSIcKVqy65GlOsSNdwu082O9l6n003y11+nGZZFDCobGfS3Q/hKHKrWMhiudzhXa+iUbQkFV1T37s4Sf3kxmFNyI9UUf74KqQg152FqEButGcuFcSKINciYTo0vmqvqpRq2fQEDzrrcZHSrpJXxnNYaEehkeqkaNsRFoMXqWEj6w6V0qOKcSD5TDjOLEFpda8mw5HhCCZZqA1q7bplYS1nfgzWcdxIpvwhA9KFLPgohQTvD9E0c6rp4DKc0ItR5aU/1BbU54akT5jC/HbxQvl5SrT4Y+HMNzNmEaL/l3TUrQ+zlRA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Nt3Ua8ch; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+	 To:Cc:Content-Type; b=S8bMkuLkVscCChQ3xaqvtAOJ2VGKFiQPKPVvIX3ksiLTgItA4t4cuepuUS4D1oEPSShRHkN4y2Wx8ZebDq4znFlYsW3CL7I1xDoXKGx8d6rSFMt2a9xD8VQkMPaUjPZo9564+hk9lN6FsOSNq0SPJFxBKt0NEcloWRtB8f7yw9fSi2ombBHXC4KPa8pMlpz7RfQt6OqNx4iwin2XHunjMFHhs5xgmCZ5Zgiz+vNKLQNpPFP+NvikLI5OVoZd6IAue8GhjacQ8axcAreU/+wjzwk0abp7FDr4DgwlZ9WkaLNVMBn4U47IcBtjykfxtVK9p1LMxBzYMk9DCwqqoMw14w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ut/rzfkE; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Nt3Ua8ch;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ut/rzfkE;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org)
 Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gDrL96bw0z2xQB
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 12 May 2026 06:05:05 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gDrM71jlPz2xSG
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 12 May 2026 06:05:55 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 65FF944419
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 11 May 2026 20:05:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4826CC2BCFB
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 11 May 2026 20:05:04 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 7A87042D65
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 11 May 2026 20:05:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54B86C2BCFC
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 11 May 2026 20:05:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778529904;
-	bh=vifrlnSm2hwvPtyavVza6RSqJuHvkSa7YEqnDg6i8hI=;
+	s=k20201202; t=1778529953;
+	bh=2Xsowmeu2RyzTVACoqAzvMX79fACSIN87yT/5+JNn24=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Nt3Ua8chsChWviUtf3nByVpkkunRyWEk+lT4AotDC9Y05Z3PHcf4uvVkTAmdFJuDv
-	 s0KcDVTcLlF6KKv723rdN5giJIJLedqFepwwUSt9yplhxFPiNWsVhOtEd0OUoygCsC
-	 9A+yD2JsJ2gqpGysBftNJ27epa4O4oyINB0D6HGTZ/355ObItcJrciIx4zF8LAJRBd
-	 H1PPFlmgr/uTHGxyIpf6cX+sDcQhcPLsYt6YhCoOQwAigAocoMdMXzoCO75pyc8V5u
-	 Iz5LD9vcUWvh8HzOLBEuXOZIw23m8RPWXzpxADikZnwyd4o5qsM2hf3wIENp7X0URd
-	 jMXZsTsI0YMpg==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-393d07e8938so44290221fa.2
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 11 May 2026 13:05:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ84wnaWKFcEbgQrWnupGKbzQQTomgwJNRMZnar0ED+qNjXwXBFTC/P0GnLBbkYb5baUSmVj9QNulzAr3BY=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yx2GFbMgWn8VEMNoAMjfAe3pGo5BmkPQRNDI8PLw1EwncfkFNM5
-	BgCB8eRictcLEo5ZM95b3+NBzufHdALt5kwKiGt9iae2Ztm4akWF5jp8zY6Zg2BlITOL+34QwIX
-	gjWDBtMjkAJfAVd+lnKTcGLyB6ytPOYE=
-X-Received: by 2002:a05:6512:3b21:b0:5a8:6793:e701 with SMTP id
- 2adb3069b0e04-5a887ce64c1mr7724276e87.33.1778529903006; Mon, 11 May 2026
- 13:05:03 -0700 (PDT)
+	b=ut/rzfkEkxSQVJ7hvg2gtO6RIoATawPoLO/LzBoFHk1N3oMedL7fWii5dcdw9dz6b
+	 J51kg8bIAGfkyUvBmduu7zpL6FKRE22Zr5QsHn0BtEZuGshRBbXLv4WjMdSyPQdgvT
+	 OeUDgJMgA6DsdYZ6YEhEPRHYYZwa2AfkpN7bzsR/7JFLpnRpYi+d/cb1PIJLY3GHyh
+	 MBH5LsH/Lzfd+LeqmNU8AltNw/bYfFNBtt2l2tdwqYTmwEJ0LUQviIEL85TuVwcSD3
+	 IMsYVCZPvqM40y1b0nOdlDeeJZc21FPfsYORXiFvbLkRXG5T45nHZjowBSW7dDVu6R
+	 ayQ8YXFRatRbA==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a858881ad2so5078145e87.3
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 11 May 2026 13:05:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+iwK+EGgfYzBBqzeSsdu04W5Bu4W1C3hiYfQM9RHHatwuWoaPXmP1xHzu7CDwt63vnxiF0hkZDOzuq77s=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YyQv3RYY6BdqumZld4gsjp6FVKTc63Jcz8xgkV6Bbo8n5Ta1rFz
+	2b2yruSwi+4K6BoMxxp+oS0x0Dy7PiKuVgwCC1o4lik6PJE82GRI2NPmpGaPx85oiL80U6/TPdJ
+	a7IIGqXTkM2UpIyQAw3G3/+yMIykJNx4=
+X-Received: by 2002:a05:6512:4008:b0:5a8:80ce:ba55 with SMTP id
+ 2adb3069b0e04-5a887ae1e90mr8495895e87.11.1778529952053; Mon, 11 May 2026
+ 13:05:52 -0700 (PDT)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -70,15 +70,14 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260506-upstream_pinctrl-v9-0-0636e22343ad@aspeedtech.com> <20260506-upstream_pinctrl-v9-2-0636e22343ad@aspeedtech.com>
-In-Reply-To: <20260506-upstream_pinctrl-v9-2-0636e22343ad@aspeedtech.com>
+References: <20260506-upstream_pinctrl-v9-0-0636e22343ad@aspeedtech.com>
+In-Reply-To: <20260506-upstream_pinctrl-v9-0-0636e22343ad@aspeedtech.com>
 From: Linus Walleij <linusw@kernel.org>
-Date: Mon, 11 May 2026 22:04:50 +0200
-X-Gmail-Original-Message-ID: <CAD++jL=3p9BvDgaot3=emM4Zn5jU-ZAUKtB4UwT1HzDiyzKq4Q@mail.gmail.com>
-X-Gm-Features: AVHnY4JtxK2F1JLguIEb3zBOcAZHVynLHNdMopJnlqbcSYRx0cEplr-yGb19hdA
-Message-ID: <CAD++jL=3p9BvDgaot3=emM4Zn5jU-ZAUKtB4UwT1HzDiyzKq4Q@mail.gmail.com>
-Subject: Re: [PATCH v9 2/3] dt-bindings: mfd: aspeed,ast2x00-scu: Describe
- AST2700 SCU0
+Date: Mon, 11 May 2026 22:05:40 +0200
+X-Gmail-Original-Message-ID: <CAD++jLnJn9MOrsF0EPte26ZVbwVWHGuubqmTpss5D6Ep7kAY9A@mail.gmail.com>
+X-Gm-Features: AVHnY4IWb6Oao5TaGJ75WC2JjZJs_EcccJqTLmElh9HpaEFa4BQJq1a2vLp7XN0
+Message-ID: <CAD++jLnJn9MOrsF0EPte26ZVbwVWHGuubqmTpss5D6Ep7kAY9A@mail.gmail.com>
+Subject: Re: [PATCH v9 0/3] pinctrl: aspeed: Add AST2700 SoC0 support
 To: Billy Tsai <billy_tsai@aspeedtech.com>
 Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
@@ -93,7 +92,7 @@ X-Spam-Status: No, score=-0.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: 7801C517823
+X-Rspamd-Queue-Id: 1EF325177D2
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -104,7 +103,7 @@ X-Spamd-Result: default: False [-0.71 / 15.00];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-4013-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-4010-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:billy_tsai@aspeedtech.com,m:lee@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:brgl@kernel.org,m:ryan_chen@aspeedtech.com,m:andrew@aj.id.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:openbmc@lists.ozlabs.org,m:linux-gpio@vger.kernel.org,m:linux-clk@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[linusw@kernel.org,linux-aspeed@lists.ozlabs.org];
@@ -130,32 +129,19 @@ X-Spamd-Result: default: False [-0.71 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,aspeedtech.com:email]
 X-Rspamd-Action: no action
 
-On Wed, May 6, 2026 at 10:07=E2=80=AFAM Billy Tsai <billy_tsai@aspeedtech.c=
+On Wed, May 6, 2026 at 10:12=E2=80=AFAM Billy Tsai <billy_tsai@aspeedtech.c=
 om> wrote:
 
-> AST2700 consists of two interconnected SoC instances, each with its own
-> System Control Unit (SCU). The SCU0 provides pin control, interrupt
-> controllers, clocks, resets, and address-space mappings for the
-> Secondary and Tertiary Service Processors (SSP and TSP).
+> AST2700 is composed of two interconnected SoC instances, each providing
+> its own pin control hardware. This series introduces bindings describing
+> the AST2700 pinctrl architecture and adds pinctrl driver support for the
+> SoC0 instance.
 >
-> Describe the SSP/TSP address mappings using the standard
-> memory-region and memory-region-names properties.
->
-> Disallow legacy child nodes that are not present on AST2700, including
-> p2a-control and smp-memram. The latter is unnecessary as software can
-> access the scratch registers via the SCU syscon.
->
-> Also allow the AST2700 SoC0 pin controller to be described as a child
-> node of the SCU0, and add an example illustrating the SCU0 layout,
-> including reserved-memory, interrupt controllers, and pinctrl.
->
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+> The bindings document the AST2700 dual-SoC design and follow common
+> pinctrl conventions, while the SoC0 driver implementation builds upon
+> the existing ASPEED pinctrl infrastructure.
 
-This is an MFD patch in the middle of a pinctrl series, I think Lee
-should apply this.
-FWIW:
-Acked-by: Linus Walleij <linusw@kernel.org>
+Patch applied!
 
 Yours,
 Linus Walleij
