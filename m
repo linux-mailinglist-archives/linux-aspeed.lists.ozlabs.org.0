@@ -1,69 +1,92 @@
-Return-Path: <linux-aspeed+bounces-4015-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4019-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EOnAJ7LoAmpHygEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4015-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 May 2026 10:45:38 +0200
+	id QE3SNpLAA2or+AEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4019-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 May 2026 02:06:42 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7260451CEBC
-	for <lists+linux-aspeed@lfdr.de>; Tue, 12 May 2026 10:45:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06E452B7BC
+	for <lists+linux-aspeed@lfdr.de>; Wed, 13 May 2026 02:06:41 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gF9Cg2mYBz2yZc;
-	Tue, 12 May 2026 18:45:35 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gFYfR5WGpz2xJT;
+	Wed, 13 May 2026 10:06:39 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=198.175.65.15
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1778575535;
-	cv=none; b=lumsWn5visRDGGr38in7H1aaXR0d2DDRsHeeHCvxCqo+L5roVfMUZZ9GO2BGLxJroqJWqdjoo5CPCISUrkOXpFhY+iJrcSljfq1aICSIv88k5TKJZY4QZVhhDc3yT9tXlKki/Vp2LmYob02EWR+t8KCNHgXx+8veYxKLJJJe1CKli2gsCq/PgPhI/CgpCmEgv22L7bFF6wUGyO3NMBdX9fLhIIjxx7NTAx1uhLKhCRsDCH2Bh/NgZqFQX+kRdD4zUUUBlYxcdtnWgmoYopxuOehxVGb4DGzfY/2N1vSGObl5rw/hhpyjZv1ZZlSDk/kpDtIJD7dwG/gsbWcTNTeR4w==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::436"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1778608232;
+	cv=none; b=n9m/L4ly8/Sz/711AqfcyfLzqTTnRtWVXNv7IGv+YYGJue4cx2EwTp9/zVQStsqaPIOjEeonvTGDw1rKwSH4bx7V1OSrv3s714IiAVfA5+wmxM0OgOuH2T7l9xmtVVdVuegAzewdxo4kt3G17pwEG85NNcw56sDk51SPvhgk8xON5gZvw/nN6lS9z4ip10UFdJFtbI9fuc0DDvUvTbItutSVZ/504x/Tj6W6/MXSaBcXF6JErtkR3h3mkjXCr5+9FxBfgdWVK+ZF7ZwOjgwawWRlKedBX9UHU34/Kejpmr5KkUnwB7fZM4pbAGF6PfQ+vU8Vbknw5Hmve3r3pDPrpA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1778575535; c=relaxed/relaxed;
-	bh=hPjVjwBYUT81NbSYerPLbBR2nCY8Cy0J2Tk3EVZFcmk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eSzAuV9pE261vfQzOLDPHSnW7wZmPNJNXyDcv2u2uA9XKCk7TamFl7G5S6M2W9p+QlHN+p7X4O1hinxxjTVRtWVW4AC9QfIKmOQhObXRWzcaAwHLpOmqPtZeGwBa1pRlYNPe0ITmV3+0j2UtTioGrndf08SegeiT9EvFQTlfyVYp99P0HZj9d+jJVXAzsOsSwAbO1k1Ogb1MvAvSoUfPfj1tLP4Lpfanihc2kTOVpGnr19Lc5mRpty4RncfqbM+i/XbyVq4ASRVWpZkT0bJ4FbgmCX9ltxylrs042Ut5v9hH0rVXCp9lp11XPasJsRxKWWS7SUymztljxPQj5//l+w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nfe/WAhH; dkim-atps=neutral; spf=pass (client-ip=198.175.65.15; helo=mgamail.intel.com; envelope-from=oleksandr.shulzhenko@linux.intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=linux.intel.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+	t=1778608232; c=relaxed/relaxed;
+	bh=Bw7yD9Z23DvEiMo8d6kpF8dSdIAQpco59RabySZ7QjA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AfLe/abGsQEESTyVVmWFwOaAZe6SPdOgvkv628XCDVQXCPifY/kW4GQrurzOsmEiUNcU7GD89FbZwJtOfCq/e8sYaJTFfpdLcV1l31ZAkZErqA0wgYVNsXWXKTq/TAlBiHr5KQ0AtYzNrpY61DdQ8aSOILguu1IezBY/4CBI5qFMQEOPZFOxjHe77EXnfU/49IEGZVR80PvRNNe3g4xFFa5FrKpAexBBjcT4iA13Edazvx+RuyBbFr6bepOCmTePqOT9MSXpBoh3lEOHjYUCRFS60Vngck1rqBp1VVTdySpv3lIcd7spHy6rk1JKlE2141v5YvCnT7Dqp+jLr5wJFw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=M0VZO/Nz; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::436; helo=mail-pf1-x436.google.com; envelope-from=prasanth.padarthi10@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nfe/WAhH;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=M0VZO/Nz;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=linux.intel.com (client-ip=198.175.65.15; helo=mgamail.intel.com; envelope-from=oleksandr.shulzhenko@linux.intel.com; receiver=lists.ozlabs.org)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::436; helo=mail-pf1-x436.google.com; envelope-from=prasanth.padarthi10@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gF9Cb35WDz2yYs;
-	Tue, 12 May 2026 18:45:29 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778575533; x=1810111533;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=U6Bt7BPzzqflnmzTq2XYbmY9tMljGE473/5fyCg/9F4=;
-  b=nfe/WAhHcwz8SiP97ii5jsqwG64foRU2y6ln7sPWJQSli/wccu2tYDs1
-   C5ElDkls7mETtyCcx6Z4vcZbAmOClbclP0Q0AxT9N6oJV//6khu6s+iXs
-   MBKOltzohOL2ZNWF00choWltS4MbfGfk/LA+0AKA+2TDWt/yuULaJY0KG
-   bQjeLhV8r3tNbDMhnnU7MQhd9Q3FRECFUU+hyncNQR2cPW9IAOTnKP67G
-   ntrpgr1m0BE8e2xPODnwbmRhnbkEjPRdJ9pDksIqVzSgUoZ7AlE4txI7V
-   xMaOdfG1IaZce7nxniPxwG5KtgNWHgOWREpvBUaBTC/Z6RPJwgvmZzhyy
-   A==;
-X-CSE-ConnectionGUID: Fu2P8507T7iZkdNDaV3VVA==
-X-CSE-MsgGUID: TEnHK/kLR1e0pmZHdNLYAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="83093971"
-X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="83093971"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 01:45:26 -0700
-X-CSE-ConnectionGUID: PV3dQ/zIRW6qGdQHawDNYw==
-X-CSE-MsgGUID: z+cDrEW6SWejiepid5vlxA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="233229580"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 01:45:25 -0700
-Received: from [10.102.88.179] (oshulzhe-5CG4396S2Q.clients.intel.com [10.102.88.179])
-	by linux.intel.com (Postfix) with ESMTP id 0933C20B5714;
-	Tue, 12 May 2026 01:45:21 -0700 (PDT)
-Message-ID: <be4f662a-b986-4b4c-8263-2fd7b63c238a@linux.intel.com>
-Date: Tue, 12 May 2026 10:45:21 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gFPJR0Sydz2xb3
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 13 May 2026 03:50:30 +1000 (AEST)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-82fbdd60b64so4357602b3a.3
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 12 May 2026 10:50:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778608228; x=1779213028; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bw7yD9Z23DvEiMo8d6kpF8dSdIAQpco59RabySZ7QjA=;
+        b=M0VZO/Nz8MDRKdI08deceOEiAmi5wpBSwzt80lkf1N7y0aKWiWAeH17R0naDOOuByM
+         +2WLFnGiWJfp5ASXefVur4AppSq+TLiVZByhv/uZUpQsgsjtKkIABPJX+138sQMhYeg/
+         ZAuElx7ol6t+xJWjeS+mGQVLF4E5hb7497RV5xvPAJKocwuXP64STVWzsGV84uIAuwCD
+         XciiDPq1tyX9B0NA8xsbGLbP4sT/gzikimHeFr56p5JtspyvQsPqE0qhGRT2Nxq628sz
+         dvb67zizJV3p3C6M6yd63TYSv9G5s5F5ZG0pHeE3ycfFoDlXzS4mFsIUpS4ifpqa+VVt
+         Oabw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778608228; x=1779213028;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Bw7yD9Z23DvEiMo8d6kpF8dSdIAQpco59RabySZ7QjA=;
+        b=SHCFmkAVlMV8wRkW8hrQPeeuWHAcwoGaY+mtRgP0NjF7ts/6pYyhPg2Kj0lvXHRaxs
+         KW3XFImKkcsVl79Yxs1jZt6QlzqoGI00Um36kPNLpxpfp5z5c389C+E9Jw6sSpRpYlqs
+         2hsXrv160XawxwhpJDfFwGOSZCSEkt3Hm1pe0AKZjY6ykYy2I8BC0PkoqcXeQFkqLzaf
+         zPKdfHem440WPSWZPsy8WCdeDJ5x/9YU5lFbXpmcw4ww+nQYsXKLAu1WWa03Cyy2e8PP
+         LOXpszxwu7m+spI6YkiRidUDX1fPKszcyTUkosEtXt6NB5yD0qbOX8vNVnu+enx7X+VD
+         a60Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8QOE67mm/eRAbSwFupJUkcjCTaZJSWGSAb30GK9FDAUHa2ASvQt3l/gOTTUOHrgchBpRC1arDcRSrEBBA=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YwMvHCprZ0SMGFV1Is6wUuO2C1mXUv20r6T5MkjEW6KrgFrEyYR
+	85/w8qHPckOxWnh04f9RUK+ccqidVZwqwD5O1AOaUDnZyYo0OO+yyEo8
+X-Gm-Gg: Acq92OG7h/HEVUwcyol2es4aR+U7tYDS4UdtP20dhv8CBIWshjU4iTmewD6R8uiwDtm
+	PAH10iv3uNS5AJOI36TXhXPePQh7+2aJJELmex+ZjRQzliECVvUot0OU0Zwx57rweguTjq9MV8A
+	ZIgGa3Zu5bWX86iNhs92A6P9NfnWoZ/myiqwQoqYYWVGVBiu+HIby5ZDkAOATci60qsls4eJWen
+	E/kXhFATqH2bjrjEvBtoKPuwsOK6Pzos9Lmcdu6HMuCifCcvwIMsixK9o62LDzWC4uSNoI+euNJ
+	Pg4uOAHA8J4CMHsvN1YApi+oNPgJOCEe8z9oqZ4fCRlnEqYoVMjxriyXkck1kgyEDWxhY21jD5/
+	cAAXlQIs7HpA3bSYnAlbcqZzq/HJ0JI/y0JYAaVCNzfz1ZV6g7016Pl+WwEtxQyRqAqpDDmAYlA
+	MmQOqKvvBueicJKG5L/jRIfhXqHTKL6xOyNQ1aqWBu
+X-Received: by 2002:a05:6a00:410a:b0:838:1c02:276c with SMTP id d2e1a72fcca58-83e3b7b53d2mr14261430b3a.40.1778608228291;
+        Tue, 12 May 2026 10:50:28 -0700 (PDT)
+Received: from debian.prasanth ([103.177.82.138])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839682a20ebsm24838732b3a.53.2026.05.12.10.50.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 10:50:28 -0700 (PDT)
+From: Prasanth Kumar Padarthi <prasanth.padarthi10@gmail.com>
+To: joel@jms.id.au,
+	andrew@codeconstruct.com.au
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	Prasanth Kumar Padarthi <prasanth.padarthi10@gmail.com>
+Subject: [PATCH 0/2] ARM: dts: aspeed: Add ASRock Rack B650D4U support
+Date: Tue, 12 May 2026 23:20:17 +0530
+Message-ID: <20260512175019.47548-1-prasanth.padarthi10@gmail.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -77,149 +100,89 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] soc: aspeed: Add AST2600 eSPI controller support
-To: YH Chung <yh_chung@aspeedtech.com>, Arnd Bergmann <arnd@arndb.de>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Conor Dooley <conor@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Ryan Chen <ryan_chen@aspeedtech.com>, Philipp Zabel
- <p.zabel@pengutronix.de>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>,
- "maciej.lawniczak@intel.com" <maciej.lawniczak@intel.com>,
- Mark Brown <broonie@kernel.org>
-References: <20260313-upstream_espi-v1-0-9504428e1f43@aspeedtech.com>
- <20260313-energy-casket-ca8adc1f1fd1@spud>
- <23909400-4e7f-49c9-a982-14036372af98@app.fastmail.com>
- <c3b28ee92fa46700887d0c68b23045b2418358a7.camel@codeconstruct.com.au>
- <KL1PR0601MB4276ED93723F0B1F42349AD89041A@KL1PR0601MB4276.apcprd06.prod.outlook.com>
- <0f7f0f96-a918-47d5-a0bd-bbde494c8fed@app.fastmail.com>
- <KL1PR0601MB4276B5BE3B96C18E3A66AD709049A@KL1PR0601MB4276.apcprd06.prod.outlook.com>
- <14870d17-2471-4522-b8b5-03cb9002a4f7@app.fastmail.com>
- <KL1PR0601MB42763DAD359305DEBA4B769D9057A@KL1PR0601MB4276.apcprd06.prod.outlook.com>
- <KL1PR0601MB427603A6A5768D6A537CAFCB905AA@KL1PR0601MB4276.apcprd06.prod.outlook.com>
- <b1d56feb-9847-41b1-8bba-733963055cae@linux.intel.com>
- <KL1PR0601MB4276AB799EC03BB00C4C0E5490392@KL1PR0601MB4276.apcprd06.prod.outlook.com>
-Content-Language: en-US
-From: "Shulzhenko, Oleksandr" <oleksandr.shulzhenko@linux.intel.com>
-In-Reply-To: <KL1PR0601MB4276AB799EC03BB00C4C0E5490392@KL1PR0601MB4276.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.7 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: 7260451CEBC
+X-Rspamd-Queue-Id: F06E452B7BC
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [-0.21 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-4015-lists,linux-aspeed=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.ozlabs.org,lists.infradead.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-4019-lists,linux-aspeed=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[oleksandr.shulzhenko@linux.intel.com,linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[prasanthpadarthi10@gmail.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:prasanth.padarthi10@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:prasanthpadarthi10@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prasanthpadarthi10@gmail.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,intel.com:dkim,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
 X-Rspamd-Action: no action
 
-On 5/12/2026 9:08 AM, YH Chung wrote:
-> Hi Shulzhenko,
->
-> Thanks for the follow-up.
->
->> Integrating this driver into the SPI subsystem may allow reusing some existing
->> definitions, e.g.|spi_controller|,|spi_message|, and perhaps parts related to
->> single/dual/quad I/O handling. At the same time, parts such as the Flash channel
->> (included in the current series), and OOB / Virtual Wire support (I would expect
->> to come later), appear to be specific to the Intel eSPI protocol. Modeling all of
->> that as just another SPI IP driver may introduce some awkward layering and
->> overhead.
-> Agreed. eSPI introduces two additional pins, RESET# and ALERT#, beyond the
-> standard SPI signals. More importantly, eSPI functionality is described
-> primarily in terms of four logical channels, rather than generic low-level
-> bus signaling or pure data transfers.
->
->> Also, the current series already seems to separate common eSPI logic from
->> AST2600-specific pieces, assuming that 2700 driver is also coming at some point.
->>
->> This makes me wonder whether a dedicated eSPI layer/subsystem could be a
->> better fit — either under the SPI or as something separate (but not SoC driver).
->>
->> Given my limited experience with SPI/eSPI, could you help clarify a few points for
->> me (and probably others as well)?
->>
->> * How much of the SPI subsystem can be reused for this implementation,
->> both for the current patchset and for likely future extensions?
-> I believe only a limited portion of the SPI subsystem can be reused. Some
-> generic framework elements, such as controller registration and basic
-> scaffolding, may be useful initially. But this reuse appears to be mostly
-> mechanical rather than semantic. Once eSPI-specific features like Flash
-> channels, OOB messaging, and Virtual Wire semantics are involved, the SPI
-> transaction model does not seem to map very naturally.
->
->> * Are there any pitfalls or abstraction mismatches in trying to reuse
->> the SPI core here?
-> Our main concern is an abstraction mismatch. SPI is designed as a generic
-> peripheral bus, while eSPI is more of a system-management interface with
-> explicit host-BMC-specific semantics. Reusing the SPI core would likely
-> require treating eSPI packets as generic bus-level transfers in the kernel.
->
-> However, some eSPI transactions and protocol handling, such as LPC bridge
-> accesses, are performed autonomously by the hardware rather than being fully
-> driven as low-level bus operations by the driver. This makes the eSPI driver
-> somewhat different from a conventional serial bus controller driver
-> maintained under the SPI core.
->
-Hi YH,
+This series adds initial device tree support for the ASRock Rack
+B650D4U BMC, which is based on the ASPEED AST2600 SoC.
 
-My main concern is trying to understand whether it is completely 
-impossible (or introduces too much effort that we'd better not to take) 
-integrating this to SPI subsystem.
+The B650D4U is a server motherboard for AMD Ryzen processors. Hardware
+details were extracted via reverse engineering of vendor firmware.
 
- From your reply I understand there are two potential blockers:
+Hardware features included:
+ - UART5 Console
+ - MAC0 (RGMII) for dedicated management LAN
+ - I2C7 for FRU EEPROM
+ - FMC/SPI 64MB Flash layout
 
-a) Treating eSPI transfers as bus-level transfers (meaning that it will 
-be necessary probably making separate driver for OOB/VW/Flash channels 
-as they essentially use eSPI as a transport);
+Validation:
+Logic has been verified against the AST2600 v1.5 datasheet. The DTS 
+successfully compiles and was tested using QEMU (ast2600-evb) to verify 
+serial console output and board identification. 
 
-b) Some logic being done by the hardware (i.e. LPC bridge).
+QEMU Boot Log Snippet:
+---
+[    0.000000] OF: fdt: Machine model: ASRock Rack B650D4U BMC
+[    1.085143] 1e784000.serial: ttyS4 at MMIO 0x1e784000 (irq = 31) is a 16550A
+[    1.090566] printk: legacy console [ttyS4] enabled
+---
 
-Please confirm my understanding:
+Full logs and reverse-engineering data are maintained at:
+https://github.com/prasanthp20/asrock-b650d4u-bmc-support/blob/main/qemu-boot.log
 
-(a) is feasible, but requires many effort to re-define architecture
+Prasanth Kumar Padarthi (2):
+  dt-bindings: arm: aspeed: Add ASRock Rack B650D4U
+  ARM: dts: aspeed: Add ASRock Rack B650D4U BMC
 
-(b) If something is done by the hardware - what is the driver impact? I 
-recall eDAF use case when the driver wasn't involved at all - and flash 
-access was fully done by the hardware (unless the controller is 
-configured to handle it in SW mode).
+ .../bindings/arm/aspeed/aspeed.yaml           |  1 +
+ arch/arm/boot/dts/aspeed/Makefile             |  1 +
+ .../dts/aspeed/aspeed-bmc-asrock-b650d4u.dts  | 61 +++++++++++++++++++
+ 3 files changed, 63 insertions(+)
+ create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-b650d4u.dts
 
-
-P.S. I guess we can talk about host-BMC communication only when talking 
-about hardware-dependent stuff (i.e. ast2600-espi files). eSPI core 
-should be (it seems to be already is) at least BMC agnostic and this is 
-the reason not having it under SOC/aspeed (ast2600-espi.* may stay here 
-though).
+-- 
+2.47.3
 
 
