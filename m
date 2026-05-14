@@ -1,59 +1,71 @@
-Return-Path: <linux-aspeed+bounces-4027-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4028-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SDApNlC7BWpZaAIAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4027-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 May 2026 14:08:48 +0200
+	id aOfhCpPYBWoncQIAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4028-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 May 2026 16:13:39 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB98541680
-	for <lists+linux-aspeed@lfdr.de>; Thu, 14 May 2026 14:08:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5094A542E1B
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 May 2026 16:13:36 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gGTd70499z2xy8;
-	Thu, 14 May 2026 22:08:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gGXP84kV0z2xy8;
+	Fri, 15 May 2026 00:13:32 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1778760522;
-	cv=none; b=OyOaMAGsE0Nmu7MS/3sN3hb8nJc2BFHRHDkb9y5+5Z3LRzbRHpChBFijFFrXHAUUC/PVnhXvMpl9WZiRAh15TfGvwO2ffXBQihoLyQ1v4t8MKLsh7F28K8OUGVAcYZJ5g+wL5k8B05ipZZwdwSJ0fGrrblOYosfzyQJvzbVnmhTYxkPRddO22pbet7nl618ZX9TCVtMU8mEROcb494YLgrKVeGPiVB09g05m9nP5LBxz7qFWaKkVHN3fSaTFC5WwNWam71RCvEbwjiV80Xj9ttuGfGqO6TnlFfeWKa+Fc+o6Uy35PFv7SybuWbdjV6RissOTvDzyQql8ga9f7LsogQ==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c04:e001:324:0:1991:8:25"
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1778768012;
+	cv=none; b=k87Gh+LHseBDijP4zYbwtIsxtyc/lbHTZ+OcFDbtT63zhOC1BRj6mc/o3b7oegJGujeKolmE9G3NokByZ2PEkwTBhzEu9SS489nJEvUoiU30Eg5UqebcvNsAyHfyusAI1g3/aUe0W/hjdd+KHD09WCZRGArQGafXkTlWHZIvACzfmGAtagnyO5fHUYZV52I/RVaGqPJxI0WRxziOSXak6TIULGNkX0ngyVhKLo65Ty//+VT6N0vbW5ib0wDozQxv3x47TXbGoQsFkH1lStGVFWS4nG5/UdpjmiaGBv03s7wST86j4G5eiUDthAMCbwBeIcIBwl4HsFSqcItIXhTpMw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1778760522; c=relaxed/relaxed;
-	bh=Tso+x53GYlnnd0bvooYwZlfjSVUPwDAvBozCDW1Oo58=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=npi/Cc7poTmWaWs90k7HTNEHUqY9LjhWmwlPxdK8yMDHdWM9uaeNx2QME5JQWzvtNbPuq1YFIpBkIAs2UTzh7eAaz+ps8lH5L76vE4WcWHwyhDCQSq+WlFbU3Si3YV12Mk6EY1ofrNuAMLSFTJTWneSag9iv5GlvIuFMTu8+FEiJM3cq8ULUNa+aT7N8G5fjnRmKadY+hRleMlKbBZMmjR7njI+3465sHYxtiUaOwjqsMpo9lumr88A+2/GWKIJKTWnhOlDeZ+XtAkDFJzGUCRrzg6yKOH62UDH8fKAwjx02TsOgWN+VpmkjWs46aIO3gvPpaXDeIE/3xfBT8Hck2g==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=N42aHMGc; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+	t=1778768012; c=relaxed/relaxed;
+	bh=/dr50uPO7eF9OrFOOFLaGBZ1ya8dzFvE9OZgobV06/Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=c4woiLSgnZ5Ip76mjSbp8eLKQkm+gyZXaqK+tac8uIPSRLcVWn9k+AA8noaBTzfrVQ605/oldbvJAK88ra8oLfz6TOgjGDhpM9pCsigc45OGOOdatPBx/KBdNp/3Q4hAh/FKAUy2998OBHje+EJUBBPUfVfJIbkI62Doz3CmF6I0t+mmqnhol/nD478UXFtaED6W1MqLSqLmKlDixzTb0knGoF2L4fhZHs/69T47NIdmPd419/xt55hDGhIZtNFOSXD9fObDuwWOinwlz9FbFshKXW/eu/efaGHwJug9+BZUYtF+BwbXK0SvTH1bkcptqw0vz0RzH4OB6i5Qjn56VA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=XkEHt8uW; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=lee@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=N42aHMGc;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=XkEHt8uW;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=lee@kernel.org; receiver=lists.ozlabs.org)
+Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gGTd44F7gz2xdL
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 May 2026 22:08:40 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=Tso+x53GYlnnd0bvooYwZlfjSVUPwDAvBozCDW1Oo58=; b=N42aHMGcEd3zaZq6JElfHZEouQ
-	+DhFxWFVsxTwX7NXiV2+zHnq+cZuoEX6ZfJFp65Cu0xLKfjhUo4LI1ng4MZI4y7FTjjY4L3W/X/gp
-	cra0CT4Y+gYEHqsX7o8KzF0XKfJyS9O+oe2YCP15HK8e5bkuhSvuwCPIL6mttnemsstw=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wNUrS-002trT-CM; Thu, 14 May 2026 14:08:18 +0200
-Date: Thu, 14 May 2026 14:08:18 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Prasanth Kumar Padarthi <prasanth.padarthi10@gmail.com>
-Cc: joel@jms.id.au, andrew@codeconstruct.com.au, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 2/2] ARM: dts: aspeed: Add ASRock Rack B650D4U BMC
-Message-ID: <a71d6b4c-fba2-4f02-9603-4370b52663e1@lunn.ch>
-References: <20260514031622.1416922-1-prasanth.padarthi10@gmail.com>
- <20260514031622.1416922-3-prasanth.padarthi10@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gGXP74nMyz2xFl;
+	Fri, 15 May 2026 00:13:31 +1000 (AEST)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id ABC1D60008;
+	Thu, 14 May 2026 14:13:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8635C2BCB8;
+	Thu, 14 May 2026 14:13:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778768008;
+	bh=vecM+NvydGm3n5aPBbo+HzeFwabzmwcQucOYFjvSKhg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=XkEHt8uWWQKSBKZ28HG2MVM7OP5TcnsspKmi+712eDUBP08VVTF3q7cwbdL7vIDrL
+	 P40fcVGnciFBb/xwmE+oj6q3lT4AGb/EwNz8qhuKp7AcviwDM9s/NqKv5OThLSZCqi
+	 IHur3CiTebWzCJOq5EeAjzhZEs8uHJT5Qaav0rrqVsslds8y+y5gVGaKlwbDf5bO/9
+	 etsbVV3oJG08NkrhZ5YkrLDojMKCL8Tfv+EGQH2RZjPeNXbJf3EfJX+Lqao/QtqF1H
+	 2FSn4NyD+u4CVGU0G49LIMN0wOus1x0FawEKPtAVg6wbPCjbnWFNBkcqcvTP65RUBE
+	 hdfoMDt2mAI7A==
+From: Lee Jones <lee@kernel.org>
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Ryan Chen <ryan_chen@aspeedtech.com>, 
+ Billy Tsai <billy_tsai@aspeedtech.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org, 
+ linux-gpio@vger.kernel.org, linux-clk@vger.kernel.org
+In-Reply-To: <20260428-upstream_pinctrl-v8-2-eb8ef9ab0498@aspeedtech.com>
+References: <20260428-upstream_pinctrl-v8-2-eb8ef9ab0498@aspeedtech.com>
+Subject: Re: (subset) [PATCH v8 2/3] dt-bindings: mfd: aspeed,ast2x00-scu:
+ Describe AST2700 SCU0
+Message-Id: <177876800455.2774299.12102353346237716077.b4-ty@b4>
+Date: Thu, 14 May 2026 15:13:24 +0100
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -67,57 +79,59 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260514031622.1416922-3-prasanth.padarthi10@gmail.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev-ad80c
+X-Spam-Status: No, score=-0.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: 9BB98541680
+X-Rspamd-Queue-Id: 5094A542E1B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [-0.21 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[lunn.ch,none];
-	MAILLIST(-0.20)[generic];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
-	R_DKIM_ALLOW(-0.20)[lunn.ch:s=20171124];
+	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-4028-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4027-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:prasanth.padarthi10@gmail.com,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:prasanthpadarthi10@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[lunn.ch:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	FROM_NEQ_ENVFROM(0.00)[lee@kernel.org,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lunn.ch:mid,lunn.ch:dkim,bootlin.com:url,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-> +&mac0 {
-> +	status = "okay";
-> +	phy-mode = "rgmii-rxid";
+On Tue, 28 Apr 2026 17:49:46 +0800, Billy Tsai wrote:
+> AST2700 consists of two interconnected SoC instances, each with its own
+> System Control Unit (SCU). The SCU0 provides pin control, interrupt
+> controllers, clocks, resets, and address-space mappings for the
+> Secondary and Tertiary Service Processors (SSP and TSP).
+> 
+> Describe the SSP/TSP address mappings using the standard
+> memory-region and memory-region-names properties.
+> 
+> [...]
 
-https://elixir.bootlin.com/linux/v6.15/source/Documentation/devicetree/bindings/net/ethernet-controller.yaml#L287
+Applied, thanks!
 
-Please could you explain the choice of rgmii-rxid.
+[2/3] dt-bindings: mfd: aspeed,ast2x00-scu: Describe AST2700 SCU0
+      commit: 821fe4172d2a220278d6d279b695b3e299c1614f
 
-       Andrew
+--
+Lee Jones [李琼斯]
+
 
