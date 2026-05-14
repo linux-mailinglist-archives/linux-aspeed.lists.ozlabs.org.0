@@ -1,96 +1,59 @@
-Return-Path: <linux-aspeed+bounces-4030-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4027-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0CxiAG1eBmrijAIAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4030-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Fri, 15 May 2026 01:44:45 +0200
+	id SDApNlC7BWpZaAIAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4027-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 May 2026 14:08:48 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250F9547D37
-	for <lists+linux-aspeed@lfdr.de>; Fri, 15 May 2026 01:44:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB98541680
+	for <lists+linux-aspeed@lfdr.de>; Thu, 14 May 2026 14:08:46 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gGn3v752Yz2y8r;
-	Fri, 15 May 2026 09:44:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gGTd70499z2xy8;
+	Thu, 14 May 2026 22:08:43 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::1032"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1778728604;
-	cv=none; b=E7QoSu7n3IxFpozE7Pxavdjp9E0nuTbDbB/ytCw2NF+w3mbPj/jx2OABTjZzb6zB9v/Idt2rk3e3xmKBDLdtWIWQ2uHk43f3AtE0FxV4hIeft+flJgQcTpTcSTJNmgY+Qk+grVpMreOcjTbyaIdKoZRkCt4RSIlR6ADKkRnNYsWKKDbx+oR07ggwk5jiUMx1k5YlGvxpSg6yOv1avArlfoFJiH/ESJOTGePn9uk/7JTQGe7jkMbKszrE/9RKgMfeuGsYq8QNZuVgyGFglTgnqhHuz8tTtxwjpXPkf5vLYZFyxm7uzJzzzwVdkFVyH9A3cNM8HEA8gQVuFHbv51l/tA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=156.67.10.101
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1778760522;
+	cv=none; b=OyOaMAGsE0Nmu7MS/3sN3hb8nJc2BFHRHDkb9y5+5Z3LRzbRHpChBFijFFrXHAUUC/PVnhXvMpl9WZiRAh15TfGvwO2ffXBQihoLyQ1v4t8MKLsh7F28K8OUGVAcYZJ5g+wL5k8B05ipZZwdwSJ0fGrrblOYosfzyQJvzbVnmhTYxkPRddO22pbet7nl618ZX9TCVtMU8mEROcb494YLgrKVeGPiVB09g05m9nP5LBxz7qFWaKkVHN3fSaTFC5WwNWam71RCvEbwjiV80Xj9ttuGfGqO6TnlFfeWKa+Fc+o6Uy35PFv7SybuWbdjV6RissOTvDzyQql8ga9f7LsogQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1778728604; c=relaxed/relaxed;
-	bh=mhXaZyjR5wnfmrnw0I8RLf6r41iRHOPfxchv5M6XoP8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ktyHAeZKP43pZFJGjGiX4IKlP1xpE6NJ1tF59gsg/zcaVCFUZXfuTuNYt/ty/ErMlBhLjlGsanhVETCVo4cbe+QmYMJCuHA1LRv5RT9wmRnPt9IKdyLHJxsOxgSrJjG+dqPoPD+naHVIGihzOrcyPkL1cQejR5sdgeU0zH8NXSrWaw4H0dQs9TG7d/BsQkh347Mdkw96+g5cQPZiaTNDIVQAMtR6muyxA2QizbiTrEnH+7QKtBPkEMxFPv31GSYcgXg5KmHOrKptjcpnbPUv1BsUpX+u9xeuu7UVN9hVTe4vHCeII6wKoKYv0LefyANLmxBPxUAfgOoUsUtbLYI0PQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=U+6W3G6l; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1032; helo=mail-pj1-x1032.google.com; envelope-from=prasanth.padarthi10@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1778760522; c=relaxed/relaxed;
+	bh=Tso+x53GYlnnd0bvooYwZlfjSVUPwDAvBozCDW1Oo58=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=npi/Cc7poTmWaWs90k7HTNEHUqY9LjhWmwlPxdK8yMDHdWM9uaeNx2QME5JQWzvtNbPuq1YFIpBkIAs2UTzh7eAaz+ps8lH5L76vE4WcWHwyhDCQSq+WlFbU3Si3YV12Mk6EY1ofrNuAMLSFTJTWneSag9iv5GlvIuFMTu8+FEiJM3cq8ULUNa+aT7N8G5fjnRmKadY+hRleMlKbBZMmjR7njI+3465sHYxtiUaOwjqsMpo9lumr88A+2/GWKIJKTWnhOlDeZ+XtAkDFJzGUCRrzg6yKOH62UDH8fKAwjx02TsOgWN+VpmkjWs46aIO3gvPpaXDeIE/3xfBT8Hck2g==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=N42aHMGc; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=U+6W3G6l;
+	dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=N42aHMGc;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::1032; helo=mail-pj1-x1032.google.com; envelope-from=prasanth.padarthi10@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=lunn.ch (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org)
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gGFqH68cnz2xdL
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 May 2026 13:16:43 +1000 (AEST)
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-3692bf38290so208911a91.0
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 13 May 2026 20:16:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778728602; x=1779333402; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mhXaZyjR5wnfmrnw0I8RLf6r41iRHOPfxchv5M6XoP8=;
-        b=U+6W3G6lT2Gi7HCDz3weTi+PJnWtLEsS9NGae9dJntfm4lUf2V+5mWYlbh9DWb3GO8
-         atxcvltgah5G1qP4wL1fYMFk8aFb0fBWsKon2/n+5k9qffN9zqIIMh4wW2wxc3rQCXql
-         HGWEuyESBzuD7Hp7uRXT+iBV1RTlIUb2SUvLWruZiVZv9moGN9aCM9q9GwzfNvYvM4dD
-         NcKfkEz3Xz8SlnYZE+EW0o+wzvmuDkels6JqxGzuk9Jd+4SMpPAFGJAIzVu2sRuEheGr
-         pwGBDjtprxpmwKaFsSHaHiXQfq+/brIKCl8eyK+8xASb3jYuEqy4rOVcVHN5/pRiibYA
-         DeKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778728602; x=1779333402;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mhXaZyjR5wnfmrnw0I8RLf6r41iRHOPfxchv5M6XoP8=;
-        b=mCVSlKU1zHSzq7x3lyxkMV8voU8XpIGL199k+zXHavBBvxiZlBkG6tq3STem92AdyE
-         dLIxcUmZALBUsW+ryeaHoiYivGtatDKOxwQPepIVEq19NSwJOqtoya96uVhqMrCghW0i
-         JTm2Brv5Hm60XW0k12l1kyD7YW1Lhg3Od0offNQi5qDX1nd1NfSWZ7VGKf3DBSxuNbJD
-         YiA3RH9uzWAIwGLV0c2dDHxiV1ZE8O6jqDshPC5ZxGKqzBU0RKX2AwzTwrBkTtRBTD7K
-         oNjOmChFoPGdVARXzxOCSc68vXAug3vyJjRm5kLWb/+KC9o0d8x+0mdh0uXUZAj7dHnp
-         o5nQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8wvCXleupoSYS4ArA/CvEqkETPkAXvLWQVQcepZCLNF3NiIK2vhU5rqZ6XBj8MAJWK9UQSRKaaDY9dpms=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxWECjeF6BGk95tXHOiU7N+sq1U/2ElnO6ZNKmObJTEK52CYsxo
-	oorRqsGEJm1KHfCcDuybq91UnL24cR7Vx9wJ0vIKy7IhZSFcbBHTdYotq1uTVw==
-X-Gm-Gg: Acq92OHa8uSGkyqRQN/Vag5ix3/WGn2srvFsvsfxj15Q8v1OSJ5hJHCW0NG0KdGDoNc
-	AmfvyYx255ujsfw3QNQBvOk/CWW2BuSGtmRFJNpZ/VqC7rg7Bth4YNGsT2bBGeCsdhN52cXlAUs
-	jtaYRMrtD+9hUN8fQ7o733rJcVnN4nq8avW5ws14xzhb9JpE1bQs4WJvsh1hyZxujoJybRH/GaR
-	rRCYvw4P7lVUwORHRDxNuGgZdEKz2kCb92Y1p4+8ULwwQo7npnSvXPg0JQ/uf0W59GybXht51rP
-	2h/VskxUJESK4Ku/BxfNAanesBf3VCKFrNBDs4vRnWTKOUit+aDon21gVQrNhZb5Qc7gnhaOfE+
-	YjZ25PxFwZ2K+zcG8MXW1OJDLzFIXk7lbPE1sW6t5gbtyOeHjqSrXQ2pTWmqru++v5qft5czcrv
-	ewNt9yitCqDGeuULrYRjhqWWNG0eXf4TTBdW6sRg/r
-X-Received: by 2002:a17:90a:f946:b0:364:edd2:812 with SMTP id 98e67ed59e1d1-368f40a23dcmr6192258a91.25.1778728601594;
-        Wed, 13 May 2026 20:16:41 -0700 (PDT)
-Received: from debian.prasanth ([103.177.82.138])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3692a94205asm320047a91.7.2026.05.13.20.16.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 20:16:41 -0700 (PDT)
-From: Prasanth Kumar Padarthi <prasanth.padarthi10@gmail.com>
-To: joel@jms.id.au,
-	andrew@codeconstruct.com.au
-Cc: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org,
-	Prasanth Kumar Padarthi <prasanth.padarthi10@gmail.com>
-Subject: [PATCH v2 2/2] ARM: dts: aspeed: Add ASRock Rack B650D4U BMC
-Date: Thu, 14 May 2026 08:46:22 +0530
-Message-ID: <20260514031622.1416922-3-prasanth.padarthi10@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260514031622.1416922-1-prasanth.padarthi10@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gGTd44F7gz2xdL
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 14 May 2026 22:08:40 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=Tso+x53GYlnnd0bvooYwZlfjSVUPwDAvBozCDW1Oo58=; b=N42aHMGcEd3zaZq6JElfHZEouQ
+	+DhFxWFVsxTwX7NXiV2+zHnq+cZuoEX6ZfJFp65Cu0xLKfjhUo4LI1ng4MZI4y7FTjjY4L3W/X/gp
+	cra0CT4Y+gYEHqsX7o8KzF0XKfJyS9O+oe2YCP15HK8e5bkuhSvuwCPIL6mttnemsstw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wNUrS-002trT-CM; Thu, 14 May 2026 14:08:18 +0200
+Date: Thu, 14 May 2026 14:08:18 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Prasanth Kumar Padarthi <prasanth.padarthi10@gmail.com>
+Cc: joel@jms.id.au, andrew@codeconstruct.com.au, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 2/2] ARM: dts: aspeed: Add ASRock Rack B650D4U BMC
+Message-ID: <a71d6b4c-fba2-4f02-9603-4370b52663e1@lunn.ch>
 References: <20260514031622.1416922-1-prasanth.padarthi10@gmail.com>
+ <20260514031622.1416922-3-prasanth.padarthi10@gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -104,153 +67,57 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260514031622.1416922-3-prasanth.padarthi10@gmail.com>
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: 250F9547D37
+X-Rspamd-Queue-Id: 9BB98541680
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.21 / 15.00];
+X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[lunn.ch,none];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	R_DKIM_ALLOW(-0.20)[lunn.ch:s=20171124];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.ozlabs.org,lists.infradead.org,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4030-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[prasanthpadarthi10@gmail.com,linux-aspeed@lists.ozlabs.org];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:prasanth.padarthi10@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:prasanthpadarthi10@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-4027-lists,linux-aspeed=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:prasanth.padarthi10@gmail.com,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:prasanthpadarthi10@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	DBL_PROHIBIT(0.00)[0.0.0.57:email];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prasanthpadarthi10@gmail.com,linux-aspeed@lists.ozlabs.org];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[lunn.ch:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,4.196.180.0:email]
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lunn.ch:mid,lunn.ch:dkim,bootlin.com:url,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
 X-Rspamd-Action: no action
 
-Add initial device tree support for the ASRock Rack B650D4U BMC.
-The B650D4U is a server motherboard utilizing the ASPEED AST2600
-SoC for management.
+> +&mac0 {
+> +	status = "okay";
+> +	phy-mode = "rgmii-rxid";
 
-Signed-off-by: Prasanth Kumar Padarthi <prasanth.padarthi10@gmail.com>
----
- arch/arm/boot/dts/aspeed/Makefile             |  1 +
- .../dts/aspeed/aspeed-bmc-asrock-b650d4u.dts  | 71 +++++++++++++++++++
- 2 files changed, 72 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-b650d4u.dts
+https://elixir.bootlin.com/linux/v6.15/source/Documentation/devicetree/bindings/net/ethernet-controller.yaml#L287
 
-diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
-index c4f064e4b..124d4f8f8 100644
---- a/arch/arm/boot/dts/aspeed/Makefile
-+++ b/arch/arm/boot/dts/aspeed/Makefile
-@@ -13,6 +13,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-asrock-romed8hm3.dtb \
- 	aspeed-bmc-asrock-spc621d8hm3.dtb \
- 	aspeed-bmc-asrock-x570d4u.dtb \
-+	aspeed-bmc-asrock-b650d4u.dtb \
- 	aspeed-bmc-asus-x4tf.dtb \
- 	aspeed-bmc-bytedance-g220a.dtb \
- 	aspeed-bmc-delta-ahe50dc.dtb \
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-b650d4u.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-b650d4u.dts
-new file mode 100644
-index 000000000..130b7f3e0
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-b650d4u.dts
-@@ -0,0 +1,71 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/dts-v1/;
-+
-+#include "aspeed-g6.dtsi"
-+
-+/ {
-+	model = "ASRock Rack B650D4U BMC";
-+	compatible = "asrock,b650d4u-bmc", "aspeed,ast2600";
-+
-+	aliases {
-+		serial4 = &uart5;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial4:115200n8";
-+	};
-+
-+	memory@80000000 {
-+		device_type = "memory";
-+		reg = <0x80000000 0x40000000>;
-+	};
-+};
-+
-+/* BMC Console UART */
-+&uart5 {
-+	status = "okay";
-+};
-+
-+/* SPI Flash Management */
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+	};
-+};
-+
-+/* Dedicated Management LAN */
-+&mdio0 {
-+	status = "okay";
-+
-+	ethphy0: ethernet-phy@0 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <0>;
-+	};
-+};
-+
-+&mac0 {
-+	status = "okay";
-+	phy-mode = "rgmii-rxid";
-+	phy-handle = <&ethphy0>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rgmii1_default &pinctrl_mdio1_default>;
-+};
-+
-+/* I2C Bus for FRU/EEPROM Storage */
-+&i2c7 {
-+	status = "okay";
-+	eeprom@57 {
-+		compatible = "atmel,24c02";
-+		reg = <0x57>;
-+		pagesize = <16>;
-+	};
-+};
-+
-+/* System Watchdog */
-+&wdt1 {
-+	status = "okay";
-+	aspeed,reset-type = "soc";
-+};
--- 
-2.47.3
+Please could you explain the choice of rgmii-rxid.
 
+       Andrew
 
