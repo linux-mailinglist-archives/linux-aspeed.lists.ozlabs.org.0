@@ -1,96 +1,66 @@
-Return-Path: <linux-aspeed+bounces-4080-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4065-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KAIZHDumC2ozKgUAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4080-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 May 2026 01:52:27 +0200
+	id CM9GHnQEC2qj/QQAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4065-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 14:22:12 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8443575361
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 May 2026 01:52:26 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id A257856C879
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 14:22:11 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gKF2N6rjTz2yDs;
-	Tue, 19 May 2026 09:51:40 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gJxkn08ybz2xpn;
+	Mon, 18 May 2026 22:22:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2607:f8b0:4864:20::b12d" arc.chain=google.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779106936;
-	cv=pass; b=WMKG03yv7LihuwvtD6Dcjm7ZNGhN/k9F4Jt0BccA5yTH3Jti94ncElGywGYDJhO/T+q4GWViUHXC2wH3nv07sCt1YdHYCGytF5ncnKt8jz6Zq7Ls3HsONY9mn+G46XsAa/KX/BUjtcL08zp5HcJ9hV9L3wUFO5T4RHts8p3RmdqqNVz+Z2azVZuAGLXsOYQUFAoNl+rGUa43ByGK/r1l3LB+ThwZxHAXKbiBxInLAGmCIhJV7y2Y03mpkSmjG9VEkW+Le4qgWfS/8KJCzwTdwtcfz0yYZzS4cHf33S7u8tNSR1pApHBAaRjFws6nzn3S/9uZGqU6EFfSztW+/O7N3Q==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1779106936; c=relaxed/relaxed;
-	bh=0DmqL2TQVuOZcJ1kwkK1W1HCSHqFXIeI0h+ahK0Xebw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C+9MhoSqe1LMX5ar8YSNH/IonvhC1eZshxvXBhudt7kT2Yt/Wb07Unw5qf01DmziAOGpt6iOpyrNFaiV6NbkL0pi+PoH3myk9qvK3Ybbn/SnB2aI3tsLn8tPUM/bzQ1IHnDpAJXPo0GfF+9hsgPfTp0ADjx7l6A4bOu/Sq6aAIQ2JU6iX/ZIIFBiAJyPQh4EzU3pMeH2x2bQkyVq8EheMteH5T0Xw343fkcgmj6zZ1ftJb6p30xKanz8GllahIJcONXLc5oNlofCo9p347TSJIEy6kWe2zaxwMa26aU4OPO6skovFvw+CwPbfFqAMpF9HB/lGPJqMOAnulMUG6/DsA==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BH93Ij7M; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::b12d; helo=mail-yx1-xb12d.google.com; envelope-from=prasanth.padarthi10@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779106928;
+	cv=none; b=KzWedyvy7c/dKsNyec0VGzy19KNXmOp6XJqk+4P9ESGWdxbG5hTMzJaywKhVkAZSH/l0tREP9SB+kn//sM7ry0GEdh/VjO0pcSWqyzDMYpYJkZ83qQQmIYQUtDT9RBEpa2bq9tcwdb7tw0DKcFfK37BTZIvLcKtRzH+B2CAxYo49hGQeX4CMk7T3o2c7Cq/cSgqL7O3hXbytvMYljFbCVuvZbwHxzRNDsskMWOSN34lXzd9WT60YvUcAhoOpODueMf9dTB/rMkuJ6Uw8GKrm14ZCM0u0b9dqA9iara/KStRi1ZOqfw+w7dU7VuVSzyRu+Xe3ZqR1ttLsCVpzzQGSOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1779106928; c=relaxed/relaxed;
+	bh=oHFWziLvncRM91/hv45QHybaLAi9Rx72zyGVXfpBHSY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kbvjq5JsPJM1BShbsVTiME4snX/SKf7FhnUhAs/bza/V4TGjfPVCMY7Z9hqF8mOYIqAe+cy6FxnH1+u/8v1EafRq7bSaUaanc5Fn6+fu7YnM0aGkGmNxwT2m3fYGdkN6xipGX9vcpMLSkUTQ4cavLXo6y6lBbasmOZPuCxIO/bAC7SfcoSPF72zxGCZcPePqNIgWDaqSdI467ReMw1VOS2u75EUNtu4LUF/FKe7rDK/2q3bAanpkF4amSt8lT9FFFId3+Tbjvy/SejZw07V73KyRd+AoMkm2SIyZb0PNDY0w/5Ce66ADdM7H5qTLfOCoIyIPuX3euoIuaYbGmM3isg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=dwnG5/yL; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BH93Ij7M;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=dwnG5/yL;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::b12d; helo=mail-yx1-xb12d.google.com; envelope-from=prasanth.padarthi10@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-yx1-xb12d.google.com (mail-yx1-xb12d.google.com [IPv6:2607:f8b0:4864:20::b12d])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gJxkt61ftz2xPb
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 18 May 2026 22:22:14 +1000 (AEST)
-Received: by mail-yx1-xb12d.google.com with SMTP id 956f58d0204a3-65c364b893aso2446971d50.0
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 18 May 2026 05:22:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779106932; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HjlljLCO6RWUYRRnPO9vLIAAljkFkgJu1Mm3q053KXRtEDE/f+X6aX4VIWYLUsORjo
-         VKXVXcOmWhSZ/ut4IuqosjFoiCl+LY29aEHcmT2b+yMcIFs1a+E5xER6UQ8qi5ZPYJes
-         A0cwM7wNWz1rw62HVF8d7+o12wqeDSKYECy47MyA8I91leXhkIGmnXbbp//KZfoIqI16
-         WLgWbwgMVprgJRClNgr/yvLAZZk7qAiSxVBRty3nbMVwCWLvU9KtRlenNq0DPQzpGF9f
-         zReEmz31J9zB8L73yHjewsZmdEXZz8Q27INKCsNAN+twAVwM8cn49qdiuXJq10zV8SMm
-         Rjzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0DmqL2TQVuOZcJ1kwkK1W1HCSHqFXIeI0h+ahK0Xebw=;
-        fh=RqJA+IUDqzzdb9njS1W0nfE+wdTB0j5Vz6YT5wXz3QA=;
-        b=HlEjONVa9JcNzugNu4qkJjmu3QSNd8h5VMGWMWuorAeWATcFNTbAyB5fW//ZLeWhh2
-         8G2U6WU7bDP6LGtfXu1ICQAN1opdYR9Lq7GTRqP9wLJPcfYY51G57imsZGRBd6906HNr
-         seXdb5lEfDm1yZuybVVl/Qnu4kTJil3H9oOX1umBuvx7edqE4iVenJSwCpKQ5z+BQqkn
-         sBlvh1qQtOeXu1/cxWd4qEpM0/2at99K78C1pNFmufsvo8OYoe/NwtYrH+bfbpRq37vi
-         H47Lbw0tIL0FQXzozLqk94S1whXBXV8xfM5eHffPIHmqkEY27oHVEagzrGlUoZHkA+xS
-         ofGg==;
-        darn=lists.ozlabs.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gJxkm0NV6z2xPb
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 18 May 2026 22:22:08 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779106932; x=1779711732; darn=lists.ozlabs.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0DmqL2TQVuOZcJ1kwkK1W1HCSHqFXIeI0h+ahK0Xebw=;
-        b=BH93Ij7MA92dFvZSTWeHKLZ73OxPuDvKa5mu/MZNTbB03cw1mdl9O9pEhNTQoUU3Du
-         u3h2gyggrvfBmKXgxf586+tBI1sHGvh1t7n2976mogYrRUgWNlEehoJ87GORJ906Ex3b
-         rcUDUpkqgVTb2s+WFe3e3jSYVkJxNS4ugG+L+kqBRb51pZGMz90pAxDuW3VjFN5xVoYs
-         EtiCtBwnkxbNlGAzJfgGeyHZ4TrgCA4VdutUEsHYzKgSiVi6yCuK4SgbU09KL14w/L8q
-         KSZ5t5aMfbIn841UkPlbofBCsOnINKAe7xHs8FyZicFigH7XkF90bXDncILa2an1YwUy
-         1OmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779106932; x=1779711732;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0DmqL2TQVuOZcJ1kwkK1W1HCSHqFXIeI0h+ahK0Xebw=;
-        b=N5yv+2myFv46pKnGacaOqgJbo3oU6nIXB30eEmY4IlAbaKeoj5WaVX6duutf40nb/6
-         xzWG/xAPPsgWUp87wCYCHOel9ahxcZ6YLoBJnul+Dy9Sc0lPtJ0+wprh/K8KQ5FJg5uz
-         ReoAuzcgnMb2UuNF2GH0tRR0JLlwt04VbFcxdF/nB9zWA0QfmTjFvfOpb7VqLNH0NVwQ
-         dDzj09DC90urrQ+bWPd1X8livxJdIWP7MvucdGQEHlc9qCBqRhaJbOPzo4B6brdxPy5q
-         DMvNqpdLWIPkrqX48lsWTK/vYj35MlsLoVrMfG7D64EdF9jcIxCf1b+YKoG40hzMziPg
-         TUgw==
-X-Forwarded-Encrypted: i=1; AFNElJ8z3ghna8mpp3AFoUe1wLCWABg27PnGfCuqwOwAd5TRkSIEzNXtf3uGLO2dTPhy74UCDIKdV320ROcYjnM=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxfnaRX1uPdVlRXRp25uxjbARPqvtEsUMwPJ0Le6SenRklsouZ9
-	1Ef+HaumQcgGcuM7F7tHuS0yrVTnrevacKOmeGhkpQoPbAawOzx9qYcIxAfYpVFNL87GcGq7ED8
-	bWiwDxIOLLHq1zeE6gFE5NIyPloNVnoM=
-X-Gm-Gg: Acq92OGKLJzjBWHhlaxVJaju+MgYO1Skd7wVlQ8Zr4/tAXnlKw1JmWO6Ap/kFp9pBBj
-	6MGSys1T6KT7/K1+omxzhgf0C3bMIkFiwDq72x1mKCq9BHry4FJHA2hBgXzIKb7BhL5928oMSSc
-	nhb579nAod2qK9or/bTE3MH5ziDnGUpGhWbMHEIQ20E/bgCVP/L/QHj7c0g3A0BNgkOYoMqIR9m
-	TxjQs/mbgUMASbJBZWPFgCCouJAdpQGrODCp3GUTej0v+89nILbIqTFyY4AyB+oIQ3DyGLbpFfE
-	yfIKSXd+ESt3j393Xr8RxKGZCMfTGqJSaxkZ7Q==
-X-Received: by 2002:a05:690e:dcc:b0:65e:5110:a5f5 with SMTP id
- 956f58d0204a3-65e5110b155mr4322130d50.46.1779106931632; Mon, 18 May 2026
- 05:22:11 -0700 (PDT)
+	d=codeconstruct.com.au; s=2022a; t=1779106926;
+	bh=oHFWziLvncRM91/hv45QHybaLAi9Rx72zyGVXfpBHSY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=dwnG5/yL+eIioBdYDufbaQO2CbDUv/QlepkSyOxUnpJIvJqqekxWCN6gcZg5xxrjv
+	 FPaUEVzokmrjgz3icibmQZ0nXfqNNItRZBLmFH13t9bP4Qfpu/ikoWMN+Mf3przGCa
+	 +5NgQbpiYSTHytvXpZP1y3PVwUnwrfnmzasJgNYJgXPjzIshUmszQo5Z051BYFigz2
+	 Ll8YPaQYGQDqYOSNLp7EgM1PTOdOir2aa1GKJXfAETkfLIOtdP9c4bq8UxzosrOStq
+	 PBXt4X0AKUSfDYWnrWl3HFpnW/gwhSN4TeWIAIXJA5U5X4QA5geRKEjK8e3cTiK7lz
+	 jvAYxcjUyqLVw==
+Received: from [192.168.68.117] (unknown [180.150.112.11])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id DFEF26024D;
+	Mon, 18 May 2026 20:22:05 +0800 (AWST)
+Message-ID: <e5d1cbdb34dddf17b4d474446fb9cebddc0894d9.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v13 2/2] arm: dts: aspeed: ventura: add Meta Ventura BMC
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: "P.K. Lee" <pkleequanta@gmail.com>, robh+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, joel@jms.id.au, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Cc: Jason-Hsu@quantatw.com, p.k.lee@quantatw.com
+Date: Mon, 18 May 2026 21:52:05 +0930
+In-Reply-To: <20260407081700.2658011-3-pkleequanta@gmail.com>
+References: <20260407081700.2658011-1-pkleequanta@gmail.com>
+	 <20260407081700.2658011-3-pkleequanta@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -104,116 +74,294 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260518033440.17569-1-prasanth.padarthi10@gmail.com>
- <20260518033440.17569-3-prasanth.padarthi10@gmail.com> <ddb781dd-e117-4f9a-a5a3-94c192d8c2ef@lunn.ch>
-In-Reply-To: <ddb781dd-e117-4f9a-a5a3-94c192d8c2ef@lunn.ch>
-From: Prasanth <prasanth.padarthi10@gmail.com>
-Date: Mon, 18 May 2026 17:52:00 +0530
-X-Gm-Features: AVHnY4JUIzHBk39gdk-SpRlXAlvxsl6WnlY4f4t2rw7kIZsY5dCEGTha53-U1nk
-Message-ID: <CAMFFDGg++xLX+DzTnKVZRdbs=_3SrNfDydezRQgRjCBU5R3-KQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] ARM: dts: aspeed: Add ASRock Rack B650D4U BMC
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: joel@jms.id.au, andrew@codeconstruct.com.au, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, andrew+netdev@lunn.ch, 
-	devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/alternative; boundary="000000000000ad6d320652169ca0"
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	HTML_MESSAGE,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
+X-Rspamd-Queue-Id: A257856C879
+X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[codeconstruct.com.au,none];
+	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
-	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4080-lists,linux-aspeed=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:andrew@lunn.ch,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrew+netdev@lunn.ch,m:devicetree@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[prasanthpadarthi10@gmail.com,linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-4065-lists,linux-aspeed=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linaro.org,jms.id.au,vger.kernel.org,lists.infradead.org,lists.ozlabs.org];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS(0.00)[m:pkleequanta@gmail.com,m:robh+dt@kernel.org,m:krzysztof.kozlowski+dt@linaro.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:Jason-Hsu@quantatw.com,m:p.k.lee@quantatw.com,m:robh@kernel.org,m:krzysztof.kozlowski@linaro.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	MIME_TRACE(0.00)[0:+];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prasanthpadarthi10@gmail.com,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt,netdev];
+	FROM_NEQ_ENVFROM(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,lists.ozlabs.org:rdns,lists.ozlabs.org:helo,lunn.ch:email]
-X-Rspamd-Queue-Id: B8443575361
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
-X-Rspamd-Server: lfdr
 
---000000000000ad6d320652169ca0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi P.K.
 
-Hi Andrew,
+On Tue, 2026-04-07 at 16:17 +0800, P.K. Lee wrote:
+> Add Linux device tree related to Meta (Facebook) Ventura specific
+> devices connected to the BMC (AST2600) SoC. The purpose of Ventura is to
+> detect liquid leakage from all compute trays, switch trays and rack
+> sensors within the rack, log the events, and take necessary actions
+> accordingly.
+>=20
+> Signed-off-by: P.K. Lee <pkleequanta@gmail.com>
+> ---
+> =C2=A0arch/arm/boot/dts/aspeed/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 1 +
+> =C2=A0.../aspeed/aspeed-bmc-facebook-ventura.dts=C2=A0=C2=A0=C2=A0 | 1636=
+ +++++++++++++++++
+> =C2=A02 files changed, 1637 insertions(+)
+> =C2=A0create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ven=
+tura.dts
+>=20
+> diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed=
+/Makefile
+> index 0f0b5b707654..f5ac72d5933c 100644
+> --- a/arch/arm/boot/dts/aspeed/Makefile
+> +++ b/arch/arm/boot/dts/aspeed/Makefile
+> @@ -32,6 +32,7 @@ dtb-$(CONFIG_ARCH_ASPEED) +=3D \
+> =C2=A0	aspeed-bmc-facebook-minipack.dtb \
+> =C2=A0	aspeed-bmc-facebook-santabarbara.dtb \
+> =C2=A0	aspeed-bmc-facebook-tiogapass.dtb \
+> +	aspeed-bmc-facebook-ventura.dtb \
+> =C2=A0	aspeed-bmc-facebook-wedge40.dtb \
+> =C2=A0	aspeed-bmc-facebook-wedge100.dtb \
+> =C2=A0	aspeed-bmc-facebook-wedge400-data64.dtb \
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dts b/a=
+rch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dts
+> new file mode 100644
+> index 000000000000..6ce6201f7755
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura.dts
+> @@ -0,0 +1,1636 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +// Copyright (c) 2023 Facebook Inc.
+> +/dts-v1/;
+> +
+> +#include "aspeed-g6.dtsi"
+> +#include <dt-bindings/i2c/i2c.h>
+> +#include <dt-bindings/gpio/aspeed-gpio.h>
+> +
+> +/ {
+> +	model =3D "Facebook ventura RMC";
 
-Understood. I will not rely only on the vendor DTB value for this.
+I suggest capitalising 'Ventura'.
 
-For the next revision, I will drop rgmii-rxid and use the conservative rgmi=
-i
-setting unless I can provide board-level evidence that the required RGMII
-delay is added by the PCB/PHY configuration.
+> +	compatible =3D "facebook,ventura-rmc", "aspeed,ast2600";
+> +
+> +	aliases {
+> +		serial4 =3D &uart5;
+> +		i2c16 =3D &i2c3mux0ch3;
+> +		i2c17 =3D &i2c3mux0ch4;
+> +		i2c18 =3D &i2c3mux0ch5;
+> +		i2c19 =3D &i2c3mux0ch6;
+> +		i2c20 =3D &i2c3mux0ch0;
+> +		i2c21 =3D &i2c3mux0ch1;
+> +		i2c22 =3D &i2c3mux0ch2;
+> +		i2c23 =3D &i2c3mux0ch7;
+> +		i2c24 =3D &i2c0mux0ch0;
+> +		i2c25 =3D &i2c0mux0ch1;
+> +		i2c26 =3D &i2c0mux0ch2;
+> +		i2c27 =3D &i2c0mux0ch3;
+> +		i2c28 =3D &i2c0mux0ch4;
+> +		i2c29 =3D &i2c0mux0ch5;
+> +		i2c30 =3D &i2c0mux0ch6;
+> +		i2c31 =3D &i2c0mux0ch7;
+> +		i2c32 =3D &i2c1mux0ch0;
+> +		i2c33 =3D &i2c1mux0ch1;
+> +		i2c34 =3D &i2c1mux0ch2;
+> +		i2c35 =3D &i2c1mux0ch3;
+> +		i2c36 =3D &i2c1mux0ch4;
+> +		i2c37 =3D &i2c1mux0ch5;
+> +		i2c38 =3D &i2c1mux0ch6;
+> +		i2c39 =3D &i2c1mux0ch7;
+> +		i2c40 =3D &i2c2mux0ch0;
+> +		i2c41 =3D &i2c2mux0ch1;
+> +		i2c42 =3D &i2c2mux0ch2;
+> +		i2c43 =3D &i2c2mux0ch3;
+> +		i2c44 =3D &i2c2mux0ch4;
+> +		i2c45 =3D &i2c2mux0ch5;
+> +		i2c46 =3D &i2c2mux0ch6;
+> +		i2c47 =3D &i2c2mux0ch7;
 
-I am arranging hardware validation for this board, and I will update the
-Ethernet node only with evidence from the board/manual/logs.
+Many of the buses aliased here don't have any devices described below
+them. Can you add some commentary about why it's necessary to enable
+and alias each of these?
 
-Thanks,
-Prasanth
+> +	};
+> +
+> +	chosen {
+> +		stdout-path =3D "serial4:57600n8";
+> +	};
+> +
+> +	iio-hwmon {
+> +		compatible =3D "iio-hwmon";
+> +		io-channels =3D <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3>,
+> +			<&adc0 4>, <&adc0 5>, <&adc0 6>, <&adc0 7>,
+> +			<&adc1 2>;
+> +	};
+> +
 
-On Mon, 18 May, 2026, 5:42=E2=80=AFpm Andrew Lunn, <andrew@lunn.ch> wrote:
+...
 
-> > +&mac0 {
-> > +     status =3D "okay";
-> > +     phy-mode =3D "rgmii-rxid";
->
-> It does not matter if this is what the vendor does, it is still wrong,
-> unless you can show the PCB is adding the delay.
->
->    Andrew
->
+> +		i2c3mux0ch4: i2c@4 {
+> +			#address-cells =3D <1>;
+> +			#size-cells =3D <0>;
+> +			reg =3D <4>;
+> +
+> +			adc@1f {
+> +				compatible =3D "ti,adc128d818";
+> +				reg =3D <0x1f>;
+> +				ti,mode =3D /bits/ 8 <1>;
+> +			};
+> +
+> +			fan_leds_g2_gpio: gpio@21 {
+> +				compatible =3D "nxp,pca9555";
+> +				reg =3D <0x21>;
+> +				gpio-controller;
+> +				#gpio-cells =3D <2>;
+> +
+> +				gpio-line-names =3D
+> +				"", "",
+> +				"", "",
+> +				"", "",
+> +				"", "",
+> +				"FAN2_PRSNT", "FAN3_PRSNT",
+> +				"", "",
+> +				"", "",
+> +				"", "";
+> +			};
+> +
+> +			adc@35 {
+> +				compatible =3D "maxim,max11617";
+> +				reg =3D <0x35>;
+> +			};
+> +
+> +			// Fan Board 1 FRU
 
---000000000000ad6d320652169ca0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I'd rather we pick one commenting style (/* */). Can you please fix
+that throughout?
 
-<div dir=3D"auto"><p>Hi Andrew,</p><p>Understood. I will not rely only on t=
-he vendor DTB value for this.</p><p>For the next revision, I will drop <cod=
-e dir=3D"ltr">rgmii-rxid</code> and use the conservative <code dir=3D"ltr">=
-rgmii</code> setting unless I can provide board-level evidence that the req=
-uired RGMII delay is added by the PCB/PHY configuration.</p><p>I am arrangi=
-ng hardware validation for this board, and I will update the Ethernet node =
-only with evidence from the board/manual/logs.</p><p>Thanks,<br>Prasanth</p=
-></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
->On Mon, 18 May, 2026, 5:42=E2=80=AFpm Andrew Lunn, &lt;<a href=3D"mailto:a=
-ndrew@lunn.ch" target=3D"_blank" rel=3D"noreferrer">andrew@lunn.ch</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">&gt; +&amp;mac0 {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0status =3D &quot;okay&quot;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0phy-mode =3D &quot;rgmii-rxid&quot;;<br>
-<br>
-It does not matter if this is what the vendor does, it is still wrong,<br>
-unless you can show the PCB is adding the delay.<br>
-<br>
-=C2=A0 =C2=A0Andrew<br>
-</blockquote></div>
+> +			eeprom@56 {
+> +				compatible =3D "atmel,24c128";
+> +				reg =3D <0x56>;
+> +			};
+> +		};
+> +
+> +		i2c3mux0ch5: i2c@5 {
+> +			#address-cells =3D <1>;
+> +			#size-cells =3D <0>;
+> +			reg =3D <5>;
+> +
+> +			pwm@20 {
+> +				compatible =3D "maxim,max31790";
+> +				reg =3D <0x20>;
+> +				#address-cells =3D <1>;
+> +				#size-cells =3D <0>;
+> +				channel@2 {
+> +					reg =3D <2>;
+> +					sensor-type =3D "TACH";
+> +				};
+> +				channel@5 {
+> +					reg =3D <5>;
+> +					sensor-type =3D "TACH";
+> +				};
+> +			};
+> +
+> +			hwmon: hwmon@23 {
+> +				compatible =3D "nuvoton,nct7363";
+> +				reg =3D <0x23>;
+> +				#pwm-cells =3D <2>;
+> +
+> +				//fan 0 IL
 
---000000000000ad6d320652169ca0--
+Can you please add a space between the comment marker and the comment
+itself? This needs fixing throughout.
+
+> +				fan-0 {
+> +					pwms =3D <&hwmon 0 20000>;
+> +					tach-ch =3D /bits/ 8 <0x09>;
+> +				};
+> +
+> +				//fan 0 OL
+> +				fan-1 {
+> +					pwms =3D <&hwmon 0 20000>;
+> +					tach-ch =3D /bits/ 8 <0x0B>;
+> +				};
+> +
+> +				//fan 1 IL
+> +				fan-2 {
+> +					pwms =3D <&hwmon 4 20000>;
+> +					tach-ch =3D /bits/ 8 <0x0A>;
+> +				};
+> +
+> +				//fan 1 OL
+> +				fan-3 {
+> +					pwms =3D <&hwmon 4 20000>;
+> +					tach-ch =3D /bits/ 8 <0x0D>;
+> +				};
+> +
+> +				//fan 2 IL
+> +				fan-4 {
+> +					pwms =3D <&hwmon 6 20000>;
+> +					tach-ch =3D /bits/ 8 <0x0F>;
+> +				};
+> +
+> +				//fan 2 OL
+> +				fan-5 {
+> +					pwms =3D <&hwmon 6 20000>;
+> +					tach-ch =3D /bits/ 8 <0x01>;
+> +				};
+> +
+> +				//fan 3 IL
+> +				fan-6 {
+> +					pwms =3D <&hwmon 10 20000>;
+> +					tach-ch =3D /bits/ 8 <0x00>;
+> +				};
+> +
+> +				//fan 3 OL
+> +				fan-7 {
+> +					pwms =3D <&hwmon 10 20000>;
+> +					tach-ch =3D /bits/ 8 <0x03>;
+> +				};
+> +			};
+> +		};
+> +
+>=20
+
+...
+
+> +
+> +&mdio0 {
+> +	status =3D "okay";
+> +	/* * Intentionally left empty.
+
+The comment is a bit busted here. Can you please fix it?
+
+Andrew
+
+> +	 * Enabled to allow user-space tools (e.g., mdio)
+> +	 * to access the unmanaged Marvell switch registers.
+> +	 */
+> +};
+> +
 
