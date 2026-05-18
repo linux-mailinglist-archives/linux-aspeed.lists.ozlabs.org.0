@@ -1,97 +1,68 @@
-Return-Path: <linux-aspeed+bounces-4046-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4047-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ZyMmKJiLCmpD3QQAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4046-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 05:46:32 +0200
+	id CGj2B2adCmr84AQAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4047-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 07:02:30 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8D956581B
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 05:46:31 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6613E565D47
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 07:02:27 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gJkHm1wknz2y7Y;
-	Mon, 18 May 2026 13:46:28 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gJlzM5jbmz2xRw;
+	Mon, 18 May 2026 15:02:23 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::532"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779075303;
-	cv=none; b=k5+BecM3VFZPTZTu8vg/s+VTP2EDQePu1PPJXZUVAQ+kqSctH5AbEFYnVpT/OiT7awEec4pgi3f6Na6FllVf3ZnKIl08qvCX0Qr17wkTWLDgDI3Le5BQKF1Dz4LJuNcP9gaXO9arg3WMFnzZEbeGiBhlAbmApAy0TI/cJWHwB4zXKKv/qSqUhzLc2elD/vGWfLU1Rg91yGqx9iLK2JkCfHSW9tiOdMMQ4P0iZJ39C49jL2Ns3YkRD0jnrn8j0jKi1dMDYM6x5sGp1bH8nLKkKi4HG+bP38o5+tWymEubpF0aD9jIr47ubMkiHI7zj30Z7deKCcewLiDmanVSKhm05w==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779080543;
+	cv=none; b=QrERn6Yc3RxWfuZbcPFZtK4QsKFzZ8TOw8e7dC/KNIkYPgVoGKkKMbuTV9q19NHXvurHkUTHJ3hyCt2hapiCFWIJr9vD0mureYqAzohnKakxr/YIP+4F2mdCOf998mjKRpD4RotnGqBsbAD6WzJqC+88Iy6r0oBccFcYVA1LNMzR7NC7xK6rRo+54ZgmhUjVz8Cs5ovND4TYfEAKVnUdZt+dLALhT9inyBrGy2btx18VC4HiON0cD9bEUH5butR1HQhqoQLcd1P5J7TweREmk6YySfMJbtxVTywlheGawoH+0NgKf6RZ1/Q6D4Bp1YjCcI01VENL7/+LglDUFuuB6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1779075303; c=relaxed/relaxed;
-	bh=6jXpVG+8ZsYwGlksykpzEGGE3bxY9VynddkEfoK9K2I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BSrBYmWI1+H06z+FGFkQ14AyrQX0AuavnYcPOnAqDzluulJVUxKWinCNgXz4PR5ax4Tgm/LTdgLttd59pCOMVf2tMUqfjR8b8ziV+8/jNPjKXallGLDJPE+NyhYq6kzUdwW4KnOTVLGbwFFZYjFZeWSLkpdSmmCKsl+uJBTCqHOFKnKh3ViF5KamqwLJhX5HjU0qIzQjW/udRyI7gfqNefkHqLdApvfmqQOQL+Wl9esUGTVffXgUjwoqYMjZeeisnBqkpuMU6/MAcbOMSHUCvHqbPKFWx4nUiezAw/QdhJdVWhCHQXFD4CjywPMd/0X+AjQhkUcz3KN7gJVcNbP5XA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Q2aPEv5v; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::532; helo=mail-pg1-x532.google.com; envelope-from=prasanth.padarthi10@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1779080543; c=relaxed/relaxed;
+	bh=MiGtwoPUHm2LKcxW6fZx/3aamAm5XYlTqpOjgktt4wc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=cFMzxyGYh/XVRCm4m9Bxw1rUjCD+gh9DgGm3qQVzIJALMUDlTK8nW7hnHqlUfAqnMOXwCJdPIlraZOCEYRblb2rAnk7wQJEqP9oPV0gWPzfZs49PyZ7xq+lKdWBu9eOAqPRv/sgpSXJPMOe40+sKPooJgOXWT/jN8aDe4wwkDWA7C/KfZVU4quX1h6fH20b4q2oNRB+ThgPxRn0okhwdJ80dtvYI8rnVKPikarPPRG+f6FMiewAkmpY7m2k71mcIKD9yUxRICiTm4WV1/yNrS9penL2UXZNhrPooO1T4hkXS/LJR+c8+c0bt8ibp88QYEUvPdIXpUIzNH6eMsShqkw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=V537ku1D; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Q2aPEv5v;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=V537ku1D;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::532; helo=mail-pg1-x532.google.com; envelope-from=prasanth.padarthi10@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gJk2b0Vflz2xRw
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 18 May 2026 13:35:02 +1000 (AEST)
-Received: by mail-pg1-x532.google.com with SMTP id 41be03b00d2f7-c80170db7d6so661654a12.0
-        for <linux-aspeed@lists.ozlabs.org>; Sun, 17 May 2026 20:35:02 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gJlzM0pysz2xPb
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 18 May 2026 15:02:22 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779075301; x=1779680101; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6jXpVG+8ZsYwGlksykpzEGGE3bxY9VynddkEfoK9K2I=;
-        b=Q2aPEv5vO5TT5hg8DIE2TsDP8J0Q4gSmUSv3xEofpPvoACFQG0qtRd2b9JhXu5idbw
-         7T0fBEvNWSp3At9EDh4hy91VlomwTOr0aBKhPyGrUeTp7q9GB9O+uVoELxiPSFNY/gnk
-         8hhXO60TUTrd21ECwa/9PuimgxvdfiY7l3Q0EabdQwY7OcY/sVwpC4kOnLYJz21EO3gg
-         gps3VBmlry3mLT/Pl1zZAsS0MJxiq0Fh77x13ymHrhqcoEHRRTKSSkHxZnA50NcnntHP
-         8OeSMdOdstVQqOQ287Fydm3NOdsUDokSnE3GtgJkV0iqkmryKzNXE7p+kWtyyzodCfXA
-         O3Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779075301; x=1779680101;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6jXpVG+8ZsYwGlksykpzEGGE3bxY9VynddkEfoK9K2I=;
-        b=b12pAlySw7HlkfNkeULX4uESXIWjmCn5ym2rGi70KDh6hPh243NU+Y/pAMOXlX4BJb
-         MPTKoXoPCqwse19nbmXJQay8bzc2SBAwyCMeKY4odz6Zr39uyXuSS+pMWSqoIBkWRGde
-         T+tAM0HhDnigfgwCF6Sd3rAuDn8TEfZs8GuUhvKwumpz2TIAznb8vQwTeYhAWgUNgeSL
-         67mNy8vDwhcuxtMHbsEj5PwAq7txH1DK1DjWldq/IRgjrTQZHkB7EKDZnuKn8m165jbc
-         QrK5SRmKOtwKfW2Ne/eKKnQaFhTQEqr+ClxSXJQR21GdQk0SJYtI2izzgMIQoVsbskoz
-         JlBw==
-X-Forwarded-Encrypted: i=1; AFNElJ/+QmW2smEfkBWxLVxwEOd+hvW5DLBQsQfSsspU9gVptz3aHPGbJA22fnN5PTfRMXmTwfOYe7VIBhBLdBM=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YyPmT65OJPwXxpomMatHKk3GMOP/4501GfL+gbSIZ42PaBVSYD5
-	1JNR7Xc5Oh08PfBuVC8utxCyekka9ukHItI1NPo0dYMq8QmMa/lXolEc
-X-Gm-Gg: Acq92OHRO40RsHr3oHN7CqWKrd9eZfehCwJNXRAC7WQj8MEa48CSDzQusaZluRnosFk
-	BrkvY1PMobL2PX1Na/tpZR5YIiaGpRLCZXhXA4La7Y5pT69G+S5t4Sn1SWxj54JXbWYXWUzt+k9
-	nZh/6wgiJj6AdIG0al6PS5jxxdkvhDTqz0Blj9JHBzpeMjUEXddlpLv2wo49UVBEUZe2nS5CjZ5
-	ZPfNAzImpY5MSBrvVBCQ+gKmiUtRXw8ugxjKk1vnUFJCDIiUB/BivS5bvJSGB7/OhhNX6//0hGG
-	IOdWyKB2fc4v3L9l0nWVzitADNNwg9ay46YI7wybPe1VoVmYSlQBhV5PAPKV5UHy5b2z2zr+906
-	PoS5KlgtaAdv4pB1mrEcsRdO5v4EDterG+XN79zEHBy/ZZOaICoL4d3iT+05uq4bN499PAWn13E
-	LwQh9XEWN7wPpUKyAY/YGSykNvhRLAvAdtQ3enHIgo
-X-Received: by 2002:a05:6a20:7d9d:b0:3a2:ebfc:6bf5 with SMTP id adf61e73a8af0-3b22ecf95f5mr13854841637.52.1779075301001;
-        Sun, 17 May 2026 20:35:01 -0700 (PDT)
-Received: from debian.prasanth ([103.177.82.201])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82c4031662sm11183717a12.16.2026.05.17.20.34.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2026 20:35:00 -0700 (PDT)
-From: Prasanth Kumar Padarthi <prasanth.padarthi10@gmail.com>
-To: joel@jms.id.au,
-	andrew@codeconstruct.com.au,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: andrew+netdev@lunn.ch,
-	devicetree@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org,
-	Prasanth Kumar Padarthi <prasanth.padarthi10@gmail.com>
-Subject: [PATCH v3 2/2] ARM: dts: aspeed: Add ASRock Rack B650D4U BMC
-Date: Mon, 18 May 2026 09:04:40 +0530
-Message-ID: <20260518033440.17569-3-prasanth.padarthi10@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260518033440.17569-1-prasanth.padarthi10@gmail.com>
-References: <20260518033440.17569-1-prasanth.padarthi10@gmail.com>
+	d=codeconstruct.com.au; s=2022a; t=1779080541;
+	bh=MiGtwoPUHm2LKcxW6fZx/3aamAm5XYlTqpOjgktt4wc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=V537ku1DUKlUnpyvBfXQTRmZtwO0M9khnjhFoZkwPTTuzgNGZqasZSPR5Te2AfLL8
+	 ItvG8QguMR+XGSAv6MWwz3a0bet/9Lp/HiNboJXGR/8CJ80lkx3QfL3epnsseycq8S
+	 0h/zIuGQjFnu8hhGLLhBePg9654iI5vzrPDdYjeRcyX06qP/srM8ht6XAnce+hZAAY
+	 Z6xFiVbkR9MFSXnPOsYGwZ2UvL3Nu5uKIvmgXcSTkKsm88+hWVyef070efjPirRHbb
+	 XWHGtVvqACFfk4jEQW17pzudzceTavrZNNDrg8d/AtrJ0kpi/Ka7eqeQgBnaeLz2ab
+	 cUPr/h6oqO78g==
+Received: from [192.168.68.117] (unknown [180.150.112.11])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id A23266025D;
+	Mon, 18 May 2026 13:02:19 +0800 (AWST)
+Message-ID: <23203c124a158536c272d1bffb2657a0d713f8ce.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v4 0/3] ARM: dts: aspeed-g6: add AST2600 I3C nodes and
+ bindings
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Dawid Glazik <dawid.glazik@linux.intel.com>, Lee Jones <lee@kernel.org>,
+  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,  Joel Stanley <joel@jms.id.au>,
+ linux-aspeed@lists.ozlabs.org
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, maciej.lawniczak@intel.com
+Date: Mon, 18 May 2026 14:32:19 +0930
+In-Reply-To: <15956b70-c6c2-4e3d-8f15-471a274d6e2d@linux.intel.com>
+References: <cover.1777058942.git.dawid.glazik@linux.intel.com>
+	 <15956b70-c6c2-4e3d-8f15-471a274d6e2d@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -105,152 +76,101 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: BD8D956581B
+X-Rspamd-Queue-Id: 6613E565D47
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.21 / 15.00];
+X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
+	DMARC_POLICY_ALLOW(-0.50)[codeconstruct.com.au,none];
+	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[lunn.ch,vger.kernel.org,lists.ozlabs.org,lists.infradead.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-4046-lists,linux-aspeed=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[prasanthpadarthi10@gmail.com,linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrew+netdev@lunn.ch,m:devicetree@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:prasanth.padarthi10@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:andrew@lunn.ch,m:prasanthpadarthi10@gmail.com,s:lists@lfdr.de];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	NEURAL_HAM(-0.00)[-0.983];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	TAGGED_FROM(0.00)[bounces-4047-lists,linux-aspeed=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[prasanthpadarthi10@gmail.com,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS(0.00)[m:dawid.glazik@linux.intel.com,m:lee@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:linux-aspeed@lists.ozlabs.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:maciej.lawniczak@intel.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt,netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[4.196.180.0:email,0.0.0.0:email,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,0.0.0.57:email]
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[codeconstruct.com.au:mid,codeconstruct.com.au:dkim,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
 X-Rspamd-Action: no action
 
-Add initial device tree support for the ASRock Rack B650D4U BMC.
-The B650D4U is a server motherboard utilizing the ASPEED AST2600
-SoC for management.
+Hi Dawid,
 
-Signed-off-by: Prasanth Kumar Padarthi <prasanth.padarthi10@gmail.com>
----
- arch/arm/boot/dts/aspeed/Makefile             |  1 +
- .../dts/aspeed/aspeed-bmc-asrock-b650d4u.dts  | 71 +++++++++++++++++++
- 2 files changed, 72 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-b650d4u.dts
+On Mon, 2026-05-11 at 16:14 +0200, Dawid Glazik wrote:
+> On 4/24/2026 10:20 PM, Dawid Glazik wrote:
+> > This series reworks and resubmits AST2600 I3C DTS updates that were
+> > originally posted in 2024, but stalled without further upstream
+> > progress.[1] The series was rebased onto the current tree and merge
+> > conflicts were resolved.
+> >=20
+> > The patches first move I2C controller nodes under the APB simple-bus
+> > for layout consistency, then document aspeed,ast2600-i3c-global in
+> > the syscon binding, and finally add AST2600 I3C controller nodes in
+> > aspeed-g6.dtsi.
+> >=20
+> > Jeremy agreed in a separate email thread that I can continue this
+> > series under my authorship.
+> >=20
+> > Link: https://lore.kernel.org/all/9d8c03d742fa9767f30e23d75ddf0baf4296c=
+88e.1714647917.git.jk@codeconstruct.com.au/
+> >=20
+> > Dawid Glazik (3):
+> > =C2=A0=C2=A0 ARM: dts: aspeed-g6: move i2c controllers directly into ap=
+b node
+> > =C2=A0=C2=A0 dt-bindings: mfd: syscon: add aspeed,ast2600-i3c-global co=
+mpatible
+> > =C2=A0=C2=A0 ARM: dts: aspeed-g6: Add nodes for i3c controllers
+> >=20
+> > =C2=A0 .../devicetree/bindings/mfd/syscon.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> > =C2=A0 arch/arm/boot/dts/aspeed/aspeed-g6.dtsi=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 543 ++++++++++--------
+> > =C2=A0 2 files changed, 318 insertions(+), 227 deletions(-)
+> >=20
+> >=20
+> > base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+>=20
+> Hi all,
+>=20
+> Gentle ping for this series:
+> https://lore.kernel.org/all/cover.1777058942.git.dawid.glazik@linux.intel=
+.com/#t
+>=20
+> I received Reviewed-by from Krzysztof Kozlowski (thank you).
+> Could I please get feedback/ack from maintainers on the remaining parts,
+> especially ASPEED DTS?
+>=20
+> If preferred, I can respin/rebase the series.
+>=20
 
-diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
-index c4f064e4b..124d4f8f8 100644
---- a/arch/arm/boot/dts/aspeed/Makefile
-+++ b/arch/arm/boot/dts/aspeed/Makefile
-@@ -13,6 +13,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-asrock-romed8hm3.dtb \
- 	aspeed-bmc-asrock-spc621d8hm3.dtb \
- 	aspeed-bmc-asrock-x570d4u.dtb \
-+	aspeed-bmc-asrock-b650d4u.dtb \
- 	aspeed-bmc-asus-x4tf.dtb \
- 	aspeed-bmc-bytedance-g220a.dtb \
- 	aspeed-bmc-delta-ahe50dc.dtb \
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-b650d4u.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-b650d4u.dts
-new file mode 100644
-index 000000000..daa8b25e3
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-asrock-b650d4u.dts
-@@ -0,0 +1,71 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/dts-v1/;
-+
-+#include "aspeed-g6.dtsi"
-+
-+/ {
-+	model = "ASRock Rack B650D4U BMC";
-+	compatible = "asrock,b650d4u-bmc", "aspeed,ast2600";
-+
-+	aliases {
-+		serial4 = &uart5;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial4:115200n8";
-+	};
-+
-+	memory@80000000 {
-+		device_type = "memory";
-+		reg = <0x80000000 0x40000000>;
-+	};
-+};
-+
-+/* SPI Flash Management */
-+&fmc {
-+	status = "okay";
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+	};
-+};
-+
-+/* I2C Bus for FRU/EEPROM Storage */
-+&i2c7 {
-+	status = "okay";
-+	eeprom@57 {
-+		compatible = "atmel,24c02";
-+		reg = <0x57>;
-+		pagesize = <16>;
-+	};
-+};
-+
-+&mac0 {
-+	status = "okay";
-+	phy-mode = "rgmii-rxid";
-+	phy-handle = <&ethphy0>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rgmii1_default &pinctrl_mdio1_default>;
-+};
-+
-+/* Dedicated management LAN via on-board discrete PHY */
-+&mdio0 {
-+	status = "okay";
-+
-+	ethphy0: ethernet-phy@0 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <0>;
-+	};
-+};
-+
-+/* BMC Console UART */
-+&uart5 {
-+	status = "okay";
-+};
-+
-+/* System Watchdog */
-+&wdt1 {
-+	status = "okay";
-+	aspeed,reset-type = "soc";
-+};
--- 
-2.47.3
+Sorry for the delay.
 
+Given Krzysztof's R-b tag for patch 2 I've applied 3 (along with 1) to
+the BMC tree. Patch 2 should be picked up by Lee through the MFD tree.
+
+Cheers,
+
+Andrew
 
