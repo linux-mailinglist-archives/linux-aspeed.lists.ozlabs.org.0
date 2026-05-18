@@ -1,144 +1,137 @@
-Return-Path: <linux-aspeed+bounces-4075-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4053-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SAg2LhOmC2ozKgUAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4075-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 May 2026 01:51:47 +0200
+	id OAl9KNbfCmqR8wQAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4053-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 11:45:58 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FC0575318
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 May 2026 01:51:46 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 111A2569FF4
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 11:45:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gKF2H5vdzz2yLB;
-	Tue, 19 May 2026 09:51:35 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gJtGV2PSYz2yDs;
+	Mon, 18 May 2026 19:45:54 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=fail smtp.remote-ip="2a01:111:f403:c111::5"
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779094918;
-	cv=fail; b=NXmejVgOVetoR3tj2yu5DxEHWehnc4x8XTeJBYlwd514pJkdmAkASbsy4luRUvYQhMciX/rri3cz7VUQAxLarNppNH6YdmjAxpV4pl3wfN91JmwuTd4loXf6dNObwRm/JZCCj3gnkscJ0I3Nkyk1nAY10UijJmT2sHa87hH7rrJiWUZ19gPluHppION40r8VPBsygnWVR84gAbZd1iUEP0dSrNxXQ3y28se220i50WP15nQKhwJQw9r9qsTlmJygN1WKL3dCbGHlrfRQYkpOG+MPjJ8cIeDCsmvDRFokc1+ad/KdyyNqDwzGa219eq5NPaVnrhnEvh8qv+8X6IfcLw==
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:c407::1" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779097554;
+	cv=pass; b=PG8976NQj3dTDnQzHN3AibzSBhV6VMaAqxoElrqGkqYmhM8rAs9Kvow1UkuRviKFNwe47nE/Rv/wrAE1/bdDnORY1LGepTKv/AFn3paVpjI0uUaP0x+YWxgTGfh3d4nwZM+3ZYyC86pTupLsA2keo7R2kQEkwcFtJsM20vFWEVsElWoR7YrQYULYb6mQNUrKVBgg/WfOeLDj8/StXL7CQE+9M48q42ti+k4pamlf7wyqKkW+97tjbNoGjzkyAlX1NV4NpdODIKevv0fyBBh9fs0+sp8YSjsXlEwM5KiXB2lWI/gSQcDrl4RW6PUboeCyfjHNlZE2muXZxUjxt+tN3A==
 ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1779094918; c=relaxed/relaxed;
-	bh=GrZBPSxLkW0AkrfTdodxkO9szE1nwqGlCG9zccC7o70=;
+	t=1779097554; c=relaxed/relaxed;
+	bh=xO+m+RF3ePbfI9hl+48V1BxTZl/xVrqDxCQ8Vd5b2mY=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=cLLQ9qGj0yF/McjAzUliilmcR/Gurx0D85ykaaO+hnZza5ufeAvMd9dE82vh2kaz/eK+NraVJixmbTxvZCXixrDVyylrW4cYMOPMIU1o+wSnUpNfS6Cyuh9Gf10bqiVn41dTxTLNeRtODYlFMu8eFhQkhvyzhn2Nia+L+IieNi6rebIaCaRyW20bsRty55kZj/q81687bHoq+usJJIy/qd1C2YC5sdVhDHqC/9vfHdmxeaZHEYr7jfHO5JGONrhm1LlqJCkWetfvNbqpczUD7A9rbovzRh+0eWSrq2lxWNkSpj73y516VHAxAFITTlisuB1+7+aD3vOAmlg3yN2esQ==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=oAbo//ol; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c111::5; helo=dm1pr04cu001.outbound.protection.outlook.com; envelope-from=rex.fu@amd.com; receiver=lists.ozlabs.org) smtp.mailfrom=amd.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+	 Content-Type:MIME-Version; b=gRsu6bxwT0641bf/I8Kj0B7piOdPz4mrNg7G60ELz5jNgIEZF4KcWiiy+KBWHQ04MAyKaaY6nbekMgAI66GXCfxmCdo/LTFfqZaYDRTMOW1Q0K55vML6vJ0EQhFEaJbRFcMctZKpwRcaL3Tox9oEQObsZpupSatqgDp2dFWgUmR3TMYqR9xqIGQXPeROmPy670khG4QoWUKKkX1YNfQy6I0AfQJND0Z7G9rTDT2/ha0raydRhYDT2mzI1FhwWFQglEA8xjtsiRgUz8c/ANYz4pBit6N6kfAKf9QKSiQ3nDiDFD2BtcTMZoe00oSojrGNDccJVqucKkHHagjFQ6bLbw==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.a=rsa-sha256 header.s=selector1 header.b=pZ9sI8Al; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c407::1; helo=os0p286cu010.outbound.protection.outlook.com; envelope-from=biju.das.jz@bp.renesas.com; receiver=lists.ozlabs.org) smtp.mailfrom=bp.renesas.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=oAbo//ol;
+	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.a=rsa-sha256 header.s=selector1 header.b=pZ9sI8Al;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=amd.com (client-ip=2a01:111:f403:c111::5; helo=dm1pr04cu001.outbound.protection.outlook.com; envelope-from=rex.fu@amd.com; receiver=lists.ozlabs.org)
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazlp170100005.outbound.protection.outlook.com [IPv6:2a01:111:f403:c111::5])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=bp.renesas.com (client-ip=2a01:111:f403:c407::1; helo=os0p286cu010.outbound.protection.outlook.com; envelope-from=biju.das.jz@bp.renesas.com; receiver=lists.ozlabs.org)
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazlp170110001.outbound.protection.outlook.com [IPv6:2a01:111:f403:c407::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gJsHm72Tnz2xPb
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 18 May 2026 19:01:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gJtGR4yp3z2y7Y
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 18 May 2026 19:45:50 +1000 (AEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BAab+el9csfqsdDvQKJF3tCd0b+cDbAQO5gMB6tRsS/e1PYY1ORNXn/CwtgtjrlfQa6m3ey0DVH/LacUYG1DXOQO+Y122bcvB1Duvja6n1bgdTu5sG20ywwZ/BOCGnN6xs8JeleOzP+7MoZiHS/zFygfVZvWEN9PtWfIQ8Yjn1oSYvfevINpXf2TCWCppo3Y7Ev2OQzV6eC5OSzzq+nPTiEANwESEM27egBM2T5MzhKnhYzbUsEI7M+MV2NMYyi6GOq2zyqNzmcmuRWqZS7uJrNx3GnMY3P0kIbYJiOvmt32tvz5VuZ3qlB2qhfxn0+ckQa42FyXXr4kzK0pFUGtlA==
+ b=bxM9VFPMbbCx3jjGaJHtwav4U5Bw93y3Mgp1vNX8OOWyhTDJwHX791EIdk3IWEBkDXTKNJU5+ubanx5edw1qpIC9KRhPur8qNv+pHHhWe1lwBtvXH5K2oIXJdLhzwbHqMK9xEHpAoBRs7D9VI2x//lH/lfvHWzWw4aH2MO/nzKtRhazDqaKojctAUKEpCtumkBXwIo1m1m3JJkOn+HAk8l4DugosgleqtVf2moMolKFL7NKotIBbLHhz65hyCb/EJHQUzjZZ+/1XmhaGDwMdCogAfnJePUjvE5JR7xTffBmoyvStlf2r3n5BSl1hmi74IYnRwe2KLxgxJ4bPxJZeUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GrZBPSxLkW0AkrfTdodxkO9szE1nwqGlCG9zccC7o70=;
- b=Lz9QmpIYNE3+gHyHjFsrF+7pR4fTapqT5WNB3EvFhgYuOpVvo7m5OW6Z1lwyhmz9x1ot4dCYqs5F5N41MIQzDigQND6oRfk1KRAUA8SHPj4Plur+thDDc06Wel45EB46wDVkMiw+xOGi58yMBmrPi4eOTHrD3KwmB2fPJoReQlqinsVAtrgjY5xhHlplssiR26qLRa7C00ug8xh0xyfq0GUQR7CR3i8BVqRxQolxCo0LmDLBwHnjXDrWRvAgM+Ch53sn3EzRpqG9Is3TSKw2hqCDfFCuLC6vdw/2MTpr6gCLpGpp5igJo5lNqry0U1lwc72Tk24ycLV3pLFT5lU7VA==
+ bh=xO+m+RF3ePbfI9hl+48V1BxTZl/xVrqDxCQ8Vd5b2mY=;
+ b=CvRWZMOfbER2CZUTmiUSuY2vZ/u+kT+W5XOz2RWUION1jOpozTpUHTmdPC5jMgJmimDy9Wfe2kg4CGch7zwD8v71O4RE4FWDjLTjy8h0KPt016KUbcTL6RONDdgp55weCa1Y2wfNutUJZhCWVEVFPyMbcNZG1si/FOl9553yMnKknwJThmQ8PBtU5kZXu2A245gDBQ3YC2dFqih3IDZYtA6eNhkke1hxWvGfEx3Gj+LhAIbz1Rb/jqMwdvUGyM6M4HoRSebx/j4VZ6ji0x8eDxWqKSLxIamVZWL8YzBwAgpvO/D6cPSyR/N4LzftfUAQViwjvaLRx7AqTm76+ZeABA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GrZBPSxLkW0AkrfTdodxkO9szE1nwqGlCG9zccC7o70=;
- b=oAbo//ol6/dmVz7Frygv+Fg6Ymms4lCKPCmyLXghkgtpvWYonBKcWDU2lL4RI9gOIxURHp+Jj7t19jHph9jhdm7eedbTUsWYcdgqW3oDgH91fHn01BH4dCA282AM41RMhzwLxHl4KsSBZOQFNUbLzKz9T4kyliiWqLYj/FPfNdE=
-Received: from DS4PR12MB9706.namprd12.prod.outlook.com (2603:10b6:8:277::8) by
- SN7PR12MB6691.namprd12.prod.outlook.com (2603:10b6:806:271::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.25.23; Mon, 18 May 2026 09:01:32 +0000
-Received: from DS4PR12MB9706.namprd12.prod.outlook.com
- ([fe80::5f2d:b44:e38d:63f3]) by DS4PR12MB9706.namprd12.prod.outlook.com
- ([fe80::5f2d:b44:e38d:63f3%6]) with mapi id 15.21.0025.022; Mon, 18 May 2026
- 09:01:31 +0000
-From: "Fu, Rex" <Rex.Fu@amd.com>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
+ bh=xO+m+RF3ePbfI9hl+48V1BxTZl/xVrqDxCQ8Vd5b2mY=;
+ b=pZ9sI8Alh6FzCV6whNfz4eLc75NYAV1j9XO6QZVksNUQJDzsB779d2EfK9QWitOuBc34YCy0UBmLAlh/jdUTNS+Vc9Ey/Ok0OLGYtP7rbNX5jSGuGCstH4frjV3mUu2WRG3rv+oDrYSxKVT1bibUYaoWwNskqNJ4yqKP0ongjSM=
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
+ by TY3PR01MB9696.jpnprd01.prod.outlook.com (2603:1096:400:222::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Mon, 18 May
+ 2026 09:45:19 +0000
+Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
+ ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.21.0025.022; Mon, 18 May 2026
+ 09:45:19 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Neil Cheng <neilcheng0417@gmail.com>, "robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "joel@jms.id.au" <joel@jms.id.au>,
+	"andrew@codeconstruct.com.au" <andrew@codeconstruct.com.au>,
+	"geert+renesas@glider.be" <geert+renesas@glider.be>, magnus.damm
+	<magnus.damm@gmail.com>
 CC: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
 	"linux-arm-kernel@lists.infradead.org"
 	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
 	<linux-aspeed@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] ARM: dts: aspeed: anacapa: name EDSFF and thermtrip SGPIO
- lines
-Thread-Topic: [PATCH] ARM: dts: aspeed: anacapa: name EDSFF and thermtrip
- SGPIO lines
-Thread-Index: AQHc2GSbPA7avnS0lkWo8IKZE58UxrYTc76AgAAkoDA=
-Date: Mon, 18 May 2026 09:01:30 +0000
+	<linux-kernel@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 2/2] ARM: dts: aspeed: rainiera6: Add Meta Rainiera6 BMC
+Thread-Topic: [PATCH 2/2] ARM: dts: aspeed: rainiera6: Add Meta Rainiera6 BMC
+Thread-Index: AQHc5p+gMk0WyxLys0m0/DDMzSF5GbYTh/bw
+Date: Mon, 18 May 2026 09:45:18 +0000
 Message-ID:
- <DS4PR12MB9706E6033B3BD469A94062FB8F032@DS4PR12MB9706.namprd12.prod.outlook.com>
-References: <20260430-anacapa-sgpio-edsff-thermtrip-v1-1-2fd5e72435d0@amd.com>
- <bae3a186da639118d88ad2632c5edf8963946dc1.camel@codeconstruct.com.au>
+ <TY3PR01MB11346E0609A730371D53A404A86032@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+References: <cover.1779088499.git.neilcheng0417@gmail.com>
+ <afee3ea3d6d697d039ce97cc7add47e97bbdab4e.1779088499.git.neilcheng0417@gmail.com>
 In-Reply-To:
- <bae3a186da639118d88ad2632c5edf8963946dc1.camel@codeconstruct.com.au>
-Accept-Language: en-US
+ <afee3ea3d6d697d039ce97cc7add47e97bbdab4e.1779088499.git.neilcheng0417@gmail.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_Enabled=True;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_SetDate=2026-05-18T08:59:04.0000000Z;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_Name=AMD
- General
- v26;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_ContentBits=3;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_Method=Standard
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS4PR12MB9706:EE_|SN7PR12MB6691:EE_
-x-ms-office365-filtering-correlation-id: b97f803a-2af7-4e88-ee21-08deb4bc0db8
+x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TY3PR01MB9696:EE_
+x-ms-office365-filtering-correlation-id: 1ad9c8b1-dd77-4391-eb45-08deb4c22c29
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|366016|1800799024|56012099003|22082099003|18002099003|38070700021|4143699003|11063799003;
+ BCL:0;ARA:13230040|7416014|376014|366016|1800799024|38070700021|22082099003|18002099003|56012099003|3023799003|4143699003|11063799003;
 x-microsoft-antispam-message-info:
- bKymhlcay4EQRNuASSDQyxykWAf3Zo1wyWwoPdjI+nz/zgAGUnXrkkbaqCdnE+kCnjZ59pfO5XZ0WIMvzXAHohet1zVFyC+Wjyx5QCBQonkcRdUQRZsfUpgcO3Xey0M/fa91LDY8ibLL3KIcLMZB5nMaHQSV7kmqdBY9DEDdkoMWLfaBHeNcI/H3660rB+K8ZHktZs57nav4ZZrKyIEIRsbLCyAt3u9HOXCaUug3kRU0FM4IibLrdhc/HMllYump7LWpzqywiMhoJn9rI9+5tzHika0BgHaBiun90sZD9y10Wn4S0nbmc6mwoI2lGQ9/tI6jVPNRkTuG0SyqV5lgBCcDVs2U/qJLRe/30jkYZRkNnKSs4lbByoEIh3bRnoPgRFyUtOuIeyu8ZyaVguBBfihmAraRy1gYopCJVYuXOpBPX1jd0sbEMNe0POnwFFi8HH/i730gDs+s3qkU5ErjHSg4KdhOT0g4/B3YeSCjma2KUvlHfUC90uSv57RzPK+FODsLNYAhEbp/1R6MAWXUfEWhGJJVb0+PFPez7ghTk23rU/VmZmX37DFzj7n6VkcLrb4XLBZJRBigc6q/Ifbx8dJyPR0GQflVRV4DClcooyDDl/9vyxUlk6sMKy724wUJfSb+LzAomhKTBNfVpWI7SbdNm7ij2Dp5xUNFUSNHMJSCjmWsBv2LGN6YlFOwLxnZHpLQTXKovwWNspiK2LVWUP76XEL/6SRwh0D+Jn6Iygn627zKoLdqPek/RBMeZkTh
+ ZWn9pPca0dH5oF1MaViVzy/tuMaaK4h5ec9mjS0rsh6ZR1rWEnheI/PCpNFOJpd8QbE/LImm353ilxOh/KSdCFgk8TKgJcYfDM/CZIkTXB6kvlex8eo5mGCgaTvz7DZ7ysf0ZAaUbF0tDRApA/zt145hY+PtuohJMzAIyr8hiv3/osmCYOICq4d11JwuBOmVmGxR6wg+uCdjG5Cp1sSkmUI022AqTOBZ78r0XY3pTunxC9AqR/7W0RiYgkcDdkZfmdjG7Yc5g9pWgmFQFZ6uepp1TQExfuwXZ8kVkOGSnAPp6jfYaf07HufFiBcpt5M3TfEjNHD2mwmK9eHCcbgHpk/ZckJiTOCfaw54JSCHVBgldB93DfHHAH4UBvb56WNykwsnc2aL2VhyLn3fWFcYgPBUNmQY6xayIb+RzrkGnuyPdu0uP4ElYA3Ifb+wWXchkTnPitihu+0QmRc3dD0ib/bj6S0m6dOyPAuaDqg/jqPLEwT3QZ3hOa+o0l2K8KoOukO2f+N4077U/Vdhqg0lpwXV3LTk8Y3RV5LDosJL2Q8e+ufCwjBEoSivW/nPDGeXl/mZ5HO9Ss3SaArbmXGKEfyrvf4yrtv95NGM+tLz2mRDAres1uJFZohzlViEpAnuUv8naeubEh+lWQ3U8pSyorPoOC1jzTyzfYuJAp9QgXG6N/2khJqmB8nMI3uHwtxqtwzUfgWrZq4V2jzbK/FQBtKa+46dVBAYmmIO+fz0Qf0rp3XUUAFqf49KgNptroZc
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PR12MB9706.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(56012099003)(22082099003)(18002099003)(38070700021)(4143699003)(11063799003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700021)(22082099003)(18002099003)(56012099003)(3023799003)(4143699003)(11063799003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?WWhsbnpOaHZzQUpTN1p5NjE3eUpkQndJaWJPSDYxZTRNUDNXbVBqWW1TdTdr?=
- =?utf-8?B?cFRVT0dwQWRzRGlWcnY3NnFjaUxNODZsZVZMT0RHd2ZxQ2lnTHFBcm1Za0VV?=
- =?utf-8?B?SlJYLzI5YzdSNTduOVpCc3FuRERlS09SMlF1VGtWWGNYRERtMGFCMHhvRTFY?=
- =?utf-8?B?ck1BajRvbXVURlpQbkVHZ2o4eWc0Vm9kbXJEVWNNRGxOQ3duNlZpd1REWGp0?=
- =?utf-8?B?bDNWZ1FvREdtRzJzOGlXQkllRml4Uis0ekgxMmJvd1JreWFPYWpnOVg4b3Js?=
- =?utf-8?B?TXBGUG8rNnNRSUJLd3Rjcmt6VzRxMW1WQ3RjaFJuOTgyRW1IalVMNGx2SlQ3?=
- =?utf-8?B?amJLVDQ1OVpmUHlpU0FDR1E2Mm1CUDBTV1pqMEFFVlRPTTNpV3lVYmphaHBz?=
- =?utf-8?B?OGpNMUEvTng1dFRSbTh2NDRjWnBEZmdIUWJnWXplZnBHT1NSYzh4RFdZZ0dC?=
- =?utf-8?B?MmYyVWl2SW11aWdiU3E4NzUzZWprcDNQNUVxemR1VzZWdVVveEhKbFFrZUZM?=
- =?utf-8?B?RTVqVUZNaTZMZkxkTDdTZVkyTytDNVorLzgzcGVFTlFaSzZrTDRvUC95NTkr?=
- =?utf-8?B?Vkl2eWFRbW9VNUY0WVg3V1lxb0VKVXhoVWtlSXlacmV1bm8wVlp3QUpqbm1R?=
- =?utf-8?B?ZWxqd0RnV3FudHBqbWFhaEpTWURUVThYQkt0djVtTEk1K0dUT0JDRUZGUjVP?=
- =?utf-8?B?MytoSEQzbjJnVjAxUUY5QzNPTndkQWRPWHNGeDhJTVRkS041NmxjRVJLejE1?=
- =?utf-8?B?SGZMYmNPQm5CL0dqOHdzNnExQVZuNVIydFdkblU0T2xZcFNnUDg5RWxxVjhH?=
- =?utf-8?B?WmZBSlJaYUpVQWZLZHEwSDdRU1JsbE5RMlJ5QVo2aytmNkhrWENkREJhUUJn?=
- =?utf-8?B?eHBQVkNmK216S2ErUzEzTXZlaFpYcDU1UmMvczRxYmNLVlR6aVpPY2ZRWkF3?=
- =?utf-8?B?VFdtN2w5K2tCWnFXYlFWb01WaEpjeS9jNlZ3OGxPYXJYTlhxdWtBVzlFL29U?=
- =?utf-8?B?eTJKS3NKTGZPWTRQa3hoc1ZyU3RqSXF6dHFzait0SDM1RDFXQ2RVSFo4UU1l?=
- =?utf-8?B?T1RYWUlRSk11UUtyRjhycFcrejY5bmpoQXdQQ0dleXI5RVE0RXhMbFlUVVJE?=
- =?utf-8?B?ZTBUQUZjSmNpWjZXbzFtZ2hCUTFrMy9qUjJYQzAyZnl6NXdWOGtSa1ZhRXBC?=
- =?utf-8?B?OWhYYzQ1TXg3eU1haG9VM2o1bEl4eDVyZXBEdGVsanFiMEY1cTNUSXUwd3V6?=
- =?utf-8?B?UXRRYXZITWlVcGZwYVBMUzE0SUVBZDNpbHNUUWNUZGVTRVhzT05GV3Jid0N1?=
- =?utf-8?B?TjNNdlpVT0YrVkJVc0RtTzNvM0IvWWEwbGJpN2YyTC92b0x2T2w4L24yNk9U?=
- =?utf-8?B?Y1ZScHlaREhuZy9VMStiZVozTmNUWXlSNVhBWWRqeWt0N3pkYzlrZzd3cmpG?=
- =?utf-8?B?UDB6ZkJKSWtURWlaeGlJTmJzblJ1QUlKOWdYVnZ5RXlDTGJvSndxNmwvYm1Z?=
- =?utf-8?B?QklXV1NYdWZtOVh6UXNYSnVRcXNQaSs4Q1JGeUoxQnNlcFNFRkZvL0ZNUFdz?=
- =?utf-8?B?VldESFlpUEpJSjVqSlplaVZHTk85U1FlQzYvL0dBcHMvSXIwVEk0N2JTNkNS?=
- =?utf-8?B?Z1F2NTc5Wmo4TFVORVphRDExOEx6OVJLejRYTE9SNXY3VHhvRC9UZGhLbXI2?=
- =?utf-8?B?a1d6dmdIcFFiaFp4WmJFb0s4WVRibXppbDI2cm01eXRGVGVZZVg2eGhDMG94?=
- =?utf-8?B?TURwTFNYZEFlenVyTWhVLzIwaDROcU9ZdGFxVmdpVUJhbHRqSlNabkt2bXI4?=
- =?utf-8?B?SU1ZKzcvbVhjNU9YSVZkdXVzbDRXYjljdXV6N1dZcVVibFdWWUlydlFCY3ZC?=
- =?utf-8?B?ZllyZ25VeU9OVmF3UUNsSU1McDd4c0J4cElUeTBoQk41cFFmNUo4Q2FESmdy?=
- =?utf-8?B?TkJJdlFab2xMNTlpOE5tdzFmbUR5anM0bVRhREYvSW9RNTV3SUZFbmZzYTRP?=
- =?utf-8?B?VUJnOWZqbkVSYjNoc3JaMTB6REpWYmxiM2xRcTROS2NodU0zeCtVM0ZXSFU4?=
- =?utf-8?B?SUg1N2NuZU8rYmhOL2ZVNTZxQ3ZBMkV1K0tCRE40aGFKSjYxdUhkYTUwQTV6?=
- =?utf-8?B?eTI3VGkrQXhJbGNxcE5kOU02a3o4dzFmWXp0cGdPTGVRU1prRGkwNGNheS9q?=
- =?utf-8?B?RWpZK09mN1BodXU0a082L2YvOE05Tyt2MHdwL1JONmJydU1rS2REdHc3eWl2?=
- =?utf-8?Q?lzPtcRVMkmIf9dEkCb+vCgDZ1vC5WlyJPE1TVqOVB4=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ =?us-ascii?Q?djg9+jR/mxbNYmMwHLVNURPuHTSaIjXPiosyEUq0VzC2SOl/MzrsDtoSje5m?=
+ =?us-ascii?Q?OpUf/BKkQ+eU1FnCJwFMtMuUAqkRzGeAxbmAfDtT4mEcNyq5X5njzh1i1uoE?=
+ =?us-ascii?Q?BBoqu39jrP+sMnzciRuP2bwSuKOv0A5Y3qBaZi5cwQIiw6AX6bwF4Qwb9gtm?=
+ =?us-ascii?Q?2EeBZoPESbvjbDy0rcW7Sl99Z3qX8N8tzrOHJ2niXf/UeJTXJbIhddAn2TUA?=
+ =?us-ascii?Q?Gq3D3VnvgMYAwTY7m8VEOTakN5r/qjlK4V1zN0dXfg3Cf4hIpx+o7aTkwAJ+?=
+ =?us-ascii?Q?fyQL3MaFuZTZH47DaCgrmpNcYt4uIIPbbrWXiIxeuJ3ESJ8SBZS8GVkB0FQh?=
+ =?us-ascii?Q?O/MVzwOJZEWw3D44jviz2xhi1VbeAHRVZOrlCCG+xsbsbr4aafpJb5qj39od?=
+ =?us-ascii?Q?ZNAXY9eKhSvKlwiRK8i56Y70LdLor7qz3BLh/HC0Bb8ZgX9EpY275Xow0dqk?=
+ =?us-ascii?Q?ghKnsvk/+tq373o7Gk35lrHFfQ4bkai5AKBryx59SEBTe8I91bQv0VWubtLQ?=
+ =?us-ascii?Q?P9ljShSeaYOnu+xLBvjWE86dB7A5A8yikuV1QVaQmSmJefE0VF98W07dAmpp?=
+ =?us-ascii?Q?O+imaLIds/ywcXCyDczJegEjxGpRB5hSRVnQCXSjTbPUvKSa5FiZVHUbvY01?=
+ =?us-ascii?Q?QcdHlCPI6cT70nCiqLR0U0rMtZlBIo1ecfQH9SPLhIZfp0n4FupC8mtFRq7K?=
+ =?us-ascii?Q?g+55W3XwI6pqQtHeFP8NWEAp11DhaNC6xi8t0HM+3wNzUs5uPrUMV6JACAlC?=
+ =?us-ascii?Q?MWPDt/8P4Mu2mWCM7/Y0crkQp+kOwFdY6dm3iARpWCHif767GkCU3OubcYKb?=
+ =?us-ascii?Q?Ij3f4543GF3dA+tHLdKfGMXSKyziaJ5BZOfaSShTIMJMANcVhntaNlOSG9Cf?=
+ =?us-ascii?Q?uaLFZFosHulQq4/LjqBRrm6sxtf3s+iCWGyjdecLkmFGsBMuji9PhYqMh28U?=
+ =?us-ascii?Q?mul5uNHFlIR3pm6zm1U6Ma0Txcm27BziCDrPXln30s3eOr5sZK6OLFoG5lft?=
+ =?us-ascii?Q?rHbiPmRn2lXNhQBiPsruO1wVHDuGfj7ZpH+MfLXuG4ej2ThmpjdRLuxduADt?=
+ =?us-ascii?Q?e86ku+ezJhMuobRRfp5MICjYyMD+ysK6ytmTO2qPj76mTnPaTmYQmGWLgDL7?=
+ =?us-ascii?Q?Q1/32Bp6WYrzaLFkL5CUD86InKSVD3B+GI9dRx1phIL4AnZv/1UoCHZZVz8k?=
+ =?us-ascii?Q?zw5nBCdocgKxaOHgcdgVoQNUgyZOjxI7DVdnGyAkJu7WFoswQXB8Hge+svfB?=
+ =?us-ascii?Q?F2QKRuUnfWlxwTCq2EFoYC/+2hNPHjJAnewBINl0x2FiIhLkNCSoDPmQDnEQ?=
+ =?us-ascii?Q?COutHSAGM/x+uL5fgoZJIfKOPM+/d6Y+5ja4OWWSjAtmrUdqyiT2ETnpAS74?=
+ =?us-ascii?Q?yU2gNsOh3MdjSMZVkQ0aXe9Qaua2QdFICQLh6eW70oV8/4dD85Q0ouzNqSyP?=
+ =?us-ascii?Q?kurATQigEYOUr8pTRkJLppR8TeAUyoRf2heJ8dHG7YqIx+6OgtzxrQT982+Y?=
+ =?us-ascii?Q?IQO6KKItv3xQcCCxHFTMZ1bOH7PsfJCvIDSvuTCO4p4jffL0otxBtnLURxvc?=
+ =?us-ascii?Q?qss8DaoWS36WD+iZUn59pQX/6EvqphF+E0BxnKcwy/s6mDEbebopsuy0vXcI?=
+ =?us-ascii?Q?BHEVfUsJpeca7T1o1xJVPc+zJTfgFNf2+U+yCj/CGn/YFEcRzOqcFW/QBPgz?=
+ =?us-ascii?Q?SI29M770/dJjBUULZkHt41Owychm6CUYOPzdSR2hICu+OIkWgGWpISAXarLz?=
+ =?us-ascii?Q?IwUSyG8oyw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -152,138 +145,1156 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
+X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS4PR12MB9706.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b97f803a-2af7-4e88-ee21-08deb4bc0db8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 May 2026 09:01:30.9993
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ad9c8b1-dd77-4391-eb45-08deb4c22c29
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 May 2026 09:45:19.0230
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Iha46kBJIGgbK+WuB/tp6WKsuXalDCV0EAiwHVycLgUeYS03u29nWIMl1PYEgy2D
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6691
-X-Spam-Status: No, score=-0.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_PASS,SPF_PASS autolearn=disabled version=4.0.1
+X-MS-Exchange-CrossTenant-userprincipalname: s92fKfgkxl4cGz9STVX0ILKLN5UCbw/uUilTF+vDlMx8WA/Kcs6cMmZjceuYDyBcq4JqfRmExK/tkmY79YW7yDhhfjlaoxYobmiSO/gDLPE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB9696
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_PASS,SPF_PASS,
+	WEIRD_QUOTING autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [2.39 / 15.00];
+X-Rspamd-Queue-Id: 111A2569FF4
+X-Rspamd-Server: lfdr
+X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
 	MAILLIST(-0.20)[generic];
-	MIME_BASE64_TEXT(0.10)[];
+	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-4075-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-4053-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,jms.id.au,codeconstruct.com.au,glider.be];
+	FORGED_SENDER(0.00)[biju.das.jz@bp.renesas.com,linux-aspeed@lists.ozlabs.org];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[Rex.Fu@amd.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS(0.00)[m:neilcheng0417@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Rex.Fu@amd.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	REDIRECTOR_URL(0.00)[aka.ms];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:rdns,lists.ozlabs.org:helo,infradead.org:email,amd.com:url,amd.com:email,amd.com:dkim,aka.ms:url,DS4PR12MB9706.namprd12.prod.outlook.com:mid]
-X-Rspamd-Queue-Id: E2FC0575318
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[bp.renesas.com:+];
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt,renesas];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	REDIRECTOR_URL(0.00)[aka.ms];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
-X-Rspamd-Server: lfdr
 
-QU1EIEdlbmVyYWwNCg0KSGkgQW5kcmV3LA0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXcuDQoNCkkg
-YWdyZWUgdGhhdCB0aGUgb3JpZ2luYWwgY29tbWl0IG1lc3NhZ2Ugd2FzIHRvbyB2YWd1ZSwgZXNw
-ZWNpYWxseSBzaW5jZSB0aGVzZSBHUElPIGxpbmUgbmFtZXMgYXJlIHZpc2libGUgdG8gdXNlcnNw
-YWNlLg0KDQpUaGVyZSBpcyBubyBuZXcgYm9hcmQgcmV2aXNpb24gb3IgdW5kZXJseWluZyBoYXJk
-d2FyZSBjaGFuZ2UgaW52b2x2ZWQuIFRoaXMgaXMgYSBuYW1pbmcgY29ycmVjdGlvbiBmb3IgdGhl
-IGV4aXN0aW5nIEFuYWNhcGEgaGFyZHdhcmUgZGVzaWduLg0KDQpJIHdpbGwgcmVtb3ZlIHRoZSAi
-bGVnYWN5IG9yIHVudXNlZCIgd29yZGluZy4gVGhlIHByZXZpb3VzIG5hbWVzIGRvIG5vdCBtYXRj
-aCB0aGUgYWN0dWFsIEFuYWNhcGEgdXNhZ2U6IHNvbWUgbGluZXMgd2VyZSBuYW1lZCBhcyBDUFUt
-cmVsYXRlZCBzaWduYWxzIGJ1dCBhcmUgdXNlZCBmb3IgRURTRkYgcG93ZXItZ29vZCBtb25pdG9y
-aW5nLCBhbmQgdGhlIHRoZXJtdHJpcCBsaW5lcyB1c2VkIHJhdyBhY3RpdmUtbG93IHNpZ25hbCBu
-YW1lcyB3aGlsZSB1c2Vyc3BhY2UgbW9uaXRvcnMgdGhlIGFzc2VydGVkIGNvbmRpdGlvbi4NCg0K
-Q2hhbmdpbmcgdGhlc2UgbmFtZXMgaXMgYXBwcm9wcmlhdGUgYmVjYXVzZSB0aGUgdXNlcnNwYWNl
-IG1vbml0b3JpbmcgY29uZmlndXJhdGlvbiBpcyBiYXNlZCBvbiB0aGUgcGxhdGZvcm0gc2lnbmFs
-IG5hbWVzLiBLZWVwaW5nIHRoZSBvbGQgbmFtZXMgd291bGQgbWFrZSB0aGUgRFRTIGluY29uc2lz
-dGVudCB3aXRoIHRoZSBoYXJkd2FyZSBkZXNpZ24gYW5kIHVzZXJzcGFjZSBjb25maWd1cmF0aW9u
-Lg0KDQpJIHdpbGwgc2VuZCBhIHYyIHdpdGggdGhlIGV4YWN0IG9sZC10by1uZXcgbWFwcGluZ3Mg
-YW5kIGEgbW9yZSBwcmVjaXNlIGV4cGxhbmF0aW9uIGluIHRoZSBjb21taXQgbWVzc2FnZS4NCg0K
-QmVzdCByZWdhcmRzLA0KUmV4IEZ1DQpCTUMgRW5naW5lZXIgIHwgIEFNRA0KRGF0YSBDZW50ZXIg
-UGxhdGZvcm0gRW5naW5lZXJpbmcgR3JvdXANCk8gKzg4NiAoMikgMjY1NS04ODg1DQotLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tDQozRiwgTm8uIDMtMiBZdWFucXUgU3RyZWV0LCBOYW5nYW5nIERpc3RyaWN0LCBU
-YWlwZWkgMTE1LCBUYWl3YW4NCkxpbmtlZEluICB8ICBJbnN0YWdyYW0gIHwgIFggIHwgIGFtZC5j
-b20NCg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQW5kcmV3IEplZmZlcnkg
-PGFuZHJld0Bjb2RlY29uc3RydWN0LmNvbS5hdT4NClNlbnQ6IE1vbmRheSwgTWF5IDE4LCAyMDI2
-IDI6NDggUE0NClRvOiBGdSwgUmV4IDxSZXguRnVAYW1kLmNvbT47IFJvYiBIZXJyaW5nIDxyb2Jo
-QGtlcm5lbC5vcmc+OyBLcnp5c3p0b2YgS296bG93c2tpIDxrcnprK2R0QGtlcm5lbC5vcmc+OyBD
-b25vciBEb29sZXkgPGNvbm9yK2R0QGtlcm5lbC5vcmc+OyBKb2VsIFN0YW5sZXkgPGpvZWxAam1z
-LmlkLmF1Pg0KQ2M6IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnOyBsaW51eC1hcm0ta2VybmVs
-QGxpc3RzLmluZnJhZGVhZC5vcmc7IGxpbnV4LWFzcGVlZEBsaXN0cy5vemxhYnMub3JnOyBsaW51
-eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnDQpTdWJqZWN0OiBSZTogW1BBVENIXSBBUk06IGR0czog
-YXNwZWVkOiBhbmFjYXBhOiBuYW1lIEVEU0ZGIGFuZCB0aGVybXRyaXAgU0dQSU8gbGluZXMNCg0K
-W1lvdSBkb24ndCBvZnRlbiBnZXQgZW1haWwgZnJvbSBhbmRyZXdAY29kZWNvbnN0cnVjdC5jb20u
-YXUuIExlYXJuIHdoeSB0aGlzIGlzIGltcG9ydGFudCBhdCBodHRwczovL2FrYS5tcy9MZWFybkFi
-b3V0U2VuZGVySWRlbnRpZmljYXRpb24gXQ0KDQpDYXV0aW9uOiBUaGlzIG1lc3NhZ2Ugb3JpZ2lu
-YXRlZCBmcm9tIGFuIEV4dGVybmFsIFNvdXJjZS4gVXNlIHByb3BlciBjYXV0aW9uIHdoZW4gb3Bl
-bmluZyBhdHRhY2htZW50cywgY2xpY2tpbmcgbGlua3MsIG9yIHJlc3BvbmRpbmcuDQoNCg0KSGVs
-bG8gUmV4LA0KDQpPbiBUaHUsIDIwMjYtMDQtMzAgYXQgMTM6NDQgKzA4MDAsIFJleCBGdSB2aWEg
-QjQgUmVsYXkgd3JvdGU6DQo+IEZyb206IFJleCBGdSA8UmV4LkZ1QGFtZC5jb20+DQo+DQo+IE5h
-bWUgdGhlIEFuYWNhcGEgU0dQSU8gbGluZXMgdXNlZCBmb3IgRURTRkYgcG93ZXItZ29vZCBhbmQg
-dGhlcm10cmlwDQo+IGFzc2VydGlvbiBzaWduYWxzLg0KPg0KPiBUaGUgYWZmZWN0ZWQgbGluZXMg
-cmVwbGFjZSBsZWdhY3kNCj4NCg0KV2hpY2ggYXJlIGxlZ2FjeT8NCg0KPiAgb3IgdW51c2VkDQo+
-DQoNCldoaWNoIGFyZSB1bnVzZWQ/DQoNCj4gQ1BVLXJlbGF0ZWQgbmFtZXMgd2l0aCB0aGUNCj4g
-cGxhdGZvcm0gc2lnbmFsIG5hbWVzIHVzZWQgYnkgdXNlcnNwYWNlIG1vbml0b3JpbmcuDQoNClRo
-aXMgaXMgdGhlIGtpbmQgb2YgY2hhbmdlIHRoYXQgaGFzIHRoZSBwb3RlbnRpYWwgdG8gYnJlYWsg
-b2xkIHVzZXJzcGFjZS4gV2h5IGlzIGl0IGFwcHJvcHJpYXRlPyBJJ2QgbGlrZSBhIG1vcmUgcHJl
-Y2lzZSBkaXNjdXNzaW9uIGluIHRoZSBjb21taXQgbWVzc2FnZS4NCg0KV2FzIHRoZXJlIHNvbWUg
-b3RoZXIgdW5kZXJseWluZyBjaGFuZ2UgKGUuZy4gYSBuZXcgcmV2aXNpb24gb2YgdGhlIHBsYXRm
-b3JtIGRlc2lnbik/DQoNCkFuZHJldw0KDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFJleCBGdSA8UmV4
-LkZ1QGFtZC5jb20+DQo+IC0tLQ0KPiAgYXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVkL2FzcGVlZC1i
-bWMtZmFjZWJvb2stYW5hY2FwYS5kdHMgfCAxMA0KPiArKysrKy0tLS0tDQo+ICAxIGZpbGUgY2hh
-bmdlZCwgNSBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEv
-YXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVkL2FzcGVlZC1ibWMtZmFjZWJvb2stYW5hY2FwYS5kdHMN
-Cj4gYi9hcmNoL2FybS9ib290L2R0cy9hc3BlZWQvYXNwZWVkLWJtYy1mYWNlYm9vay1hbmFjYXBh
-LmR0cw0KPiBpbmRleCAyY2I3YmQxMjhkMjQuLmZlOTYwYmI3YmMyNyAxMDA2NDQNCj4gLS0tIGEv
-YXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVkL2FzcGVlZC1ibWMtZmFjZWJvb2stYW5hY2FwYS5kdHMN
-Cj4gKysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvYXNwZWVkL2FzcGVlZC1ibWMtZmFjZWJvb2stYW5h
-Y2FwYS5kdHMNCj4gQEAgLTkxMiw3ICs5MTIsNyBAQCAmc2dwaW9tMCB7DQo+ICAgICAgICJQV1JH
-RF9QVkRESU9fUDAiLCAiIiwNCj4gICAgICAgIlBXUkdEX1BWRERJT19NRU1fUzNfUDAiLCAiIiwN
-Cj4gICAgICAgIlBXUkdEX0NITVBfQ1BVMF9GUEdBIiwgIiIsDQo+IC0gICAgICJQV1JHRF9DSElM
-X0NQVTBfRlBHQSIsICIiLA0KPiArICAgICAiSFBNX0VEU0ZGX1BHIiwgIiIsDQo+ICAgICAgICJQ
-V1JHRF9DSEVIX0NQVTBfRlBHQSIsICIiLA0KPiAgICAgICAiUFdSR0RfQ0hBRF9DUFUwX0ZQR0Ei
-LCAiRk1fQk1DX1JFQURZX1BMRCIsDQo+ICAgICAgICIiLCAiIiwNCj4gQEAgLTk1Nyw4ICs5NTcs
-OCBAQCAmc2dwaW9tMCB7DQo+ICAgICAgICJQREJfQUxFUlRfUl9OIiwgIiIsDQo+DQo+ICAgICAg
-IC8qIEwwLUw3IGxpbmUgMTc2LTE5MSAqLw0KPiAtICAgICAiQ1BVMF9TUDdSMSIsICIiLCAiQ1BV
-MF9TUDdSMiIsICIiLA0KPiAtICAgICAiQ1BVMF9TUDdSMyIsICIiLCAiQ1BVMF9TUDdSNCIsICIi
-LA0KPiArICAgICAiTF9FRFNGRjJfUEciLCAiIiwgIkxfRURTRkYzX1BHIiwgIiIsDQo+ICsgICAg
-ICJSX0VEU0ZGMl9QRyIsICIiLCAiUl9FRFNGRjNfUEciLCAiIiwNCj4gICAgICAgIkNQVTBfQ09S
-RVRZUEUwIiwgIiIsICJDUFUwX0NPUkVUWVBFMSIsICIiLA0KPiAgICAgICAiQ1BVMF9DT1JFVFlQ
-RTIiLCAiIiwgIkZNX0JJT1NfUE9TVF9DTVBMVF9SX04iLCAiIiwNCj4NCj4gQEAgLTk4NCw4ICs5
-ODQsOCBAQCAmc2dwaW9tMCB7DQo+ICAgICAgICJIUE1fUFdSX0ZBSUwiLCAiUG9ydDgwX2IwIiwN
-Cj4gICAgICAgIkZNX0RJTU1fSVBfRkFJTCIsICJQb3J0ODBfYjEiLA0KPiAgICAgICAiRk1fRElN
-TV9BSF9GQUlMIiwgIlBvcnQ4MF9iMiIsDQo+IC0gICAgICJIUE1fQU1DX1RIRVJNVFJJUF9SX0wi
-LCAiUG9ydDgwX2IzIiwNCj4gLSAgICAgIkZNX0NQVTBfVEhFUk1UUklQX04iLCAiUG9ydDgwX2I0
-IiwNCj4gKyAgICAgIkFNQ19USEVSTVRSSVBfQVNTRVJUIiwgIlBvcnQ4MF9iMyIsDQo+ICsgICAg
-ICJDUFVfVEhFUk1UUklQX0FTU0VSVCIsICJQb3J0ODBfYjQiLA0KPiAgICAgICAiUFZERENSX1NP
-Q19QMF9PQ1BfTCIsICJQb3J0ODBfYjUiLA0KPiAgICAgICAiQ1BMRF9TR1BJT19SRFkiLCAiUG9y
-dDgwX2I2IiwNCj4gICAgICAgIiIsICJQb3J0ODBfYjciLA0KPg0KPiAtLS0NCj4gYmFzZS1jb21t
-aXQ6IDk5NzQ5NjljMTQwMzFhMDk3ZDZiNDViY2I3YTA2YmI0YWE1MjVjNDANCj4gY2hhbmdlLWlk
-OiAyMDI2MDQzMC1hbmFjYXBhLXNncGlvLWVkc2ZmLXRoZXJtdHJpcC1hY2IyMjhiZjYxYmUNCj4N
-Cj4gQmVzdCByZWdhcmRzLA0KPiAtLQ0KPiBSZXggRnUgPFJleC5GdUBhbWQuY29tPg0KPg0K
+Hi Neil Cheng,=20
+
+> -----Original Message-----
+> From: Neil Cheng <neilcheng0417@gmail.com>
+> Sent: 18 May 2026 09:13
+> Subject: [PATCH 2/2] ARM: dts: aspeed: rainiera6: Add Meta Rainiera6 BMC
+>=20
+> [You don't often get email from neilcheng0417@gmail.com. Learn why this i=
+s important at
+> https://aka.ms/LearnAboutSenderIdentification ]
+>=20
+> Add device tree for the Meta (Facebook) Rainiera6 compute node, based on
+> AST2600 BMC.
+>=20
+> Signed-off-by: Neil Cheng <neilcheng0417@gmail.com>
+> ---
+>  arch/arm/boot/dts/aspeed/Makefile             |    1 +
+>  .../aspeed/aspeed-bmc-facebook-rainiera6.dts  | 1012 +++++++++++++++++
+>  2 files changed, 1013 insertions(+)
+>  create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-rainiera=
+6.dts
+>=20
+> diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed=
+/Makefile
+> index 767f7c7652d5..215429af1135 100644
+> --- a/arch/arm/boot/dts/aspeed/Makefile
+> +++ b/arch/arm/boot/dts/aspeed/Makefile
+> @@ -34,6 +34,7 @@ dtb-$(CONFIG_ARCH_ASPEED) +=3D \
+>         aspeed-bmc-facebook-harma.dtb \
+>         aspeed-bmc-facebook-minerva.dtb \
+>         aspeed-bmc-facebook-minipack.dtb \
+> +       aspeed-bmc-facebook-rainiera6.dtb \
+>         aspeed-bmc-facebook-santabarbara.dtb \
+>         aspeed-bmc-facebook-tiogapass.dtb \
+>         aspeed-bmc-facebook-wedge40.dtb \ diff --git a/arch/arm/boot/dts/=
+aspeed/aspeed-bmc-facebook-
+> rainiera6.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-rainiera6.dt=
+s
+> new file mode 100644
+> index 000000000000..2c8c983db677
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-rainiera6.dts
+> @@ -0,0 +1,1012 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +// Copyright (c) 2026 Facebook Inc.
+> +
+> +/dts-v1/;
+> +#include "aspeed-g6.dtsi"
+> +#include <dt-bindings/gpio/aspeed-gpio.h> #include
+> +<dt-bindings/i2c/i2c.h>
+> +
+> +/ {
+> +       model =3D "Facebook Rainier BMC";
+> +       compatible =3D "facebook,rainiera6-bmc", "aspeed,ast2600";
+> +
+> +       aliases {
+> +               i2c16 =3D &i2c5mux0ch0;
+> +               i2c17 =3D &i2c5mux0ch1;
+> +               i2c18 =3D &i2c5mux1ch0;
+> +               i2c19 =3D &i2c5mux1ch1;
+> +               i2c20 =3D &i2c6mux0ch0;
+> +               i2c21 =3D &i2c6mux0ch1;
+> +               i2c22 =3D &i2c6mux0ch2;
+> +               i2c23 =3D &i2c6mux0ch3;
+> +               i2c24 =3D &i2c8mux0ch0;
+> +               i2c25 =3D &i2c8mux0ch1;
+> +               i2c26 =3D &i2c8mux0ch2;
+> +               i2c27 =3D &i2c8mux0ch3;
+> +               i2c28 =3D &i2c26mux0ch0;
+> +               i2c29 =3D &i2c26mux0ch1;
+> +               i2c30 =3D &i2c26mux0ch2;
+> +               i2c31 =3D &i2c26mux0ch3;
+> +               serial0 =3D &uart1;
+> +               serial2 =3D &uart3;
+> +               serial3 =3D &uart4;
+> +               serial4 =3D &uart5;
+> +       };
+> +
+> +       chosen {
+> +               stdout-path =3D "serial4:57600n8";
+> +       };
+> +
+> +       iio-hwmon {
+> +               compatible =3D "iio-hwmon";
+> +               io-channels =3D <&adc0 0>, <&adc0 1>, <&adc0 2>, <&adc0 3=
+>,
+> +                                         <&adc0 4>, <&adc0 5>, <&adc0 6>=
+, <&adc0 7>,
+> +                                         <&adc1 2>;
+> +       };
+> +
+> +       leds {
+> +               compatible =3D "gpio-leds";
+> +
+> +               led-0 {
+> +                       label =3D "bmc_heartbeat_amber";
+> +                       gpios =3D <&gpio0 ASPEED_GPIO(P, 7) GPIO_ACTIVE_L=
+OW>;
+> +                       linux,default-trigger =3D "heartbeat";
+> +               };
+> +
+> +               led-1 {
+> +                       label =3D "fp_id_amber";
+> +                       default-state =3D "off";
+> +                       gpios =3D <&gpio0 ASPEED_GPIO(B, 5) GPIO_ACTIVE_H=
+IGH>;
+> +               };
+> +
+> +               led-2 {
+> +                       label =3D "power_fault_amber";
+> +                       default-state =3D "off";
+> +                       gpios =3D <&gpio0 ASPEED_GPIO(P, 4) GPIO_ACTIVE_H=
+IGH>;
+> +               };
+> +       };
+> +
+> +       memory@80000000 {
+> +               device_type =3D "memory";
+> +               reg =3D <0x80000000 0x80000000>;
+> +       };
+> +
+> +       p1v8_adc_vref: regulator-p1v8-aux {
+> +               compatible =3D "regulator-fixed";
+> +               regulator-name =3D "p1v8_adc_vref";
+> +               regulator-min-microvolt =3D <1800000>;
+> +               regulator-max-microvolt =3D <1800000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       spi_gpio: spi {
+> +               compatible =3D "spi-gpio";
+> +               #address-cells =3D <1>;
+> +               #size-cells =3D <0>;
+> +
+> +               sck-gpios =3D <&gpio0 ASPEED_GPIO(Z, 3) GPIO_ACTIVE_HIGH>=
+;
+> +               mosi-gpios =3D <&gpio0 ASPEED_GPIO(Z, 4) GPIO_ACTIVE_HIGH=
+>;
+> +               miso-gpios =3D <&gpio0 ASPEED_GPIO(Z, 5) GPIO_ACTIVE_HIGH=
+>;
+> +               cs-gpios =3D <&gpio0 ASPEED_GPIO(Z, 0) GPIO_ACTIVE_LOW>;
+> +               num-chipselects =3D <1>;
+> +               status =3D "okay";
+> +
+> +               tpm@0 {
+> +                       compatible =3D "infineon,slb9670", "tcg,tpm_tis-s=
+pi";
+> +                       spi-max-frequency =3D <33000000>;
+> +                       reg =3D <0>;
+> +               };
+> +       };
+> +};
+> +
+> +&adc0 {
+> +       vref-supply =3D <&p1v8_adc_vref>;
+> +       status =3D "okay";
+
+Maybe status after pinctrl entries to consistent with wdt1 and spi2 below??
+
+Cheers,
+Biju
+
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_adc0_default &pinctrl_adc1_default
+> +                                &pinctrl_adc2_default &pinctrl_adc3_defa=
+ult
+> +                                &pinctrl_adc4_default &pinctrl_adc5_defa=
+ult
+> +                                &pinctrl_adc6_default
+> +&pinctrl_adc7_default>; };
+> +
+> +&adc1 {
+> +       aspeed,int-vref-microvolt =3D <2500000>;
+> +       status =3D "okay";
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_adc10_default>; };
+> +
+> +&ehci0 {
+> +       status =3D "okay";
+> +};
+> +
+> +&ehci1 {
+> +       status =3D "okay";
+> +};
+> +
+> +&fmc {
+> +       status =3D "okay";
+> +
+> +       flash@0 {
+> +               status =3D "okay";
+> +               m25p,fast-read;
+> +               label =3D "bmc";
+> +               spi-max-frequency =3D <50000000>; #include
+> +"openbmc-flash-layout-128.dtsi"
+> +       };
+> +
+> +       flash@1 {
+> +               status =3D "okay";
+> +               m25p,fast-read;
+> +               label =3D "alt-bmc";
+> +               spi-max-frequency =3D <50000000>;
+> +       };
+> +};
+> +
+> +&gpio0 {
+> +       gpio-line-names =3D
+> +       /*A0-A7*/       "","","","","","","","",
+> +       /*B0-B7*/       "BATTERY_DETECT","","BMC_I2C1_FPGA_ALERT_L","BMC_=
+READY_R",
+> +                               "IOEXP_INT_3V3_L_R1","FM_ID_LED","","",
+> +       /*C0-C7*/       "BMC_GPIOC0","","","","PMBUS_REQ_N","PSU_FW_UPDAT=
+E_REQ_N","",
+> +                               "BMC_I2C_SSIF_ALERT_L",
+> +       /*D0-D7*/       "","","","","BMC_GPIOD4","","","",
+> +       /*E0-E7*/       "BMC_GPIOE0","BMC_GPIOE1","","","","","","",
+> +       /*F0-F7*/       "","","","","","","","",
+> +       /*G0-G7*/       "FM_BMC_MUX1_SEL_R","","","","","","FM_DEBUG_PORT=
+_PRSNT_R1_N",
+> +                       "FM_BMC_DBP_PRESENT_R_N",
+> +       /*H0-H7*/       "","","","","","","","",
+> +       /*I0-I7*/       "","","","","","FLASH_WP_STATUS_R1","BMC_JTAG_MUX=
+_SEL","",
+> +       /*J0-J7*/       "","","","","","","","",
+> +       /*K0-K7*/       "","","","","","","","",
+> +       /*L0-L7*/       "","","","","","","","",
+> +       /*M0-M7*/       "PCIE_EP_RST_EN","BMC_FRU_WP","SCM_HPM_STBY_RST_N=
+",
+> +                               "SCM_HPM_STBY_R_EN","STBY_POWER_PG_3V3_R"=
+,"TH500_SHDN_OK_L","","",
+> +       /*N0-N7*/       "LED_POSTCODE_0","LED_POSTCODE_1","LED_POSTCODE_2=
+",
+> +                               "LED_POSTCODE_3","LED_POSTCODE_4","LED_PO=
+STCODE_5",
+> +                               "LED_POSTCODE_6","LED_POSTCODE_7",
+> +       /*O0-O7*/       "RUN_POWER_PG","PWR_BRAKE_L","CHASSIS_AC_LOSS_L",
+> +                               "BSM_PRSNT_R_N","PSU_SMB_ALERT_L","FM_TPM=
+_PRSNT_0_N",
+> +                               "PSU_FW_UPDATING_N","DEBUG_CARD_BYPASS",
+> +       /*P0-P7*/       "PWR_BTN_BMC_R1_N","IPEX_CABLE_PRSNT_L","ID_RST_B=
+TN_BMC_R_N",
+> +                               "RST_BMC_RSTBTN_OUT_R_N","BMC_PWR_LED","R=
+UN_POWER_EN",
+> +                               "SHDN_FORCE_L","BMC_HEARTBEAT_N",
+> +       /*Q0-Q7*/       "IRQ_PCH_TPM_SPI_LV3_N","USB_OC0_REAR_R_N","UART_=
+MUX_SEL",
+> +                               "I2C_MUX_RESET_L","RSVD_NV_PLT_DETECT","S=
+PI_TPM_INT_L",
+> +                               "CPU_JTAG_MUX_SELECT","THERM_BB_OVERT_L",
+> +       /*R0-R7*/       "THERM_BB_WARN_L","SPI_BMC_FPGA_INT_L","CPU_BOOT_=
+DONE",
+> +                               "PMBUS_GNT_L","CHASSIS_PWR_BRK_L","PCIE_W=
+AKE_L","PDB_THERM_OVERT_L",
+> +                               "SHDN_REQ_L",
+> +       /*S0-S7*/       "","","SYS_BMC_PWRBTN_R_N","FM_TPM_PRSNT_1_N",
+> +                               "FM_BMC_DEBUG_SW_N","UID_LED_N","SYS_FAUL=
+T_LED_N",
+> +                               "RUN_POWER_FAULT_L",
+> +       /*T0-T7*/       "","","","","","","","",
+> +       /*U0-U7*/       "","","","","","","","",
+> +       /*V0-V7*/       "L2_RST_REQ_OUT_L","L0L1_RST_REQ_OUT_L","BMC_ID_B=
+EEP_SEL_R1",
+> +                               "BMC_I2C0_FPGA_ALERT_L","SMB_BMC_TMP_ALER=
+T","PWR_LED_N",
+> +                               "SYS_RST_OUT_L","IRQ_TPM_SPI_N",
+> +       /*W0-W7*/       "","","","","","","","",
+> +       /*X0-X7*/       "","FM_DBP_CPU_PREQ_GF_N_R1","","","","","","",
+> +       /*Y0-Y7*/       "","RST_BMC_SELF_HW_R1","FM_FLASH_LATCH_N_R1","",
+> +                               "BMC_GPIOY4_R","BMC_GPIOY5_R","","",
+> +       /*Z0-Z7*/       "","","","","","","BMC_GPIOZ6_R","BMC_GPIOZ7_R";
+> +};
+> +
+> +&gpio1 {
+> +       gpio-line-names =3D
+> +       /*18A0-18A7*/   "","","","","","","","",
+> +       /*18B0-18B7*/   "","","","","FM_BOARD_BMC_REV_ID0","FM_BOARD_BMC_=
+REV_ID1",
+> +                       "FM_BOARD_BMC_REV_ID2","",
+> +       /*18C0-18C7*/   "","","SPI_BMC_BIOS_ROM_IRQ0_R_N","","","","","",
+> +       /*18D0-18D7*/   "","","","","","","","",
+> +       /*18E0-18E3*/   "FM_BMC_PROT_LS_EN","AC_PWR_BMC_BTN_R_N","","";
+> +};
+> +
+> +/* Rainiera6 SoC SSIF */
+> +&i2c1 {
+> +       status =3D "okay";
+> +
+> +       ssif_bmc: ssif-bmc@10 {
+> +               compatible =3D "ssif-bmc";
+> +               reg =3D <0x10>;
+> +               status =3D "okay";
+> +       };
+> +};
+> +
+> +/* MCIO 2A I2C */
+> +&i2c2 {
+> +       status =3D "okay";
+> +};
+> +
+> +&i2c4 {
+> +       multi-master;
+> +       mctp-controller;
+> +       clock-frequency =3D <400000>;
+> +       status =3D "okay";
+> +
+> +       mctp@10 {
+> +               compatible =3D "mctp-i2c-controller";
+> +               reg =3D <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
+> +       };
+> +
+> +       /* OCP NIC TEMP */
+> +       temperature-sensor@1f {
+> +               compatible =3D "ti,tmp421";
+> +               reg =3D <0x1f>;
+> +       };
+> +
+> +       /* OCP NIC FRU EEPROM */
+> +       eeprom@50 {
+> +               compatible =3D "atmel,24c64";
+> +               reg =3D <0x50>;
+> +       };
+> +};
+> +
+> +&i2c5 {
+> +       status =3D "okay";
+> +
+> +       gpio-expander@22 {
+> +               compatible =3D "nxp,pca9535";
+> +               reg =3D <0x22>;
+> +               gpio-controller;
+> +               #gpio-cells =3D <2>;
+> +               gpio-line-names =3D
+> +                       "JTAG_BMC_IOEXP_MUX_OE", "JTAG_BMC_MCIO_MUX_S1",
+> +                       "JTAG_BMC_MCIO_MUX_S0", "JTAG_IOEXP_BMC_MUX_SEL",
+> +                       "FM_USB_MUX_1_OE_N", "FM_USB_MUX_2_OE_N",
+> +                       "PROGRAMN_CPLD", "",
+> +                       "", "",
+> +                       "", "",
+> +                       "", "",
+> +                       "", "";
+> +       };
+> +
+> +       /* I2C MUX for MCIO 1A */
+> +       i2c-mux@70 {
+> +               compatible =3D "nxp,pca9546";
+> +               reg =3D <0x70>;
+> +               #address-cells =3D <1>;
+> +               #size-cells =3D <0>;
+> +               i2c-mux-idle-disconnect;
+> +
+> +               i2c5mux0ch0: i2c@0 {
+> +                       reg =3D <0>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +               };
+> +
+> +               i2c5mux0ch1: i2c@1 {
+> +                       reg =3D <1>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +               };
+> +       };
+> +
+> +       /* I2C MUX for MCIO 0A */
+> +       i2c-mux@77 {
+> +               compatible =3D "nxp,pca9546";
+> +               reg =3D <0x77>;
+> +               #address-cells =3D <1>;
+> +               #size-cells =3D <0>;
+> +               i2c-mux-idle-disconnect;
+> +
+> +               i2c5mux1ch0: i2c@0 {
+> +                       reg =3D <0>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +               };
+> +
+> +               i2c5mux1ch1: i2c@1 {
+> +                       reg =3D <1>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +               };
+> +       };
+> +};
+> +
+> +&i2c6 {
+> +       status =3D "okay";
+> +
+> +       /* I2C MUX for PWRPIC #13 ~ #16 */
+> +       i2c-mux@77 {
+> +               compatible =3D "nxp,pca9546";
+> +               reg =3D <0x77>;
+> +               #address-cells =3D <1>;
+> +               #size-cells =3D <0>;
+> +               i2c-mux-idle-disconnect;
+> +
+> +               /* PWRPIC #13 */
+> +               i2c6mux0ch0: i2c@0 {
+> +                       reg =3D <0>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +               };
+> +
+> +               /* PWRPIC #14 */
+> +               i2c6mux0ch1: i2c@1 {
+> +                       reg =3D <1>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +               };
+> +
+> +               /* PWRPIC #16 */
+> +               i2c6mux0ch2: i2c@2 {
+> +                       reg =3D <2>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +               };
+> +
+> +               /* PWRPIC #15 */
+> +               i2c6mux0ch3: i2c@3 {
+> +                       reg =3D <3>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +               };
+> +       };
+> +};
+> +
+> +&i2c7 {
+> +       multi-master;
+> +       status =3D "okay";
+> +
+> +       ipmb@10 {
+> +               compatible =3D "ipmb-dev";
+> +               reg =3D <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
+> +               i2c-protocol;
+> +       };
+> +};
+> +
+> +&i2c8 {
+> +       status =3D "okay";
+> +
+> +       power-monitor@14 {
+> +               compatible =3D "infineon,xdp710";
+> +               reg =3D <0x14>;
+> +       };
+> +
+> +       adc@1d {
+> +               compatible =3D "ti,adc128d818";
+> +               reg =3D <0x1d>;
+> +               ti,mode =3D /bits/ 8 <1>;
+> +       };
+> +
+> +       /* PDB IOEXP0 */
+> +       pdb_io_expander0: gpio-expander@24 {
+> +               compatible =3D "nxp,pca9555";
+> +               reg =3D <0x24>;
+> +               interrupt-parent =3D <&sgpiom0>;
+> +               interrupts =3D <92 IRQ_TYPE_LEVEL_LOW>;
+> +               interrupt-controller;
+> +               #interrupt-cells =3D <2>;
+> +               gpio-controller;
+> +               #gpio-cells =3D <2>;
+> +               gpio-line-names =3D
+> +                       "FM_P52V_AUX_FLT_N","FM_P12V_AUX_ALERT_N",
+> +                       "FM_SLOT1_HSC_FAULT","FM_SLOT2_HSC_FAULT",
+> +                       "FM_SLOT3_HSC_FAULT","FM_SLOT4_HSC_FAULT",
+> +                       "FM_SLOT5_HSC_FAULT","FM_SLOT6_HSC_FAULT",
+> +                       "PRSNT_FAN0","PRSNT_FAN1",
+> +                       "PRSNT_FAN2","PRSNT_FAN3",
+> +                       "","",
+> +                       "","INT_SLOT";
+> +       };
+> +
+> +       /* PDB IOEXP1 */
+> +       gpio-expander@25 {
+> +               compatible =3D "nxp,pca9555";
+> +               reg =3D <0x25>;
+> +               interrupt-parent =3D <&pdb_io_expander0>;
+> +               interrupts =3D <15 IRQ_TYPE_LEVEL_LOW>;
+> +               gpio-controller;
+> +               #gpio-cells =3D <2>;
+> +               gpio-line-names =3D
+> +                       "SLOT1_CM_UPDATE","SLOT2_CM_UPDATE",
+> +                       "SLOT3_CM_UPDATE","SLOT4_CM_UPDATE",
+> +                       "SLOT5_CM_UPDATE","SLOT6_CM_UPDATE",
+> +                       "","",
+> +                       "","",
+> +                       "","",
+> +                       "","",
+> +                       "","";
+> +       };
+> +
+> +       power-sensor@40 {
+> +               compatible =3D "ti,ina238";
+> +               reg =3D <0x40>;
+> +               shunt-resistor =3D <1000>;
+> +       };
+> +
+> +       /* PADDLE BD IOEXP */
+> +       gpio-expander@41 {
+> +               compatible =3D "nxp,pca9536";
+> +               reg =3D <0x41>;
+> +               gpio-controller;
+> +               #gpio-cells =3D <2>;
+> +               gpio-line-names =3D
+> +                       "HSC_OC_GPIO0", "HSC_OC_GPIO1",
+> +                       "HSC_OC_GPIO2", "HSC_OC_GPIO3";
+> +       };
+> +
+> +       power-sensor@42 {
+> +               compatible =3D "ti,ina238";
+> +               reg =3D <0x42>;
+> +               shunt-resistor =3D <1000>;
+> +       };
+> +
+> +       power-monitor@43 {
+> +               compatible =3D "lltc,ltc4287";
+> +               reg =3D <0x43>;
+> +               shunt-resistor-micro-ohms =3D <100>;
+> +       };
+> +
+> +       power-sensor@44 {
+> +               compatible =3D "ti,ina238";
+> +               reg =3D <0x44>;
+> +               shunt-resistor =3D <1000>;
+> +       };
+> +
+> +       power-sensor@45 {
+> +               compatible =3D "ti,ina238";
+> +               reg =3D <0x45>;
+> +               shunt-resistor =3D <1000>;
+> +       };
+> +
+> +       power-monitor@46 {
+> +               compatible =3D "mps,mp5998";
+> +               reg =3D <0x46>;
+> +       };
+> +
+> +       power-monitor@47 {
+> +               compatible =3D "ti,tps25990";
+> +               reg =3D <0x47>;
+> +               ti,rimon-micro-ohms =3D <430000000>;
+> +       };
+> +
+> +       temperature-sensor@48 {
+> +               compatible =3D "ti,tmp75";
+> +               reg =3D <0x48>;
+> +       };
+> +
+> +       temperature-sensor@49 {
+> +               compatible =3D "ti,tmp75";
+> +               reg =3D <0x49>;
+> +       };
+> +
+> +       /* PDB FRU */
+> +       eeprom@56 {
+> +               compatible =3D "atmel,24c128";
+> +               reg =3D <0x56>;
+> +       };
+> +
+> +       /* Paddle BD FRU */
+> +       eeprom@57 {
+> +               compatible =3D "atmel,24c128";
+> +               reg =3D <0x57>;
+> +       };
+> +
+> +       power-monitor@58 {
+> +               compatible =3D "renesas,isl28022";
+> +               reg =3D <0x58>;
+> +               shunt-resistor-micro-ohms =3D <10000>;
+> +       };
+> +
+> +       power-monitor@59 {
+> +               compatible =3D "renesas,isl28022";
+> +               reg =3D <0x59>;
+> +               shunt-resistor-micro-ohms =3D <10000>;
+> +       };
+> +
+> +       power-monitor@5a {
+> +               compatible =3D "renesas,isl28022";
+> +               reg =3D <0x5a>;
+> +               shunt-resistor-micro-ohms =3D <10000>;
+> +       };
+> +
+> +       power-monitor@5b {
+> +               compatible =3D "renesas,isl28022";
+> +               reg =3D <0x5b>;
+> +               shunt-resistor-micro-ohms =3D <10000>;
+> +       };
+> +
+> +       psu@5c {
+> +               compatible =3D "renesas,raa228006";
+> +               reg =3D <0x5c>;
+> +       };
+> +
+> +       fan-controller@5e{
+> +               compatible =3D "maxim,max31790";
+> +               reg =3D <0x5e>;
+> +       };
+> +
+> +       /* I2C MUX for PWRPIC #1, #2, #11, #12 */
+> +       i2c-mux@77 {
+> +               compatible =3D "nxp,pca9546";
+> +               reg =3D <0x77>;
+> +               #address-cells =3D <1>;
+> +               #size-cells =3D <0>;
+> +               i2c-mux-idle-disconnect;
+> +
+> +               /* PWRPIC #1 */
+> +               i2c8mux0ch0: i2c@0 {
+> +                       reg =3D <0>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +               };
+> +
+> +               /* PWRPIC #2 */
+> +               i2c8mux0ch1: i2c@1 {
+> +                       reg =3D <1>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +               };
+> +
+> +               /* PWRPIC #12 (Connector to CXL BD) */
+> +               i2c8mux0ch2: i2c@2 {
+> +                       reg =3D <2>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +                       i2c-mux@70 {
+> +                               compatible =3D "nxp,pca9546";
+> +                               reg =3D <0x70>;
+> +                               #address-cells =3D <1>;
+> +                               #size-cells =3D <0>;
+> +                               i2c-mux-idle-disconnect;
+> +                               i2c26mux0ch0: i2c@0 {
+> +                                       reg =3D <0>;
+> +                                       #address-cells =3D <1>;
+> +                                       #size-cells =3D <0>;
+> +                               };
+> +                               i2c26mux0ch1: i2c@1 {
+> +                                       reg =3D <1>;
+> +                                       #address-cells =3D <1>;
+> +                                       #size-cells =3D <0>;
+> +                               };
+> +                               i2c26mux0ch2: i2c@2 {
+> +                                       reg =3D <2>;
+> +                                       #address-cells =3D <1>;
+> +                                       #size-cells =3D <0>;
+> +                                       /* CXL FRU */
+> +                                       eeprom@50 {
+> +                                               compatible =3D "atmel,24c=
+64";
+> +                                               reg =3D <0x50>;
+> +                                       };
+> +                               };
+> +                               i2c26mux0ch3: i2c@3 {
+> +                                       reg =3D <3>;
+> +                                       #address-cells =3D <1>;
+> +                                       #size-cells =3D <0>;
+> +                               };
+> +                       };
+> +               };
+> +
+> +               /* PWRPIC #11 */
+> +               i2c8mux0ch3: i2c@3 {
+> +                       reg =3D <3>;
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +               };
+> +       };
+> +};
+> +
+> +&i2c9 {
+> +       status =3D "okay";
+> +
+> +       temperature-sensor@4b {
+> +               compatible =3D "ti,tmp75";
+> +               reg =3D <0x4b>;
+> +       };
+> +
+> +       /* SCM FRU */
+> +       eeprom@51 {
+> +               compatible =3D "atmel,24c128";
+> +               reg =3D <0x51>;
+> +       };
+> +
+> +       /* BSM FRU */
+> +       eeprom@56 {
+> +               compatible =3D "atmel,24c64";
+> +               reg =3D <0x56>;
+> +       };
+> +};
+> +
+> +/* MCIO 0A I2C */
+> +&i2c10 {
+> +       status =3D "okay";
+> +};
+> +
+> +&i2c11 {
+> +       status =3D "okay";
+> +
+> +       /* I2C11_IOEXP_3 */
+> +       gpio-expander@20 {
+> +               compatible =3D "nxp,pca9535";
+> +               reg =3D <0x20>;
+> +               gpio-controller;
+> +               #gpio-cells =3D <2>;
+> +               gpio-line-names =3D
+> +                       "IRQ_INA230_FAN0_ALERT_N_CPLD", "IRQ_INA230_FAN1_=
+ALERT_N_CPLD",
+> +                       "IRQ_INA230_FAN2_ALERT_N_CPLD", "IRQ_INA230_FAN3_=
+ALERT_N_CPLD",
+> +                       "IRQ_INA230_P12V_DIMM_0_ALERT_N", "IRQ_INA230_P12=
+V_DIMM_1_ALERT_N",
+> +                       "IRQ_P3V3_E1S_0_FLT_N", "P12V_E1S_0_FAULT_R_N",
+> +                       "IRQ_P3V3_E1S_1_FLT_N", "P12V_E1S_1_FAULT_R_N",
+> +                       "IRQ_P3V3_NIC_FLT_N", "P12V_NIC_FAULT_R_N",
+> +                       "SMB_SENSOR_ALERT_N", "FW_CPLD_RST_RTC_RST_R1",
+> +                       "RTC_CLR", "RTC_U11_ALRT_N";
+> +       };
+> +
+> +       /* I2C11_IOEXP_2 */
+> +       gpio-expander@21 {
+> +               compatible =3D "nxp,pca9535";
+> +               reg =3D <0x21>;
+> +               gpio-controller;
+> +               #gpio-cells =3D <2>;
+> +               gpio-line-names =3D
+> +                       "FAN_0_PRESENT_CPLD", "FAN_1_PRESENT_CPLD",
+> +                       "FAN_2_PRESENT_CPLD", "FAN_3_PRESENT_CPLD",
+> +                       "FAN_FAIL_L_CPLD", "FULL_SPEED_N_R_CPLD",
+> +                       "P12V_FAN0_PWRGD_CPLD", "P12V_FAN1_PWRGD_CPLD",
+> +                       "P12V_FAN2_PWRGD_CPLD", "P12V_FAN3_PWRGD_CPLD",
+> +                       "FM_P12V_FAN0_FLTB_N_CPLD", "FM_P12V_FAN1_FLTB_N_=
+CPLD",
+> +                       "FM_P12V_FAN2_FLTB_N_CPLD", "FM_P12V_FAN3_FLTB_N_=
+CPLD",
+> +                       "P12V_FAN_EN_R_CPLD", "";
+> +       };
+> +
+> +       /* I2C11_IOEXP_1 */
+> +       gpio-expander@27 {
+> +               compatible =3D "nxp,pca9535";
+> +               reg =3D <0x27>;
+> +               gpio-controller;
+> +               #gpio-cells =3D <2>;
+> +               gpio-line-names =3D
+> +                       "PWRGD_P12V_SCM", "PWRGD_P5V_STBY",
+> +                       "PWRGD_P3V3_STBY", "PWRGD_P1V8_STBY",
+> +                       "PWRGD_P1V2_STBY", "PWRGD_P1V1_STBY",
+> +                       "PWRGD_P1V0_STBY", "",
+> +                       "", "",
+> +                       "", "",
+> +                       "", "",
+> +                       "", "";
+> +       };
+> +
+> +       power-sensor@40 {
+> +               compatible =3D "ti,ina230";
+> +               reg =3D <0x40>;
+> +               shunt-resistor =3D <1000>;
+> +       };
+> +
+> +       power-sensor@41 {
+> +               compatible =3D "ti,ina230";
+> +               reg =3D <0x41>;
+> +               shunt-resistor =3D <1000>;
+> +       };
+> +
+> +       power-sensor@42 {
+> +               compatible =3D "ti,ina230";
+> +               reg =3D <0x42>;
+> +               shunt-resistor =3D <2000>;
+> +       };
+> +
+> +       power-sensor@43 {
+> +               compatible =3D "ti,ina230";
+> +               reg =3D <0x43>;
+> +               shunt-resistor =3D <2000>;
+> +       };
+> +
+> +       power-sensor@44 {
+> +               compatible =3D "ti,ina230";
+> +               reg =3D <0x44>;
+> +               shunt-resistor =3D <2000>;
+> +       };
+> +
+> +       power-sensor@45 {
+> +               compatible =3D "ti,ina230";
+> +               reg =3D <0x45>;
+> +               shunt-resistor =3D <2000>;
+> +       };
+> +
+> +       adc@49 {
+> +               compatible =3D "ti,ads7830";
+> +               reg =3D <0x49>;
+> +       };
+> +
+> +       adc@4a {
+> +               compatible =3D "ti,ads7830";
+> +               reg =3D <0x4a>;
+> +       };
+> +
+> +       adc@4b {
+> +               compatible =3D "ti,ads7830";
+> +               reg =3D <0x4b>;
+> +       };
+> +       rtc@6f {
+> +               compatible =3D "nuvoton,nct3018y";
+> +               reg =3D <0x6f>;
+> +               status =3D "okay";
+> +       };
+> +};
+> +
+> +/* MCIO 4A I2C */
+> +&i2c12 {
+> +       multi-master;
+> +       mctp-controller;
+> +       clock-frequency =3D <400000>;
+> +       status =3D "okay";
+> +
+> +       mctp@10 {
+> +               compatible =3D "mctp-i2c-controller";
+> +               reg =3D <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
+> +       };
+> +};
+> +
+> +&i2c13 {
+> +       status =3D "okay";
+> +
+> +       fan-controller@20 {
+> +               compatible =3D "maxim,max31790";
+> +               reg =3D <0x20>;
+> +       };
+> +
+> +       power-sensor@40 {
+> +               compatible =3D "ti,ina230";
+> +               reg =3D <0x40>;
+> +               shunt-resistor =3D <2000>;
+> +       };
+> +
+> +       power-sensor@41 {
+> +               compatible =3D "ti,ina230";
+> +               reg =3D <0x41>;
+> +               shunt-resistor =3D <2000>;
+> +       };
+> +
+> +       power-sensor@44 {
+> +               compatible =3D "ti,ina230";
+> +               reg =3D <0x44>;
+> +               shunt-resistor =3D <2000>;
+> +       };
+> +
+> +       power-sensor@45 {
+> +               compatible =3D "ti,ina230";
+> +               reg =3D <0x45>;
+> +               shunt-resistor =3D <2000>;
+> +       };
+> +
+> +       temperature-sensor@48 {
+> +               compatible =3D "national,lm75b";
+> +               reg =3D <0x48>;
+> +       };
+> +
+> +       temperature-sensor@49 {
+> +               compatible =3D "national,lm75b";
+> +               reg =3D <0x49>;
+> +       };
+> +
+> +       /* MB FRU */
+> +       eeprom@51 {
+> +               compatible =3D "atmel,24c128";
+> +               reg =3D <0x51>;
+> +       };
+> +};
+> +
+> +/* PROT reserve */
+> +&i2c14 {
+> +       status =3D "okay";
+> +};
+> +
+> +/* MCIO 3A I2C */
+> +&i2c15 {
+> +       status =3D "okay";
+> +};
+> +
+> +&mac2 {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_ncsi3_default>;
+> +       use-ncsi;
+> +       status =3D "okay";
+> +};
+> +
+> +&pinctrl {
+> +       pinctrl_ncsi3_default: ncsi3_default {
+> +               function =3D "RMII3";
+> +               groups =3D "NCSI3";
+> +       };
+> +};
+> +
+> +&sgpiom0 {
+> +       status =3D "okay";
+> +       ngpios =3D <128>;
+> +       bus-frequency =3D <2000000>;
+> +       gpio-line-names =3D
+> +       /*"input pin","output pin"*/
+> +       "SOC_ERROR_N_CPLD","RST_SOC_SRST_N_CPLD",
+> +       "SOC_ELASTOPCLK_N","SOC_BMC_READY_CPLD",
+> +       "SOC_LINKSTOP_N","wIBB_BMC_SRST_OUT",
+> +       "SOC_POST_COMPLETE_CPLD","I3C_MUX_SEL_DIMM_C0_024",
+> +       "SOC_RESETREQ","I3C_MUX_SEL_DIMM_C0_135",
+> +       "SOC_SYS_PWRDN_CPLD","I3C_MUX_SEL_DIMM_C1_024",
+> +       "SOC_PORQ","I3C_MUX_SEL_DIMM_C1_135",
+> +       "SOC_HOT_N_CPLD","BOOT_PWRDIS_CPLD",
+> +       // IOB0-IOB7 bit8-15
+> +       "PWRGD_V1P8_CPU","HDD0_PERST_N_CPLD",
+> +       "PWRGD_V1P26_CPLD","HDD1_PERST_N_CPLD",
+> +       "PWRGD_V1P2","MCIO_1A_PWRDIS_R",
+> +       "","",
+> +       "FM_CONFIG_ID","P3V_BAT_SCALED_EN",
+> +       "wALL_POWER_OK","PERST_CEM0_N_CPLD",
+> +       "wANDGATE_ALL_POWER_GD","PERST_CEM1_N_CPLD",
+> +       "wAC_CYCLE_12V","PERST_PLD_TUSB7340_N",
+> +       // IOC0-IOC7 bit16-23
+> +       "wAC_CYCLE_54V","FM_USB_MUX_SEL_CPLD",
+> +       "FM_PLD_CLKS_DEV_EN","SMB_BOOT_RST_N_CPLD",
+> +       "PWRGD_P1V2_STBY","SMB_MCIO_0A_RST_R_N",
+> +       "wIBB_BMC_SRST","RST_SMB_NIC_R_N",
+> +       "PWRGD_P12V_E1S_0","FM_PPS_NIC_IN_BUF_OE_N_R",
+> +       "PWRGD_P12V_E1S_1","FM_BUF_PPS_NIC_IN_EN_CPLD",
+> +       "","FM_NIC_PPS_IN_OE_CPLD",
+> +       "PWRGD_P12V_NIC","FM_PPS_NIC_IN_S0_CPLD",
+> +       // IOD0-IOD7 bit24-31
+> +       "wALL_POWER_OK_1","FM_NIC_PPS_IN_S1",
+> +       "wALL_POWER_OK_2","FM_PPS_NIC_OUT_CPU_OE_N",
+> +       "PWRGD_EAST_DIMM_CPLD","",
+> +       "PWRGD_WEST_DIMM_CPLD","FM_BUF_PPS_NIC_OUT_EN_CPLD",
+> +       "PWRGD_NIC_CPLD","",
+> +       "","PMBUS_MUX_SEL_C0",
+> +       "PHOENIX_PWRBTN_N_CPLD","PMBUS_MUX_SEL_C1",
+> +       "IRQ_INA230_E1S_0_ALERT_N","",
+> +       // IOE0-IOE7 bit32-39
+> +       "IRQ_INA230_E1S_1_ALERT_N","PWR_ON_RST_TUSB7340_CPLD",
+> +       "","RST_PCIE_BOOT_PERST_N_CPLD",
+> +       "FM_NIC_WAKE_N_CPLD","RST_PCIE_CPLD_NIC_N_CPLD",
+> +       "FM_TPM_CONN_PRSNT_N","RST_PCIE_MCIO_0A_PERST_N_CPLD",
+> +       "HDD0_PRSNT_N_CPLD","RST_PCIE_MCIO_0B_PERST_N_CPLD",
+> +       "IRQ_INA230_P12V_NIC_ALERT_N","RST_PCIE_MCIO_1A_PERST_N_CPLD",
+> +       "IRQ_INA230_P12V_SCM_ALERT_N","RST_PCIE_MCIO_1A_SA_PERST_N_CPL",
+> +       "IRQ_PMBUS_ALERT_PWR11_R_N","RST_PCIE_MCIO_1B_PERST_N_CPLD",
+> +       // IOF0-IOF7 bit40-47
+> +       "CHASSIS_LEAK_2A_R_N","RST_PCIE_MCIO_2A_PERST_N_CPLD",
+> +       "CHASSIS_LEAK_3A_R_N","RST_PCIE_MCIO_2B_PERST_N_CPLD",
+> +       "CHASSIS_LEAK_4A_R_N","RST_PCIE_MCIO_3A_PERST_N_CPLD",
+> +       "OC_ALERT_PADDLE_R_N","RST_PCIE_MCIO_3B_PERST_N_CPLD",
+> +       "OC_ALERT_PWR2_R_N","RST_PCIE_MCIO_4A_PERST_N_CPLD",
+> +       "OC_ALERT_PWR11_R_N","RST_PCIE_MCIO_4B_PERST_N_CPLD",
+> +       "FM_IOE_ALT_N","RST_PERST1_N_CPLD",
+> +       "LEAK_DETECT_1_PWR14_R_N","RST_PERST2_N_CPLD",
+> +       // IOG0-IOG7 bit48-55
+> +       "LEAK_DETECT_2_PWR14_R_N","RST_PERST3_N_CPLD",
+> +       "LEAK_DETECT_1_PWR15_R_N","RST_SMB_MUX_MCIO_0A_R_N",
+> +       "LEAK_DETECT_2_PWR15_R_N","RST_SMB_MUX_MCIO_1A_R_N",
+> +       "MCIO_0A_SMB_ALERT_N","RST_SOC_EXTWARMRESET_CPLD",
+> +       "MCIO_1A_SMB_ALERT_N","RST_SOC_PORESET_N_BMC",
+> +       "MCIO_2A_SMB_ALERT_N","RST_USB_HUB_R_N",
+> +       "MCIO_2B_SMB_ALERT_N","SMB_MM7_MUX_RESET_N",
+> +       "MCIO_3A_SMB_ALERT_N","SMB_MUX_RESET_N_CPLD",
+> +       // IOH0-IOH7 bit56-63
+> +       "MCIO_3B_SMB_ALERT_N","SOC_I2C_0_ALERT_CPLD",
+> +       "MCIO_4A_SMB_ALERT_N","SOC_LINKSTOP_OUT_N",
+> +       "MCIO_4B_SMB_ALERT_N","SPI_TPM_RST_R_N",
+> +       "MCIO_1A_THERMTRIP_N","",
+> +       "MCIO_2A_THERMTRIP_N","",
+> +       "MCIO_3A_THERMTRIP_N","",
+> +       "MCIO_4A_THERMTRIP_N_CPLD","",
+> +       "UV_ALERT_PADDLE_R_N","wFM_USB_MUX_OE_N",
+> +       // IOI0-IOI7 bit64-71
+> +       "UV_ALERT_PWR2_R_N","wFM_USB_MUX_SEL",
+> +       "UV_ALERT_PWR11_R_N","",
+> +       "SOC_PMBUS_0_ALERT_R_CPLD","FM_BIOS_DEBUG_MODE_N",
+> +       "HDD1_PRSNT_N_CPLD","",
+> +       "","",
+> +       "SOC_DRAM_0_HOT_N_CPLD","",
+> +       "SOC_DRAM_1_HOT_N_CPLD","RST_PLTRST_PLD_B_N",
+> +       "SOC_DRAM_2_HOT_N_CPLD","FM_TPM_MUX6_SEL",
+> +       // IOJ0-IOJ7 bit72-79
+> +       "SOC_DRAM_3_HOT_N_CPLD","CPLD_MUX6_EN_N",
+> +       "IRQ_P3V3_NIC_FLT_MOS_N_CPLD","",
+> +       "VRHOT_V0P75_PCIE_VDDQ_N","",
+> +       "P12V_SCM_FAULT_R_N","",
+> +       "SOC_I2C_1_ALERT_CPLD","",
+> +       "","",
+> +       "SOC_PLATHOT_N_CPLD","",
+> +       "SOC_THRMTRIP_N_CPLD","",
+> +       // IOK0-IOK7 bit80-87
+> +       "VRHOT_VCPUC1_VCPUMC1_N","",
+> +       "VRHOT_VSYSC0_VSOCC0_N","",
+> +       "VRHOT_VSYSC1_VSOCC1_N","",
+> +       "VRHOT_VCPUC0_VCPUMC0_N","",
+> +       "","",
+> +       "INT_IOEXP_N","",
+> +       "RSVD_IOEXP_0A_SB1_R","",
+> +       "RSVD_IOEXP_0A_SB2_R","",
+> +       // IOL0-IOL7 bit88-95
+> +       "IRQ_PMBUS_PWR2_ALERT_R_N","",
+> +       "FM_BORD_REV_ID0","",
+> +       "FM_BORD_REV_ID1","",
+> +       "FM_BORD_REV_ID2","",
+> +       "FM_VR_TYPE_0","",
+> +       "FM_VR_TYPE_1","",
+> +       "","",
+> +       "MCIO_0B_SMB_ALERT_N","",
+> +       // IOM0-IOM7 bit96-103
+> +       "MCIO_1B_SMB_ALERT_N","",
+> +       "PRSNT_BOOT_N","",
+> +       "PRSNT_MCIO_1A_N","",
+> +       "wPRSNT_NIC_N","",
+> +       "","",
+> +       "SOC_TEST_MODE0","",
+> +       "PWRGD_V0P75_PCIE","",
+> +       "PWRGD_VDDQ","",
+> +       // ION0-ION7 bit104-111
+> +       "PWRGD_VCPUC0","",
+> +       "PWRGD_VCPUMC0","",
+> +       "PWRGD_VCPUMC1","",
+> +       "PWRGD_VCPUC1","",
+> +       "PWRGD_VSYSC0","",
+> +       "PWRGD_VSOCC0","",
+> +       "PWRGD_VSYSC1","",
+> +       "PWRGD_VSOCC1","",
+> +       // IOO0-IOO7 bit112-119
+> +       "SOC_PMBUS_1_ALERT_R_CPLD","",
+> +       "SOC_GPIO_15","",
+> +       "C0_POSTCODE_0_CPLD","",
+> +       "C0_POSTCODE_1_CPLD","",
+> +       "C0_POSTCODE_2_CPLD","",
+> +       "C0_POSTCODE_3_CPLD","",
+> +       "C0_POSTCODE_4_CPLD","",
+> +       "C1_POSTCODE_0_CPLD","",
+> +       // IOP0-IOP7 bit 120-127
+> +       "C1_POSTCODE_1_CPLD","",
+> +       "C1_POSTCODE_2_CPLD","",
+> +       "C1_POSTCODE_3_CPLD","",
+> +       "C1_POSTCODE_4_CPLD","",
+> +       "","",
+> +       "SOC_GPIO_17","",
+> +       "SOC_GPIO_18","",
+> +       "SOC_GPIO_37","";
+> +};
+> +
+> +/* BIOS Flash */
+> +&spi2 {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_spi2_default>;
+> +       status =3D "okay";
+> +
+> +       flash@0 {
+> +               m25p,fast-read;
+> +               label =3D "pnor";
+> +               spi-max-frequency =3D <12000000>;
+> +               spi-tx-bus-width =3D <2>;
+> +               spi-rx-bus-width =3D <2>;
+> +               status =3D "okay";
+> +       };
+> +};
+> +
+> +&uart1 {
+> +       status =3D "okay";
+> +};
+> +
+> +&uart2 {
+> +       status =3D "okay";
+> +};
+> +
+> +/* SOL */
+> +&uart3 {
+> +       status =3D "okay";
+> +};
+> +
+> +&uart4 {
+> +       status =3D "okay";
+> +};
+> +
+> +/* BMC Console */
+> +&uart5 {
+> +       status =3D "okay";
+> +};
+> +
+> +&wdt1 {
+> +       pinctrl-names =3D "default";
+> +       pinctrl-0 =3D <&pinctrl_wdtrst1_default>;
+> +       aspeed,reset-type =3D "soc";
+> +       aspeed,external-signal;
+> +       aspeed,ext-push-pull;
+> +       aspeed,ext-active-high;
+> +       aspeed,ext-pulse-duration =3D <256>;
+> +       status =3D "okay";
+> +};
+> --
+> 2.25.1
+>=20
+
 
