@@ -1,65 +1,62 @@
-Return-Path: <linux-aspeed+bounces-4067-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4068-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EF3rAfsGC2r4/QQAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4067-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 14:32:59 +0200
+	id EJO9HMAJC2o0/gQAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4068-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 14:44:48 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321B756CB89
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 14:32:58 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7FB56CED7
+	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 14:44:47 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gJxzC6MWgz2xpn;
-	Mon, 18 May 2026 22:32:55 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gJyDr5t2Hz2xpn;
+	Mon, 18 May 2026 22:44:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779107575;
-	cv=none; b=Pu4l2X/Sk2q2cFM9Qel2u4eeHj/hUVZW5WkzTLaGK/kevxxr6PKkI6G3RQihe1iFKNxGJm/XsCr+0BVCDRzZJkaYejLH0u9jd83ROidr1MI+FT/7NSxSDFdk3KTxfXQzI7DAn6QOZCZIlu2Kzg6fEMpkmBgl20XTY5NW+5vf3gjjnWlJ65ib+Ob/6HPJZ4j3kzSBOziTrb2OuQaaCaUoLxEzuNpSVH/UECg9cfLjPXoCi1FjcPtgeYEtIoYdzp+Zmjpyd6O+vEMAisOeCYJMoudXxBz/y50K1n/6F5mGH3uSxv8QJzGtGWSGWTiFyU0+RJUJUvWQIs0BuMVvaHaHjw==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779108284;
+	cv=none; b=bdTlwkldKHv5ux6g3wPSOhjp3Pwn3nAlRtxfMRwPqph5N+ibSdqQ9z2LO/T8zDORUa+U6Cf6Jqni4ymE7ReOdS/tt14XJR0Qcsyg7OnOId+QSBbTB+ma1Xv6gGTZtdMT+vy0D8OUysT8byLblWYAYNn4wcdl+HHHfwMQVaiow7GEDIroWeH7d561EIEM+eVTWIrt+HbPJ6WLhZ/lSo7jTOAMEaPeJVedEwS5FNPf/r8X/nZZmu7Qz/IqRC2BhaM4dB/dUh7EclOm6XZTIcjhg1NkCVUSDkQttc8vtj0E4mUv0KUcUT4EzeSP9ciAD3I4mk3aKw2kcWHtNcjPkdA0QQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1779107575; c=relaxed/relaxed;
-	bh=elZboa60W0l96YHBweGgGvjS5bMO7+rmrRZ0Og9GkKg=;
+	t=1779108284; c=relaxed/relaxed;
+	bh=4IF51GdbnS/AbW4GBneN2UV/oYwSAiI9JfLmhOXBoDE=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dHIjxvxZeLtkn4fMaHTG+hGPgG3Q6fJP4N8wyOEjaqhNIhu27pzrM0nhCpMvlFNtam0sqhpQdObbBR6wRGrl05lh6rElz/GaZNj4BWtNsruHlN8YKChOjqdSTy2GvJNK+5QJJ9YTqQpmAdQmcMrIkqRYQK05B3winMhik8FIrY2u+7iZsHAv0MGx52N7/76qHXBGmpAx3S1MQmsajq5VW5NebEyuYsTdQbGVeenoJpkhE/p17rngi11Ocyz9Enxgh64WEsMt9GR/G5sXLGO/mCVzwoYMT/J05FavR0MdybJXel3WBCdcreWv3hk9OleNCQyPEGdJ5crZqP1I/cKaIQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=VVXe8bcd; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+	 Content-Type:MIME-Version; b=RonPcXXAxqkQxPcMWABch5lPVcF5I3NlVM3+6sthtX9soUtgthohJeDIFdj58ESFbA0P/pdDKOUX9YvOF+LR5wnTsMEYRFgPqsvt8FcOLXLMNkcBebvTxH6yCMLw4j81SPbTQzDPNv/Xm2mkncUkfqQRN+o7kOtZlMsn6RGmrQrY1p5Vicp62lEg7+EV+yMcMV5LcnUnFHqAgVHf4RVBNr7A02wR4SL0p+VT1oEf8ljlJCrn0R5SXa0i5Jd+p1rqMcfa3WCb5hlf0DzTMXxXSR3Sj9FFzwU+NzQ6eGxI3GIWBrCID2kcD1KV4UTSiZtqjT4S2F0W3FmQLZ6No2JhTA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=BDt8C0Ok; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=VVXe8bcd;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=BDt8C0Ok;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gJxzB5WyFz2xPb
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 18 May 2026 22:32:54 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gJyDq3wLHz2xPb
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 18 May 2026 22:44:43 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1779107574;
-	bh=elZboa60W0l96YHBweGgGvjS5bMO7+rmrRZ0Og9GkKg=;
+	d=codeconstruct.com.au; s=2022a; t=1779108282;
+	bh=4IF51GdbnS/AbW4GBneN2UV/oYwSAiI9JfLmhOXBoDE=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=VVXe8bcdr8e3oLxsXRO+S/CqsgNrAYlHzNMC8MHgMfpiXPYRfIljG3Uj0CuGd9tEE
-	 LYdjNoSTbJG/XzayYLR7ggKfb2RsYRlwumBGLzZA3AXZUxfXrMdL4J3VKZjkf+scU+
-	 +D3GPymW0SVfw5MmkTXdW12gF2ZUlx5UctiERtufaufsK+Wkiyq2+PTJZqAnfI+4Iw
-	 lsRlI+WaKxDQUTDaEhVTWDbzHR4v0la5YgAZKNvBoJmmr05Eh9cYQjPEZiRHY95TKU
-	 KAl8taOkfCxK7Teumesgv5Hyb75fskpRBlyXEuRWERoXaNWrGS6NXokp8rQrRgnY52
-	 GOpXiWy6cXkrQ==
+	b=BDt8C0OkBSQcnW7/1xvJxhotX3+2n13X9/gHnD8iePUW5e8BDgq81Zdm6eMVPKCzx
+	 2VP2XstaaU9gPDQjOGSoYRaVkiBdKqvM2sCiTja6tpkG2pxgFfe723f08OKT77mr5o
+	 SPZZo2Unl4aF1PF3y/ZrgpmeFxeTEh3Q8/yEmY58IUYTtp9DrM6oXbnmkUOmH3yucC
+	 FO03HryBi27TwBpJAMmfEytSz5Cc92qtC/+wpPaqiCiG+If1uK0rkfHaCrPqU1bv81
+	 crWRZ9S6uf61g6pGVlNcYh6Tm8OqgBZDXI8M1nC9arzCQC6EubuffZFuOKmjLFIc7/
+	 /Uc53lejPZH5A==
 Received: from [192.168.68.117] (unknown [180.150.112.11])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 9C6D26024D;
-	Mon, 18 May 2026 20:32:53 +0800 (AWST)
-Message-ID: <64f6ad212446c55780601a6477478b5ace09d930.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v3] ARM: dts: aspeed: anacapa: Add eeprom device node
- for NFC adaptor board
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 638D36025D;
+	Mon, 18 May 2026 20:44:42 +0800 (AWST)
+Message-ID: <64ab943e8874bd5ef22c0f1a19b7d89daea83a9e.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v2] ARM: dts: aspeed: yosemite5: Add MP5998 power monitor
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: carl.lee@amd.com, Colin Huang <u8813345@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-  Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
- devicetree@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, 	linux-kernel@vger.kernel.org,
- peter.shen@amd.com, colin.huang2@amd.com
-Date: Mon, 18 May 2026 22:02:53 +0930
-In-Reply-To: <20260331-arm-dts-aspeed-anacapa-add-eeprom-device-v3-1-2bb2226fbb4e@amd.com>
-References: 
-	<20260331-arm-dts-aspeed-anacapa-add-eeprom-device-v3-1-2bb2226fbb4e@amd.com>
+To: Daniel Hsu <d486250@gmail.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ joel@jms.id.au, 	devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, 	linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, Daniel Hsu	 <Daniel-Hsu@quantatw.com>
+Date: Mon, 18 May 2026 22:14:42 +0930
+In-Reply-To: <20260331120734.39260-1-Daniel-Hsu@quantatw.com>
+References: <20260331120734.39260-1-Daniel-Hsu@quantatw.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2-0+deb13u1 
@@ -80,55 +77,80 @@ X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Rspamd-Queue-Id: 321B756CB89
+X-Rspamd-Queue-Id: 2B7FB56CED7
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[codeconstruct.com.au,none];
-	MAILLIST(-0.20)[generic];
 	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4067-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[amd.com,gmail.com];
-	FORGED_SENDER(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:carl.lee@amd.com,m:u8813345@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:peter.shen@amd.com,m:colin.huang2@amd.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-4068-lists,linux-aspeed=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_RECIPIENTS(0.00)[m:d486250@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:Daniel-Hsu@quantatw.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	MIME_TRACE(0.00)[0:+];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-Hi Carl,
+Hi Daniel,
 
-Sorry for the delay.
-
-On Tue, 2026-03-31 at 16:02 +0800, Carl Lee via B4 Relay wrote:
-> From: Carl Lee <carl.lee@amd.com>
+On Tue, 2026-03-31 at 20:07 +0800, Daniel Hsu wrote:
+> Add an MP5998 power monitor used to monitor the power consumption
+> of the Paddle_P12V_HSC rail on the Yosemite5 paddle board.
 >=20
-> Add eeprom device node for NFC adaptor board FRU.
+> [v2]
+> - Describe the purpose of the power monitor
+> - Remove software/driver related description
 >=20
-> Signed-off-by: Carl Lee <carl.lee@amd.com>
+> Signed-off-by: Daniel Hsu <Daniel-Hsu@quantatw.com>
 
-Do you mind coordinating with Colin to integrate this change? He is in
-the process of reorganising the Anacapa devicetrees.
+I've applied this to the BMC tree. However, in the future, the
+changelog for the series should go underneath '---' below, so it's not
+included in the commit message when the patch is applied.
 
 Andrew
+
+> ---
+> =C2=A0arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts | 5 ++++=
++
+> =C2=A01 file changed, 5 insertions(+)
+>=20
+> diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts b=
+/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts
+> index 2486981f3d6b..6287f80d70d9 100644
+> --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts
+> +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dts
+> @@ -422,6 +422,11 @@ power-sensor@45 {
+> =C2=A0		shunt-resistor =3D <1000>;
+> =C2=A0	};
+> =C2=A0
+> +	power-monitor@46 {
+> +		compatible =3D "mps,mp5998";
+> +		reg =3D <0x46>;
+> +	};
+> +
+> =C2=A0	power-monitor@47 {
+> =C2=A0		compatible =3D "ti,tps25990";
+> =C2=A0		reg =3D <0x47>;
 
