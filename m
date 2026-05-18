@@ -1,66 +1,96 @@
-Return-Path: <linux-aspeed+bounces-4073-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4076-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uOs+JyI+C2oJFAUAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4073-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 18:28:18 +0200
+	id EC2pNx2mC2ozKgUAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4076-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 May 2026 01:51:57 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4F0570E66
-	for <lists+linux-aspeed@lfdr.de>; Mon, 18 May 2026 18:28:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 056D5575326
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 May 2026 01:51:56 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gK3Bk0H7Rz2xrC;
-	Tue, 19 May 2026 02:28:14 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gKF2K0dcxz2yRG;
+	Tue, 19 May 2026 09:51:37 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2600:3c0a:e001:78e:0:1991:8:25"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779121693;
-	cv=none; b=QXRXHDW0NTROQfLgYdakSFjoVnbrHIYrv42yAGafIlMV7GWGlZIefN/R0+YwFRmUwbP5+hX+NE8YxJA6Xpi2JfDuXb38mZQq9UfcRCq5X/XQLcYxA3rZ6dE8fERoxORoRvGIypxq6TrzPfFvZ+BtVJMtpuu6mqVNmg0+TSA6vnLKMIsTgBn/tdPAtIvXXig0NjjAaKTXn8alIHFYJOjOWcaM18tt97vQeWAnWkmlGdZN1nAF1KPr/FuI0ytxFXA0lYqkceE48Rhf07/chCoqg6Xh6LsW5LspbLOTvBA7pOI+zom31bGyGrBWIelukB1RAuPvPozuAB7UjSv0rE7naQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1779121693; c=relaxed/relaxed;
-	bh=3jGoaYLrIdfY8fxCt8RE2gFSjMDiP51+IVix3OYHhPU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z0qZdQCX5yIaO1OMV1o2hw9hZD83WMSTf3zklVw+UsArKc1H9TRh6cayatapIRW9QQAvYRo2PxOSBiUM3klZKVdELMO+6XdqbF5utQfJRRflF3iRmm9L+fM/rGxotIi1UplxZt+CD5V3FmtE/gn/yyTCIqDXjmYnsndQdCXJEI5IN7nqQEG+InUXOwnD6rKWXr70+PibsRqS0TBHZw5DHY734TcX1s5pJ0t+mLAxw+xkuSHTcIiu7p+c8bz6EgRzaRu28CzRHrHjF713ZODm4EtcUBLrzBI4RdsM4gW7FZA+XVsyCvuo8U7m9pEuC7BGVpbyY2d6EdyMokdsnWPg9A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=p7ExYI8T; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2607:f8b0:4864:20::b12a" arc.chain=google.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779128164;
+	cv=pass; b=Y6/fk+NWmTKaMB7UqDz6Vy/M80/4uNS3GzJa+Zb+jGgciFtvUXriNz2zvbDFFspBepq7cejNOoGUgDlji2c7qsjtw8I2WaPuXYFOXdfNdI+Wc83QUwz+aqQ6v5JPIgEfvmvTNi1XTCckxsPd/Fa2lbvnZZKnZDWFDezMDsOFc4zlmBLLFkqNqGsQrV4QBphrcQBIg42z2qIkPppnwRWpZvBhbk1OzAGOhILndNF9GPUzumgIOJES5U8/ya0oLHhrGwnvXXXt/DltYIDTykyyKfd9NyCpx9FHsDKm5fZWB6b7H/uWo7guZXO/6hsJxSlWh2n9AJoqoLSWby9eJ2rOdA==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1779128164; c=relaxed/relaxed;
+	bh=pmFnTQUJEBfvGMlAcK3/VbLVmpdj7K5UAInNPmwJs08=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XmqP4FX4W8tqhdKSa9H8MDk+iw5RG8O+iCzT+Z5FlRpcSwyFYnS+958MdmFFQXoraYnyY99skfNaRtCzK0LqFBPIbsayk2HEYyehy5elsrATsBUitjn8naZuSxh33R7ZUg7MSTdXPTgEErtC+oY0hv05Rhs0p5f70LTk6UOsQciq11rKlWWT9Dgnckmxd2CvwsM58PGeF+IdaW7+3I+EXPzUoWxu3h9nh1jB0EjT+C1dQCAaH/roxF4A4xjGWJ2GZIxaOdRTybGa58bLo2jMuEbbw3wuDf8zrN5ZPVPO6oKcZA3DaJK4IQM1kcVhVC60tJDUrfqYpfCMdZrCB6KN1w==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=oH/+1yR8; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::b12a; helo=mail-yx1-xb12a.google.com; envelope-from=prasanth.padarthi10@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=p7ExYI8T;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=oH/+1yR8;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=kernel.org (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org)
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::b12a; helo=mail-yx1-xb12a.google.com; envelope-from=prasanth.padarthi10@gmail.com; receiver=lists.ozlabs.org)
+Received: from mail-yx1-xb12a.google.com (mail-yx1-xb12a.google.com [IPv6:2607:f8b0:4864:20::b12a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gK3Bj2xK2z2xpn
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 19 May 2026 02:28:13 +1000 (AEST)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id 800B54343D;
-	Mon, 18 May 2026 16:28:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6FF6C2BCB7;
-	Mon, 18 May 2026 16:28:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779121690;
-	bh=3jGoaYLrIdfY8fxCt8RE2gFSjMDiP51+IVix3OYHhPU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p7ExYI8TItuqZz95XMRoZ60wsT3UBHH2czPLr5/hOQB77QY5jQITBge2xlNIE8AU5
-	 Cd0yMJccZO37BZlp4CSoOlnL6pKqrLS9AB00DVqJEdwEElj1djSAdXCcCbPfLBYDIc
-	 y0wr49RKJ5QoWDhKZCXz9PsOGJtOkdPnpO67XXfslPcJrojB6I2crWCJuJVyshJ5mp
-	 /JAVg1+isUTuinLFcZ2Ttug/pj3bhbuIL2qERaPCyvdFsE7ur2Ak8laaFj31/A6+Dq
-	 wBfAvnmllN92N02lhiySqatuyuNrOXtfqogL0yUJKMjI1Ji+FdUhSa7OSp76aK+0fQ
-	 XOLggQ0TPB4OQ==
-Date: Mon, 18 May 2026 17:28:05 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Neil Cheng <neilcheng0417@gmail.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	joel@jms.id.au, andrew@codeconstruct.com.au,
-	geert+renesas@glider.be, magnus.damm@gmail.com,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: arm: aspeed: Add Meta Rainiera6 board
-Message-ID: <20260518-contented-untimed-85b12903469f@spud>
-References: <cover.1779088499.git.neilcheng0417@gmail.com>
- <4f7aee0a2dfc44770347ccc82e54820e7b35317c.1779088499.git.neilcheng0417@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gK5b65DYvz2xpn
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 19 May 2026 04:16:02 +1000 (AEST)
+Received: by mail-yx1-xb12a.google.com with SMTP id 956f58d0204a3-654672a6d68so2682491d50.0
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 18 May 2026 11:16:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779128160; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YTq+Pl8oitt57QW9gyz/7RxNcJ2HSqAVW8pp19aFRaqc6lV9ZlZMyZnjB0ptA2LvNq
+         9F7ZfHZknRonT+2Sm2gaDeXRCiyUxFnt5Lh9WYSK8cr8n4xnjDwjPEI1mj+I+quU4Kcm
+         tL+2ROMn+8MPTG+rW2RDDdCNZ9GmJc4iCa/Z/TwzJltUAZH2nXOH52+hTguuBS6o10Kl
+         JYmC3VPhQr00O1peU1mda4/wKtND5kNXg1nUyjxlnFVhSFZWt74PggJw2hmx4UmntVJM
+         B5diYXxI7f3A453UP0GgHi/HVcj1ZIt4uiamJstt4P52f7JcgWi8TxvaUnzBuoXn8xoy
+         Fc1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=pmFnTQUJEBfvGMlAcK3/VbLVmpdj7K5UAInNPmwJs08=;
+        fh=gZYiAgf2Tv9A43rQpLX4VukvU3NWGTGDB2T/JnkAWl0=;
+        b=ARdy5evJkAQdxwh4ohgrsbcyTOcm4NRa530PRdX/L+1MDXLe0/WWSwaDBHp+9REWjm
+         5cek/M2GMUS6a9ZkxV8TUoYcKmCm6bqXAbbU4kSoIetm/2FDtDee8meDBs7tR3tptm5q
+         vcCSdK47U5lLdGLjneN626guhDWRsYxmYb8NIVelA5wIO+sW9bdMxjH/5AkDFGthKDGf
+         yvaZqIJrqrjuUiUFMwMyMul4ELX5MswUfbVPJIpSVzTRvnuzwffSc/teB1OEYIwaks5O
+         wO9RYS+abZnfJ68izHzB5mWhxkHQGvYPvoDQb9wlHpsyzL+DIDrVV+ctXCdpiwxfDW5U
+         /o+A==;
+        darn=lists.ozlabs.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779128160; x=1779732960; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pmFnTQUJEBfvGMlAcK3/VbLVmpdj7K5UAInNPmwJs08=;
+        b=oH/+1yR8ikzMPqwiHPb5FcsvQNXyKmLKzBqeIPhqIXrKrchCsVwNPj/Ym/OrsbwaxH
+         MR/gkgKWOU/PWfVboHbjrFVxuGX0gQlkeXQ/No0tH1vwDDrOnZ+0Fjma1THPbGkvphpV
+         0RjUwBfA0+AXMr7mQf8eu0EuIbu9PkKFgu03tdCOg/rMngEJyLpxdWeTuT3EuBOxAD63
+         O0EfKaiTYmRVEi/bgJNR/0dTGPwigSrvnvtaXbIBc8muAaBmln8o4KiVhCj4fi/pdV/W
+         2lT/VwDv3NcMb4Cnw5qvBwgGcLIo9/rGGDIdU68mluvK+cPpwJe57PTlcX/G3OJKCFhC
+         bqkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779128160; x=1779732960;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pmFnTQUJEBfvGMlAcK3/VbLVmpdj7K5UAInNPmwJs08=;
+        b=l833kCHqxAaAeFcRWVCI1v1Pbtxxq9/Y/xSjF+pD/0UQDMKEzlZMUigNnnbCbVvHRG
+         b9Wub14sPv37XbrgnMOyoMPuNMAAkSqWZKRJAHy0SyNEzv0ymCMNStSXPWUpHfKV6a+q
+         Pdqtn1EeZ7smSlZ+d2JlQcRXzajwoDzbLCC1Wo2oUbaPjd+k/OAt1fShvibD1zmorMRX
+         6MPhocwhytSgV691k5tFxRww8T20eWDRPHVmyPYMVr+aJULuG0+vMv7ma+myEhcB4sfy
+         u5d5xhzN5GAmqhX4n7KkFpRemWWqDFA2wJI104tuuUbCOm3lRwfGlcizwP0Rd2AB+VJf
+         NtDw==
+X-Forwarded-Encrypted: i=1; AFNElJ9mGfrjdCo1u/488qpsM4qI5khgRDcpoW7NcWNKcmfM7WXxbX4v3quot7DnI8B7sZ0kH50dY2yvmkDpbow=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YzbVZoSYrjYM7FdTbLvFWAjmIy8JzxRzKD/b5XhijBi5NLD9Ngf
+	f5RRzAvkkkVM2r198h5CJ5wXuOqmN0jwHL0QTK6El3tQ0TZwYnj9PE/AEM5KHs5muj68UJU8fE8
+	aXpssiV2INkub3b2T20mkAuGyf6T0GN8=
+X-Gm-Gg: Acq92OGgrPNPt3L2i+8JgUD8WK4Dg6p099dI56X+LA67adfoMWJr2i07zfCBGmlG8ej
+	cKNY6hec2fXGXhJDxVPR4yVcIN4e+0c3MN5ppnPNBowDud0x2dIrG98pNmuvm+TLguXDhxxmWlD
+	fR5AXKRvapm91AEjKxx23BBHhr7WsRml0S0Qkt0Kr2xr9fF2l95wI32ZJJ9dzi0vBv/17zRn0cz
+	diD1XnBJrSzcwZeId1vrambZ2uLJUt1L4Pn7tL2UTuOFj2ZO56DOrXYf634sX5vIjiDYAX5rXyw
+	31jYmy33
+X-Received: by 2002:a05:690e:1301:b0:65e:28f3:4a5a with SMTP id
+ 956f58d0204a3-65e28f3509fmr15152238d50.37.1779128159777; Mon, 18 May 2026
+ 11:15:59 -0700 (PDT)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -74,71 +104,153 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="D4Ni9Iy8zbLh/XVa"
-Content-Disposition: inline
-In-Reply-To: <4f7aee0a2dfc44770347ccc82e54820e7b35317c.1779088499.git.neilcheng0417@gmail.com>
-X-Spam-Status: No, score=-0.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+References: <20260518033440.17569-1-prasanth.padarthi10@gmail.com>
+ <20260518033440.17569-3-prasanth.padarthi10@gmail.com> <ddb781dd-e117-4f9a-a5a3-94c192d8c2ef@lunn.ch>
+ <CAMFFDGg++xLX+DzTnKVZRdbs=_3SrNfDydezRQgRjCBU5R3-KQ@mail.gmail.com>
+In-Reply-To: <CAMFFDGg++xLX+DzTnKVZRdbs=_3SrNfDydezRQgRjCBU5R3-KQ@mail.gmail.com>
+From: Prasanth <prasanth.padarthi10@gmail.com>
+Date: Mon, 18 May 2026 23:45:48 +0530
+X-Gm-Features: AVHnY4LQzv2FiwHUhuNMKFFnaG37RaaFKQln7w4GleJGhC4Dsjf6HG5KpO6VTss
+Message-ID: <CAMFFDGgFBs2y47draLM1B6Gm5a1y-LDQ318dsxM47J5_nFJ6Kg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] ARM: dts: aspeed: Add ASRock Rack B650D4U BMC
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: joel@jms.id.au, andrew@codeconstruct.com.au, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, andrew+netdev@lunn.ch, 
+	devicetree@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/alternative; boundary="000000000000f9375a06521b8d3f"
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+	HTML_MESSAGE,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[generic];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:neilcheng0417@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[conor@kernel.org,linux-aspeed@lists.ozlabs.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[bounces-4076-lists,linux-aspeed=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:andrew@lunn.ch,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrew+netdev@lunn.ch,m:devicetree@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[prasanthpadarthi10@gmail.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	TAGGED_FROM(0.00)[bounces-4073-lists,linux-aspeed=lfdr.de];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-aspeed@lists.ozlabs.org];
-	FREEMAIL_CC(0.00)[kernel.org,jms.id.au,codeconstruct.com.au,glider.be,gmail.com,vger.kernel.org,lists.infradead.org,lists.ozlabs.org];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt,renesas];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[prasanthpadarthi10@gmail.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt,netdev];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:rdns,lists.ozlabs.org:helo]
-X-Rspamd-Queue-Id: 9F4F0570E66
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:rdns,lists.ozlabs.org:helo,mail.gmail.com:mid,lunn.ch:email]
+X-Rspamd-Queue-Id: 056D5575326
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+--000000000000f9375a06521b8d3f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---D4Ni9Iy8zbLh/XVa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi Andrew,
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+Understood. I will not rely only on the vendor DTB value for this.
 
---D4Ni9Iy8zbLh/XVa
-Content-Type: application/pgp-signature; name="signature.asc"
+For the next revision, I will drop rgmii-rxid and use the conservative rgmi=
+i
+setting unless I can provide board-level evidence that the required RGMII
+delay is added by the PCB/PHY configuration.
 
------BEGIN PGP SIGNATURE-----
+I am arranging hardware validation for this board, and I will update the
+Ethernet node only with evidence from the board/manual/logs.
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCags+FQAKCRB4tDGHoIJi
-0h/xAQD/GO09ESffxZeEWy0y0qDA2FYxyklacN0+YEI/W2UZ3wD9EAzOZtufjk4m
-QRtp9ItGZJ9m+ezm/FyqrNQTH/CIlg4=
-=dcZV
------END PGP SIGNATURE-----
+Thanks,
+Prasanth
 
---D4Ni9Iy8zbLh/XVa--
+
+On Mon, May 18, 2026 at 5:52=E2=80=AFPM Prasanth <prasanth.padarthi10@gmail=
+.com>
+wrote:
+
+> Hi Andrew,
+>
+> Understood. I will not rely only on the vendor DTB value for this.
+>
+> For the next revision, I will drop rgmii-rxid and use the conservative
+> rgmii setting unless I can provide board-level evidence that the required
+> RGMII delay is added by the PCB/PHY configuration.
+>
+> I am arranging hardware validation for this board, and I will update the
+> Ethernet node only with evidence from the board/manual/logs.
+>
+> Thanks,
+> Prasanth
+>
+> On Mon, 18 May, 2026, 5:42=E2=80=AFpm Andrew Lunn, <andrew@lunn.ch> wrote=
+:
+>
+>> > +&mac0 {
+>> > +     status =3D "okay";
+>> > +     phy-mode =3D "rgmii-rxid";
+>>
+>> It does not matter if this is what the vendor does, it is still wrong,
+>> unless you can show the PCB is adding the delay.
+>>
+>>    Andrew
+>>
+>
+
+--000000000000f9375a06521b8d3f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"auto"><p>Hi Andrew,</p><p>Understood. I will n=
+ot rely only on the vendor DTB value for this.</p><p>For the next revision,=
+ I will drop <code dir=3D"ltr">rgmii-rxid</code> and use the conservative <=
+code dir=3D"ltr">rgmii</code> setting unless I can provide board-level evid=
+ence that the required RGMII delay is added by the PCB/PHY configuration.</=
+p><p>I
+ am arranging hardware validation for this board, and I will update the=20
+Ethernet node only with evidence from the board/manual/logs.</p><p>Thanks,<=
+br>Prasanth</p></div><br></div><br><div class=3D"gmail_quote gmail_quote_co=
+ntainer"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 18, 2026 at 5:52=
+=E2=80=AFPM Prasanth &lt;<a href=3D"mailto:prasanth.padarthi10@gmail.com">p=
+rasanth.padarthi10@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex"><div dir=3D"auto"><p>Hi Andrew,</p><p>Understoo=
+d. I will not rely only on the vendor DTB value for this.</p><p>For the nex=
+t revision, I will drop <code dir=3D"ltr">rgmii-rxid</code> and use the con=
+servative <code dir=3D"ltr">rgmii</code> setting unless I can provide board=
+-level evidence that the required RGMII delay is added by the PCB/PHY confi=
+guration.</p><p>I am arranging hardware validation for this board, and I wi=
+ll update the Ethernet node only with evidence from the board/manual/logs.<=
+/p><p>Thanks,<br>Prasanth</p></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Mon, 18 May, 2026, 5:42=E2=80=AFpm Andrew =
+Lunn, &lt;<a href=3D"mailto:andrew@lunn.ch" rel=3D"noreferrer" target=3D"_b=
+lank">andrew@lunn.ch</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">&gt; +&amp;mac0 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0status =3D &quot;okay&quot;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0phy-mode =3D &quot;rgmii-rxid&quot;;<br>
+<br>
+It does not matter if this is what the vendor does, it is still wrong,<br>
+unless you can show the PCB is adding the delay.<br>
+<br>
+=C2=A0 =C2=A0Andrew<br>
+</blockquote></div>
+</blockquote></div>
+
+--000000000000f9375a06521b8d3f--
 
