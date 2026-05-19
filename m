@@ -1,97 +1,142 @@
-Return-Path: <linux-aspeed+bounces-4100-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4085-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wO+BHtTHDGrAlwUAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4100-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 May 2026 22:28:04 +0200
+	id W7IqOsvVC2onPAUAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4085-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 May 2026 05:15:23 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1163584B04
-	for <lists+linux-aspeed@lfdr.de>; Tue, 19 May 2026 22:28:03 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D059576C05
+	for <lists+linux-aspeed@lfdr.de>; Tue, 19 May 2026 05:15:21 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gKmSc4rGRz2xwH;
-	Wed, 20 May 2026 06:27:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gKKYL41hXz2yCM;
+	Tue, 19 May 2026 13:15:18 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a00:1450:4864:20::236" arc.chain=google.com
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779158840;
-	cv=pass; b=eqxBf0yky2TvBJBCGlYbvF9IJNxDnAV94qaXpkQPd13UMHwOVmn34lzWrdCHSTeQMMXb1xHGr1JKm8tdlmyljzBc3DO3l7aNtswVp0Sv0W950tQFuwbsqgR2oawKM2KF+081ONBvdLS3AsAoiT3/UZEpdun41Y4lHOEhAoVSgrdK1pq3TH7zYS5IeqbGUqLgCp3yJwb9AiHVoMyS3NEynVId/hycPhLZ3YynXtHmTLgSt+hNtz6l2rd3yZpTfdaQUF7MNodTu2Bjadu10zxh72iDPQkO7uCHYwNbdozP/oXXjwbmSNjkuF2j/HR2J1A/qkJkKrcQffxju/KuVECcGQ==
+Authentication-Results: lists.ozlabs.org; arc=pass smtp.remote-ip="2a01:111:f403:c406::3" arc.chain=microsoft.com
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779160518;
+	cv=pass; b=ZEUoNthxEK6eLCahvXJREVWtUjCkwOUIFtMjF9LMFBBDQayvq9MaE0Monqu1aZB/p9DuzW3IKQTWXU3Ti8zxu78u1NXAmooPHeu2K/B1uRrSa6oOHCXpySTjeYDUnzKrbu5bvTP4ZoTrGZhsA52fhFMpVfVEhSGV833XFUtzRLgM7+rVbIl9E7K7s8f/qCN4VYb4MX6qNvB/3nhw481u3TBA4oRWwuaanOcry/XqhfACQCN6+P+bIRu2xfqhf7Nxmn4RR8lpbK/t/BVHnzGqAs/crubIRKlfsWCiA13Ovzx9x0AgpiitRlliJ8oUsdD8h4qzdtUGkm6g3/D8KvV6XQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1779158840; c=relaxed/relaxed;
-	bh=RQP6saiiXAQJTpPARLrRFM0Ns2dwyXRFEWBvIe0BZcE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NshDl8bgk6gyuPOOF6LDl/k9Jn76eBk2Xg9HfGWcYoda7aJfYzVeP3v+vo8VwfveqvJ3EK5hkKsJx2qfq+wfEVaJJNR97jzDNT9OSKwniHZ+1n468ykK9Rm1ZpD1Euh2ksfUYTpnm0NUb8AFRjF3IZlgzFjkVsGKBB+QkqptghkqTpZlJVXyM0vV6t4twT7VOTV/R3FFUgINP8jctpHQsPO51uDpOAJBOBoxZzpkT9ha235VTnsPsN9INrsApIFi2llXgtLuN9GCvBOt2NJ0hs/7rczMZ2HmnwoYetr4RLUf9nTVEFYmo0zO0OiuNIGqt5U8063Fi41NTp5cRfy9Lg==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=iuFOSGCR; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::236; helo=mail-lj1-x236.google.com; envelope-from=kylehsieh1995@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	t=1779160518; c=relaxed/relaxed;
+	bh=wDwdEDUcOvRgJczC/Pb2GZ5RGhhnw+OhgjLrodSfM8E=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=WBpcEO6myZ3e0L91uNm2KYy0JqNNU0yEUMzlc+kmLITNDVZ1mt3T0vUfqWiIzQ+aerOCXQ3an/hEpav1lwK2lI5NzoR1OAC7EY81FhwoOcY8VbPI0uPit75/OVVQ64Cwg4SvEc6pw03fWi7FzZl3cntahpFOBi625CoMCZKcL1qrS+Cw2hnW1PjhIE6a3eZCx3VCecDwsFrIRbRkr6Ze9ZyfGAbaXV3EUd9PCo56k5YRjwyKjlRZ/RaYToF0TLe1uT8NrJuec+ThsKMomk4t3mEKrbWtozZo23msRSXxeZwoNmWRxGlUNCtBpchLTDckFlSTzqqtYjKcF85UDKxEfw==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=e5tHBGjS; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c406::3; helo=os8pr02cu002.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=iuFOSGCR;
+	dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=e5tHBGjS;
 	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2a00:1450:4864:20::236; helo=mail-lj1-x236.google.com; envelope-from=kylehsieh1995@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=2a01:111:f403:c406::3; helo=os8pr02cu002.outbound.protection.outlook.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazlp170120003.outbound.protection.outlook.com [IPv6:2a01:111:f403:c406::3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange secp256r1 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gKJx22TTkz2xwH
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 19 May 2026 12:47:17 +1000 (AEST)
-Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-394413a63d3so26332241fa.1
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 18 May 2026 19:47:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779158834; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bzsUDGHeVnt5Z0bYUNDCSORKj8KxTJeSaabKBJUEXwhIMed9TwyU0rW2WqpT8IT1Vk
-         CUcIPa6QaHR++jGPJCuM8pEGH+TOlNbw9HRhSKKAsyP40xM0m2rT6+Hs3qZEU3q7rO2Q
-         3CxwRGs1EeTzYUi5wJZSOarFxES8u7R27Bk6oIbTK+o3EJHGPc8VQ5gVtmlkjAl4E9bz
-         SbVqkSsYHt+SEZMy28UlXgB9/6+QkEnfUqe/KN8KgXwfUfQQGVevO6oNkCL56525KhSY
-         SwIpd/XxQTpgxY7+RgPocwqs323dJsYyd7knMSOjmeszdnSCAkSkuQMLnqsTKo84Dr5k
-         l20A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RQP6saiiXAQJTpPARLrRFM0Ns2dwyXRFEWBvIe0BZcE=;
-        fh=n3gRv+Lbrg1c+s3aRD/Ib6Wn3eCjwHpXxmdAJa8oQDw=;
-        b=XwbBm8UgSeYP8l4ygMqYAJZ6CeM93au9zv4YqWtU+nGklEHIQhxjwLbO9mKFBn42+O
-         kVCoBKRrO9lsAqxYpWXXVgrnwB1CmN9r5WWxggFFxIBebn0mQY1AedOzcVTmYU0M8iwb
-         9Xcp0Uid/1GM6Ur1dO8Mlo26I/SuIy2OzfDTZLUFxrd25A1IE5S131sq6aDiqnfGqUUr
-         4L0ztFPw2W6uNqPxM1ZMtoN41N0eV/2doyeLNL/QGuwrPVkYdLcjDKTDvCyyoL36fQNv
-         H5OvmNO76mWtYaa/RIghkueXaHqjEJNti/OAXbe1uK8QvwMBZSpYddktKX/zSdEGAMJ8
-         GPVg==;
-        darn=lists.ozlabs.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779158834; x=1779763634; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RQP6saiiXAQJTpPARLrRFM0Ns2dwyXRFEWBvIe0BZcE=;
-        b=iuFOSGCRvfafE5WjZrzs2gcIXu3X68AV0sR1TP8++onesKpN2u4IyLVppaNY546vIC
-         ATPfoVDeel0BO03lEOyk5Z2Qb215sYvS7lXI6WfTtf5zFQQg4sebs2Yr2YHRRq8EtahU
-         1KPjhizlrjSAlhawSi473M/BES+kS776bdMkiE8+ZPxsPgVKYCwukCoRhVCSxISurvex
-         A7iSvHfVwDN2GiSqGiT9yjDqlyZA2/+LudkgzniJ+VXJGV9yopKb1z25VSqjWwaVITCF
-         PsDvCLXLEtpAS9GD0OmXlcCpQQfY8VuWL2IItQXg5nUvWnGII7IDBXNXp6jIWKJxw496
-         f+kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779158834; x=1779763634;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RQP6saiiXAQJTpPARLrRFM0Ns2dwyXRFEWBvIe0BZcE=;
-        b=JXkCbO5oWuctdFsupPG/+A6hfmmrj5cuUjbm4vFsynEmr3pLMaDOxjfMNB/G8DTOKz
-         /KnE0jJK8WeIhSaBSNLyIFdw3nxLz0B51dhIIjVDOFbMp39ILQad/e5uFl3bXyajU3pu
-         D+SBfhy+06dO1bJNq1iKp0lNi+nAJi9kKfQ2xYDpTTH4bOFn1Eb3uO0NA9gajSWVdq64
-         jo+6VTFKb6HpeRVPoWRsiwtlpAEU9N03VaVH0wgB+WRQ61ATNJdZ/roNpUltDFSM+o0a
-         alkqppBR0EssUBUhIvLATmxJd1/EUfM9DGIaq7JNYZ2qlpBw5eCZioqeqj8EcQjE5nTh
-         Kd8A==
-X-Forwarded-Encrypted: i=1; AFNElJ8GAZEGYJNSTz5mppHWRrI25/l9AyUeffpiCKnrGWFuOnZYSY3Q7pjd2ur2Oe9Y/XiAS8OADB8xCy3ZVGk=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YyBXd+qhdE/DK2QLue2fsPpYL1JWpTaf8DNjBbkO4y/bYWJ7B84
-	0joVHoqIlI04XtNuac5LHO5kElRvb3ZaAsHYSV6Krdn0lrih4jKrA1G9EOFi0HgagJ5oiaoieDt
-	tKVOJQuj/K4WjYiwomL3wqOaArve2tuk=
-X-Gm-Gg: Acq92OE9wULvgZ1OAD4Q9MXSkz+/KL4SEmRfbt4H3+wRdjQi9f8bLKvx54zzUfbGDNH
-	Zsg1agca6HnBdLB0ciiTdCFz1tNOv7j3eOOiRFF4EjR35DXtT3S/q6eFbQJG5uweswZLnzLmFMJ
-	dwui5EcOevxtIshUqE60ppN4AkPbeO35hLLo7qUBU1E+ZjYVoyeSzFF/fpAObkNNaUUgcbuSIdr
-	rVdM1F8Ud8Gy8VRmiZMX4P8y/RyOpqSELizRmsfDMGa7uK47e0l6+fFoQtnd111InKlLScGCMll
-	xw9W2tIaRK/Adak9LW4=
-X-Received: by 2002:a2e:bc20:0:b0:38a:45d6:c246 with SMTP id
- 38308e7fff4ca-39561c36019mr54660351fa.8.1779158833823; Mon, 18 May 2026
- 19:47:13 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gKKYH2mwDz2xqv;
+	Tue, 19 May 2026 13:15:15 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bUwYzrs53lQfKXEt5OtYFoRX0rkg1N5MZF4QTxD9GYQ0DWlhDO334qQhof48UrWc05dCSoo+5pfsvRwrL5Kv9KW/9mczmsrfVsM9lZ4j6u2gQ+ken+sgWrqle8cvPOLCQYscqtpTgbZkfb50vWDOls9hxxMIjo9VZg2V61DuCOwPhTS/xMPge55slQZ6f5futx8ug0CpgrFkWxECJKcaSLcfe73vRS1zu5yhRnw2sIyzziT+R0hoa/7EG+p+sSrorihm7Uj9vrxUlDWFf/iHmX3AWdO4f83abXwyq98gi7xwDfYS1ScuJu6hawBHnQAY6q9POlzF43DEhy+x9H714Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wDwdEDUcOvRgJczC/Pb2GZ5RGhhnw+OhgjLrodSfM8E=;
+ b=gQcZVtqw43GTDk6vlAP1BkQ0nJW9Kah0WZMzUXn8mHnAO5IjpII6JX/BSuUKUtyBu57Mh2v9ZfAvPoQAucCvLtmeiEiYNXD6AJqn1j+9+2okMGu1fb+AeVJsxb5WH/MvSRtV62TO1Nufg7Sf94HMXVQ63pI6N5RFEpA6E5gyVAwf28PvTsWljTfbSbePK15+WAiKbLhw7mmq9kOUEkLKqhUG3IUcUA9KbiA0b3v2gUcfQF3UBmDfbx6ilit6lbkSN+KYDOVHL5RaMfKnGyvAZmQCCwzniXveAgcG7Z8ib6JppYx7S0vAvmnAl/A/9NtMwj11aU2rKY013VA6TwALxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wDwdEDUcOvRgJczC/Pb2GZ5RGhhnw+OhgjLrodSfM8E=;
+ b=e5tHBGjSO6XnHaosotgZ5HfRv/JR+1n1nt8J2DtkW73+Kaef/NlaJrsyxbrxA4OmPanMgmC8QSUNjbo/9t8F/hsIW5HDvTedZkA2i9JolW4Elr+F79BvOjvUukV1PDMyxXExjhox8ZLXWTbfCspsGVF23BQDWCBquv9S60zR6G0HQX9usEBBKpqQQ5XJj/7xRW82i1dsLgmfvD9WTuaFGXJCbyLwmInVk4nAHeKrkCeJC9q8vaZ71gOcLRbMkhGKP5MlPQO9AlBk3VgutjHlf/BrLM0XVIGbY/a1J8gc70vaxIJP2WfKcyJwqWB2J7HEYkj2YFguKEJTKGwkTeNtTA==
+Received: from OSQPR06MB7252.apcprd06.prod.outlook.com (2603:1096:604:29c::6)
+ by TYNPR06MB8475.apcprd06.prod.outlook.com (2603:1096:405:3b2::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.21; Tue, 19 May
+ 2026 03:14:50 +0000
+Received: from OSQPR06MB7252.apcprd06.prod.outlook.com
+ ([fe80::92af:c9d9:8779:d19]) by OSQPR06MB7252.apcprd06.prod.outlook.com
+ ([fe80::92af:c9d9:8779:d19%4]) with mapi id 15.21.0025.023; Tue, 19 May 2026
+ 03:14:50 +0000
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+To: Conor Dooley <conor@kernel.org>
+CC: Linus Walleij <linusw@kernel.org>, Tony Lindgren <tony@atomide.com>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+	<andrew@codeconstruct.com.au>, Bartosz Golaszewski <brgl@kernel.org>, Lee
+ Jones <lee@kernel.org>, Ryan Chen <ryan_chen@aspeedtech.com>,
+	"patrickw3@meta.com" <patrickw3@meta.com>, "linux-gpio@vger.kernel.org"
+	<linux-gpio@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, BMC-SW <BMC-SW@aspeedtech.com>,
+	"openbmc@lists.ozlabs.org" <openbmc@lists.ozlabs.org>, Andrew Jeffery
+	<andrew@aj.id.au>, "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v3 2/3] dt-bindings: pinctrl: Add
+ aspeed,ast2700-soc1-pinctrl
+Thread-Topic: [PATCH v3 2/3] dt-bindings: pinctrl: Add
+ aspeed,ast2700-soc1-pinctrl
+Thread-Index: AQHc5E588q9ImUX0F0Op+WUD84rxUbYPVlwAgAVbpcY=
+Date: Tue, 19 May 2026 03:14:50 +0000
+Message-ID:
+ <OSQPR06MB7252FFE3CCFC8767A0CFFC498B002@OSQPR06MB7252.apcprd06.prod.outlook.com>
+References: <20260515-pinctrl-single-bit-v3-0-e97da4312104@aspeedtech.com>
+ <20260515-pinctrl-single-bit-v3-2-e97da4312104@aspeedtech.com>
+ <20260515-verify-awhile-cb0c72d49e91@spud>
+In-Reply-To: <20260515-verify-awhile-cb0c72d49e91@spud>
+Accept-Language: en-US, zh-TW
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OSQPR06MB7252:EE_|TYNPR06MB8475:EE_
+x-ms-office365-filtering-correlation-id: 447eb25c-b9ae-481e-9800-08deb554ca31
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700021|56012099003|18002099003|4143699003|22082099003;
+x-microsoft-antispam-message-info:
+ 8dsRS0va34GT3RlT+SKq2Cn1nL1DqnvBrk8jI7V7RklOg0RPI9C7JqSy/3hBsbIPsCh27RyJIxRGeoXVByR8FnMVqtgPrJd7rk3G7+23A+0vqKbnQ1FsZKKb4ItUjTZbt9szkpn9JmjBKDzjpPdZzxHJsM/XdTF1eSSmGD4iv7m/6vwfWmFOD1xOFEPR/fHapIE3fox6mROw+M+hNnnlAkxTbNHtkkynUrJ9Afv6bKJWcIcUCsutyd7cyyHhFzJ50nWzuSt2tbiVGz4uK2Gr2HoYpFgp+a5POYEPV3CRmC6ctFi6o4eGEJYUvrg9prDeEuljTqhcJG3GirNj8NEy5wRoHsMF1JkASzDtLRjNUE8vCZbMiSuuybW7olszPxjpieY1zhjcbtMka69EtfeSJLt+t4oUJCXuAmNrXa2bN1bC33Bq5vFZ9EKdko+Uq6tDxkPA97b+k+CqwD9952W9hK9CMgtHld8gPq3Bs829JGHV9sMTyGANfxYf5258Em+0nnvtm9RslO3nYMhzo1RzdzWW8r3uu45TYt1QS4WN2NyKTQJovVJ+JGNz1D2YkT0zGmWcOQrhqf2iKzaS4efDCGQeahzfVS5Hu2nWeGYg3zkhD9bDiFu6vFbKQIZ+jHArFAoG/rUK7ngA+A5bRjGlitzfnfGyhF/oyVMVW+ToSi0sN3ULUZ6VaWrHSzRfo5HTj0Irz6P6+7F4KzMuJzh36OmdGmjCbIrWFawlhEt8UAZMNDozviL2gzQKi+wnzHN+
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSQPR06MB7252.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700021)(56012099003)(18002099003)(4143699003)(22082099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?vr8Pd8qN5c48yr1MPibYEM9vxRvxF+7+cW0/AK9hSXQOVgGs38YvwV7jrL?=
+ =?iso-8859-1?Q?paBeffMu5XvPKcTvEx2iuWyOSLvA6yCDV8ti+aSST2Apb09lqOaq88xF8P?=
+ =?iso-8859-1?Q?7SchuaxdSzSkpjSq6N3muQKLQMzfU5uLAKf72JyhIpQfqzYZROSzuh+WQN?=
+ =?iso-8859-1?Q?INL/2fN6y7G8NPnXefLBBVYI7fD2UkxdfMFk/l8Ty9YVbGp6MC6bDh/V9e?=
+ =?iso-8859-1?Q?7ENGa2JC/sJVLw4TIJ2ru0nyyys7Nzy98+BkhWFdAe3Ii9wMTvZfapAp4W?=
+ =?iso-8859-1?Q?5XQuS5i0suIG05/MypWX9x/nngRfu05wZ6idSS3jMIDR22PhkcYui+aF48?=
+ =?iso-8859-1?Q?2fm+j5qiYSwlG3gn12l8x/hA6uEvkVvpox5QE2Q0gKXZs9HLnEL7hU+QZl?=
+ =?iso-8859-1?Q?goVmQsykw0d8I0S+/bJkUs3ydOLajehiDrR3i1kUKvFbti9V47uVpFOorh?=
+ =?iso-8859-1?Q?FDoyRxIQR1MwP8eQEUlv6/571EsecRi94x+LzHKaKvXKnv3jIfx1/IxKX6?=
+ =?iso-8859-1?Q?jNPtjUWDX0IyBXG3oLxlHzhXRcYI/rrWqN86ff4Jy3UyzbXST1pmGstRqN?=
+ =?iso-8859-1?Q?PlO/gOwKxcp+DVbYYHpfE2HozwZHiOk78KOAlRanCOVgzIyRc0Oyesw5NL?=
+ =?iso-8859-1?Q?ApgIlZkVSk4UlIa558d7SenI8DgONC1AlBdSKXIseHtPTHHRad3bExFT6a?=
+ =?iso-8859-1?Q?F3T70e/EuD1tEylM/tmXSf5qvzlqw+6Ehw1WspKE2mWMd/HkLnlccJlke5?=
+ =?iso-8859-1?Q?E3nOAWNk1g3ZuXEMrNiXTd63FWn3q8xyMF7ojYgtClDldZACear8DG4003?=
+ =?iso-8859-1?Q?zx88NGmj9DN+Eg9uG4ky1qsJH7xK+WWbpzZJ9zU2sNWA4FW2OcmB5vmTpx?=
+ =?iso-8859-1?Q?7Y1y1YJZpeaodm/IFg9JEtluR7L+t5K8SHnYoolOcnL0NVLL3/ejFsgpJI?=
+ =?iso-8859-1?Q?LUTsERwj/MWky3nZsq/EMyPiDD24ITSeKJxchv9yUbPMUeFZcCyS36qQWF?=
+ =?iso-8859-1?Q?XCvXYlqC4Aog+E2SB5bpbVjyjE+1YQwh0ZOquNe7SaK+drCmoTweS8gliV?=
+ =?iso-8859-1?Q?toHL3dqb0X5V+ySnv4VUuEPytcOb8xKbLCaPajAMj4w0oFSbmdw7jZzEH7?=
+ =?iso-8859-1?Q?BsPIwkAdXz5AQrx8XFgmVv3HBcx618agNF//no5KD6bCVrZnQNRspjhpXU?=
+ =?iso-8859-1?Q?n8FcaDY2KR+rJCwThI3GtNL9kAcKvbdI0vwkGh49mJoo/n/pnSEQ7YLuyG?=
+ =?iso-8859-1?Q?en+8vgQM3UoGYd8PbHefDG7/xhmqU8w8aimbyg14svrUfEtzV/c2jd7TFl?=
+ =?iso-8859-1?Q?OMtjVX2FqzTaMdzuaE3hvBU4EBNMQDgGIP01gPOH5EX3E1N5RV+hikNaZr?=
+ =?iso-8859-1?Q?gJSs3j+A58ep3c/Q9ow235BByx7E52Z+PmYnPDF3LYQW2rUav0bOWe5DmD?=
+ =?iso-8859-1?Q?0ama/P2BTF7SwxGS4MYjEIvaMDa01s7Ow/GPNZM+WWZB/rl6Ued6/2NWjT?=
+ =?iso-8859-1?Q?fL/Wc3bzWrEyNLn+HczPSHFqLpo/kwj9O5VrauTuAbRHr//xUbxoVUmJTV?=
+ =?iso-8859-1?Q?XXUzaXv8jpYn5kXxmNzk/k8Fsh9MaGiMR38JNvEHDCiDNuQDB96qWdqvSq?=
+ =?iso-8859-1?Q?hypPxOxSpVZ96KYSR1P4XtdNEaaUhE1cC6h4bBM9eKrjdQCOFumwpQvs3i?=
+ =?iso-8859-1?Q?2XcV/tUebjbIfgDihAaQzV85LtaqhZT5HzrxfrUeYeds1oZhM5pJMsEZ1l?=
+ =?iso-8859-1?Q?WNxjV3PftRS3fply1FzqWRyLWToZAmF6BjWuMHo4rp6R9bJFiq9Zk/I1iy?=
+ =?iso-8859-1?Q?IT6RWtbzpw=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -105,696 +150,72 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260424-ventura2_initial_dts-v4-0-806b00ea4314@gmail.com>
- <20260424-ventura2_initial_dts-v4-2-806b00ea4314@gmail.com>
- <39b9a80fe4f49d72cefb8d3f8f1bb3776b9c4226.camel@codeconstruct.com.au> <CAF7HswPn65kvTAyYDj_o=nSn3YhQhKqBaak7nt11x-8bZ7M6vg@mail.gmail.com>
-In-Reply-To: <CAF7HswPn65kvTAyYDj_o=nSn3YhQhKqBaak7nt11x-8bZ7M6vg@mail.gmail.com>
-From: Kyle Hsieh <kylehsieh1995@gmail.com>
-Date: Tue, 19 May 2026 10:48:19 +0800
-X-Gm-Features: AVHnY4KpR8_SQLN5ycWULCDf5UkEJu74K_EZDZzPg05Smr9riqQITU4BSYjRqBM
-Message-ID: <CAF7HswNLqxZA2-2Mh49zk+mV=oTbyw4UrmJTVe3HESZqCL9rGg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] ARM: dts: aspeed: ventura2: Add Meta ventura2 BMC
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=1.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FORGED_GMAIL_RCVD,
-	FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
-X-Spam-Level: *
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSQPR06MB7252.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 447eb25c-b9ae-481e-9800-08deb554ca31
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 May 2026 03:14:50.7141
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RtaymiiFyxe790Nw2xkg+ZnxRcRD9Zx/+UznddmTINMc0kU8yp9FFFnsZDYDoRBQ1iDfDUvSd9RpSyIW9M4MWXgmFlZsgfrCsnA7bMgJSKk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYNPR06MB8475
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[aspeedtech.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[aspeedtech.com:s=selector1];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4100-lists,linux-aspeed=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[kylehsieh1995@gmail.com,linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-4085-lists,linux-aspeed=lfdr.de];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kylehsieh1995@gmail.com,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[billy_tsai@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[aspeedtech.com:+];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:rdns,lists.ozlabs.org:helo]
-X-Rspamd-Queue-Id: A1163584B04
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,aspeedtech.com:dkim,lists.ozlabs.org:rdns,lists.ozlabs.org:helo]
+X-Rspamd-Queue-Id: 7D059576C05
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Andrew,
-
-On Tue, May 19, 2026 at 10:38=E2=80=AFAM Kyle Hsieh <kylehsieh1995@gmail.co=
-m> wrote:
->
-> On Mon, May 18, 2026 at 3:18=E2=80=AFPM Andrew Jeffery
-> <andrew@codeconstruct.com.au> wrote:
-> >
-> > Hi Kyle,
-> >
-> > Firstly, are you trying to represent multiple revisions of the hardware
-> > design in this devicetree? I'm curious due to the 'legacy' labels
-> > below.
-> >
-> In the previous Ventura hardware generation, these pins were
->  implemented as a set of direct, native physical GPIO signals. In the V2
->  design, we introduced alternative interfaces and routed these paths
-> through the CPLD to convert them into GPIOs before reaching the
-> BMC.
->
-> We chose to retain the 'legacy' prefix to maintain backward
-> compatibility with our existing userspace software stack and scripts
-> that transitioned from the previous Ventura platform. Altering these
-> labels now would break compatibility with applications that rely on
-> these specific naming conventions. I will add comments in the DTS to
-> clarify this context.
-Please allow me to add a crucial hardware detail to my previous
- explanation regarding the 'legacy' prefix.
-I missed mentioning the most important point: on this specific ventura2
-board, we actually have two distinct sets of IO expanders physically
-present at the same time to support both new and older tray interfaces.
-
-The new design utilizes the PCA9698 at gpio@40, which is already
-labeled as prsnt_io_expander0. However, to maintain hardware
-backward compatibility with older trays, the board also physically
-retains the previous PCA9555 expanders at gpio@11.
-
-Therefore, since the prsnt_io_expander0 label is already occupied, the
-legacy_ prefix is strictly necessary to avoid
-devicetree label collisions and to explicitly differentiate the two
-physical hardware paths.
-
-I will make sure this hardware context is clearly documented in the
-DTS comments in the v5 patch.
-
-> > On Fri, 2026-04-24 at 17:30 +0800, Kyle Hsieh wrote:
-> > > Add linux device tree entry related to the Meta(Facebook) rmc-node.
-> > > The system use an AT2600 BMC.
-> > > This node is named "ventura2".
-> > >
-> > > Signed-off-by: Kyle Hsieh <kylehsieh1995@gmail.com>
-> > > ---
-> > >  arch/arm/boot/dts/aspeed/Makefile                  |    1 +
-> > >  .../dts/aspeed/aspeed-bmc-facebook-ventura2.dts    | 2925 ++++++++++=
-++++++++++
-> > >  2 files changed, 2926 insertions(+)
-> > >
-> > > diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/as=
-peed/Makefile
-> > > index 9adf9278dc94..6b96997629d4 100644
-> > > --- a/arch/arm/boot/dts/aspeed/Makefile
-> > > +++ b/arch/arm/boot/dts/aspeed/Makefile
-> > > @@ -32,6 +32,7 @@ dtb-$(CONFIG_ARCH_ASPEED) +=3D \
-> > >       aspeed-bmc-facebook-minipack.dtb \
-> > >       aspeed-bmc-facebook-santabarbara.dtb \
-> > >       aspeed-bmc-facebook-tiogapass.dtb \
-> > > +     aspeed-bmc-facebook-ventura2.dtb \
-> > >       aspeed-bmc-facebook-wedge40.dtb \
-> > >       aspeed-bmc-facebook-wedge100.dtb \
-> > >       aspeed-bmc-facebook-wedge400-data64.dtb \
-> > > diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dt=
-s b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dts
-> > > new file mode 100644
-> > > index 000000000000..8d4ddb473862
-> > > --- /dev/null
-> > > +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-ventura2.dts
-> > > @@ -0,0 +1,2925 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +// Copyright (c) 2023 Facebook Inc.
-> > > +/dts-v1/;
-> > > +
-> > > +#include "aspeed-g6.dtsi"
-> > > +#include <dt-bindings/i2c/i2c.h>
-> > > +#include <dt-bindings/gpio/aspeed-gpio.h>
-> > > +
-> > > +/ {
-> > > +     model =3D "Facebook Ventura2 RMC";
-> > > +     compatible =3D "facebook,ventura2-rmc", "aspeed,ast2600";
-> > > +     aliases {
-> > > +             serial2 =3D &uart3;
-> > > +             serial4 =3D &uart5;
-> > > +
-> > > +             /*
-> > > +              * i2c switch 0-0077, pca9548, 8 child channels assigne=
-d
-> > > +              * with bus number 16-23.
-> > > +              */
-> > > +             i2c16 =3D &i2c0mux0ch0;
-> > > +             i2c17 =3D &i2c0mux0ch1;
-> > > +             i2c18 =3D &i2c0mux0ch2;
-> > > +             i2c19 =3D &i2c0mux0ch3;
-> > > +             i2c20 =3D &i2c0mux0ch4;
-> > > +             i2c21 =3D &i2c0mux0ch5;
-> > > +             i2c22 =3D &i2c0mux0ch6;
-> > > +             i2c23 =3D &i2c0mux0ch7;
-> > > +
-> > > +             /*
-> > > +              * i2c switch 1-0077, pca9548, 8 child channels assigne=
-d
-> > > +              * with bus number 24-31.
-> > > +              */
-> > > +             i2c24 =3D &i2c1mux0ch0;
-> > > +             i2c25 =3D &i2c1mux0ch1;
-> > > +             i2c26 =3D &i2c1mux0ch2;
-> > > +             i2c27 =3D &i2c1mux0ch3;
-> > > +             i2c28 =3D &i2c1mux0ch4;
-> > > +             i2c29 =3D &i2c1mux0ch5;
-> > > +             i2c30 =3D &i2c1mux0ch6;
-> > > +             i2c31 =3D &i2c1mux0ch7;
-> > > +
-> > > +             /*
-> > > +              * i2c switch 4-0077, pca9548, 8 child channels assigne=
-d
-> > > +              * with bus number 32-39.
-> > > +              */
-> > > +             i2c32 =3D &i2c4mux0ch0;
-> > > +             i2c33 =3D &i2c4mux0ch1;
-> > > +             i2c34 =3D &i2c4mux0ch2;
-> > > +             i2c35 =3D &i2c4mux0ch3;
-> > > +             i2c36 =3D &i2c4mux0ch4;
-> > > +             i2c37 =3D &i2c4mux0ch5;
-> > > +             i2c38 =3D &i2c4mux0ch6;
-> > > +             i2c39 =3D &i2c4mux0ch7;
-> > > +
-> > > +             /*
-> > > +              * i2c switch 5-0077, pca9548, 8 child channels assigne=
-d
-> > > +              * with bus number 40-47.
-> > > +              */
-> > > +             i2c40 =3D &i2c5mux0ch0;
-> > > +             i2c41 =3D &i2c5mux0ch1;
-> > > +             i2c42 =3D &i2c5mux0ch2;
-> > > +             i2c43 =3D &i2c5mux0ch3;
-> > > +             i2c44 =3D &i2c5mux0ch4;
-> > > +             i2c45 =3D &i2c5mux0ch5;
-> > > +             i2c46 =3D &i2c5mux0ch6;
-> > > +             i2c47 =3D &i2c5mux0ch7;
-> > > +
-> > > +             /*
-> > > +              * i2c switch 8-0077, pca9548, 8 child channels assigne=
-d
-> > > +              * with bus number 48-55.
-> > > +              */
-> > > +             i2c48 =3D &i2c8mux0ch0;
-> > > +             i2c49 =3D &i2c8mux0ch1;
-> > > +             i2c50 =3D &i2c8mux0ch2;
-> > > +             i2c51 =3D &i2c8mux0ch3;
-> > > +             i2c52 =3D &i2c8mux0ch4;
-> > > +             i2c53 =3D &i2c8mux0ch5;
-> > > +             i2c54 =3D &i2c8mux0ch6;
-> > > +             i2c55 =3D &i2c8mux0ch7;
-> > > +
-> > > +             /*
-> > > +              * i2c switch 11-0077, pca9548, 8 child channels assign=
-ed
-> > > +              * with bus number 56-63.
-> > > +              */
-> > > +             i2c56 =3D &i2c11mux0ch0;
-> > > +             i2c57 =3D &i2c11mux0ch1;
-> > > +             i2c58 =3D &i2c11mux0ch2;
-> > > +             i2c59 =3D &i2c11mux0ch3;
-> > > +             i2c60 =3D &i2c11mux0ch4;
-> > > +             i2c61 =3D &i2c11mux0ch5;
-> > > +             i2c62 =3D &i2c11mux0ch6;
-> > > +             i2c63 =3D &i2c11mux0ch7;
-> > > +
-> > > +             /*
-> > > +              * i2c switch 13-0077, pca9548, 8 child channels assign=
-ed
-> > > +              * with bus number 64-71.
-> > > +              */
-> > > +             i2c64 =3D &i2c13mux0ch0;
-> > > +             i2c65 =3D &i2c13mux0ch1;
-> > > +             i2c66 =3D &i2c13mux0ch2;
-> > > +             i2c67 =3D &i2c13mux0ch3;
-> > > +             i2c68 =3D &i2c13mux0ch4;
-> > > +             i2c69 =3D &i2c13mux0ch5;
-> > > +             i2c70 =3D &i2c13mux0ch6;
-> > > +             i2c71 =3D &i2c13mux0ch7;
-> > > +
-> > > +             /*
-> > > +              * i2c switch 15-0077, pca9548, 8 child channels assign=
-ed
-> > > +              * with bus number 72-79.
-> > > +              */
-> > > +             i2c72 =3D &i2c15mux0ch0;
-> > > +             i2c73 =3D &i2c15mux0ch1;
-> > > +             i2c74 =3D &i2c15mux0ch2;
-> > > +             i2c75 =3D &i2c15mux0ch3;
-> > > +             i2c76 =3D &i2c15mux0ch4;
-> > > +             i2c77 =3D &i2c15mux0ch5;
-> > > +             i2c78 =3D &i2c15mux0ch6;
-> > > +             i2c79 =3D &i2c15mux0ch7;
-> >
-> > Can you please add comments justifying why all of these aliases are
-> > necessary given a number of them are for busses with no devices
-> > described under them?
-> These I2C aliases are pre-allocated because these empty channels are
->  strictly reserved for future hardware feature expansions, which will
-> interface with add-on boards. I will add clear comments in the code to
-> justify their necessity in the next patch.
-> >
-> > > +     };
-> > > +
-> > > +     chosen {
-> > > +             stdout-path =3D "serial4:57600n8";
-> > > +     };
-> > > +
-> > > +     fan_leds {
-> > > +             compatible =3D "gpio-leds";
-> > > +
-> > > +             led-0 {
-> > > +                     label =3D "fcb0fan0_ledd1_blue";
-> >
-> > Given the labels are exposed to userspace and is something applications
-> > likely consume, is the double 'd' in led intentional?
-> Yes, the double 'd' in "ledd1" is intentional. It aligns with our hardwar=
-e
->  schematic design naming convention, where these specific onboard
-> indicators are designated as LEDD1, LEDD2, etc.
-> >
-> > > +                     default-state =3D "off";
-> > > +                     gpios =3D <&fan_io_expander0 0 GPIO_ACTIVE_LOW>=
-;
-> > > +             };
-> > > +
-> > > +             led-1 {
-> > > +                     label =3D "fcb0fan1_ledd2_blue";
-> > > +                     default-state =3D "off";
-> > > +                     gpios =3D <&fan_io_expander0 1 GPIO_ACTIVE_LOW>=
-;
-> > > +             };
-> > > +
-> > > +             led-2 {
-> > > +                     label =3D "fcb0fan2_ledd3_blue";
-> > > +                     default-state =3D "off";
-> > > +                     gpios =3D <&fan_io_expander1 0 GPIO_ACTIVE_LOW>=
-;
-> > > +             };
-> > > +
-> > > +             led-3 {
-> > > +                     label =3D "fcb0fan3_ledd4_blue";
-> > > +                     default-state =3D "off";
-> > > +                     gpios =3D <&fan_io_expander1 1 GPIO_ACTIVE_LOW>=
-;
-> > > +             };
-> > > +
-> > > +             led-4 {
-> > > +                     label =3D "fcb0fan0_ledd1_amber";
-> > > +                     default-state =3D "off";
-> > > +                     gpios =3D <&fan_io_expander0 4 GPIO_ACTIVE_LOW>=
-;
-> > > +             };
-> > > +
-> > > +             led-5 {
-> > > +                     label =3D "fcb0fan1_ledd2_amber";
-> > > +                     default-state =3D "off";
-> > > +                     gpios =3D <&fan_io_expander0 5 GPIO_ACTIVE_LOW>=
-;
-> > > +             };
-> > > +
-> > > +             led-6 {
-> > > +                     label =3D "fcb0fan2_ledd3_amber";
-> > > +                     default-state =3D "off";
-> > > +                     gpios =3D <&fan_io_expander1 4 GPIO_ACTIVE_LOW>=
-;
-> > > +             };
-> > > +
-> > > +             led-7 {
-> > > +                     label =3D "fcb0fan3_ledd4_amber";
-> > > +                     default-state =3D "off";
-> > > +                     gpios =3D <&fan_io_expander1 5 GPIO_ACTIVE_LOW>=
-;
-> > > +             };
-> > > +     };
-> > > +
-> >
-> > ...
-> >
-> > > +
-> > > +&fmc {
-> > > +     status =3D "okay";
-> > > +     flash@0 {
-> > > +             status =3D "okay";
-> > > +             m25p,fast-read;
-> > > +             label =3D "bmc";
-> > > +             spi-max-frequency =3D <50000000>;
-> > > +             #include "openbmc-flash-layout-128.dtsi"
-> > > +     };
-> > > +     flash@1 {
-> > > +             status =3D "okay";
-> > > +             m25p,fast-read;
-> > > +             label =3D "alt-bmc";
-> > > +             spi-max-frequency =3D <50000000>;
-> >
-> > Perhaps include the alternate flash layout dtsi here?
-> The `flash@1` (`alt-bmc`) node is intentionally left unpartitioned
->  without the layout DTSI.
->
-> In our dual-flash design, `flash@1` serves as the secondary/backup
-> flash chip. Keeping it without sub-partitions allows the kernel and
-> userspace tools to treat this flash as a single, contiguous raw MTD
-> device. This is required by our firmware update mechanism, which
-> flashes a single, full-size composite image directly to the entire
-> backup flash.
->
-> This structure follows the existing upstream pattern established in
-> `aspeed-bmc-facebook-yosemite5.dts`.
-> >
-> > > +     };
-> > > +};
-> > > +
-> > > +&peci0 {
-> >
-> > Can you please order the nodes alphabetically. P is not between F and
-> > G.
-> I will ensure all nodes are strictly sorted in alphabetical order in
-> the next version.
-> >
-> > > +     status =3D "okay";
-> > > +};
-> > > +
-> > >
-> >
-> > ...
-> >
-> > > +
-> > > +&i2c10 {
-> > > +     status =3D "okay";
-> > > +
-> > > +     legacy_prsnt_io_expander0: gpio@11 {
-> >
-> > Why 'legacy'?
-> >
-> > > +             compatible =3D "nxp,pca9555";
-> > > +             reg =3D <0x11>;
-> > > +             gpio-controller;
-> > > +             #gpio-cells =3D <2>;
-> > > +             interrupt-parent =3D <&sgpiom0>;
-> > > +             interrupts =3D <40 IRQ_TYPE_LEVEL_LOW>;
-> > > +
-> > > +             gpio-line-names =3D
-> > > +                     "TRAY_PRSNT1_N_BUF_R", "TRAY_PRSNT2_N_BUF_R",
-> > > +                     "TRAY_PRSNT3_N_BUF_R", "TRAY_PRSNT4_N_BUF_R",
-> > > +                     "TRAY_PRSNT5_N_BUF_R", "TRAY_PRSNT6_N_BUF_R",
-> > > +                     "TRAY_PRSNT7_N_BUF_R", "TRAY_PRSNT8_N_BUF_R",
-> > > +                     "TRAY_PRSNT9_N_BUF_R", "TRAY_PRSNT10_N_BUF_R",
-> > > +                     "TRAY_PRSNT11_N_BUF_R", "TRAY_PRSNT12_N_BUF_R",
-> > > +                     "TRAY_PRSNT13_N_BUF_R", "TRAY_PRSNT14_N_BUF_R",
-> > > +                     "TRAY_PRSNT15_N_BUF_R", "TRAY_PRSNT16_N_BUF_R";
-> > > +     };
-> > > +
-> > > +     legacy_prsnt_io_expander1: gpio@12 {
-> > > +             compatible =3D "nxp,pca9555";
-> > > +             reg =3D <0x12>;
-> > > +             gpio-controller;
-> > > +             #gpio-cells =3D <2>;
-> > > +             interrupt-parent =3D <&sgpiom0>;
-> > > +             interrupts =3D <40 IRQ_TYPE_LEVEL_LOW>;
-> > > +
-> > > +             gpio-line-names =3D
-> > > +                     "TRAY_PRSNT17_N_BUF_R", "TRAY_PRSNT18_N_BUF_R",
-> > > +                     "TRAY_PRSNT19_N_BUF_R", "TRAY_PRSNT20_N_BUF_R",
-> > > +                     "TRAY_PRSNT21_N_BUF_R", "TRAY_PRSNT22_N_BUF_R",
-> > > +                     "TRAY_PRSNT23_N_BUF_R", "TRAY_PRSNT24_N_BUF_R",
-> > > +                     "TRAY_PRSNT25_N_BUF_R", "TRAY_PRSNT26_N_BUF_R",
-> > > +                     "TRAY_PRSNT27_N_BUF_R", "TRAY_PRSNT28_N_BUF_R",
-> > > +                     "TRAY_PRSNT29_N_BUF_R", "TRAY_PRSNT30_N_BUF_R",
-> > > +                     "TRAY_PRSNT31_N_BUF_R", "TRAY_PRSNT32_N_BUF_R";
-> > > +     };
-> > > +
-> > > +     legacy_prsnt_io_expander2: gpio@13 {
-> > > +             compatible =3D "nxp,pca9555";
-> > > +             reg =3D <0x13>;
-> > > +             gpio-controller;
-> > > +             #gpio-cells =3D <2>;
-> > > +             interrupt-parent =3D <&sgpiom0>;
-> > > +             interrupts =3D <40 IRQ_TYPE_LEVEL_LOW>;
-> > > +
-> > > +             gpio-line-names =3D
-> > > +                     "TRAY_PRSNT33_N_BUF_R", "TRAY_PRSNT34_N_BUF_R",
-> > > +                     "TRAY_PRSNT35_N_BUF_R", "TRAY_PRSNT36_N_BUF_R",
-> > > +                     "TRAY_PRSNT37_N_BUF_R", "TRAY_PRSNT38_N_BUF_R",
-> > > +                     "TRAY_PRSNT39_N_BUF_R", "TRAY_PRSNT40_N_BUF_R",
-> > > +                     "", "",
-> > > +                     "", "",
-> > > +                     "", "",
-> > > +                     "", "";
-> > > +     };
-> > > +
-> > > +     power-monitor@14 {
-> > > +             compatible =3D "infineon,xdp710";
-> > > +             reg =3D <0x14>;
-> > > +     };
-> > > +
-> > > +     legacy_pwrgd_io_expander1: gpio@15 {
-> > > +             compatible =3D "nxp,pca9555";
-> > > +             reg =3D <0x15>;
-> > > +             gpio-controller;
-> > > +             #gpio-cells =3D <2>;
-> > > +             interrupt-parent =3D <&sgpiom0>;
-> > > +             interrupts =3D <42 IRQ_TYPE_LEVEL_LOW>;
-> > > +
-> > > +             gpio-line-names =3D
-> > > +                     "TRAY_PWRGD17_N_BUF_R", "TRAY_PWRGD18_N_BUF_R",
-> > > +                     "TRAY_PWRGD19_N_BUF_R", "TRAY_PWRGD20_N_BUF_R",
-> > > +                     "TRAY_PWRGD21_N_BUF_R", "TRAY_PWRGD22_N_BUF_R",
-> > > +                     "TRAY_PWRGD23_N_BUF_R", "TRAY_PWRGD24_N_BUF_R",
-> > > +                     "TRAY_PWRGD25_N_BUF_R", "TRAY_PWRGD26_N_BUF_R",
-> > > +                     "TRAY_PWRGD27_N_BUF_R", "TRAY_PWRGD28_N_BUF_R",
-> > > +                     "TRAY_PWRGD29_N_BUF_R", "TRAY_PWRGD30_N_BUF_R",
-> > > +                     "TRAY_PWRGD31_N_BUF_R", "TRAY_PWRGD32_N_BUF_R";
-> > > +     };
-> > > +
-> > > +     legacy_pwrgd_io_expander2: gpio@16 {
-> > > +             compatible =3D "nxp,pca9555";
-> > > +             reg =3D <0x16>;
-> > > +             gpio-controller;
-> > > +             #gpio-cells =3D <2>;
-> > > +             interrupt-parent =3D <&sgpiom0>;
-> > > +             interrupts =3D <42 IRQ_TYPE_LEVEL_LOW>;
-> > > +
-> > > +             gpio-line-names =3D
-> > > +                     "TRAY_PWRGD33_N_BUF_R", "TRAY_PWRGD34_N_BUF_R",
-> > > +                     "TRAY_PWRGD35_N_BUF_R", "TRAY_PWRGD36_N_BUF_R",
-> > > +                     "TRAY_PWRGD37_N_BUF_R", "TRAY_PWRGD38_N_BUF_R",
-> > > +                     "TRAY_PWRGD39_N_BUF_R", "TRAY_PWRGD40_N_BUF_R",
-> > > +                     "", "",
-> > > +                     "", "",
-> > > +                     "", "",
-> > > +                     "", "";
-> > > +     };
-> > > +
-> > > +     legacy_leak_io_expander0: gpio@17 {
-> > > +             compatible =3D "nxp,pca9555";
-> > > +             reg =3D <0x17>;
-> > > +             gpio-controller;
-> > > +             #gpio-cells =3D <2>;
-> > > +             interrupt-parent =3D <&sgpiom0>;
-> > > +             interrupts =3D <46 IRQ_TYPE_LEVEL_LOW>;
-> > > +
-> > > +             gpio-line-names =3D
-> > > +                     "TRAY_LEAK_DETECT1_N_BUF_R", "TRAY_LEAK_DETECT2=
-_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT3_N_BUF_R", "TRAY_LEAK_DETECT4=
-_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT5_N_BUF_R", "TRAY_LEAK_DETECT6=
-_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT7_N_BUF_R", "TRAY_LEAK_DETECT8=
-_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT9_N_BUF_R", "TRAY_LEAK_DETECT1=
-0_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT11_N_BUF_R", "TRAY_LEAK_DETECT=
-12_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT13_N_BUF_R", "TRAY_LEAK_DETECT=
-14_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT15_N_BUF_R", "TRAY_LEAK_DETECT=
-16_N_BUF_R";
-> > > +     };
-> > > +
-> > > +     legacy_leak_io_expander1: gpio@18 {
-> > > +             compatible =3D "nxp,pca9555";
-> > > +             reg =3D <0x18>;
-> > > +             gpio-controller;
-> > > +             #gpio-cells =3D <2>;
-> > > +             interrupt-parent =3D <&sgpiom0>;
-> > > +             interrupts =3D <46 IRQ_TYPE_LEVEL_LOW>;
-> > > +
-> > > +             gpio-line-names =3D
-> > > +                     "TRAY_LEAK_DETECT17_N_BUF_R", "TRAY_LEAK_DETECT=
-18_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT19_N_BUF_R", "TRAY_LEAK_DETECT=
-20_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT21_N_BUF_R", "TRAY_LEAK_DETECT=
-22_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT23_N_BUF_R", "TRAY_LEAK_DETECT=
-24_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT25_N_BUF_R", "TRAY_LEAK_DETECT=
-26_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT27_N_BUF_R", "TRAY_LEAK_DETECT=
-28_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT29_N_BUF_R", "TRAY_LEAK_DETECT=
-30_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT31_N_BUF_R", "TRAY_LEAK_DETECT=
-32_N_BUF_R";
-> > > +     };
-> > > +
-> > > +     legacy_leak_io_expander2: gpio@19 {
-> > > +             compatible =3D "nxp,pca9555";
-> > > +             reg =3D <0x19>;
-> > > +             gpio-controller;
-> > > +             #gpio-cells =3D <2>;
-> > > +             interrupt-parent =3D <&sgpiom0>;
-> > > +             interrupts =3D <46 IRQ_TYPE_LEVEL_LOW>;
-> > > +
-> > > +             gpio-line-names =3D
-> > > +                     "TRAY_LEAK_DETECT33_N_BUF_R", "TRAY_LEAK_DETECT=
-34_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT35_N_BUF_R", "TRAY_LEAK_DETECT=
-36_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT37_N_BUF_R", "TRAY_LEAK_DETECT=
-38_N_BUF_R",
-> > > +                     "TRAY_LEAK_DETECT39_N_BUF_R", "TRAY_LEAK_DETECT=
-40_N_BUF_R",
-> > > +                     "", "",
-> > > +                     "", "",
-> > > +                     "", "",
-> > > +                     "", "";
-> > > +     };
-> > > +
-> > > +     legacy_small_leak_io_expander0: gpio@1a {
-> > > +             compatible =3D "nxp,pca9555";
-> > > +             reg =3D <0x1a>;
-> > > +             gpio-controller;
-> > > +             #gpio-cells =3D <2>;
-> > > +             interrupt-parent =3D <&sgpiom0>;
-> > > +             interrupts =3D <44 IRQ_TYPE_LEVEL_LOW>;
-> > > +
-> > > +             gpio-line-names =3D
-> > > +                     "TRAY_SMALL_LEAK1_N_BUF_R", "TRAY_SMALL_LEAK2_N=
-_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK3_N_BUF_R", "TRAY_SMALL_LEAK4_N=
-_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK5_N_BUF_R", "TRAY_SMALL_LEAK6_N=
-_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK7_N_BUF_R", "TRAY_SMALL_LEAK8_N=
-_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK9_N_BUF_R", "TRAY_SMALL_LEAK10_=
-N_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK11_N_BUF_R", "TRAY_SMALL_LEAK12=
-_N_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK13_N_BUF_R", "TRAY_SMALL_LEAK14=
-_N_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK15_N_BUF_R", "TRAY_SMALL_LEAK16=
-_N_BUF_R";
-> > > +     };
-> > > +
-> > > +     legacy_small_leak_io_expander1: gpio@1b {
-> > > +             compatible =3D "nxp,pca9555";
-> > > +             reg =3D <0x1b>;
-> > > +             gpio-controller;
-> > > +             #gpio-cells =3D <2>;
-> > > +             interrupt-parent =3D <&sgpiom0>;
-> > > +             interrupts =3D <44 IRQ_TYPE_LEVEL_LOW>;
-> > > +
-> > > +             gpio-line-names =3D
-> > > +                     "TRAY_SMALL_LEAK17_N_BUF_R", "TRAY_SMALL_LEAK18=
-_N_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK19_N_BUF_R", "TRAY_SMALL_LEAK20=
-_N_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK21_N_BUF_R", "TRAY_SMALL_LEAK22=
-_N_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK23_N_BUF_R", "TRAY_SMALL_LEAK24=
-_N_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK25_N_BUF_R", "TRAY_SMALL_LEAK26=
-_N_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK27_N_BUF_R", "TRAY_SMALL_LEAK28=
-_N_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK29_N_BUF_R", "TRAY_SMALL_LEAK30=
-_N_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK31_N_BUF_R", "TRAY_SMALL_LEAK32=
-_N_BUF_R";
-> > > +     };
-> > > +
-> > > +     legacy_small_leak_io_expander2: gpio@1c {
-> > > +             compatible =3D "nxp,pca9555";
-> > > +             reg =3D <0x1c>;
-> > > +             gpio-controller;
-> > > +             #gpio-cells =3D <2>;
-> > > +             interrupt-parent =3D <&sgpiom0>;
-> > > +             interrupts =3D <44 IRQ_TYPE_LEVEL_LOW>;
-> > > +
-> > > +             gpio-line-names =3D
-> > > +                     "TRAY_SMALL_LEAK33_N_BUF_R", "TRAY_SMALL_LEAK34=
-_N_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK35_N_BUF_R", "TRAY_SMALL_LEAK36=
-_N_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK37_N_BUF_R", "TRAY_SMALL_LEAK38=
-_N_BUF_R",
-> > > +                     "TRAY_SMALL_LEAK39_N_BUF_R", "TRAY_SMALL_LEAK40=
-_N_BUF_R",
-> > > +                     "", "",
-> > > +                     "", "",
-> > > +                     "", "",
-> > > +                     "", "";
-> > > +     };
-> > > +
-> > > +     legacy_pwrgd_io_expander0: gpio@28 {
-> > > +             compatible =3D "nxp,pca9555";
-> > > +             reg =3D <0x28>;
-> > > +             gpio-controller;
-> > > +             #gpio-cells =3D <2>;
-> > > +             interrupt-parent =3D <&sgpiom0>;
-> > > +             interrupts =3D <42 IRQ_TYPE_LEVEL_LOW>;
-> > > +
-> > > +             gpio-line-names =3D
-> > > +                     "TRAY_PWRGD1_N_BUF_R", "TRAY_PWRGD2_N_BUF_R",
-> > > +                     "TRAY_PWRGD3_N_BUF_R", "TRAY_PWRGD4_N_BUF_R",
-> > > +                     "TRAY_PWRGD5_N_BUF_R", "TRAY_PWRGD6_N_BUF_R",
-> > > +                     "TRAY_PWRGD7_N_BUF_R", "TRAY_PWRGD8_N_BUF_R",
-> > > +                     "TRAY_PWRGD9_N_BUF_R", "TRAY_PWRGD10_N_BUF_R",
-> > > +                     "TRAY_PWRGD11_N_BUF_R", "TRAY_PWRGD12_N_BUF_R",
-> > > +                     "TRAY_PWRGD13_N_BUF_R", "TRAY_PWRGD14_N_BUF_R",
-> > > +                     "TRAY_PWRGD15_N_BUF_R", "TRAY_PWRGD16_N_BUF_R";
-> > > +     };
-> > > +
-> >
-> > ...
-> >
-> > > +
-> > > +&mdio0 {
-> > > +     status =3D "okay";
-> > > +};
-> > > +
-> > > +&peci0 {
-> > > +     status =3D "okay";
-> > > +};
-> >
-> > Ah, so the earlier peci node is redundant. Can you please remove it?
-> Got it. I will remove the redundant peci0 node and ensure all nodes
->  are strictly sorted in alphabetical order in the next version.
-> >
-> > Andrew
+> > +=A0=A0=A0 properties:=0A=
+> > +=A0=A0=A0=A0=A0 function:=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0 enum:=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - ADC0=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0 - ADC1=0A=
+=0A=
+> It'd be nice if you could use the other enum format I think so that=0A=
+> there's not 700 lines taken up by functions/groups/pins.=0A=
+=0A=
+I considered the inline format, but kept the one-item-per-line style=0A=
+intentionally: with 200+ entries in each enum, any future addition or=0A=
+rename produces a clean single-line diff. The inline format would=0A=
+require re-wrapping the entire list on every change, making those diffs=0A=
+significantly harder to review.=0A=
+=0A=
+> Otherwise, I really don't like this approach but it seems to be standard=
+=0A=
+> on aspeed so whatever.=0A=
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>=0A=
+> pw-bot: not-applicable=0A=
+=0A=
+Thank you for the review and the ack.=0A=
+=0A=
+Billy Tsai=0A=
 
