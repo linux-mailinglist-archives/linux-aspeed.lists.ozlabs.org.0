@@ -1,98 +1,44 @@
-Return-Path: <linux-aspeed+bounces-4114-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4110-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6Cs4O7SWD2o1NgYAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4114-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 May 2026 01:35:16 +0200
+	id 4FTmJdbNDmpoCQYAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4110-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 May 2026 11:18:14 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CBF5ACCFF
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 May 2026 01:35:16 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB44F5A2201
+	for <lists+linux-aspeed@lfdr.de>; Thu, 21 May 2026 11:18:13 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gM4X14tppz2xwH;
-	Fri, 22 May 2026 09:35:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gLjW22PGlz2xSN;
+	Thu, 21 May 2026 19:18:06 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip="2607:f8b0:4864:20::633"
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779346478;
-	cv=none; b=kbSogRNLF1RR1VfCibd+Qd8Le2QYM1O00FMjLxMfVPk8aYgQAFBO8BcULFCmmdaSq4zHe125Rrpeiq5HvVaBVMKsWZKUJ8/FqXh+40+ZsFl27mBo7+qgMyAJrxsT4MHaq2ycmji2QtsBihpRiyIK9UqUWncKx0bOEavAyfx5eMOMYrtzt460lFKgZPfuKgrNQPIOu5RaRPOj+uZg06pdPlr12NBxhM4Q6/TDRpHdseNEmVdsTDpZdqLkTGgTC4fAw0mc4PMIl7dBec0wKNVcLDTt2+2X5UK6hLjdy9XGMhA4AKV4Jj234n52ZzeTrotVCDcBY1Bd8GRz5MzH3JiviA==
+Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779355086;
+	cv=none; b=AVBdE1u0ymQadzMmOfy1Jk6vml7vQuEqra1yyhxL12fuL83tO3C7AdP4JsUPAgw7KfBHvWKWrh+18saPmxWa+TqGT9uVkTx18jqGA4tDIlKBxrmct6FQEzxGvaLdjW/3mAy5KHOQDdKOPpVKE56H7eB2HklW0FRTIn46zQ9ew/PtY2vqJf/dJFKGCBVHjZhugDdgkOAfM5jRITNkbzQQ7aNxVVBqd7HDfy4risAETk3PO2/C9spsou8NzJ7IDqPRnGyAkT4Et1mpexVmv9x47I19O7MFs6iXxE7PzTdMVfFm1GsbWbpoPruS3gXgVUuoCtd+OxeiXPQbpsirlRVvcQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1779346478; c=relaxed/relaxed;
-	bh=AaciwSm1L46TIODxCA9aHpcFSHmqvrXKCz/1wzRVFx0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gRTtSvfSy4S/rt1q6vefqcgte3L4zR4Kz+WuH209i2WmVcJtab0RpZE+vL6+LW+y1EAehru3ZYTiLp51MlzSs7f1xugY+6vwT7jRw+EPAl99HOVFxf0ZB22AvpSTCJSxPSTOQtRIrpbw2ZcXqYQDm8y8nfY8gr20F7oW3gK7Jlzx+iQNWVwbXnSnCY5tqnhhaMVpAxusT4SV/KuBty6IEvpHmTRl11OacMrNB9pn3BPNI0Nv2d9Ieoj/nsdTu3qWXoMXs6dVd2zaYA4RiiEh85dQaLWEifrolveFKBwjsgNAzP0OOUr1kPgvYbYhaysU1kbktBMYxM/FANsyqoe79w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FKaQyTYg; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=maoyixie.tju@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FKaQyTYg;
-	dkim-atps=neutral
-Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=gmail.com (client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=maoyixie.tju@gmail.com; receiver=lists.ozlabs.org)
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	t=1779355086; c=relaxed/relaxed;
+	bh=HztNOfgApkZBoP1iq3Qr9B/V1r4xoafa9iWlXDK1Q70=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=KOkFLr1xQY7hT2OobIA8qmi3g0GX26xdEoobbyR9KfvG2iyMgUE6WJayP/mbBdUFwrDpfU1yABbUe4c9JrWVuNW8ZFtvtrUTeqYH5az3OQNnuNQQ/jpMJJE+5Uq03s8FdNGW1sJ2ZeZh8UTb4Mls4kX+HzPry1AaacUfEa6/VjZ/ScyxznEEc9OPLPJlHk5v9iqG5qprk2EXGMsWQXRdMHxyH4Cw2C1swcoNZQGvgUparacp1/lIyT7ioF7E2X2a8yONud40B5hCDQVW1xYWaepXRYz/YiHNahKrddqdwOcQapRRD5Jzt/nzrYnX3BlY8T0cSzoQOx/jjFINznpoHg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
+Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeedtech.com; envelope-from=billy_tsai@aspeedtech.com; receiver=lists.ozlabs.org)
+Received: from twmbx01.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gLfKS5cqJz2xGY
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 21 May 2026 16:54:36 +1000 (AEST)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-2bd9c3b550aso39179665ad.2
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 20 May 2026 23:54:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779346474; x=1779951274; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AaciwSm1L46TIODxCA9aHpcFSHmqvrXKCz/1wzRVFx0=;
-        b=FKaQyTYgbdTf3X4TR2nhJmwVEUK9ru9VIjz9NGrzmlCa8fx7/QqRg59pPjBdMyFtMP
-         7T/w7/epS/6KQlTYtzyBubYRuq8hmF05UqCyMe8Pc5a2a15KFsbJVr13RuVtkt4hpCfW
-         XzQi7rETiIst9/UaGN8T9yp/4bBjRCNXqqyFjN+U0Uog1FZ2lZiy0WKqDvVm5mYxS+Js
-         kyOSTx3ZeEYdMMkTQQ0Wkc8c06y1Mw9/jIFiacLef6xNkCygNTliHE5FHIVnU4rT2UC3
-         Q/0cbOtQGv9DBlVkSXb2m2lXb3sKN9A8x2K6I/9yep+F2NBPC+kj+mZaAkc4zzgQgsPS
-         flEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779346474; x=1779951274;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AaciwSm1L46TIODxCA9aHpcFSHmqvrXKCz/1wzRVFx0=;
-        b=E0N/bt5QR9jYBk3l3ObKzTvPzCmo+OO2OaOZZ862oUbMVtycaXpueOnregFpjuHdyb
-         MPgYMmR8Y8Ovt2phPgmL6exAhPrW0abqaR+Uiqap6Vc/e3s50LBYSWSdJCB0zUzmZxX/
-         odf0h9dJJlRpQ7DF+jP82LXG8aLnixNbDSzW+ryNXPcomqpJrR4KcBZPLWUBQ5phMu5y
-         7HTTjjRTpGMaO8VlZEVSfxwsvnAJHwuTIM6A55rSrGWCSmCpXezTDqZ7oPiY0dFb1xKT
-         0r4JtzJBKQUB5NCgBuLbULQ+P1JKeqyMVS3Swq6uN21k2m1YN9WS/xJnWXpPhsMkhj1h
-         QCqg==
-X-Forwarded-Encrypted: i=1; AFNElJ8UOFwYHcTkxYpXmbn479cFqiWmjVriPN11yq3nkVET/NsH6O3wxJZQ7O/05uioc2V6j/dV0e6HBq8IHqE=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YwEErRjbEMfU/EL2PhirU1VVycjn2wiBQZFBLmuIDj0Qd7+1f/y
-	5iu/ID49snIE1qOiX6ep2OtlGnkUOiePivcVmUF/tHubc+oaNyXMiMLb
-X-Gm-Gg: Acq92OG3etAAAPRCDGuyl9pQReuweQGkfrqlWOd4Nc9x7kZMEEt8HpeVf6AZxnUQkaZ
-	V3QB8OsvlEm3YFAM/6eK6UKqMfDGLSAw0qNK8YtvRU0ZR/nWWukNf028kgBFMr2TVzNz4Mg5ZIt
-	Da/Z8O/qhtz/x8R+L7znVyD8s1X0hBfSfoENZ1f8qc32rMBEah7plBx/YVzLRrMMdMCWHUJUYL6
-	pJ8hAKL9yRChMpaecXGHfoNtTyukf+4V2T6nbB4AuREHOByuTWq1XcwgZW2nbK9JqIPnnObCu7z
-	stLCn5GPZ2NKUI9b+UVfm+rcg8XghMiCQYQ3ypZRTK98ODo1KzI55tcRit3xcjB1xRpYFx74qU8
-	FD1941ya3nTICJM8eT2so3d+G7K/FrtMrJMde38nNpU7V4yl3kmvnZVOVTfp1sNC4fenxwkrl1A
-	fTA+hnjpXSwloUlANKO4zS6Mz6yTx17WOXLVzru8HCNdM6II+9
-X-Received: by 2002:a17:902:e750:b0:2bc:8ebd:af76 with SMTP id d9443c01a7336-2bea2fb709dmr15581365ad.0.1779346473759;
-        Wed, 20 May 2026 23:54:33 -0700 (PDT)
-Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d0fd384sm241757715ad.65.2026.05.20.23.54.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 23:54:33 -0700 (PDT)
-From: Maoyi Xie <maoyixie.tju@gmail.com>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Neal Liu <neal_liu@aspeedtech.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	linux-aspeed@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] usb: gadget: aspeed_udc: avoid past-the-end iterator in dequeue
-Date: Thu, 21 May 2026 14:54:28 +0800
-Message-Id: <20260521065428.3261238-1-maoyixie.tju@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260519080213.1932516-1-maoyixie.tju@gmail.com>
-References: <20260519080213.1932516-1-maoyixie.tju@gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gLjW105Swz2xGY;
+	Thu, 21 May 2026 19:18:04 +1000 (AEST)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 21 May
+ 2026 17:17:46 +0800
+Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Thu, 21 May 2026 17:17:46 +0800
+From: Billy Tsai <billy_tsai@aspeedtech.com>
+Subject: [PATCH v5 0/3] pinctrl: aspeed: Add AST2700 SoC1 support
+Date: Thu, 21 May 2026 17:17:43 +0800
+Message-ID: <20260521-pinctrl-single-bit-v5-0-308be2c160fc@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -106,105 +52,186 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALfNDmoC/23NTWrDMBCG4asErauiGf1Eyqr3KF3I0igWpLaRj
+ EkIvnuVQEmhWr4fzDN3Vqlkqux0uLNCW655nlrotwMLo5/OxHNszVCgEQjAlzyFtVx4zdP5Qnz
+ IK48eQSa0GJxm7XAplPL1iX5+tR5zXedye/7Y4LH+crLHbcAFD0YkTIMVlIYPXxeiuFIY38P8z
+ R7mhi9HCtN1sDlH58CG5AejoOvIl6NBdx3ZHHLH6JUEBKG6jvrruK6jmqMTaWO9TSnSP2ff9x9
+ DU/d/kQEAAA==
+X-Change-ID: 20260211-pinctrl-single-bit-da213f282c95
+To: Linus Walleij <linusw@kernel.org>, Tony Lindgren <tony@atomide.com>, "Rob
+ Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+	<andrew@codeconstruct.com.au>, Bartosz Golaszewski <brgl@kernel.org>, "Lee
+ Jones" <lee@kernel.org>, Ryan Chen <ryan_chen@aspeedtech.com>
+CC: <patrickw3@meta.com>, <linux-gpio@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<BMC-SW@aspeedtech.com>, <openbmc@lists.ozlabs.org>, Andrew Jeffery
+	<andrew@aj.id.au>, <linux-clk@vger.kernel.org>, Billy Tsai
+	<billy_tsai@aspeedtech.com>, Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779355066; l=6532;
+ i=billy_tsai@aspeedtech.com; s=20251118; h=from:subject:message-id;
+ bh=1FO/h9Q68wl39xMGpvKy8BX+Cnza/44iE+NJvpqIVdE=;
+ b=Dg8FGmSAZqlzGGhZvMlMhmpPNmfnr+FPYz892X8vyZ/wLjGQXH9HAFL536sj2kDItMBBw44Ko
+ duBFiHJsPJ8AJ4Ca4l5agvBWnUQGDj7qDjM/VenCn7MvyyNg7TnSWpw
+X-Developer-Key: i=billy_tsai@aspeedtech.com; a=ed25519;
+ pk=/A8qvgZ6CPfnwKgT6/+k+nvXOkN477MshEGJvVdzeeQ=
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
-X-Spamd-Result: default: False [-1.71 / 15.00];
+X-Spamd-Result: default: False [1.49 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:andrew@codeconstruct.com.au,m:neal_liu@aspeedtech.com,m:gregkh@linuxfoundation.org,m:benh@kernel.crashing.org,m:joel@jms.id.au,m:andrew@lunn.ch,m:stern@rowland.harvard.edu,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:linux-usb@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4114-lists,linux-aspeed=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[maoyixietju@gmail.com,linux-aspeed@lists.ozlabs.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[maoyixietju@gmail.com,linux-aspeed@lists.ozlabs.org];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	R_DKIM_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[billy_tsai@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_FROM(0.00)[bounces-4110-lists,linux-aspeed=lfdr.de];
 	NEURAL_HAM(-0.00)[-1.000];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:rdns,lists.ozlabs.org:helo,harvard.edu:email]
-X-Rspamd-Queue-Id: 09CBF5ACCFF
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[]
+X-Rspamd-Queue-Id: BB44F5A2201
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-ast_udc_ep_dequeue() declares the loop cursor `req` outside the
-list_for_each_entry(). After the loop it tests `&req->req != _req`
-to decide whether the request was found. If the queue holds no
-match, `req` is past-the-end. It then aliases
-container_of(&ep->queue, struct ast_udc_request, queue) via offset
-cancellation. Whether that synthetic address equals `_req` depends
-on heap layout. The function can return 0 without dequeueing
-anything.
+Legacy ASPEED pin controllers have historically not had a coherent
+register interface. Control fields often had no consistent mapping to
+individual pins, and configuring a function frequently required
+coordinating multiple control bits across several registers. As a
+result, the existing ASPEED pinctrl drivers rely on complex macro
+infrastructure to describe the dependencies between pins, functions,
+and register fields.
 
-Default `rc` to -EINVAL and set it to 0 only inside the match
-branch. `req` is no longer read after the loop, so the past-the-end
-dereference goes away. No extra cursor variable or post-loop test
-is needed.
+The pin controller for SoC1 in the AST2700 breaks from this legacy
+design.
 
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Suggested-by: Andrew Jeffery <andrew@codeconstruct.com.au>
-Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
+For SoC1, each pin maps directly to a dedicated function field in the
+SCU register space that determines the active mux function for that
+pin. This results in a much more regular register layout compared to
+previous generations.
+
+While the behaviour is conceptually similar to pinctrl-single, the
+register layout and configuration model differ enough that reusing
+pinctrl-single directly is not practical. Therefore this driver is
+implemented as a SoC-specific pinctrl driver using static data tables
+to describe the register layout.
+
+The binding reuses the standard pinmux and generic pin configuration
+schemas and does not introduce any custom Devicetree properties.
+
+Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
 ---
-v3: Switch to Andrew Jeffery's shape: default rc to -EINVAL, set
-    rc=0 inside the match branch, drop the post-loop check. Smaller
-    diff, no extra cursor variable, no goto. Same semantic fix as v2.
-v2: https://lore.kernel.org/linux-usb/20260519080213.1932516-1-maoyixie.tju@gmail.com/
-v1: https://lore.kernel.org/linux-usb/20260518073403.1285339-1-maoyi.xie@ntu.edu.sg/
+Changes in v5:
+- pin_config_set: add comment explaining that PIN_CONFIG_BIAS_PULL_UP
+  and PIN_CONFIG_BIAS_PULL_DOWN both map to "enable bias" because the
+  hardware pull direction is fixed in silicon per pin.
+- Remove custom aspeed_g7_soc1_get_group_pins() helper; replace with
+  direct calls to pinctrl_generic_get_group_pins() in
+  pin_config_group_get() and pin_config_group_set().
+- MUX_FUNC_MASK: add comment explaining that the mask covers only
+  bits [2:0] because bit 3 of each 4-bit per-pin slot is reserved
+  read-only in the hardware and must not be written.
+- Link to v4: https://lore.kernel.org/r/20260519-pinctrl-single-bit-v4-0-5fe568a8ffde@aspeedtech.com
 
- drivers/usb/gadget/udc/aspeed_udc.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Changes in v4:
+- Fix SGMII0 mux register: SGMII0's control bit is at SCU47C[0],
+  outside the contiguous pin-indexed MUX register range. Handle it as
+  a special case in set_mux (analogous to PCIERC2_PERST) using
+  field.mask = 0x1 to avoid clobbering adjacent bits in SCU47C.
+- Use devm_pinctrl_register_and_init() and pinctrl_enable(): populate
+  all groups and functions before enabling the controller, closing the
+  race window where a consumer could observe zero groups/functions.
+- pin_config_get: return -EINVAL when BIAS_DISABLE is not active; return
+  -ENOTSUPP for BIAS_PULL_UP and BIAS_PULL_DOWN because the hardware
+  has a single 1-bit enable/disable field per pin and pull direction
+  cannot be read back from the register.
+- Probe: preserve const qualification in the pinctrl_generic_add_group()
+  pin array cast.
+- Binding: retain additionalProperties: false for the state-node schema.
+  The state-node properties block re-declares the four pincfg properties
+  the hardware supports (bias-disable, bias-pull-up, bias-pull-down,
+  drive-strength) and intentionally rejects all others.
+  unevaluatedProperties: false was suggested as an alternative, but that
+  would permit the full set of pincfg-node.yaml properties
+  (input-schmitt-enable, slew-rate, etc.) even though the hardware does
+  not support them. additionalProperties: false is the correct mechanism
+  when the goal is to restrict the accepted properties to a known subset.
+- Link to v3: https://lore.kernel.org/r/20260515-pinctrl-single-bit-v3-0-e97da4312104@aspeedtech.com
 
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index 7fc6696b7694..75f9c831b21a 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -694,7 +694,7 @@ static int ast_udc_ep_dequeue(struct usb_ep *_ep, struct usb_request *_req)
- 	struct ast_udc_dev *udc = ep->udc;
- 	struct ast_udc_request *req;
- 	unsigned long flags;
--	int rc = 0;
-+	int rc = -EINVAL;
- 
- 	spin_lock_irqsave(&udc->lock, flags);
- 
-@@ -704,14 +704,11 @@ static int ast_udc_ep_dequeue(struct usb_ep *_ep, struct usb_request *_req)
- 			list_del_init(&req->queue);
- 			ast_udc_done(ep, req, -ESHUTDOWN);
- 			_req->status = -ECONNRESET;
-+			rc = 0;
- 			break;
- 		}
- 	}
- 
--	/* dequeue request not found */
--	if (&req->req != _req)
--		rc = -EINVAL;
--
- 	spin_unlock_irqrestore(&udc->lock, flags);
- 
- 	return rc;
+Changes in v3:
+- Added pin configuration group support for AST2700 SoC1 by
+  implementing `pin_config_group_get()` and `pin_config_group_set()`.
+- Restricted AST2700 SoC1 `drive-strength` settings to the supported
+  4/8/12/16 mA values in the pinctrl driver.
+- Convert kernel-doc comment for aspeed_g7_soc1_drv_map to a regular
+  comment to avoid kernel-doc warning reported by kernel test robot.
+- Update the AST2700 SoC1 pinctrl binding to describe the `reg`
+  property and require it.
+- Allow standard pinconf properties in pin state nodes.
+- Add a binding example for the AST2700 SoC1 pinctrl node.
+- Add state-node description, function+groups dependency constraint,
+  and oneOf groups/pins constraint to the binding, matching the SoC0
+  binding style.
+- Add pins enum (212 entries) to the binding to cover all physical pins
+  that support per-pin configuration.
+- Add UART modem-line signals as independent functions/groups:
+  NCTS0/1/5/6, NDCD0/1/5/6, NDSR0/1/5/6, NDTR0/1/5/6,
+  NRI0/1/5/6, NRTS0/1/5/6; remove those pins from UART0/1/5/6 groups.
+- Add LTPI_PS_I2C0/1/2/3 functions/groups for I2C-over-LTPI;
+  extend I2C0/1/2/3 functions with the new LTPI groups.
+- Fix typo: rename RMII0RCKO/RMII1RCKO to RMII0RCLKO/RMII1RCLKO.
+- Fix wrong index: rename DSGPM1 to DSGPM0.
+- Kconfig: use "Aspeed G7 SoC1 pin control" to match neighbouring entries.
+- pin_config_get: fix BIAS_DISABLE readback (val=!val must be skipped
+  for BIAS_DISABLE since hardware bit=1 means pull disabled).
+- set_mux: remove dead null check on grp; propagate regmap_update_bits()
+  return value.
+- gpio_request_enable: propagate regmap_update_bits() return value.
+- Link to v2: https://lore.kernel.org/r/20260306-pinctrl-single-bit-v2-0-79918cfab641@aspeedtech.com
+
+Changes in v2:
+- Updated the series title to focus on AST2700 SoC1 support.
+- Reworked implementation to use static SoC-specific layout tables
+  instead of a generic packed-field model.
+- Dropped the generic "pinctrl-packed" driver approach.
+- Removed custom Devicetree properties.
+- Updated binding to reuse standard pinmux and generic pin
+  configuration schemas.
+- Link to v1: https://lore.kernel.org/r/20260213-pinctrl-single-bit-v1-0-c60f2fb80efb@aspeedtech.com
+
+---
+Billy Tsai (3):
+      dt-bindings: mfd: aspeed,ast2x00-scu: Support AST2700 SoC1 pinctrl
+      dt-bindings: pinctrl: Add aspeed,ast2700-soc1-pinctrl
+      pinctrl: aspeed: Add AST2700 SoC1 support
+
+ .../bindings/mfd/aspeed,ast2x00-scu.yaml           |    1 +
+ .../pinctrl/aspeed,ast2700-soc1-pinctrl.yaml       |  760 +++++++++
+ drivers/pinctrl/aspeed/Kconfig                     |   14 +
+ drivers/pinctrl/aspeed/Makefile                    |    1 +
+ drivers/pinctrl/aspeed/pinctrl-aspeed-g7-soc1.c    | 1747 ++++++++++++++++++++
+ 5 files changed, 2523 insertions(+)
+---
+base-commit: 812e181385abef2fe3a138438326bce844ef7cf0
+change-id: 20260211-pinctrl-single-bit-da213f282c95
+
+Best regards,
 -- 
-2.34.1
+Billy Tsai <billy_tsai@aspeedtech.com>
 
 
