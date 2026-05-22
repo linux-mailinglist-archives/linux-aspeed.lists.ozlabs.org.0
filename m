@@ -1,34 +1,34 @@
-Return-Path: <linux-aspeed+bounces-4117-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4118-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CLnGLOoCEGqLSQYAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4117-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 May 2026 09:16:58 +0200
+	id 6AYMMvsCEGqLSQYAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4118-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 May 2026 09:17:15 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24DD5AFE65
-	for <lists+linux-aspeed@lfdr.de>; Fri, 22 May 2026 09:16:57 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 021845AFE73
+	for <lists+linux-aspeed@lfdr.de>; Fri, 22 May 2026 09:17:14 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gMGmQ6wZfz2yS4;
-	Fri, 22 May 2026 17:16:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gMGmR6z7mz3bpG;
+	Fri, 22 May 2026 17:16:39 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=211.20.114.72
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779434198;
-	cv=none; b=GJc+2/a7xrY6U8lAsi+IKinR75n1j7Cj0/Bx4h6lUbW201CXmUm44I9rjWrYRbkN5j4/u8lx4rVGrK0zCTD5PsQPSGf+ZBO/KTPjevvvyc6USB2KP00OAqGM1S+cgLy8gzPRjGeLgksVr0RyMkLk6jWqs3yOSYp4WcTHRnnrHjiCZYmCkJlzJvncP9DvgJglaad/+sgQ1Td/t52agvZ5NlYErn+R2e6QtC3oIz+hVYKq9WS8jKiNcrD2SkWAQPPLazlo5dBLHmhWVYUh1UIJN0kZ5CoA/JTg88oQ99XslGSliEtFZ7ZK+rxJdVbiH1q0bx8V6SIv3IZD4TYZg+z3Lg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779434199;
+	cv=none; b=njpyHvQEe58mLBHt+QdhmVVk8rYYdolbhGbEaD3u9GIaHf/v9IqKY0hQ9DtRdsevj9vgJt5PSAJsJULe5aAAYO88ryPcGGZhOPFWHHV7O63vf8MwHSLmQHzO3DFCG7FjugHrZyM7eje6G+SmZetyw58bM7eamTGpGbKgTMRRNBBIBNuMvFtsCPaOtskO8qwoxQVlFdLo1Zg91Efiv6Xlz+LSnzK8ZRyq6/CfcQ105daL2NF7FblTrEwpzJoBRnDNoJKh74fUSpGF5BR2x2XgdonL180AoTBZ4ZOMS+XYDrK8vk9sIGzTwtg7BH7yIMMpma5pa6xgOAF8o+9ZVUA+pw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1779434198; c=relaxed/relaxed;
-	bh=N6QmoT3amoxN5v8xK9e4KZdgvjcvpzj4dTLMdbcKqKk=;
+	t=1779434199; c=relaxed/relaxed;
+	bh=/FT3+k5kDyjvitsFzhLncaoS8WLkL1l2pXmOhypcq3A=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z/PQ9apfUQm6FhXWztNBunlO/jgZ4NIO86J+CeJ84QT39yuf+C0de/SlDN/S6VCYtsT5SxzMZcilrtlHYHtTUgKEj1UZVnWYjARWooXuxnbcQEj/X8SvkcIsuwCFGtPE8vCljr3v6kLDew8V/XMlqYBEDBhTTtgj8yuFrxFei0rAo681EN15JcZRgseM76T3h3eBzh1pypiT+y0ydQl47PvFvJUOVbZmnqFFTcD4soHJZPfDS9gRKyNGOt5iMv0nFw9OzrnFpWGwSG24OUaBULZWub5r54mtfLGBwL1sDyM9iMbS+vfOLIgs9+LPpZx4UQxHzP8kwaHJffKQlRc4qQ==
+	 MIME-Version:Content-Type; b=X2EaF7W+mZ1+pLAuXFeHisJd9zxhVORnodlfjBxmY01QEQHU9SXgyQ5W54mpbWyVJ2L+zG8L2ZdqpA/xrRiblwBp74IMBjGIPTD0siqUx+GTsIMJP3+oWIF7IZZNYMtJdlN7iyjs1LhYFCLHX3K74dlCNgtysb/E1nqyzNAKR1eyxJRfhn3/bH8jby4gWJjHRoBa0QJdfOUteVIWw1eAlyWcoo1L82xF5Ut/zxhgul1XKq73GkGhqRbDW0F51Io0BSnSV/hJoeDFVojRDEI5149fFJ0Ze40sJ0NyLt7YZrpA4xbPKcFJ9b5w8q5qnkRJPfYpuH1URUo8NANFqN2sbg==
 ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeedtech.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=aspeedtech.com (client-ip=211.20.114.72; helo=twmbx01.aspeedtech.com; envelope-from=chin-ting_kuo@aspeedtech.com; receiver=lists.ozlabs.org)
 Received: from twmbx01.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gMGmQ1NrDz2yC9;
-	Fri, 22 May 2026 17:16:38 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gMGmR14jyz2yfD;
+	Fri, 22 May 2026 17:16:39 +1000 (AEST)
 Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
  (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 22 May
@@ -43,9 +43,9 @@ To: <clg@kaod.org>, <broonie@kernel.org>, <joel@jms.id.au>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
 	<david.laight.linux@gmail.com>, <BMC-SW@aspeedtech.com>
 CC: kernel test robot <lkp@intel.com>
-Subject: [PATCH v2 1/2] spi: aspeed: Fix missing __iomem annotation in output transfer path
-Date: Fri, 22 May 2026 15:16:20 +0800
-Message-ID: <20260522071621.102507-2-chin-ting_kuo@aspeedtech.com>
+Subject: [PATCH v2 2/2] spi: aspeed: Replace VLA parameter with flat pointer in calibration helper
+Date: Fri, 22 May 2026 15:16:21 +0800
+Message-ID: <20260522071621.102507-3-chin-ting_kuo@aspeedtech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260522071621.102507-1-chin-ting_kuo@aspeedtech.com>
 References: <20260522071621.102507-1-chin-ting_kuo@aspeedtech.com>
@@ -73,11 +73,11 @@ X-Spamd-Result: default: False [2.49 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_FROM(0.00)[bounces-4117-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-4118-lists,linux-aspeed=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -85,53 +85,62 @@ X-Spamd-Result: default: False [2.49 / 15.00];
 	FREEMAIL_TO(0.00)[kaod.org,kernel.org,jms.id.au,codeconstruct.com.au,lists.ozlabs.org,vger.kernel.org,lists.infradead.org,gmail.com,aspeedtech.com];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.919];
+	NEURAL_HAM(-0.00)[-0.925];
 	FROM_NEQ_ENVFROM(0.00)[chin-ting_kuo@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	R_DKIM_NA(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,lists.ozlabs.org:rdns,lists.ozlabs.org:helo,aspeedtech.com:mid,aspeedtech.com:email]
-X-Rspamd-Queue-Id: E24DD5AFE65
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:rdns,lists.ozlabs.org:helo,aspeedtech.com:mid,aspeedtech.com:email,intel.com:email]
+X-Rspamd-Queue-Id: 021845AFE73
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The dst parameter of aspeed_spi_user_transfer_tx() is an MMIO address
-obtained from chip->ahb_base, but it was typed as void * instead of
-void __iomem *.  This caused a sparse warning report. Fix the
-parameter type to void __iomem * and drop the now-unnecessary
-cast at the call site.
+aspeed_spi_ast2600_optimized_timing() declared its buffer argument as a
+variable-length array parameter (u8 buf[rows][cols]), which causes a
+sparse warning. Replace the VLA parameter with a plain u8 * and compute
+the 2-D index manually. The corresponding call site is also updated.
 
 Reported-by: kernel test robot <lkp@intel.com>
 Closes: https://lore.kernel.org/oe-kbuild-all/202605180441.uD3toFRJ-lkp@intel.com/
 Signed-off-by: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 ---
- drivers/spi/spi-aspeed-smc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/spi/spi-aspeed-smc.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/spi/spi-aspeed-smc.c b/drivers/spi/spi-aspeed-smc.c
-index c21323e07d3c..808659a1f460 100644
+index 808659a1f460..027caa2eeb5c 100644
 --- a/drivers/spi/spi-aspeed-smc.c
 +++ b/drivers/spi/spi-aspeed-smc.c
-@@ -891,7 +891,7 @@ static int aspeed_spi_user_unprepare_msg(struct spi_controller *ctlr,
- static void aspeed_spi_user_transfer_tx(struct aspeed_spi *aspi,
- 					struct spi_device *spi,
- 					const u8 *tx_buf, u8 *rx_buf,
--					void *dst, u32 len)
-+					void __iomem *dst, u32 len)
+@@ -1467,8 +1467,7 @@ static int aspeed_spi_do_calibration(struct aspeed_spi_chip *chip)
+  * must contains the highest number of consecutive "pass"
+  * results and not span across multiple rows.
+  */
+-static u32 aspeed_spi_ast2600_optimized_timing(u32 rows, u32 cols,
+-					       u8 buf[rows][cols])
++static u32 aspeed_spi_ast2600_optimized_timing(u32 rows, u32 cols, u8 *buf)
  {
- 	const struct aspeed_spi_data *data = aspi->data;
- 	bool full_duplex_transfer = data->full_duplex && tx_buf == rx_buf;
-@@ -936,7 +936,7 @@ static int aspeed_spi_user_transfer(struct spi_controller *ctlr,
- 			aspeed_spi_set_io_mode(chip, CTRL_IO_QUAD_DATA);
+ 	int r = 0, c = 0;
+ 	int max = 0;
+@@ -1478,7 +1477,7 @@ static u32 aspeed_spi_ast2600_optimized_timing(u32 rows, u32 cols,
+ 		for (j = 0; j < cols;) {
+ 			int k = j;
  
- 		aspeed_spi_user_transfer_tx(aspi, spi, tx_buf, rx_buf,
--					    (void *)ahb_base, xfer->len);
-+					    ahb_base, xfer->len);
+-			while (k < cols && buf[i][k])
++			while (k < cols && buf[(i * cols) + k])
+ 				k++;
+ 
+ 			if (k - j > max) {
+@@ -1541,7 +1540,7 @@ static int aspeed_spi_ast2600_calibrate(struct aspeed_spi_chip *chip, u32 hdiv,
+ 		}
  	}
  
- 	if (rx_buf && rx_buf != tx_buf) {
+-	calib_point = aspeed_spi_ast2600_optimized_timing(6, 17, calib_res);
++	calib_point = aspeed_spi_ast2600_optimized_timing(6, 17, &calib_res[0][0]);
+ 	/* No good setting for this frequency */
+ 	if (calib_point == 0)
+ 		return -1;
 -- 
 2.34.1
 
