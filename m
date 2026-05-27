@@ -1,65 +1,64 @@
-Return-Path: <linux-aspeed+bounces-4135-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4136-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id fIwCLJ1fFmoSmAcAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4135-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 May 2026 05:06:05 +0200
+	id UGaCIZxiFmpTmAcAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4136-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 27 May 2026 05:18:52 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75335DEC97
-	for <lists+linux-aspeed@lfdr.de>; Wed, 27 May 2026 05:06:04 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D027D5DED36
+	for <lists+linux-aspeed@lfdr.de>; Wed, 27 May 2026 05:18:50 +0200 (CEST)
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gQDyy3xnSz2yTH;
-	Wed, 27 May 2026 13:06:02 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gQFFh46NLz2yTH;
+	Wed, 27 May 2026 13:18:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
 Authentication-Results: lists.ozlabs.org; arc=none smtp.remote-ip=203.29.241.158
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779851162;
-	cv=none; b=RQCVILHcTamOpAdKrNk+e8wpkrTP7x71hdVOYAJMVMa3XiRQCtCS/GAgsaVIIsaiL2CA2NgchIaWeTYVHYFxHdUovMA/e9B9KtoNyQ/UkDk4bhPxdR55ntFA6/05Ampop1NHQ3u6DcYlSapYk8yVDzyVKKA1hiGrpDLwuZBzzK2ozubcjOTbFnQ7hnNJXrVmsM4Tj52tJbNIpBRTgQ9SzpeqljN6LYign6NkAv2m1/p1L0LrkWgUdyYP+zttEUnlP+qsRllqweGKeGswAbMorqkSYmptVsPIS038bRcmD5wq9tPTAc0RnE9eCwQVdiG33LXMpq2jxVksTT40eoMAZg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1779851928;
+	cv=none; b=oNfUDVSn9OjCtz/+2P2GNn1GD03jMyxsYeAde75CuCbAL5mA0b/VvNwTs0BP/8MNPPy2sWpQqCYIaHYWNi6IOSrxsAiZjvyfd+dMH58Kxo680xN+7xaW5v5ZOs7HcCMw6Z6xAyTmIT3igSItf7s5u4DlWiC4ty/watSmd4OTkgAJGvcqsON5mrqn/pPV6Ew6ajYAcTFp3ItG3hqhJcQORYh2fo4x1hAVRNBqRzOK0C//1gkXcxKksZ22XzuKTBylYpw5PgBd+RXriPvmLmNKxkMizoGowL9mwI6g3c9MU75CPGWKxpbocHmTSwuFLD5KFoEx7fMXawlDI0M9nsY9Yw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1779851162; c=relaxed/relaxed;
-	bh=IF4geJPizXwz+Vvc9PhYKe2Due5htIQsfI6rr6h/nk0=;
+	t=1779851928; c=relaxed/relaxed;
+	bh=zJU8EAC9I7Spvd0nK3+SuI/L+eH9UzP8lKuPKonV7lk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZBtMa9yK/japFjcP1KT3wJMrWDgXGBlCK4FQm17XOv+fYhihKVR1bA5XEKbMPvQm7LejwWoEonZWAym1N7WZ/zuoxrFhGkbngzw9VsO/YERL3WQ2I/PGIYubrk20AlHHa9DU/WXwyK0xlOjzA9a7kydxE6WXc+Xpx7A0o09MzBvbUSHRPPY9j2plH60XNLoG93t5iA2t48kf/SXf1b0Tpn4DdCwLTZb35maNfbmv/zpmAN7XAEt52PdVM/5PCw+MNZznKYoh6VTmPna+EzhgEvjUSoUPc9gF4T5p3wNqei/l+UiStCy8QjVgP0Nyk871ksx8D2u8MtOupl8oY5Bn7w==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=BoixamT2; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+	 MIME-Version:Content-Type; b=omspRHUyIdHpcjUACF9zXBtfcJSQ3lFyongAdVpT0jVEqJnGBf0jUc8pMOK9ztzFPWG6WY/DCq+R2bok1lnDsOkFq5DD92bXEworeo99vojvMRTcaXX2OjKj1doS85p9x/P75208TdrrvyemTFTHlJg5uZ1AgXx8Jdi0AaxbJU06YDHKKfzL27tffsGt866NU5Txu+CohKHf1NpTQfkE9UN4TU/ldod0mlPyd7ODp9RdXLdzKiurbfGJbyXAwfK7wwCAyn7M4V79cFQPgL+xjM88QRyGAyeYRgbNBch1c5+AtU2RA1bBZ5GN2yLzWVKUUy+3WQ3JmKJ0r3U4Cia0Fw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=igtWyFI4; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
 Authentication-Results: lists.ozlabs.org;
-	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=BoixamT2;
+	dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=igtWyFI4;
 	dkim-atps=neutral
 Authentication-Results: lists.ozlabs.org; spf=pass (sender SPF authorized) smtp.mailfrom=codeconstruct.com.au (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org)
 Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gQDyx2THfz2xtC
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 27 May 2026 13:06:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gQFFg60JDz2xtC
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 27 May 2026 13:18:47 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1779851160;
-	bh=IF4geJPizXwz+Vvc9PhYKe2Due5htIQsfI6rr6h/nk0=;
+	d=codeconstruct.com.au; s=2022a; t=1779851925;
+	bh=zJU8EAC9I7Spvd0nK3+SuI/L+eH9UzP8lKuPKonV7lk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=BoixamT2E5JqxH274O4RVLgy39fLf2XmDHEcudXvmtDQCi8slpm/b+D6rdTV/89Zq
-	 6TSnbbWucDOJC/tbGPUyBQRRRW+6vVs28L481iyGUQHktTxj33K0TnPkTFbHmr5mNL
-	 F1b3t5ovLfeqmlKOfnJE4XfVfgjIzg7r/TnGHweKAviWNKTMxzCwMV2zswHHNS02Gf
-	 KEUeOGYHfXSLLCxNgt2ahuROfzsurvj4QWJ7evOFOdR7q83MaImp71bajepnikGgl8
-	 6D88/o6hTr+RmQI7T9YhbdT3sIjkGVilR3lryT6IAvIMQRQY/xlMS5AjNifliC/wzs
-	 DxCIhhjJ7c4VQ==
+	b=igtWyFI4rXsCZDEXA0z1LVxggWUxjy5e7qIQWXxdVYIY+6OqjUNjbwEjoxxUra4r6
+	 kujgGJKcVPyV2jB8Pxr6Qx8fL3TpnII9O1zjy/4Sdn1s9VJL2A43Rj8bM7pA6NvWQC
+	 nzXCDqaFOBKifl9Trm7SNdtyq9dojbxLyNz3irLaOssUL60FDZp1VCNqdIyPxgUS/Y
+	 5/TbtsPbflpvLqAh9ozZ2LvAYWsF9saU/WJ8jATIE27YZtkxQM8wvf5zVmv2zio16h
+	 24r9DkzcnalRQ+MxDU17eYhOymUzmNs0xO3lxKNwJWjJWr+rrt/Ld/uPs3MSQWYVkm
+	 ZtoMgDU6dZOHQ==
 Received: from [127.0.1.1] (unknown [180.150.112.11])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 3DD696001B;
-	Wed, 27 May 2026 11:06:00 +0800 (AWST)
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 8729D6001B;
+	Wed, 27 May 2026 11:18:44 +0800 (AWST)
 From: Andrew Jeffery <andrew@codeconstruct.com.au>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Mike Hsieh <mike.quanta.115@gmail.com>
+ Patrick Williams <patrick@stwcx.xyz>, Potin Lai <potin.lai.pt@gmail.com>
 Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- Cosmo Chou <cosmo.chou@quantatw.com>, Potin Lai <potin.lai@quantatw.com>, 
- Mike Hsieh <mike_hsieh@quantatw.com>
-In-Reply-To: <20260522-clemente-dts-remove-iob-nic-tmp421-v1-1-ee2509a71502@gmail.com>
-References: <20260522-clemente-dts-remove-iob-nic-tmp421-v1-1-ee2509a71502@gmail.com>
-Subject: Re: [PATCH] ARM: dts: aspeed: clemente: Remove IOB NIC TMP421
- nodes
-Message-Id: <177985116014.389804.14182803385657639805.b4-ty@b4>
-Date: Wed, 27 May 2026 12:36:00 +0930
+ Cosmo Chou <cosmo.chou@quantatw.com>, Mike Hsieh <Mike_Hsieh@quantatw.com>, 
+ Potin Lai <potin.lai@quantatw.com>
+In-Reply-To: <20260523-potin-update-sanmiguel-dts-20260522-v1-0-169f5fceb5f9@quantatw.com>
+References: <20260523-potin-update-sanmiguel-dts-20260522-v1-0-169f5fceb5f9@quantatw.com>
+Subject: Re: [PATCH 0/2] ARM: dts: aspeed: sanmiguel: Update DTS file
+Message-Id: <177985192444.444390.3815686212940487089.b4-ty@b4>
+Date: Wed, 27 May 2026 12:48:44 +0930
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -85,48 +84,41 @@ X-Spamd-Result: default: False [-0.21 / 15.00];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[codeconstruct.com.au,none];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
-	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
 	MAILLIST(-0.20)[generic];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:mike.quanta.115@gmail.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:cosmo.chou@quantatw.com,m:potin.lai@quantatw.com,m:mike_hsieh@quantatw.com,m:krzk@kernel.org,m:conor@kernel.org,m:mikequanta115@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,jms.id.au,gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:patrick@stwcx.xyz,m:potin.lai.pt@gmail.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:cosmo.chou@quantatw.com,m:Mike_Hsieh@quantatw.com,m:potin.lai@quantatw.com,m:krzk@kernel.org,m:conor@kernel.org,m:potinlaipt@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,jms.id.au,stwcx.xyz,gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FORGED_SENDER(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
 	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	NEURAL_HAM(-0.00)[-0.998];
+	NEURAL_HAM(-0.00)[-0.997];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
-	TAGGED_FROM(0.00)[bounces-4135-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-4136-lists,linux-aspeed=lfdr.de];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:rdns,lists.ozlabs.org:helo]
-X-Rspamd-Queue-Id: C75335DEC97
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:rdns,lists.ozlabs.org:helo,codeconstruct.com.au:email,codeconstruct.com.au:dkim]
+X-Rspamd-Queue-Id: D027D5DED36
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, 22 May 2026 18:07:59 +0800, Mike Hsieh wrote:
-> Remove the TMP421 sensor entry from the DTS, as it is no longer the
-> primary telemetry source.
-> 
-> Accessing the CX8 NIC via I2C while it is powered off causes voltage
-> leakage on the bus, leading to EEPROM corruption on shared I2C devices.
-> Removing this node prevents the BMC from initiating traffic to the NIC
-> during initialization, protecting the integrity of the shared bus.
-> 
-> [...]
+On Sat, 23 May 2026 10:28:06 +0800, Potin Lai wrote:
+> Update the SanMiguel DTS configuration to fix incorrect GPIO
+> linenames and resolve the IOEXP interrupt handling issue.
 
 Thanks, I've applied this to the BMC tree.
 
