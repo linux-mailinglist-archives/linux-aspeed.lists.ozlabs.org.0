@@ -1,59 +1,59 @@
-Return-Path: <linux-aspeed+bounces-4169-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4159-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id /g25AQ9tH2pflwAAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4169-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 03 Jun 2026 01:53:51 +0200
+	id RQjlKQhrH2oqlwAAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4159-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 03 Jun 2026 01:45:12 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5B663302D
-	for <lists+linux-aspeed@lfdr.de>; Wed, 03 Jun 2026 01:53:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C31D0632F9D
+	for <lists+linux-aspeed@lfdr.de>; Wed, 03 Jun 2026 01:45:11 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20201202 header.b=OCCLIBgU;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4169-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4169-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dkim=pass header.d=kernel.org header.s=k20201202 header.b="t/3oS2bQ";
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4159-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4159-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gVSL75z6qz3brm;
-	Wed, 03 Jun 2026 09:52:15 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gVS9x4RTwz2ySS;
+	Wed, 03 Jun 2026 09:45:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1780406710;
-	cv=none; b=m8tX/UJG9lHWUm4LbXrgW2/pxOZXXXQfBU2Nmfd0NV05xLZc/2dXT5JENlZsanOgu7bR1pPvG4vuHrWeIlNNr8Q/TsQ+MuSogaa31xfBPyOWB+Qy71SrwObmYUFAyx0W2EHKBX+3xFm4eNfwvFqgBjWczSbgcOLWZLP00qum7ZpAR0gU1ihppvPgXtsFIipRoo1ltXX9hDumvJ+EVEndRHKVChX06tSc6HTCvIIvdM0mAm2uXczugMWweLZQ8Z4yUnZLtZN0dXv5+MRq1F2UGyQkckMOUiB4ecv1HQFjdSMeq31CaCvl+A6mWCWrr+1/MtOqaZ4yu+91OX8t/xGVkg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1780406711;
+	cv=none; b=nyNMLheQmrkhmRHiBl62JmqisvQG6hw2adaU5JuGCkyNhwDYuZV6R5mWmABPXtnrYzKAr8xnkRi1geeBF2HN1AvMabGlgsNAPco5gIObyZ/VfH4yYSZwt6tTOsZsSE8nTyFvYQwvgbOcZnTlbn70vZ4RZc+zMuntzTF30MA5grQkcyZbKEE8a1m20fJOqv1WIAf0tBmbp49JA8eoOpdsRvHhseXD3RQyU2OWph2AwySSA4LK4nFAPR6qP5Xue6mAQOhimzpSrvVUI1prfyACFjnzyEhALRZ1SNetGd/5yBT07ryWSI7R5r3Edcu5PgughbNN4a5FO0FEWcxrZA59iQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1780406710; c=relaxed/relaxed;
-	bh=QmfuEU8TO3B7eYHBe0DVITl++ofHfc+/cJ8uUn1Mn1A=;
+	t=1780406711; c=relaxed/relaxed;
+	bh=6WBdBakXihmY/GJUxoEkzfwKpzjkYRjehER8DzO1pXk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GCqIisHMUMuAz1SbG0qtrglzDfVOWzr4icdqFahurfT6XZcKhEsSJyoEBCH4gUsqFT31L0FzRUu9+Y2OXC/ycsmqmPWf8twN4ybXMFU6tJcReI/tLKosbCDJjp6XVAqvYS3Pd7Aue9R09H5kPRzIZDMumlUV4GBEaPPo7os+r7L+c6Y0IJGTz9fgFDVDHbNaL7NpRKnM7uYxsJp3S31O9mvdhkCacRXp5Ws04JrIa6zuwNaIb4IaHA8qOK96a56TOJh5mmFkwR+sqb3YJyLf7x/xC63ErLtjbnJ0G7kr0yDN6Htr/a1HMbF+7+oeHZUEorjKBzAm9QNfaVQQOI+71Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=OCCLIBgU; dkim-atps=neutral; spf=pass (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=devnull+u8813345.gmail.com@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+	 In-Reply-To:To:Cc; b=h0K4aVMfhMrvDlLQW8fuB/3z20oTJX5hm/ySAlc3HKLsHb01kwCIXusJfRGxkRrYWT2fnZMen3fRMBc/qrMPUYqGBAMsKGGR1HMEkvRi3eioqknZ3q2Od8HNKy3bW8uSuLL1yZl0LjmT3WuzkmjBS7R3t/cPsT3+kYIc8IVBwazIUXJIiqVA1sPmtNrLFL09SQioW+uIYeOKod5eIU1OP+gq/jwkWe+NomwhBoUn1uP3xFkaSANwdxZax2ufw2dbI3G3muNjghqfmOwItpvn6PWi2EL3kLCCFKwGJAw2crZbp1vy7vIjJplPmGYTnxpm5FKDmX2ysaAOAAyu554YhQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=t/3oS2bQ; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=devnull+u8813345.gmail.com@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gVBQW3Y40z2xLk
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 02 Jun 2026 23:25:06 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gVBQW6vYsz2yb9
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 02 Jun 2026 23:25:07 +1000 (AEST)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sea.source.kernel.org (Postfix) with ESMTP id D033F44597;
-	Tue,  2 Jun 2026 13:25:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A8D25C2BCC7;
+	by tor.source.kernel.org (Postfix) with ESMTP id 159E860145;
+	Tue,  2 Jun 2026 13:25:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B5396C2BCFB;
 	Tue,  2 Jun 2026 13:25:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1780406704;
-	bh=KXlTSNgL7obcfAAu2qQszrvsiNWFTE6hySuQAhmN6t4=;
+	bh=llREHz/Ut+hQdQkpSFZF+fPnWztP0SkUaAfxensGHXU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=OCCLIBgU7SDRJ5uvr0/7to+jOC3wXfax7eHfi1ohTBeHCZUJvl1bEyXVRnNEFHRaT
-	 T7Noz5ghUpTLMRpOO4ZOtgcHPCUXl7Mri/75PjGsIpvHfYHhV5Ze5U7Vrp87PHw+qv
-	 eedVKIJ9OWyiW+VKczhZXn59Plaic7jcG5qxZx1yMvkqcscnHkiUuj6MEDe2C1/2eu
-	 v2+7b9X2ihzG0CSSbNgLqk4yTEzm15FLBhzFEZHXuQPphQiQUrpeZR7dvuozEJKdpk
-	 KmQtxkxbmEKHlUwenZLsUvytur1K77w0RVDzW0UaqZ8PWCm9EBM1e+EGE9LK/I/oxH
-	 QK0hF7m7BqoXg==
+	b=t/3oS2bQx3Qz26Thsr/oNR+z61x6rh+qLmSTro0K53zRp7/n8hrdRKUQqEPU4svVb
+	 nds41hXlAPfk+84WupbouTNmJl/DYEJE24eyBMs6458SBKFpJPSDNE/nuX4MEwuFAx
+	 /jQWQ6V0V7ecPCvm72xyDmThLqrXc3btbQzLx78CoROKKV/ZOtVVzdoKfBt3Em6Roc
+	 AjCqMPrkiw8IlfiNmIBwvC1GVY5SDPuFWoARvB1rsp4Ki8XEWQc47whVxRQLQe0ybq
+	 xo2yxVUjFbChqROYg2WT2WsOqlg6ZMWnQL3MHuutv8LZ+GXCogG8jeevDX1P/O6VAd
+	 ww4GIY9vCY7Yw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9843CCD6E69;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA27FCD6E4A;
 	Tue,  2 Jun 2026 13:25:04 +0000 (UTC)
 From: Colin Huang via B4 Relay <devnull+u8813345.gmail.com@kernel.org>
-Date: Tue, 02 Jun 2026 21:24:58 +0800
-Subject: [PATCH v3 3/9] ARM: dts: aspeed: anacapa: add EVT2 devicetree
- inheriting EVT1
+Date: Tue, 02 Jun 2026 21:24:59 +0800
+Subject: [PATCH v3 4/9] ARM: dts: aspeed: anacapa: add DVT devicetree
+ inheriting EVT2
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -69,7 +69,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260602-anacapa-devlop-phase-devicetree-v3-3-7c93c5df8d9b@gmail.com>
+Message-Id: <20260602-anacapa-devlop-phase-devicetree-v3-4-7c93c5df8d9b@gmail.com>
 References: <20260602-anacapa-devlop-phase-devicetree-v3-0-7c93c5df8d9b@gmail.com>
 In-Reply-To: <20260602-anacapa-devlop-phase-devicetree-v3-0-7c93c5df8d9b@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -79,22 +79,22 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
  colin.huang2@amd.com, Colin Huang <u8813345@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780406700; l=5864;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780406700; l=6004;
  i=u8813345@gmail.com; s=20260202; h=from:subject:message-id;
- bh=uFd3k24VxEypaHLespXpLRjwFFWss5Y43arELHuz9Hk=;
- b=IGP+iwYoH8nNBTlhrnVf3e6Q8EdQ+EObT8CXIpcKo8f0tIyghQWm+WP3fgr7aKGBibkBfcub4
- 3jYd4pPkaTJDiXkaMD+W8G1UbuNtG3iPvAj5j6R5O/0ugYIT0/9e1ZD
+ bh=4qBFnetVkREYSIu12suaMhNwE7VlH8Jb8tWdL8ayTVM=;
+ b=y4Ut/IWY6TCuDjo7AuJdNB+H+w0A5uQ76yXjqgGzhKx/3Z5t0AUeRAdSgmqT/6/n8cZCkFlg/
+ i6gB8BSAipBDWZO9jDbsxjd2HnP8/VWplsQB55e35O1/YC9YusoHiPg
 X-Developer-Key: i=u8813345@gmail.com; a=ed25519;
  pk=Zlg0WqpCw4qbswOqamTBTXIchwR/3SnYZpy7rjaGMdQ=
 X-Endpoint-Received: by B4 Relay for u8813345@gmail.com/20260202 with
  auth_id=761
 X-Original-From: Colin Huang <u8813345@gmail.com>
 Reply-To: u8813345@gmail.com
-X-Spam-Status: No, score=2.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=3.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-	FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_NONE,SPF_PASS autolearn=disabled
-	version=4.0.1
-X-Spam-Level: **
+	FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75
+	autolearn=disabled version=4.0.1
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [1.29 / 15.00];
@@ -107,7 +107,7 @@ X-Spamd-Result: default: False [1.29 / 15.00];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-4169-lists,linux-aspeed=lfdr.de,u8813345.gmail.com];
+	TAGGED_FROM(0.00)[bounces-4159-lists,linux-aspeed=lfdr.de,u8813345.gmail.com];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER(0.00)[devnull@kernel.org,linux-aspeed@lists.ozlabs.org];
@@ -134,34 +134,34 @@ X-Spamd-Result: default: False [1.29 / 15.00];
 	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1F5B663302D
+X-Rspamd-Queue-Id: C31D0632F9D
 
 From: Colin Huang <u8813345@gmail.com>
 
-Add a development-phase devicetree for the Facebook Anacapa BMC EVT2
+Add a development-phase devicetree for the Facebook Anacapa BMC DVT
 hardware revision and update the Anacapa wrapper DTS to reference
 it.
 
 Signed-off-by: Colin Huang <u8813345@gmail.com>
 ---
- .../aspeed/aspeed-bmc-facebook-anacapa-evt2.dts    | 178 +++++++++++++++++++++
+ .../dts/aspeed/aspeed-bmc-facebook-anacapa-dvt.dts | 178 +++++++++++++++++++++
  .../dts/aspeed/aspeed-bmc-facebook-anacapa.dts     |   2 +-
  2 files changed, 179 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa-evt2.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa-evt2.dts
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa-dvt.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa-dvt.dts
 new file mode 100644
-index 000000000000..4a6ae7c6cbf8
+index 000000000000..0eb547ad0ec1
 --- /dev/null
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa-evt2.dts
++++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa-dvt.dts
 @@ -0,0 +1,178 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +
 +/dts-v1/;
-+#include "aspeed-bmc-facebook-anacapa-evt1.dts"
++#include "aspeed-bmc-facebook-anacapa-evt2.dts"
 +
 +/ {
 +	model = "Facebook Anacapa BMC";
-+	compatible = "facebook,anacapa-bmc-evt2", "aspeed,ast2600";
++	compatible = "facebook,anacapa-bmc-dvt", "aspeed,ast2600";
 +};
 +
 +&sgpiom0 {
@@ -194,10 +194,10 @@ index 000000000000..4a6ae7c6cbf8
 +	"LEAK_DETECT_RMC_N", "RTM_MUX_R",
 +	"HDR_P0_NMI_BTN_BUF_R_N", "FPGA_JTAG_SCM_DBREQ_N",
 +	"Channel6_leakage_present_CPU_DIMM", "whdt_sel",
-+	"", "JTAG_CPLD_TRST_R_N",
-+	"", "",
-+	"", "",
-+	"", "",
++	"R_EAM0_NIC_CBL_PRSNT_L", "JTAG_CPLD_TRST_R_N",
++	"R_EAM1_NIC_CBL_PRSNT_L", "",
++	"L_EAM0_NIC_CBL_PRSNT_L", "",
++	"L_EAM1_NIC_CBL_PRSNT_L", "",
 +
 +	/* D0-D7 line 48-63 */
 +	"Channel0_leakage_present_EAM3", "",
@@ -236,7 +236,7 @@ index 000000000000..4a6ae7c6cbf8
 +	"R_PRSNT_EDSFF3_N", "",
 +	"HPM_EDSFF_PG", "",
 +	"", "",
-+	"", "FM_BMC_READY_PLD",
++	"P12V_PWR_CABLE_PRSNT_L_R", "FM_BMC_READY_PLD",
 +	"PRSNT_NFC_BOARD_R", "",
 +
 +	/* H0-H7 line 112-127 */
@@ -246,8 +246,8 @@ index 000000000000..4a6ae7c6cbf8
 +	"R_BNIC2_FLT", "",
 +	"R_BNIC3_FLT", "",
 +	"R_RTM_SW_FLT", "",
-+	"", "",
-+	"", "",
++	"RBB_Cable_Present", "",
++	"LBB_Cable_Present", "",
 +
 +	/* I0-I7 line 128-143 */
 +	"EAM0_BRD_PRSNT_R_L", "",
@@ -333,14 +333,14 @@ index 000000000000..4a6ae7c6cbf8
 +};
 +
 diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
-index 209eef65cedb..1848ca347621 100644
+index 1848ca347621..c74b211c42e6 100644
 --- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
 +++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-anacapa.dts
 @@ -1,4 +1,4 @@
  // SPDX-License-Identifier: GPL-2.0-or-later
  
--#include "aspeed-bmc-facebook-anacapa-evt1.dts"
-+#include "aspeed-bmc-facebook-anacapa-evt2.dts"
+-#include "aspeed-bmc-facebook-anacapa-evt2.dts"
++#include "aspeed-bmc-facebook-anacapa-dvt.dts"
  
 
 -- 
