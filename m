@@ -1,64 +1,63 @@
-Return-Path: <linux-aspeed+bounces-4190-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4189-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id unpCBA2JI2pzvAEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4190-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	id LdzwAg2JI2pyvAEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4189-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
 	for <lists+linux-aspeed@lfdr.de>; Sat, 06 Jun 2026 04:42:21 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A9764C3CF
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1F764C3CE
 	for <lists+linux-aspeed@lfdr.de>; Sat, 06 Jun 2026 04:42:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=163.com header.s=s110527 header.b=SZUhbrby;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4190-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4190-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dkim=pass header.d=163.com header.s=s110527 header.b=DbmCziOv;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4189-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4189-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
 	dmarc=pass (policy=none) header.from=163.com;
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gXMyv6NYlz2xll;
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gXMyv5cFmz2xMW;
 	Sat, 06 Jun 2026 12:42:15 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1780639228;
-	cv=none; b=YiH4C4MQswFPW7VDUGXoSVzh7RaKU5PtdFXVPeCT1FiSQfxFqX+ePqx1RWDat7RWSR1tLzaBa1+A+xqc1Ml5yXQ2lKh0XtY4vXzJe3o394HXE77uMsnVLBdhxjLWfvZx7cUQO4/oDx6ZovCQySLjnJIan0dCtxcc3WbAYaRLr/Sy3hpjHHd9KA/ApmAmoiIqAnBQzQcD0Pf4glmsWNTDOXlRS5C3lMkH171YaAy4UkSVQnNXssz0i35zhGMjFtu+rQ411WXjboHgE5Dw2q1QV7IGpHzp3ba+LFgzpKpvdCtjS3ezMsTE0akhfpe7CGIz4F8jhRea3Qk1bj+GFfRw6g==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1780639246;
+	cv=none; b=b3ZM4cq4QcbWgE7KtNK4wWBnTwMx5MchcAdM/UG+an+sAmv8m3LXULVFUhmnAL4FODlYsfbCWAy2/Xq+lVTJBZseQuPDAuMTqPHeuoD6QriQGvVSD3Ea4wl5AJaFbDM+U7PgTCEoOQ94axwcEAfKDHd36Z3VzOvtIdVZ69mPhoqJ6h5nSR40SDcpL3kF9n7RdIJCIInzSUzDgczQ9RHe4ZhlB3h+rGalrPmgHcNXoT01pn6Nk6BX879pwTPSqMQUUi+iHnndjPCrgHIzhwsYxkEbm503Wsv/4VjTDgXnMw9mPqmu1muSlelWQc1mjh1PFIgl5YOdQno3Y269Xy8PHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1780639228; c=relaxed/relaxed;
-	bh=PDUZXrIzs23JoehD5N023YX+ro7W1xlvqrfxPyG/NLs=;
+	t=1780639246; c=relaxed/relaxed;
+	bh=GD2Kr06zQNFkIwrVrOalWnuCkNJUXETOOuvMASHG1wc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EXzKaR3Y5FJUgt+k/5WRpgrH5548EL1HPn6atCXN1/kX7Xpteeylf5EEuBGmI8Nd7Y7eCPWMebiGJBvYjz3cIpTZcuTc5CUQuUzrPpVfCgX8PG3ItMab1GcKzosMEaP523SrGI1QZ16hk6HH4r5/AlSLA/A29ECd09WYm+kB+6eVbtVmcy5HWaURfyGdouVR64a5smxVKDs0D9+BsViLUrST49Ow+54xzvH9hgw/TSY9duqCpg/RQ8ItvJ7xymFY8/QiMewtl1BNetH6PpbNTRt6koMJfIRNFAevsA96WVjYa5820CoKav7ESgCqdq59yBA6B16wg8h83HQEsrQTHA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=163.com; dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=SZUhbrby; dkim-atps=neutral; spf=pass (client-ip=117.135.210.2; helo=m16.mail.163.com; envelope-from=haiyuewa@163.com; receiver=lists.ozlabs.org) smtp.mailfrom=163.com
-X-Greylist: delayed 151 seconds by postgrey-1.37 at boromir; Fri, 05 Jun 2026 16:00:26 AEST
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	 MIME-Version; b=EhdhQmrKWtNEmySbH9YAO6eGCxSMJ0YuQA9m8XrLwkSDO7dg5dv/tZ4DZTgL/VBV0Frt6awxhO7+t2g1m+KR9goUDI0wCy+pDm9Hb07bN28ENzIhq5x5+gOfGAFAvWN/CAKX923KRHQRKp/ChRY0I3X+ODj6Cn3mm/alEGDCB/K0TOz4Id5/qIetuACjUPur70xDrknCro+CrGsMwozYuEIaVPq9kxnnAK5A7cx9ss8kGcCYR5WW5/g5rU9JAF+Qo1XuPP73Uhshs2beTYiiSTMGeKHPtqKi8ZvY4iq4573abMx1l5vU0cqLRctqWoguNQavyVtruxV5W6AK8wjZHw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=163.com; dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=DbmCziOv; dkim-atps=neutral; spf=pass (client-ip=117.135.210.3; helo=m16.mail.163.com; envelope-from=haiyuewa@163.com; receiver=lists.ozlabs.org) smtp.mailfrom=163.com
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gWrQ250Qrz2xHK
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 05 Jun 2026 16:00:26 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gWrQL3xh6z2xnK
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 05 Jun 2026 16:00:40 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=PD
-	UZXrIzs23JoehD5N023YX+ro7W1xlvqrfxPyG/NLs=; b=SZUhbrbysNNhLEi6un
-	XRberLyoxv1V9Ma77zm/tBGWjQQ24d99P/P1blqLHzlbvdi2iqHQni10x8AFwnYV
-	0LoeK26gim/ww1xC8dXBAvPqTPokYF4SvmdK9qlv3MI9IgNXKFk1XDRvSZOhCZKa
-	kh37LS3J5KcLQahYxF5QqwyI4=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=GD
+	2Kr06zQNFkIwrVrOalWnuCkNJUXETOOuvMASHG1wc=; b=DbmCziOv5IknDVlK99
+	daj1ffrq+HwEfO5hUp3zaUPHJ4mWsF+C0X1NdDeCRGSFmnlioqmZ+X+YV/rurLl9
+	mBh+mTkxRqhtKkkPog+n9w1wGobIRA0raergS38laMxKw/+RLEz+nlQ58ctS4w4i
+	6LLVuZ74B58zsqIPOawbfVo34=
 Received: from haiyue-pc.localdomain (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgAXkGE7ZSJqxsLwAQ--.65168S3;
-	Fri, 05 Jun 2026 13:57:17 +0800 (CST)
+	by gzsmtp1 (Coremail) with SMTP id PCgvCgAXkGE7ZSJqxsLwAQ--.65168S4;
+	Fri, 05 Jun 2026 13:57:18 +0800 (CST)
 From: Haiyue Wang <haiyuewa@163.com>
 To: linux-clk@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-aspeed@lists.ozlabs.org
 Cc: Haiyue Wang <haiyuewa@163.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Brian Masney <bmasney@redhat.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Jammy Huang <jammy_huang@aspeedtech.com>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/ASPEED MACHINE SUPPORT),
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v4 1/2] dt-bindings: clock: ast2600: Add reset definition for video
-Date: Fri,  5 Jun 2026 13:52:42 +0800
-Message-ID: <20260605055712.118501-2-haiyuewa@163.com>
+Subject: [PATCH v4 2/2] ARM: dts: aspeed: add 'resets' to video node
+Date: Fri,  5 Jun 2026 13:52:43 +0800
+Message-ID: <20260605055712.118501-3-haiyuewa@163.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260605055712.118501-1-haiyuewa@163.com>
 References: <20260605055712.118501-1-haiyuewa@163.com>
@@ -76,17 +75,18 @@ List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgAXkGE7ZSJqxsLwAQ--.65168S3
-X-Coremail-Antispam: 1Uf129KBjvdXoWrKr4rWr1kur17tr4kZF1DJrb_yoWDCFg_Ca
-	s7Zw4DXr1fZr93KFsxAF4DJ3yFk348JFySqr90vw1akFZYyrn8AFZ8XrsFq3WrGanayF97
-	AF95Ww1fZrs7GjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xREJ3vUUUUUU==
+X-CM-TRANSID:PCgvCgAXkGE7ZSJqxsLwAQ--.65168S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Zr48Kr18WFy5Kw1UtF43Wrg_yoW8ury5pa
+	y7Cr4kX3ySgF45t34UGFyDKr1DAay5JF4rKrsIk34UXry3X3sYqr1ftrsag34UXrs5uw1S
+	gF1xXr9Fqw1DXaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zE3xhJUUUUU=
 X-Originating-IP: [116.233.237.18]
-X-CM-SenderInfo: 5kdl53xhzdqiywtou0bp/xtbC8B2L9moiZT2zuwAA3I
+X-CM-SenderInfo: 5kdl53xhzdqiywtou0bp/xtbCzh+L9moiZT+z1QAA3Y
 X-Spam-Status: No, score=1.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
-	HK_RANDOM_FROM,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY autolearn=disabled version=4.0.1
+	HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=disabled
+	version=4.0.1
 X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
@@ -101,7 +101,7 @@ X-Spamd-Result: default: False [0.79 / 15.00];
 	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-clk@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:haiyuewa@163.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:andrew@codeconstruct.com.au,m:sboyd@kernel.org,m:mturquette@baylibre.com,m:bmasney@redhat.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:linux-clk@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:haiyuewa@163.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:hverkuil+cisco@kernel.org,m:jammy_huang@aspeedtech.com,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
@@ -112,11 +112,11 @@ X-Spamd-Result: default: False [0.79 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-4190-lists,linux-aspeed=lfdr.de];
-	FREEMAIL_CC(0.00)[163.com,oss.qualcomm.com,codeconstruct.com.au,kernel.org,baylibre.com,redhat.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-4189-lists,linux-aspeed=lfdr.de];
+	FREEMAIL_CC(0.00)[163.com,kernel.org,jms.id.au,codeconstruct.com.au,aspeedtech.com,lists.infradead.org,vger.kernel.org];
 	FROM_NEQ_ENVFROM(0.00)[haiyuewa@163.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt,cisco];
 	ALIAS_RESOLVED(0.00)[];
 	HAS_XOIP(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -125,34 +125,61 @@ X-Spamd-Result: default: False [0.79 / 15.00];
 	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[163.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,codeconstruct.com.au:email,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 22A9764C3CF
+X-Rspamd-Queue-Id: 1A1F764C3CE
 
-Add ASPEED_RESET_VIDEO reset definition to the ast2600-clock binding
-header. It is required for proper reset control of the video on the
-AST2600 SoC for aspeed-video driver.
+The aspeed video (be compatible for ast2400, ast2500, ast2600) now needs
+the reset DTS handle specified, otherwise it will fail to load:
 
+[    4.809494] aspeed-video 1e700000.video: irq 57
+[    4.809977] aspeed-video 1e700000.video: Unable to get reset
+[    4.810341] aspeed-video 1e700000.video: probe with driver aspeed-video failed with error -2
+
+Fixes: e83f8dd668ea ("media: aspeed: Fix dram hang at res-change")
 Signed-off-by: Haiyue Wang <haiyuewa@163.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Reviewed-by: Andrew Jeffery <andrew@codeconstruct.com.au>
-Acked-by: Stephen Boyd <sboyd@kernel.org>
 ---
- include/dt-bindings/clock/ast2600-clock.h | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/boot/dts/aspeed/aspeed-g4.dtsi | 1 +
+ arch/arm/boot/dts/aspeed/aspeed-g5.dtsi | 1 +
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/include/dt-bindings/clock/ast2600-clock.h b/include/dt-bindings/clock/ast2600-clock.h
-index f60fff261130..7b9b80c38a8b 100644
---- a/include/dt-bindings/clock/ast2600-clock.h
-+++ b/include/dt-bindings/clock/ast2600-clock.h
-@@ -124,6 +124,7 @@
- #define ASPEED_RESET_PCIE_RC_OEN	18
- #define ASPEED_RESET_MAC2		12
- #define ASPEED_RESET_MAC1		11
-+#define ASPEED_RESET_VIDEO		6
- #define ASPEED_RESET_PCI_DP		5
- #define ASPEED_RESET_HACE		4
- #define ASPEED_RESET_AHB		1
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi
+index c3d4d916c69b..1547e28d77e2 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g4.dtsi
+@@ -242,6 +242,7 @@ video: video@1e700000 {
+ 					 <&syscon ASPEED_CLK_GATE_ECLK>;
+ 				clock-names = "vclk", "eclk";
+ 				interrupts = <7>;
++				resets = <&syscon ASPEED_RESET_VIDEO>;
+ 				status = "disabled";
+ 			};
+ 
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+index 39500bdb4747..793570ca2518 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g5.dtsi
+@@ -296,6 +296,7 @@ video: video@1e700000 {
+ 					 <&syscon ASPEED_CLK_GATE_ECLK>;
+ 				clock-names = "vclk", "eclk";
+ 				interrupts = <7>;
++				resets = <&syscon ASPEED_RESET_VIDEO>;
+ 				status = "disabled";
+ 			};
+ 
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+index 189bc3bbb47c..3adf48987a17 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+@@ -428,6 +428,7 @@ video: video@1e700000 {
+ 					 <&syscon ASPEED_CLK_GATE_ECLK>;
+ 				clock-names = "vclk", "eclk";
+ 				interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
++				resets = <&syscon ASPEED_RESET_VIDEO>;
+ 				status = "disabled";
+ 			};
+ 
 -- 
 2.54.0
 
