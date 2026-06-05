@@ -1,69 +1,55 @@
-Return-Path: <linux-aspeed+bounces-4187-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4191-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Ad6VLd4bImo+SgEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4187-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Fri, 05 Jun 2026 02:44:14 +0200
+	id 0hdEBw+JI2p1vAEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4191-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Sat, 06 Jun 2026 04:42:23 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9AC9644261
-	for <lists+linux-aspeed@lfdr.de>; Fri, 05 Jun 2026 02:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F0764C3D3
+	for <lists+linux-aspeed@lfdr.de>; Sat, 06 Jun 2026 04:42:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=codeconstruct.com.au header.s=2022a header.b=ZloprKCo;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4187-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4187-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=none) header.from=codeconstruct.com.au;
+	dkim=pass header.d=163.com header.s=s110527 header.b=ScIhBV1w;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4191-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4191-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=none) header.from=163.com;
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gWjP12d7xz2yRM;
-	Fri, 05 Jun 2026 10:44:05 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gXMyy31fZz2xM7;
+	Sat, 06 Jun 2026 12:42:18 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1780620245;
-	cv=none; b=nTuCTNbcj87nS8Z2fi7PLh0nY7yNJRGE925RC99vN9r7rYKCgBDwi+K11TL3dUt4PF6rl+/nBjU7f1cqaOb20PLxs6GGBEgFVutatUg8P2WUDVNqVCUnRfmSQH2OybC6NCZeNj4M8CMlCVMfUxa2xAvDpH2DeZaJGql/eJUFFqPb0tAfHvsNUKFy+mCTzq8tnftUSQRMtoUrxb8jJoAMli9PcWev/FeB5t0ZxD3larZcYA9qWJYB8/FdgPCFrX8y+hk3qJH1PJVvr7AxY5EyUHbdTrsFiJmJm0uuxh0ihq25GSKiUNpic30qSLQmCMzUtoZ0sWNnAjAKo30e+4D5zg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1780639188;
+	cv=none; b=iyoFacqEzdUYjex1d85KQ/sTCCjV9x82GCGYzTVXDj7kGgovG0jEAsgdXwhiqOSU+UQFteKG/Io9O/2oqQATJyq3HTxEfa2yxgIceypF9W+X3Mpu3AK/ZYTLWUiD0xabNirpR6s8bth70ucrn067noJpS0VQSf9N19VjiOZiAlwBdtCArSNSm2AM7TNK14Hsu4JviLs+RtufBuTL21hQHklT06n8cTWcWo4wb+EZWq9zDUfk2mrwVnhFAdASKI5ZxCASCSIno48GMWUe1ufJXbWkY1YLlzWgYPsrDb6E7gh8IyvdbVelsdEWfLhPYV2I+zsCyKBvI37HebllkbF09w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1780620245; c=relaxed/relaxed;
-	bh=jsj1k0wHi26GAkypB6QUIJqC1oJwhVzc1i56Db1iD/Q=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DoTBmdlc1Ed51/5g0tMFHjtVhqTBsKMhq144/mAz1rMtUGmvBNSxx8/keLWbaC3SKP6vZeENNUCESDyM2SR9ZwSnZX2XM+T+Cntzg8G/1vWRI0xtXbuPXRpUFUEE7nG7FKhidS7wsTMK1zP6Jy4qWQwyQORPu9N+34UeX/r93VTsF4x8OykxCP/C1OeHcT+ovSHjsqHvBCYc9NSRbG8fZEXNRgnY7iXxvb0NErsUHJohbZf6GHrJ2ym1nPjE04J9X7Wc3seKj5HmUq3qtfdqZ+V+EtLbUC0sm5511ZmPwTOrlzdg2NDLpqDrT+j+XOoz/7DP7drFSwdZFOsa93QNfA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ZloprKCo; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	t=1780639188; c=relaxed/relaxed;
+	bh=ZHgu+JGrqQgPjnjWztMAItH0/+Es2yqtkSf5YhCP5lY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oQvN1LGO9i4OjQlwSH3YidhQLF3DcBcyC3E+73LGIpdeF8CWVf2BQdsDJHXeZS6JX7LSG3Go2tO9dLzaeajk1W5+pmExU1fP/rT9zvW7SrKOWtL5rZZYht/FzGXZnFxLafpBW6HH9OuSEzlm5E1UTbNhZEaV3N8318RuC4p3ix6pX5e9Xm8/B7XKxdD9EFIB2TcpfwFbaeZ3rJ/BQBBKC6gRqdOhvPZFTwSwVsFa/x5g12ZhOTwSKa4Ed8kwns+D6NEg7WI5uygOaXP1s+EzgQuu6a36mcCjFuc97Xr+aFCT8MkPklZL2rH9Hd7RUoM3X7IHURB1MRj1wa6HHjgKIQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=163.com; dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=ScIhBV1w; dkim-atps=neutral; spf=pass (client-ip=220.197.31.4; helo=m16.mail.163.com; envelope-from=haiyuewa@163.com; receiver=lists.ozlabs.org) smtp.mailfrom=163.com
+X-Greylist: delayed 137 seconds by postgrey-1.37 at boromir; Fri, 05 Jun 2026 15:59:45 AEST
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gWjNz41cXz2xR4
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 05 Jun 2026 10:44:03 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1780620241;
-	bh=jsj1k0wHi26GAkypB6QUIJqC1oJwhVzc1i56Db1iD/Q=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=ZloprKCoX5TNbNEPdKftTMY6jPQai4UHIv8xuzYMMAW63DXTDsjdtaGphRix8B1EL
-	 AIWw4/scrV1UPtHbLqV5OaWdPT8rMfT21f7X8Pe0R8P//3NLgIT7ahtwjIc26E40yn
-	 GEuPBXect43k/BQgPksH/3n43NAcxwIe2bNCl66hs/WBuwV9tCxzTm38c6l/bI0ova
-	 mRmOr1VUUxbj1SNXcDm7yRjyjleLLu1d0fPWzFQRrp8RDCcpv4vq/9f/plk01hK5zm
-	 XuCUQ83LILf14iJSNxuWw2vM4twD7zfH9MXf29u0UjGNHjlZcTiEG+svE/RZndnp6G
-	 xGRqX0Bwk0I1Q==
-Received: from [192.168.68.117] (unknown [180.150.112.11])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id C193F6013C;
-	Fri,  5 Jun 2026 08:43:59 +0800 (AWST)
-Message-ID: <91f6780b688285b4c002d2efadc7b297e9d69838.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v4 2/3] dt-bindings: mfd: syscon: add
- aspeed,ast2600-i3c-global compatible
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Lee Jones <lee@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Dawid Glazik	
- <dawid.glazik@linux.intel.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel
- Stanley <joel@jms.id.au>, 	linux-aspeed@lists.ozlabs.org,
- devicetree@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, 	maciej.lawniczak@intel.com
-Date: Fri, 05 Jun 2026 10:13:58 +0930
-In-Reply-To: <20260425-poised-accomplished-hyena-d2c1a0@quoll>
-References: <cover.1777058942.git.dawid.glazik@linux.intel.com>
-	 <41d66492e1a1d42f6888459288311094c8b7bc51.1777058942.git.dawid.glazik@linux.intel.com>
-	 <20260425-poised-accomplished-hyena-d2c1a0@quoll>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gWrPF1y1Sz2xHK
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 05 Jun 2026 15:59:43 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=ZH
+	gu+JGrqQgPjnjWztMAItH0/+Es2yqtkSf5YhCP5lY=; b=ScIhBV1wn6Wd2Y2nj5
+	32IxZhtDYc9xy9z/x19InoZJT13v7EHUXSYZ7OMRSAut/F4Jc2GCpAmY8KaC3lWQ
+	1H1H/3WU5FjaduQUJUI5umsvo9eNhNrH2+dQUYNofQS+uKFsZ5DblOhtuQzLo2hw
+	lWQ1efhWNAIzYJDiEFDPrttAI=
+Received: from haiyue-pc.localdomain (unknown [])
+	by gzsmtp1 (Coremail) with SMTP id PCgvCgAXkGE7ZSJqxsLwAQ--.65168S2;
+	Fri, 05 Jun 2026 13:57:16 +0800 (CST)
+From: Haiyue Wang <haiyuewa@163.com>
+To: linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org
+Cc: Haiyue Wang <haiyuewa@163.com>
+Subject: [PATCH v4 0/2] Fix aspeed-video driver load failure
+Date: Fri,  5 Jun 2026 13:52:41 +0800
+Message-ID: <20260605055712.118501-1-haiyuewa@163.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -77,71 +63,80 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PCgvCgAXkGE7ZSJqxsLwAQ--.65168S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Xw1fZw4xXr4UKw1rCFykKrg_yoW3KFXE9w
+	1xGwn5JrykAFWj9F1F9F4qywn8KryYkrn5Aryjqry7ua4ayr90gFZ7Gas3Xw1UWa97AFs0
+	ya15WwsxZrn0gjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRK-eOJUUUUU==
+X-Originating-IP: [116.233.237.18]
+X-CM-SenderInfo: 5kdl53xhzdqiywtou0bp/xtbC7xyL9moiZTyazAAA3J
+X-Spam-Status: No, score=1.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_RANDOM_ENVFROM,
+	HK_RANDOM_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=disabled
 	version=4.0.1
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.71 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[codeconstruct.com.au,none];
-	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4187-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_RECIPIENTS(0.00)[m:lee@kernel.org,m:krzk@kernel.org,m:dawid.glazik@linux.intel.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:linux-aspeed@lists.ozlabs.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:maciej.lawniczak@intel.com,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	ALIAS_RESOLVED(0.00)[];
+	TAGGED_FROM(0.00)[bounces-4191-lists,linux-aspeed=lfdr.de];
+	FORGED_SENDER(0.00)[haiyuewa@163.com,linux-aspeed@lists.ozlabs.org];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS(0.00)[m:linux-clk@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:haiyuewa@163.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[163.com:+];
+	FREEMAIL_FROM(0.00)[163.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FROM_NEQ_ENVFROM(0.00)[haiyuewa@163.com,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[163.com];
+	HAS_XOIP(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	ALIAS_RESOLVED(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,qualcomm.com:email]
+	TAGGED_RCPT(0.00)[linux-aspeed];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A9AC9644261
+X-Rspamd-Queue-Id: 31F0764C3D3
 
-Hi Lee,
+v4:
+  - No code change, re-send with cover letter for more than one patch
+v3: https://lore.kernel.org/all/20260302011651.94682-1-haiyuewa@163.com/ 
+  - Drop 'Fixes:' tag in header file patch.
+v2: https://lore.kernel.org/all/20260227151602.829-1-haiyuewa@163.com/
+  - Fix checkpatch.pl warning, and send dt-bindings as single patch as
+    the submitting-patches guide.
+v1: https://lore.kernel.org/all/20260227123837.70079-1-haiyuewa@163.com/
 
-On Sat, 2026-04-25 at 11:40 +0200, Krzysztof Kozlowski wrote:
-> On Fri, Apr 24, 2026 at 10:21:00PM +0200, Dawid Glazik wrote:
-> > Add aspeed,ast2600-i3c-global to the syscon binding compatible
-> > lists to document the AST2600 I3C global register syscon node.
-> >=20
-> > Signed-off-by: Dawid Glazik <dawid.glazik@linux.intel.com>
-> > ---
-> > =C2=A0Documentation/devicetree/bindings/mfd/syscon.yaml | 2 ++
-> > =C2=A01 file changed, 2 insertions(+)
->=20
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Haiyue Wang (2):
+  dt-bindings: clock: ast2600: Add reset definition for video
+  ARM: dts: aspeed: add 'resets' to video node
 
-Thanks for applying the AST2700 SoC1 pinctrl binding[1].
+ arch/arm/boot/dts/aspeed/aspeed-g4.dtsi   | 1 +
+ arch/arm/boot/dts/aspeed/aspeed-g5.dtsi   | 1 +
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi   | 1 +
+ include/dt-bindings/clock/ast2600-clock.h | 1 +
+ 4 files changed, 4 insertions(+)
 
-Can you pick this one up too? I've applied the corresponding dts patch
-to the BMC tree, it'd be great to address the warning that's currently
-produced.
-
-Cheers,
-
-Andrew
-
-[1]: https://lore.kernel.org/all/20260521-pinctrl-single-bit-v5-1-308be2c16=
-0fc@aspeedtech.com/
+-- 
+2.54.0
 
 
