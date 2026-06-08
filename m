@@ -1,61 +1,91 @@
-Return-Path: <linux-aspeed+bounces-4197-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4200-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id n3ZTLcVTJ2pvuwIAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4197-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 09 Jun 2026 01:44:05 +0200
+	id c7rkEXJVJ2qyuwIAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4200-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 09 Jun 2026 01:51:14 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0C8165B36B
-	for <lists+linux-aspeed@lfdr.de>; Tue, 09 Jun 2026 01:44:04 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7DF65B392
+	for <lists+linux-aspeed@lfdr.de>; Tue, 09 Jun 2026 01:51:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=jdyPmYcZ;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4197-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4197-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=jW958x5Z;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4200-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4200-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gZ7ss3TB2z2yY0;
-	Tue, 09 Jun 2026 09:44:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gZ8260DdKz2xJT;
+	Tue, 09 Jun 2026 09:51:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1780906781;
-	cv=none; b=H3SjPpOvT18jn2QVFYGMQhrbFOfYKba+iBJPbpIvH6n5FZ5We5wmxkleLXcNFW/cQx4hcTipHKZYH3wOuv3ua8yZS/MFgS08D5EMnPKADJpuPKM2NidVQAkWCHP0dftuKl05HoLGAziNjmmQWwVmvwkd7cT5D3FSTXJ5vUewy/y6qAP7Hy8s8zx6ufrN9f7SBBh7ZR+K80ShMLd1sYt1HHjj0Lv0d1We96ItD9VMZr8tNcWXzwjNlrJZjq+jcgpIerYPtMNJrvOyt0Ffw2/JhyZO1z3PXRp2esESMx+U1E3bTvCVVxkbRRog+JlJO4mz/DXF6eeYpZT/nFM/KvHoLw==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1780906809;
+	cv=none; b=gQPEi2izCTcz0f718ukIP/0H3u15xDhIXyR9SB0/ygwrX1JkQiw+wtA4DR6OQoVBfLe364rGQltG4a5H9bK+KoE8c3QfUlA3TETtMV4UDtuOciNu55tY8poTp+3vGEueR5DmQ9kBb0/yO28Zfmbdo5yxZA3Ey4JoVGLngry+UTAaA+zRTw9PBRgGlL6VWh9+ur88ugKcRKh05FwbiRO01e9x58U1TAjYzh4XLHtOdDsF6Pu99+XrLIVf6fVomfE+MJtruTbgEEOzXT6ihh5/a5Aa1AgfegWBQwETRp6Kp+bxKJ72G4Wso0+TbRqJot+uBUM63e9vUGU7VfJ9RRSIOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1780906781; c=relaxed/relaxed;
-	bh=P9V8bpEqH6X4qmiHHTngsXUmKEwdN1ijUIAKzpeA0e0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I62Fzl1Lc14V6VpSKUhB60NyFAnPWiuMyNbSJmaP5BXQnD9hEXK/n8p9raDsS6sAxTGQuPYmmCDgrFGVBw25sD7b2x7i1bn5xVgSav78RNdi2b/5jBL9va+gBoJPEov1BgpwHNJFNxuCmTq8YS7pI/KccK0Kh6wGjzZgigeE427wi2FnJhEYUPruKEuiymA+PWnqKUrMYUzVrHclYXPKYDq0NTXmR3RfOgGeomchcghTef/s40q3QSl7FafIUubtVOxqWxJ9H4nk9ULAQHgsloqRaaKQaIV9d+x0znedxVzR2ZdejqEiN8l1QTkq8y4WebcdjmEAEBB6ctqylVl0BQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jdyPmYcZ; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
+	t=1780906809; c=relaxed/relaxed;
+	bh=QaxSxNePW62N/aLYNU2ICZZcrY71w9JpJK96h4Ml418=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y5smtTn8u1/kojvq+kEVPlznhadmSLj1dsth0PhSYmQDaCBEQ5WAX0D2BhzJ/OEeXLpF9Pf7YqZKnXFpcecmFHylLCR+zey88Tw+/+/PR0lXNVucGjNzbTr5/QTaJO1vuCMU4y1DKC/FIny4Kurm+LN7nlvuwvdRWFMczqrowWN9+O7Te760g7O50xmyDUxYAwsNH6YavBPLT3tjXxQNkEqIyftoFooA+cHbAJYgHqbEypXTRiDklFtCvhjOEa7ZhnTwXv6mn9YfRnJyCDuV/otDF+B3W0ulKfXFWRdTkqiXpcaiCJFzigKMp57vSI6arqebUqo5MHJEKsjdxF+nrQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jW958x5Z; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=ruoyuw560@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gYlMJ3BDjz2yRM
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 08 Jun 2026 18:19:40 +1000 (AEST)
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id CAD1C601E6
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  8 Jun 2026 08:19:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D1981F0089E
-	for <linux-aspeed@lists.ozlabs.org>; Mon,  8 Jun 2026 08:19:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780906777;
-	bh=P9V8bpEqH6X4qmiHHTngsXUmKEwdN1ijUIAKzpeA0e0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=jdyPmYcZAAj5zajRoCfCfEUTkYIVOgfPo3QAIyGqN11uGTToJ96WZpRYI0Lx1V1I3
-	 2eDiVxAVrjMD+r/rHA0O6EN+Xl/szMs37czo6pzDR2xjCsJaqy4C2T8XQUhardqcC4
-	 wOVSKLeTDhpcRDpmIuCcZCuGpajZ+Z6yMKp+XxQYO40vtow7leMRui1N0onxuNgo6d
-	 Y6kupuQzlyi3bLPrd1WFHetFqT79kvx1hKimlQO9ryGMPBJdXGGAG1N3GEuEkvV+F8
-	 /KKqDFEeFmZlnACZo8EBEMPgG7o8c/hTqIRVA1Rj3USn5jfsJV3biifp/Q5X5nPDHu
-	 IP9tg38RSj/aQ==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5aa68d65d24so4358817e87.1
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 08 Jun 2026 01:19:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/oPv2cctoYC0+ZYs4zWbC1MYxiuLV45IwGpGYt9eZB4D/POxFCTMTxFMSwosEhj9sUZXmiYADzVYdXzuU=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxKgXcNLwpRZnvzdBbA2Jfu2wn5NhI3ms8rr6+oCAT0yk222C7B
-	l/v9JnOT3P/zC5QnC+GhsAs1LrC1BIyBd7HotsrkuXNjBP8iUj4YsPZ2Jru67IRA/efyW19VoIy
-	vltx5nfqTqTC5iIBoFWR/HBJnax2rLOM=
-X-Received: by 2002:a05:6512:611:10b0:5aa:703e:ce64 with SMTP id
- 2adb3069b0e04-5aa87b6fe39mr2685769e87.14.1780906776095; Mon, 08 Jun 2026
- 01:19:36 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gYlMr5fqVz2xWP
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 08 Jun 2026 18:20:07 +1000 (AEST)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-2c0bd02d97eso46736395ad.2
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 08 Jun 2026 01:20:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780906805; x=1781511605; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QaxSxNePW62N/aLYNU2ICZZcrY71w9JpJK96h4Ml418=;
+        b=jW958x5Z3/vRnqzT5tnySyiKL/qd+jC8w4xmQRfha/+PvqfYFmh9CdYczZs/AwZ2eB
+         V9Um/3dqg0KB/q0Jqi2mWRaNDXdOhrXs1GkDWXaJL4I6yic49C/yaMk7KhJaEKkgmyyv
+         iqH31cnu04cBhME73Xq+xz3mwSh4g3N2I2Coau90z9eGH2fmyRacWV4TwhYl4+IdIcbp
+         5VfC8LpVwSRv/SWgtIrPt0s8/O2cDCL++NouaahlUk3VxBC8y29pPV5X/20kLIJTdNI2
+         GZ0rK/QWAoVrN7bRrXa7CssqzRjy53v1hjGnljcdSVnO3qHE93pWRTAl9p5oPcwfJF5+
+         BY6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780906805; x=1781511605;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QaxSxNePW62N/aLYNU2ICZZcrY71w9JpJK96h4Ml418=;
+        b=H0YCJ/snX3DFqjmxYKyJfes1+zptyIFFTHSaAExLgnaPE5HpbRutGuAzSfSA2BFMoF
+         2EAwifh/BEDN+EoK3BAxQoY+swVyN1Yym1TABzHTh+eD3f3+YG2m3Wn7Gs89gJIVCbTN
+         ojtZPeB6jd8cZsrXV0zGsGLkmIAg2WofL3ahZSddUPqWzutnlaN/Y+/p6zAVVpE4oXlR
+         IITURAmlgwB4S3Mvcibkc/+YuPj6XzchQiCaiBwfvWznnn9jl+wbLDRur/d9IxGeg/kr
+         K56BOIy6RZKWi/dsSHRjOHU3/KjQ+vtfUbGy0RN0/JpY0naQRugD3ygqbpadsvh/jAmo
+         huAQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+z3ME17/dgtIG50OF0LxWdI1EZpF2fbeIVVqB83f8eQr/dRLMmJvZIZQimRdRvrxhTOQVijqDUYaahKPY=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yyyq+BV2JOgeEKaIMd2siNXx72QE/Wayfv9YD3JTj8B+lhtCfL4
+	LTmF9pqxHvTh3XRFp1db3usjqZmKJNrw9E4L7phwmOJPQ24zn1kpiDKe
+X-Gm-Gg: Acq92OEkQ2FV5bwog0rPM/snnr62DmSyZKe4ds3KvNQFr/N1O3z28C+V0fa+0oo/7g9
+	KushAFa2zY4KyOxw8E8A3ukgXhc41t9hLGlMzYgUaTUtFy6209X67KdsMj8wgjXwPeYU75K3+fy
+	2sgg8XU8sLkvCAZanLJAC1bJbaOrWnuGXPrZMkzuDV0XhLGg5jNsxY6AIHv7RnrHumXCQ74lAru
+	O3fCnv1RP7sgR1uL2GZjMxJP/pLiGDLyUm5Ro4BYZ46ji0ZKitLaCmgn/1V75qyL2lxHBxBMKK4
+	Vy3lbfkd9JFP780zZBh2k1ByyjDtMOz2LQ9yyyCDYqN8cbqdUl+3kwYpMzsw62aw8RjkVY/0VhN
+	3dcPlJ9m7kU8/lCDKd1YO5bIGBi+TAsNS8SicrQVBRZchOidiHDBRwrZQnGh00GT2aqCUkcvbGl
+	rW3kCHe8LP+A5E0w+ZLcFulkDFgoNIIn4pCIW7eYAGapcfXKxSVdLu
+X-Received: by 2002:a17:903:3c48:b0:2c0:eee2:fc40 with SMTP id d9443c01a7336-2c1e80cede0mr162261145ad.3.1780906804922;
+        Mon, 08 Jun 2026 01:20:04 -0700 (PDT)
+Received: from haichao.tail057a43.ts.net ([2001:da8:e000:1206:9a2:954d:67fe:d9c2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164fa3a5fsm183050945ad.36.2026.06.08.01.20.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jun 2026 01:20:04 -0700 (PDT)
+From: Ruoyu Wang <ruoyuw560@gmail.com>
+To: Neal Liu <neal_liu@aspeedtech.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	linux-aspeed@lists.ozlabs.org,
+	linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Ruoyu Wang <ruoyuw560@gmail.com>
+Subject: [PATCH] usb: gadget: aspeed_udc: check endpoint DMA allocation
+Date: Mon,  8 Jun 2026 16:19:48 +0800
+Message-ID: <20260608081948.3-1-ruoyuw560@gmail.com>
+X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -69,77 +99,195 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260605-pinctrl-fix-v1-1-3d8cf7a6c348@aspeedtech.com>
-In-Reply-To: <20260605-pinctrl-fix-v1-1-3d8cf7a6c348@aspeedtech.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Mon, 8 Jun 2026 10:19:24 +0200
-X-Gmail-Original-Message-ID: <CAD++jL==MdwmEM_9aHqfCnTfd4=g174Ytk3dZti0pwqcfU_UOw@mail.gmail.com>
-X-Gm-Features: AVVi8Cd0BwjOsWouqsrdYZ6Spm4i_Ll_H2pHRD9M65EFtdOV_cK55fSj8mFOoj4
-Message-ID: <CAD++jL==MdwmEM_9aHqfCnTfd4=g174Ytk3dZti0pwqcfU_UOw@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: aspeed: Fix GPIO mux value for ADC-capable balls
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Cc: Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>, 
-	Bartosz Golaszewski <brgl@kernel.org>, linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
-	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.21 / 15.00];
+X-Spamd-Result: default: False [-0.71 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER(0.00)[linusw@kernel.org,linux-aspeed@lists.ozlabs.org];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_FROM(0.00)[bounces-4197-lists,linux-aspeed=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:billy_tsai@aspeedtech.com,m:andrew@codeconstruct.com.au,m:joel@jms.id.au,m:brgl@kernel.org,m:linux-aspeed@lists.ozlabs.org,m:openbmc@lists.ozlabs.org,m:linux-gpio@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-4200-lists,linux-aspeed=lfdr.de];
+	FREEMAIL_CC(0.00)[jms.id.au,codeconstruct.com.au,lists.ozlabs.org,vger.kernel.org,lists.infradead.org,gmail.com];
+	FORGED_SENDER(0.00)[ruoyuw560@gmail.com,linux-aspeed@lists.ozlabs.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:neal_liu@aspeedtech.com,m:gregkh@linuxfoundation.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:linux-aspeed@lists.ozlabs.org,m:linux-usb@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:ruoyuw560@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-aspeed@lists.ozlabs.org];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FROM_NEQ_ENVFROM(0.00)[ruoyuw560@gmail.com,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,aspeedtech.com:email,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D0C8165B36B
+X-Rspamd-Queue-Id: 9F7DF65B392
 
-On Fri, Jun 5, 2026 at 8:38=E2=80=AFAM Billy Tsai <billy_tsai@aspeedtech.co=
-m> wrote:
+ast_udc_probe() allocates a coherent DMA buffer used as the backing store
+for endpoint buffers. ast_udc_init_ep() derives per-endpoint buffer
+pointers from udc->ep0_buf, so a failed allocation is dereferenced during
+probe.
 
-> aspeed_g7_soc1_gpio_request_enable() unconditionally writes mux
-> function 0 to route the requested pin to GPIO. This is wrong for the
-> ADC-capable balls W17 through AB19 (ADC0-ADC15), where function 0
-> selects the ADC input and function 1 selects GPIO. Requesting one of
-> those GPIOs therefore muxed the ball to ADC instead.
->
-> Write mux value 1 for balls W17 through AB19 so the GPIO function is
-> actually selected.
->
-> Fixes: 4af4eb66aac3 ("pinctrl: aspeed: Add AST2700 SoC1 support")
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+Check the allocation before endpoint setup. The existing probe error path
+called ast_udc_remove(), which unregisters the gadget unconditionally and
+is not safe before usb_add_gadget_udc() succeeds. Add a local cleanup
+helper for probe failures so pre-registration failures only unwind the
+resources that were actually initialized.
 
-Patch applied! Will be for v7.2 at this point.
+This was found by a local static analysis checker for unchecked allocator
+returns while scanning Linux 6.16. The change was checked by applying it
+to current mainline and by running checkpatch. I do not have access to
+Aspeed UDC hardware, so no runtime testing was performed.
 
-Yours,
-Linus Walleij
+Fixes: 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver")
+Signed-off-by: Ruoyu Wang <ruoyuw560@gmail.com>
+---
+Note: a 2022 patch attempted to add only a NULL check for this
+allocation:
+https://lore.kernel.org/all/20221213025120.23149-1-jiasheng@iscas.ac.cn/
+
+This version also fixes the probe unwind path so the clock is disabled
+on allocation failure and usb_del_gadget_udc() is not called before the
+gadget has been registered.
+
+diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
+index 7fc6696b7..809a7d5b7 100644
+--- a/drivers/usb/gadget/udc/aspeed_udc.c
++++ b/drivers/usb/gadget/udc/aspeed_udc.c
+@@ -1434,11 +1434,34 @@ static void ast_udc_init_hw(struct ast_udc_dev *udc)
+ 	ast_udc_write(udc, 0, AST_UDC_EP0_CTRL);
+ }
+ 
++static void ast_udc_cleanup(struct platform_device *pdev)
++{
++	struct ast_udc_dev *udc = platform_get_drvdata(pdev);
++	unsigned long flags;
++	u32 ctrl;
++
++	spin_lock_irqsave(&udc->lock, flags);
++
++	/* Disable upstream port connection */
++	ctrl = ast_udc_read(udc, AST_UDC_FUNC_CTRL) & ~USB_UPSTREAM_EN;
++	ast_udc_write(udc, ctrl, AST_UDC_FUNC_CTRL);
++
++	clk_disable_unprepare(udc->clk);
++
++	spin_unlock_irqrestore(&udc->lock, flags);
++
++	if (udc->ep0_buf)
++		dma_free_coherent(&pdev->dev,
++				  AST_UDC_EP_DMA_SIZE * AST_UDC_NUM_ENDPOINTS,
++				  udc->ep0_buf,
++				  udc->ep0_buf_dma);
++
++	udc->ep0_buf = NULL;
++}
++
+ static void ast_udc_remove(struct platform_device *pdev)
+ {
+ 	struct ast_udc_dev *udc = platform_get_drvdata(pdev);
+-	unsigned long flags;
+-	u32 ctrl;
+ 
+ 	usb_del_gadget_udc(&udc->gadget);
+ 	if (udc->driver) {
+@@ -1453,23 +1476,7 @@ static void ast_udc_remove(struct platform_device *pdev)
+ 		return;
+ 	}
+ 
+-	spin_lock_irqsave(&udc->lock, flags);
+-
+-	/* Disable upstream port connection */
+-	ctrl = ast_udc_read(udc, AST_UDC_FUNC_CTRL) & ~USB_UPSTREAM_EN;
+-	ast_udc_write(udc, ctrl, AST_UDC_FUNC_CTRL);
+-
+-	clk_disable_unprepare(udc->clk);
+-
+-	spin_unlock_irqrestore(&udc->lock, flags);
+-
+-	if (udc->ep0_buf)
+-		dma_free_coherent(&pdev->dev,
+-				  AST_UDC_EP_DMA_SIZE * AST_UDC_NUM_ENDPOINTS,
+-				  udc->ep0_buf,
+-				  udc->ep0_buf_dma);
+-
+-	udc->ep0_buf = NULL;
++	ast_udc_cleanup(pdev);
+ }
+ 
+ static int ast_udc_probe(struct platform_device *pdev)
+@@ -1523,6 +1530,10 @@ static int ast_udc_probe(struct platform_device *pdev)
+ 					  AST_UDC_EP_DMA_SIZE *
+ 					  AST_UDC_NUM_ENDPOINTS,
+ 					  &udc->ep0_buf_dma, GFP_KERNEL);
++	if (!udc->ep0_buf) {
++		rc = -ENOMEM;
++		goto err_disable_clk;
++	}
+ 
+ 	udc->gadget.speed = USB_SPEED_UNKNOWN;
+ 	udc->gadget.max_speed = USB_SPEED_HIGH;
+@@ -1553,20 +1564,20 @@ static int ast_udc_probe(struct platform_device *pdev)
+ 	udc->irq = platform_get_irq(pdev, 0);
+ 	if (udc->irq < 0) {
+ 		rc = udc->irq;
+-		goto err;
++		goto err_cleanup;
+ 	}
+ 
+ 	rc = devm_request_irq(&pdev->dev, udc->irq, ast_udc_isr, 0,
+ 			      KBUILD_MODNAME, udc);
+ 	if (rc) {
+ 		dev_err(&pdev->dev, "Failed to request interrupt\n");
+-		goto err;
++		goto err_cleanup;
+ 	}
+ 
+ 	rc = usb_add_gadget_udc(&pdev->dev, &udc->gadget);
+ 	if (rc) {
+ 		dev_err(&pdev->dev, "Failed to add gadget udc\n");
+-		goto err;
++		goto err_cleanup;
+ 	}
+ 
+ 	dev_info(&pdev->dev, "Initialized udc in USB%s mode\n",
+@@ -1574,9 +1585,14 @@ static int ast_udc_probe(struct platform_device *pdev)
+ 
+ 	return 0;
+ 
++err_disable_clk:
++	clk_disable_unprepare(udc->clk);
++	goto err;
++err_cleanup:
++	ast_udc_cleanup(pdev);
++	goto err;
+ err:
+ 	dev_err(&pdev->dev, "Failed to udc probe, rc:0x%x\n", rc);
+-	ast_udc_remove(pdev);
+ 
+ 	return rc;
+ }
+
+-- 
+2.51.0
 
