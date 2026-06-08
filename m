@@ -1,91 +1,96 @@
-Return-Path: <linux-aspeed+bounces-4200-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4198-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id c7rkEXJVJ2qyuwIAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4200-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 09 Jun 2026 01:51:14 +0200
+	id fhpwCXFVJ2qvuwIAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4198-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 09 Jun 2026 01:51:13 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7DF65B392
-	for <lists+linux-aspeed@lfdr.de>; Tue, 09 Jun 2026 01:51:13 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B27665B38E
+	for <lists+linux-aspeed@lfdr.de>; Tue, 09 Jun 2026 01:51:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=jW958x5Z;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4200-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4200-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=9elements.com header.s=google header.b=XpTso7CF;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4198-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4198-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=quarantine) header.from=9elements.com;
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gZ8260DdKz2xJT;
-	Tue, 09 Jun 2026 09:51:10 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gZ8254CSqz2ybR;
+	Tue, 09 Jun 2026 09:51:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1780906809;
-	cv=none; b=gQPEi2izCTcz0f718ukIP/0H3u15xDhIXyR9SB0/ygwrX1JkQiw+wtA4DR6OQoVBfLe364rGQltG4a5H9bK+KoE8c3QfUlA3TETtMV4UDtuOciNu55tY8poTp+3vGEueR5DmQ9kBb0/yO28Zfmbdo5yxZA3Ey4JoVGLngry+UTAaA+zRTw9PBRgGlL6VWh9+ur88ugKcRKh05FwbiRO01e9x58U1TAjYzh4XLHtOdDsF6Pu99+XrLIVf6fVomfE+MJtruTbgEEOzXT6ihh5/a5Aa1AgfegWBQwETRp6Kp+bxKJ72G4Wso0+TbRqJot+uBUM63e9vUGU7VfJ9RRSIOQ==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1780930448;
+	cv=none; b=lbAEWa3HM+bIf5kDP3ahaUevsL0r6eid7JxP/gymJoxAR1zFO5ua2pBc8c/WLbe+oDVytl84IhQQex1VZcE4ZPi/ZI4eZUEOk3BA6DkifS9n10gZ8h7Ul3wL6lFkXxCKDPgAgMRilG7iKsvfkIfR3MAboyg0RodIBu5s8gm4dOodc1pHTPA+OCjky/xvRNk+YGtnsv9Hiw2FqoVwb+iQ7emwOmVzL7P47Qom/zGVyX3oqL/rhcdfJyMrWSkwHc6MkTcVnUQJynUxHxIkRKsY6l/bBk7daSkwPGi3R7fnHt/dOizDU7dj5qfmTJg/TXpmD+sULXMdQGbuRrE6pAbdyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1780906809; c=relaxed/relaxed;
-	bh=QaxSxNePW62N/aLYNU2ICZZcrY71w9JpJK96h4Ml418=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y5smtTn8u1/kojvq+kEVPlznhadmSLj1dsth0PhSYmQDaCBEQ5WAX0D2BhzJ/OEeXLpF9Pf7YqZKnXFpcecmFHylLCR+zey88Tw+/+/PR0lXNVucGjNzbTr5/QTaJO1vuCMU4y1DKC/FIny4Kurm+LN7nlvuwvdRWFMczqrowWN9+O7Te760g7O50xmyDUxYAwsNH6YavBPLT3tjXxQNkEqIyftoFooA+cHbAJYgHqbEypXTRiDklFtCvhjOEa7ZhnTwXv6mn9YfRnJyCDuV/otDF+B3W0ulKfXFWRdTkqiXpcaiCJFzigKMp57vSI6arqebUqo5MHJEKsjdxF+nrQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jW958x5Z; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=ruoyuw560@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+	t=1780930448; c=relaxed/relaxed;
+	bh=Lm8hR6tmbybGkch7m6sNCS2QOC7j8b++reuYvr6mkvI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GUBz83ZgdN0mpfn4HObfcLnCHy591mW7IF/KOKLfJ7L18tJrCmruay/zMcMfvmRExKvbl3QBb9hAI3+xQeYJLVXJOKgK+QN46042kLFLpeIZ2i7+GTty0qVwlICHYtrhS0Hp41rk/34X4Xgp3lh3UIZV2/XJzUoPdAmahs7Dp9zFrnb287U+KZsG23WX+0+51qixPJO0+QdZHBRn5EZ27qCY8igCGHIrblHHQwYoGrIVMnS8PDE9Yo0LHt8HZjnq85Pj9zihWaS15Bm1DEG2gGkKPDMp/dBiwmdjyAwibfAlKiyRfZNXJEvG6PqPc//oys5SIjTy/tsTj01112ECYA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=XpTso7CF; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::42b; helo=mail-wr1-x42b.google.com; envelope-from=gregoire.layet@9elements.com; receiver=lists.ozlabs.org) smtp.mailfrom=9elements.com
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gYlMr5fqVz2xWP
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 08 Jun 2026 18:20:07 +1000 (AEST)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-2c0bd02d97eso46736395ad.2
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 08 Jun 2026 01:20:07 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gYw6Q4fVHz2ytV
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Jun 2026 00:54:06 +1000 (AEST)
+Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-45fd464d51fso2378685f8f.3
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 08 Jun 2026 07:54:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780906805; x=1781511605; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QaxSxNePW62N/aLYNU2ICZZcrY71w9JpJK96h4Ml418=;
-        b=jW958x5Z3/vRnqzT5tnySyiKL/qd+jC8w4xmQRfha/+PvqfYFmh9CdYczZs/AwZ2eB
-         V9Um/3dqg0KB/q0Jqi2mWRaNDXdOhrXs1GkDWXaJL4I6yic49C/yaMk7KhJaEKkgmyyv
-         iqH31cnu04cBhME73Xq+xz3mwSh4g3N2I2Coau90z9eGH2fmyRacWV4TwhYl4+IdIcbp
-         5VfC8LpVwSRv/SWgtIrPt0s8/O2cDCL++NouaahlUk3VxBC8y29pPV5X/20kLIJTdNI2
-         GZ0rK/QWAoVrN7bRrXa7CssqzRjy53v1hjGnljcdSVnO3qHE93pWRTAl9p5oPcwfJF5+
-         BY6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780906805; x=1781511605;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=9elements.com; s=google; t=1780930443; x=1781535243; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QaxSxNePW62N/aLYNU2ICZZcrY71w9JpJK96h4Ml418=;
-        b=H0YCJ/snX3DFqjmxYKyJfes1+zptyIFFTHSaAExLgnaPE5HpbRutGuAzSfSA2BFMoF
-         2EAwifh/BEDN+EoK3BAxQoY+swVyN1Yym1TABzHTh+eD3f3+YG2m3Wn7Gs89gJIVCbTN
-         ojtZPeB6jd8cZsrXV0zGsGLkmIAg2WofL3ahZSddUPqWzutnlaN/Y+/p6zAVVpE4oXlR
-         IITURAmlgwB4S3Mvcibkc/+YuPj6XzchQiCaiBwfvWznnn9jl+wbLDRur/d9IxGeg/kr
-         K56BOIy6RZKWi/dsSHRjOHU3/KjQ+vtfUbGy0RN0/JpY0naQRugD3ygqbpadsvh/jAmo
-         huAQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+z3ME17/dgtIG50OF0LxWdI1EZpF2fbeIVVqB83f8eQr/dRLMmJvZIZQimRdRvrxhTOQVijqDUYaahKPY=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yyyq+BV2JOgeEKaIMd2siNXx72QE/Wayfv9YD3JTj8B+lhtCfL4
-	LTmF9pqxHvTh3XRFp1db3usjqZmKJNrw9E4L7phwmOJPQ24zn1kpiDKe
-X-Gm-Gg: Acq92OEkQ2FV5bwog0rPM/snnr62DmSyZKe4ds3KvNQFr/N1O3z28C+V0fa+0oo/7g9
-	KushAFa2zY4KyOxw8E8A3ukgXhc41t9hLGlMzYgUaTUtFy6209X67KdsMj8wgjXwPeYU75K3+fy
-	2sgg8XU8sLkvCAZanLJAC1bJbaOrWnuGXPrZMkzuDV0XhLGg5jNsxY6AIHv7RnrHumXCQ74lAru
-	O3fCnv1RP7sgR1uL2GZjMxJP/pLiGDLyUm5Ro4BYZ46ji0ZKitLaCmgn/1V75qyL2lxHBxBMKK4
-	Vy3lbfkd9JFP780zZBh2k1ByyjDtMOz2LQ9yyyCDYqN8cbqdUl+3kwYpMzsw62aw8RjkVY/0VhN
-	3dcPlJ9m7kU8/lCDKd1YO5bIGBi+TAsNS8SicrQVBRZchOidiHDBRwrZQnGh00GT2aqCUkcvbGl
-	rW3kCHe8LP+A5E0w+ZLcFulkDFgoNIIn4pCIW7eYAGapcfXKxSVdLu
-X-Received: by 2002:a17:903:3c48:b0:2c0:eee2:fc40 with SMTP id d9443c01a7336-2c1e80cede0mr162261145ad.3.1780906804922;
-        Mon, 08 Jun 2026 01:20:04 -0700 (PDT)
-Received: from haichao.tail057a43.ts.net ([2001:da8:e000:1206:9a2:954d:67fe:d9c2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164fa3a5fsm183050945ad.36.2026.06.08.01.20.01
+        bh=Lm8hR6tmbybGkch7m6sNCS2QOC7j8b++reuYvr6mkvI=;
+        b=XpTso7CFGVS/grdSRfOvOGtM4+CtELOKXS46425ZS4L10HduJLQyFSZQvqWh2Qhzme
+         H3kltHjwKgemXrfphnktjAQaQHF2vdBw+ESBiQACtRVteh/0orYMBwDO7p9Wow5BZngW
+         ML0d3jcFPVK4j4N+KEMNB2l5RFsDsspBNy5CY4jDqoRvUAR4iE//JZeeVQ2uKlao4Q5e
+         sDVgZHvWpLJvMAE2WENaxcjDWz95tqiCEuJd1hfijOFSaXxGBXP+Bs+bBQk576sf/S2N
+         DG24TSLsRLc6S8ZCrveXVl83IUapSOoTxWWdPc03R1U52XEglU1Ei9VzDEDKAvaSAIOh
+         IzEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780930443; x=1781535243;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Lm8hR6tmbybGkch7m6sNCS2QOC7j8b++reuYvr6mkvI=;
+        b=ivGDd8XGky9h92qjNmgy5RRfZ2HrgERKSnGWMk0eFw7rBn6kA3uBWtxSz1Gkh9jheP
+         gYXQYL2NLajwmj31zi/wh7mXQUsNIoz69/Af0j5mtzXp22zOwI2OoiksFnAX8j/3tWH7
+         UUEC03+tPcGCu2XL8VQfro0HOlNpEh9/HMPwMW5B82/GsaYK0/XzDsSpeqJIcdq3Oj/z
+         L2Awvu/iHAS9ww+18sWx5IsKvSWm3lYGoxAZ+LThgaJTVpr72j/fQluwpGlSK6TXvPj+
+         bqCShgd3QMi43yvBjNHXDg0/m7V2AmGepNPoyI0ZwrMe5F9Oq6bcilLZ315CfDIP9UKv
+         S72w==
+X-Forwarded-Encrypted: i=1; AFNElJ8RuMXcETh8/QdALdLArCLlBWX8GKtV438JdPDrFLI0uNiv4F3sVtKu9W0xtU24fzl/XRU3FfpUhhDe9cw=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yx9nyE2QUDY7iAlyI2AdyEjO4clFvGANtgLy6kqmNnBpVPvNu2h
+	gRWbsFL5G8qODgVPFAZrlghfFotXqBbYJdDq5iEz/2PodC+eYa68CGMOQqTTuN0O17U=
+X-Gm-Gg: Acq92OGWpIpT1s+pnCTAv+qpqH2cf3zQVb+ylLrBG36wt4uETQeEk5ksBeh/AqZhixy
+	s69YKl54sZJzxoYzFPUJH30F9lUgnpd6InUYTighn1iihTevdCL+UCjjSumAQXKgltJwYunbKqx
+	SncQkTAwX3Ct7t+TbWNSWANrSU/D5VkCuIpjRuFQ9c3exXFcII0ZsL4KcBg5iWKVEp/oBaACcEP
+	rGftZ4Y048pfEaKzr5hknSvGA3doQ78R9rSgURlp5TJmG2f+02FP6vjtlcbvuH+BM+ZirQmdFRR
+	pzBF8NTfOlRr5sQY1+2+8RVNcBRRG8QKvNvJezsDTWr/FWRLkPVmwK3nbzLaiM0DIra1HUo3g6f
+	eHWNMtpsTeXQ0wt0P8XRpVmS+KjGxqBkCLZLcsqW498Jtd0itPwqWsNKNKO3Z/WlsIYbyx1BCJx
+	woW8LbOwnD6//MTuwZs80VyvbF70CCt07a62SZV7DaexHVNkfD+FFtl2yQa+05
+X-Received: by 2002:adf:e848:0:b0:460:cfc:eb24 with SMTP id ffacd0b85a97d-460304fec2bmr20628232f8f.22.1780930443356;
+        Mon, 08 Jun 2026 07:54:03 -0700 (PDT)
+Received: from gregwork.sec.9e.network ([188.111.3.154])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f360bd6sm56927851f8f.36.2026.06.08.07.54.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 01:20:04 -0700 (PDT)
-From: Ruoyu Wang <ruoyuw560@gmail.com>
-To: Neal Liu <neal_liu@aspeedtech.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
+        Mon, 08 Jun 2026 07:54:03 -0700 (PDT)
+From: =?UTF-8?q?Gr=C3=A9goire=20Layet?= <gregoire.layet@9elements.com>
+To: joel@jms.id.au,
+	andrew@codeconstruct.com.au
+Cc: andrew@lunn.ch,
+	jacky_chou@aspeedtech.com,
+	yh_chung@aspeedtech.com,
+	ninad@linux.ibm.com,
 	linux-aspeed@lists.ozlabs.org,
-	linux-usb@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Ruoyu Wang <ruoyuw560@gmail.com>
-Subject: [PATCH] usb: gadget: aspeed_udc: check endpoint DMA allocation
-Date: Mon,  8 Jun 2026 16:19:48 +0800
-Message-ID: <20260608081948.3-1-ruoyuw560@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	=?UTF-8?q?Gr=C3=A9goire=20Layet?= <gregoire.layet@9elements.com>
+Subject: [PATCH v2 0/2] soc: aspeed: Add BMC and host driver for PCIe BMC device
+Date: Mon,  8 Jun 2026 14:51:21 +0000
+Message-ID: <cover.1780929570.git.gregoire.layet@9elements.com>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <cover.1780409151.git.gregoire.layet@9elements.com>
+References: <cover.1780409151.git.gregoire.layet@9elements.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -99,195 +104,89 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
-	version=4.0.1
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [-1.21 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	DMARC_POLICY_ALLOW(-0.50)[9elements.com,quarantine];
 	MAILLIST(-0.20)[generic];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_DKIM_ALLOW(-0.20)[9elements.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4200-lists,linux-aspeed=lfdr.de];
-	FREEMAIL_CC(0.00)[jms.id.au,codeconstruct.com.au,lists.ozlabs.org,vger.kernel.org,lists.infradead.org,gmail.com];
-	FORGED_SENDER(0.00)[ruoyuw560@gmail.com,linux-aspeed@lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-4198-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[gregoire.layet@9elements.com,linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:andrew@lunn.ch,m:jacky_chou@aspeedtech.com,m:yh_chung@aspeedtech.com,m:ninad@linux.ibm.com,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:gregoire.layet@9elements.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:neal_liu@aspeedtech.com,m:gregkh@linuxfoundation.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:linux-aspeed@lists.ozlabs.org,m:linux-usb@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:ruoyuw560@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_NEQ_ENVFROM(0.00)[ruoyuw560@gmail.com,linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gregoire.layet@9elements.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[9elements.com:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[9elements.com:dkim,9elements.com:mid,9elements.com:from_mime,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9F7DF65B392
+X-Rspamd-Queue-Id: 3B27665B38E
 
-ast_udc_probe() allocates a coherent DMA buffer used as the backing store
-for endpoint buffers. ast_udc_init_ep() derives per-endpoint buffer
-pointers from udc->ep0_buf, so a failed allocation is dereferenced during
-probe.
+This is a v2 for upstreaming the VUART over PCIe BMC device driver from the ASPEED kernel SDK (branch master-v6.18) [1].
+There are two drivers: a BMC-side driver and a host-side driver.
+Together they enable host<->BMC VUART communication via PCIe. 
 
-Check the allocation before endpoint setup. The existing probe error path
-called ast_udc_remove(), which unregisters the gadget unconditionally and
-is not safe before usb_add_gadget_udc() succeeds. Add a local cleanup
-helper for probe failures so pre-registration failures only unwind the
-resources that were actually initialized.
+This v2 narrows down the scope to VUART support only, to address review feedback on v1 [2] 
+that the additional subsystems (shared memory, doorbell and mailbox) were software-defined
+IPC channels better used with rpmsg or virtio.
+Those subsystems are deferred to a separate future series.
 
-This was found by a local static analysis checker for unchecked allocator
-returns while scanning Linux 6.16. The change was checked by applying it
-to current mainline and by running checkpatch. I do not have access to
-Aspeed UDC hardware, so no runtime testing was performed.
+VUART data flow and MSI interrupts have been verified working on the test hardware.
 
-Fixes: 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver")
-Signed-off-by: Ruoyu Wang <ruoyuw560@gmail.com>
----
-Note: a 2022 patch attempted to add only a NULL check for this
-allocation:
-https://lore.kernel.org/all/20221213025120.23149-1-jiasheng@iscas.ac.cn/
+Tested on:
+BMC:
+- Asus IPMI Kommando Card R1.01, AST2600 A3.
+- OpenBMC
+Host:
+- Linux kernel v7.0.0
 
-This version also fixes the probe unwind path so the clock is disabled
-on allocation failure and usb_del_gadget_udc() is not called before the
-gadget has been registered.
+This v2 only supports AST2600; the AST2700 is untested and not supported by this patch.
 
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index 7fc6696b7..809a7d5b7 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -1434,11 +1434,34 @@ static void ast_udc_init_hw(struct ast_udc_dev *udc)
- 	ast_udc_write(udc, 0, AST_UDC_EP0_CTRL);
- }
- 
-+static void ast_udc_cleanup(struct platform_device *pdev)
-+{
-+	struct ast_udc_dev *udc = platform_get_drvdata(pdev);
-+	unsigned long flags;
-+	u32 ctrl;
-+
-+	spin_lock_irqsave(&udc->lock, flags);
-+
-+	/* Disable upstream port connection */
-+	ctrl = ast_udc_read(udc, AST_UDC_FUNC_CTRL) & ~USB_UPSTREAM_EN;
-+	ast_udc_write(udc, ctrl, AST_UDC_FUNC_CTRL);
-+
-+	clk_disable_unprepare(udc->clk);
-+
-+	spin_unlock_irqrestore(&udc->lock, flags);
-+
-+	if (udc->ep0_buf)
-+		dma_free_coherent(&pdev->dev,
-+				  AST_UDC_EP_DMA_SIZE * AST_UDC_NUM_ENDPOINTS,
-+				  udc->ep0_buf,
-+				  udc->ep0_buf_dma);
-+
-+	udc->ep0_buf = NULL;
-+}
-+
- static void ast_udc_remove(struct platform_device *pdev)
- {
- 	struct ast_udc_dev *udc = platform_get_drvdata(pdev);
--	unsigned long flags;
--	u32 ctrl;
- 
- 	usb_del_gadget_udc(&udc->gadget);
- 	if (udc->driver) {
-@@ -1453,23 +1476,7 @@ static void ast_udc_remove(struct platform_device *pdev)
- 		return;
- 	}
- 
--	spin_lock_irqsave(&udc->lock, flags);
--
--	/* Disable upstream port connection */
--	ctrl = ast_udc_read(udc, AST_UDC_FUNC_CTRL) & ~USB_UPSTREAM_EN;
--	ast_udc_write(udc, ctrl, AST_UDC_FUNC_CTRL);
--
--	clk_disable_unprepare(udc->clk);
--
--	spin_unlock_irqrestore(&udc->lock, flags);
--
--	if (udc->ep0_buf)
--		dma_free_coherent(&pdev->dev,
--				  AST_UDC_EP_DMA_SIZE * AST_UDC_NUM_ENDPOINTS,
--				  udc->ep0_buf,
--				  udc->ep0_buf_dma);
--
--	udc->ep0_buf = NULL;
-+	ast_udc_cleanup(pdev);
- }
- 
- static int ast_udc_probe(struct platform_device *pdev)
-@@ -1523,6 +1530,10 @@ static int ast_udc_probe(struct platform_device *pdev)
- 					  AST_UDC_EP_DMA_SIZE *
- 					  AST_UDC_NUM_ENDPOINTS,
- 					  &udc->ep0_buf_dma, GFP_KERNEL);
-+	if (!udc->ep0_buf) {
-+		rc = -ENOMEM;
-+		goto err_disable_clk;
-+	}
- 
- 	udc->gadget.speed = USB_SPEED_UNKNOWN;
- 	udc->gadget.max_speed = USB_SPEED_HIGH;
-@@ -1553,20 +1564,20 @@ static int ast_udc_probe(struct platform_device *pdev)
- 	udc->irq = platform_get_irq(pdev, 0);
- 	if (udc->irq < 0) {
- 		rc = udc->irq;
--		goto err;
-+		goto err_cleanup;
- 	}
- 
- 	rc = devm_request_irq(&pdev->dev, udc->irq, ast_udc_isr, 0,
- 			      KBUILD_MODNAME, udc);
- 	if (rc) {
- 		dev_err(&pdev->dev, "Failed to request interrupt\n");
--		goto err;
-+		goto err_cleanup;
- 	}
- 
- 	rc = usb_add_gadget_udc(&pdev->dev, &udc->gadget);
- 	if (rc) {
- 		dev_err(&pdev->dev, "Failed to add gadget udc\n");
--		goto err;
-+		goto err_cleanup;
- 	}
- 
- 	dev_info(&pdev->dev, "Initialized udc in USB%s mode\n",
-@@ -1574,9 +1585,14 @@ static int ast_udc_probe(struct platform_device *pdev)
- 
- 	return 0;
- 
-+err_disable_clk:
-+	clk_disable_unprepare(udc->clk);
-+	goto err;
-+err_cleanup:
-+	ast_udc_cleanup(pdev);
-+	goto err;
- err:
- 	dev_err(&pdev->dev, "Failed to udc probe, rc:0x%x\n", rc);
--	ast_udc_remove(pdev);
- 
- 	return rc;
- }
+Changes since v1 [2]:
+ - BMC driver: trimmed down to only SCU and PCIe initialization
+ - Host driver: removed shared memory misc device, sysfs doorbell, mailbox setup and message queue handler.
+    Driver now only supports VUART registration.
+ - Host driver: Fixed cleanup path: removed pci_release_regions() call as there was no matching pci_request_regions call
+
+[1]: https://github.com/AspeedTech-BMC/linux/tree/aspeed-master-v6.18/drivers/soc/aspeed
+[2]: https://lore.kernel.org/linux-aspeed/cover.1780409151.git.gregoire.layet@9elements.com/
+
+Grégoire Layet (2):
+  soc: aspeed: add BMC-side PCIe BMC device driver
+  soc: aspeed: add host-side PCIe BMC device driver
+
+ drivers/soc/aspeed/Kconfig               |  15 ++
+ drivers/soc/aspeed/Makefile              |   2 +
+ drivers/soc/aspeed/aspeed-bmc-dev.c      | 187 +++++++++++++++++
+ drivers/soc/aspeed/aspeed-host-bmc-dev.c | 249 +++++++++++++++++++++++
+ 4 files changed, 453 insertions(+)
+ create mode 100644 drivers/soc/aspeed/aspeed-bmc-dev.c
+ create mode 100644 drivers/soc/aspeed/aspeed-host-bmc-dev.c
 
 -- 
-2.51.0
+2.51.2
+
 
