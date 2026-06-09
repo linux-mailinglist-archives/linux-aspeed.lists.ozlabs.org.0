@@ -1,61 +1,46 @@
-Return-Path: <linux-aspeed+bounces-4195-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4201-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Mtu2MnYEJ2ofqAIAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4195-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Mon, 08 Jun 2026 20:05:42 +0200
+	id EZzSK9R+J2r0yAIAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4201-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 09 Jun 2026 04:47:48 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB69D659881
-	for <lists+linux-aspeed@lfdr.de>; Mon, 08 Jun 2026 20:05:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC42365BE4C
+	for <lists+linux-aspeed@lfdr.de>; Tue, 09 Jun 2026 04:47:47 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=lunn.ch header.s=20171124 header.b="SA vCiCF";
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4195-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4195-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=none) header.from=lunn.ch;
+	dkim=none;
+	dmarc=fail reason="SPF not aligned (relaxed), No valid DKIM" header.from=aspeedtech.com (policy=quarantine);
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4201-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4201-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gZ0MR3m9tz2yS4;
-	Tue, 09 Jun 2026 04:05:39 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gZCxm19fKz2xR4;
+	Tue, 09 Jun 2026 12:47:40 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1780941939;
-	cv=none; b=lyI2e9blIMthm95NK4bjmI1AWXnwGzP0Ou0CmpYqLDbI0huxNRf7cP+JH1yf5fQlYaAsN1+fdNo47MtUjfdC+39Ddr7wAukFut2VFc3wCmvAYy4bbu6EWE0NgyI4+QgKXipvox4sLRngIN+rd/k62X+RFhQEQ3zZxXqrGfmjCMfiB9Zr7LDz3lgYY3lrmsrH3Zk8aQOxghEGkP8/BZs8TWMePZcZybmMCoOwKrFy4jzzuxU5dcMHdE9gKShGpSjknmpenUHEphFAANnXZ8CFymdsDtdaThoFkbs+YDpJfgk5xmT5tuTalgDFgCN1PBHnusPZ5pAfp9wNz4AixMzlOQ==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1780973260;
+	cv=none; b=Ke6se1S1Ez/9WYAKHbb65B+BtEiu0vCTQNkOl8npV+iqrOrHiJSppv3zTkh3KcOiT8wnFOTXk0GY4Q3IySwt764EB6MKJgigqaoTX+zprttAl1v07z9a5KrWu4ugJFJlgjnYkl3UgLQrH34Cuh3NWeZO+ncTRER1hxpb6Bjr8T359hwtl4D9xErKqNnmc4Sug2rhxeTTYPVYqO0mmHm1avL5LExeo9g3BgxqN0MHdtZLE/7XFKJ0IH3WZsCwkQBqkCjkoHmy6Z6ljILP6Fgts4R0QkAEfqP8ZSTHg24Sn2Zt5C+rLMoX0aJJYMTikh/wxLRUDkwXMCffFppY2l+b7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1780941939; c=relaxed/relaxed;
-	bh=Sn2RaqFmcO0Fp/dqSoOY9ViKZkuBRw2xZmPal61BeyE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hnfBZrvfJ5qgrS93N4VFueo2D4UUysvO9AS+OB4uQzbbK5PElWMZRhApEw5nep02HLsjmNKjIG5fLHXfonlOMcTWHDQxbNQAINWGs/7XideQ9/tiYZk8qFaRrGM4rAG7HqcsRgFtwNEalkU7b+31Y2j3H05j1wMr19P09GJyn+oQg3cOpVXL58oJSt4RQE96s3B9Tt0eTx5Dw7Rtv1b52O1Cv9VKzpdR1CuM679kv6xd6QugxKuF2MFDiQQkSTAjFIC9S3w8fPYuMkVhdUHZ0csczsQN3n1k40g92TG9BNpAC+5Ifa9se64HhpwZ2ayQvjDgcC5bXELA8C/PHdWBkg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=SAvCiCFZ; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	t=1780973260; c=relaxed/relaxed;
+	bh=SN97O3Mz6hD8IyyoGPgtEJRDjEfewZ/BJxl9K6OEWfE=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=ktcJlTk+huMMlKuEoTnUsZELaHs/w4XkLsDEkfcBXnGfUxeQR43vnL7qttrb72mxjsPNENCeF3JFWmJgInKNWc3T+lTp5MhdfTsuEl3WjCq/5jDN7x2421OeOFKn0u7cZXF1iA80+zky61n0CmjH6QoLA2SgKWyi5SQFF9WVsVS2tlk0JyY+QiXOqzAK911QN8mlvYdR+0DmZr4aR0Kl83F7yAtz/9VsA06BuhIpBRLY0P3sxKeCsTIdyauI84RXg2QXS5vB5y7ZbvzwxE1nJcaS4HdU31+J3+46+Hufb3iBlD2zNVPpq1lHSRRmBq+wC92tKJklc0bVTr7xFW2ABA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeedtech.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Received: from twmbx01.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gZ0MP2lpjz2yS0
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Jun 2026 04:05:36 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=Sn2RaqFmcO0Fp/dqSoOY9ViKZkuBRw2xZmPal61BeyE=; b=SA
-	vCiCFZUrJ17FzKwxMlb28P7G5IGDkYRRug9aPlaq3G9S0tgrGiJy+GeUYBK1ANKZSaaL9QXPIOt3P
-	ShNPGt/bzWyI8W5vFzcqp5n7q0IzyceAa5294Eo13qn2KcaD9JiZeJsCx+KsZbD+KkclbIyAOSljD
-	A+gF0/JjC2GiX2k=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wWeLd-006fu9-6O; Mon, 08 Jun 2026 20:05:17 +0200
-Date: Mon, 8 Jun 2026 20:05:17 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: =?iso-8859-1?Q?Gr=E9goire?= Layet <gregoire.layet@9elements.com>
-Cc: joel@jms.id.au, andrew@codeconstruct.com.au, jacky_chou@aspeedtech.com,
-	yh_chung@aspeedtech.com, ninad@linux.ibm.com,
-	linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] soc: aspeed: Add BMC and host driver for PCIe BMC
- device
-Message-ID: <63654bb5-c246-41c4-bb7e-5bfa23e59f2e@lunn.ch>
-References: <cover.1780409151.git.gregoire.layet@9elements.com>
- <cover.1780929570.git.gregoire.layet@9elements.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gZCxk1MFVz2xM7
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Jun 2026 12:47:37 +1000 (AEST)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 9 Jun
+ 2026 10:47:20 +0800
+Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Tue, 9 Jun 2026 10:47:20 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: [PATCH v9 0/4] Introduce ASPEED AST27xx BMC SoC
+Date: Tue, 9 Jun 2026 10:47:17 +0800
+Message-ID: <20260609-upstream_ast2700-v9-0-f631752f0cb1@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -69,58 +54,203 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1780929570.git.gregoire.layet@9elements.com>
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALV+J2oC/x3MSwqAMAwA0auUrC2E4P8qIlI1ahZqaVQE8e4Wl
+ 28x84ByEFaozQOBL1HZt4gqMTAsbpvZyhgNhJQjYWZPr0dgt3ZODyoQbc4TDym5nqiEmPnAk9z
+ /smnf9wOaBov0YgAAAA==
+X-Change-ID: 20260205-upstream_ast2700-6efec42ab228
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
+ Jeffery" <andrew@codeconstruct.com.au>, Catalin Marinas
+	<catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Arnd Bergmann
+	<arnd@arndb.de>, Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni
+	<alexandre.belloni@bootlin.com>, Linus Walleij <linusw@kernel.org>, "Drew
+ Fustini" <fustini@kernel.org>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
+	<palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti
+	<alex@ghiti.fr>
+CC: <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-aspeed@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+	<soc@lists.linux.dev>, <linux-riscv@lists.infradead.org>, Ryan Chen
+	<ryan_chen@aspeedtech.com>, Conor Dooley <conor.dooley@microchip.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780973240; l=6248;
+ i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
+ bh=oYZVa0bsFQERUp7kyP1cnPeCWXK8Ze7hWamrAqEBEoc=;
+ b=pQEgAFwbtlh85/ynBOEecEI9FD7ew2fniNbe1tJWv0MaDKz+27nuAj5pKsdFljy0sk8lTby7h
+ zbfZWYkK2WECoe0AeNgV4TJnN0WVb8W+U5cPYz1jB4zKNjM5fHLbrDG
+X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
+ pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.21 / 15.00];
+X-Spamd-Result: default: False [1.49 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[lunn.ch,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[lunn.ch:s=20171124];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-4195-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-4201-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:gregoire.layet@9elements.com,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:jacky_chou@aspeedtech.com,m:yh_chung@aspeedtech.com,m:ninad@linux.ibm.com,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:catalin.marinas@arm.com,m:will@kernel.org,m:arnd@arndb.de,m:krzk@kernel.org,m:alexandre.belloni@bootlin.com,m:linusw@kernel.org,m:fustini@kernel.org,m:pjw@kernel.org,m:palmer@dabbelt.com,m:aou@eecs.berkeley.edu,m:alex@ghiti.fr,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:soc@lists.linux.dev,m:linux-riscv@lists.infradead.org,m:ryan_chen@aspeedtech.com,m:conor.dooley@microchip.com,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[lunn.ch:+];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FORGED_SENDER(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TAGGED_RCPT(0.00)[linux-aspeed];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp,lunn.ch:dkim,lunn.ch:mid,lunn.ch:from_mime]
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: EB69D659881
+X-Rspamd-Queue-Id: BC42365BE4C
 
-On Mon, Jun 08, 2026 at 02:51:21PM +0000, Grégoire Layet wrote:
-> This is a v2 for upstreaming the VUART over PCIe BMC device driver from the ASPEED kernel SDK (branch master-v6.18) [1].
-> There are two drivers: a BMC-side driver and a host-side driver.
-> Together they enable host<->BMC VUART communication via PCIe. 
+This introduces initial support for the Aspeed AST27xx SoC and the AST2700
+Evaluation Board (EVB) to the Linux kernel. The AST27xx is the 8th
+generation Baseboard Management Controller (BMC) SoC from Aspeed,
+featuring improved performance, enhanced security, and expanded I/O
+capabilities compared to previous generations.
 
-I would like to see somewhere a comment about security. From the
-replies i got the host can access anything on the LPC bus of the
-aspeed. What are the implications of that? What are typically on such
-a bus? TPMs are often there, but does a BMC have a TPM?
+AST27xx SOC Family
+ - https://www.aspeedtech.com/server_ast2700/
+ - https://www.aspeedtech.com/server_ast2720/
+ - https://www.aspeedtech.com/server_ast2750/
 
-	Andrew
+Bindings Dependencies:
+ check with "make CHECK_DTBS=y W=1 arch/arm64/boot/dts/aspeed/ dtbs"
+
+- scu/scu-ic/silicon-id: Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml
+- intc: Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2700-interrupt.yaml
+- scu-ic: Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2500-scu-ic.yaml
+- pinctrl soc0: Documentation/devicetree/bindings/pinctrl/aspeed,ast2700-soc0-pinctrl.yaml
+- pinctrl soc1: Documentation/devicetree/bindings/pinctrl/aspeed,ast2700-soc1-pinctrl.yaml
+- gpio: Documentation/devicetree/bindings/gpio/aspeed,ast2400-gpio.yaml
+- sgpio: Documentation/devicetree/bindings/gpio/aspeed,sgpio.yaml
+- fmc/spi: Documentation/devicetree/bindings/spi/aspeed,ast2600-fmc.yaml
+- mdio: Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml
+- sd/sdhci: Documentation/devicetree/bindings/mmc/aspeed,sdhci.yaml
+- usb-vhub: Documentation/devicetree/bindings/usb/aspeed,usb-vhub.yaml
+- ehci: Documentation/devicetree/bindings/usb/generic-ehci.yaml
+- uhci: Documentation/devicetree/bindings/usb/usb-uhci.yaml
+- wdt: Documentation/devicetree/bindings/watchdog/aspeed,ast2400-wdt.yaml
+- mailbox: Documentation/devicetree/bindings/mailbox/aspeed,ast2700-mailbox.yaml
+- adc: Documentation/devicetree/bindings/iio/adc/aspeed,ast2600-adc.yaml
+- pwm-tach: Documentation/devicetree/bindings/hwmon/aspeed,g6-pwm-tach.yaml
+- fsi: Documentation/devicetree/bindings/fsi/aspeed,ast2600-fsi-master.yaml
+
+Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+---
+Changes in v9:
+- use b4 send
+- rebase on linux-next
+- split aspeed-g7-common.dtsi to aspeed-g7-soc0/1.dtsi
+- update all interrupt-extend by use aspeed,ast2700-intc0/1 parent
+- MAINTAINERS: add arch/arm64/boot/dts/aspeed/ entry
+- Kconfig.platforms: reword ARCH_ASPEED help text
+- cover: complete bindings dependencies list and fix intc binding path
+- Link to v8: https://lore.kernel.org/all/20251112101157.2149169-1-ryan_chen@aspeedtech.com/
+
+Changes in v8:
+- Kconfig.platforms
+ - update commit message and help description.
+- aspeed-g7-a35.dtsi,aspeed-g7-common.dtsi,ast2700-evb.dts
+ - change license using a dual license of MIT + GPL2.0+
+ - add company copyright.
+- merge original v7 patch(3/5) and (4/5) to 1 v8patch(3/4)
+ - that can do build test with make CHECK_DTBS=y W=1 arch/arm64/boot/dts/aspeed/ dtbs
+- Link to v7: https://lore.kernel.org/all/20251107055629.4075519-1-ryan_chen@aspeedtech.com/
+
+Changes in v7:
+- remove aspeed,ast2x00-scu.yaml modify
+- separate aspeed-g7.dtsi to aspeed-g7-a35.dtsi and aspeed-g7-common.dtsi
+-move aliases to ast2700-evb.dts file
+-Link to v6: https://lore.kernel.org/all/20251022070543.1169173-1-ryan_chen@aspeedtech.com/
+
+Changes in v6:
+- rebased on v6.18-rc1
+- aspeed,ast2x00-scu.yaml
+ - fixed dt-binding yaml issuse report.
+-Linke to v5: https://lore.kernel.org/all/20250901031311.1247805-1-ryan_chen@aspeedtech.com/
+
+Changes in v5:
+- modify ast27XX 7th generation description to 8th generation.
+- aspeed.yaml
+ - modify missing blank line.
+- Kconfig.platforms
+ - modify ast27XX 7th generation to 8th generation.
+-Link to v4: https://lore.kernel.org/all/20250821080214.513090-1-ryan_chen@aspeedtech.com/
+
+Changes in v4:
+- make CHECK_DTBS=y arch/arm64/boot/dts/aspeed/ fix.
+- modify commit message remove itemlize.
+- remove modify aspeed,ast2700-intc.yaml patch.
+- aspeed.yaml
+ - Add AST2700 board compatible.
+- aspeed-g7.dtsi
+ - modify all size-cells from 1 to 2.
+ - add serial aliases, gpio, mdio, uart0 ~ 14.
+ - add firmware for optee, reserved memory for atf and optee.
+ - modify cpu@0 to cpu0: cpu@0.
+ - fix intc-ic for yaml dependency.
+- ast2700-evb.dts
+ - update stdout-path = "serial12:115200n8";
+-Link to v3: https://lore.kernel.org/all/20241212155237.848336-1-kevin_chen@aspeedtech.com/
+
+Changes in v3:
+- Split clk and reset driver to other commits, which are in series of
+  "Add support for AST2700 clk driver".
+- For BMC console by UART12, add uart12 using ASPEED INTC architecture.
+aspeed,ast2700-intc.yaml
+- Add minItems to 1 to fix the warning by "make dtbs_check W=1".
+- Add intc1 into example.
+Kconfig.platforms
+  - Remove MACH_ASPEED_G7.
+-Link to v2: https://lore.kernel.org/all/20240802090544.2741206-1-kevin_chen@aspeedtech.com/
+
+Changes in v2:
+-Link to v1: https://lore.kernel.org/all/20250612100933.3007673-1-ryan_chen@aspeedtech.com/
+
+---
+Ryan Chen (4):
+      dt-bindings: arm: aspeed: Add AST2700 board compatible
+      arm64: Kconfig: Add ASPEED SoC family Kconfig support
+      arm64: dts: aspeed: Add initial AST27xx SoC device tree
+      arm64: configs: Update defconfig for AST2700 platform support
+
+ .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    6 +
+ MAINTAINERS                                        |    1 +
+ arch/arm64/Kconfig.platforms                       |    6 +
+ arch/arm64/boot/dts/Makefile                       |    1 +
+ arch/arm64/boot/dts/aspeed/Makefile                |    4 +
+ .../dts/aspeed/aspeed-evb-flash-layout-128.dtsi    |   32 +
+ arch/arm64/boot/dts/aspeed/aspeed-g7-a35.dtsi      |  196 ++++
+ .../boot/dts/aspeed/aspeed-g7-soc0-pinctrl.dtsi    |  225 ++++
+ arch/arm64/boot/dts/aspeed/aspeed-g7-soc0.dtsi     |  230 ++++
+ .../boot/dts/aspeed/aspeed-g7-soc1-pinctrl.dtsi    | 1113 ++++++++++++++++++++
+ arch/arm64/boot/dts/aspeed/aspeed-g7-soc1.dtsi     |  557 ++++++++++
+ arch/arm64/boot/dts/aspeed/ast2700-evb.dts         |   65 ++
+ arch/arm64/configs/defconfig                       |    1 +
+ 13 files changed, 2437 insertions(+)
+---
+base-commit: 6e845bcb78c95af935094040bd4edc3c2b6dd784
+change-id: 20260205-upstream_ast2700-6efec42ab228
+
+Best regards,
+-- 
+Ryan Chen <ryan_chen@aspeedtech.com>
+
 
