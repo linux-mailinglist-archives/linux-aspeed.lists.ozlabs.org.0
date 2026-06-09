@@ -1,61 +1,96 @@
-Return-Path: <linux-aspeed+bounces-4207-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4208-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id i/5xEbgEKGqO7QIAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4207-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 09 Jun 2026 14:19:04 +0200
+	id kEvHG6CkKGoxHAMAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4208-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 01:41:20 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6389965FF84
-	for <lists+linux-aspeed@lfdr.de>; Tue, 09 Jun 2026 14:19:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8FB664D4A
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 01:41:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=nUrsJUo4;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4207-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4207-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	arc=pass ("lists.ozlabs.org:s=201707:i=1")
+	dkim=pass header.d=9elements.com header.s=google header.b=ZipGjzBr;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4208-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4208-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=quarantine) header.from=9elements.com;
+	arc=pass ("lists.ozlabs.org:s=201707:i=2")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gZSd129zhz2yv2;
-	Tue, 09 Jun 2026 22:19:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gZlmF2dXFz2xLm;
+	Wed, 10 Jun 2026 09:41:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781007541;
-	cv=none; b=fYjVCYeVT/4ZmAfhgkGyq/trfsIX1iD5IBsIudSBtZ0X0N49qR+dvAoyq8zAdMZTieT2zotoJ6eSw1a6RUFH9tRBOCFrIKXpwYfHUJ8SyY0xqpVO2zxwfgF6jXwtICp5b5x7Mf/ugbX0EbpSA/DW5YcQLS9haA9VxpU/NWxyeTe3sWTFQvsiyW/zlqNXaN7aRom8zpOQRbHhuXrdyMavEBJ9+la9L65FDSOZSZzutd0zCJM+VAghVrnulM8Cdi52IZTL8RxGb+elvDKKigR6BPbT6C0JXuN6zFbdAUr0JaVRwSH52Fzb/eOxj0BIKJ4JX3od/6vLq3UOM7bZJtDsbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1781007541; c=relaxed/relaxed;
-	bh=vDOEE8xBUSXxvq4xLfdOp0TCxRvuaF7+Cmh+3kfoHpg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VCp3GUlYjMD00T8LoObAHB9cgp95HIGCQE0xkrdw06jp49H/YK8hksvqTikDxb2kWX+37t9FQYVcuGHNEhMz05iTTQJ/dnR2gkpQweuzvAUVJSLA3dQcqHVJfD01AXxp4GLzoq15f6vgB85+oeTASaxPup0dqxxV2NNLtDOyhOV1AKF6vGRqk6qUSMoOKYlxFH13pmfMoZYygsX+O73rjthMT5SDTstZD3OGiclpNCiyejqlcxW9bVmb88jKPdMrjJp6iI7htSivCzHxbS6S8V3ptJEHdfXXfOOrj5L5Ho+TPnNCgyl8vQzIuf4J3llVk2nLSkQu1uX631XmScnh+g==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nUrsJUo4; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781012073;
+	cv=pass; b=d74uG8wjYPBOJVGa6hUW54cqA3KZrqfGcznWnErzVb+KtgHSwuMKHlsq/A+STabz/qYIii5uocNLxINrWr9Pl2MZP+RzwVBX6VqWA1pRGfXKcRqNxaa5JIpvM0smCWhYfHi1fyDFdYURtrxj24Le35yJ2Y62NuhdOyrG8+/2HQpRLipfBg9ayvpMiDnP0eALWAnc5feOhWPW1IwjKkjljeMe/xrtTKGK4Uz1jFU1cw5o0NRdu/0r2VC0bdd6xIWtf8njhNvTf4vz/YS1KEfhrWs9lVMxwdhzq/zX2yY2FOI1AsnGJynQ8EALtPkglyoBCeaF/4vW8mqD8VVGcAvNAw==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1781012073; c=relaxed/relaxed;
+	bh=dnx5Tp560S/h00zHw7AF+ZWXuzVRsTvpYdbuKDqUzGM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MV89uF9+vHIuIt6U/bDpQJP2cXPBHspPClOgLMgEalMJ3CsDaRh40ClbZc1KLtQvDF8lTtpWzkq3Y1B3/iYbti7Ji/Ar0Nc1dm1ZkfaCvmLlY1Zy/RXsBRY53qnWFtEL3cHDHM2olTSP3U14BNMsD8bq6S99nN/xSj3odNItVB2NMQa62+lzOY7YE2oDqHT9AmtPXf8f1KtoADqDaDM6nRaN+JB0jT457CVufbCTr/sXY/6xL8L/C7krvfLnoBKbTmGaxsLHOGIWyBHlZ+hOuwVGOTpM79g8G0kQJUK1TMCL5wxzKUjWb8uwPMoQejNzIrsL0TRlB4ftq3jK5jewkg==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=ZipGjzBr; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::434; helo=mail-wr1-x434.google.com; envelope-from=gregoire.layet@9elements.com; receiver=lists.ozlabs.org) smtp.mailfrom=9elements.com
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gZSd04jM7z2ytV
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Jun 2026 22:19:00 +1000 (AEST)
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 1A3FC4353C;
-	Tue,  9 Jun 2026 12:18:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CE091F00893;
-	Tue,  9 Jun 2026 12:18:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781007538;
-	bh=vDOEE8xBUSXxvq4xLfdOp0TCxRvuaF7+Cmh+3kfoHpg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nUrsJUo4SBKUrJ95fNqHM7pJvu41I5sV4u6qmdzT46KMoUiI3QxhnETMEomM1BtgF
-	 wwaQL/RoH5HufkUOZectSI3noKVXotyShS5hikS4/xGVaGHzXQgVRALWFpNSLv4aYh
-	 Gey+VJ+gxydk9kYpnIuoGKemrS98uO5GM5ATv1knOtXYsn71FnX3YbVaLM+8ITLkuS
-	 D6TWh3teAkMZFabGIlK01zvI9Wb7JyqsopMHLibnqbW6imSojLIiRVJ+eB369GeaGc
-	 ITPlPwPtKqR8wraGxn/YyxqOn0xg2qhZrv1O49cLoo9uyOFKfLSr15B5KMvuSoH2j/
-	 HtkYY9mICf1lw==
-Date: Tue, 9 Jun 2026 14:18:54 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: soc@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, Joel Stanley <joel@jms.id.au>
-Subject: Re: [RESEND,GIT PULL] aspeed: First batch of ARM devicetree changes
- for v7.2
-Message-ID: <20260609-axiomatic-bizarre-boar-03f773@quoll>
-References: <cbd2822caa9fc7c2b4567703be785b9b4fd829cd.camel@codeconstruct.com.au>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gZVJ750rdz2xll
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Jun 2026 23:34:31 +1000 (AEST)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so4091947f8f.0
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Jun 2026 06:34:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781012066; cv=none;
+        d=google.com; s=arc-20240605;
+        b=liGyk2CrMBBDbucZ5PCMDWA/Aj2H/uL1MtTLstRT3NPAtZVEI8dgwcz4uqsytgvRgL
+         +HrvB7WavbXkEaOwae//GG1Ha/spVJqeaW4YIOrzd766Q6TV6kAfp4FQaqb5rXLI70EQ
+         vZOzhBf+U7xXHWn6/VEKVtyGX4/xUAqQUkD9+dbuKnwowz8TKsCmElBfBeXd2ly22XV2
+         BrXrOHz4YEV4tyoIlAJAmF5akL8+wyp4rlUJYxzku12hzCdi6hLs9N84iEeAhQnxkmjf
+         QhAwHy2gaNGDKRiGbaIMmU8Z+KESpmw4ntfzGqZWltzytMPyauSmbGp1xVYtmStU4ytZ
+         mc0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=dnx5Tp560S/h00zHw7AF+ZWXuzVRsTvpYdbuKDqUzGM=;
+        fh=VBNl9Gsksbt7d07zyH2G8aR/yCeuha4AOlnuavqfu0w=;
+        b=IOapq3sVAJuQV3F7Ry1K1BMOFBlowT+FVZLrAuIE3GIm+Vxy73PvGsPCmsgxXPs9u6
+         AsV4fIvrQ3YGN1nPfhTqowG1YjGFjvw5NbB3e2Xqu3KeMpI0YX7qQQwVUOqtXNQSoD4U
+         RltvQCy2d1CdjMPPt/zkdrWgLMRYF2fq12rTnAZWZxWYFt9khHOCYLjdP1mFk4/7Zz28
+         7FM8Wr5pJDeQw3ZXA1YTsdTcym48BPrYCr4P52NoNUm+qgtWk/YNtprUsmePH41eIbI5
+         OHpTOeqZHm+xQPM3I6xIvXZqQDXCcSQi0ZzmbGRTXH9s88MvMQwoGJTgTHqxbKRpZgUP
+         EvLA==;
+        darn=lists.ozlabs.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google; t=1781012066; x=1781616866; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dnx5Tp560S/h00zHw7AF+ZWXuzVRsTvpYdbuKDqUzGM=;
+        b=ZipGjzBrgqq0rpSEQLPGBHU6RjdVNgvcyRxoVa3cc7ejK3d3HY9BuAsn4qnFUm/SkA
+         gocxdyltcmouSoNqTTE5T84yH+ACvstyzEI6UeOuBpX1Ed/8hGU3KMcuATUQbxUWqkE+
+         tcBzHnkcQzOZLCyOC0q5aqD3MfcF4IlnM1wB+2qPyuC7kPeLh8vAW+GXCkh0sEQ05QfQ
+         apEGBMIpHcwdDTcP0SrG5f+oFnmEZtq6XEEfuRzTuvDy/wIRYDYkHy+H1pFgmUid4DH/
+         WqzPI3K24SyQ/xsgaBMt490BB1FW8LAHiUthSd4FNPsLoZzfmV06QMPaguPXeqMZQNyC
+         lDTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781012066; x=1781616866;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dnx5Tp560S/h00zHw7AF+ZWXuzVRsTvpYdbuKDqUzGM=;
+        b=EgTPpMC7Ya7/YjtOhodv3lV2g9Ale3GaFwjw5+kFGd6I5nvcADl26Rt+2Hb14pLFJd
+         A0g4g9HuiIz76AsCE13Tt5s9IpGoTHGhX8Fxhzu8WhqEDbmBaBfjbflwJUt4QN88eXkv
+         +3KxqsxIJnI7Z4tGwH4rFnqUwgm5NtWNdChqwYtryDL1QkBIkmJZN+a+GebOUqq3LdKH
+         Cq/W/Yc4+0q0Ac65kVtSlET0zCC4D3ldw5E0UN0Ao5c2e7rU89RvWNTlkhhOqogp+fvE
+         gOexX0FCY+8vG+ZSLCerctJRxVN9Hl4xY46eOu5tTTEOgz43chN3D1knrYgp8yRQTl0a
+         Vz7A==
+X-Forwarded-Encrypted: i=1; AFNElJ+5SCnq27y8JbChOZPl4+pT8RoQMRuvhgpGPhLnpf1aMsWg94OHAOLemYiKVG3ex5kXxSK3LLrgS538ECM=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YyVtaTOKnVa+2Ng1ArmQ+RsOtPHVRhQD5AHYkKVw3P6ZzKVcgDJ
+	n+y6Fk3Nso5kT1ExT9cMOOyvhRlIVF7MUkS1at2cHZZ5IwMBNP6gPMfNmJjrVcGjCyuV6bYnN61
+	Rz1U6ZoQGB1hHYyqV4/Pskfi7QaYJhsc1G4OfihWJqg==
+X-Gm-Gg: Acq92OFAt3Knk9Dtgb093pXo5KnMdn5mjUTBtMfYObbgfgKvafRP3ZKAEbv5FTuYlbX
+	CfrZWr0l8+a20k4Z4fXz7BLxcEXI2BuS2DDqz6x9J8FDazXvTAYGv5vg8Eu0ViE9+sHAYyKQlWL
+	wMmTvM7PyAdNV7QAtXp+fYybOjEVrOj+gdmZmGgtPDdmGMQzkc4oSIOb6wg+Y+0T8324Y6WRru6
+	/+57qBkaGmvbBI/0WJePzzpT/HqzcSLouzqXEakI1i8eWsRfIQ0gEcd9XsRYv+xYAEMgtNSDAtL
+	ee4fSsu1nugTIWn5XNHwzAzQfPtzmrvoWYZGHKCNhMxtEDK1+/XqYaKcdk8a+8AiJCsMSO+/hDJ
+	Vu9hc74Jjzlm0jA==
+X-Received: by 2002:a5d:4d4c:0:b0:43d:50c:6f33 with SMTP id
+ ffacd0b85a97d-4603060b001mr23218990f8f.26.1781012066371; Tue, 09 Jun 2026
+ 06:34:26 -0700 (PDT)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -69,77 +104,114 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cbd2822caa9fc7c2b4567703be785b9b4fd829cd.camel@codeconstruct.com.au>
-X-Spam-Status: No, score=-0.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+References: <cover.1780409151.git.gregoire.layet@9elements.com>
+ <cover.1780929570.git.gregoire.layet@9elements.com> <63654bb5-c246-41c4-bb7e-5bfa23e59f2e@lunn.ch>
+In-Reply-To: <63654bb5-c246-41c4-bb7e-5bfa23e59f2e@lunn.ch>
+From: =?UTF-8?Q?Gr=C3=A9goire_Layet?= <gregoire.layet@9elements.com>
+Date: Tue, 9 Jun 2026 15:34:15 +0200
+X-Gm-Features: AVVi8Cea43-8TO0qQAyqeIGR0QvD_re8rhGrQhZ5B93W67dWApUxz4ngQN1Zqg0
+Message-ID: <CAFi2wKYOAotiezepDqaR5PZDqDaPKKDfAEnpx5EHC0mL39hy6w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] soc: aspeed: Add BMC and host driver for PCIe BMC device
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: joel@jms.id.au, andrew@codeconstruct.com.au, jacky_chou@aspeedtech.com, 
+	yh_chung@aspeedtech.com, ninad@linux.ibm.com, linux-aspeed@lists.ozlabs.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.71 / 15.00];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+X-Spamd-Result: default: False [-2.21 / 15.00];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[9elements.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	MAILLIST(-0.20)[generic];
+	R_DKIM_ALLOW(-0.20)[9elements.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:andrew@codeconstruct.com.au,m:soc@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:joel@jms.id.au,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-4208-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[krzk@kernel.org,linux-aspeed@lists.ozlabs.org];
-	TAGGED_FROM(0.00)[bounces-4207-lists,linux-aspeed=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed];
+	FORGED_RECIPIENTS(0.00)[m:andrew@lunn.ch,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:jacky_chou@aspeedtech.com,m:yh_chung@aspeedtech.com,m:ninad@linux.ibm.com,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[gregoire.layet@9elements.com,linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[9elements.com:+];
 	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gregoire.layet@9elements.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp,quoll:mid]
+	TAGGED_RCPT(0.00)[linux-aspeed];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6389965FF84
+X-Rspamd-Queue-Id: 8F8FB664D4A
 
-On Wed, Jun 03, 2026 at 04:48:43PM +0930, Andrew Jeffery wrote:
-> Hi SoC maintainers,
-> 
-> The first attempt[1] missed the preamble, so here's the same again,
-> this time with it included.
-> 
-> [1]: https://lore.kernel.org/soc/55ab27bc5e09252b1dbfdf1505693eb193b8e846.camel@codeconstruct.com.au/
-> 
-> Cheers,
-> 
-> Andrew
-> 
-> The following changes since commit 254f49634ee16a731174d2ae34bc50bd5f45e731:
-> 
->   Linux 7.1-rc1 (2026-04-26 14:19:00 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/bmc/linux.git tags/aspeed-7.2-devicetree-0
-> 
-> for you to fetch changes up to 1249ee157de518a76cec169e2a5db4d6e523cc90:
-> 
->   ARM: dts: aspeed: sanmiguel: Fix the CPU_CHIPTHROT linename (2026-05-27 12:44:26 +0930)
-> 
+> From the replies i got the host can access anything on the LPC bus of the
+> aspeed.
 
-Thanks, applied
+The PCI-to-LPC bridge only decodes some addresses.
+In fact, only the following are accessible over PCIe :
+- LPC Channel 4, which only supports the KCS protocol
+- The 2 VUARTs
+- SuperIO-style Mailbox
 
-Best regards,
-Krzysztof
+Regarding the KCS interface over the LPC channel 4,
+the BMC driver in this series does not set this up.
+It just needs to be activated in the DTS.
+Then the host can just start the ipmi_si driver with the correct address.
+This is the intended usage for IPMI management and is part of the normal
+trust model of a BMC-managed system.
 
+Here is a summary dump of the PCI BAR1 from the host.
+The BAR0 is only used to expose a BMC DRAM region for shared memory access.
+This v2 removed the memory mapping so BAR0 is not exposed to userspace.
+The BAR1 is used for the PCI-to-LPC bridge.
+
+Offset          Size        Contents
+--------        --------    ------------------------------------
+0x0000-0x00B7   184 B       Blank (0xFF)
+0x00B8-0x00BF   8 B         SuperIO Index/Data port, mailbox config only
+0x00C0-0x0E87   3528 B      Blank (some no decode 0xFF and some reading 0x00)
+0x0E88-0x0E8F   8 B         LPC KCS4
+0x0E90-0x0FDF   336 B       Blank (0xFF)
+0x0FE0-0x0FFF   32 B        VUART1
+0x1000-0x2FFFF  188 KiB     Blank (some no decode 0xFF and some reading 0x00)
+0x30000-0x3FFFF 64 KiB      Inert region: 256 times repeating reset-default
+                            values, not affected by mailbox activation,
+                            not accessed by this driver
+                            The datasheet doesn't explain what this is.
+
+So, the host does not have arbitrary LPC bus access,
+it can only access a small subset of it.
+The relevant peripherals must be explicitly enabled the PCI bridge
+to be activated on the BMC to be accessed over PCIe.
+
+Only the specific interfaces listed above are exposed,
+and each one must be enabled by the BMC.
+
+The security implications are limited.
+The host side attack surface is bounded by what the BMC chooses to expose.
+
+> TPMs are often there, but does a BMC have a TPM?
+The AST2600 chip doesn't have a TPM.
+The Asus IPMI card doesn't have a TPM module either.
+If a similar PCIe add-in IPMI card has a TPM module,
+it will be accessible to the BMC via the LPC bus.
+
+But this will not be bridged to BAR1 by default
+as only the above-listed interfaces are exposed.
+
+However, the host could access the TPM with some specific BMC side
+configuration of the PCIe BMC Device (PBMC).
+That would be a deliberate BMC side firmware decision or bug.
+This driver doesn't expose a BMC TPM.
 
