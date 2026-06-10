@@ -1,96 +1,82 @@
-Return-Path: <linux-aspeed+bounces-4208-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4211-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id kEvHG6CkKGoxHAMAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4208-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 01:41:20 +0200
+	id kmTmOcbHKGovJgMAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4211-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 04:11:18 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8FB664D4A
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 01:41:19 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D1D665685
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 04:11:17 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=9elements.com header.s=google header.b=ZipGjzBr;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4208-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4208-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=quarantine) header.from=9elements.com;
-	arc=pass ("lists.ozlabs.org:s=201707:i=2")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=ljfnq8aN;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4211-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4211-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gZlmF2dXFz2xLm;
-	Wed, 10 Jun 2026 09:41:17 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gZq5G40rYz2y1Y;
+	Wed, 10 Jun 2026 12:11:14 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781012073;
-	cv=pass; b=d74uG8wjYPBOJVGa6hUW54cqA3KZrqfGcznWnErzVb+KtgHSwuMKHlsq/A+STabz/qYIii5uocNLxINrWr9Pl2MZP+RzwVBX6VqWA1pRGfXKcRqNxaa5JIpvM0smCWhYfHi1fyDFdYURtrxj24Le35yJ2Y62NuhdOyrG8+/2HQpRLipfBg9ayvpMiDnP0eALWAnc5feOhWPW1IwjKkjljeMe/xrtTKGK4Uz1jFU1cw5o0NRdu/0r2VC0bdd6xIWtf8njhNvTf4vz/YS1KEfhrWs9lVMxwdhzq/zX2yY2FOI1AsnGJynQ8EALtPkglyoBCeaF/4vW8mqD8VVGcAvNAw==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1781012073; c=relaxed/relaxed;
-	bh=dnx5Tp560S/h00zHw7AF+ZWXuzVRsTvpYdbuKDqUzGM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MV89uF9+vHIuIt6U/bDpQJP2cXPBHspPClOgLMgEalMJ3CsDaRh40ClbZc1KLtQvDF8lTtpWzkq3Y1B3/iYbti7Ji/Ar0Nc1dm1ZkfaCvmLlY1Zy/RXsBRY53qnWFtEL3cHDHM2olTSP3U14BNMsD8bq6S99nN/xSj3odNItVB2NMQa62+lzOY7YE2oDqHT9AmtPXf8f1KtoADqDaDM6nRaN+JB0jT457CVufbCTr/sXY/6xL8L/C7krvfLnoBKbTmGaxsLHOGIWyBHlZ+hOuwVGOTpM79g8G0kQJUK1TMCL5wxzKUjWb8uwPMoQejNzIrsL0TRlB4ftq3jK5jewkg==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=ZipGjzBr; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::434; helo=mail-wr1-x434.google.com; envelope-from=gregoire.layet@9elements.com; receiver=lists.ozlabs.org) smtp.mailfrom=9elements.com
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781054450;
+	cv=none; b=Lf0oRRLvptwxzKHWgEhLvZnFAwQFPNPgmHYSzjgRGEV/lczPTBlrET07ywuuuRxC7pCWVnIiR8ieufNjRf7wAISkuwrT8/bhlQt4rWJ4Dt3lYCt75TnG1IHHbWTr65bld4+r+Qw1whX7SldyASvrcTcztGpo7IjcHyJ2WK0Cw6ycidCPJeKO/aZ8a5YdMqV4TlGfaKvIFwEMuCn1dXwjz/xMhBo8w9/prAlh6COzNZ3GFhCmIyy3fNy3pnKtJyFhjLoTOEkp2Wx+4ii49UiDk8jUwFAeh6SUXrAVGIjQAJzbZkQv3UZSxhp6SlGULSW5NdRr6zEBmSqWK8DSvWLxow==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1781054450; c=relaxed/relaxed;
+	bh=pUH4vpTTcuqb8I5puK3jULXEG1NkGmpFTMLsVnbq6C8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ASCAS8+UmKrRjT/puVZx0hwWj4MAD8tq3DZTdac+OIND1JmNqeqhZrY6lbM6QBqwiuahuUjgo5QpNT4B5pe3mmz4K6w9HimRUA26ZCkBjlZJVPG0neL413iHn+yZ0eIlUAvInrN7cmh9blf4jiX4wPkamwD/SjhsLkbFY+zAswH2Rn3OYodM5I6UtG04F/WTdyj6rXCYgmj2YuAAR86jyldqZwMYZyZAcA2Sy5MyWYE32FLAIcCIDTRG8zhCXdYK0w6dE50isjbovYCm6ZLtcpKhjaj2ljfmk4SmHb28NyF14u1u+NEL1R/qVfSFaN/lVArWVqvwbECHuJTmDHSQ+w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ljfnq8aN; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::52a; helo=mail-pg1-x52a.google.com; envelope-from=kylehsieh1995@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gZVJ750rdz2xll
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Jun 2026 23:34:31 +1000 (AEST)
-Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so4091947f8f.0
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Jun 2026 06:34:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781012066; cv=none;
-        d=google.com; s=arc-20240605;
-        b=liGyk2CrMBBDbucZ5PCMDWA/Aj2H/uL1MtTLstRT3NPAtZVEI8dgwcz4uqsytgvRgL
-         +HrvB7WavbXkEaOwae//GG1Ha/spVJqeaW4YIOrzd766Q6TV6kAfp4FQaqb5rXLI70EQ
-         vZOzhBf+U7xXHWn6/VEKVtyGX4/xUAqQUkD9+dbuKnwowz8TKsCmElBfBeXd2ly22XV2
-         BrXrOHz4YEV4tyoIlAJAmF5akL8+wyp4rlUJYxzku12hzCdi6hLs9N84iEeAhQnxkmjf
-         QhAwHy2gaNGDKRiGbaIMmU8Z+KESpmw4ntfzGqZWltzytMPyauSmbGp1xVYtmStU4ytZ
-         mc0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=dnx5Tp560S/h00zHw7AF+ZWXuzVRsTvpYdbuKDqUzGM=;
-        fh=VBNl9Gsksbt7d07zyH2G8aR/yCeuha4AOlnuavqfu0w=;
-        b=IOapq3sVAJuQV3F7Ry1K1BMOFBlowT+FVZLrAuIE3GIm+Vxy73PvGsPCmsgxXPs9u6
-         AsV4fIvrQ3YGN1nPfhTqowG1YjGFjvw5NbB3e2Xqu3KeMpI0YX7qQQwVUOqtXNQSoD4U
-         RltvQCy2d1CdjMPPt/zkdrWgLMRYF2fq12rTnAZWZxWYFt9khHOCYLjdP1mFk4/7Zz28
-         7FM8Wr5pJDeQw3ZXA1YTsdTcym48BPrYCr4P52NoNUm+qgtWk/YNtprUsmePH41eIbI5
-         OHpTOeqZHm+xQPM3I6xIvXZqQDXCcSQi0ZzmbGRTXH9s88MvMQwoGJTgTHqxbKRpZgUP
-         EvLA==;
-        darn=lists.ozlabs.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gZnz53L93z2xjN
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jun 2026 11:20:48 +1000 (AEST)
+Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-c86214eead7so1429768a12.0
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 09 Jun 2026 18:20:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1781012066; x=1781616866; darn=lists.ozlabs.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dnx5Tp560S/h00zHw7AF+ZWXuzVRsTvpYdbuKDqUzGM=;
-        b=ZipGjzBrgqq0rpSEQLPGBHU6RjdVNgvcyRxoVa3cc7ejK3d3HY9BuAsn4qnFUm/SkA
-         gocxdyltcmouSoNqTTE5T84yH+ACvstyzEI6UeOuBpX1Ed/8hGU3KMcuATUQbxUWqkE+
-         tcBzHnkcQzOZLCyOC0q5aqD3MfcF4IlnM1wB+2qPyuC7kPeLh8vAW+GXCkh0sEQ05QfQ
-         apEGBMIpHcwdDTcP0SrG5f+oFnmEZtq6XEEfuRzTuvDy/wIRYDYkHy+H1pFgmUid4DH/
-         WqzPI3K24SyQ/xsgaBMt490BB1FW8LAHiUthSd4FNPsLoZzfmV06QMPaguPXeqMZQNyC
-         lDTg==
+        d=gmail.com; s=20251104; t=1781054447; x=1781659247; darn=lists.ozlabs.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pUH4vpTTcuqb8I5puK3jULXEG1NkGmpFTMLsVnbq6C8=;
+        b=ljfnq8aNajk/+/ls+HY97YqKcbm2/LwTY51qMI2xgK/KxtDlSUmLOU4BdG9C0LrLEl
+         jQ4dfOVziw/2PEZxo3QLO4KppCfsa8ysmqAnOgCA2bnbSP6+ANMzQ97cysNAGhXCKO2p
+         1PQqVZ7AX+uxGfbGOmD4vYAJ5IDNafze0HYlz5GLXs1euOlwcVJBIrGiVCHJIYQydkt1
+         6TYVvNkJN4g0iu/BojRnipNA6gNEbrqh9vKKfnYsqrCkNVeWe30cMfZaYJCjUHwY2kUs
+         0cHVoCDlHZOTmNQU+arD6pXZQhwdCJcDWVf3om92U+BzGR/YJp9/rc84Mk8lFhe9jDM6
+         1dfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781012066; x=1781616866;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1781054447; x=1781659247;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dnx5Tp560S/h00zHw7AF+ZWXuzVRsTvpYdbuKDqUzGM=;
-        b=EgTPpMC7Ya7/YjtOhodv3lV2g9Ale3GaFwjw5+kFGd6I5nvcADl26Rt+2Hb14pLFJd
-         A0g4g9HuiIz76AsCE13Tt5s9IpGoTHGhX8Fxhzu8WhqEDbmBaBfjbflwJUt4QN88eXkv
-         +3KxqsxIJnI7Z4tGwH4rFnqUwgm5NtWNdChqwYtryDL1QkBIkmJZN+a+GebOUqq3LdKH
-         Cq/W/Yc4+0q0Ac65kVtSlET0zCC4D3ldw5E0UN0Ao5c2e7rU89RvWNTlkhhOqogp+fvE
-         gOexX0FCY+8vG+ZSLCerctJRxVN9Hl4xY46eOu5tTTEOgz43chN3D1knrYgp8yRQTl0a
-         Vz7A==
-X-Forwarded-Encrypted: i=1; AFNElJ+5SCnq27y8JbChOZPl4+pT8RoQMRuvhgpGPhLnpf1aMsWg94OHAOLemYiKVG3ex5kXxSK3LLrgS538ECM=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YyVtaTOKnVa+2Ng1ArmQ+RsOtPHVRhQD5AHYkKVw3P6ZzKVcgDJ
-	n+y6Fk3Nso5kT1ExT9cMOOyvhRlIVF7MUkS1at2cHZZ5IwMBNP6gPMfNmJjrVcGjCyuV6bYnN61
-	Rz1U6ZoQGB1hHYyqV4/Pskfi7QaYJhsc1G4OfihWJqg==
-X-Gm-Gg: Acq92OFAt3Knk9Dtgb093pXo5KnMdn5mjUTBtMfYObbgfgKvafRP3ZKAEbv5FTuYlbX
-	CfrZWr0l8+a20k4Z4fXz7BLxcEXI2BuS2DDqz6x9J8FDazXvTAYGv5vg8Eu0ViE9+sHAYyKQlWL
-	wMmTvM7PyAdNV7QAtXp+fYybOjEVrOj+gdmZmGgtPDdmGMQzkc4oSIOb6wg+Y+0T8324Y6WRru6
-	/+57qBkaGmvbBI/0WJePzzpT/HqzcSLouzqXEakI1i8eWsRfIQ0gEcd9XsRYv+xYAEMgtNSDAtL
-	ee4fSsu1nugTIWn5XNHwzAzQfPtzmrvoWYZGHKCNhMxtEDK1+/XqYaKcdk8a+8AiJCsMSO+/hDJ
-	Vu9hc74Jjzlm0jA==
-X-Received: by 2002:a5d:4d4c:0:b0:43d:50c:6f33 with SMTP id
- ffacd0b85a97d-4603060b001mr23218990f8f.26.1781012066371; Tue, 09 Jun 2026
- 06:34:26 -0700 (PDT)
+        bh=pUH4vpTTcuqb8I5puK3jULXEG1NkGmpFTMLsVnbq6C8=;
+        b=Nigma56znc0vIq7H8o7AW+8esxvYt3+Ztz35KvKGtTptIumcrlHje6WPYNbzJx/OmB
+         aNCZqNIAPXOYesMihWHNyKoF2ulcfrUaTOwnMy/k6+raXBRUJoIjVe7iIG9hDqFJ+UOa
+         aH98SVb4a0RkO2KwQTX4hOePF3teNOFAsc+tUshO3kILWWvSbIBjSGDiqTas8gb25+KM
+         2LtvaMRdGtn1B/YzZ9Wqpq7FAtfS0WiUOSmwrRQexyoW71+206yOsuL5hxwxFcgP7Dhf
+         g4P8ErqeCn1p+8G8bUQghVRj/AjgmSi9OMFFri/zL5yNRrtel6RpYLHQzjqt73FkO50g
+         qxcw==
+X-Forwarded-Encrypted: i=1; AFNElJ+tEQvZI1Vldxc5BaGNlANnrhhJD1a7um5dfWrb7sBovEyl7GPVTgpGAp5NkQntaFFxMu0MfK7cnnmFFYw=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YwnHYrexuWWX2G4Lmb3AuCrFzGnXQUFK3Y+n6Rc23fKWii7lfKF
+	yKifxGzaRdKbmDoXXUHImJlGSYLs52cJEt7CjJQyNk0mV90vDNAsSZP7
+X-Gm-Gg: Acq92OFpplYwrh+7REN6EGesxTWVihW0czMwBmtBC0SNWMhcLaZFnQRqtEmRM871j8V
+	bp1Hm7hlia9mJbNjFUIDPPE9j/LwbA1EKDvJ4ubEelJKemGR3yESUCxLGQTyrj6g0nRvIQYobRx
+	NnPQ2Z8AbyLrUFvhYgsQThXHHiTyoEa79L/5lXlGEtW6uv84PIkNXHlHNRwR7Gq2mM3VcYoTStM
+	m/RsjPWIMZj6vMI5CG+IKbVhwHCmWKR5RklWmdOndsuzHHiHAewJIsbpyHaS5ttyQKTZ8c8iy3a
+	TO7QIc8y+jXr2pcIko2rSn0pzRBhfj5xDkU6vjFPwTzjj5jY8B05fa0toCP/i3sCia3CMnQaBun
+	7b4boYXyP5mObVIVuGyqNoyIDGoPYKaK6IKG45PUKgZlq+DeaXFoChINctrrg16bz4f8WJFChcW
+	/kbZTizVKwVgRIXOCO7FuNBjJ+0EIl50ugGGOnCXPri9h5ENXNM52oMrYb8eQME0bE1dQ7E1LtH
+	Q==
+X-Received: by 2002:a05:6a20:244c:b0:3b3:6db1:5986 with SMTP id adf61e73a8af0-3b4d3d5e346mr19126727637.30.1781054446615;
+        Tue, 09 Jun 2026 18:20:46 -0700 (PDT)
+Received: from [127.0.1.1] (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85df0b2ddbsm18858370a12.24.2026.06.09.18.20.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2026 18:20:45 -0700 (PDT)
+From: Kyle Hsieh <kylehsieh1995@gmail.com>
+Subject: [PATCH v6 0/2] Add Meta(Facebook) ventura2 BMC(AST2600)
+Date: Wed, 10 Jun 2026 09:22:21 +0800
+Message-Id: <20260610-ventura2_initial_dts-v6-0-375d8e9d7ebf@gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -104,114 +90,142 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <cover.1780409151.git.gregoire.layet@9elements.com>
- <cover.1780929570.git.gregoire.layet@9elements.com> <63654bb5-c246-41c4-bb7e-5bfa23e59f2e@lunn.ch>
-In-Reply-To: <63654bb5-c246-41c4-bb7e-5bfa23e59f2e@lunn.ch>
-From: =?UTF-8?Q?Gr=C3=A9goire_Layet?= <gregoire.layet@9elements.com>
-Date: Tue, 9 Jun 2026 15:34:15 +0200
-X-Gm-Features: AVVi8Cea43-8TO0qQAyqeIGR0QvD_re8rhGrQhZ5B93W67dWApUxz4ngQN1Zqg0
-Message-ID: <CAFi2wKYOAotiezepDqaR5PZDqDaPKKDfAEnpx5EHC0mL39hy6w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] soc: aspeed: Add BMC and host driver for PCIe BMC device
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: joel@jms.id.au, andrew@codeconstruct.com.au, jacky_chou@aspeedtech.com, 
-	yh_chung@aspeedtech.com, ninad@linux.ibm.com, linux-aspeed@lists.ozlabs.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE28KGoC/4XOwWoDIRCA4VcJnmvRUcfdnvoeJQRdNRlIdotup
+ CXsu9cESkLK0uM/MN/MhZWYKRb2trmwHCsVmsYW+LJhw8GN+8gptGYgwEgA4DWO8zk72NFIM7n
+ jLsyF96L3CqwNiIa11c8cE33d2I9t6wOVecrftytVXqf/gFVywWUSKBEH2zn1vj85Or4O04ldw
+ QqPiF5BoCFJ9so7E7SwfxD1i6CQUq0gqiEQfAoOnfHaPiP6jujVT3RDOoFeiOi0kvoZMXcERbe
+ CmIYoG6PxQzKdx0dkWZYfJ2EQ1swBAAA=
+X-Change-ID: 20251222-ventura2_initial_dts-909b3277d665
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ Kyle Hsieh <kylehsieh1995@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3264;
+ i=kylehsieh1995@gmail.com; h=from:subject:message-id;
+ bh=8Jq4+7GVcOBKAyUmh61mLdl1eJHUvEKS8qVvLj4xWJU=;
+ b=owEBbQGS/pANAwAKAaWDQrcJVsSBAcsmYgBqKLxQz5qAfvzO4jxu9b6YJUKWGKm/aRg5aCp8u
+ B24zB0LZ3iJATMEAAEKAB0WIQTJHsaNZOdY+THGqJelg0K3CVbEgQUCaii8UAAKCRClg0K3CVbE
+ gXYOCADIiQLAI8zfQcQ9SBWy51b1ync2ztOKHBSaZME7sVhPCmByKYs8LY3CDzTSVlLjgf4+07P
+ 0dejRle1qw/DTXvsWMNy1XKmjAK8RxF6OvS7xY8nKJpefUv25ljPLNhIxo/tbDBMlC1Lgk3eoyV
+ 9+TL/dpe1mYVCLQ+gSy7tav9nxr9lorGts1jZ7fQHN5l/qDIwQlO9+LyEVTE5y7TYdR2c5gDLg0
+ mlyfNzrGq71+yok6pbaJUrvLxoOiioP9NoXCLhlsXx1bxR0ftMQUTmotM7p0+04DPevQ1D4c3gn
+ AiJGC9aObJLixyOcBY1unRxYKQzQDGNaFD5VZF0Nf3sGsQ0h
+X-Developer-Key: i=kylehsieh1995@gmail.com; a=openpgp;
+ fpr=C91EC68D64E758F931C6A897A58342B70956C481
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.21 / 15.00];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[9elements.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+X-Spamd-Result: default: False [-0.71 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[9elements.com:s=google];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-4208-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andrew@lunn.ch,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:jacky_chou@aspeedtech.com,m:yh_chung@aspeedtech.com,m:ninad@linux.ibm.com,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[gregoire.layet@9elements.com,linux-aspeed@lists.ozlabs.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[9elements.com:+];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-4211-lists,linux-aspeed=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:kylehsieh1995@gmail.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[kylehsieh1995@gmail.com,linux-aspeed@lists.ozlabs.org];
 	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gregoire.layet@9elements.com,linux-aspeed@lists.ozlabs.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.ozlabs.org,gmail.com,oss.qualcomm.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kylehsieh1995@gmail.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	TAGGED_RCPT(0.00)[linux-aspeed];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8F8FB664D4A
+X-Rspamd-Queue-Id: F2D1D665685
 
-> From the replies i got the host can access anything on the LPC bus of the
-> aspeed.
+Summary:
+Add linux device tree entry related to Meta(Facebook) ventura2.
+specific devices connected to BMC(AST2600) SoC.
 
-The PCI-to-LPC bridge only decodes some addresses.
-In fact, only the following are accessible over PCIe :
-- LPC Channel 4, which only supports the KCS protocol
-- The 2 VUARTs
-- SuperIO-style Mailbox
+Signed-off-by: Kyle Hsieh <kylehsieh1995@gmail.com>
+---
+Changes in v6:
+- Addressed automated feedback from Sashiko bot:
+  * Clarified comments that io_expander0 and io_expander8 physically share the same interrupt line (Wired-OR) by hardware design.
+  * Removed leading zeros from unit addresses in DAC nodes (dac@c, dac@e, dac@f).
+  * Removed unused properties from the adc@48 node.
+- Link to v5: https://lore.kernel.org/r/20260608-ventura2_initial_dts-v5-0-37ee5bcf58b6@gmail.com
 
-Regarding the KCS interface over the LPC channel 4,
-the BMC driver in this series does not set this up.
-It just needs to be activated in the DTS.
-Then the host can just start the ipmi_si driver with the correct address.
-This is the intended usage for IPMI management and is part of the normal
-trust model of a BMC-managed system.
+Changes in v5:
+- Addressed review comments:
+  * Added comments explaining the necessity of 'legacy_' prefixes (hardware label collision), pre-allocated I2C aliases (future expansions), and the 'ledd1' naming convention (schematic alignment).
+  * Removed the empty `&mdio0` node to comply with upstream networking subsystem guidelines.
+  * Removed the redundant `&peci0` node.
+  * Sorted `&kcs3` and `&lpc_ctrl` nodes in strict alphabetical order.
+- Hardware/DT alignment updates:
+  * Removed unpopulated sensors (adi,adt7461, infineon,tda38640, ti,ina230, ti,ina238) to accurately reflect the current board population.
+  * Added the secondary flash node (flash@1 labeled "e810") under the &spi2 bus.
+- Link to v4: https://lore.kernel.org/r/20260424-ventura2_initial_dts-v4-0-806b00ea4314@gmail.com
 
-Here is a summary dump of the PCI BAR1 from the host.
-The BAR0 is only used to expose a BMC DRAM region for shared memory access.
-This v2 removed the memory mapping so BAR0 is not exposed to userspace.
-The BAR1 is used for the PCI-to-LPC bridge.
+Changes in v4:
+- Fixed capitalization: "ventura2" -> "Ventura2".
+- Reordered I2C child nodes in ascending order of unit addresses.
+- Enable PECI, LPC control, and KCS3 interfaces for host communication.
+- Configure MCTP controller on I2C4 and enable MCTP support for specific mux channels.
+- Add Infineon TDA38640 and TI INA230 power monitor nodes.
+- GPIO and Pinmux cleanup for PVT:
+    - Aligned gpio-line-names as requested.
+    - Remove unused or non-existent GPIO line names to align with Ventura2 PVT.
+    - Update specific GPIO pins to empty strings where signals were removed or consolidated.
+- Adjust SGPIOM frequency to 200kHz and update signal line names.
+- Enable UART3 and add serial2 alias.
+- Link to v3: https://lore.kernel.org/r/20260113-ventura2_initial_dts-v3-0-2dbfda6a5b47@gmail.com
 
-Offset          Size        Contents
---------        --------    ------------------------------------
-0x0000-0x00B7   184 B       Blank (0xFF)
-0x00B8-0x00BF   8 B         SuperIO Index/Data port, mailbox config only
-0x00C0-0x0E87   3528 B      Blank (some no decode 0xFF and some reading 0x00)
-0x0E88-0x0E8F   8 B         LPC KCS4
-0x0E90-0x0FDF   336 B       Blank (0xFF)
-0x0FE0-0x0FFF   32 B        VUART1
-0x1000-0x2FFFF  188 KiB     Blank (some no decode 0xFF and some reading 0x00)
-0x30000-0x3FFFF 64 KiB      Inert region: 256 times repeating reset-default
-                            values, not affected by mailbox activation,
-                            not accessed by this driver
-                            The datasheet doesn't explain what this is.
+Changes in v3:
+- Add annotation for marvel 88e6393x
+- Modify the gpio-line-name
+- Modify the node order alphabetically
+- Modify dt-bindings document for rmc instead of bmc
+- Move the gpio-line-names to original node
+- Link to v2: https://lore.kernel.org/r/20251224-ventura2_initial_dts-v2-0-f193ba5d4073@gmail.com
 
-So, the host does not have arbitrary LPC bus access,
-it can only access a small subset of it.
-The relevant peripherals must be explicitly enabled the PCI bridge
-to be activated on the BMC to be accessed over PCIe.
+Changes in v2:
+- Remove unused mdio
+- Link to v1: https://lore.kernel.org/r/20251222-ventura2_initial_dts-v1-0-1f06166c78a3@gmail.com
 
-Only the specific interfaces listed above are exposed,
-and each one must be enabled by the BMC.
+---
+Kyle Hsieh (2):
+      dt-bindings: arm: aspeed: add Meta ventura2 board
+      ARM: dts: aspeed: ventura2: Add Meta ventura2 BMC
 
-The security implications are limited.
-The host side attack surface is bounded by what the BMC chooses to expose.
+ .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
+ arch/arm/boot/dts/aspeed/Makefile                  |    1 +
+ .../dts/aspeed/aspeed-bmc-facebook-ventura2.dts    | 2891 ++++++++++++++++++++
+ 3 files changed, 2893 insertions(+)
+---
+base-commit: 9448598b22c50c8a5bb77a9103e2d49f134c9578
+change-id: 20251222-ventura2_initial_dts-909b3277d665
 
-> TPMs are often there, but does a BMC have a TPM?
-The AST2600 chip doesn't have a TPM.
-The Asus IPMI card doesn't have a TPM module either.
-If a similar PCIe add-in IPMI card has a TPM module,
-it will be accessible to the BMC via the LPC bus.
+Best regards,
+-- 
+Kyle Hsieh <kylehsieh1995@gmail.com>
 
-But this will not be bridged to BAR1 by default
-as only the above-listed interfaces are exposed.
-
-However, the host could access the TPM with some specific BMC side
-configuration of the PCIe BMC Device (PBMC).
-That would be a deliberate BMC side firmware decision or bug.
-This driver doesn't expose a BMC TPM.
 
