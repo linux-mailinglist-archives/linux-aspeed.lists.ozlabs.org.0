@@ -1,95 +1,95 @@
-Return-Path: <linux-aspeed+bounces-4220-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4219-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id OrsOEXFiKWo4WAMAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4220-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 15:11:13 +0200
+	id yIWELythKWoKWAMAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4219-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 15:05:47 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DFCA6699BA
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 15:11:12 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id DED3A669926
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 15:05:46 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=YIE2Z0qD;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4220-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4220-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=V3NNAdgl;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4219-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4219-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("lists.ozlabs.org:s=201707:i=2")
+	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gb5kk0Rlfz2ykX;
-	Wed, 10 Jun 2026 23:11:10 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gb5cS5PPvz2yfD;
+	Wed, 10 Jun 2026 23:05:44 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781093032;
-	cv=pass; b=eWalTGCH2Ts+1AyBdnznaDTEaYl88tNah4mQ8b2tlLDovxWkN4cy6f3TVIpIrvaGgczCStnSNvkqLTePu3aJbkZFBTl42oxZlM7BNVF+e2oYhpYG5MHTyGK4b18fMckdOv2D946OWc9M49sYjnkG8Hd0qZZNTKqkk5/ikaS+rT7Q0EZ2u5TjydGyfET24DvoK9Amw6J762QYBy1KE1/SgskOwlV3DVhWzwoMtcg0SxZlWGlDShXQG/Wk5WxG7hha+MhGDUYF1C/AigmGTckjtaTxQKkcG2KfqPuUWrg5ZKpDTXtUEvT1wE6ga+jd2CVYoTsZ77LJ1ZKmuDWwyjlIyw==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1781093032; c=relaxed/relaxed;
-	bh=yNmA6qhDqA00JpZDpDsCydpEuIe+8jtS64/q8z0mHkM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q0W4h2grvoPV0MwyLHmgTAPdrn4PHlrz17SkL4WiBfW7SMyBlQRxwDDRvq3FZTdJq54YV0IUFais29wko52P06DySLxCVPp9B4JvNhuuim4nbqej8qcRjik2k5LNPFj0ArQ9CiIWSVNaopvPx50o4eDqO+yb50w4i7XpdeVG/Yv8zSC4EzXuKOvFChKQdwVP2ttaVdFTdR61HxhCpKXq2vgGFBeuim+1hTPJkBD9B9YGTLdlbuw+98qc7pcrHr7Euk4hu7YV8gx5QVMzmu/ZY+CQzL8RSfZJcL9apptkAMcYpuay59sR2IhL8KFkcRKTMWwFrgQqf2zFRoxNLkGBKQ==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=YIE2Z0qD; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::a2c; helo=mail-vk1-xa2c.google.com; envelope-from=ruoyuw560@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781093434;
+	cv=none; b=A7gAVsK+45hh1aOL7yiAsFDVJXju2CKxnVaa9xlPjkCnEeT/uJTB1z7s044IAFiOvXkYx9dT6lnkaCEqaLLyLcc/o9r2X6HDtjUvjOv6oyhXbNbdGBykh/jv9ULx8prnAnTI/mVAQMbJTRVWjyqoMYXLACKpKyuO7eoLjn2Hd2aAcdJM+PGQanbeQ3AgbnFWyGtupbwOJl8wMPT6J/kAok6xUQVT5aWWdNQdJL4BO6mXIZl5wlI2GBFS5jMJ4IK9r7De1ihGoTNYY1aOQJic/g1hCrdcXCjzMtN6kesqzWyyzF4Zjj8ybbgZX1Us77PGzedtQb5XNXBm68sS4/QK6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1781093434; c=relaxed/relaxed;
+	bh=Bn0e0V+HEIAY5dAJYzbVBmSmbmUkCyWOZZSIYcy0Q78=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OCbqQJqAZrOKTFiqzCC0RZc9Rr7Sou/z1WOBIXGOSbvhBWM86dytMR/MOo8D4fo1bHdMQwUempF9iHB7Oi3zNsz7LqQtPprXgAsAw2bXW8PXPUthrnHIAXN0fdrjaDGqO2ES79BiPce5gpYpokLaOFNb1uQWqKzjpolwWc2JjTq4tJf7/JMMRQOwZja4yurhGtP/gzGeNcIhxuNVNNMUXWRV3khUzIF/x0UOFHVwmH/HC8lybeX+68QrGSSh1eIsghiDRSdg5NhAJAztDqJ2pnrrlS+w4OEDfGR/II6HlvR/3ve2C8gish3ZIzHBM5XSEsGJ9Oum326c15hfPqk1oA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=V3NNAdgl; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::535; helo=mail-pg1-x535.google.com; envelope-from=ruoyuw560@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gb4F262m9z2xYg
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jun 2026 22:03:50 +1000 (AEST)
-Received: by mail-vk1-xa2c.google.com with SMTP id 71dfb90a1353d-59f8a140a51so4007702e0c.3
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jun 2026 05:03:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781093027; cv=none;
-        d=google.com; s=arc-20240605;
-        b=RmWYkBdwklYa4XuDihy+XqNmj6w42EfgBeVidJ5YFjU2aTP1CHxSHeudOOV99z7ZQN
-         cMinu0XtoILd/Gh/UGH1vh4YdixcfUc+4NBZT9ow9BoI6H+j20d/lFVQXWxw+aTgj5n9
-         uYFkrtaAVdEuoS89Hw2gwjct5EBeiuj+0ObQY11SblcLAFX6c0z4Ypqa8qzeAd7xC8Dr
-         GOYM5Dwh1M7rlcPckFSJH5qBuku0eQjiOv0mHcf/xsOAliLtm4U85A9YkKLzNvOjclxr
-         Ywvut17AYd0U3KpgrD4xWPQuh8LYo/cydv44cp+hgNn9Yldq9ajUwFsE1XNdLjH2JHuw
-         fyCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=yNmA6qhDqA00JpZDpDsCydpEuIe+8jtS64/q8z0mHkM=;
-        fh=qNC5LbTBvUR7UnSI5dP6JQ9XFKucVeo5EbfPZGk3V7w=;
-        b=NdpYx/uyIGYRSqAKKIFt8AU4jE9P3pHvX//XCeQ3BibMmIK7f5lfEbbaz20WzmqU4M
-         7y5+nh3UQpo1uHW2Qne9zdPRAjP/pq8l9Jq63jp2RkfJ08j6FxsPj1waZlBz0CHen2wE
-         aXlf3B2G0TBOK9wDMAn1poOAooFWRMOBIHngi2PdF4Cq58Me1+GD0e3ZT7GrOuUEa4h1
-         UqOh4yyeSBSLw/SycCO3Yz6fqHZT0chFjDM0DmCQFLthPZFgjv6Xd4VeSkA5OZBA7vz2
-         IdYOniPtojm2zRfIRhe+s5rGMJsn3RghvjoiE8sET+H2MIvy6Z2p/YdwlB3SB+xOB3ON
-         UtyA==;
-        darn=lists.ozlabs.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gb4Nn2FMnz2xYg
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jun 2026 22:10:32 +1000 (AEST)
+Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-c8585c51f1fso3135441a12.1
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jun 2026 05:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781093027; x=1781697827; darn=lists.ozlabs.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yNmA6qhDqA00JpZDpDsCydpEuIe+8jtS64/q8z0mHkM=;
-        b=YIE2Z0qD933vAFp0KbMn63Hqan7dSkhUcj9P8n+4eExn58QthyxMJOlHlKUrT1uQZt
-         hD8p2WQ0VwHitaPqZH7ZYnW6Qutd+dr2eHgiZ5YCgufExPftvENXmXmHWOABBSW38S6j
-         jU5hR2kBZsiZXzrwLh6+lHX4IJYYwO7Tm5rSOKs771XmSU5iUUllYbg/TU5Zq1kM49aD
-         Xndq4QW1lZv2MAOYiJoHixmOsM0Y3R3ak4a+XQJlfhEuQ4uWcXMEZ4agOJ56BssElAok
-         3v1Jkd1ExkpqSpg5WgnMG/SsQYv/x1yxaNTEwk9xgFNF2gwi2d1ccUCv1ATeoaQgeWPS
-         pPFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781093027; x=1781697827;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781093430; x=1781698230; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yNmA6qhDqA00JpZDpDsCydpEuIe+8jtS64/q8z0mHkM=;
-        b=mR40iA6c1SsoLf+vCzDIfLYEaNt6I7S9cO04I3dbNFFjXFxQAn1toq/ba6Dps0otAE
-         DbO0H0bCcaDZ5Dq2W1RIcdAqCBS8/BH86DAJHwDlakg9+O/tvDST0oxjlRfhP/1DRTMe
-         Miuwsb7XEFFKuwfa5q8KAJHioOI4qniQRh4DJ2L+Sh/iGHp79oiMrqtg3xmIACoCO3QZ
-         sbVrS8q/njRPBP2hO9HfpWB9ha+8XpoJ5FoNan6CnkD3zQEg2Ku36mtN1luLzsFxuLQ/
-         nrKJT73YNsqyRZcwW5qbCJmgCcRxo81X2M1wfznTAnuS57trz+9wAih1ezW2L3va5RQh
-         ICpg==
-X-Forwarded-Encrypted: i=1; AFNElJ8MrEKjKVSvW4QBt64CDGf55Yi6y6CGJbXu/PAZ9y67/89zbDYC97h4PD+i/2LE1bdMB3OhlhG7kU2bpmo=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YwplQgcIZNC7muYoTFJONNG2SQ966gh5L5+L/Q3VeP0RG5m5h2d
-	1zmbPiKNCxTzvolwfuMUxNZdwy/LXQnKMPrPiyBdU4hjW+SzInG7ITCQtLfVt4vaGZKpKxBU8VO
-	fVq5/DLYQwR7JpMwXHixuNLOOA62uTlY=
-X-Gm-Gg: Acq92OGe4GrrePaMPTPmQjgl/v6bwd9LfaEoeUIZ4ETm37U101WqCQOUFVwlV4e02Le
-	f/izrly39HKQfakoLrDIAZOO9cSs0biK198AsjPrSzT4p1ZgYT6x4REUQQ00g+HG8btk86Y0uMq
-	pSa3yZVbvjlT/46WHT5jwzlbWMZPReZRbJuWcPt+MhHiKtObJpjBX0s0Wy3auA1fVJGbTlLxmCW
-	JbK4tEXoPeY9UOIbgBQ0y/F93VVjD4sueBBdgepuVEKwBb9XzEXhbAhccllHUU+LuIFuugDD4r1
-	ukZS2Mv5i7LSc0RmqKQfIA==
-X-Received: by 2002:a05:6122:46a8:b0:5ab:2fb:2dfb with SMTP id
- 71dfb90a1353d-5ac4ec93c03mr12903562e0c.8.1781093027265; Wed, 10 Jun 2026
- 05:03:47 -0700 (PDT)
+        bh=Bn0e0V+HEIAY5dAJYzbVBmSmbmUkCyWOZZSIYcy0Q78=;
+        b=V3NNAdgl3N4VdeIqhoEH5vrx82/w1f9dFL489eYrlzrCDBDaXO/p/IST6eeUbLehPj
+         QyOUUpP+Z9g/tA8J86IXtCtSjhPlkGhvVauKUEEmOkxq5zxlKBO93Vy2vFa1FA9JZeKc
+         3sbhQgcFKuEIbLlBg0C0DlmQUWeq4F+BkF0/tTCKX+BYMQGRJSWbCppfeyFX3/EW7s0m
+         ond3FHrpN3vmMrOjFJ4n/xLmwqPLN8elRuzlpiSUQJDt9/9glSkhjt25v3jScynm0+FK
+         dWo6mZBS0/nxplPDEw4jyvqDh94WBQSz8LXn2Z7AndMoJKJW5kvD2d7cRVYPDdPISrSI
+         txGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781093430; x=1781698230;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Bn0e0V+HEIAY5dAJYzbVBmSmbmUkCyWOZZSIYcy0Q78=;
+        b=BJ5HzCo9doDDcsW5Ede3ahKmwzi9UIWmShDj23Oyx/Ut1/u8YHphPECFyDeWWtu3oo
+         QIFPwEW7kLqOVvQf2HEEYaBIqQbMojR2VuM0sEx9NxYzK0/961RvNig6DZOEzCm6qb2g
+         yN+gLmHYXU0nT7WMd9TinSnDUcPmOp1DJBw0p0X1qlnnZTOt/EgDzZuFwx5fwkR8i1g6
+         d+EMQMPCxW3KyzbKyV3ev96iwOOCbj/SaEcCOQIFyNH1tUHtDyNdiRphr4if2dCz0/ft
+         eTSjkLG+CD0lXaa24FGZLh6lKYBw4IQOb9W4SJMI9HfI5N6GIfPEz5hmK37lkqNMjEoy
+         hVpw==
+X-Forwarded-Encrypted: i=1; AFNElJ/jotDLrgyn3wRWEBahen4bRBSU5vlRvzUtTEjvxPu9lOIj4hqNWR7wUo/KB6rFBlBF9E9j7x6ckNSI4gY=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Ywf5B+vuihFKi2fpZEXAlhQIIMeqC9zQJJqPFldFw7D1iHmqf53
+	vUG+JhtAG1k768qWc4JEXEI/PImy95v4EbKQDUMfetlKtZm6MsPoH9Ev
+X-Gm-Gg: Acq92OGpXKkduLV5KmytkRDW54sbyNT1vg+u1DyIPu2NunDGauSnPEiTX9PIcgej6HJ
+	S4RR1xL7jsy5bI8tzzsJQgXJzpXtrGWOWWLPbuPPy/yalwa83xNpVcp5r7kvfytL54l6qL7Y6vP
+	nyd0vCkjNn0L6EcaH/QuMDZZ68j+R715u0moHLFmBSoPjG9lcr1pMPJzM1bO2TwU7bxDqhLr8/p
+	5pqauHVVAtzyQNsRqSs97ksrS3VJCUU2eEvXc4rdJ47Rs3QN67TxzYBJF5Jr3BDcxewyF8+0iPt
+	UgAnXUpJEUxocONagd8nqc5YVMYVeu9vUMgtLNdsWYgS50OXNQgxHcQ9CDLA4ig/cdbdDqILoDT
+	+FtTIfCVRiJtBz6PID+PpaB8zYRqrC1SlFby/8zBhGeKKN09Tk9n+O1FfY1iW3n+VSXUlkhPdmA
+	8gN4+UQfUAUofhl50peXmpUSbD6EMgEJI/iDEpuMQoDvUWq3/EB2n8bA==
+X-Received: by 2002:a05:6a21:7e89:b0:3b5:530d:d980 with SMTP id adf61e73a8af0-3b5530e0518mr2279602637.20.1781093430459;
+        Wed, 10 Jun 2026 05:10:30 -0700 (PDT)
+Received: from haichao.tail057a43.ts.net ([2001:da8:e000:1206:b72a:532f:bb14:101c])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85df0a4afdsm24704308a12.19.2026.06.10.05.10.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2026 05:10:29 -0700 (PDT)
+From: Ruoyu Wang <ruoyuw560@gmail.com>
+To: Neal Liu <neal_liu@aspeedtech.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	linux-aspeed@lists.ozlabs.org,
+	linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Ruoyu Wang <ruoyuw560@gmail.com>
+Subject: [PATCH v2] usb: gadget: aspeed_udc: check endpoint DMA allocation
+Date: Wed, 10 Jun 2026 20:10:22 +0800
+Message-ID: <20260610121022.3-1-ruoyuw560@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260608081948.3-1-ruoyuw560@gmail.com>
+References: <20260608081948.3-1-ruoyuw560@gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -103,495 +103,189 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260608081948.3-1-ruoyuw560@gmail.com> <9f2caf9887177bad39525a6713325c252ad47dcb.camel@codeconstruct.com.au>
-In-Reply-To: <9f2caf9887177bad39525a6713325c252ad47dcb.camel@codeconstruct.com.au>
-From: Ruoyu Wang <ruoyuw560@gmail.com>
-Date: Wed, 10 Jun 2026 20:03:35 +0800
-X-Gm-Features: AVVi8CcLqV596fcx1mhsXkN0bBUEkSGmmsDnnvGGRDPDQedVtz1aaxhnOdAEKno
-Message-ID: <CAK_7xqwTiDjFMLh3LbKij-7yRVBaXy5Tr9DOBQwBndoGZj=O4g@mail.gmail.com>
-Subject: Re: [PATCH] usb: gadget: aspeed_udc: check endpoint DMA allocation
-To: Andrew Jeffery <andrew@codeconstruct.com.au>
-Cc: Neal Liu <neal_liu@aspeedtech.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joel Stanley <joel@jms.id.au>, 
-	linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: multipart/alternative; boundary="00000000000033c4420653e509fe"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	HTML_MESSAGE,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.21 / 15.00];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
+X-Spamd-Result: default: False [-0.71 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	MAILLIST(-0.20)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4220-lists,linux-aspeed=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andrew@codeconstruct.com.au,m:neal_liu@aspeedtech.com,m:gregkh@linuxfoundation.org,m:joel@jms.id.au,m:linux-aspeed@lists.ozlabs.org,m:linux-usb@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-4219-lists,linux-aspeed=lfdr.de];
+	FREEMAIL_CC(0.00)[jms.id.au,codeconstruct.com.au,lists.ozlabs.org,vger.kernel.org,lists.infradead.org,gmail.com];
 	FORGED_SENDER(0.00)[ruoyuw560@gmail.com,linux-aspeed@lists.ozlabs.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ruoyuw560@gmail.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:neal_liu@aspeedtech.com,m:gregkh@linuxfoundation.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:linux-aspeed@lists.ozlabs.org,m:linux-usb@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:ruoyuw560@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FROM_NEQ_ENVFROM(0.00)[ruoyuw560@gmail.com,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[codeconstruct.com.au:email,mail.gmail.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5DFCA6699BA
+X-Rspamd-Queue-Id: DED3A669926
 
---00000000000033c4420653e509fe
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ast_udc_probe() allocates a coherent DMA buffer used as the backing store
+for endpoint buffers. ast_udc_init_ep() derives per-endpoint buffer
+pointers from udc->ep0_buf, so a failed allocation is dereferenced during
+probe.
 
-Thanks! I will simplify the error path and let err_cleanup fall
-through to err.
+Check the allocation before endpoint setup. The existing probe error path
+called ast_udc_remove(), which unregisters the gadget unconditionally and
+is not safe before usb_add_gadget_udc() succeeds. Add a local cleanup
+helper for probe failures so pre-registration failures only unwind the
+resources that were actually initialized.
 
-On Wed, Jun 10, 2026 at 7:45=E2=80=AFPM Andrew Jeffery <andrew@codeconstruc=
-t.com.au>
-wrote:
+This was found by a local static analysis checker for unchecked allocator
+returns while scanning Linux 6.16. The change was checked by applying it
+to current mainline and by running checkpatch. I do not have access to
+Aspeed UDC hardware, so no runtime testing was performed.
 
-> On Mon, 2026-06-08 at 16:19 +0800, Ruoyu Wang wrote:
-> > ast_udc_probe() allocates a coherent DMA buffer used as the backing sto=
-re
-> > for endpoint buffers. ast_udc_init_ep() derives per-endpoint buffer
-> > pointers from udc->ep0_buf, so a failed allocation is dereferenced duri=
-ng
-> > probe.
-> >
-> > Check the allocation before endpoint setup. The existing probe error pa=
-th
-> > called ast_udc_remove(), which unregisters the gadget unconditionally a=
-nd
-> > is not safe before usb_add_gadget_udc() succeeds. Add a local cleanup
-> > helper for probe failures so pre-registration failures only unwind the
-> > resources that were actually initialized.
-> >
-> > This was found by a local static analysis checker for unchecked allocat=
-or
-> > returns while scanning Linux 6.16. The change was checked by applying i=
-t
-> > to current mainline and by running checkpatch. I do not have access to
-> > Aspeed UDC hardware, so no runtime testing was performed.
-> >
-> > Fixes: 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver")
-> > Signed-off-by: Ruoyu Wang <ruoyuw560@gmail.com>
-> > ---
-> > Note: a 2022 patch attempted to add only a NULL check for this
-> > allocation:
-> > https://lore.kernel.org/all/20221213025120.23149-1-jiasheng@iscas.ac.cn=
-/
-> >
-> > This version also fixes the probe unwind path so the clock is disabled
-> > on allocation failure and usb_del_gadget_udc() is not called before the
-> > gadget has been registered.
-> >
-> > diff --git a/drivers/usb/gadget/udc/aspeed_udc.c
-> b/drivers/usb/gadget/udc/aspeed_udc.c
-> > index 7fc6696b7..809a7d5b7 100644
-> > --- a/drivers/usb/gadget/udc/aspeed_udc.c
-> > +++ b/drivers/usb/gadget/udc/aspeed_udc.c
-> > @@ -1434,11 +1434,34 @@ static void ast_udc_init_hw(struct ast_udc_dev
-> *udc)
-> >       ast_udc_write(udc, 0, AST_UDC_EP0_CTRL);
-> >  }
-> >
-> > +static void ast_udc_cleanup(struct platform_device *pdev)
-> > +{
-> > +     struct ast_udc_dev *udc =3D platform_get_drvdata(pdev);
-> > +     unsigned long flags;
-> > +     u32 ctrl;
-> > +
-> > +     spin_lock_irqsave(&udc->lock, flags);
-> > +
-> > +     /* Disable upstream port connection */
-> > +     ctrl =3D ast_udc_read(udc, AST_UDC_FUNC_CTRL) & ~USB_UPSTREAM_EN;
-> > +     ast_udc_write(udc, ctrl, AST_UDC_FUNC_CTRL);
-> > +
-> > +     clk_disable_unprepare(udc->clk);
-> > +
-> > +     spin_unlock_irqrestore(&udc->lock, flags);
-> > +
-> > +     if (udc->ep0_buf)
-> > +             dma_free_coherent(&pdev->dev,
-> > +                               AST_UDC_EP_DMA_SIZE *
-> AST_UDC_NUM_ENDPOINTS,
-> > +                               udc->ep0_buf,
-> > +                               udc->ep0_buf_dma);
-> > +
-> > +     udc->ep0_buf =3D NULL;
-> > +}
-> > +
-> >  static void ast_udc_remove(struct platform_device *pdev)
-> >  {
-> >       struct ast_udc_dev *udc =3D platform_get_drvdata(pdev);
-> > -     unsigned long flags;
-> > -     u32 ctrl;
-> >
-> >       usb_del_gadget_udc(&udc->gadget);
-> >       if (udc->driver) {
-> > @@ -1453,23 +1476,7 @@ static void ast_udc_remove(struct platform_devic=
-e
-> *pdev)
-> >               return;
-> >       }
-> >
-> > -     spin_lock_irqsave(&udc->lock, flags);
-> > -
-> > -     /* Disable upstream port connection */
-> > -     ctrl =3D ast_udc_read(udc, AST_UDC_FUNC_CTRL) & ~USB_UPSTREAM_EN;
-> > -     ast_udc_write(udc, ctrl, AST_UDC_FUNC_CTRL);
-> > -
-> > -     clk_disable_unprepare(udc->clk);
-> > -
-> > -     spin_unlock_irqrestore(&udc->lock, flags);
-> > -
-> > -     if (udc->ep0_buf)
-> > -             dma_free_coherent(&pdev->dev,
-> > -                               AST_UDC_EP_DMA_SIZE *
-> AST_UDC_NUM_ENDPOINTS,
-> > -                               udc->ep0_buf,
-> > -                               udc->ep0_buf_dma);
-> > -
-> > -     udc->ep0_buf =3D NULL;
-> > +     ast_udc_cleanup(pdev);
-> >  }
-> >
-> >  static int ast_udc_probe(struct platform_device *pdev)
-> > @@ -1523,6 +1530,10 @@ static int ast_udc_probe(struct platform_device
-> *pdev)
-> >                                         AST_UDC_EP_DMA_SIZE *
-> >                                         AST_UDC_NUM_ENDPOINTS,
-> >                                         &udc->ep0_buf_dma, GFP_KERNEL);
-> > +     if (!udc->ep0_buf) {
-> > +             rc =3D -ENOMEM;
-> > +             goto err_disable_clk;
-> > +     }
-> >
-> >       udc->gadget.speed =3D USB_SPEED_UNKNOWN;
-> >       udc->gadget.max_speed =3D USB_SPEED_HIGH;
-> > @@ -1553,20 +1564,20 @@ static int ast_udc_probe(struct platform_device
-> *pdev)
-> >       udc->irq =3D platform_get_irq(pdev, 0);
-> >       if (udc->irq < 0) {
-> >               rc =3D udc->irq;
-> > -             goto err;
-> > +             goto err_cleanup;
-> >       }
-> >
-> >       rc =3D devm_request_irq(&pdev->dev, udc->irq, ast_udc_isr, 0,
-> >                             KBUILD_MODNAME, udc);
-> >       if (rc) {
-> >               dev_err(&pdev->dev, "Failed to request interrupt\n");
-> > -             goto err;
-> > +             goto err_cleanup;
-> >       }
-> >
-> >       rc =3D usb_add_gadget_udc(&pdev->dev, &udc->gadget);
-> >       if (rc) {
-> >               dev_err(&pdev->dev, "Failed to add gadget udc\n");
-> > -             goto err;
-> > +             goto err_cleanup;
-> >       }
-> >
-> >       dev_info(&pdev->dev, "Initialized udc in USB%s mode\n",
-> > @@ -1574,9 +1585,14 @@ static int ast_udc_probe(struct platform_device
-> *pdev)
-> >
-> >       return 0;
-> >
-> > +err_disable_clk:
-> > +     clk_disable_unprepare(udc->clk);
-> > +     goto err;
-> > +err_cleanup:
-> > +     ast_udc_cleanup(pdev);
-> > +     goto err;
-> >  err:
->
-> That last goto is unnecessary.
->
-> However, I find it unsettling that in a patch fixing resource handling
-> we add a mildly convoluted cleanup path, with portions jumping over
-> each other in this way.
->
-> The err_disable_clk label is only used once, and itself jumps down to
-> the err label. This is the case because beyond its goto we free udc-
-> >ep0_buf in ast_udc_cleanup(). I think it would make more sense to move
-> the call to clk_disable_unprepare() into the conditional body of the
-> allocation failure test, then change its goto label to 'err'. That way
-> the above hunk becomes:
->
->    +err_cleanup:
->    +    ast_udc_cleanup(pdev);
->     err:
->         ...
->
-> Which seems a bit more natural.
->
-> Andrew
->
-> >       dev_err(&pdev->dev, "Failed to udc probe, rc:0x%x\n", rc);
-> > -     ast_udc_remove(pdev);
-> >
-> >       return rc;
-> >  }
->
+Fixes: 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver")
+Signed-off-by: Ruoyu Wang <ruoyuw560@gmail.com>
+---
+Note: a 2022 patch attempted to add only a NULL check for this
+allocation:
+https://lore.kernel.org/all/20221213025120.23149-1-jiasheng@iscas.ac.cn/
 
---00000000000033c4420653e509fe
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This version also fixes the probe unwind path so the clock is disabled
+on allocation failure and usb_del_gadget_udc() is not called before the
+gadget has been registered.
 
-<div dir=3D"ltr">Thanks! I will simplify the error path and let err_cleanup=
- fall <br>through to err.</div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Wed, Jun 10, 2026 at 7:45=E2=80=AFPM Andrew Jef=
-fery &lt;<a href=3D"mailto:andrew@codeconstruct.com.au" target=3D"_blank">a=
-ndrew@codeconstruct.com.au</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">On Mon, 2026-06-08 at 16:19 +0800, Ruoyu Wang wro=
-te:<br>
-&gt; ast_udc_probe() allocates a coherent DMA buffer used as the backing st=
-ore<br>
-&gt; for endpoint buffers. ast_udc_init_ep() derives per-endpoint buffer<br=
->
-&gt; pointers from udc-&gt;ep0_buf, so a failed allocation is dereferenced =
-during<br>
-&gt; probe.<br>
-&gt; <br>
-&gt; Check the allocation before endpoint setup. The existing probe error p=
-ath<br>
-&gt; called ast_udc_remove(), which unregisters the gadget unconditionally =
-and<br>
-&gt; is not safe before usb_add_gadget_udc() succeeds. Add a local cleanup<=
-br>
-&gt; helper for probe failures so pre-registration failures only unwind the=
-<br>
-&gt; resources that were actually initialized.<br>
-&gt; <br>
-&gt; This was found by a local static analysis checker for unchecked alloca=
-tor<br>
-&gt; returns while scanning Linux 6.16. The change was checked by applying =
-it<br>
-&gt; to current mainline and by running checkpatch. I do not have access to=
-<br>
-&gt; Aspeed UDC hardware, so no runtime testing was performed.<br>
-&gt; <br>
-&gt; Fixes: 055276c13205 (&quot;usb: gadget: add Aspeed ast2600 udc driver&=
-quot;)<br>
-&gt; Signed-off-by: Ruoyu Wang &lt;<a href=3D"mailto:ruoyuw560@gmail.com" t=
-arget=3D"_blank">ruoyuw560@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt; Note: a 2022 patch attempted to add only a NULL check for this<br>
-&gt; allocation:<br>
-&gt; <a href=3D"https://lore.kernel.org/all/20221213025120.23149-1-jiasheng=
-@iscas.ac.cn/" rel=3D"noreferrer" target=3D"_blank">https://lore.kernel.org=
-/all/20221213025120.23149-1-jiasheng@iscas.ac.cn/</a><br>
-&gt; <br>
-&gt; This version also fixes the probe unwind path so the clock is disabled=
-<br>
-&gt; on allocation failure and usb_del_gadget_udc() is not called before th=
-e<br>
-&gt; gadget has been registered.<br>
-&gt; <br>
-&gt; diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/=
-udc/aspeed_udc.c<br>
-&gt; index 7fc6696b7..809a7d5b7 100644<br>
-&gt; --- a/drivers/usb/gadget/udc/aspeed_udc.c<br>
-&gt; +++ b/drivers/usb/gadget/udc/aspeed_udc.c<br>
-&gt; @@ -1434,11 +1434,34 @@ static void ast_udc_init_hw(struct ast_udc_dev=
- *udc)<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0ast_udc_write(udc, 0, AST_UDC_EP0_CTRL);<br>
-&gt; =C2=A0}<br>
-&gt; =C2=A0<br>
-&gt; +static void ast_udc_cleanup(struct platform_device *pdev)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct ast_udc_dev *udc =3D platform_get_drvdata(=
-pdev);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0unsigned long flags;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0u32 ctrl;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0spin_lock_irqsave(&amp;udc-&gt;lock, flags);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* Disable upstream port connection */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0ctrl =3D ast_udc_read(udc, AST_UDC_FUNC_CTRL) &am=
-p; ~USB_UPSTREAM_EN;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0ast_udc_write(udc, ctrl, AST_UDC_FUNC_CTRL);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0clk_disable_unprepare(udc-&gt;clk);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0spin_unlock_irqrestore(&amp;udc-&gt;lock, flags);=
-<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (udc-&gt;ep0_buf)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_free_coherent(&am=
-p;pdev-&gt;dev,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 AST_UDC_EP_DMA_SIZE * AST_UDC_NUM=
-_ENDPOINTS,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 udc-&gt;ep0_buf,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 udc-&gt;ep0_buf_dma);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0udc-&gt;ep0_buf =3D NULL;<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; =C2=A0static void ast_udc_remove(struct platform_device *pdev)<br>
-&gt; =C2=A0{<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0struct ast_udc_dev *udc =3D platform_get_drv=
-data(pdev);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0unsigned long flags;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0u32 ctrl;<br>
-&gt; =C2=A0<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0usb_del_gadget_udc(&amp;udc-&gt;gadget);<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0if (udc-&gt;driver) {<br>
-&gt; @@ -1453,23 +1476,7 @@ static void ast_udc_remove(struct platform_devi=
-ce *pdev)<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0spin_lock_irqsave(&amp;udc-&gt;lock, flags);<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0/* Disable upstream port connection */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0ctrl =3D ast_udc_read(udc, AST_UDC_FUNC_CTRL) &am=
-p; ~USB_UPSTREAM_EN;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0ast_udc_write(udc, ctrl, AST_UDC_FUNC_CTRL);<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0clk_disable_unprepare(udc-&gt;clk);<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0spin_unlock_irqrestore(&amp;udc-&gt;lock, flags);=
-<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (udc-&gt;ep0_buf)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dma_free_coherent(&am=
-p;pdev-&gt;dev,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 AST_UDC_EP_DMA_SIZE * AST_UDC_NUM=
-_ENDPOINTS,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 udc-&gt;ep0_buf,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 udc-&gt;ep0_buf_dma);<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0udc-&gt;ep0_buf =3D NULL;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0ast_udc_cleanup(pdev);<br>
-&gt; =C2=A0}<br>
-&gt; =C2=A0<br>
-&gt; =C2=A0static int ast_udc_probe(struct platform_device *pdev)<br>
-&gt; @@ -1523,6 +1530,10 @@ static int ast_udc_probe(struct platform_device=
- *pdev)<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0=
- AST_UDC_EP_DMA_SIZE *<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0=
- AST_UDC_NUM_ENDPOINTS,<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0=
- &amp;udc-&gt;ep0_buf_dma, GFP_KERNEL);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (!udc-&gt;ep0_buf) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rc =3D -ENOMEM;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_disable_clk;=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; =C2=A0<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0udc-&gt;gadget.speed =3D USB_SPEED_UNKNOWN;<=
-br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0udc-&gt;gadget.max_speed =3D USB_SPEED_HIGH;=
-<br>
-&gt; @@ -1553,20 +1564,20 @@ static int ast_udc_probe(struct platform_devic=
-e *pdev)<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0udc-&gt;irq =3D platform_get_irq(pdev, 0);<b=
-r>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0if (udc-&gt;irq &lt; 0) {<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rc =3D udc-&gt;i=
-rq;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_cleanup;<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; =C2=A0<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0rc =3D devm_request_irq(&amp;pdev-&gt;dev, u=
-dc-&gt;irq, ast_udc_isr, 0,<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 KBUILD_MODNAME, udc);<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0if (rc) {<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_err(&amp;pde=
-v-&gt;dev, &quot;Failed to request interrupt\n&quot;);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_cleanup;<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; =C2=A0<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0rc =3D usb_add_gadget_udc(&amp;pdev-&gt;dev,=
- &amp;udc-&gt;gadget);<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0if (rc) {<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_err(&amp;pde=
-v-&gt;dev, &quot;Failed to add gadget udc\n&quot;);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto err_cleanup;<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; =C2=A0<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0dev_info(&amp;pdev-&gt;dev, &quot;Initialize=
-d udc in USB%s mode\n&quot;,<br>
-&gt; @@ -1574,9 +1585,14 @@ static int ast_udc_probe(struct platform_device=
- *pdev)<br>
-&gt; =C2=A0<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt; =C2=A0<br>
-&gt; +err_disable_clk:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0clk_disable_unprepare(udc-&gt;clk);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0goto err;<br>
-&gt; +err_cleanup:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0ast_udc_cleanup(pdev);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0goto err;<br>
-&gt; =C2=A0err:<br>
-<br>
-That last goto is unnecessary.<br>
-<br>
-However, I find it unsettling that in a patch fixing resource handling<br>
-we add a mildly convoluted cleanup path, with portions jumping over<br>
-each other in this way.<br>
-<br>
-The err_disable_clk label is only used once, and itself jumps down to<br>
-the err label. This is the case because beyond its goto we free udc-<br>
-&gt;ep0_buf in ast_udc_cleanup(). I think it would make more sense to move<=
-br>
-the call to clk_disable_unprepare() into the conditional body of the<br>
-allocation failure test, then change its goto label to &#39;err&#39;. That =
-way<br>
-the above hunk becomes:<br>
-<br>
-=C2=A0 =C2=A0+err_cleanup:<br>
-=C2=A0 =C2=A0+=C2=A0 =C2=A0 ast_udc_cleanup(pdev);<br>
-=C2=A0 =C2=A0 err:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ...<br>
-<br>
-Which seems a bit more natural.<br>
-<br>
-Andrew<br>
-<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0dev_err(&amp;pdev-&gt;dev, &quot;Failed to u=
-dc probe, rc:0x%x\n&quot;, rc);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0ast_udc_remove(pdev);<br>
-&gt; =C2=A0<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0return rc;<br>
-&gt; =C2=A0}<br>
-</blockquote></div>
+v1:
+https://lore.kernel.org/all/20260608081948.3-1-ruoyuw560@gmail.com/
 
---00000000000033c4420653e509fe--
+Changes in v2:
+- Simplify the allocation-failure cleanup path as suggested by Andrew
+  Jeffery: disable the clock in the allocation-failure branch and let
+  err_cleanup fall through to err.
+
+diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
+--- a/drivers/usb/gadget/udc/aspeed_udc.c
++++ b/drivers/usb/gadget/udc/aspeed_udc.c
+@@ -1434,25 +1434,12 @@ static void ast_udc_init_hw(struct ast_u
+ 	ast_udc_write(udc, 0, AST_UDC_EP0_CTRL);
+ }
+ 
+-static void ast_udc_remove(struct platform_device *pdev)
++static void ast_udc_cleanup(struct platform_device *pdev)
+ {
+ 	struct ast_udc_dev *udc = platform_get_drvdata(pdev);
+ 	unsigned long flags;
+ 	u32 ctrl;
+ 
+-	usb_del_gadget_udc(&udc->gadget);
+-	if (udc->driver) {
+-		/*
+-		 * This is broken as only some cleanup is skipped, *udev is
+-		 * freed and the register mapping goes away. Any further usage
+-		 * probably crashes. Also the device is unbound, so the skipped
+-		 * cleanup is never catched up later.
+-		 */
+-		dev_alert(&pdev->dev,
+-			  "Driver is busy and still going away. Fasten your seat belts!\n");
+-		return;
+-	}
+-
+ 	spin_lock_irqsave(&udc->lock, flags);
+ 
+ 	/* Disable upstream port connection */
+@@ -1472,6 +1459,26 @@ static void ast_udc_remove(struct platfo
+ 	udc->ep0_buf = NULL;
+ }
+ 
++static void ast_udc_remove(struct platform_device *pdev)
++{
++	struct ast_udc_dev *udc = platform_get_drvdata(pdev);
++
++	usb_del_gadget_udc(&udc->gadget);
++	if (udc->driver) {
++		/*
++		 * This is broken as only some cleanup is skipped, *udev is
++		 * freed and the register mapping goes away. Any further usage
++		 * probably crashes. Also the device is unbound, so the skipped
++		 * cleanup is never catched up later.
++		 */
++		dev_alert(&pdev->dev,
++			  "Driver is busy and still going away. Fasten your seat belts!\n");
++		return;
++	}
++
++	ast_udc_cleanup(pdev);
++}
++
+ static int ast_udc_probe(struct platform_device *pdev)
+ {
+ 	enum usb_device_speed max_speed;
+@@ -1524,6 +1531,12 @@ static int ast_udc_probe(struct platform
+ 					  AST_UDC_NUM_ENDPOINTS,
+ 					  &udc->ep0_buf_dma, GFP_KERNEL);
+ 
++	if (!udc->ep0_buf) {
++		clk_disable_unprepare(udc->clk);
++		rc = -ENOMEM;
++		goto err;
++	}
++
+ 	udc->gadget.speed = USB_SPEED_UNKNOWN;
+ 	udc->gadget.max_speed = USB_SPEED_HIGH;
+ 	udc->creq = udc->reg + AST_UDC_SETUP0;
+@@ -1553,20 +1566,20 @@ static int ast_udc_probe(struct platform
+ 	udc->irq = platform_get_irq(pdev, 0);
+ 	if (udc->irq < 0) {
+ 		rc = udc->irq;
+-		goto err;
++		goto err_cleanup;
+ 	}
+ 
+ 	rc = devm_request_irq(&pdev->dev, udc->irq, ast_udc_isr, 0,
+ 			      KBUILD_MODNAME, udc);
+ 	if (rc) {
+ 		dev_err(&pdev->dev, "Failed to request interrupt\n");
+-		goto err;
++		goto err_cleanup;
+ 	}
+ 
+ 	rc = usb_add_gadget_udc(&pdev->dev, &udc->gadget);
+ 	if (rc) {
+ 		dev_err(&pdev->dev, "Failed to add gadget udc\n");
+-		goto err;
++		goto err_cleanup;
+ 	}
+ 
+ 	dev_info(&pdev->dev, "Initialized udc in USB%s mode\n",
+@@ -1574,9 +1587,10 @@ static int ast_udc_probe(struct platform
+ 
+ 	return 0;
+ 
++err_cleanup:
++	ast_udc_cleanup(pdev);
+ err:
+ 	dev_err(&pdev->dev, "Failed to udc probe, rc:0x%x\n", rc);
+-	ast_udc_remove(pdev);
+ 
+ 	return rc;
+ }
 
