@@ -1,95 +1,65 @@
-Return-Path: <linux-aspeed+bounces-4219-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4216-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id yIWELythKWoKWAMAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4219-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 15:05:47 +0200
+	id d8zxDrNZKWrbVQMAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4216-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 14:33:55 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED3A669926
-	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 15:05:46 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 362076694FF
+	for <lists+linux-aspeed@lfdr.de>; Wed, 10 Jun 2026 14:33:54 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=V3NNAdgl;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4219-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4219-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=codeconstruct.com.au header.s=2022a header.b=UdHi6ylj;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4216-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4216-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=none) header.from=codeconstruct.com.au;
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gb5cS5PPvz2yfD;
-	Wed, 10 Jun 2026 23:05:44 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gb4vg6X1xz2yR5;
+	Wed, 10 Jun 2026 22:33:51 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781093434;
-	cv=none; b=A7gAVsK+45hh1aOL7yiAsFDVJXju2CKxnVaa9xlPjkCnEeT/uJTB1z7s044IAFiOvXkYx9dT6lnkaCEqaLLyLcc/o9r2X6HDtjUvjOv6oyhXbNbdGBykh/jv9ULx8prnAnTI/mVAQMbJTRVWjyqoMYXLACKpKyuO7eoLjn2Hd2aAcdJM+PGQanbeQ3AgbnFWyGtupbwOJl8wMPT6J/kAok6xUQVT5aWWdNQdJL4BO6mXIZl5wlI2GBFS5jMJ4IK9r7De1ihGoTNYY1aOQJic/g1hCrdcXCjzMtN6kesqzWyyzF4Zjj8ybbgZX1Us77PGzedtQb5XNXBm68sS4/QK6w==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781094831;
+	cv=none; b=U+IWU7DWKlQmlWOtHULobeLX2sR7j6IBv8+QQvuaTUGKZ7YzeTVSAr99UArbCcgwMUgV3X9op2/PCL4NEIwWDfEd2lC4wL0EyNxfiMhCKYV1e3wSDuXaes3qFtRv9G/rtTVtzze5EehOzsiRDD60nI4pnPCTlpkqGDuKXuCj1pt7x3qf0X3qP5GmuP3Xki2S2vFrnFTMsBJfIUTojI0G8g6MEmH0/wm7w21yeKb4A1SvqomOHdIAlKtclI5GVbzdvz0Qwkn7IhmtQ88/O2RK53GyfcgVOvHazIc18sO+JMHlh/V4O8V5hpJvB+FyaILgln+9eDr6TF2Tqv9xb7INSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1781093434; c=relaxed/relaxed;
-	bh=Bn0e0V+HEIAY5dAJYzbVBmSmbmUkCyWOZZSIYcy0Q78=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OCbqQJqAZrOKTFiqzCC0RZc9Rr7Sou/z1WOBIXGOSbvhBWM86dytMR/MOo8D4fo1bHdMQwUempF9iHB7Oi3zNsz7LqQtPprXgAsAw2bXW8PXPUthrnHIAXN0fdrjaDGqO2ES79BiPce5gpYpokLaOFNb1uQWqKzjpolwWc2JjTq4tJf7/JMMRQOwZja4yurhGtP/gzGeNcIhxuNVNNMUXWRV3khUzIF/x0UOFHVwmH/HC8lybeX+68QrGSSh1eIsghiDRSdg5NhAJAztDqJ2pnrrlS+w4OEDfGR/II6HlvR/3ve2C8gish3ZIzHBM5XSEsGJ9Oum326c15hfPqk1oA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=V3NNAdgl; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::535; helo=mail-pg1-x535.google.com; envelope-from=ruoyuw560@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+	t=1781094831; c=relaxed/relaxed;
+	bh=N2V/Cihmx8+MRzY0Hdl7XrVi7PKe0HBA8Aa2yRrbRRo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lMb4EzibNfGH+jJEcdMl03j+GfZfQZ06WO4qN1fP9LHeJklbzs6rK2bNNKiu67o7iUniHbx9HBX8EMikU7ihzrxM8MZ2K6dB6nuFh7QCZd4Nd3HSHOFkVssXiKf0Wc76WhbtMCzCUfs7la7V9AdQWcBLAN00ZKXWj/vUXO7Dw/+0pZRYXlT8a5bp0loNC8xJUYFI3nu8i4W8m9va4qWKTP/zw2TbkNkbS0gq5JZi1jH6mhD87YbrWEWm51au1tIGCFYP4TJrpEc6DE1HUBWNUky0gEDrvEsRRKmcGiD0rLI2QQSDlQps27af5gfoLF9dJvo0OlgpKGuBbiK3JwC8rQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=UdHi6ylj; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gb4Nn2FMnz2xYg
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jun 2026 22:10:32 +1000 (AEST)
-Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-c8585c51f1fso3135441a12.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jun 2026 05:10:32 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gb4vg20Cqz2xYg
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 10 Jun 2026 22:33:51 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781093430; x=1781698230; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bn0e0V+HEIAY5dAJYzbVBmSmbmUkCyWOZZSIYcy0Q78=;
-        b=V3NNAdgl3N4VdeIqhoEH5vrx82/w1f9dFL489eYrlzrCDBDaXO/p/IST6eeUbLehPj
-         QyOUUpP+Z9g/tA8J86IXtCtSjhPlkGhvVauKUEEmOkxq5zxlKBO93Vy2vFa1FA9JZeKc
-         3sbhQgcFKuEIbLlBg0C0DlmQUWeq4F+BkF0/tTCKX+BYMQGRJSWbCppfeyFX3/EW7s0m
-         ond3FHrpN3vmMrOjFJ4n/xLmwqPLN8elRuzlpiSUQJDt9/9glSkhjt25v3jScynm0+FK
-         dWo6mZBS0/nxplPDEw4jyvqDh94WBQSz8LXn2Z7AndMoJKJW5kvD2d7cRVYPDdPISrSI
-         txGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781093430; x=1781698230;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Bn0e0V+HEIAY5dAJYzbVBmSmbmUkCyWOZZSIYcy0Q78=;
-        b=BJ5HzCo9doDDcsW5Ede3ahKmwzi9UIWmShDj23Oyx/Ut1/u8YHphPECFyDeWWtu3oo
-         QIFPwEW7kLqOVvQf2HEEYaBIqQbMojR2VuM0sEx9NxYzK0/961RvNig6DZOEzCm6qb2g
-         yN+gLmHYXU0nT7WMd9TinSnDUcPmOp1DJBw0p0X1qlnnZTOt/EgDzZuFwx5fwkR8i1g6
-         d+EMQMPCxW3KyzbKyV3ev96iwOOCbj/SaEcCOQIFyNH1tUHtDyNdiRphr4if2dCz0/ft
-         eTSjkLG+CD0lXaa24FGZLh6lKYBw4IQOb9W4SJMI9HfI5N6GIfPEz5hmK37lkqNMjEoy
-         hVpw==
-X-Forwarded-Encrypted: i=1; AFNElJ/jotDLrgyn3wRWEBahen4bRBSU5vlRvzUtTEjvxPu9lOIj4hqNWR7wUo/KB6rFBlBF9E9j7x6ckNSI4gY=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Ywf5B+vuihFKi2fpZEXAlhQIIMeqC9zQJJqPFldFw7D1iHmqf53
-	vUG+JhtAG1k768qWc4JEXEI/PImy95v4EbKQDUMfetlKtZm6MsPoH9Ev
-X-Gm-Gg: Acq92OGpXKkduLV5KmytkRDW54sbyNT1vg+u1DyIPu2NunDGauSnPEiTX9PIcgej6HJ
-	S4RR1xL7jsy5bI8tzzsJQgXJzpXtrGWOWWLPbuPPy/yalwa83xNpVcp5r7kvfytL54l6qL7Y6vP
-	nyd0vCkjNn0L6EcaH/QuMDZZ68j+R715u0moHLFmBSoPjG9lcr1pMPJzM1bO2TwU7bxDqhLr8/p
-	5pqauHVVAtzyQNsRqSs97ksrS3VJCUU2eEvXc4rdJ47Rs3QN67TxzYBJF5Jr3BDcxewyF8+0iPt
-	UgAnXUpJEUxocONagd8nqc5YVMYVeu9vUMgtLNdsWYgS50OXNQgxHcQ9CDLA4ig/cdbdDqILoDT
-	+FtTIfCVRiJtBz6PID+PpaB8zYRqrC1SlFby/8zBhGeKKN09Tk9n+O1FfY1iW3n+VSXUlkhPdmA
-	8gN4+UQfUAUofhl50peXmpUSbD6EMgEJI/iDEpuMQoDvUWq3/EB2n8bA==
-X-Received: by 2002:a05:6a21:7e89:b0:3b5:530d:d980 with SMTP id adf61e73a8af0-3b5530e0518mr2279602637.20.1781093430459;
-        Wed, 10 Jun 2026 05:10:30 -0700 (PDT)
-Received: from haichao.tail057a43.ts.net ([2001:da8:e000:1206:b72a:532f:bb14:101c])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85df0a4afdsm24704308a12.19.2026.06.10.05.10.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 05:10:29 -0700 (PDT)
-From: Ruoyu Wang <ruoyuw560@gmail.com>
-To: Neal Liu <neal_liu@aspeedtech.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	linux-aspeed@lists.ozlabs.org,
-	linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Ruoyu Wang <ruoyuw560@gmail.com>
-Subject: [PATCH v2] usb: gadget: aspeed_udc: check endpoint DMA allocation
-Date: Wed, 10 Jun 2026 20:10:22 +0800
-Message-ID: <20260610121022.3-1-ruoyuw560@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260608081948.3-1-ruoyuw560@gmail.com>
-References: <20260608081948.3-1-ruoyuw560@gmail.com>
+	d=codeconstruct.com.au; s=2022a; t=1781094830;
+	bh=N2V/Cihmx8+MRzY0Hdl7XrVi7PKe0HBA8Aa2yRrbRRo=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=UdHi6yljkiy6+c/fxCQ5x4iDwaWCzOorP1NhcvjQDWUjbKo6nMa+3muQd2BD1rVLu
+	 qJX0zJqzSUeVZd7Yj2a2FzADtYMotgalKz2fN0Qb+EISpMW+ko5StLbB89SNDPF//T
+	 Xxy38IvLCby4O2wzSYlzltWg/SIZIdUMTC+SGB0X0mxVfTXc5Wf4WFb/lJjFA1V6Iq
+	 H1001qHAZHWhbIpl9NVBROuHDL06/prSKMkrWCTGyjz6exdzu1kX7D/eZWmSiUPm6v
+	 E+NeKqnmeVahF+VDzKg0eJGgHpJAIbbtfcNAtR1vywCCEzXjrAZwf3gEex8jTTVpNh
+	 8AJNmW5qhGoJQ==
+Received: from [192.168.68.117] (unknown [180.150.112.11])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id E847560A14;
+	Wed, 10 Jun 2026 20:33:49 +0800 (AWST)
+Message-ID: <4839c31f666b612799a795bb47c884901fd2a903.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v2 1/2] soc: aspeed: add BMC-side PCIe BMC device driver
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: =?ISO-8859-1?Q?Gr=E9goire?= Layet <gregoire.layet@9elements.com>, 
+	joel@jms.id.au
+Cc: andrew@lunn.ch, jacky_chou@aspeedtech.com, yh_chung@aspeedtech.com, 
+	ninad@linux.ibm.com, linux-aspeed@lists.ozlabs.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date: Wed, 10 Jun 2026 22:03:49 +0930
+In-Reply-To: <af322e76d34ad504e0bdec470293a017b489cfd7.1780929570.git.gregoire.layet@9elements.com>
+References: <cover.1780929570.git.gregoire.layet@9elements.com>
+	 <af322e76d34ad504e0bdec470293a017b489cfd7.1780929570.git.gregoire.layet@9elements.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -103,189 +73,344 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.71 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.21 / 15.00];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	DMARC_POLICY_ALLOW(-0.50)[codeconstruct.com.au,none];
+	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4219-lists,linux-aspeed=lfdr.de];
-	FREEMAIL_CC(0.00)[jms.id.au,codeconstruct.com.au,lists.ozlabs.org,vger.kernel.org,lists.infradead.org,gmail.com];
-	FORGED_SENDER(0.00)[ruoyuw560@gmail.com,linux-aspeed@lists.ozlabs.org];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-4216-lists,linux-aspeed=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:gregoire.layet@9elements.com,m:joel@jms.id.au,m:andrew@lunn.ch,m:jacky_chou@aspeedtech.com,m:yh_chung@aspeedtech.com,m:ninad@linux.ibm.com,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:neal_liu@aspeedtech.com,m:gregkh@linuxfoundation.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:linux-aspeed@lists.ozlabs.org,m:linux-usb@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:ruoyuw560@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_NEQ_ENVFROM(0.00)[ruoyuw560@gmail.com,linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ALIAS_RESOLVED(0.00)[];
+	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[aspeedtech.com:email,9elements.com:email,codeconstruct.com.au:dkim,codeconstruct.com.au:mid,codeconstruct.com.au:from_mime,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DED3A669926
+X-Rspamd-Queue-Id: 362076694FF
 
-ast_udc_probe() allocates a coherent DMA buffer used as the backing store
-for endpoint buffers. ast_udc_init_ep() derives per-endpoint buffer
-pointers from udc->ep0_buf, so a failed allocation is dereferenced during
-probe.
+Hello Gr=C3=A9goire,
 
-Check the allocation before endpoint setup. The existing probe error path
-called ast_udc_remove(), which unregisters the gadget unconditionally and
-is not safe before usb_add_gadget_udc() succeeds. Add a local cleanup
-helper for probe failures so pre-registration failures only unwind the
-resources that were actually initialized.
+On Mon, 2026-06-08 at 14:51 +0000, Gr=C3=A9goire Layet wrote:
+> Taken from ASPEED 6.18 Kernel SDK
 
-This was found by a local static analysis checker for unchecked allocator
-returns while scanning Linux 6.16. The change was checked by applying it
-to current mainline and by running checkpatch. I do not have access to
-Aspeed UDC hardware, so no runtime testing was performed.
+It's probably best to use ASPEED's SDK as a source of inspiration for
+fixing obscure bugs, but not send drivers directly extracted from it.
 
-Fixes: 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver")
-Signed-off-by: Ruoyu Wang <ruoyuw560@gmail.com>
----
-Note: a 2022 patch attempted to add only a NULL check for this
-allocation:
-https://lore.kernel.org/all/20221213025120.23149-1-jiasheng@iscas.ac.cn/
+>=20
+> Add support for VUART over PCIe between BMC and host.
+> This add BMC side driver.
+>=20
+> Signed-off-by: Jacky Chou <jacky_chou@aspeedtech.com>
+> Signed-off-by: aspeedyh <yh_chung@aspeedtech.com>
+> Signed-off-by: Gr=C3=A9goire Layet <gregoire.layet@9elements.com>
+> Tested-by: Gr=C3=A9goire Layet <gregoire.layet@9elements.com>
+> ---
+> =C2=A0drivers/soc/aspeed/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 7 ++
+> =C2=A0drivers/soc/aspeed/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0drivers/soc/aspeed/aspeed-bmc-dev.c | 187 +++++++++++++++++++++++++=
++++
 
-This version also fixes the probe unwind path so the clock is disabled
-on allocation failure and usb_del_gadget_udc() is not called before the
-gadget has been registered.
+We should avoid adding more drivers in drivers/soc/aspeed where we can.
 
-v1:
-https://lore.kernel.org/all/20260608081948.3-1-ruoyuw560@gmail.com/
+Is this really necessary?
 
-Changes in v2:
-- Simplify the allocation-failure cleanup path as suggested by Andrew
-  Jeffery: disable the clock in the allocation-failure branch and let
-  err_cleanup fall through to err.
+> =C2=A03 files changed, 195 insertions(+)
+> =C2=A0create mode 100644 drivers/soc/aspeed/aspeed-bmc-dev.c
+>=20
+> diff --git a/drivers/soc/aspeed/Kconfig b/drivers/soc/aspeed/Kconfig
+> index f579ee0b5afa..3e1fcf3c3268 100644
+> --- a/drivers/soc/aspeed/Kconfig
+> +++ b/drivers/soc/aspeed/Kconfig
+> @@ -4,6 +4,13 @@ if ARCH_ASPEED || COMPILE_TEST
+> =C2=A0
+> =C2=A0menu "ASPEED SoC drivers"
+> =C2=A0
+> +config ASPEED_BMC_DEV
+> +	tristate "ASPEED BMC Device"
+> +	default n
+> +	help
+> +	=C2=A0 Enable support for the ASPEED AST2600 BMC Device.
+> +	=C2=A0 This exposes the PCIe-to-LPC bridge of the BMC to the host over =
+PCIe.
+> +
+> =C2=A0config ASPEED_LPC_CTRL
+> =C2=A0	tristate "ASPEED LPC firmware cycle control"
+> =C2=A0	select REGMAP
+> diff --git a/drivers/soc/aspeed/Makefile b/drivers/soc/aspeed/Makefile
+> index b35d74592964..fab0d247df66 100644
+> --- a/drivers/soc/aspeed/Makefile
+> +++ b/drivers/soc/aspeed/Makefile
+> @@ -1,4 +1,5 @@
+> =C2=A0# SPDX-License-Identifier: GPL-2.0-only
+> +obj-$(CONFIG_ASPEED_BMC_DEV)		+=3D aspeed-bmc-dev.o
+> =C2=A0obj-$(CONFIG_ASPEED_LPC_CTRL)		+=3D aspeed-lpc-ctrl.o
+> =C2=A0obj-$(CONFIG_ASPEED_LPC_SNOOP)		+=3D aspeed-lpc-snoop.o
+> =C2=A0obj-$(CONFIG_ASPEED_UART_ROUTING)	+=3D aspeed-uart-routing.o
+> diff --git a/drivers/soc/aspeed/aspeed-bmc-dev.c b/drivers/soc/aspeed/asp=
+eed-bmc-dev.c
+> new file mode 100644
+> index 000000000000..7a204b543c97
+> --- /dev/null
+> +++ b/drivers/soc/aspeed/aspeed-bmc-dev.c
+> @@ -0,0 +1,187 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +// Copyright (C) ASPEED Technology Inc.
+> +
+> +#include <linux/init.h>
+> +#include <linux/module.h>
+> +#include <linux/kernel.h>
+> +#include <linux/errno.h>
+> +
+> +#include <linux/of_address.h>
+> +#include <linux/platform_device.h>
+> +
+> +#include <linux/regmap.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/mfd/syscon.h>
+> +
+> +#define SCU_TRIGGER_MSI
+> +
+> +/* AST2600 SCU */
+> +#define ASPEED_SCU04			0x04
+> +#define AST2600A3_SCU04				0x05030303
+> +#define ASPEED_SCUC20			0xC20
+> +#define ASPEED_SCUC24			0xC24
 
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -1434,25 +1434,12 @@ static void ast_udc_init_hw(struct ast_u
- 	ast_udc_write(udc, 0, AST_UDC_EP0_CTRL);
- }
- 
--static void ast_udc_remove(struct platform_device *pdev)
-+static void ast_udc_cleanup(struct platform_device *pdev)
- {
- 	struct ast_udc_dev *udc = platform_get_drvdata(pdev);
- 	unsigned long flags;
- 	u32 ctrl;
- 
--	usb_del_gadget_udc(&udc->gadget);
--	if (udc->driver) {
--		/*
--		 * This is broken as only some cleanup is skipped, *udev is
--		 * freed and the register mapping goes away. Any further usage
--		 * probably crashes. Also the device is unbound, so the skipped
--		 * cleanup is never catched up later.
--		 */
--		dev_alert(&pdev->dev,
--			  "Driver is busy and still going away. Fasten your seat belts!\n");
--		return;
--	}
--
- 	spin_lock_irqsave(&udc->lock, flags);
- 
- 	/* Disable upstream port connection */
-@@ -1472,6 +1459,26 @@ static void ast_udc_remove(struct platfo
- 	udc->ep0_buf = NULL;
- }
- 
-+static void ast_udc_remove(struct platform_device *pdev)
-+{
-+	struct ast_udc_dev *udc = platform_get_drvdata(pdev);
-+
-+	usb_del_gadget_udc(&udc->gadget);
-+	if (udc->driver) {
-+		/*
-+		 * This is broken as only some cleanup is skipped, *udev is
-+		 * freed and the register mapping goes away. Any further usage
-+		 * probably crashes. Also the device is unbound, so the skipped
-+		 * cleanup is never catched up later.
-+		 */
-+		dev_alert(&pdev->dev,
-+			  "Driver is busy and still going away. Fasten your seat belts!\n");
-+		return;
-+	}
-+
-+	ast_udc_cleanup(pdev);
-+}
-+
- static int ast_udc_probe(struct platform_device *pdev)
- {
- 	enum usb_device_speed max_speed;
-@@ -1524,6 +1531,12 @@ static int ast_udc_probe(struct platform
- 					  AST_UDC_NUM_ENDPOINTS,
- 					  &udc->ep0_buf_dma, GFP_KERNEL);
- 
-+	if (!udc->ep0_buf) {
-+		clk_disable_unprepare(udc->clk);
-+		rc = -ENOMEM;
-+		goto err;
-+	}
-+
- 	udc->gadget.speed = USB_SPEED_UNKNOWN;
- 	udc->gadget.max_speed = USB_SPEED_HIGH;
- 	udc->creq = udc->reg + AST_UDC_SETUP0;
-@@ -1553,20 +1566,20 @@ static int ast_udc_probe(struct platform
- 	udc->irq = platform_get_irq(pdev, 0);
- 	if (udc->irq < 0) {
- 		rc = udc->irq;
--		goto err;
-+		goto err_cleanup;
- 	}
- 
- 	rc = devm_request_irq(&pdev->dev, udc->irq, ast_udc_isr, 0,
- 			      KBUILD_MODNAME, udc);
- 	if (rc) {
- 		dev_err(&pdev->dev, "Failed to request interrupt\n");
--		goto err;
-+		goto err_cleanup;
- 	}
- 
- 	rc = usb_add_gadget_udc(&pdev->dev, &udc->gadget);
- 	if (rc) {
- 		dev_err(&pdev->dev, "Failed to add gadget udc\n");
--		goto err;
-+		goto err_cleanup;
- 	}
- 
- 	dev_info(&pdev->dev, "Initialized udc in USB%s mode\n",
-@@ -1574,9 +1587,10 @@ static int ast_udc_probe(struct platform
- 
- 	return 0;
- 
-+err_cleanup:
-+	ast_udc_cleanup(pdev);
- err:
- 	dev_err(&pdev->dev, "Failed to udc probe, rc:0x%x\n", rc);
--	ast_udc_remove(pdev);
- 
- 	return rc;
- }
+These could all use properly descriptive names.
+
+Pinctrl is an exception because of how the documentation is structured.
+
+> +#define MSI_ROUTING_MASK			GENMASK(11, 10)
+> +#define PCIDEV1_INTX_MSI_HOST2BMC_EN		BIT(18)
+> +#define MSI_ROUTING_PCIe2LPC_PCIDEV0		(0x1 << 10)
+> +#define MSI_ROUTING_PCIe2LPC_PCIDEV1		(0x2 << 10)
+> +
+> +#define ASPEED_SCU_PCIE_CONF_CTRL	0xC20
+> +#define=C2=A0 SCU_PCIE_CONF_BMC_DEV_EN			 BIT(8)
+> +#define=C2=A0 SCU_PCIE_CONF_BMC_DEV_EN_MMIO		 BIT(9)
+> +#define=C2=A0 SCU_PCIE_CONF_BMC_DEV_EN_MSI		 BIT(11)
+> +#define=C2=A0 SCU_PCIE_CONF_BMC_DEV_EN_IRQ		 BIT(13)
+> +#define=C2=A0 SCU_PCIE_CONF_BMC_DEV_EN_DMA		 BIT(14)
+> +#define=C2=A0 SCU_PCIE_CONF_BMC_DEV_EN_E2L		 BIT(15)
+> +#define=C2=A0 SCU_PCIE_CONF_BMC_DEV_EN_LPC_DECODE BIT(21)
+> +
+> +#define ASPEED_SCU_BMC_DEV_CLASS	0xC68
+> +
+> +
+> +struct aspeed_platform {
+> +	int (*init)(struct platform_device *pdev);
+> +};
+> +
+> +struct aspeed_bmc_device {
+> +	struct device *dev;
+> +	int id;
+> +	void __iomem *reg_base;
+> +
+> +	int pcie2lpc;
+> +	int irq;
+> +
+> +	const struct aspeed_platform *platform;
+> +
+> +	struct regmap *scu;
+> +	int pcie_irq;
+> +};
+> +
+> +
+> +static int aspeed_ast2600_init(struct platform_device *pdev)
+> +{
+> +	struct aspeed_bmc_device *bmc_device =3D platform_get_drvdata(pdev);
+> +	struct device *dev =3D &pdev->dev;
+> +	u32 pcie_config_ctl =3D SCU_PCIE_CONF_BMC_DEV_EN_IRQ |
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SCU_PCIE_CONF_BMC_DEV_EN_MMIO | SCU_PC=
+IE_CONF_BMC_DEV_EN;
+> +	u32 scu_id;
+> +
+> +	bmc_device->scu =3D syscon_regmap_lookup_by_phandle(dev->of_node, "aspe=
+ed,scu");
+
+We should rather look at auxbus for the SCU.
+
+> +	if (IS_ERR(bmc_device->scu)) {
+> +		dev_err(&pdev->dev, "failed to find SCU regmap\n");
+> +		return PTR_ERR(bmc_device->scu);
+> +	}
+> +
+> +	if (bmc_device->pcie2lpc)
+> +		pcie_config_ctl |=3D SCU_PCIE_CONF_BMC_DEV_EN_E2L |
+> +				=C2=A0=C2=A0 SCU_PCIE_CONF_BMC_DEV_EN_LPC_DECODE;
+> +
+> +	regmap_update_bits(bmc_device->scu, ASPEED_SCU_PCIE_CONF_CTRL,
+> +			=C2=A0=C2=A0 pcie_config_ctl, pcie_config_ctl);
+> +
+> +	/* update class code to others as it is a MFD device */
+> +	regmap_write(bmc_device->scu, ASPEED_SCU_BMC_DEV_CLASS, 0xff000000);
+> +
+> +#ifdef SCU_TRIGGER_MSI
+
+I don't see that this needs to be a CPP test. This could be a C test.
+The construct would be optimised because of the constant and we'd get
+compile time coverage of both sides without additional configuration.
+
+Have you tested both sides?
+
+> +	//SCUC24[17]: Enable PCI device 1 INTx/MSI from SCU560[15]. Will be add=
+ed in next version
+> +	regmap_update_bits(bmc_device->scu, ASPEED_SCUC20, BIT(11) | BIT(14), B=
+IT(11) | BIT(14));
+
+These bits need descriptive macros.
+
+> +
+> +	regmap_read(bmc_device->scu, ASPEED_SCU04, &scu_id);
+> +	if (scu_id =3D=3D AST2600A3_SCU04)
+> +		regmap_update_bits(bmc_device->scu, ASPEED_SCUC24,
+> +				=C2=A0=C2=A0 PCIDEV1_INTX_MSI_HOST2BMC_EN | MSI_ROUTING_MASK,
+> +				=C2=A0=C2=A0 PCIDEV1_INTX_MSI_HOST2BMC_EN | MSI_ROUTING_PCIe2LPC_PCI=
+DEV1);
+> +	else
+> +		regmap_update_bits(bmc_device->scu, ASPEED_SCUC24,
+> +				=C2=A0=C2=A0 BIT(17) | BIT(14) | BIT(11), BIT(17) | BIT(14) | BIT(11=
+));
+
+As do these
+
+> +#else
+> +	//SCUC24[18]: Enable PCI device 1 INTx/MSI from Host-to-BMC controller.
+> +	regmap_update_bits(bmc_device->scu, 0xc24, BIT(18) | BIT(14), BIT(18) |=
+ BIT(14));
+
+And these.
+
+> +#endif
+> +
+> +
+> +	return 0;
+> +}
+> +
+> +
+> +static struct aspeed_platform ast2600_plaform =3D {
+> +	.init =3D aspeed_ast2600_init
+> +};
+> +
+> +
+> +static const struct of_device_id aspeed_bmc_device_of_matches[] =3D {
+> +	{ .compatible =3D "aspeed,ast2600-bmc-device", .data =3D &ast2600_plafo=
+rm },
+
+This compatible isn't documented in this series and isn't present in
+linux-next at a87737435cfa ("Add linux-next specific files for
+20260608"). You'll need to address that if it's reasonable to continue
+down this path. I expect you'll want to avoid it, and define any
+necessary properties on the SCU node rather than add further children.
+
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, aspeed_bmc_device_of_matches);
+> +
+> +static int aspeed_bmc_device_probe(struct platform_device *pdev)
+> +{
+> +	struct aspeed_bmc_device *bmc_device;
+> +	struct device *dev =3D &pdev->dev;
+
+This shortcut is defined but inconsistently used.
+
+> +	const void *md =3D of_device_get_match_data(dev);
+
+I think we can do without this, see below.
+
+> +	int ret =3D 0;
+> +
+> +	if (!md)
+> +		return -ENODEV;
+> +
+> +	bmc_device =3D devm_kzalloc(&pdev->dev, sizeof(struct aspeed_bmc_device=
+), GFP_KERNEL);
+> +	if (!bmc_device)
+> +		return -ENOMEM;
+> +	dev_set_drvdata(dev, bmc_device);
+> +
+> +	bmc_device->platform =3D md;
+> +
+> +	bmc_device->id =3D of_alias_get_id(dev->of_node, "bmcdev");
+> +	if (bmc_device->id < 0)
+> +		bmc_device->id =3D 0;
+> +
+> +	bmc_device->dev =3D dev;
+> +	bmc_device->reg_base =3D devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(bmc_device->reg_base))
+> +		return PTR_ERR(bmc_device->reg_base);
+> +
+> +	bmc_device->irq =3D platform_get_irq(pdev, 0);
+
+This seems unnecessary.
+
+> +	if (bmc_device->irq < 0) {
+> +		dev_err(&pdev->dev, "platform get of irq[=3D%d] failed!\n", bmc_device=
+->irq);
+> +		return bmc_device->irq;
+> +	}
+> +
+> +	if (of_property_read_bool(dev->of_node, "pcie2lpc"))
+
+This property isn't documented.
+
+> +		bmc_device->pcie2lpc =3D 1;
+> +
+> +	ret =3D bmc_device->platform->init(pdev);
+
+The driver only supports one SoC, this indirection seems unnecessary
+right now. We can add that later when there's a need to differentiate.
+I'd rather you call the setup function directly for now.
+
+> +	if (ret) {
+> +		dev_err(dev, "Initialize bmc device failed\n");
+> +		goto out;
+> +	}
+> +
+> +	dev_info(dev, "aspeed bmc device: driver successfully loaded.\n");
+> +
+> +	return 0;
+> +
+> +out:
+> +	dev_warn(dev, "aspeed bmc device: driver init failed (ret=3D%d)!\n", re=
+t);
+> +	return ret;
+> +}
+> +
+> +static void aspeed_bmc_device_remove(struct platform_device *pdev)
+> +{
+> +	struct aspeed_bmc_device *bmc_device =3D platform_get_drvdata(pdev);
+> +
+> +	devm_free_irq(&pdev->dev, bmc_device->irq, bmc_device);
+> +	devm_kfree(&pdev->dev, bmc_device);
+
+These are unnecessary due to cleanup of devres on release.
+
+Andrew
 
