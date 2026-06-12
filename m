@@ -1,65 +1,95 @@
-Return-Path: <linux-aspeed+bounces-4248-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4250-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id IqNXFgi2K2oKCgQAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4248-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jun 2026 09:32:24 +0200
+	id Za4CLIu6K2qYDQQAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4250-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jun 2026 09:51:39 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776446773E0
-	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jun 2026 09:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98E3677714
+	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jun 2026 09:51:37 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=codeconstruct.com.au header.s=2022a header.b="SB/fmF/U";
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4248-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4248-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=none) header.from=codeconstruct.com.au;
-	arc=pass ("lists.ozlabs.org:s=201707:i=1")
+	dkim=pass header.d=9elements.com header.s=google header.b="ZElaZLm/";
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4250-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4250-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=quarantine) header.from=9elements.com;
+	arc=pass ("lists.ozlabs.org:s=201707:i=2")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gcB6s1H9gz2yhY;
-	Fri, 12 Jun 2026 17:32:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gcBY342cPz2ykX;
+	Fri, 12 Jun 2026 17:51:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781249541;
-	cv=none; b=JXlgVhdQEK+YTd8AmHdrP34CHUXsSqQ4Zw8dOktqLt6xwQvoTn1T3AkRHOaO5L8mLcR3ZU1B0rukvzzMtiHtoIvBdTEgfYT13OSm9Gg+C2nsVIlzL3JwotjLepS7DI0nb9/hO1Oo700Nmyk45k+/+Ys+z7a5aVL0ZTEcFrdKjI5wXnILLNfBeNOGlRj7czsaRMVKT4rd+YSTZJ2sAggNvp2GXqpefBMPIHTLb0M8O8poOF5FteA94nS/mfXI3R90GvsLOCxHCIHlL27wKZJMMbyriJM5TkU7yt7dtweWmk0UC4PVtc0Vx3LrOqJ0IzR3z9s85ccXgGmYfLa6gXRkbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1781249541; c=relaxed/relaxed;
-	bh=M6dhvhvt0XbgvJ4MiXah8HcXTJRguTuta/3Cu0D1xfk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Tj1Ll2fc2HFWLea/QOHg3DV9A3IvS6KP+9u4hCvdW01nBEh7rvZBMddH2I/3x6rzwBm97JmFegLaghxx6teFDixHwDSs1lKCNdwS/gR25vxO/5jOkpLuPAn3mT0YJvk3pXfaF5FPy/sYlNs37VU9ZPj7+6GYWdV6UJh2WRiTibUjDMSejc+VoTcXFP7TI2i2OHnYhQL+A1KszUrbLKTVkmWUqagFOCEsINBJSQikD9/NXUxeItkmBydoAtEBD8Z5sQmcEtPVRFtuC1sDBtc3BXCVBdEcovj02BU7no1XoMC43CQHAXsz+XNZwtXwYDcA5qfSKeuPPL8nc8ZR6jx3IQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=SB/fmF/U; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781250204;
+	cv=pass; b=b0HWGHkymm6SX4BaXHSgKYMelfIdvSd2nvWAWjQkFiLcvHK7Jy+iPdUbFJYVaV/WDSUhzP1ZUms50gz6bdE3O6RoPOMwwLmsPCVDdzMjTpPwuGaiwrxQU124/5TbL20kBxw0NTuj7o8i+/KmsRn7yonbmZL7hyi/SY62nlVRLQwTC6BgWQ5aRMr8btWHUrYGSL/93ODn8U8x+cfOCEzjlGYUPvYVV32ZNfnYaQfipFZW0l4fI4yxCTZwNo1Ob0msDyyiIEHwG3+7gWKxiFpBDFmDa/UFyL2kNANoQJqziWTxGDoDrFX03aY2ymBtrL3Qd9aNuTXRAVA+TkQu5cTRcw==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1781250204; c=relaxed/relaxed;
+	bh=O5MzBBKZchkzfVSxnBOJAXhJ2T0QrM0FYAnwLYi+8eM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cpK2ASVUdpAtJ7uDQiTTVtuoPFiHl352pBDj0q9h4Kwp5P2/DaN9exR8hwoD4+79y+93UbsMsFCnmbfEr6M3+tPF244qf0wstUtEDAdAE5xMYb/nkmmwE1JGaPzBVrXB2gRETILIUhsOqVyPSzSYr3SePJ0fgScbNEsdvroKSFtDV71K2QFO24phMwna4kDMob/Ja/Cgk82HqVce8AXCFGeiTuUEPeLCZZlhpfRU4fNJ/84ovV49c2VdyQRR24OyMooElwf10Q2ykfljA85Pzl2avqLJMjR7HoTmWgK/X1MY0RI0A17Ec6ltZMX1o8Qe3Nh8lA+Zpvy/PYaedkyXLg==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=ZElaZLm/; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::434; helo=mail-wr1-x434.google.com; envelope-from=gregoire.layet@9elements.com; receiver=lists.ozlabs.org) smtp.mailfrom=9elements.com
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gcB6r3KcTz2yd7
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jun 2026 17:32:20 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gcBMb2g76z2ySC
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jun 2026 17:43:22 +1000 (AEST)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-460166910e6so317607f8f.2
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jun 2026 00:43:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781250200; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GSh+ONmH2Aj1TMRVhTAUKBnJENxDBV27ixHH5/qIfp/oYjxwF4xGbeqFsEu621x7IE
+         oPAa9do8ZxZgt7mhEGw9Sw9ar+3BlBkcG//lxfcJO4Bpoup+hYCv+2rA2TYVXBUUdFOn
+         ds9GLaxZd1DaNLGSGvLEgtVcLq4tTCDNEWDDqg3Ad4TXNRq365suhLCsFKYOuntfZdLK
+         5wTj/tf5BykSNT9f1qrpeCbQQAtuqDSS4RnwfiammhGOsfn/zLl5OF/GqBDGqCcDS7vu
+         +wUtyKBuLxUeuo6dvnSlxyLOuAxYOGqmdlLyFj2QEFjiJk9s/iSIudKolIFQhoKdsPPt
+         l0Gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=O5MzBBKZchkzfVSxnBOJAXhJ2T0QrM0FYAnwLYi+8eM=;
+        fh=lVxDyFQxr+rY+EhN9kjBJt1/CIByJKuUaCfLa9heGiw=;
+        b=JynnsAsQX2q3gp89gtP/pfManMPZ94T0cf+YEBn7UDPmMmrrDtvAC0zmWmHSpfVOK6
+         j8ssMAQMlJUwTXPOex8N9dUUtM/AbESmv0mNR3Xg38JXlP1/AfA8t+j//ONkKnx58hgB
+         /708WgWf7s0g33wIjPBwczwtnKrpTuOdLDJyUqMcfkXrNR0sP7R2VzbU+THJUhAQWAaQ
+         HJ7FV4WlzZkrZOWBZN0EnUzNdo2pLqv8dAnAtuzKYd5l3GvR6CK1kYZmzb69+AEg567R
+         94xC93o0ji+6kcbt8i9SRQLEtq6p+k5Hk12YbRP93vLJ5dki9If9g6D6WQCwJza6WxQX
+         5TyQ==;
+        darn=lists.ozlabs.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1781249539;
-	bh=M6dhvhvt0XbgvJ4MiXah8HcXTJRguTuta/3Cu0D1xfk=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=SB/fmF/UtpDABvxWo6CkMbOQiVJgrTCJ+PgUHfhT9n2Q6wdkGrGmoPR41KZYXVcmK
-	 5GleojLO+whw8ZTjaCgkn+t3/2tdalhZaqEoDZZLkzLYFoBv1B8+0w3mkF7DjIxF84
-	 4Djxk5Vm6hqpANJ1Z2ApD6AKiqk8/THeCsPJc3BTJAQDPu+sE/Y4wblmGap3TNvjlj
-	 oO2mIhH7qlMCz+jIKB//L+bxPABiE50Erw7flw+qqD9pjHEaExY2qSY6HEe/q5nER3
-	 3ZCpWszBKUH9wvaxqdNYD/paemGjIcsZZiQaZWRhFkJ6LD/C+YB7jVednY98G+MM84
-	 EuhRD1Ycjov+A==
-Received: from [192.168.68.117] (unknown [180.150.112.11])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 6FA2860931;
-	Fri, 12 Jun 2026 15:32:19 +0800 (AWST)
-Message-ID: <e865e2e71a39c86a8afb6af49d9ebcf6839a9a2a.camel@codeconstruct.com.au>
-Subject: Re: [PATCH 1/1] ARM: dts: aspeed: g6: Add AST2600 pwm tacho
- controller
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: =?ISO-8859-1?Q?Gr=E9goire?= Layet <gregoire.layet@9elements.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley	 <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Date: Fri, 12 Jun 2026 17:02:19 +0930
-In-Reply-To: <20260612072341.278591-1-gregoire.layet@9elements.com>
-References: <20260612072341.278591-1-gregoire.layet@9elements.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+        d=9elements.com; s=google; t=1781250200; x=1781855000; darn=lists.ozlabs.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=O5MzBBKZchkzfVSxnBOJAXhJ2T0QrM0FYAnwLYi+8eM=;
+        b=ZElaZLm/rungARPvjWHQsXq+2mjP5SOc/mCdFJ1NqsfLC31knj/Mtu/U+/nyUNIhFZ
+         mNlCtec8aMwEV8zwY2Iis99yOwBsZrzzndYfehkgKLI8hGeIuN1ZIRtivfx/5XAxEdPO
+         RMnmZANYTFUXuDPTRrtESjgQurpo99L6rXeGs1dID6DTt9bu81n+CTCcNWIy9BSaqqZ5
+         1KomTC5Eu35ryAjsAr0/F9OEczs1Zwt3iadbgfyv9aU8pJbwQszE6pGd6msPCaLqy76E
+         WQf55lhxKbRj3yK3UO4Qqn7yJUOwqfqhBzcK0UEu56g7/GXH6S40XAj8f+Wcg2AeoH33
+         j9vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781250200; x=1781855000;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O5MzBBKZchkzfVSxnBOJAXhJ2T0QrM0FYAnwLYi+8eM=;
+        b=fNdmEnLx7iN2htMJCNxkCc3++H8g75ajcks4W0kgN17sleNHes1YawtFdLQfnZKU1N
+         YYPWV0maLreafmg1GJOqXlQ29E3pWYLttPFgnaUQseYMVW6Pqt1sj0n26huM/N4FGdyX
+         hOeyr7mSvm5RlbRWF+jrDEY/6pzriWs/krBHENYz/FiNG7ZdvZNeSsULklLKw9W1zw+K
+         FcsmjCgy+MQkaRzTo5oaA49M3JVSsZwPkRXIDY41IIZQ5uHT1HRH4j9Vq0GJ9gaExiKy
+         JvxceZc4Je6bR6+BC5f3An45uMoSB0/vc7fkX4LAXSBVLN4fG1CyV2s4gnFL2oE1mYCY
+         xa4A==
+X-Forwarded-Encrypted: i=1; AFNElJ8AiIqMdbahP05kfVd+szHiB+3HqzEFWbD0ShunJlrJ3FpsPF2HejO031BPZyNi9/XRwT2gVS21RnmGGuY=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YwCIjGN32fMRxF4YkFQufbW9MYtbo0N43/RGWM/z1+qEHdh2N41
+	YE/B7MlO2vqG7e19OrwqugkxngbpdVZVN7l4ajYk1rOiXmJa8Tubtfg0VwrZ9hfAE2348gGiaJ+
+	PAeVp05B96xtpzkMBbH5FgeRGXLFVCTdQRKHHpnNyoQ==
+X-Gm-Gg: Acq92OFFh6HcXpMGcBpwSVa71d0OrRbhc1V/PK3oBmQtflyqUpN+dUMRTUHe6ynUAB9
+	lyuTja0pXZMxthWxihi22fmB2bO3yHnHe+ZjqqXdivRnfa9zpgChfcKcrV5gwODnSnJ+qswszBX
+	6xLXnME1oq3X2U/wHn0eOuF3AwWQjtnOIBTOKno/vpNYeOGFiEpGCpOHBZ9IU35YF+CS8yO5KW/
+	Zk6yzgcF/Ch9zIQvUUVQOI46GWwpLexcL15dwO0ZE0NstbEjB+IY0jWw8bYJx0Hwgp5n32tfdI4
+	5qmlajpBG5Hm/bDdq98AfFgoOJRFIE65Th6Ga0UlqtFcy0UQY4ePRWzpmzDAvxxKPZsV
+X-Received: by 2002:a05:6000:290a:b0:43c:fc5c:a9fe with SMTP id
+ ffacd0b85a97d-4606dba4105mr2253784f8f.20.1781250199806; Fri, 12 Jun 2026
+ 00:43:19 -0700 (PDT)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -73,86 +103,60 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
+References: <20260612072341.278591-1-gregoire.layet@9elements.com> <e865e2e71a39c86a8afb6af49d9ebcf6839a9a2a.camel@codeconstruct.com.au>
+In-Reply-To: <e865e2e71a39c86a8afb6af49d9ebcf6839a9a2a.camel@codeconstruct.com.au>
+From: =?UTF-8?Q?Gr=C3=A9goire_Layet?= <gregoire.layet@9elements.com>
+Date: Fri, 12 Jun 2026 09:43:08 +0200
+X-Gm-Features: AVVi8Ce5W6VsTL5wvIhDV4g3cp0NVrtH0vt8cfJM9zmJ1mlbq7raAsaetjYBOEQ
+Message-ID: <CAFi2wKZE_m_xeggqKa=HxwaSuC2qMYNiBz=TjPgbX7BhQPyO5A@mail.gmail.com>
+Subject: Re: [PATCH 1/1] ARM: dts: aspeed: g6: Add AST2600 pwm tacho controller
+To: Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[codeconstruct.com.au,none];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[9elements.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[9elements.com:s=google];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-4250-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4248-lists,linux-aspeed=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_SENDER(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS(0.00)[m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[gregoire.layet@9elements.com,linux-aspeed@lists.ozlabs.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:gregoire.layet@9elements.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gregoire.layet@9elements.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[9elements.com:+];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[9elements.com:email,codeconstruct.com.au:dkim,codeconstruct.com.au:mid,codeconstruct.com.au:from_mime,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,9elements.com:dkim,9elements.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 776446773E0
+X-Rspamd-Queue-Id: E98E3677714
 
-Hi Gr=C3=A9goire,
+Hi Andrew,
 
-On Fri, 2026-06-12 at 07:23 +0000, Gr=C3=A9goire Layet wrote:
-> It use the existing ast2600-pwm-tach driver.
-> Placed according to bus adresses ordering.
->=20
-> Signed-off-by: Gr=C3=A9goire Layet <gregoire.layet@9elements.com>
-> ---
-> =C2=A0arch/arm/boot/dts/aspeed/aspeed-g6.dtsi | 9 +++++++++
-> =C2=A01 file changed, 9 insertions(+)
->=20
-> diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/=
-aspeed/aspeed-g6.dtsi
-> index 189bc3bbb47c..818d486b94ac 100644
-> --- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-> +++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-> @@ -102,6 +102,15 @@ ahbc: bus@1e600000 {
-> =C2=A0			reg =3D <0x1e600000 0x100>;
-> =C2=A0		};
-> =C2=A0
-> +		pwm_tach: pwm-tach-controller@1e610000 {
-> +			compatible =3D "aspeed,ast2600-pwm-tach";
-> +			reg =3D <0x1e610000 0x100>;
-> +			clocks =3D <&syscon ASPEED_CLK_AHB>;
-> +			resets =3D <&syscon ASPEED_RESET_PWM>;
-> +			#pwm-cells =3D <3>;
-> +			status =3D "disabled";
-> +		};
-> +
-> =C2=A0		fmc: spi@1e620000 {
-> =C2=A0			reg =3D <0x1e620000 0xc4>, <0x20000000 0x10000000>;
-> =C2=A0			#address-cells =3D <1>;
-
-Thanks for the patch, however:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/bmc/linux.git/commit/?h=3Da=
-speed/arm/dt&id=3D6cf976b2728f2494215c51c7339dd50b154125ce
-
-You can also find the commit in linux-next.git master and soc.git
-soc/dt, queued for v7.2.
-
-Andrew
+Too bad, I didn't looked at the right place.
+Thank's !
 
