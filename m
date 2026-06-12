@@ -1,62 +1,93 @@
-Return-Path: <linux-aspeed+bounces-4247-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4249-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id AZRgKX+vK2plBwQAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4247-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jun 2026 09:04:31 +0200
+	id jbTzL2C5K2qFDAQAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4249-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jun 2026 09:46:40 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 741DE67717C
-	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jun 2026 09:04:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC7A677623
+	for <lists+linux-aspeed@lfdr.de>; Fri, 12 Jun 2026 09:46:39 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=lunn.ch header.s=20171124 header.b=PUjiF3GO;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4247-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4247-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=none) header.from=lunn.ch;
+	dkim=pass header.d=9elements.com header.s=google header.b=bxyJfeqk;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4249-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4249-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=quarantine) header.from=9elements.com;
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gc9Vg0MfVz2yhY;
-	Fri, 12 Jun 2026 17:04:27 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gcBRK39P0z3bqh;
+	Fri, 12 Jun 2026 17:46:37 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781247866;
-	cv=none; b=NRV/KQnDCZvVylpbqMLITEklbqQ3OAsQo4ntCFOlAbHvqhrO5rfqRvolV4DllECGqaeqMMcqqs201D7SGXwUEnam3GIyrSiEnk8g4D83WWKh6q6DSoXRkP5v+ty+4N47XLNZ3GZ5GrdNN/mFNIYGLvYp132414f+s19LVbLWK0+VNF8bmt/Qz1/sWj0kMJyYdFGTvp5xWrOD/iqds8jG4WUPtIqhKiBHCx7njK1nUKhXmSFW5wv+2/iMYwAmWCo7IBNEmP6EXoq8d6xV+H0VgIXmGJNCXJv2rUMPL+cO38cI0hNKoM5UNn7x7upA51lCA1rdNYHnWwdIS/bSko/2Qg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781249159;
+	cv=none; b=mceDKPb3YLqegkt5IHVGkUP3sknvfuttZHTt59s123KYLoYKORurZKTYstLp8Tde6VgMaB6SaIbz/esSMotXxRZjyN8yrAQovOg9CjQQEaa0y0cxIZ/OmVxD/Mi/U23JoBwlfgx9sM0dEc6ufEmgxdIreuFi4CESNJ+LMV6siePkYqC2H3BHqu70zA0rtx4Af3DoPA3tSr7utj0LwWUhkzE8PStKAADROGSCJ3k23bjq2TC6hjtPKJSCQCO6LjA410ywmaV3DODwF75DTUi543e+XgWJ9n+MYxLC2BiRD/ITXu01dNq9p1hZ4jcPEygrlmqksKx13gwNq2HwpQqJtg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1781247866; c=relaxed/relaxed;
-	bh=q58Br9cyLJr5mgSZSCUbf47rrGbOeR1q3kZq91cin4k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T3CFAETC2IO5N5NSqioMQ2dAHGRJG1T3U+meXtAMu2elR4cD3pIqI1OaqxdPmuB7HyeIHWnvo5nDiFfKHwhejRsoaSgBh8Xqv0PmjzSNEWss6ZPtrT4Zd+waRnfCnKylbOhKZUi33zXXtIMP+0UVUuTeCNKsfHrVvfjNiozZXPnbZ2t9jroyGpAFo2BOH/KVVkIq2Ds5tSliQJ8DpcZp3hq7emgVHktw2PxTozFQrLMwBjYBGQg03nOt8ZOwAQAR7Wsa0T/U/G3xaRNJfkvK/xbe7imdsb6Wk/etVqFwiBsCWWbpJsbxl5A19wSWg86fYk4tuh37LHzVZGqgJtD4Yw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; dkim=pass (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=PUjiF3GO; dkim-atps=neutral; spf=pass (client-ip=156.67.10.101; helo=vps0.lunn.ch; envelope-from=andrew@lunn.ch; receiver=lists.ozlabs.org) smtp.mailfrom=lunn.ch
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	t=1781249159; c=relaxed/relaxed;
+	bh=l7EX7vcwLIGLkhcOTF+L2EBQ6wXAup12KuoUfnu+n/g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lLXdY3o9Wva2vq50pLyp3XZ9GEqqD9BKynM/bui9QFpXk/LcCvV4iaIDdJWa1ieGn4cjSMMUk6ilPSR1BhOV7gW/P8j3PauQa+bAjCA8jMhuKH5Sm6uXXITLFeqM4X9T0tO+zGPmcrNqTMsmrKtTvwRWjie2LbQs774kGKxrMcBfjnr30uq56pIKMhPdSyjlp9xx6bQofn9JrWUIqu237VRqznozI4n27IkXPD9+1vG5Bf8+ZPEX0BBLb1vRJ30V+bgykql+Sd3aOTU1YPZlgBl6Mmzg0uXVF1N8pMosbKstIM9gEe3LD+Bkhm1CU1W5fX4WBLn+I6vhpi4yxrZ08g==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=bxyJfeqk; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::32c; helo=mail-wm1-x32c.google.com; envelope-from=gregoire.layet@9elements.com; receiver=lists.ozlabs.org) smtp.mailfrom=9elements.com
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gc9Vd3NQhz2yd7
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jun 2026 17:04:24 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=q58Br9cyLJr5mgSZSCUbf47rrGbOeR1q3kZq91cin4k=; b=PUjiF3GOr6Sl8D4so7fIzjcB+7
-	OOOXo2iv625TlpqzdjbMa6VMNyHE9ZxEkdpCpzsFqTK1DAH1jNFm79ShgwHdJyo7rlQT0jumOuZF2
-	k6xtgbdqNa3y1M5Wm2QynafcicgKD5tCbXb7qXSTPt32rkoOfRjMAz3uOc/So+PxtSjs=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wXvw1-007I5V-7v; Fri, 12 Jun 2026 09:04:09 +0200
-Date: Fri, 12 Jun 2026 09:04:09 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Kyle Hsieh <kylehsieh1995@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 2/2] ARM: dts: aspeed: ventura2: Add Meta ventura2 BMC
-Message-ID: <1b10c279-bdb7-4901-aa40-bca36dcec350@lunn.ch>
-References: <20260611-ventura2_initial_dts-v7-0-a61d8902bc5f@gmail.com>
- <20260611-ventura2_initial_dts-v7-2-a61d8902bc5f@gmail.com>
- <843dc0ff-a504-4237-b0f4-d92be07e2465@lunn.ch>
- <CAF7HswOi3fPMFppPoGmh0QELiPz4Po4cyWuDrEHLY2vNMyKE9g@mail.gmail.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gc9zV1KVtz2yd7
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jun 2026 17:25:57 +1000 (AEST)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-490b3e03939so5426305e9.1
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 12 Jun 2026 00:25:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google; t=1781249153; x=1781853953; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l7EX7vcwLIGLkhcOTF+L2EBQ6wXAup12KuoUfnu+n/g=;
+        b=bxyJfeqkP6RwSmQbM5Kw+A8VtBa0MZwkGXPuivRQwm/7u32gOdP4wl7Fu7nd8tMDw3
+         Hf7EB0LGvM7TQOs3Vzo5EAkyEr6oosITCH92WIY1JYD7BqF/KFdHD02hs6KuQHWhygOn
+         Hw5XIQkuA4yoP2a6FPsuw1Cwd42DPoHNo2p43Db0dln6Qp7WolQO9E8IuZexmHqAKgQf
+         UVqbskTKGHnD5WgyIyUKwTdKLWzI+TK9ZMtUZlt790u2DZCZ2CN/68UrAU7lKueSLtQ9
+         sW4r+/t2jetlu8cJhQw8I19zlm0n68a/WttwgMObwo9Tm9YxCrR940FsYIaLlZISVFs1
+         MQZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781249153; x=1781853953;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l7EX7vcwLIGLkhcOTF+L2EBQ6wXAup12KuoUfnu+n/g=;
+        b=Wlde+ezZGMyIYfZn29vs0HLwTcn4o8uJaQIkPw184ML6grm8Z8zV22koGfLJb3EZiX
+         1B2Ec1D1tlgA15ljeKrMSJsTixDxV7qvx5ZgVi7Dot+MUARp1gKu2vVfyLW+PttE0bFH
+         PXBp9NePOXQFCH00T3AYHETxOC6pr7+D9Qdficf3kIUUTIljMZKrK+RvPvR3lG1+8mvf
+         AbJ+9kFj1bDiRPO2An9ut8v3TZ7/wOmMGpJdE3ND1yz13fluMdD9nbI3bdbNEFhJ1zPX
+         q/W8SoGyS4lN5/FbvY7YQZFMASAL+C/3Vq/748ZYTB8/VWElyL9udb+dY4xMVeT+GtYq
+         ycug==
+X-Forwarded-Encrypted: i=1; AFNElJ9J0BKC342HyHAZSc7A1dDvkdDcteLut77lCzihYU1OGY6hSuRzW+I0IKAqKXUAjk0a9TcXezWUn4hB6vM=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yz3K+A1UmyDYiVj61CLrGSQRRgQjKRYjON/CukajnI3NV6a5fzH
+	GZMZxKNlNULxrB+vRgMCNhGP3cfNthmjcKPyIMvXrEU5c3YsXiyZ6J+YOO4SrhsRyZo=
+X-Gm-Gg: Acq92OG+K1NVULCkFSvAwkqfer5YX7Q0TUjUIQD2gTVoX8TLKzlWj8z1+YzKxSFIBUd
+	S1gL7Q9wV1jk6GlQzjhMe/y1VbSJs4AKx9movyHjSSiak7EY16i9vbCwXnkX2xW76urJeDNVyAq
+	DUjEydDT+GAcDKVcZR74ccif1p176deQysIN7IeVqS4QQDZDa4GUBrEApYYOI6NSOBpITJLjWA+
+	hfoXLngCSONPNhxn6me1l+ztTfz7WVEcbaoIPTF2j8r9KsgFFggn+MRvFmc1mss2TraL3lAkFl/
+	nbbx+RR13cx/yYStHo6T2oCuBre4jd7hZhcIBTsHU6HFkdbO4ov/QzL1V09CJbIUOcDYIVhGsAv
+	KCE6e16eOz0SBs2lwtTNUU4CrHWse+OWzCUeeUkKI+U2UW92c9ARW4I2xwIj6K454NVGNjGFNnQ
+	x5HrKGpmOutWo9sZoZG/i4f0GDUdLtHOWVB94tbWSq0MAWGqglfChbWwhjDPHtllHzCNPdp1YCj
+	Ks92UoGdUiYY141ZfNXzZN1AjdkqWpYovsUMiU=
+X-Received: by 2002:a05:600c:5010:b0:48f:e230:29f4 with SMTP id 5b1f17b1804b1-490ec4e1c7amr13862745e9.15.1781249153014;
+        Fri, 12 Jun 2026 00:25:53 -0700 (PDT)
+Received: from gregwork.sec.9e.network ([188.111.3.154])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490ea83d8f9sm47864355e9.9.2026.06.12.00.25.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jun 2026 00:25:52 -0700 (PDT)
+From: =?UTF-8?q?Gr=C3=A9goire=20Layet?= <gregoire.layet@9elements.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: =?UTF-8?q?Gr=C3=A9goire=20Layet?= <gregoire.layet@9elements.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] ARM: dts: aspeed: g6: Add AST2600 pwm tacho controller
+Date: Fri, 12 Jun 2026 07:23:40 +0000
+Message-ID: <20260612072341.278591-1-gregoire.layet@9elements.com>
+X-Mailer: git-send-email 2.51.2
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -70,57 +101,77 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAF7HswOi3fPMFppPoGmh0QELiPz4Po4cyWuDrEHLY2vNMyKE9g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [0.29 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[lunn.ch,none];
+	DMARC_POLICY_ALLOW(-0.50)[9elements.com,quarantine];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[lunn.ch:s=20171124];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_DKIM_ALLOW(-0.20)[9elements.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4247-lists,linux-aspeed=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-4249-lists,linux-aspeed=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:gregoire.layet@9elements.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[gregoire.layet@9elements.com,linux-aspeed@lists.ozlabs.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:kylehsieh1995@gmail.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew@lunn.ch,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[lunn.ch:+];
+	FROM_NEQ_ENVFROM(0.00)[gregoire.layet@9elements.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[9elements.com:+];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[9elements.com:dkim,9elements.com:email,9elements.com:mid,9elements.com:from_mime,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 741DE67717C
+X-Rspamd-Queue-Id: CBC7A677623
 
-> The EEPROM is physically isolated by a hardware I2C multiplexer.
-> By default, the mux connects the EEPROM directly to the Marvell switch
-> for its routine operation and configuration loading. The BMC's I2C bus is
-> physically disconnected from the EEPROM during this time.
+It use the existing ast2600-pwm-tach driver.
+Placed according to bus adresses ordering.
 
-I think some comments would be good. It was not clear to my how this
-works.
+Signed-off-by: Grégoire Layet <gregoire.layet@9elements.com>
+---
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-	Andrew
+diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+index 189bc3bbb47c..818d486b94ac 100644
+--- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
++++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
+@@ -102,6 +102,15 @@ ahbc: bus@1e600000 {
+ 			reg = <0x1e600000 0x100>;
+ 		};
+ 
++		pwm_tach: pwm-tach-controller@1e610000 {
++			compatible = "aspeed,ast2600-pwm-tach";
++			reg = <0x1e610000 0x100>;
++			clocks = <&syscon ASPEED_CLK_AHB>;
++			resets = <&syscon ASPEED_RESET_PWM>;
++			#pwm-cells = <3>;
++			status = "disabled";
++		};
++
+ 		fmc: spi@1e620000 {
+ 			reg = <0x1e620000 0xc4>, <0x20000000 0x10000000>;
+ 			#address-cells = <1>;
+-- 
+2.51.2
+
 
