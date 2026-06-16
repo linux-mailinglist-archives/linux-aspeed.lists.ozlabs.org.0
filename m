@@ -1,66 +1,54 @@
-Return-Path: <linux-aspeed+bounces-4259-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4263-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id WXq0MeuWMGosUwUAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4259-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jun 2026 02:20:59 +0200
+	id T0BvFIfGMGoXXQUAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4263-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jun 2026 05:44:07 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D906868AE55
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jun 2026 02:20:58 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A12568BBB4
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jun 2026 05:44:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=codeconstruct.com.au header.s=2022a header.b=eC2tXB7y;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4259-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4259-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=none) header.from=codeconstruct.com.au;
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4263-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4263-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gfSMD4pcWz3btJ;
-	Tue, 16 Jun 2026 10:20:56 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gfXsb5W6Gz3bwX;
+	Tue, 16 Jun 2026 13:44:03 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781569256;
-	cv=none; b=m4/WePHvT3P7A7u/+BrCVQvnrhpqPYDY6sJvofvPhDbGn8jtpEXpurDCAQT0FWAa6VggiGcRhfafYPMlwsffqK0GsdPCC/9Pd7I6iZ4ecVaVF0TtIxLQc8zYyg2f/x/rMeH921e3hH6tx5pgZ7WuBKFmYPw9MF84ObsurJSozJCjghFq80l45tTvP1j82mkg0Hosd0o/9UQpnV+BDrEggEEdDK8gmlp3anGnwonbVIeZatHj4KdMvi+qvqd8y14RVc7D6VlV3z5ORPt5VMQV2mEHyGrmU4+Trv5khdyesxogiVZHgH1Gj8k2blphzjt28Unf+8/TxCKsVEHoCwZuPw==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781571017;
+	cv=none; b=GG6ODH50mNNxCzYfC1G6boPc3HqOkVe7s09PjlhY6hrjo3wQ6uOQl78Kf++204Z3ZLj799BMAthQuzQYq0/xN4B4qwKShAQQiw2DW1d8GPUJxSeqZ6S3kgirCp2l5qH7FXNooVkOz6VLF9Vmsux/MnVtwBxygMe4rbk6bGsy+1jhcO8+G8jBIbENSlxyVW57uHpkbkmZNNwcUG8IkEilsmycHiKnqhKMGZm78zd/xD806+mdH7RQDzF4tFYVMrxF6QWP+ce4m+XTYE439ZQbCZhHt2EsSiY/9CuQx/YP5sWG0OfpNRbxJLK9p4raQc5WhFuwu0aE2nD1/n0kx3LUPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1781569256; c=relaxed/relaxed;
-	bh=wEKDV+rvEzW/GsX9IMLW4VBOK/SLwUy4xNVC6Yz+6Fs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hZD1vMcnSEAIxOerh4tKGrQnRn5MNX5IlkgWGDbySpnqjMoeLWWjsO0IeHK69D7XUHzxC0X1RtNhxlCfCmV+DjRV0SlcnN23mKh1SBmBiQQ4rs/QBAwhGScGdy0G5vWDxGqz2afE+M84jO15BZey6sWNTVkjndoov/aeNi9dlcuxHdfLOJfFpFCCpp/pryN0T72I9ZJz2KuKAYbAywGoypFATpgC0T7Hk+IrA5WXIKWpvMfzdXDp2eUu9oat4alTG7necHgw3KyEXCzrXFFEG1mebj/+PvQtjnhEukRJwHZ87a/boiS1/Ra/1ISAYhoHWurDaJgqCTwqynslakr/0g==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=eC2tXB7y; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	t=1781571017; c=relaxed/relaxed;
+	bh=pZMBoFnXpmUC1rIKIT+HBdkKzCMsXIIlT8I1N8o5El8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fieuh/KaX3p7q4dNlfvW9rMSb1Ul8Dmr5cZgvxmtk2VljTbfnB5VW9vw6GpGa8dvhSbwwz4dJQEcJmtrMPprzNHX8zFMZqCXJtME2VqWK0Ndsh2cbVnF3KCAFEQLojKyoGmf6dYfpvcYlMr7V50t75zBsbmisEb6xdLNJS6sB4iLlrQxXKH6VINwfdOJVYusp+80WxRBWKIxzaEY9/qTB1Bmblq5FeBIUr68bwFqz9WGyrO3ggw0AnEXIVcRAaYMm7/mw9JnLcNWjkZzBDZNDxVg2PtbYafzmhM1pB7V0Fe71jxUvP7/0b2S3G0L9CWmqyYU8rz79eD2xhKZnYJ7Qw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass (client-ip=159.226.251.81; helo=cstnet.cn; envelope-from=pengpeng@iscas.ac.cn; receiver=lists.ozlabs.org) smtp.mailfrom=iscas.ac.cn
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gfSMD1bdcz2yZZ
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Jun 2026 10:20:56 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1781569255;
-	bh=wEKDV+rvEzW/GsX9IMLW4VBOK/SLwUy4xNVC6Yz+6Fs=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=eC2tXB7ykm3tgVwqx2hDiTZi6AmMv4ab15vLo4MTFUT6qRuH3D8uPUoLMxu6pseDj
-	 ayhpOdvK88yIlEtYVIH6w7rHrMKDf3axkUigBbc+HBosT723Ta2A8jGmOgBx7WcjNJ
-	 qm2zkRriO1DQtI9AWlnIelZ6QG5Oesv4RjlAR2SV5g5PdY4XUK8oVqaKsBYmpE2sQv
-	 FpxD97Z10eii3z0mKAES1A/MMozfIEAd4hzf4srn9TZzrvfRTDPOT1RsCYDDL3Ajqy
-	 UGzNo75MQOYg8i0DpsIa88MP5uDiLOizqalxBVm94Ie7S3oqySpD9TTDscn165ThLM
-	 J8oqdA0KsRn0A==
-Received: from [192.168.68.117] (unknown [180.150.112.11])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id C7BD06001B;
-	Tue, 16 Jun 2026 08:20:54 +0800 (AWST)
-Message-ID: <133a2533be758b1e95bb0365a90d5907c7b09ddc.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v6] soc: aspeed: lpc-snoop: Fix usercopy overflow in
- snoop_file_read
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: Karthikeyan KS <karthiproffesional@gmail.com>
-Cc: joel@jms.id.au, andrew@aj.id.au, Kees Cook <kees@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Date: Tue, 16 Jun 2026 09:50:54 +0930
-In-Reply-To: <20260612190744.172638-1-karthiproffesional@gmail.com>
-References: 
-	<033f2657ae6a94ad13d22f717a2900afb75d892d.camel@codeconstruct.com.au>
-	 <20260612190744.172638-1-karthiproffesional@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gfT1421zdz2yZZ
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Jun 2026 10:50:15 +1000 (AEST)
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-03 (Coremail) with SMTP id rQCowAAXNdy8nTBq3o7eFA--.35485S2;
+	Tue, 16 Jun 2026 08:50:04 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Adrian Hunter <adrian.hunter@intel.com>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Joel Stanley <joel@jms.id.au>,
+	linux-mmc@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org,
+	openbmc@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Subject: [PATCH] mmc: sdhci-of-aspeed: depopulate slots before disabling clock
+Date: Tue, 16 Jun 2026 08:49:53 +0800
+Message-ID: <20260616004953.3469-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -74,108 +62,106 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
-	version=4.0.1
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowAAXNdy8nTBq3o7eFA--.35485S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tw4DJF15ArWUuw4ftrW7XFb_yoW8GrW7pF
+	WxXFW8Kr47GF1rKFW7Ww1Du3W5K3WSyayxtrW5Gws5A3y3JryrKFn3GFyjqF4kAFZ7Aa1f
+	XFn8Jay8CFnI9aUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
+	8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
+	Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
+	x4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r
+	4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
+	JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
+	sGvfC2KfnxnUUI43ZEXa7VUbtxhJUUUUU==
+X-Originating-IP: [111.196.245.140]
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED,
+	SPF_HELO_PASS,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.21 / 15.00];
+X-Spamd-Result: default: False [-0.01 / 15.00];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[codeconstruct.com.au,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4259-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-4263-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:karthiproffesional@gmail.com,m:joel@jms.id.au,m:andrew@aj.id.au,m:kees@kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:linux-hardening@vger.kernel.org,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
-	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[iscas.ac.cn];
 	RCVD_COUNT_THREE(0.00)[3];
+	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:adrian.hunter@intel.com,m:andrew@codeconstruct.com.au,m:ulfh@kernel.org,m:joel@jms.id.au,m:linux-mmc@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:openbmc@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:pengpeng@iscas.ac.cn,s:lists@lfdr.de];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER(0.00)[pengpeng@iscas.ac.cn,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FROM_NEQ_ENVFROM(0.00)[pengpeng@iscas.ac.cn,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	HAS_XOIP(0.00)[];
+	R_DKIM_NA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[codeconstruct.com.au:dkim,codeconstruct.com.au:mid,codeconstruct.com.au:from_mime]
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:email,iscas.ac.cn:mid,iscas.ac.cn:from_mime,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D906868AE55
+X-Rspamd-Queue-Id: 5A12568BBB4
 
-On Fri, 2026-06-12 at 19:07 +0000, Karthikeyan KS wrote:
-> put_fifo_with_discard() acts as both producer and consumer on the kfifo:
-> it calls kfifo_skip() (advances out) and kfifo_put() (advances in) from
-> the IRQ handler without synchronizing with snoop_file_read(), which also
-> consumes via kfifo_to_user(). On SMP systems this concurrent access can
-> leave (in - out) larger than the ring buffer, so __kfifo_to_user()'s clam=
-p
-> to (in - out) is ineffective and kfifo_copy_to_user() can attempt a
-> copy_to_user() past the kmalloc-2k backing store:
->=20
-> =C2=A0 usercopy: Kernel memory exposure attempt detected from SLUB object
-> =C2=A0 'kmalloc-2k' (offset 0, size 2049)!
-> =C2=A0 kernel BUG at mm/usercopy.c!
-> =C2=A0 Call trace:
-> =C2=A0=C2=A0 usercopy_abort
-> =C2=A0=C2=A0 __check_heap_object
-> =C2=A0=C2=A0 __check_object_size
-> =C2=A0=C2=A0 kfifo_copy_to_user
-> =C2=A0=C2=A0 __kfifo_to_user
-> =C2=A0=C2=A0 snoop_file_read
-> =C2=A0=C2=A0 vfs_read
->=20
-> Serialize kfifo access with a per-channel spinlock shared between the
-> IRQ handler (producer) and the file reader (consumer).=C2=A0 Annotate @fi=
-fo
-> with __guarded_by(&lock) and opt the driver into context analysis so the
-> compiler enforces that all fifo access holds the lock.
->=20
-> Fixes: 3772e5da4454 ("drivers/misc: Aspeed LPC snoop output using misc ch=
-ardev")
-> Signed-off-by: Karthikeyan KS <karthiproffesional@gmail.com>
-> ---
-> =C2=A0drivers/soc/aspeed/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A0drivers/soc/aspeed/aspeed-lpc-snoop.c | 38 ++++++++++++++++++------=
+aspeed_sdc_probe() creates child slot devices one by one after enabling
+the controller clock.  If a later slot creation fails, the already-created
+slot devices remain registered while the parent probe returns an error.
+
+Depopulate any created slot devices on probe failure and during remove,
+before disabling the shared controller clock used by the slots.
+
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
-> =C2=A02 files changed, 27 insertions(+), 12 deletions(-)
->=20
-> Andrew,
->=20
-> Thanks for the review.
->=20
-> Changes since v5:
-> - Annotate @fifo with __guarded_by(&lock) instead of a comment
-> - Move kfifo_initialized() check inside scoped_guard(spinlock, &chan->loc=
-k)
-> =C2=A0 in put_fifo_with_discard()
-> - Replace spin_lock_init() with scoped_guard(spinlock_init, &channel->loc=
-k)
-> =C2=A0 around kfifo_alloc() in aspeed_lpc_enable_snoop()
-> - Enable CONTEXT_ANALYSIS for this driver in drivers/soc/aspeed/Makefile
->=20
-> Dropped Cc: stable =E2=80=94 the fix uses cleanup.h/context-analysis idio=
-ms absent
-> from LTS; I'll send adapted backports to stable@ once this is in mainline=
-.
->=20
-> Tested on ast2600-evb (QEMU):=C2=A0
->=20
+ drivers/mmc/host/sdhci-of-aspeed.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Can you describe the specific steps you used to test this under qemu?
-I'm interested in reproducing your efforts here.
+diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
+index f5d973783cbe..3e941b176687 100644
+--- a/drivers/mmc/host/sdhci-of-aspeed.c
++++ b/drivers/mmc/host/sdhci-of-aspeed.c
+@@ -560,12 +560,14 @@ static int aspeed_sdc_probe(struct platform_device *pdev)
+ 		cpdev = of_platform_device_create(child, NULL, &pdev->dev);
+ 		if (!cpdev) {
+ 			ret = -ENODEV;
+-			goto err_clk;
++			goto err_depopulate;
+ 		}
+ 	}
+ 
+ 	return 0;
+ 
++err_depopulate:
++	of_platform_depopulate(&pdev->dev);
+ err_clk:
+ 	clk_disable_unprepare(sdc->clk);
+ 	return ret;
+@@ -575,6 +577,7 @@ static void aspeed_sdc_remove(struct platform_device *pdev)
+ {
+ 	struct aspeed_sdc *sdc = dev_get_drvdata(&pdev->dev);
+ 
++	of_platform_depopulate(&pdev->dev);
+ 	clk_disable_unprepare(sdc->clk);
+ }
+ 
+-- 
+2.50.1 (Apple Git-155)
 
-Andrew
 
