@@ -1,117 +1,94 @@
-Return-Path: <linux-aspeed+bounces-4264-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4266-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id /HC2A4/pMGqXYgUAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4264-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jun 2026 08:13:35 +0200
+	id 0g1OO0bjMWqKrQUAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4266-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Jun 2026 01:59:02 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBEAC68C67B
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jun 2026 08:13:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E606695CE3
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Jun 2026 01:59:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=TODvRXuX;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4264-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4264-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=none) header.from=intel.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=ffXOoQ0a;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4266-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4266-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gfcB32BJsz2yZ6;
-	Tue, 16 Jun 2026 16:13:31 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gg3qP5kh5z3c4v;
+	Wed, 17 Jun 2026 09:58:57 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781590411;
-	cv=fail; b=akfBOrYzENrLO6POGhQiVtER9gcF/XFfQK1HzfHJRzgZ63RVuOb3/CZ8n5eRU/zuE0mJycs8PHlPA3MSU9RObRORQ3kvrE1xevh3REt6bY6JoHBg3xL6UtgeGI6224+iVhZg9i4JeySmxbTmcWDpJ/madUj7G8pkJba/iidjVzYEwj+0x0Ta6IaRN9qHFOSR/40Un0SKu7D0+vGPK1XKL9pprEuOgsBKoamNxXPzsuDWMG0WDyOO+jct2/+0FEyJZ7hNzxtolpeKt5HazIajjrAWAwQAhsXkBzL56FyjfllOcdJREL3OdXmrP8ZBDsgpEDHswSjRDYUI8zBeuEvEDg==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1781590411; c=relaxed/relaxed;
-	bh=qwQ6pv4reOK/zAELW9vRuQpzIpB0AmDkNhAk4FuCq0s=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=eJXad5XpMAQ6CDwyYEDS6ahUX4slOcIQ4gWxHll+JPQb0WmyR0SPYcCreHU0qIT2QGfg/BOJbTVUIGiqkX6CM53rW6RpVraW9fOnPjchn5Nuo0xYJY3Z+p69A0Iu8hye8vcAENZ6CUsGpAFBcNaGobK62MXz/FIvLpP2rqT2iYnpgp/TNNZ0cvEDrbdRYlu55ec1YfsZcUp1HPBsO0PV4+u4xXOuW7SkxvcrUvsQdndZszto2LkLD8YFiOAGdXbkzwaIYBHtMtHyhdaHUsBfOgXLOOa5VdX+GrVymDC2SYLDNJXx9DVKaa9UCcC7a9pdDW8JmxTycbMDZbk83GBVFA==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=intel.com; dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=TODvRXuX; dkim-atps=neutral; spf=pass (client-ip=192.198.163.17; helo=mgamail.intel.com; envelope-from=adrian.hunter@intel.com; receiver=lists.ozlabs.org) smtp.mailfrom=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781595065;
+	cv=none; b=MLiIAD6wsVgyPeX1pr4sEROKaaSQl89f647GuceyhDlOscifmOj2L0e0JxIwQWqQd+zSd0UZn2pfSDvkf61P2TP0enZyDg3JYnL7BKca02mSdC3tjgaWI+eNYCue0G1d6Sjpj7y1xhHDDe6JY7Aoz7edqu8139dHPXMyGTe007M1UAv2JWuEBGdpcHLIm8CkKBacQYdMfr4Zij9f0Qi5SN+2jrLeKojMag7jJZABplA4ZsGOGP/5leieoOOuWNzTwuU/4r8CaQSXD/PLgRL2O7/Pbg6HoNL7XtbUXHX3drMLOpKkob+W/jvNW80Ni2jXVLBz5kSqRVEtv/RYLUd51A==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1781595065; c=relaxed/relaxed;
+	bh=O+WDurAqpK+dkb0URg/+1yUjEvRH9T2h7sdxZWsTGMw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IAe+dHK68ZGrYBmmEZkPEk+AmC9UxcBfprl7derXsDB5mH1lxJPxSxyo9zRzA7Aen5QrS4m3ODlVp1kXabAf905vlOMfcvERVN++qJaqe3+e5zOL8vyNBtRbyGZbD0fFG9uDAPHhnL46F3lZbfpYmIPOYlXFGq6uctt/QXjO5u827IyExYmQXSib95Kdc4UxvRhPx3kz1F4mpXWxNzuCJUrCDLUn+PJyAyb0vxwuNUWG6e1jWBLbX3dlKhIRk70Bo+rLHS1Mc2cflGk+eb988vhpuJrU2GTizt9NSQ1dydl1nbmKFGZ8MpOGruAIbKSBHr3mZC9isI5MNTc0uoQbHw==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ffXOoQ0a; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::62d; helo=mail-pl1-x62d.google.com; envelope-from=karthiproffesional@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gfc9z5VMhz2ySJ;
-	Tue, 16 Jun 2026 16:13:25 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781590409; x=1813126409;
-  h=message-id:date:subject:to:references:from:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=ci2P261uI/4o6nbhhgegY/A4U+Mo38OI5Fgn9q8JnHQ=;
-  b=TODvRXuXs66+hm0NdagsmMH3c12Sp+vKLFJEJIqwLb1vKIFiiVxguVf5
-   Y+aY49KJuCKa2TY4kxzRjwx83NVSo2F3+ay4hI6I+7VELcJ0WlJE5Euur
-   An7MhMsZ/dRxuLZLdoLgJSCdrmzIy/v55og7QMlP3A47fqYfSqXdgFyJ9
-   U2yoP0l4SKmCtWWjgbJwX4odgCGZDtVJ5vdg1cVVHUYiVFze52UbaXUwF
-   LbRNWrKCiDVhfVkpVNnKGnEBCRp3pgiKD+yYu4qnBKnvvBvhlVQdk2Z+B
-   AQzLynJuhe/fqR0OvBYBLX3woJvO1IXc8/mGt62XyYpEv1xBbzafJWsLx
-   g==;
-X-CSE-ConnectionGUID: fym6USGCRnWqAsnRHZrUqQ==
-X-CSE-MsgGUID: Z3tZrHV+ToqPUE+JDzcsHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="82190482"
-X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="82190482"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 23:13:22 -0700
-X-CSE-ConnectionGUID: OWDSkLT+QXe/2KEIDOpzig==
-X-CSE-MsgGUID: +WBTLQZmST2tZNJC1oMsbw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="245282729"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 23:13:22 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 15 Jun 2026 23:13:21 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 15 Jun 2026 23:13:21 -0700
-Received: from DM5PR21CU001.outbound.protection.outlook.com (52.101.62.42) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 15 Jun 2026 23:13:21 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=srsb9+5utz92sgEel8EBgTSkdllzTGn0jm3/tdZMLqey5WTty7ZXwGvYWLepLX5BDrwEUFzpFUe+ftT2aQ8VR0AHLEwLC9LHoeiKYu/1iwe2DPSeQWyblTOm/edZGyJ4CyCXdnZ6jAR8mViSM6+Z5iuQG4RvZtHq2C2UCBjgXxawx62sDy5G4cQsVxTap1YdiLFNT2wgdux+nHBP4rXF45bzrceX/F4nIkuG1fwNj17/nskOxxNQigxaPVRf9wIFCFFNqTUnQjxnlkaA67o7O1/ZS1y2wDx3NhTM9NPCtxm4S2SQy3RGhaqkKHyhCL7jRuW8L8BktRVjgmQC9cE7uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qwQ6pv4reOK/zAELW9vRuQpzIpB0AmDkNhAk4FuCq0s=;
- b=yFFuarr1Oz9GvJrAI/G6mY4SKKMqz1ClcQIs4CQBTdHC89pwysFlupm7P//XqFppnpxdtepc4WZFxE8wm9NBuUCFJFv95+i+rocNV8isM4vdriKGOPiVHBz9M/2R5PD67FFmS8uNMFApL1Lp0NXZiNQK6DfcrpYZvgatRhQPKkCPV9qMjEl83GiTFZ77EvSUdnL3tMnI9+xDR+FH9JaLtYixE3cuHvhFpUSE5skZ01mMdlw20/kybNb0KRf9yJvdMIMzniM5674rqgWoMhXGyknU+tpgiFB6ScqC5y16jlqxDTgPAc9i3+6raq3EyDreBJ8rwh3B0nlWd9lzN5AFag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA1PR11MB7198.namprd11.prod.outlook.com (2603:10b6:208:419::15)
- by PH0PR11MB9774.namprd11.prod.outlook.com (2603:10b6:510:398::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Tue, 16 Jun
- 2026 06:13:13 +0000
-Received: from IA1PR11MB7198.namprd11.prod.outlook.com
- ([fe80::2c4e:e92a:4fa:a456]) by IA1PR11MB7198.namprd11.prod.outlook.com
- ([fe80::2c4e:e92a:4fa:a456%3]) with mapi id 15.21.0113.015; Tue, 16 Jun 2026
- 06:13:13 +0000
-Message-ID: <076d773e-85fd-44ab-9665-2598b770b2a7@intel.com>
-Date: Tue, 16 Jun 2026 09:13:08 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mmc: sdhci-of-aspeed: depopulate slots before disabling
- clock
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>, Andrew Jeffery
-	<andrew@codeconstruct.com.au>, Ulf Hansson <ulfh@kernel.org>, Joel Stanley
-	<joel@jms.id.au>, <linux-mmc@vger.kernel.org>,
-	<linux-aspeed@lists.ozlabs.org>, <openbmc@lists.ozlabs.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>, "Ryan
- Chen" <ryan_chen@aspeedtech.com>
-References: <20260616004953.3469-1-pengpeng@iscas.ac.cn>
-Content-Language: en-US
-From: Adrian Hunter <adrian.hunter@intel.com>
-Organization: Intel Finland Oy, Registered Address: c/o Alberga Business Park,
- 6 krs, Bertel Jungin Aukio 5, 02600 Espoo, Business Identity Code: 0357606 -
- 4, Domiciled in Helsinki
-In-Reply-To: <20260616004953.3469-1-pengpeng@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DUZPR01CA0017.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:46b::8) To IA1PR11MB7198.namprd11.prod.outlook.com
- (2603:10b6:208:419::15)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gfdvW3Bfvz2yjp
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Jun 2026 17:31:03 +1000 (AEST)
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-2bf22d29dabso25938345ad.2
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Jun 2026 00:31:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781595061; x=1782199861; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O+WDurAqpK+dkb0URg/+1yUjEvRH9T2h7sdxZWsTGMw=;
+        b=ffXOoQ0apTxLZyXI2JqWWO6upOQ8+u3Ka4bonvUf8/SwPVt/fkr5DSuee3lc2j2lAi
+         0GWVrQXyFwaUUFWCXa/NpDYjOKv8dueiue8T5+18Mt6bxQp4nLlDzI/iCVJAi48gg4BR
+         WRnoI++rElJxhuKwfgFtdYcZi8dssfh6u3U8qclpd7HUCHuooZs/FLIHEVLbOlvFsXJF
+         /FeFjsoEEv5zWAAXRbjilTf5Mx3ow8NIK1iKG+nGgUPSh9rGZKiFZ8VCz+ZH5EZSJt6i
+         LaHHMRjfvG/XozA9N47kLYj1A95NlI8RMGWk6r2YO/m7hxC7A+jD4ibmE+uWYr+kw/cP
+         sLUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781595061; x=1782199861;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=O+WDurAqpK+dkb0URg/+1yUjEvRH9T2h7sdxZWsTGMw=;
+        b=HAEqcOhmfmdvlXG3pe8rDRRmnR7uthYohIh5HCdA7/IJDcYoQLRay+8tEzc9rkcX14
+         AXdYsMCb36/8XjBFRZmHhQgWLGaFvO61qgxdipl5ZWRvlkQrAivcqbeUwU1MN/s7+aY5
+         j4GlY0Hu6Pt5DXpe62SqY57ZzCL9iViZjWNRKZN+dsU5CG54Eg1sxZAZpphu/3B5RuGq
+         f3kxPm5K77w21VDtMvz4OGzqY0oAcpvlh/jGY8zmSxon0M+sZrYttSv+6hTL9MyoTyV9
+         96zpCvfAKbMkrZxDdVoKP1Ir+hr2csBU+N2G5Cm+NBc7ZOSyu5MzbxNNsxcu4k4+X+XW
+         DSvA==
+X-Forwarded-Encrypted: i=1; AFNElJ/IxL1hM8vVTH9dst/wjyXmr7hWIblZdEP/f0NehEq7462JSgk0JYA1hGMPxTEpRbJtahK7ov2/+6lxzM8=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YyCBuFXiX8HPkclWFfxvOcbTnf8X0O8QEnDQ/90dc8aUlL51Ygu
+	/mgkXZtZRmJH+0pTC4bGgeOYLlwHXBwpy4cvYLq81Cmp++seCd6jZzxEeRk/EBOE
+X-Gm-Gg: Acq92OGAtFl23zeeF7N3bLVliT52dwClSx3h8hc6akJFs0AnpNPMYGK+qK8d93aSyVu
+	jfu8Ln/3/mMlf6KGa+TdnI9vYxClk5DqxDj0OsFOaugK1jtKc1sOPSlNd4eCInfYvfZGoFz15lk
+	ILb+12Ow7TiP8rfYau8Ui1o6LNl3UpIWZ2fDTIBiY6mcCO8Kz9CGEX8bGYqwOgQ2hKIsK+p5W5U
+	CMLuvpvjyN7UQ8BflXEoU9ADDJ/R/Fz0FV62bGh6iZfT+7rvdUrkAvaqc8gRH1NExxFPgoa5ioE
+	0gFkhUMJ45dfR09Uqvg31D7ksyz7m+U5yaBrFvaHy8uV+06XX85t1dLs0XJwTYM6QkjPafVjCUA
+	QjJwqlyUDaKWIQugf5WvAtUWF7AvaiCO1Hq9umDHn9Tdqd36sfFrIIYKzfKJ0NpqQTejls4+EUN
+	uCfMPm2kFsKgJrXZdBEFjwoRM8zxNz83M5hGnBi15tjNUijbxZcOaWl34=
+X-Received: by 2002:a17:903:11cd:b0:2c2:21e9:5a7d with SMTP id d9443c01a7336-2c69a21d05bmr26333555ad.34.1781595060778;
+        Tue, 16 Jun 2026 00:31:00 -0700 (PDT)
+Received: from LAPTOP-97G9G880.domain.name ([106.222.200.99])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c433460a60sm147542995ad.76.2026.06.16.00.30.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 00:31:00 -0700 (PDT)
+From: Karthikeyan KS <karthiproffesional@gmail.com>
+To: andrew@codeconstruct.com.au
+Cc: joel@jms.id.au,
+	andrew@aj.id.au,
+	Kees Cook <kees@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v6] soc: aspeed: lpc-snoop: Fix usercopy overflow in snoop_file_read
+Date: Tue, 16 Jun 2026 07:30:53 +0000
+Message-ID: <20260616073053.1144730-1-karthiproffesional@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <033f2657ae6a94ad13d22f717a2900afb75d892d.camel@codeconstruct.com.au>
+References: <033f2657ae6a94ad13d22f717a2900afb75d892d.camel@codeconstruct.com.au>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -125,158 +102,319 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR11MB7198:EE_|PH0PR11MB9774:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2c287c1-af77-4139-7a76-08decb6e5917
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|23010399003|1800799024|921020|56012099006|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: SxgzL5HztG/DTyukqAJjX+kHwO0c1X0PD6afFIVU2D5xJJQuzXVQKA9NC1lk/cCwOVIbRYuCnHnuZYZZ1xoyFQDYOalp5VRT9lPfRuKQDUjCgOg8nUKVwOB2b9ewWEgXcwyEKiGKNoMkj2H6SlfuwhitTfGUdhSaxqwsi1oRES//MtV/lpt3z8u9T9lf77f6BFdzkiMfBAhvQdFrsAvFMgUtdjdHia0b/gTojqCB5/WGNtkMoPhvU8hvHCP0VOPVShWriCrfcxSQ2xYidUQDmsUBCP7y1TRAOdEiN8uaD1YUrZrrUDeXq70bW1OjX4/qcG1pWDeqegRLYYF3ZgeJdpX0rnAkh+L5K8r9Xopn9xLeeOKj1H/T0kivkV78AN+JBO/gThyDzrtwohtG7AbaP0kaSPH2SaDH4WMeyf1OdShzopcjVwmzNBOzkb8tI3xobXMHgaSCWDGZiB8ZgF8/NtAwMX4FxVYRLOEfLPCCcbmvahf+jac1Cqd8KC0djRTJLLLaHFqNiC6gNJvvlw1ON0FH0YiBXrXZqIKe6PSt/u9AqRojM9m+rU2Obj5vaAtam7Qy5Fak5Ys84ptgSYUEwuCBKO/JpZu540Z3O4kwPrOO9DJH0zkQna301Y32D4gs2f+24auOYT2vvNbStrZpLq0zh09+gxiVWC5G1CLfdtTTRxlDtYHstT/+yqPErSWw
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB7198.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(23010399003)(1800799024)(921020)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VlREN3dKT1lQWVVvV1BLL01hTzROWjVFMVJ3VEpvUWR5L3JJbE5GMllLenQ4?=
- =?utf-8?B?d2Rydm9DN1FCeGkrUEIxTFRXT3ZIYitQZkpBQ3UreUtHd3FmQUVsZDFVQUZB?=
- =?utf-8?B?Vi9BQnIwZytwZVRnVWlWazJBVjg2amE2MTFUWHl1cTJDc0VkeXNzaGo0dHFh?=
- =?utf-8?B?NDF2aUxtTkJURjFsVlZwN1o5bjNzTmNrSlJ1dnVSRTJkSE04UTZnc2lTR2JT?=
- =?utf-8?B?TWUxdmhQdE52SkJFbzVQVWtZM3F5RHVLdS8xeTR2MEdqbnBVSDhPR0dpRkJE?=
- =?utf-8?B?cTlSWWY3ZFhJVzh6NjF0YTlKaVVwWGZIL2hLaG5WSjlML0hpQzhvd1Q1bFEx?=
- =?utf-8?B?L2hLaklDd0RzYmh0SDh2L21QalZCb1o5TjN4ZGpnUXN3bVd4b3JJS2QyRGdC?=
- =?utf-8?B?ZFdQMk5LaGJBOExGNXdVV0pGYmc0VFFEeW41Y283T01uL3J3LzBNQWlIMkFr?=
- =?utf-8?B?TVVCQ0lwQU9iTnd2RmZXVGRndjY2L3BPd2JJYWRFd1NVQ21IbE9rSlM4a2Vn?=
- =?utf-8?B?VkdXVk96T0wyRTc2UUxwRDI2MGJYajd0LzJEdzUxTTNSN0RPNUFxaEFic05K?=
- =?utf-8?B?SW9rZnN2c0ZNbnZEdjNRdHZPS00wTlZLUVRMQ2N6MTRaYmpUVWo4V0VKZUow?=
- =?utf-8?B?VXRTQ0hEODBiYVVoYk1NNjROb1BhY1pEbUsyRTQvNzA2Sk04L2tDaWNack1Y?=
- =?utf-8?B?cWxWZGdZbUZlYU5rcU5yYUZjeDVlUVlqRkFGeVJ3RG5BczBhOWlnaGlDbHUv?=
- =?utf-8?B?UnhsOXJVTWxjRHMwVzk2aVVJYU5md2l1MGs2VzFwVHhza0F6Z0Q2Q0E0RFhD?=
- =?utf-8?B?K3pERmxqTklLa1pUa3BaTHFaMlMwUXgvZ282alhKOEdRYWNmd2hoUS9zaHFu?=
- =?utf-8?B?RGJUY1N5Nm5Nd04xY0dCOUwwdFZCWHIvRTZoRVNiMm9OdnVoY05rSmhKeTVI?=
- =?utf-8?B?NGl1TjJiTTlpY0dtQnBRVUpTYzhaRHh4U2t5YUdOY2g0eHZSL2RaWTAyYlUx?=
- =?utf-8?B?MlJpNUh1MHhESGxMa2pQZXZ4SVcvNlIyVlBaeU9JRDRaK3F3ZzBFY3ZrWEhI?=
- =?utf-8?B?OFpCdnZJSy9qUFNQcm1XU28yWjdyWGwwUm4rZVBnRzJyK05HWUhLU2FCTGE3?=
- =?utf-8?B?OFRKYU01ZkRDNWhrR3ZIMHEzQStnWDZOcWdpVjFsV1cwdzRmRDd0ZlhHaHVv?=
- =?utf-8?B?eTZta2Vmd005RUdjV2lVYlBUaDIwU0hMRmRHY1dNU2NBZURmMjNjdTRvM0o1?=
- =?utf-8?B?NVg5UUZGU2JSRzNrMXErZVB5aUF1SEdUMWZiV1JLYUxGQUhYRmV0Vm42QTRz?=
- =?utf-8?B?NmZGOXBZaXdheEQySDBsN2srT2dEVnRqQ3lhd3AzR2dvNlRJYURLQktGc25i?=
- =?utf-8?B?ZVJVTXZRdE82MkV0US9xUGVQVkhLenZwdmg5eTRaZ1UwU2pyWU1QbFBtK1Q4?=
- =?utf-8?B?TDZXbmhvYi9XKzN3N0x0aTlhckNuNHRZQnNaNnNSUmxESmRaQi9ySVNrVFIy?=
- =?utf-8?B?Vllqb3M5L1dHODhVbHlHNXdtaHgvMEwxR1lnYmFDMWtEYTh4bVIxZTNVU0o0?=
- =?utf-8?B?ZlltT0drUWcxN1pUV0pBMzR0ODV6aHZ6YVBTckFWQ2c3SjlQOEZOQXFyenRK?=
- =?utf-8?B?a2ZKQkpyUkdpWUZvb3RHRE1SNHNESk5IUmM3eml5amp3WndvVVNINFhuWXIx?=
- =?utf-8?B?OFh6dWNHWlZEZE5YZ3JMNE1hWWUwZ0c5M3htS0lyeXFjVE9xV0tzS3FrbzhM?=
- =?utf-8?B?UTZmemJtaERuYjBUbERvZjM2eTJ3eVlaNUUvWXU0Tm54OE9yallaZzFjbjlx?=
- =?utf-8?B?KytYaHZOWWN0V0xacGZEZHMrOUFqRVkyT1BJNS8rUTVYQnNsaHZBVHNjQXdy?=
- =?utf-8?B?U0lXVnRBazdIeUhpOVhMRzlsZnVpZnZ4NTJVcHk3NmZ2cG5MSktSNkxId1JE?=
- =?utf-8?B?ZlhEVC9GR2ZSY3BPWGljai9kOU5iRElFZk5TNE14Q2pabEJrTEU0Yk9KbHRC?=
- =?utf-8?B?TmlaT2VBcTErVkFhUllkQmlhRFNvSERNVnhxQWxpUi9xNU9jdnluSE0rdjVK?=
- =?utf-8?B?ZGZRNVMwL3BUNHRVMlpDOGdUZm5mYWJFV2pkY2Joa0I5QXgvSTk2WXZTaEtp?=
- =?utf-8?B?aGNCa2pTRndiSThMVllTVkE3ZVhaZGQ0eFI4M2tzNzVQSU9sUG5MYlBNVUVn?=
- =?utf-8?B?SENoNDIySXRlTkdBdzhEWTkwUFZoUTFCNFBnM1AxT0YzZDM5cUZUdVVqcGdZ?=
- =?utf-8?B?dDRPNWRlMUpSWUVlbms1Z2FXZGtQUW9CRUJuUzNFekZiY21BdzRoSjlxZmRK?=
- =?utf-8?B?ajBhWndMd2xqNjh3SnJSandocEhzK2NqK0NRSHZyOTlFSFI2VW9tL2JpbENR?=
- =?utf-8?Q?w0UTNM5nGG/+2h+A=3D?=
-X-Exchange-RoutingPolicyChecked: iCeTDARgfxOCSH7gAyD7knnMKflZnod90+rFBOJreXD/N98Ur5yeBN1Y6hzNj1tskpl28zcixOzzpTqb7Qe2hJS2pkNTnDKrroHxE/3SjiCWJx0CI9yrkof6J6jc/Xk41Pw6XZfqzGa4J4A4PFNaHplXdna0Al44g/ewMwQdQHHy2XO5XLiujhViA5fpCGHkBa4wOWtW6l7LdCZ9dJHphJW+p3rL9RDo5SrTeo0aFiU1Yop4Pcou3ZQmGYEyadBVOL13J/ZqiwBhJf1Vre0zV4I0uS/0xuicN+Syl4AzwvOMo75a8MBqcjQUP+SezR8ypnXL8iJaYzemSBUsDvzLiQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2c287c1-af77-4139-7a76-08decb6e5917
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB7198.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 06:13:13.7203
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Tn6iGwL4KsRUO402KYy9CI3T57qYd1s87gErfdpQ9sQjT9Z6YkNBybGqSPhjEd05XrZtHh3ZOB3rZ+UiZ/Nx7w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB9774
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-2.9 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-	SPF_PASS autolearn=disabled version=4.0.1
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.21 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	MAILLIST(-0.20)[generic];
+X-Spamd-Result: default: False [-0.71 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-4264-lists,linux-aspeed=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,iscas.ac.cn:email,intel.com:dkim,intel.com:mid,intel.com:from_mime];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-4266-lists,linux-aspeed=lfdr.de];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:andrew@codeconstruct.com.au,m:joel@jms.id.au,m:andrew@aj.id.au,m:kees@kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:linux-hardening@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[adrian.hunter@intel.com,linux-aspeed@lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[karthiproffesional@gmail.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[karthiproffesional@gmail.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	RCVD_COUNT_SEVEN(0.00)[9]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CBEAC68C67B
+X-Rspamd-Queue-Id: 4E606695CE3
 
-On 16/06/2026 03:49, Pengpeng Hou wrote:
-> aspeed_sdc_probe() creates child slot devices one by one after enabling
-> the controller clock.  If a later slot creation fails, the already-created
-> slot devices remain registered while the parent probe returns an error.
-> 
-> Depopulate any created slot devices on probe failure and during remove,
-> before disabling the shared controller clock used by the slots.
-> 
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
-> ---
->  drivers/mmc/host/sdhci-of-aspeed.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/mmc/host/sdhci-of-aspeed.c b/drivers/mmc/host/sdhci-of-aspeed.c
-> index f5d973783cbe..3e941b176687 100644
-> --- a/drivers/mmc/host/sdhci-of-aspeed.c
-> +++ b/drivers/mmc/host/sdhci-of-aspeed.c
-> @@ -560,12 +560,14 @@ static int aspeed_sdc_probe(struct platform_device *pdev)
->  		cpdev = of_platform_device_create(child, NULL, &pdev->dev);
->  		if (!cpdev) {
->  			ret = -ENODEV;
-> -			goto err_clk;
-> +			goto err_depopulate;
->  		}
->  	}
->  
->  	return 0;
->  
-> +err_depopulate:
-> +	of_platform_depopulate(&pdev->dev);
+Hi Andrew,
 
-of_platform_depopulate() does not appear to work with
-of_platform_device_create() due to the OF_POPULATED_BUS flag
+Happy to. Short version: ast2600-evb can't hit the SMP timing window,
+so I reproduce each missing piece deliberately. The driver code under
+test is unmodified -- only the stimulus and the post-race state are
+injected. Stock qemu-system-arm (Debian 8.2.2), no QEMU changes.
 
->  err_clk:
->  	clk_disable_unprepare(sdc->clk);
->  	return ret;
-> @@ -575,6 +577,7 @@ static void aspeed_sdc_remove(struct platform_device *pdev)
->  {
->  	struct aspeed_sdc *sdc = dev_get_drvdata(&pdev->dev);
->  
-> +	of_platform_depopulate(&pdev->dev);
->  	clk_disable_unprepare(sdc->clk);
->  }
->  
+Three obstacles, and what I did about each:
 
-There is another existing issue that Sashiko noticed:
+1. No BIOS to emit POST codes -- an injection module stages bytes into
+   the snoop registers via the LPC syscon regmap (SNPWDR + the HICR6
+   data-ready bit).
 
-struct platform_driver aspeed_sdc_driver has:
-	.pm	= &sdhci_pltfm_pmops,
+2. QEMU doesn't raise the snoop IRQ for those writes -- after staging,
+   the module dispatches it in software with
+   generic_handle_irq_safe(sdev->irq), which runs the driver's real
+   aspeed_lpc_snoop_irq() -> put_fifo_with_discard() path.
 
-where it won't work correctly.  It looks like it
-should have instead been in:
+3. The SMP race won't trigger under TCG -- so I reconstruct its outcome
+   instead: force the channel-0 kfifo to in=4097, out=1, i.e.
+   (in - out) = 4096 > the 2048-byte ring, the exact state a reader
+   observes inside the window.
 
-struct platform_driver aspeed_sdhci_driver
+One caveat so it isn't misread: step 3 writes in/out directly, so it
+bypasses the new lock. The patched run therefore shows the read path no
+longer turns a corrupt (in - out) into a usercopy overflow; the lock's
+job of preventing that state is the SPSC argument from the commit, which
+TCG can't exercise.
 
-Refer:
-	https://sashiko.dev/#/patchset/20260616004953.3469-1-pengpeng%40iscas.ac.cn
+== Tree / config ==
 
+  base:  v7.1-rc7
+  clang: 22.1.7 (LLVM=-22; needed for the context-analysis check)
+  ARM multi_v7_defconfig + CONFIG_CC_IS_CLANG, WARN_CONTEXT_ANALYSIS,
+  SMP, ASPEED_LPC_SNOOP, HARDENED_USERCOPY, PROVE_LOCKING,
+  DEBUG_ATOMIC_SLEEP.
+
+  make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- LLVM=-22 O=build \
+       -j$(nproc) zImage
+
+== Run ==
+
+The injection module (full source below the sign-off) creates two
+write-only sysfs knobs under /sys/kernel/snoop_test/. The init loads it,
+then:
+
+  echo 4096 > /sys/kernel/snoop_test/generate    # fill via the real
+                                                  # IRQ path 
+  echo 1    > /sys/kernel/snoop_test/adjust_ptrs  # force in=4097/out=1
+                                                  
+  read(fd, buf, 4096) from /dev/aspeed-lpc-snoop0 # the overflowing read
+
+Build it against the same tree (-DSNOOP_PATCHED for v6, which mirrors the
+spinlock the fix adds ahead of @fifo; omit it for the unpatched build).
+
+  qemu-system-arm -M ast2600-evb -smp 2 \
+    -kernel build/arch/arm/boot/zImage \
+    -dtb build/arch/arm/boot/dts/aspeed/aspeed-ast2600-evb.dtb \
+    -initrd repro.cpio.gz \
+    -append "console=ttyS4,115200 panic=-1" -nographic -no-reboot
+
+== Result ==
+
+Unpatched, read(4096) with in=4097/out=1:
+
+  usercopy: Kernel memory exposure attempt detected from SLUB object
+  'kmalloc-2k' (offset 0, size 2049)!
+   kfifo_copy_to_user / __kfifo_to_user / snoop_file_read / vfs_read
+  Kernel panic - not syncing: Fatal exception
+
+Patched: read() returns 2048, no panic; no lockdep or atomic-sleep
+splats.
+
+The init is just: mount proc/sysfs/devtmpfs, finit_module() the .ko,
+write the two knobs above, then read(4096) from the char device. Full
+injection module follows.
+
+Thanks,
+Karthikeyan
+
+------ snoop_test_inject.c (build as an out-of-tree module) ------
+
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Reproduce the aspeed-lpc-snoop kfifo SPSC-violation post-race state
+ * deterministically under QEMU. Two write-only sysfs knobs under
+ * /sys/kernel/snoop_test/:
+ *
+ *   generate <count>  Push <count> POST-code bytes through the *real*
+ *                     driver IRQ path: write SNPWDR + HICR6 via the LPC
+ *                     syscon regmap, then dispatch the snoop IRQ so
+ *                     aspeed_lpc_snoop_irq() -> put_fifo_with_discard()
+ *                     runs.
+ *
+ *   adjust_ptrs <1>   Force the channel-0 kfifo into the state a reader
+ *                     observes inside the race window: in = 4097,
+ *                     out = 1, so (in - out) = 4096 > the 2048-byte ring.
+ *
+ * The driver's private channel is reached through a mirror struct whose
+ * layout must match drivers/soc/aspeed/aspeed-lpc-snoop.c. The v6 fix
+ * inserts a spinlock_t ahead of @fifo -- build with -DSNOOP_PATCHED to
+ * mirror that, otherwise the &fifo offset is wrong.
+ */
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/kernel.h>
+#include <linux/version.h>
+#include <linux/fs.h>
+#include <linux/file.h>
+#include <linux/kfifo.h>
+#include <linux/miscdevice.h>
+#include <linux/regmap.h>
+#include <linux/interrupt.h>
+#include <linux/irq.h>
+#include <linux/irqdesc.h>
+#include <linux/device.h>
+#include <linux/kobject.h>
+#include <linux/sysfs.h>
+#include <linux/wait.h>
+#include <linux/spinlock.h>
+#include <linux/bitops.h>
+
+#define HICR6			0x84
+#define HICR6_STR_SNP0W		BIT(0)
+#define SNPWDR			0x94
+#define SNOOP_DEV		"/dev/aspeed-lpc-snoop0"
+#define RACE_OUT		1u
+#define RACE_IN			4097u
+
+struct snoop_chan_mirror {
+	const void		*cfg;
+	bool			enabled;
+#ifdef SNOOP_PATCHED
+	spinlock_t		lock;		/* added by the fix */
+#endif
+	struct kfifo		fifo;
+	wait_queue_head_t	wq;
+	struct miscdevice	miscdev;
+};
+
+struct snoop_dev_mirror {
+	struct regmap		*regmap;
+	int			irq;
+	/* struct clk *clk; struct aspeed_lpc_snoop_channel chan[2]; follow */
+};
+
+static struct file *snoop_open(struct snoop_chan_mirror **chan_out)
+{
+	struct file *filp;
+	struct miscdevice *md;
+
+	filp = filp_open(SNOOP_DEV, O_RDONLY | O_NONBLOCK, 0);
+	if (IS_ERR(filp))
+		return filp;
+
+	md = filp->private_data;
+	if (!md) {
+		filp_close(filp, NULL);
+		return ERR_PTR(-ENODEV);
+	}
+
+	*chan_out = container_of(md, struct snoop_chan_mirror, miscdev);
+	return filp;
+}
+
+static ssize_t generate_store(struct kobject *kobj, struct kobj_attribute *attr,
+			      const char *buf, size_t len)
+{
+	struct snoop_chan_mirror *chan;
+	struct snoop_dev_mirror *sdev;
+	struct file *filp;
+	unsigned int count, i;
+	int rc;
+
+	rc = kstrtouint(buf, 0, &count);
+	if (rc)
+		return rc;
+
+	filp = snoop_open(&chan);
+	if (IS_ERR(filp))
+		return PTR_ERR(filp);
+
+	sdev = dev_get_drvdata(chan->miscdev.parent);
+	if (!sdev || !sdev->regmap || sdev->irq <= 0) {
+		filp_close(filp, NULL);
+		return -ENODEV;
+	}
+
+	for (i = 0; i < count; i++) {
+		/* Stage the snoop'ed byte and the data-ready status bit. */
+		regmap_write(sdev->regmap, SNPWDR, (u32)(i & 0xff));
+		regmap_write(sdev->regmap, HICR6, HICR6_STR_SNP0W);
+
+		/*
+		 * Dispatch IRQ -> aspeed_lpc_snoop_irq() ->
+		 * put_fifo_with_discard(). generic_handle_irq_safe() copes
+		 * with the GIC requiring the handler to run with IRQs off.
+		 */
+		generic_handle_irq_safe(sdev->irq);
+	}
+
+	filp_close(filp, NULL);
+	return len;
+}
+
+static ssize_t adjust_ptrs_store(struct kobject *kobj, struct kobj_attribute *attr,
+				 const char *buf, size_t len)
+{
+	struct snoop_chan_mirror *chan;
+	struct file *filp;
+	struct __kfifo *kf;
+	unsigned int val;
+	int rc;
+
+	rc = kstrtouint(buf, 0, &val);
+	if (rc)
+		return rc;
+	if (val != 1)
+		return -EINVAL;
+
+	filp = snoop_open(&chan);
+	if (IS_ERR(filp))
+		return PTR_ERR(filp);
+
+	kf = &chan->fifo.kfifo;
+	/* Reproduce the race outcome: fresh 'in', stale 'out'. */
+	WRITE_ONCE(kf->out, RACE_OUT);
+	WRITE_ONCE(kf->in, RACE_IN);
+	pr_info("snoop_test: in=%u out=%u (in-out=%u, size=%u)\n",
+		kf->in, kf->out, kf->in - kf->out, kf->mask + 1);
+
+	filp_close(filp, NULL);
+	return len;
+}
+
+static struct kobj_attribute generate_attr =
+	__ATTR(generate, 0220, NULL, generate_store);
+static struct kobj_attribute adjust_ptrs_attr =
+	__ATTR(adjust_ptrs, 0220, NULL, adjust_ptrs_store);
+
+static struct attribute *snoop_attrs[] = {
+	&generate_attr.attr,
+	&adjust_ptrs_attr.attr,
+	NULL,
+};
+static const struct attribute_group snoop_group = { .attrs = snoop_attrs };
+static struct kobject *snoop_kobj;
+
+static int __init snoop_test_init(void)
+{
+	int rc;
+
+	snoop_kobj = kobject_create_and_add("snoop_test", kernel_kobj);
+	if (!snoop_kobj)
+		return -ENOMEM;
+
+	rc = sysfs_create_group(snoop_kobj, &snoop_group);
+	if (rc) {
+		kobject_put(snoop_kobj);
+		return rc;
+	}
+	return 0;
+}
+
+static void __exit snoop_test_exit(void)
+{
+	sysfs_remove_group(snoop_kobj, &snoop_group);
+	kobject_put(snoop_kobj);
+}
+
+module_init(snoop_test_init);
+module_exit(snoop_test_exit);
+MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("aspeed-lpc-snoop kfifo race post-state reproducer");
 
