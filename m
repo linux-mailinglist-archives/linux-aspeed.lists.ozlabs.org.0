@@ -1,54 +1,68 @@
-Return-Path: <linux-aspeed+bounces-4257-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4258-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id RANaDX6xL2prEgUAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4257-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Jun 2026 10:02:06 +0200
+	id i49jK+KVMGr2UgUAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4258-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jun 2026 02:16:34 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D82368461C
-	for <lists+linux-aspeed@lfdr.de>; Mon, 15 Jun 2026 10:02:04 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB54E68ADD0
+	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jun 2026 02:16:32 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4257-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4257-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dkim=pass header.d=codeconstruct.com.au header.s=2022a header.b="QMI/IHg3";
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4258-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4258-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=none) header.from=codeconstruct.com.au;
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gf2dh5sT4z30gJ;
-	Mon, 15 Jun 2026 18:02:00 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gfSG62ggLz3btJ;
+	Tue, 16 Jun 2026 10:16:30 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781507113;
-	cv=none; b=LC/dge6+uW8+ibpQqSJxZEJfamPuyMYHPBwG0/7150IUiT9kEWbHVAOzzjbnYEeu2t8yi9umcrCTnQ/fW9QVV53pcqpqm7qawXuNnKnMcS5eseYyHpmGDSE1Rj8dUliukH6dqR3Qt43xU4tGxOex3EZ88OSaI76Lg+C3sczEG4srY200rRiJadNTo8BZEefAIAKn9T4TAKpaExLxEiztk0V3qSjzdrFmtMt6IZHFdo7iyc+0pqLXDt72y6qf1NjRwb3tGWk/yLs8HAMxh5W6UoUMDeDSHNQ9sdOKtINZCTaIBQiKWfn7SX8aNpOxQ7ZtxqyAQH9LIxWO7/EcLwlOIQ==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781568990;
+	cv=none; b=ImHdhrJheqr1ZpBeCFWGu5va9oTedwsQE22goj8tFq+jmTQ5jpCL1At/oI7rvwYchEGedgN3n57iIljxP4r7wGZRObktxuhqQJihkLDmcLoATTmlyLUSWjn6uLpotxyHVJwWAbjBiy4vGUgB7QjTrq1KbeHS7dDIe/wx+FD0ShRgyrOqnULsl+Zjt1q18wf0KVJetwLzLXIpTVDMUGoywBkfOVm2BxpXoNbtFf5xKQxkwlAR6e6u3IsKUrsJXMuh9zgPxkXVFLiQHMDU5E15wwyujDgt33H++keFSKo5Qxy4zZY+NZKA6yJXEo62OrEN95pUJPFo4UcEZeOniipxvA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1781507113; c=relaxed/relaxed;
-	bh=gwjKJbogDdVACFgqntDi9pGhUoR/9LsudPgTXNmAMMg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n6Rkp/e8//u3MdyJDQEKrn5WBEVy4u2FKdvIGeaN0zt7hyxmNkJnAncTW3tv65vCmz3qlZeQEPvNXWUIPWwUmQDRIa8AxibArJQTDyBVGE+VL16+V9i4bB9fmzGbyPfETy9kjSNNkT7/i8erM+02bXWYeQA4wyX/S8Uyr22IdVriAKO8JOsQ6PBXlBExDi1teCdkxX8EaRhUEQ09YeXkU04p0Dxu1fWfMPOrv25ZBJK2Tlv/Yz8hEFW2rf/FhhboXZiXV82cF8q21b53tYPaCCH1TSoZei4iX8iW/zMTqVRkZZDJ2qaI23JWgNUA+0PrIIkQLXY0xrxYrMazHtQ2Zg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass (client-ip=159.226.251.25; helo=cstnet.cn; envelope-from=pengpeng@iscas.ac.cn; receiver=lists.ozlabs.org) smtp.mailfrom=iscas.ac.cn
-X-Greylist: delayed 310 seconds by postgrey-1.37 at boromir; Mon, 15 Jun 2026 17:05:11 AEST
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	t=1781568990; c=relaxed/relaxed;
+	bh=RKUaFCacTQWmQr8n2TjbN4DQwtg9kdMWdI+WTObxrBA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FaAQS8TkgBeFWSiQ5HaOhskXb0Cp1BioSunYkNXFgCpmnSk5rZsrsTiV0n+Gxr+oOJ9936nsegGHsBNOFDw0Yj6nvE/LsvRKqAbsZNiCQDCVu/9Lfqe5t4JjZegjRnU9mejhllty+CDqfdwsq1mtZYvUx6k/KXXlOyTAQp39ITUGF34Tp04nfOYDh7RmwdElYdVCk/thoX79vA8WGS3HXofl5D43WM5jyz04h/KxvsrVbiGzV1hXX5f8SxPnNMW4huMHzrWHvxpqXTtPPJYUbnMWlY2HPtTSZDwsYBfh7Vh5yPPZtNohuA0S/UfY3qpWHDDQ5siZ/RAOgm9FFtk9ag==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=QMI/IHg3; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gf1N75YC5z2xls;
-	Mon, 15 Jun 2026 17:05:11 +1000 (AEST)
-Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowADXYQXloi9qSxaUEw--.63904S2;
-	Mon, 15 Jun 2026 14:59:49 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Eddie James <eajames@linux.ibm.com>,
-	Ninad Palsule <ninad@linux.ibm.com>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	linux-fsi@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Cc: pengpeng@iscas.ac.cn
-Subject: [PATCH] fsi: aspeed: publish cfam_reset after drvdata is ready
-Date: Mon, 15 Jun 2026 14:59:44 +0800
-Message-ID: <20260615065944.34767-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gfSG52WWpz2yZZ
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 16 Jun 2026 10:16:28 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1781568987;
+	bh=RKUaFCacTQWmQr8n2TjbN4DQwtg9kdMWdI+WTObxrBA=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=QMI/IHg3RKAmtHyfDwCfFr6Xt61lvSz8XYsLBaduQrmlCR0nvKeNRPKERL7At5v5D
+	 7wlsCeyvSZikD3A4Xf1uDOqKm8vYDdBxzT5KOolMb1Wyv/m4M2YVa6HCeCkuC+xXIg
+	 VrX6sz3C/qUV20c3y31b8DjA/MDIS9QMX6MeUOhQ02e//CGxBoEGqtQ60b6HdmE6vF
+	 RFtbmNbJVI2RRKD3cmRv/BtpOP/JwvlTNyq+VCjbDr1RUM9MuJ854wQ6TAcn9wbAxH
+	 UrdOf5/kdPd2QeLEm8zgemaE5lm8mxMCmLp0L9LLlY/pgAT2O6dcG3yBkBUCL4kwAY
+	 AGcXesseuwIoQ==
+Received: from [192.168.68.117] (unknown [180.150.112.11])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id DE1786001B;
+	Tue, 16 Jun 2026 08:16:24 +0800 (AWST)
+Message-ID: <e5822b82e99f8c2f81deecfeaea2192b223dfbec.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v2 1/2] soc: aspeed: add BMC-side PCIe BMC device driver
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: =?ISO-8859-1?Q?Gr=E9goire?= Layet <gregoire.layet@9elements.com>
+Cc: joel@jms.id.au, andrew@lunn.ch, jacky_chou@aspeedtech.com, 
+	yh_chung@aspeedtech.com, ninad@linux.ibm.com,
+ linux-aspeed@lists.ozlabs.org, 	linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, 	anirudhsriniv@gmail.com
+Date: Tue, 16 Jun 2026 09:46:24 +0930
+In-Reply-To: <CAFi2wKanAH+ekKz3eVtdiz=pjEvmKwSh1XhE-Xo7p=CCiSWpEw@mail.gmail.com>
+References: <cover.1780929570.git.gregoire.layet@9elements.com>
+	 <af322e76d34ad504e0bdec470293a017b489cfd7.1780929570.git.gregoire.layet@9elements.com>
+	 <4839c31f666b612799a795bb47c884901fd2a903.camel@codeconstruct.com.au>
+	 <CAFi2wKYzUDY5Gis9GaHdqeYdv-orHB+gWfLXkJBgbxfbnRgorA@mail.gmail.com>
+	 <CAFi2wKanAH+ekKz3eVtdiz=pjEvmKwSh1XhE-Xo7p=CCiSWpEw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -62,138 +76,94 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowADXYQXloi9qSxaUEw--.63904S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCryrCry3Kr1DZFyDZFy3twb_yoW5XrW5pa
-	y3WFWFgr48Gr4Fg34kJ3Wqvw1fX3y5tayUJrWxGw4xuasIy34YqryxJrWxXF4fZrWkCF1S
-	kF1Ut3yruF4UtF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
-	Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUDOz
-	3UUUUU=
-X-Originating-IP: [111.196.245.140]
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
-X-Spam-Status: No, score=-0.0 required=5.0 tests=RCVD_IN_DNSWL_NONE,
-	SPF_HELO_PASS,SPF_PASS autolearn=disabled version=4.0.1
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.01 / 15.00];
+X-Spamd-Result: default: False [-2.21 / 15.00];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[codeconstruct.com.au,none];
+	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[iscas.ac.cn];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[jms.id.au,lunn.ch,aspeedtech.com,linux.ibm.com,lists.ozlabs.org,lists.infradead.org,vger.kernel.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-4258-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4257-lists,linux-aspeed=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS(0.00)[m:gregoire.layet@9elements.com,m:joel@jms.id.au,m:andrew@lunn.ch,m:jacky_chou@aspeedtech.com,m:yh_chung@aspeedtech.com,m:ninad@linux.ibm.com,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:anirudhsriniv@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	FROM_NEQ_ENVFROM(0.00)[pengpeng@iscas.ac.cn,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	ALIAS_RESOLVED(0.00)[];
-	HAS_XOIP(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	R_DKIM_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp,iscas.ac.cn:email,iscas.ac.cn:mid,iscas.ac.cn:from_mime]
+	MID_RHS_MATCH_FROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3D82368461C
+X-Rspamd-Queue-Id: AB54E68ADD0
 
-setup_cfam_reset() creates the cfam_reset sysfs file. Its store callback
-gets struct fsi_master_aspeed from device drvdata and locks
-aspeed->lock.
+On Fri, 2026-06-12 at 11:21 +0200, Gr=C3=A9goire Layet wrote:
+> Hello Andrew,
+>=20
+> Anirudh Srinivasan and I have found that IPMI over KCS using the
+> PCI worked with the stock ASPEED bmc driver (the bmc driver in the V1)
+> but not with the trimmed-down version in the V2. I have apparently remove=
+d
+> a bit too much from the V2 , but that's not what I want to focus on.
 
-The file is currently created before dev_set_drvdata() and before the
-mutex is initialized, so a sysfs write during probe can dereference
-missing drvdata or use an uninitialized mutex. The file is also not
-removed on later probe failure or device removal.
+Sure.
 
-Initialize drvdata and the mutex before publishing cfam_reset, remember
-whether the file was created, and remove it on unwind and remove.
+>=20
+> This brings back the question of where we should put the registers
+> configuration,
+> considering that two different functionalities depend on it.
+>=20
+> > It is also possible to put the SCU initialisation on the
+> > 8250_aspeed_vuart driver
+> > directly. This could be activated with a specific flag added to VUART n=
+odes
+> > ('pcie2vuart' for example) on the DeviceTree.
 
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
- drivers/fsi/fsi-master-aspeed.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+The concept sounds reasonable to me. There's probably some bikeshedding
+to do on the devicetree property though.
 
-diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
-index aa1380cdff33..5c8806c4027d 100644
---- a/drivers/fsi/fsi-master-aspeed.c
-+++ b/drivers/fsi/fsi-master-aspeed.c
-@@ -25,6 +25,7 @@ struct fsi_master_aspeed {
- 	void __iomem		*base;
- 	struct clk		*clk;
- 	struct gpio_desc	*cfam_reset_gpio;
-+	bool			cfam_reset_file;
- };
- 
- #define to_fsi_master_aspeed(m) \
-@@ -483,6 +484,7 @@ static int setup_cfam_reset(struct fsi_master_aspeed *aspeed)
- 		devm_gpiod_put(dev, gpio);
- 		return rc;
- 	}
-+	aspeed->cfam_reset_file = true;
- 
- 	return 0;
- }
-@@ -570,6 +572,9 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
- 		goto err_free_aspeed;
- 	}
- 
-+	dev_set_drvdata(&pdev->dev, aspeed);
-+	mutex_init(&aspeed->lock);
-+
- 	rc = setup_cfam_reset(aspeed);
- 	if (rc) {
- 		dev_err(&pdev->dev, "CFAM reset GPIO setup failed\n");
-@@ -620,9 +625,6 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
- 	aspeed->master.term = aspeed_master_term;
- 	aspeed->master.link_enable = aspeed_master_link_enable;
- 
--	dev_set_drvdata(&pdev->dev, aspeed);
--
--	mutex_init(&aspeed->lock);
- 	aspeed_master_init(aspeed);
- 
- 	rc = fsi_master_register(&aspeed->master);
-@@ -640,8 +642,11 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
- 	return 0;
- 
- err_release:
-+	if (aspeed->cfam_reset_file)
-+		device_remove_file(&pdev->dev, &dev_attr_cfam_reset);
- 	clk_disable_unprepare(aspeed->clk);
- err_free_aspeed:
-+	dev_set_drvdata(&pdev->dev, NULL);
- 	kfree(aspeed);
- 	return rc;
- }
-@@ -650,6 +655,8 @@ static void fsi_master_aspeed_remove(struct platform_device *pdev)
- {
- 	struct fsi_master_aspeed *aspeed = platform_get_drvdata(pdev);
- 
-+	if (aspeed->cfam_reset_file)
-+		device_remove_file(&pdev->dev, &dev_attr_cfam_reset);
- 	fsi_master_unregister(&aspeed->master);
- 	clk_disable_unprepare(aspeed->clk);
- }
--- 
-2.50.1 (Apple Git-155)
+>=20
+> Similarly to this idea, we could include have the necessary configuration=
+ in the
+> 'kcs_bmc_aspeed' driver. This could be activated using a similar flag
+> ,such as 'pci2lpc'
+> or 'pci2kcs' directly. However, this would result in a lot of code
+> duplication for most
+> of the configuration.
 
+Can you outline the duplication you're concerned about? I think it's a
+matter of resolving the SCU syscon to its regmap, then performing the
+necessary accesses?
+
+>=20
+> The issue for me is that, two drivers configuring the same registers
+> is not a good idea.
+
+I think it's not as bad as you make it out to be. The SCU's regmap
+protects updates to individual registers under a lock, so concurrent
+modification isn't a concern. The hardware design choices make all of
+this slightly awkward for any related software design. As an
+alternative you could implement a mini subsystem that relevant drivers
+could call through to set the bits, but I currently think that's
+unnecessary work.
+
+Andrew
 
