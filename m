@@ -1,67 +1,66 @@
-Return-Path: <linux-aspeed+bounces-4265-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4267-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 7me7KQdzMWqTjgUAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4265-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jun 2026 18:00:07 +0200
+	id kBUnKAbuMWozsAUAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4267-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Jun 2026 02:44:54 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9B36919B7
-	for <lists+linux-aspeed@lfdr.de>; Tue, 16 Jun 2026 18:00:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D5F9695DD8
+	for <lists+linux-aspeed@lfdr.de>; Wed, 17 Jun 2026 02:44:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ZVIlwhd6;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4265-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4265-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=codeconstruct.com.au header.s=2022a header.b=ZL2rTl7Z;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4267-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4267-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=none) header.from=codeconstruct.com.au;
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gfsBq2NN3z3byk;
-	Wed, 17 Jun 2026 02:00:03 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gg4rK1SY4z3c4v;
+	Wed, 17 Jun 2026 10:44:49 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781625602;
-	cv=none; b=jH1wcV7Yoz43gqfojr4eVdKcCjkf4xX7tlegW6DSQnfANOk2CxKFr+c/WUojs/YfV1oTOYtIiVhtf6VHlAbScDWcOR9JKpZ2RYlS041xlc8xdYqDvk5O3iORSdONf1uJ8t0P4C+EyTLmM5aUBfvgXUgFY+GWde9kiDGC5oJ/v4s/XpykWfY2GIQQ1b+lKOxB3pHqnnk5PWYIylt6ieY2J/sj510LvGnp7aQtbHD7d5vS8L1fJLqglgAmZQpGOvS97ADhBqJaPmu//GfWP240i+5CBN62ylUA9RTvh31pwQoNifSlVELGqa5yJ0Jp/kCssuSrnxpb6ck+/g+qgkIPag==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781657089;
+	cv=none; b=QcSxgHin5ptP1+aN48KZQvAkSz/Cjlcj/N0m3Tfg7zZU9jpE99G57oQsXcpQ3IYZ+IuvWuCFpzmc0s2FD80ZL1iUsOxu5D4BOD0soLt/K58z2U/C+vxt28b0P+6CmyjFC7UofIckJjAiues+SAnH8e4n1SiQfLje4+ESDrmNBEItknTw9H1YiPBbS33b1XGAtutkSyBfyaIOym3mTEYBcXlP/haSIT5glRkiWStggnXkGCiyozAsap+sCXbS+1aoL0d5i3sK2cRPlHqDLQRlzTYvcy7+I187QADiCPYE6Gomjf/NbpZEKvKzhkffGxxOFL59jK1BmKifJ2hdEWohCg==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1781625602; c=relaxed/relaxed;
-	bh=RIse3iwtT2+Os5evlGt3yi2fypjT2QT8SgerPML2hCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TzeWMcr8CYaopFHB2xFjKPTkYAudTsok4FP7FPZgNA+9RYK2mYKHdE6apSWIiQ8Qm89MMXyE2SgNHUwjgk8Yy+HSl0WCjyN9juKlzt4GmMLGrUI/ptSO8rR+mny4hyuu/l9hpxtI67+E6i5Ha/H31Wm9+juvN8bpXXUZ896IZ6aI3/hVMqOz7PYf+FUvSEN4gVnNZKxYnUGH9hlWdx6uHvNtJmhMRQB55t8C2DfOltaEZx/VEKmfuxp/9P89I+H6vCOZEku+mO4qK2se96xRJNWG2UULpjvhH0eCQvadvVwRI2jKvQrL4Dk/KtZOuSrYHH9myQ1fFraGGOYVk19gyQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZVIlwhd6; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+	t=1781657089; c=relaxed/relaxed;
+	bh=oW3NBxoz0h1ByrSqH5tPVmY3lr7CHCdPxDnqXMlrypY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=LmnsNQYz3DxjHrYQaqIxIGI7iMMeY0zTFaOag/aTOTa1iMqHJPk3L0g8pDHgmiCnO3WCVpLsCzv0cmFnNFOQmGyfJgxBwEoxnOb/kUPqmqR11ryktBojWZVI+FdnVbw6wZ3jsdKxoV9rRvMklRMDVjE1M6Wfn+gGySpb7gER1oeuebu3o/6a2U0v0n3kmH0Ff1E4VRmvxNqoyZABGfFHGZc007/4BT6g2fevVuAf75Y0Pp6OP7HHH9TzZj+7kGAde/U4PAVqvjdpdTHGHzdmXxE34KGHbHqC1/qdh85RBtDhQ0r/9Uycf82vqpz5DwtAmq1OhpT1JPXVpDQpIEYnVQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=ZL2rTl7Z; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gfsBn4xTBz3bsY;
-	Wed, 17 Jun 2026 02:00:01 +1000 (AEST)
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 880ED42B6C;
-	Tue, 16 Jun 2026 15:59:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F00A31F00A3A;
-	Tue, 16 Jun 2026 15:59:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781625598;
-	bh=RIse3iwtT2+Os5evlGt3yi2fypjT2QT8SgerPML2hCA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZVIlwhd6oD9IM9hhq5ifVe+dQbWEypsk7MvrPoQ2DIj+CRLFkMXl+uddZ/IeXoUXw
-	 Ds3gOZI6riFQezdvBQmcNg+WuPytgkqRr1OULzZqCDqHBYvdtCGQglpJI2rTDNn0ot
-	 AQDV030F2Ul9tFkcYm86ptat4zuo/XbkBo1ZuvO3iJwwgyv6V65xaGLv56N7F7fRd/
-	 GR9wT6b0BkcRKW6NDH0yz3chjaWNV4h7KAC4xQoJN84gvASWUe+wYx4F2U2pOIZGBN
-	 DFGckWFG17boMCTZdPEDRFotpe1siIgTvppyMACFl/J6znVoICieUGDYbCCq1IZI2F
-	 iK7zZ7fJOZ86w==
-Date: Tue, 16 Jun 2026 16:59:53 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Cc: Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: pinctrl: aspeed,ast2700-soc1: Add
- JTAGM1TRST group
-Message-ID: <20260616-surgery-fritter-8583b091fd6b@spud>
-References: <20260616-pinctrl-fix-v1-0-621036e45c7c@aspeedtech.com>
- <20260616-pinctrl-fix-v1-1-621036e45c7c@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gg4rJ0Q1Lz3bsY
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 17 Jun 2026 10:44:47 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1781657086;
+	bh=oW3NBxoz0h1ByrSqH5tPVmY3lr7CHCdPxDnqXMlrypY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=ZL2rTl7ZbPOIJdHwOxroNvNWUC/kgtRAbAsWGXCKonHXLRrmL/CwWU+Z7+Gkh+iwA
+	 rkleWiff1R18xZXbDHV+V6vMusxH4YNZC0aGcNbfh4HOuA7mznwR5ltcHkR4fT3sDm
+	 x/mZEoOJHLzPyiLd/vEHJeeIGlfhNiMfAETpc0G+CkSpDn7tzt4F4t1En5OBL/lM76
+	 LzFyNucIhKKmtxaZyCp/u1GAB7I+Mr7Ul1tYOBMQ6EbabGD4O1M8frojJ/D/NRwiPU
+	 Iu+YKrclcxY0vsp14NBVCDcBduvG3TjzN8iwbtZkI6ijucd3m8yoAvkqE898hdaM/q
+	 MxOsQal375ETw==
+Received: from [192.168.68.117] (unknown [180.150.112.11])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 0A1D7659B9;
+	Wed, 17 Jun 2026 08:44:45 +0800 (AWST)
+Message-ID: <b50b84b169b632200ca348971451baca83357c7b.camel@codeconstruct.com.au>
+Subject: Re: [PATCH v6] soc: aspeed: lpc-snoop: Fix usercopy overflow in
+ snoop_file_read
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Karthikeyan KS <karthiproffesional@gmail.com>
+Cc: joel@jms.id.au, andrew@aj.id.au, Kees Cook <kees@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Date: Wed, 17 Jun 2026 10:14:44 +0930
+In-Reply-To: <20260616073053.1144730-1-karthiproffesional@gmail.com>
+References: 
+	<033f2657ae6a94ad13d22f717a2900afb75d892d.camel@codeconstruct.com.au>
+	 <20260616073053.1144730-1-karthiproffesional@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -75,64 +74,79 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sLe+DVJgetvs8zz8"
-Content-Disposition: inline
-In-Reply-To: <20260616-pinctrl-fix-v1-1-621036e45c7c@aspeedtech.com>
-X-Spam-Status: No, score=-0.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.31 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.21 / 15.00];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	MAILLIST(-0.20)[generic];
+	DMARC_POLICY_ALLOW(-0.50)[codeconstruct.com.au,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	MAILLIST(-0.20)[generic];
+	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TAGGED_FROM(0.00)[bounces-4265-lists,linux-aspeed=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-4267-lists,linux-aspeed=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:karthiproffesional@gmail.com,m:joel@jms.id.au,m:andrew@aj.id.au,m:kees@kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:linux-hardening@vger.kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	ALIAS_RESOLVED(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TAGGED_RCPT(0.00)[linux-aspeed];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,spud:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[codeconstruct.com.au:dkim,codeconstruct.com.au:mid,codeconstruct.com.au:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1F9B36919B7
+X-Rspamd-Queue-Id: 8D5F9695DD8
 
+On Tue, 2026-06-16 at 07:30 +0000, Karthikeyan KS wrote:
+> Hi Andrew,
+>=20
+> Happy to. Short version: ast2600-evb can't hit the SMP timing window,
+> so I reproduce each missing piece deliberately. The driver code under
+> test is unmodified -- only the stimulus and the post-race state are
+> injected. Stock qemu-system-arm (Debian 8.2.2), no QEMU changes.
+>=20
+> Three obstacles, and what I did about each:
 
---sLe+DVJgetvs8zz8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This looks like a lot of heavily LLM-assisted effort. Please review the
+relevant documentation, starting here:
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+   https://docs.kernel.org/process/submitting-patches.html#using-assisted-b=
+y
 
---sLe+DVJgetvs8zz8
-Content-Type: application/pgp-signature; name=signature.asc
+I feel the testing strategy is pretty questionable. Any invariant
+violation is possible with that type of meddling.
 
------BEGIN PGP SIGNATURE-----
+I was interested in whether you drove the interrupt sequence via
+emulated hardware. I asked because upstream qemu doesn't currently
+support the snoop device.
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCajFy+QAKCRB4tDGHoIJi
-0nyzAQD/cfSEv7EyKRM044BXBjhasA9Yr52g/vKaTKlxcUnd+gD/dLz2G4ZVL2LX
-+vn4OonXgVtVBt+atEzn1pOoaRvRjAk=
-=uh/e
------END PGP SIGNATURE-----
+In v3 you said:
 
---sLe+DVJgetvs8zz8--
+   The issue was observed on physical AST2600 (dual-core Cortex-A7)
+   in production under heavy POST code traffic during concurrent
+   userspace reads.
+
+   https://lore.kernel.org/all/20260527175939.2939714-1-karthiproffesional@=
+gmail.com/
+
+Is this true? What platform did you test with?
+
+Andrew
 
