@@ -1,70 +1,82 @@
-Return-Path: <linux-aspeed+bounces-4271-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4274-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 6+VzFs5CM2oe+wUAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4271-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Jun 2026 02:58:54 +0200
+	id 1th/FCZ/NGqcZgYAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4274-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Jun 2026 01:28:38 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498AB69CF2B
-	for <lists+linux-aspeed@lfdr.de>; Thu, 18 Jun 2026 02:58:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31216A3142
+	for <lists+linux-aspeed@lfdr.de>; Fri, 19 Jun 2026 01:28:37 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=codeconstruct.com.au header.s=2022a header.b=D9aMXaS2;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4271-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4271-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=none) header.from=codeconstruct.com.au;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=euUqukeP;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4274-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4274-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4ggj626sxVz2xd2;
-	Thu, 18 Jun 2026 10:58:50 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4ghH3R2ncLz2yrX;
+	Fri, 19 Jun 2026 09:28:35 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781744330;
-	cv=none; b=AT7NSMix9S27F4mi6ameDxmlRVfeZ5+O/orCXrh9xY8wA53VVeeEXqY50O+CHp72Xgz+IHkj3FJw+ILDAqoOiNc3RhwktNi2rJ8bui7AT1DssnSQ31+pH/9lPLQQK2qjRLSfzxtvle920aoHpBrUBs+OV72/s5hjQdxGdecrU286XcyFqGG67Ypmvh5HmMc9tEGGrCpj53xTnufafGpBHxnSuR9r5O5khgFuwwybECaqrAj9awwYDWdObVr36jwKSkjIPw2Hij0B5h+OOnxkdBV6/KnbfA6cpIVm6NxHqtoI08IZsKTCCGakPZOP1W+a6oarkQtf7JCBRyLPVhAX8w==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1781768451;
+	cv=none; b=kNuwCh7bQp6X9Z8G5tynkBTMn7JnaO5DIFLXE8qvdRbiVMKTRFxa5Zp9QCJfVtzNqM42ExPTug0EV5h/cpjMzzuA653lTiPG90wQuwneZRuLq0HO4M7ITrZqlfI4VXFBheY5bebRSrOKh1gGl8wuaNLJVdYFsyqne1gPK6BcHlf9eNprbTj53eSIyXSN/WZVOxV6Y961jHKZ/pwhFZD/42eNLG9B+VfU6QZ1ETiHgM8aRVgJbxFMkxC0k6Z9ym1oOwX/F+CverXtlE6VlRfQWMdYMNVB3jW5QEVatAfc4XQzV4WxZhAD+xubINuLXXWl9li0TmzlkKPFHoI0aWXjNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1781744330; c=relaxed/relaxed;
-	bh=1z0mzRaUwg28hI/tJz6GdvQqkq6YjyxhLSV6ywwj7Sw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XsvgNlQXh6EDeFc8UGAhVmuF4fvSOeVngoaWttvsjXP15IIF6HFSrWi/LPs+sZh1ZfwqLv0T5kmVSHSvPb4yJXovtE6AdOoAa/tNfFX1uf+hf1H/n1ZKPD8XwvlyX/TyiKJae5XBucp0AGIHLS9mdfBMS7ik3BI062YvbCXrh6QgJEAcmtJRgZaHr+palM+yHsl3ARaCn6NQOJ9oQPz6CGLQBPqW3T0g/GSlrTY4UaPrbhNALDT9uAkodpjGJ125qK3gWHamzI58YhsBoIF0rjMLNzRiR7QPuKeZ6YJFamp20iVRVdjjA0SFT9DnwU2Nq98lyY5SGhKY2i3trTKfpg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; dkim=pass (2048-bit key; unprotected) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.a=rsa-sha256 header.s=2022a header.b=D9aMXaS2; dkim-atps=neutral; spf=pass (client-ip=203.29.241.158; helo=codeconstruct.com.au; envelope-from=andrew@codeconstruct.com.au; receiver=lists.ozlabs.org) smtp.mailfrom=codeconstruct.com.au
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	t=1781768451; c=relaxed/relaxed;
+	bh=4bQGAYRRaV2+W1903QsWxmruXddrxMYSZxLh/ZQ661U=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FiS6rvVwN89lpFVTtEp3tH0j5qFXgws2LCQU71JBHn2+nzDd+iF/0kLSRZWlT97exQT1uPQphEsXJ2wJX3csCuaxm8c0+C+Eo4/C+a3aOfPxZS/ivDB0i0AcLZtNH1FU2w3h+qB4TDVbOjnOXprj/1bATdAoIDGjBY92zKlrhYmKdwtr6UDBQsac5twQNDJHIkmXPD+wfqQzl9HxSneltThu9wVpsV25AOKR3WkarqNoBmrhwZbsveXXyvCq9pT1/CqYrT/v5r31S4OnRtDpBsOu31algs9y/vOCzrDJAmYFRa3k4ZwwG6AbgAAnR4qud8dtuDSrt3UViJ7xzJL3VQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=euUqukeP; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=mike.quanta.115@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4ggj621SWsz2xLm
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Jun 2026 10:58:50 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4ggt1t1CLVz2xC3
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Jun 2026 17:40:49 +1000 (AEST)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-2c6bb8a5980so4477715ad.2
+        for <linux-aspeed@lists.ozlabs.org>; Thu, 18 Jun 2026 00:40:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1781744329;
-	bh=1z0mzRaUwg28hI/tJz6GdvQqkq6YjyxhLSV6ywwj7Sw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=D9aMXaS2Asgq1ESDl+vx0toQM1hhkc/hl8b0S37TNz/ZYTDXKsL/mFzZEwIZiTKwK
-	 OSn2jCqTsmAKKwXcB+pyac+xBbjdZT9a17AIwwEzJbCIZgLewQ0/f+sdMZ7QLsu/nF
-	 lEqpnlN78WMyKbpL5kl0DITIA2PIdXLtxujTBrR9KbSnU4eQ/J/s8M2eVEdz/2+TUr
-	 hjHTvRO8XzEEcO2EXOvjPvUyAJOVe2TH0FhULoCBK5ALWbPhOK9MjoLVGINK58kkom
-	 P+FZ9zggLJWLrLH1P4RZJafkfnvhE/Gp2qyVUbQOAOMlcTDEpbtEVPOdcTdox+mVa5
-	 yyAf/Oj87fOTw==
-Received: from [192.168.68.117] (unknown [180.150.112.11])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 8C404605A0;
-	Thu, 18 Jun 2026 08:58:48 +0800 (AWST)
-Message-ID: <492d66285039a789cbede66133a053fd75492e8b.camel@codeconstruct.com.au>
-Subject: Re: [PATCH v2 1/2] soc: aspeed: add BMC-side PCIe BMC device driver
-From: Andrew Jeffery <andrew@codeconstruct.com.au>
-To: =?ISO-8859-1?Q?Gr=E9goire?= Layet <gregoire.layet@9elements.com>
-Cc: joel@jms.id.au, andrew@lunn.ch, jacky_chou@aspeedtech.com, 
-	yh_chung@aspeedtech.com, ninad@linux.ibm.com,
- linux-aspeed@lists.ozlabs.org, 	linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, 	anirudhsriniv@gmail.com
-Date: Thu, 18 Jun 2026 10:28:48 +0930
-In-Reply-To: <CAFi2wKYgxKpp0ezzryYhFPDeqAeHhUq9Lhm67pVpnXRg+c2Vhw@mail.gmail.com>
-References: <cover.1780929570.git.gregoire.layet@9elements.com>
-	 <af322e76d34ad504e0bdec470293a017b489cfd7.1780929570.git.gregoire.layet@9elements.com>
-	 <4839c31f666b612799a795bb47c884901fd2a903.camel@codeconstruct.com.au>
-	 <CAFi2wKYzUDY5Gis9GaHdqeYdv-orHB+gWfLXkJBgbxfbnRgorA@mail.gmail.com>
-	 <CAFi2wKanAH+ekKz3eVtdiz=pjEvmKwSh1XhE-Xo7p=CCiSWpEw@mail.gmail.com>
-	 <e5822b82e99f8c2f81deecfeaea2192b223dfbec.camel@codeconstruct.com.au>
-	 <CAFi2wKYgxKpp0ezzryYhFPDeqAeHhUq9Lhm67pVpnXRg+c2Vhw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+        d=gmail.com; s=20251104; t=1781768447; x=1782373247; darn=lists.ozlabs.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4bQGAYRRaV2+W1903QsWxmruXddrxMYSZxLh/ZQ661U=;
+        b=euUqukePeLwnvgWAP+6xPb6FPn3WQvPoe28+7EUlsxVcsbTgCYIzb9dyNMk1NTVErn
+         W+6yTgQEzXFy1RhACNLa++ShurpmgvH8+cjnYX+3OPK62OzWnEJTmhSag60kWxNIoP9B
+         Z5wfs/no2LrQTMNLLKJFut0shmyq0RBNWA+ajFTyefKnea/lQW0mmzcyYPNjwAAI8GaV
+         6AYQ1nifoQ3o8FZK49PDJlGXP9ENk7AvU3GWFcJC2J9R111qwgLqvmd9uMhMj0r9EvT5
+         If1poCTWsTLnPxWXZIcMANLfvLFp+QO+b+xNIslWoQG7vW3ZxMaF5MZhe0YBlCP6LXzi
+         N61A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781768447; x=1782373247;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4bQGAYRRaV2+W1903QsWxmruXddrxMYSZxLh/ZQ661U=;
+        b=hiP9dh8Xj7jq6vj8vFGaiuYZ31egf6shblNBKD10/3vLnyW54KQuK3xHvID2JQ62GM
+         QgqQ6X0qvgzeVVO46k2/B0cnpBcsLDrlLNHm3w9JwAXIto/BpmZGnPP1dQ6T5ze09n3O
+         Tanp2JlNc6GTc7z0Kc5x+1eM3A+BWBl8cJuSqMruLqC6gcRYB8ysJjLlO4Vxvo7S5huH
+         akJa9+gZEjNUxoGa5eT+JjjJkffc5nfgktktLxp1fRvkdFDehbTf/ka4fJj972ZJi/Tb
+         G1Lewgq+IxjjmcwFxzo/llFZaKve4E0nJp97KBWnL9V4ewZro63+BCzWti47bgYK2AdL
+         bqXw==
+X-Forwarded-Encrypted: i=1; AFNElJ+eQ4PtN34mttDSKwmL8hdQmhR1nVeCyIbM9Md0JlDcYwStMRhkJdCQBzsu4bnT4hWZtCRN996kCXcVxUg=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yw8y0rg/uwf6649XLxnxIz8n90AuPGT+4CnZbuDSLWfDX7l2Q+t
+	N21uckikmQ/10jSg/c11DbTLKdF+q45Pp91RPGscWEoMlgETwDtwE3CZCY3jCg==
+X-Gm-Gg: AfdE7cm/fhovVUCmNC73Ox05bW7DGvBuOTdnG8JTBUP2F8X3nJ5W9OHC+VrUEkiRRd6
+	WAh7i2WacU1bM5z3T1optbQlzaGrVJU/hbWIt+Jm1yZNSRI//BqYb9DaWzgE66wPJV7mDqjOelo
+	wcjCK+Bfdvv2VCXMjC/J2hAwsYWBEAl3gBCZt+bkdBGZXdtXsCpvoUd6iN+KyznJbpMzneeiYF8
+	v3TVnkZ0w0otXZbgsY5nw0/SdWwIQhUpuPEuTGPmJ1ljRa1fnR4HVj8rWes0VYffIRBEMQz1koj
+	bvjGCz7dXQ60PC1/vfHBVA3FFEmc8v8Y+qSAvKycD4YsI8gnVPJy2olHNIziVu05y5IWCIqekw7
+	2Otsp23bd4xGYS6QaRtiLX+UmIbhj5H/M7p4JUs4MbLU/eKROKp34A3VJiQvXKSlSoVTSgR2OLp
+	qxEIhUqPDs2QCiYAj1yPYiTymiqXi+fFTMOrR2/JpFg9YkcaKsqi+X6mdl
+X-Received: by 2002:a17:902:ce09:b0:2c1:f29a:b554 with SMTP id d9443c01a7336-2c6e5276358mr27029345ad.21.1781768447233;
+        Thu, 18 Jun 2026 00:40:47 -0700 (PDT)
+Received: from [127.0.1.1] (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c4327ac80asm170465445ad.39.2026.06.18.00.40.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2026 00:40:46 -0700 (PDT)
+From: Mike Hsieh <mike.quanta.115@gmail.com>
+Subject: [PATCH 0/2] ARM: dts: aspeed: sanmiguel: configure LM5066i HSCs
+ for PDB
+Date: Thu, 18 Jun 2026 15:41:43 +0800
+Message-Id: <20260618-sanmiguel-dts-config-hsc-lm5066i-v1-0-cccf959c9b78@gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -78,110 +90,89 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3NQQqDMBBA0avIrB2YxDYtXkW60DiJAxolY0UQ7
+ 97Q5dv8f4FyFlZoqwsyH6KypgJTV+CnPkVGGYvBknXkzBu1T4vEL8847op+TUEiTupxXp7knOC
+ LwoPYDI23DCWzZQ5y/hfd575/UlJw3nIAAAA=
+X-Change-ID: 20260618-sanmiguel-dts-config-hsc-lm5066i-70f40e1b3c2e
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Patrick Williams <patrick@stwcx.xyz>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ Cosmo Chou <cosmo.chou@quantatw.com>, Potin Lai <potin.lai@quantatw.com>, 
+ Mik Lin <mik.lin@quantatw.com>, Mike Hsieh <Mike_Hsieh@quantatw.com>, 
+ Mike Hsieh <mike.quanta.115@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781768507; l=715;
+ i=mike.quanta.115@gmail.com; s=20260522; h=from:subject:message-id;
+ bh=6zTiz3w7GY/mvuRAIGS25k8loWak+uMbX/Tb1hT6QIw=;
+ b=R8LnW7P5uTR3hdw1TZeBW8HSvfQD7fYHI9xc1necYSMYzKw9jzZdiu94yh4PMMYgeAVq/vigV
+ vFPAg9cKrhjCTvvTTCFFjDEgtIjsqVID5CvUPSzpINlUFc7KvOFHrLK
+X-Developer-Key: i=mike.quanta.115@gmail.com; a=ed25519;
+ pk=DRIErV0xX0KMBlR/irAsbuN4L3egitHbC8FHruUH4HE=
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.21 / 15.00];
+X-Spamd-Result: default: False [-0.71 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[codeconstruct.com.au,none];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[codeconstruct.com.au:s=2022a];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[jms.id.au,lunn.ch,aspeedtech.com,linux.ibm.com,lists.ozlabs.org,lists.infradead.org,vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-4271-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-4274-lists,linux-aspeed=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:gregoire.layet@9elements.com,m:joel@jms.id.au,m:andrew@lunn.ch,m:jacky_chou@aspeedtech.com,m:yh_chung@aspeedtech.com,m:ninad@linux.ibm.com,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:anirudhsriniv@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[mikequanta115@gmail.com,linux-aspeed@lists.ozlabs.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:patrick@stwcx.xyz,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:cosmo.chou@quantatw.com,m:potin.lai@quantatw.com,m:mik.lin@quantatw.com,m:Mike_Hsieh@quantatw.com,m:mike.quanta.115@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:mikequanta115@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[codeconstruct.com.au:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.ozlabs.org,quantatw.com,gmail.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrew@codeconstruct.com.au,linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[linux-aspeed];
+	FROM_NEQ_ENVFROM(0.00)[mikequanta115@gmail.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp,codeconstruct.com.au:dkim,codeconstruct.com.au:mid,codeconstruct.com.au:from_mime]
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 498AB69CF2B
+X-Rspamd-Queue-Id: B31216A3142
 
-Hi Gr=C3=A9goire,
+This patch series updates the device tree configurations for
+the four TI LM5066i hot-swap controllers (HSCs) on the Power
+Distribution Board (PDB) for the sanmiguel platform.
 
-On Wed, 2026-06-17 at 08:40 +0200, Gr=C3=A9goire Layet wrote:
-> Hello Andrew,
->=20
-> > The concept sounds reasonable to me. There's probably some bikeshedding
-> > to do on the devicetree property though.
->=20
-> Yes, having looked at how it's done, I would say :
-> 'aspeed,vuart-over-pci' and 'aspeed,kcs-over-pci' flags would be
-> better.
->=20
-> > Can you outline the duplication you're concerned about? I think it's a
-> > matter of resolving the SCU syscon to its regmap, then performing the
-> > necessary accesses?
->=20
-> Both drivers will need to set :
-> - Enable PCI BMC Device MMIO
-> - Enable PCI BMC Device IRQ
-> - Enable PCI BMC Device MSI rooting over PCI Device 1 (BAR1)
-> - Enable Host 2 BMC MSI interrupts
-> - PCI device class to 0xff000000 to be identified as a MFD device. The
-> reset default is 0x0C070100 which is an IPMI KCS device, but that
-> causes issues as it is detected by ipmi_si but can't be loaded because
-> of non default KCS address.
->=20
-> Sorry for my errors, there is not that much. But both drivers will do
-> almost the same initialisation. That was my code duplication concern.
+Signed-off-by: Mike Hsieh <mike.quanta.115@gmail.com>
+---
+Mike Hsieh (2):
+      ARM: dts: aspeed: sanmiguel: fix PDB HSC shunt resistor
+      ARM: dts: aspeed: sanmiguel: add current-range property for PDB HSC
 
-I think it's valid to be concerned, but perhaps not for the reason of
-code duplication. If there are multiple consumers then we need to
-ensure consistency of configuration and correctness wrt to enabling /
-disabling the capability based on the number of consumers.
+ arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-sanmiguel.dts | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+---
+base-commit: 57596c043ad59cf2e53fadebf6d1b418190e3a49
+change-id: 20260618-sanmiguel-dts-config-hsc-lm5066i-70f40e1b3c2e
 
->=20
-> > I think it's not as bad as you make it out to be. The SCU's regmap
-> > protects updates to individual registers under a lock, so concurrent
-> > modification isn't a concern. The hardware design choices make all of
-> > this slightly awkward for any related software design. As an
-> > alternative you could implement a mini subsystem that relevant drivers
-> > could call through to set the bits, but I currently think that's
-> > unnecessary work.
->=20
-> You are right it's not as bad as I thought.
-> For now, I will focus on the VUART until the solution has been
-> validated. Then I will easily do the same for the KCS over PCI.
+Best regards,
+-- 
+Mike Hsieh <mike.quanta.115@gmail.com>
 
-I think it's a good step to at least solve one thing at a time, so long
-as we're not precluding making those future steps.
-
->=20
-> So I'll do for the V3 of the BMC side driver:
-> - modify the device tree binding to have 'aspeed,ast2600-vuart' and
-> add the 'aspeed,vuart-over-pci' boolean flag, only for the ast2600.
-
-Just to confirm, you're proposing modifying the 8250 binding?
-
-> - modify the '8250_aspeed_vuart' driver to add 'aspeed,ast2600-vuart' sup=
-port.
-> - add vuart over pci enable and disable code to the '8250_aspeed_vuart' d=
-river.
->=20
-
-Sounds like a reasonable start to me.
-
-Andrew
 
