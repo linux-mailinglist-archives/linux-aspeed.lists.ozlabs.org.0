@@ -1,46 +1,106 @@
-Return-Path: <linux-aspeed+bounces-4282-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4290-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id MTabGa/eOWqzyQcAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4282-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Jun 2026 03:17:35 +0200
+	id gJtoBbocO2qMQwgAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4290-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jun 2026 01:54:34 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D176B3220
-	for <lists+linux-aspeed@lfdr.de>; Tue, 23 Jun 2026 03:17:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56C766BAA22
+	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jun 2026 01:54:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=fail reason="SPF not aligned (relaxed), No valid DKIM" header.from=aspeedtech.com (policy=quarantine);
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4282-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4282-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dkim=pass header.d=9elements.com header.s=google header.b=Sm9Y9IMq;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4290-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4290-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=quarantine) header.from=9elements.com;
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gknG04Z50z2ygl;
-	Tue, 23 Jun 2026 11:16:24 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4glMP31JwYz2yRC;
+	Wed, 24 Jun 2026 09:54:31 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1782177384;
-	cv=none; b=erTY9cFPD9G8OpTeI3VwTanWIXOoVPefSt0b5A75xebW1ekfauIccge3dc+5/C3fj6OU6O8BawvHCL9NNc6BcxS832KMsA+ZgQHvgyKBkb2EhYch0NXxVR4DEEcgOPgu7kXwwFXpIsQG6vJnMMTu1BNjZNuQ+3SAzlHlJVxoS8xukdGDkBVMsgu0S0H/E+tH8mFBpbTnfHVyIenh/b8Xp/x83FYAhvJUlWZKZsqkvqF2jhWk6MFsLbLUqLKc4hp31xcYc9nWK6p5BjmCNfDCDtKpYrDdVWr364FAzhj3kN/r9mJK6O9KGG+juV1QDSbomAy82ATgJHEF5w3JWQ2wvA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1782224978;
+	cv=none; b=C7EFS7oDQNsBscCds90mob/w9Hsl8MUo0UE7oAXSrWh5loB8hjgwt417PGota0zbdRVxQ77PgOigBA4PZq53+NqEGscCb8hV3rPfzSf3XhOwPEFuoWOpNQCsWbO2iny2stg47SDunlrSq4PDb5UBB8a/o/dpTDyzWshp7hWfd0/zfBDx01tghltOBpQo2WtiR4A9HEsP7cWyD50jjcpgAN2GxEqEVpscO54AUf4tz0dwlZaI1tmPtqMY82MgVuJQOwUsewIE0MusmwQQK9c5Z37Y1OUSrjQGS8oanNba4dSWm0FFvCkqjwaZl6d4MWX5RsJnuC6+RxBeMf2jGA+NEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1782177384; c=relaxed/relaxed;
-	bh=Zq0CoAEOD5xdttqhqqS3vb+or6QIv35gsSybUHkQcAM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=JhWGyiiqz3oOIvpaj89JvvU+Lqz3wqospaNckeToBnXb131dcZwBRdhQ2RXl3picm7gKZ+PK2LFXSOw/HNS0iqD78iZtmfgmhq+1l/H/JK6nD8IAgLk0Uozpi3U7HeiHoPeQKuL58oZZGH/dATR2HvELYhPTSNJ7bIwnyg9W8symKodO0MFG1YHaunPrLYkYSCumPDc/7D1YjIG0S1uqKDYAsbpajZxGQ4TRPg8HbIj6nFT+TBiLW42ev+9EJaG8xsbMo5EIH8Dh7L28QTfX5phQjmZZv5x+u+SmvjqPb4OcTqlFmsreVbqHq4niraR/EVQfNZiM9qjrpiOTar4FDA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeedtech.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Received: from twmbx01.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	t=1782224978; c=relaxed/relaxed;
+	bh=H10VUnmTOcSqsdtPCuQYnfKlpPMwS75wksj7BtxL1Y4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QehR0G1M9Y2YAHyyB/Lxa5q5c+QBOF0cVgDOzr9SsN72kC8/AfJGK3In3MkibILbM1psG3wUQD+hE1A3MSMb0lQUD1aFmiVGEsyzyaxSXFApWMb32SOA3LWk1k8UVG9ZS6OzFsbkz70KnhBpuCQwGrQJ1y1LAoTlHZV0zOM8RpU0ZtOZzpzB07yEBoNhE9K4vT6PVrZ3iVtRn5a3Lzgpj4ZWRNneX1w185ihlbrROKJmcUeLmFjmUKGAX7JIV8fXk6+0NMigvapueMjYzur9Em/8EU+blBUIciMxl7lkaESM6PaRPMAM5a7k+plZoihOGKTipUxeXowj8s3+P1Ug2g==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=Sm9Y9IMq; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::341; helo=mail-wm1-x341.google.com; envelope-from=gregoire.layet@9elements.com; receiver=lists.ozlabs.org) smtp.mailfrom=9elements.com
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gknFx5n0Tz2ygJ;
-	Tue, 23 Jun 2026 11:16:21 +1000 (AEST)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 23 Jun
- 2026 09:15:55 +0800
-Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
- Transport; Tue, 23 Jun 2026 09:15:55 +0800
-From: Ryan Chen <ryan_chen@aspeedtech.com>
-Date: Tue, 23 Jun 2026 09:15:54 +0800
-Subject: [PATCH v33 5/5] i2c: ast2600: Add target mode support
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gl6sD4xcyz2xM7
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 24 Jun 2026 00:29:35 +1000 (AEST)
+Received: by mail-wm1-x341.google.com with SMTP id 5b1f17b1804b1-4924593f45dso40672585e9.1
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 23 Jun 2026 07:29:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=9elements.com; s=google; t=1782224967; x=1782829767; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H10VUnmTOcSqsdtPCuQYnfKlpPMwS75wksj7BtxL1Y4=;
+        b=Sm9Y9IMqxPq3s+VRvs5jncJGsBLuZf4hS8BzkkepXIqXG7R9FO6KT28sBepqZMCcKb
+         tptjljVB/pNZVkj7Gnn+9Ho8o1wQVhMUPgYdKm6cy3/bLeFrtLPUYzujjDGFeLyTbSCd
+         kLZZs1SAbNPBq+DMelZysAA4dy7R+NL4Tk54CGs6z+fa/yDtOJdgPfRVJIS416g6uCIZ
+         LplND1Ij2qmu6jC/50GcVG4z4vta6y7/DRkPBu0JJ99cHy1AjIluZSCgRDPCwW6cglG+
+         212Uoaj5eDEVWGURPkPbql7riAzKztFiASMszDu33xghyAotCgSpypCaT1uy2D9+RbKV
+         1ORw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782224967; x=1782829767;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=H10VUnmTOcSqsdtPCuQYnfKlpPMwS75wksj7BtxL1Y4=;
+        b=fJlZTGZ1zPF7SghCBJjuAcbfaRyr5vxlfXMRNL8uta4k5Rp0SL/6hjfWqSydekGyDp
+         rhncW/gk3qxWenV5gDsp61ggIQRCT2nhxAIPHNIDxJTB2+I7ZNnKl2NrPgwCTk5IRPxr
+         efvKkyR5FzTLr9qpTEbp2Pykea8uDrxRMvoOVv+I7nAd6cidL1dKDb1UoS+DGMY5J1f+
+         5UUqzT/LkzNSa6Xk3Vo83Espu4ZE/yZbjB7k+NCmN4W1fPApseCtlmBVBfAWTncHlbEV
+         uZoOrf8JldvxS/D+hQecAq3wM9GI2v04CPaN8wCzhWaTnqjYfC1t8CTyNcCJn70aqtfc
+         6ipQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9Up8Pt8jqsO1afvuKHjCTo2vRGOgF6jMV/l1Bv6M9Y9sTkg2WT3AL5FW6OIi+xPwHIQutr3v3SsNKb9io=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YyFD0EUjeSsGyqpFyChkm6w69NCPnpuFUYXJSaMPL5kKKyV2qiZ
+	m9s1Z/xvesi4/mMuGbJHiz8ZWa+E28Ov1nCCKbkFn1FZukR2BEyDL8zSbiGwsoifnRs=
+X-Gm-Gg: AfdE7cnZnytO50uQy6Vox2doCZllickDlj0okA2U3xCI6mkfy29Bp1dSODZdZpxhIuJ
+	LaOOAxAWpd5+2BmVvSR16PGLmcTe+AH8m1C4jSyKVGcwOW/q0c3CZijvcjqLVBYyZbRkF7zUzoj
+	qG2N/kH8niRBP9Resl6Cqpw6XtKo7a8l74mnxkiMdYAa7hpISHB3pYtnnAcZ5PnljqaYMWHkcgv
+	JgCT7Y1Xp52HbkJhK/ZMNZufw0fYWlql/S2OpONM1nkYZWOk/PkynTY6TtqnFrPjsxbd3WtpvXl
+	FWqsu+1OXziR//7uawxVkIhR84TrJQorc/8A1wb+xsKWhzpn5JoOs+8evd4kOPrK6/rTDMNJRSH
+	bw6F2DYpCdIRwA6JTMuJx8HC613Mq1852N23ZxgjpKgWm2wwyfivJyVc5fNg7SZgq1kq6cyzTt4
+	RrEkOcKMiOKPmUDkBJ3rWzsHoX2ti5bOoxPuCPiOQwHGGy0smiFk4bHviEY4b3I/+HEp64oAIsu
+	KxpKMNmU98BmCA+8GIXgSJM5ELW
+X-Received: by 2002:a05:600c:8b2c:b0:490:ba0a:1178 with SMTP id 5b1f17b1804b1-4925b3b1732mr44333735e9.28.1782224967252;
+        Tue, 23 Jun 2026 07:29:27 -0700 (PDT)
+Received: from gregwork.sec.9e.network ([188.111.3.154])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49240efc160sm362507805e9.2.2026.06.23.07.29.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 07:29:26 -0700 (PDT)
+From: =?UTF-8?q?Gr=C3=A9goire=20Layet?= <gregoire.layet@9elements.com>
+To: joel@jms.id.au,
+	andrew@codeconstruct.com.au,
+	lkundrak@v3.sk,
+	devicetree@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	jirislaby@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: andrew@lunn.ch,
+	jacky_chou@aspeedtech.com,
+	yh_chung@aspeedtech.com,
+	ninad@linux.ibm.com,
+	anirudhsriniv@gmail.com,
+	linux-serial@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Gr=C3=A9goire=20Layet?= <gregoire.layet@9elements.com>
+Subject: [PATCH v3 0/7] soc: aspeed: Add BMC and host driver for PCIe BMC device
+Date: Tue, 23 Jun 2026 14:25:38 +0000
+Message-ID: <cover.1782224059.git.gregoire.layet@9elements.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1780929570.git.gregoire.layet@9elements.com>
+References: <cover.1780929570.git.gregoire.layet@9elements.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -54,614 +114,146 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260623-upstream_i2c-v33-5-6d5338fc56ed@aspeedtech.com>
-References: <20260623-upstream_i2c-v33-0-6d5338fc56ed@aspeedtech.com>
-In-Reply-To: <20260623-upstream_i2c-v33-0-6d5338fc56ed@aspeedtech.com>
-To: <jk@codeconstruct.com.au>, <andriy.shevchenko@linux.intel.com>, Andi Shyti
-	<andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley
-	<joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, "Benjamin
- Herrenschmidt" <benh@kernel.crashing.org>, Rayn Chen
-	<rayn_chen@aspeedtech.com>, Philipp Zabel <p.zabel@pengutronix.de>
-CC: <linux-i2c@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
-	<linux-kernel@vger.kernel.org>, <openbmc@lists.ozlabs.org>, Ryan Chen
-	<ryan_chen@aspeedtech.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782177354; l=23148;
- i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
- bh=3HeQLF85kMgA+/J1q0u9SYhX0SxmEneSeTlULWMywpE=;
- b=QvnKrIXC/02IIwEWMz2m4W29zEqTnpOcgl4E7zbhNHhJm4GicO8YVFrSssHTymsVEWoRg0D4q
- ocQBzKhC47ABmdMxo0y8EnnheEMmJKJHngzl/eKAXuQA4y1gQI5Wc6S
-X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
- pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.49 / 15.00];
+X-Spamd-Result: default: False [0.29 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	MAILLIST(-0.20)[generic];
+	DMARC_POLICY_ALLOW(-0.50)[9elements.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	MAILLIST(-0.20)[generic];
+	R_DKIM_ALLOW(-0.20)[9elements.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[aspeedtech.com:email,aspeedtech.com:mid,aspeedtech.com:from_mime,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp];
-	FROM_NEQ_ENVFROM(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4282-lists,linux-aspeed=lfdr.de];
-	ALIAS_RESOLVED(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	R_DKIM_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4]
+	TAGGED_FROM(0.00)[bounces-4290-lists,linux-aspeed=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:lkundrak@v3.sk,m:devicetree@vger.kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrew@lunn.ch,m:jacky_chou@aspeedtech.com,m:yh_chung@aspeedtech.com,m:ninad@linux.ibm.com,m:anirudhsriniv@gmail.com,m:linux-serial@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:gregoire.layet@9elements.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FORGED_SENDER(0.00)[gregoire.layet@9elements.com,linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[9elements.com:+];
+	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[gregoire.layet@9elements.com,linux-aspeed@lists.ozlabs.org];
+	FREEMAIL_CC(0.00)[lunn.ch,aspeedtech.com,linux.ibm.com,gmail.com,vger.kernel.org,lists.ozlabs.org,lists.infradead.org,9elements.com];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[9elements.com:dkim,9elements.com:mid,9elements.com:from_mime,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 79D176B3220
+X-Rspamd-Queue-Id: 56C766BAA22
 
-Add target mode support to the AST2600 I2C driver.
+This is a v3 for upstreaming the VUART over PCIe BMC device driver.
+The initial driver is from the ASPEED kernel SDK (master-v6.18) [1].
 
-Target mode features implemented include:
-- Add target interrupt handling
-- Address match and response logic
+There are two drivers: a BMC-side driver and a host-side driver.
+Together they enable host<->BMC VUART communication via PCIe.
 
-This complements the existing controller-mode support, enabling
-dual-role capability.
+The host cannot access the BMC's memory. Only the enabled features are
+accessible. These are the KCS4 channel and 2 VUARTs. There is also some
+mailbox register functionality also exist for a communication between
+the host and the BMC. More information can be found here [2].
 
-Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
----
-Changes in v32:
-- Fix target RX data loss in the master-abort fast path: remove the
-  BUFF_CTRL zeroing that preceded the controller IER clear. The shared
-  BUFF_CTRL register holds the pending target RX length in bits [29:24];
-  zeroing it before the switch statement causes target_rx_len to read
-  back as 0, silently discarding all bytes already received by the
-  target.
-- Fix use-after-free in master-abort fast path: null msgs and re-enable
-  the controller IER before calling complete(), not after. Calling
-  complete() first allows process context to immediately start a new
-  i2c_transfer() and install a new msgs pointer; a stale controller IRQ
-  firing during the subsequent IER restore would then dereference the
-  new transfer's msgs buffer.
-- Fix shared-buffer corruption on coalesced STOP+SLAVE_MATCH IRQ:
-  restore the SLAVE_PENDING guard on the target_active = false
-  transition. SLAVE_PENDING (bit 29) is set precisely when a new
-  address-match is already queued while the previous DMA receive has
-  not yet been processed. Clearing target_active unconditionally on
-  STOP in that case lets the controller side overwrite the shared Tx/Rx
-  buffer before the new target transaction has been re-armed.
-- Use READ_ONCE() for all process-context reads of target_active.
-  The IRQ path writes target_active with WRITE_ONCE(); plain loads in
-  process context allow the compiler to cache the value across the
-  IER-disable window, potentially seeing a stale false and starting a
-  controller transfer that races with an active target transaction.
+This v3 mainly modifies the BMC driver and focuses on VUART.
+The BMC driver is now incorporated into the '8250_aspeed_vuart' driver.
+A specific flag can be set to indicate that the VUART should be used
+over PCI. Several changes have been made to the 8250 device tree binding
+and the 'aspeed-g6.dtsi'.
 
-Changes in v31:
-- Address Sashiko AI code review feedback on the target patch:
-  - Clear target_active on any STOP. The previous condition
-    `(sts & STOP) && !(sts & SLAVE_PENDING)` failed under coalesced
-    STOP+SLAVE_PENDING IRQs and left target_active stuck true,
-    deadlocking controller_xfer() with -EBUSY forever.
-  - Enable the target IER inside reg_target() instead of
-    unconditionally in probe(). unreg_target() disables it; without
-    matching re-enable in reg_target() a subsequent re-registration
-    would never receive IRQs. Also avoids spurious IRQ activity when
-    no slave is registered.
-  - Add the missing CMD_STS write in the
-    SLAVE_PENDING|RX_DONE|WAIT_TX_DMA|STOP target ISR case so the
-    HW state machine is re-armed (TRIGGER | TX_BUFF_EN); otherwise
-    the controller stretches SCL until INACTIVE_TO recovers.
-  - Default target ISR case now writes TARGET_TRIGGER_CMD to re-arm
-    the HW state machine instead of silently breaking, which
-    previously left the bus hung on unhandled sts combinations.
-  - W1C-clear the ADDR1/2/3_NAK bits in HW (not just locally) in
-    ast2600_i2c_target_irq(); stale ADDR_NAK bits made
-    controller_xfer() see I2CS_ISR != 0 and bounce every transfer
-    with -EBUSY.
+Changes since v2 [3]:
+- Add the aspeed,ast2600-vuart compatible entry to the '8250' DT binding
+- Add the aspeed,ast2600-vuart compatible property in 'aspeed-g6.dtsi'
+- Add the aspeed,vuart-over-pci boolean property to the '8250' DT binding,
+  only for the aspeed,ast2600-vuart
+- Add the aspeed,vuart-over-pci flag to the vuart3 and vuart4 
+- Add the aspeed,ast2600-vuart compatible property to the 
+  '8250_aspeed_vuart' driver
+- Add the VUART over PCI code to the '8250_aspeed_vuart' driver
+- The v2 review of the host-side BMC driver has been applied.
 
-- unreg_target(): replace masked ADDR_CTRL write with writel(0, ...);
-  AST2600_I2CS_ADDR1_MASK covers only bits[6:0] (the 7-bit address),
-  leaving ADDR1_ENABLE (BIT(7)) set after unregister. Although SLAVE_EN
-  is cleared first, writing 0 is the correct and complete teardown.
+The host-side driver is still in /soc/aspeed/, as it is very specific to
+this SoC for me. I didn't receive any feedback on where to put this
+driver. I can, of course, change this to the relevant location.
 
-Changes in v30:
-- Address Sashiko AI code review feedback:
-  - Force-stop path (target IRQ aborting an in-flight controller
-    transfer): disable the controller IER and W1C-clear pending ISR
-    before calling complete(), then restore the IER after the wake-up.
-    Without the disable/clear sequence the controller IRQ handler can
-    race with the target abort path and double-complete or touch
-    freed msgs.
-  - unreg_target() teardown ordering: disable the target IER first,
-    then disable SLAVE_EN / clear ADDR_CTRL, synchronize_irq(), W1C
-    pending ISR, and only then NULL i2c_bus->target and clear
-    target_active. The old order left IER enabled while target was
-    being cleared, allowing an in-flight handler to dereference a
-    target pointer the caller had already freed.
-  - reg_target() bring-up ordering: assign i2c_bus->target before
-    enabling SLAVE_EN. Otherwise an IRQ that fires after SLAVE_EN is
-    set but before the pointer is stored finds target == NULL, exits
-    without clearing the ISR, and the unmasked event re-fires as an
-    IRQ storm.
-  - Use writel() instead of writeb() when staging a TX byte into the
-    target buffer. The AST2600 buffer SRAM only supports 32-bit
-    accesses; byte writes are silently dropped (or, on some
-    revisions, raise a bus fault), so a SLAVE_READ_REQUESTED reply
-    never reaches the master.
-  - reg_target() rejects 10-bit client addresses with -EAFNOSUPPORT.
-    AST2600_I2CS_ADDR1 is only a 7-bit field; without the check, the
-    high bits of a 10-bit address overflow into the adjacent ADDR2
-    field and silently corrupt a second target slot.
-  - Initialise the local `u8 value` to 0 in the target packet IRQ
-    handler. Its address is passed to i2c_slave_event() for events
-    such as I2C_SLAVE_STOP / I2C_SLAVE_READ_REQUESTED; a slave
-    backend that reads the byte before writing would otherwise leak
-    uninitialised kernel stack.
+It's important to consider that the host driver will do multiple
+functions. The AST2600 also supports LPC over PCI, with a specific KCS
+channel (KCS4). This driver should also be used to enable the IPMI
+automatically via this KCS channel. The UART and the IPMI will depend on
+the same PCI resource (BAR1), so this must be configured in one driver.
 
-Changes in v29:
-- fix race between unreg_target and IRQ handler.
-- move i2cs ier enable from ast2600_i2c_init to probe after master ier enable.
-- remove dma/byte transfer, use buffer mode only.
+As with v2, VUART data flow and MSI interrupts have been verified 
+working on the test hardware.
 
-Changes in v28:
-- fix typo condication -> condition
-- fix compile error, when disable CONFIG_I2C_SLAVE
+Tested on:
+BMC:
+- Asus IPMI Kommando Card R1.01, AST2600 A3.
+- OpenBMC
+Host:
+- Linux kernel v7.0.0
 
-Changes in v26:
-- change int to bool target_operate
-- rename target_operate to target_active
-- use i2c_bus->target replace require IO
-- use WRITE_ONCE replace target_operate write.
----
- drivers/i2c/busses/i2c-ast2600.c | 359 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 359 insertions(+)
+This v3 only supports AST2600; the AST2700 is not supported by this series.
 
-diff --git a/drivers/i2c/busses/i2c-ast2600.c b/drivers/i2c/busses/i2c-ast2600.c
-index 5cb2d91b78e0..af950a4c4d6d 100644
---- a/drivers/i2c/busses/i2c-ast2600.c
-+++ b/drivers/i2c/busses/i2c-ast2600.c
-@@ -255,6 +255,11 @@ struct ast2600_i2c_bus {
- 	bool			multi_master;
- 	bool			stop_pending;
- 	void __iomem		*buf_base;
-+#if IS_ENABLED(CONFIG_I2C_SLAVE)
-+	/* target structure */
-+	bool			target_active;
-+	struct i2c_client	*target;
-+#endif
- };
- 
- static void ast2600_i2c_ac_timing_config(struct ast2600_i2c_bus *i2c_bus)
-@@ -348,6 +353,253 @@ static int ast2600_i2c_recover_bus(struct ast2600_i2c_bus *i2c_bus)
- 	return ret;
- }
- 
-+#if IS_ENABLED(CONFIG_I2C_SLAVE)
-+static void ast2600_i2c_target_packet_buff_irq(struct ast2600_i2c_bus *i2c_bus, u32 sts)
-+{
-+	u8 value = 0;
-+	int target_rx_len = 0;
-+	u32 cmd = 0;
-+	int i;
-+
-+	/* due to controller target is common buffer, need force the master stop not issue */
-+	if (readl(i2c_bus->reg_base + AST2600_I2CM_CMD_STS) & GENMASK(15, 0)) {
-+		writel(0, i2c_bus->reg_base + AST2600_I2CM_CMD_STS);
-+		writel(0, i2c_bus->reg_base + AST2600_I2CM_IER);
-+		writel(readl(i2c_bus->reg_base + AST2600_I2CM_ISR),
-+		       i2c_bus->reg_base + AST2600_I2CM_ISR);
-+		i2c_bus->cmd_err = -EBUSY;
-+		WRITE_ONCE(i2c_bus->msgs, NULL);
-+		writel(AST2600_I2CM_PKT_DONE | AST2600_I2CM_BUS_RECOVER,
-+		       i2c_bus->reg_base + AST2600_I2CM_IER);
-+		complete(&i2c_bus->cmd_complete);
-+	}
-+
-+	/* Handle i2c target timeout condition */
-+	if (sts & AST2600_I2CS_INACTIVE_TO) {
-+		/* Reset timeout counter */
-+		u32 ac_timing = readl(i2c_bus->reg_base + AST2600_I2CC_AC_TIMING) &
-+				AST2600_I2CC_AC_TIMING_MASK;
-+
-+		writel(ac_timing, i2c_bus->reg_base + AST2600_I2CC_AC_TIMING);
-+		ac_timing |= AST2600_I2CC_TTIMEOUT(i2c_bus->timeout);
-+		writel(ac_timing, i2c_bus->reg_base + AST2600_I2CC_AC_TIMING);
-+		writel(TARGET_TRIGGER_CMD, i2c_bus->reg_base + AST2600_I2CS_CMD_STS);
-+		writel(AST2600_I2CS_PKT_DONE, i2c_bus->reg_base + AST2600_I2CS_ISR);
-+		i2c_slave_event(i2c_bus->target, I2C_SLAVE_STOP, &value);
-+		WRITE_ONCE(i2c_bus->target_active, false);
-+		return;
-+	}
-+
-+	sts &= ~(AST2600_I2CS_PKT_DONE | AST2600_I2CS_PKT_ERROR);
-+
-+	if (sts & AST2600_I2CS_SLAVE_MATCH)
-+		WRITE_ONCE(i2c_bus->target_active, true);
-+
-+	switch (sts) {
-+	case AST2600_I2CS_SLAVE_PENDING | AST2600_I2CS_WAIT_RX_DMA |
-+		 AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_RX_DONE | AST2600_I2CS_STOP:
-+	case AST2600_I2CS_SLAVE_PENDING |
-+		 AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_RX_DONE | AST2600_I2CS_STOP:
-+	case AST2600_I2CS_SLAVE_PENDING |
-+		 AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_STOP:
-+		i2c_slave_event(i2c_bus->target, I2C_SLAVE_STOP, &value);
-+		fallthrough;
-+	case AST2600_I2CS_SLAVE_PENDING |
-+		 AST2600_I2CS_WAIT_RX_DMA | AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_RX_DONE:
-+	case AST2600_I2CS_WAIT_RX_DMA | AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_RX_DONE:
-+	case AST2600_I2CS_WAIT_RX_DMA | AST2600_I2CS_SLAVE_MATCH:
-+		i2c_slave_event(i2c_bus->target, I2C_SLAVE_WRITE_REQUESTED, &value);
-+		cmd = TARGET_TRIGGER_CMD;
-+		if (sts & AST2600_I2CS_RX_DONE) {
-+			target_rx_len = AST2600_I2CC_GET_RX_BUF_LEN(readl(i2c_bus->reg_base +
-+						       AST2600_I2CC_BUFF_CTRL));
-+			for (i = 0; i < target_rx_len; i++) {
-+				value = readb(i2c_bus->buf_base + i2c_bus->buf_size + i);
-+				i2c_slave_event(i2c_bus->target, I2C_SLAVE_WRITE_RECEIVED, &value);
-+			}
-+		}
-+		if (readl(i2c_bus->reg_base + AST2600_I2CS_CMD_STS) & AST2600_I2CS_RX_BUFF_EN)
-+			cmd = 0;
-+		else
-+			cmd = TARGET_TRIGGER_CMD | AST2600_I2CS_RX_BUFF_EN;
-+
-+		writel(AST2600_I2CC_SET_RX_BUF_LEN(i2c_bus->buf_size),
-+		       i2c_bus->reg_base + AST2600_I2CC_BUFF_CTRL);
-+		break;
-+	case AST2600_I2CS_WAIT_RX_DMA | AST2600_I2CS_RX_DONE:
-+		cmd = TARGET_TRIGGER_CMD;
-+		target_rx_len = AST2600_I2CC_GET_RX_BUF_LEN(readl(i2c_bus->reg_base +
-+						       AST2600_I2CC_BUFF_CTRL));
-+		for (i = 0; i < target_rx_len; i++) {
-+			value = readb(i2c_bus->buf_base + i2c_bus->buf_size + i);
-+			i2c_slave_event(i2c_bus->target, I2C_SLAVE_WRITE_RECEIVED, &value);
-+		}
-+		cmd |= AST2600_I2CS_RX_BUFF_EN;
-+		writel(AST2600_I2CC_SET_RX_BUF_LEN(i2c_bus->buf_size),
-+		       i2c_bus->reg_base + AST2600_I2CC_BUFF_CTRL);
-+		break;
-+	case AST2600_I2CS_SLAVE_PENDING | AST2600_I2CS_WAIT_RX_DMA |
-+				AST2600_I2CS_RX_DONE | AST2600_I2CS_STOP:
-+		cmd = TARGET_TRIGGER_CMD;
-+		target_rx_len = AST2600_I2CC_GET_RX_BUF_LEN(readl(i2c_bus->reg_base +
-+						       AST2600_I2CC_BUFF_CTRL));
-+		for (i = 0; i < target_rx_len; i++) {
-+			value = readb(i2c_bus->buf_base + i2c_bus->buf_size + i);
-+			i2c_slave_event(i2c_bus->target, I2C_SLAVE_WRITE_RECEIVED, &value);
-+		}
-+		i2c_slave_event(i2c_bus->target, I2C_SLAVE_STOP, &value);
-+		cmd |= AST2600_I2CS_RX_BUFF_EN;
-+		writel(AST2600_I2CC_SET_RX_BUF_LEN(i2c_bus->buf_size),
-+		       i2c_bus->reg_base + AST2600_I2CC_BUFF_CTRL);
-+		break;
-+	case AST2600_I2CS_SLAVE_PENDING | AST2600_I2CS_RX_DONE | AST2600_I2CS_STOP:
-+		cmd = TARGET_TRIGGER_CMD;
-+		target_rx_len = AST2600_I2CC_GET_RX_BUF_LEN(readl(i2c_bus->reg_base +
-+						       AST2600_I2CC_BUFF_CTRL));
-+		for (i = 0; i < target_rx_len; i++) {
-+			value = readb(i2c_bus->buf_base + i2c_bus->buf_size + i);
-+			i2c_slave_event(i2c_bus->target, I2C_SLAVE_WRITE_RECEIVED, &value);
-+		}
-+		/* workaround for avoid next start with len != 0 */
-+		writel(BIT(0), i2c_bus->reg_base + AST2600_I2CC_BUFF_CTRL);
-+		i2c_slave_event(i2c_bus->target, I2C_SLAVE_STOP, &value);
-+		break;
-+	case AST2600_I2CS_RX_DONE | AST2600_I2CS_STOP:
-+		cmd = TARGET_TRIGGER_CMD;
-+		target_rx_len = AST2600_I2CC_GET_RX_BUF_LEN(readl(i2c_bus->reg_base +
-+						       AST2600_I2CC_BUFF_CTRL));
-+		for (i = 0; i < target_rx_len; i++) {
-+			value = readb(i2c_bus->buf_base + i2c_bus->buf_size + i);
-+			i2c_slave_event(i2c_bus->target, I2C_SLAVE_WRITE_RECEIVED, &value);
-+		}
-+		/* workaround for avoid next start with len != 0 */
-+		writel(BIT(0), i2c_bus->reg_base + AST2600_I2CC_BUFF_CTRL);
-+		i2c_slave_event(i2c_bus->target, I2C_SLAVE_STOP, &value);
-+		break;
-+	case AST2600_I2CS_SLAVE_PENDING | AST2600_I2CS_RX_DONE |
-+	     AST2600_I2CS_WAIT_TX_DMA | AST2600_I2CS_STOP:
-+		target_rx_len = AST2600_I2CC_GET_RX_BUF_LEN(readl(i2c_bus->reg_base +
-+						       AST2600_I2CC_BUFF_CTRL));
-+		for (i = 0; i < target_rx_len; i++) {
-+			value = readb(i2c_bus->buf_base + i2c_bus->buf_size + i);
-+			i2c_slave_event(i2c_bus->target, I2C_SLAVE_WRITE_RECEIVED, &value);
-+		}
-+		i2c_slave_event(i2c_bus->target, I2C_SLAVE_STOP, &value);
-+		i2c_slave_event(i2c_bus->target, I2C_SLAVE_READ_REQUESTED, &value);
-+		writel(value, i2c_bus->buf_base);
-+		writel(AST2600_I2CC_SET_TX_BUF_LEN(1),
-+		       i2c_bus->reg_base + AST2600_I2CC_BUFF_CTRL);
-+		cmd = TARGET_TRIGGER_CMD | AST2600_I2CS_TX_BUFF_EN;
-+		break;
-+	case AST2600_I2CS_WAIT_TX_DMA | AST2600_I2CS_SLAVE_MATCH:
-+		i2c_slave_event(i2c_bus->target, I2C_SLAVE_READ_REQUESTED, &value);
-+		writel(value, i2c_bus->buf_base);
-+		writel(AST2600_I2CC_SET_TX_BUF_LEN(1),
-+		       i2c_bus->reg_base + AST2600_I2CC_BUFF_CTRL);
-+		cmd = TARGET_TRIGGER_CMD | AST2600_I2CS_TX_BUFF_EN;
-+		break;
-+	case AST2600_I2CS_SLAVE_PENDING | AST2600_I2CS_STOP |
-+	     AST2600_I2CS_TX_NAK | AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_RX_DONE:
-+	case AST2600_I2CS_SLAVE_PENDING | AST2600_I2CS_WAIT_RX_DMA | AST2600_I2CS_STOP |
-+	     AST2600_I2CS_TX_NAK | AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_RX_DONE:
-+		i2c_slave_event(i2c_bus->target, I2C_SLAVE_STOP, &value);
-+		i2c_slave_event(i2c_bus->target, I2C_SLAVE_WRITE_REQUESTED, &value);
-+		target_rx_len = AST2600_I2CC_GET_RX_BUF_LEN(readl(i2c_bus->reg_base +
-+						       AST2600_I2CC_BUFF_CTRL));
-+		for (i = 0; i < target_rx_len; i++) {
-+			value = readb(i2c_bus->buf_base + i2c_bus->buf_size + i);
-+			i2c_slave_event(i2c_bus->target, I2C_SLAVE_WRITE_RECEIVED, &value);
-+		}
-+		writel(AST2600_I2CC_SET_RX_BUF_LEN(i2c_bus->buf_size),
-+		       i2c_bus->reg_base + AST2600_I2CC_BUFF_CTRL);
-+		cmd = TARGET_TRIGGER_CMD | AST2600_I2CS_RX_BUFF_EN;
-+		break;
-+	case AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_WAIT_TX_DMA | AST2600_I2CS_RX_DONE:
-+	case AST2600_I2CS_WAIT_TX_DMA | AST2600_I2CS_RX_DONE:
-+	case AST2600_I2CS_WAIT_TX_DMA:
-+		if (sts & AST2600_I2CS_SLAVE_MATCH)
-+			i2c_slave_event(i2c_bus->target, I2C_SLAVE_WRITE_REQUESTED, &value);
-+
-+		if (sts & AST2600_I2CS_RX_DONE) {
-+			target_rx_len = AST2600_I2CC_GET_RX_BUF_LEN(readl(i2c_bus->reg_base +
-+						       AST2600_I2CC_BUFF_CTRL));
-+			for (i = 0; i < target_rx_len; i++) {
-+				value = readb(i2c_bus->buf_base + i2c_bus->buf_size + i);
-+				i2c_slave_event(i2c_bus->target, I2C_SLAVE_WRITE_RECEIVED, &value);
-+			}
-+			i2c_slave_event(i2c_bus->target, I2C_SLAVE_READ_REQUESTED, &value);
-+		} else {
-+			i2c_slave_event(i2c_bus->target, I2C_SLAVE_READ_PROCESSED, &value);
-+		}
-+		writel(value, i2c_bus->buf_base);
-+		writel(AST2600_I2CC_SET_TX_BUF_LEN(1),
-+		       i2c_bus->reg_base + AST2600_I2CC_BUFF_CTRL);
-+		cmd = TARGET_TRIGGER_CMD | AST2600_I2CS_TX_BUFF_EN;
-+		break;
-+	/* workaround : trigger the cmd twice to fix next state keep 1000000 */
-+	case AST2600_I2CS_SLAVE_MATCH | AST2600_I2CS_RX_DONE:
-+		i2c_slave_event(i2c_bus->target, I2C_SLAVE_WRITE_REQUESTED, &value);
-+		cmd = TARGET_TRIGGER_CMD | AST2600_I2CS_RX_BUFF_EN;
-+		writel(cmd, i2c_bus->reg_base + AST2600_I2CS_CMD_STS);
-+		break;
-+	case AST2600_I2CS_TX_NAK | AST2600_I2CS_STOP:
-+	case AST2600_I2CS_STOP:
-+		cmd = TARGET_TRIGGER_CMD;
-+		i2c_slave_event(i2c_bus->target, I2C_SLAVE_STOP, &value);
-+		break;
-+	default:
-+		dev_dbg(i2c_bus->dev, "unhandled target isr case %x, sts %x\n", sts,
-+			readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF));
-+		cmd = TARGET_TRIGGER_CMD;
-+		break;
-+	}
-+
-+	if (cmd)
-+		writel(cmd, i2c_bus->reg_base + AST2600_I2CS_CMD_STS);
-+
-+	writel(AST2600_I2CS_PKT_DONE, i2c_bus->reg_base + AST2600_I2CS_ISR);
-+	readl(i2c_bus->reg_base + AST2600_I2CS_ISR);
-+
-+	if ((sts & AST2600_I2CS_STOP) && !(sts & AST2600_I2CS_SLAVE_PENDING))
-+		WRITE_ONCE(i2c_bus->target_active, false);
-+}
-+
-+static int ast2600_i2c_target_irq(struct ast2600_i2c_bus *i2c_bus)
-+{
-+	u32 ier = readl(i2c_bus->reg_base + AST2600_I2CS_IER);
-+	u32 isr = readl(i2c_bus->reg_base + AST2600_I2CS_ISR);
-+
-+	if (!(isr & ier))
-+		return 0;
-+
-+	/*
-+	 * Target interrupt coming after controller packet done
-+	 * So need handle controller first.
-+	 */
-+	if (readl(i2c_bus->reg_base + AST2600_I2CM_ISR) & AST2600_I2CM_PKT_DONE)
-+		return 0;
-+
-+	isr &= ~(AST2600_I2CS_ADDR_INDICATE_MASK);
-+
-+	if (isr & (AST2600_I2CS_ADDR1_NAK | AST2600_I2CS_ADDR2_NAK |
-+		   AST2600_I2CS_ADDR3_NAK)) {
-+		writel(isr & (AST2600_I2CS_ADDR1_NAK | AST2600_I2CS_ADDR2_NAK |
-+			      AST2600_I2CS_ADDR3_NAK),
-+		       i2c_bus->reg_base + AST2600_I2CS_ISR);
-+		isr &= ~(AST2600_I2CS_ADDR1_NAK | AST2600_I2CS_ADDR2_NAK |
-+			 AST2600_I2CS_ADDR3_NAK);
-+	}
-+
-+	if (AST2600_I2CS_ADDR_MASK & isr)
-+		isr &= ~AST2600_I2CS_ADDR_MASK;
-+
-+	if (AST2600_I2CS_PKT_DONE & isr)
-+		ast2600_i2c_target_packet_buff_irq(i2c_bus, isr);
-+
-+	return 1;
-+}
-+#endif
-+
- static int ast2600_i2c_setup_buff_tx(u32 cmd, struct ast2600_i2c_bus *i2c_bus)
- {
- 	struct i2c_msg *msg = &i2c_bus->msgs[i2c_bus->msgs_index];
-@@ -561,6 +813,20 @@ static void ast2600_i2c_controller_packet_irq(struct ast2600_i2c_bus *i2c_bus, u
- 		}
- 		break;
- 	case AST2600_I2CM_RX_DONE:
-+#if IS_ENABLED(CONFIG_I2C_SLAVE)
-+		/*
-+		 * Workaround for controller/target packet mode enable rx done stuck issue
-+		 * When controller go for first read (RX_DONE), target mode will also effect
-+		 * Then controller will send nack, not operate anymore.
-+		 */
-+		if (readl(i2c_bus->reg_base + AST2600_I2CS_CMD_STS) & AST2600_I2CS_PKT_MODE_EN) {
-+			u32 target_cmd = readl(i2c_bus->reg_base + AST2600_I2CS_CMD_STS);
-+
-+			writel(0, i2c_bus->reg_base + AST2600_I2CS_CMD_STS);
-+			writel(target_cmd, i2c_bus->reg_base + AST2600_I2CS_CMD_STS);
-+		}
-+		fallthrough;
-+#endif
- 	case AST2600_I2CM_RX_DONE | AST2600_I2CM_NORMAL_STOP:
- 		xfer_len = AST2600_I2CC_GET_RX_BUF_LEN(readl(i2c_bus->reg_base +
- 							     AST2600_I2CC_BUFF_CTRL));
-@@ -668,6 +934,12 @@ static irqreturn_t ast2600_i2c_bus_irq(int irq, void *dev_id)
- {
- 	struct ast2600_i2c_bus *i2c_bus = dev_id;
- 
-+#if IS_ENABLED(CONFIG_I2C_SLAVE)
-+	if (i2c_bus->target) {
-+		if (ast2600_i2c_target_irq(i2c_bus))
-+			return IRQ_HANDLED;
-+	}
-+#endif
- 	return IRQ_RETVAL(ast2600_i2c_controller_irq(i2c_bus));
- }
- 
-@@ -684,6 +956,21 @@ static int ast2600_i2c_controller_xfer(struct i2c_adapter *adap, struct i2c_msg
- 			return ret;
- 	}
- 
-+#if IS_ENABLED(CONFIG_I2C_SLAVE)
-+	if (READ_ONCE(i2c_bus->target_active))
-+		return -EBUSY;
-+	/*
-+	 * Controller and target share the same buffer register. A target
-+	 * transaction can update buffer state asynchronously via IRQ, so block
-+	 * controller transfers while target is active to avoid buffer corruption.
-+	 */
-+	writel(0, i2c_bus->reg_base + AST2600_I2CS_IER);
-+	if (readl(i2c_bus->reg_base + AST2600_I2CS_ISR) || READ_ONCE(i2c_bus->target_active)) {
-+		writel(AST2600_I2CS_PKT_DONE, i2c_bus->reg_base + AST2600_I2CS_IER);
-+		return -EBUSY;
-+	}
-+#endif
-+
- 	i2c_bus->cmd_err = 0;
- 	i2c_bus->msgs = msgs;
- 	i2c_bus->msgs_index = 0;
-@@ -691,6 +978,10 @@ static int ast2600_i2c_controller_xfer(struct i2c_adapter *adap, struct i2c_msg
- 	WRITE_ONCE(i2c_bus->stop_pending, false);
- 	reinit_completion(&i2c_bus->cmd_complete);
- 	ret = ast2600_i2c_do_start(i2c_bus);
-+#if IS_ENABLED(CONFIG_I2C_SLAVE)
-+	/* avoid race condition target is wait and controller wait 1st target operate */
-+	writel(AST2600_I2CS_PKT_DONE, i2c_bus->reg_base + AST2600_I2CS_IER);
-+#endif
- 	if (ret)
- 		goto controller_out;
- 	timeout = wait_for_completion_timeout(&i2c_bus->cmd_complete, i2c_bus->adap.timeout);
-@@ -719,6 +1010,9 @@ static int ast2600_i2c_controller_xfer(struct i2c_adapter *adap, struct i2c_msg
- 		 * if the bus is still busy.
- 		 */
- 		if (i2c_bus->multi_master &&
-+#if IS_ENABLED(CONFIG_I2C_SLAVE)
-+		    !READ_ONCE(i2c_bus->target_active) &&
-+#endif
- 		    (readl(i2c_bus->reg_base + AST2600_I2CC_STS_AND_BUFF) &
- 		    AST2600_I2CC_BUS_BUSY_STS))
- 			ast2600_i2c_recover_bus(i2c_bus);
-@@ -767,8 +1061,66 @@ static int ast2600_i2c_init(struct ast2600_i2c_bus *i2c_bus)
- 	/* Clear Interrupt */
- 	writel(GENMASK(27, 0), i2c_bus->reg_base + AST2600_I2CM_ISR);
- 
-+#if IS_ENABLED(CONFIG_I2C_SLAVE)
-+	writel(GENMASK(27, 0), i2c_bus->reg_base + AST2600_I2CS_ISR);
-+#endif
-+
-+	return 0;
-+}
-+
-+#if IS_ENABLED(CONFIG_I2C_SLAVE)
-+static int ast2600_i2c_reg_target(struct i2c_client *client)
-+{
-+	struct ast2600_i2c_bus *i2c_bus = i2c_get_adapdata(client->adapter);
-+	u32 cmd = TARGET_TRIGGER_CMD;
-+
-+	if (i2c_bus->target)
-+		return -EINVAL;
-+
-+	if (client->flags & I2C_CLIENT_TEN)
-+		return -EAFNOSUPPORT;
-+
-+	dev_dbg(i2c_bus->dev, "target addr %x\n", client->addr);
-+
-+	writel(0, i2c_bus->reg_base + AST2600_I2CS_ADDR_CTRL);
-+
-+	i2c_bus->target = client;
-+
-+	writel(AST2600_I2CC_SLAVE_EN | readl(i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL),
-+	       i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
-+
-+	writel(cmd, i2c_bus->reg_base + AST2600_I2CS_CMD_STS);
-+	/* Set target addr. */
-+	writel(client->addr | AST2600_I2CS_ADDR1_ENABLE,
-+	       i2c_bus->reg_base + AST2600_I2CS_ADDR_CTRL);
-+
-+	writel(AST2600_I2CS_PKT_DONE, i2c_bus->reg_base + AST2600_I2CS_IER);
-+
-+	return 0;
-+}
-+
-+static int ast2600_i2c_unreg_target(struct i2c_client *client)
-+{
-+	struct ast2600_i2c_bus *i2c_bus = i2c_get_adapdata(client->adapter);
-+	u32 val;
-+
-+	writel(0, i2c_bus->reg_base + AST2600_I2CS_IER);
-+
-+	val = readl(i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
-+	writel(val & ~AST2600_I2CC_SLAVE_EN, i2c_bus->reg_base + AST2600_I2CC_FUN_CTRL);
-+	writel(0, i2c_bus->reg_base + AST2600_I2CS_ADDR_CTRL);
-+
-+	synchronize_irq(i2c_bus->irq);
-+
-+	writel(readl(i2c_bus->reg_base + AST2600_I2CS_ISR),
-+	       i2c_bus->reg_base + AST2600_I2CS_ISR);
-+
-+	i2c_bus->target = NULL;
-+	WRITE_ONCE(i2c_bus->target_active, false);
-+
- 	return 0;
- }
-+#endif
- 
- static u32 ast2600_i2c_functionality(struct i2c_adapter *adap)
- {
-@@ -778,6 +1130,10 @@ static u32 ast2600_i2c_functionality(struct i2c_adapter *adap)
- static const struct i2c_algorithm i2c_ast2600_algorithm = {
- 	.xfer = ast2600_i2c_controller_xfer,
- 	.functionality = ast2600_i2c_functionality,
-+#if IS_ENABLED(CONFIG_I2C_SLAVE)
-+	.reg_target = ast2600_i2c_reg_target,
-+	.unreg_target = ast2600_i2c_unreg_target,
-+#endif
- };
- 
- static const struct i2c_adapter_quirks ast2600_i2c_quirks = {
-@@ -821,6 +1177,9 @@ static int ast2600_i2c_probe(struct platform_device *pdev)
- 		regmap_write(i2c_bus->global_regs, AST2600_I2CG_CLK_DIV_CTRL, I2CCG_DIV_CTRL);
- 	}
- 
-+#if IS_ENABLED(CONFIG_I2C_SLAVE)
-+	WRITE_ONCE(i2c_bus->target_active, false);
-+#endif
- 	i2c_bus->dev = dev;
- 	i2c_bus->multi_master = device_property_read_bool(dev, "multi-master");
- 
+I would like to know whether I should add the 'lpc-io-reg' and
+'lpc-interrupt' values to the vuart3 and vuart4 nodes directly in the
+'aspeed-g6.dtsi'. The host driver is not capable of finding the vuart
+address on his own, so they are hardcoded to 0x3f8 and 0x2f8. It will
+not work with other adresses, so perhaps they should be in the .dtsi to
+ensure the correct configuration for the 2 vuart over PCI.
+
+For the interrupt number, my test is working with interrupt = 0
+for vuart3 and interrupt = 1 for vuart4. I don't fully understand how
+the silicon routes MSI numbers to the VUART but the following
+combination is working :
+       | host MSI idx | BMC lpc-interrupts |
+VUART3 |      16      |       0            |
+VUART4 |      17      |       1            |
+
+The original ASPEED driver used MSI index 15 for the VUART4.
+I tested every lpc-interrupts on the BMC from 0 to 15, but none of them
+worked with the host MSI index set to 15.
+
+For me, the silicon only routes the MSI index 16 to VUART3 and 17 to 
+VUART4, and the lpc-interrupt needs to match the 4 least significant bits.
+I might be wrong on this explanation but the data path is working with 
+those numbers. There is no explanation for any of this in the datasheet.
+
+[1]: https://github.com/AspeedTech-BMC/linux/tree/aspeed-master-v6.18/drivers/soc/aspeed
+[2]: https://lore.kernel.org/linux-aspeed/CAFi2wKYOAotiezepDqaR5PZDqDaPKKDfAEnpx5EHC0mL39hy6w@mail.gmail.com/
+[3]: https://lore.kernel.org/linux-aspeed/cover.1780929570.git.gregoire.layet@9elements.com/
+
+Grégoire Layet (7):
+  dt-bindings: serial: 8250: aspeed: add compatible string for ast2600
+  dt-bindings: serial: 8250: aspeed: add aspeed,vuart-over-pci bool prop
+  serial: 8250_aspeed_vuart: add aspeed,ast2600-vuart compatible string
+  serial: 8250_aspeed_vuart: add VUART over PCI
+  soc: aspeed: add host-side PCIe BMC device driver
+  ARM: dts: aspeed: g6: Change vuart compatible string for ast2600
+  ARM: dts: aspeed: g6: add aspeed,vuart-over-pci prop to vuart3 and 4
+
+ .../devicetree/bindings/serial/8250.yaml      |  35 +++-
+ arch/arm/boot/dts/aspeed/aspeed-g6.dtsi       |  10 +-
+ drivers/soc/aspeed/Kconfig                    |   8 +
+ drivers/soc/aspeed/Makefile                   |   1 +
+ drivers/soc/aspeed/aspeed-host-bmc-dev.c      | 183 ++++++++++++++++++
+ drivers/tty/serial/8250/8250_aspeed_vuart.c   |  87 +++++++++
+ 6 files changed, 312 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/soc/aspeed/aspeed-host-bmc-dev.c
 
 -- 
-2.34.1
+2.54.0
 
 
