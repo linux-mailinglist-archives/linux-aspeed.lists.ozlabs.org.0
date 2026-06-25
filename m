@@ -1,66 +1,95 @@
-Return-Path: <linux-aspeed+bounces-4301-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4305-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id JuFJLHlKPGr1mAgAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4301-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jun 2026 23:22:01 +0200
+	id rVNkDtm9PGrLrAgAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4305-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Jun 2026 07:34:17 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A8E6C16EF
-	for <lists+linux-aspeed@lfdr.de>; Wed, 24 Jun 2026 23:22:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE7F6C2CDD
+	for <lists+linux-aspeed@lfdr.de>; Thu, 25 Jun 2026 07:34:15 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=bootlin.com header.s=dkim header.b=XTaTgVlK;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4301-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4301-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=reject) header.from=bootlin.com;
-	arc=pass ("lists.ozlabs.org:s=201707:i=1")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=LOxwMWxq;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4305-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4305-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("lists.ozlabs.org:s=201707:i=2")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4glvyZ2Ch7z2xSN;
-	Thu, 25 Jun 2026 07:21:58 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gm6tX2Z3mz2xwH;
+	Thu, 25 Jun 2026 15:34:12 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1782336118;
-	cv=none; b=BXH7pNLUa3dJbsDxrw0piAqKr07DvBAfDqISFurgDJdLZju3O3ECszsbQ/TXIGVJpYckdQ6B9Qhd5FNTAt5k9A7PXRx/rRVcMNp6lwfFaKhnImyMi6WMJimNHT+bXo+T0wfet6IpyU2RfWG2uqGDErXiYEKncrV2KDWys3XVL5Ftdol4FnkIMeQikYgJnrR80SCJQmnmoemODW30m2C621XrTiXGO8TzTbNelU0aO+FvGo8Z2HOhwY0cokb/vKvnqV6lH+rxRa24dETx6Kcjp/i29RN02gTFzWx0Ul453QlpQL4jp1WLvosG3tnU/eS1+UTvmgyrGQFM1O3+KeZu8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1782336118; c=relaxed/relaxed;
-	bh=BxRZgMMcXld1GewrTn/+Bpz0RNC0eo+0XsbHRMtaIMw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ngxBb0q8LLenG5zTdGfLlNCA5QLsdVtDs0Lev7/g9jp1Uqst6N64s9BnehItjxWKG+zOY8EzAxQWJ7vUymQYoGpPo7J+oQFoHGw9uavd9QKa4cPKRXAw4w/HiapPfHBv0ODo8+TX9J1alnNI+OvnkXbsOLETwBA4IvL3A5XYKN5T2cSmOZRtLn0Cy3hRxC7Fo6yPj3PENCpt4NEsW3xNyHc2qYHDibVr41XE215V1njKsJ6K+i6/Iu+1Yvif1geV91AVdjIbcbnZ+aB8APr1MNbH//+7t/vujVq/Nz1WCUsQ13GkZpa3DRt5S1BfGR9yCCoJqf66UJTl5+kwsQnu+Q==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=XTaTgVlK; dkim-atps=neutral; spf=pass (client-ip=185.171.202.116; helo=smtpout-04.galae.net; envelope-from=alexandre.belloni@bootlin.com; receiver=lists.ozlabs.org) smtp.mailfrom=bootlin.com
-X-Greylist: delayed 314 seconds by postgrey-1.37 at boromir; Thu, 25 Jun 2026 07:21:56 AEST
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1782365652;
+	cv=pass; b=PBwzCOG44Op3KZ2pdcVGQFEmNUj5tsiOS+fcpnGZ/yhQ9BNDGV55eUS6tX/4XERUIHz5A+wg6wQmzcynNoiojNxa7MjsOP4PYsXkGDT9Un9w+to+590DnYZhiZRze3TYqXfIrKXRbizlF0Yz2hDeXs+JsXrM/r8vZwQI10ViNKWeOFaAOwwMF9RTJnmPPg1aJ81KC+lfOnS7E7tmJzZcYeySajFAi7MF74RdNuBzY5xX8EYmyLrNrL5XN79Kgm9fYtWM3qyTKVUKk6zxyvmVHynPkmpQkOoOdj4AnKTRql/U/fd6x5M718LEbMUxsgORyoL2uzEYe45Kk+RBWAgJSA==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1782365652; c=relaxed/relaxed;
+	bh=A+9zdrnWdYPYO0YMlgRGb3kLO0yAknKaNgGna5hHFMo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jZs+vKaD7mFk4OaUv1IRa17XBmYVVJ7Kr86DMDK+TKtLBUPVOoZZ8mCh2tGdiFv9mq6kyA6TkR1UjqdszC8fQRhoVgkAT7jFnnPLzNvLCX0wSgkxbLIpJCyiFeHZMMH2IERO8KjYJBafEtKEyXcuQ/MBZTxvVr6clFS6WsvyoI/b+JnFEbkUYAjzYFbKzNAqpi0BqAorRrnt5jZ8Asmzmes9U8eMIf9d6Ugen+j3CkePzYUYlqThbUWF8lP1AG1eyC6QYhkl2jZctK29vsEcmlSa6QhaqSqoQjiX0tcoWrzGEeLOsbBgV3ioBpr46v3QXQt6ss/yOEOUjDZv6CEz2Q==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=LOxwMWxq; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::12c; helo=mail-lf1-x12c.google.com; envelope-from=kylehsieh1995@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4glvyX6XZtz2xLk
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 25 Jun 2026 07:21:55 +1000 (AEST)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id A40D9C6B3B9;
-	Wed, 24 Jun 2026 21:16:44 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 884E9601C5;
-	Wed, 24 Jun 2026 21:16:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 79617106C8468;
-	Wed, 24 Jun 2026 23:16:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782335795; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=BxRZgMMcXld1GewrTn/+Bpz0RNC0eo+0XsbHRMtaIMw=;
-	b=XTaTgVlKy08X8NDZtKOCQMu0BDALNDA0VYnboGRbodz5KICDzsoe4bn0H5ghMcfYsNHzf7
-	QMT8V300UIJts32vRAKK3n2sFo2SrX3dkNMMy4kNW3ZcWTiYwg455hdjrmmZSwa7RdIiR7
-	Etdi+5yxsda+qPlla29otIKBa2fFVLaxtJTit1ZpM7ILtmyrvF1ka/ptJCXh10z/j2Ee06
-	yXaN2S8hPf4dtbjbq7roFJHxyv/6TVa2zH4at9ce7yyJKx1KCjDwRzQXuSOiYOqfYxVf2B
-	gnr2CF7QMCoYoKGVEZR4R7tZQv4JfCKAtcoichw7aUXYzB2Nyqz2/jyQM2deDw==
-Date: Wed, 24 Jun 2026 23:16:31 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Tommy Huang <tommy_huang@aspeedtech.com>
-Cc: linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org
-Subject: Re: [PATCH 0/2] rtc: aspeed: Add AST2700 RTC support
-Message-ID: <178233558822.1517260.6981271146090179790.b4-ty@b4>
-References: <20260601-ast2700-rtc-v1-0-15d4ca46500a@aspeedtech.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gm6tV30KYz2xPL
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 25 Jun 2026 15:34:09 +1000 (AEST)
+Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-5aa68cf9123so1959781e87.0
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 24 Jun 2026 22:34:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782365641; cv=none;
+        d=google.com; s=arc-20260327;
+        b=muBkRgXCnrnMnCgJdrXZ/axFWaHkwjQu2eijEUfC1SWLisGmrY81QdLzC6oYANTFef
+         5Y8EL+qPPOi1roSRLJdXAsg+ZUqAbkQT440I4Foe9PfCGhoxHdmSAKCkMHA4mMoVKTXW
+         T95bq1rOinVdCKx2oPdh5JodL11dC98X7CJWQiC2GCZOyhZSrpScRlH2cKe8n2w1JnYr
+         sTjAqUUWNaaKLxbqVXm5XQOyDMvnLaIDjsGer4Ue1iDosZFjIO37uoy9rnnYLYbQpZf8
+         JOuHEiPu6OI8Wxfr8sSIRVlu66XB/apohUl1Up0R+lC8XNTgteJ8xsbTnWaYmpEaB+Fw
+         1qnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=A+9zdrnWdYPYO0YMlgRGb3kLO0yAknKaNgGna5hHFMo=;
+        fh=kXi+MiF2REb0yqgrNLev6fx23t95AizfXSdhJrKtQkw=;
+        b=JcECzcSos8kgWRdXLf1cXsm6YsZSxsHrv6asycDvTi2J2hXDcTAg/Qa7Db3D4I3JKC
+         TDlaboxkJWDBKoGYRkJFzr1BpLE7QS75JkvpJFZLBFqW/0xOn4U8HmNvKcfaE96fzRVZ
+         xeolK5kurG+m4HPMqW9+oZF+ODAihUx5OvgMEzYMw0bMky+hXJOZ8zq94S55dq5NJf9i
+         tTdoVSMtRut3BztCGA63li/SlTonHRqyurbLi3mZOSamDvW+yoSRSmQLrok6GI6Pazog
+         Guo7hVH1wjJ1AY8+UzYfC7lV8xYhRQPlCyF45CtgN3hHw7qZkC6HSD2WEiXSomRqitu5
+         cx/A==;
+        darn=lists.ozlabs.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782365641; x=1782970441; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A+9zdrnWdYPYO0YMlgRGb3kLO0yAknKaNgGna5hHFMo=;
+        b=LOxwMWxqkHpnhnUZYAujT3l3X6zwzHBiKfhPLdfCIyqBbqTwjqXROjsZNHgjoqYpVJ
+         dnx+TGwcQV/MsYH7EWbmItyTOjwLe/xlTxSmexRXFQBzsIGi07QDkqnaqnrI3I0duHhR
+         ccLPGu8rJ1OcLc/8xs4QeSOwoAYWA4ud0iZcNG/npTl8oxsWeZf7O3vx24LVF9Leg/1d
+         zZYoi/vuijza1FQN5rHJEEyRJgM8lihKqGlR0wqAgoFg2dXkRnatUB95KxD+xH056S4Z
+         4omNgCIA265uwmYyv6Y+Q3oQZny1dENZOITJFbtZPkkwLk47UD+kWjQgeAU5oZJyXjlF
+         gCIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782365641; x=1782970441;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=A+9zdrnWdYPYO0YMlgRGb3kLO0yAknKaNgGna5hHFMo=;
+        b=lXKmN+WHfm0K9ZA07npFwt/fc6J15rmYUus/8hXnQAi/czQo6+/URtVP+jEY5DwYKp
+         d82jwO7UkTLUaIFuwvFjkqACrMVBDsO42XfPfjVEnvlrCE9HSwCMIkGIowRosh7YNIbp
+         YzQZe3YdWEXHnnHCpxn9S/kcTpszZpA4jab48sQLc/38hK5nsHWNk0JxBL8w4kQFVv5g
+         5hVRZ6aaALCtjDSS3OmUZ/kNlQlEbZD7z0BDfljLl7bjA28aABAqhndjtHXxq7gWQ4Od
+         AME6s2VXepgT/ZNFygf52lBGC5SjNuHBSMn0nSV/nmquhUC5HELAV1bLgWTZDzUlocdt
+         RaXg==
+X-Forwarded-Encrypted: i=1; AHgh+RqHwMdjOL/iWpVaxMZUQ5UPhkKP0+PD8Bjzgb20uWai5R9MGOC+uKS60Jl+wI7d5P1gg0QA9jplYWqlrjc=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YyPYxAWfoNTgF+GCvfepdUPpjRb/ZvcvpE3OhpsHi43Tm+4DHlM
+	AWg5O+kvRqlewLfgpbc7VaeudrC5r+IUSo1E6L6gyr7ZQaPE5Ectxu4X31nTHHzjM3u2+OXe26E
+	qao6pUtm5Ekl6GzxU3IbuWXPVUnUauZc=
+X-Gm-Gg: AfdE7cmOX3cO5FWUsM+mZuEODqLvqf47OxIRn8qJgbSBgx9g3qE79bUvurnKPe5TjyL
+	y2alWeTqVaOPXfuZW3KLDDYCd2tvxVImq7sy+RbKnOXu5giSXry+HGfOPqjSJbRGjeY5+isPHzD
+	SXdRCbIFt3Nm8ydO2waGLG5965bS3JCBs+jnzux1vD1bnsXT/g2hKIhQXiT3paW9/1pXocQEzIQ
+	k9ikWH/tauk2BFgAro8sJnxFELESOcIw1dPzMIamQQWKp6TPHHgzoi8tvNAwKr0bl/aFYNdMg==
+X-Received: by 2002:a05:6512:2c86:b0:5ae:a348:1292 with SMTP id
+ 2adb3069b0e04-5aea34815d2mr45473e87.38.1782365640650; Wed, 24 Jun 2026
+ 22:34:00 -0700 (PDT)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -74,67 +103,179 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260601-ast2700-rtc-v1-0-15d4ca46500a@aspeedtech.com>
-X-Last-TLS-Session-Version: TLSv1.3
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS autolearn=disabled
+References: <20260615-ventura2_initial_dts-v8-0-c89f92c80447@gmail.com>
+In-Reply-To: <20260615-ventura2_initial_dts-v8-0-c89f92c80447@gmail.com>
+From: Kyle Hsieh <kylehsieh1995@gmail.com>
+Date: Thu, 25 Jun 2026 13:35:37 +0800
+X-Gm-Features: AVVi8CcTmMqcRiP9802pZDxyIJzSjqDj0HrKRWQTIvD6r3wqR2s-_IKZO7UmEjM
+Message-ID: <CAF7HswP25GXigSqL+bGBz=0=RST2XjS7fNmkKcsy-qjxfg_1jQ@mail.gmail.com>
+Subject: Re: [PATCH v8 0/2] Add Meta(Facebook) ventura2 BMC(AST2600)
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=disabled
 	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.21 / 15.00];
+X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[bootlin.com,reject];
-	R_DKIM_ALLOW(-0.20)[bootlin.com:s=dkim];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	MAILLIST(-0.20)[generic];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4301-lists,linux-aspeed=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER(0.00)[alexandre.belloni@bootlin.com,linux-aspeed@lists.ozlabs.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:tommy_huang@aspeedtech.com,m:linux-rtc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-4305-lists,linux-aspeed=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[kylehsieh1995@gmail.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[bootlin.com:+];
-	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alexandre.belloni@bootlin.com,linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kylehsieh1995@gmail.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp,bootlin.com:dkim,bootlin.com:url,bootlin.com:from_mime]
+	FREEMAIL_FROM(0.00)[gmail.com];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 95A8E6C16EF
+X-Rspamd-Queue-Id: 8CE7F6C2CDD
 
-On Mon, 01 Jun 2026 17:14:05 +0800, Tommy Huang wrote:
-> This patch series adds support for the ASPEED AST2700 RTC define,
-> includeing dt-binding in the Document and rtc-aspeed.c
+Hi Maintainers,
 
-Applied, thanks!
+Just a gentle ping on this v8 series.
+All review comments from the previous versions have been addressed.
+Please let me know if there is anything else needed for this to be
+applied.
 
-[1/2] dt-bindings: rtc: add ASPEED AST2700 compatible
-      https://git.kernel.org/abelloni/c/5e7f746bc106
-[2/2] rtc: aspeed: add AST2700 compatible
-      https://git.kernel.org/abelloni/c/3319cfeeb8c4
+Thanks,
+Kyle
 
-Best regards,
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+On Mon, Jun 15, 2026 at 10:44=E2=80=AFAM Kyle Hsieh <kylehsieh1995@gmail.co=
+m> wrote:
+>
+> Summary:
+> Add linux device tree entry related to Meta(Facebook) ventura2.
+> specific devices connected to BMC(AST2600) SoC.
+>
+> Signed-off-by: Kyle Hsieh <kylehsieh1995@gmail.com>
+> ---
+> Changes in v8:
+> - Addressed review comments from Andrew Lunn:
+>   * Added a detailed comment to the Marvell 88E6393X EEPROM node to clari=
+fy its hardware I2C multiplexer isolation and out-of-band firmware update m=
+echanism, explaining why there is no concurrent access or multi-master scen=
+ario.
+> - Link to v7: https://lore.kernel.org/r/20260611-ventura2_initial_dts-v7-=
+0-a61d8902bc5f@gmail.com
+>
+> Changes in v7:
+> - Updated the commit message to include a detailed description of the Ven=
+tura2 platform's purpose and its key hardware features.
+> - Fix comments from Andrew Jeffery:
+>   * Ensured consistent blank lines to separate child nodes from parent pr=
+operties and from each other throughout the DTS.
+>   * Sorted fan nodes in ascending order.
+>   * Replaced '//' comments with '/* */' block comments.
+> - Fix feedback from Sashiko AI:
+>   * Added 'idle-state =3D <6>;' to the PCA9548 mux on i2c4.
+> - Link to v6: https://lore.kernel.org/r/20260610-ventura2_initial_dts-v6-=
+0-375d8e9d7ebf@gmail.com
+>
+> Changes in v6:
+> - Addressed automated feedback from Sashiko bot:
+>   * Clarified comments that io_expander0 and io_expander8 physically shar=
+e the same interrupt line (Wired-OR) by hardware design.
+>   * Removed leading zeros from unit addresses in DAC nodes (dac@c, dac@e,=
+ dac@f).
+>   * Removed unused properties from the adc@48 node.
+> - Link to v5: https://lore.kernel.org/r/20260608-ventura2_initial_dts-v5-=
+0-37ee5bcf58b6@gmail.com
+>
+> Changes in v5:
+> - Addressed review comments:
+>   * Added comments explaining the necessity of 'legacy_' prefixes (hardwa=
+re label collision), pre-allocated I2C aliases (future expansions), and the=
+ 'ledd1' naming convention (schematic alignment).
+>   * Removed the empty `&mdio0` node to comply with upstream networking su=
+bsystem guidelines.
+>   * Removed the redundant `&peci0` node.
+>   * Sorted `&kcs3` and `&lpc_ctrl` nodes in strict alphabetical order.
+> - Hardware/DT alignment updates:
+>   * Removed unpopulated sensors (adi,adt7461, infineon,tda38640, ti,ina23=
+0, ti,ina238) to accurately reflect the current board population.
+>   * Added the secondary flash node (flash@1 labeled "e810") under the &sp=
+i2 bus.
+> - Link to v4: https://lore.kernel.org/r/20260424-ventura2_initial_dts-v4-=
+0-806b00ea4314@gmail.com
+>
+> Changes in v4:
+> - Fixed capitalization: "ventura2" -> "Ventura2".
+> - Reordered I2C child nodes in ascending order of unit addresses.
+> - Enable PECI, LPC control, and KCS3 interfaces for host communication.
+> - Configure MCTP controller on I2C4 and enable MCTP support for specific =
+mux channels.
+> - Add Infineon TDA38640 and TI INA230 power monitor nodes.
+> - GPIO and Pinmux cleanup for PVT:
+>     - Aligned gpio-line-names as requested.
+>     - Remove unused or non-existent GPIO line names to align with Ventura=
+2 PVT.
+>     - Update specific GPIO pins to empty strings where signals were remov=
+ed or consolidated.
+> - Adjust SGPIOM frequency to 200kHz and update signal line names.
+> - Enable UART3 and add serial2 alias.
+> - Link to v3: https://lore.kernel.org/r/20260113-ventura2_initial_dts-v3-=
+0-2dbfda6a5b47@gmail.com
+>
+> Changes in v3:
+> - Add annotation for marvel 88e6393x
+> - Modify the gpio-line-name
+> - Modify the node order alphabetically
+> - Modify dt-bindings document for rmc instead of bmc
+> - Move the gpio-line-names to original node
+> - Link to v2: https://lore.kernel.org/r/20251224-ventura2_initial_dts-v2-=
+0-f193ba5d4073@gmail.com
+>
+> Changes in v2:
+> - Remove unused mdio
+> - Link to v1: https://lore.kernel.org/r/20251222-ventura2_initial_dts-v1-=
+0-1f06166c78a3@gmail.com
+>
+> ---
+> Kyle Hsieh (2):
+>       dt-bindings: arm: aspeed: add Meta ventura2 board
+>       ARM: dts: aspeed: ventura2: Add Meta ventura2 BMC
+>
+>  .../devicetree/bindings/arm/aspeed/aspeed.yaml     |    1 +
+>  arch/arm/boot/dts/aspeed/Makefile                  |    1 +
+>  .../dts/aspeed/aspeed-bmc-facebook-ventura2.dts    | 2903 ++++++++++++++=
+++++++
+>  3 files changed, 2905 insertions(+)
+> ---
+> base-commit: 9448598b22c50c8a5bb77a9103e2d49f134c9578
+> change-id: 20251222-ventura2_initial_dts-909b3277d665
+>
+> Best regards,
+> --
+> Kyle Hsieh <kylehsieh1995@gmail.com>
+>
 
