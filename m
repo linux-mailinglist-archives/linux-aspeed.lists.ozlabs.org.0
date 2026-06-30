@@ -1,141 +1,54 @@
-Return-Path: <linux-aspeed+bounces-4320-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4322-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 6scgLBVOQ2oeWwoAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4320-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jun 2026 07:03:17 +0200
+	id 3g0ZFideQ2q9XQoAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4322-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jun 2026 08:11:51 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A54E6E0696
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jun 2026 07:03:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F416E0A0F
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jun 2026 08:11:49 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=aspeedtech.com header.s=selector1 header.b=DHs5wXKM;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4320-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4320-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=quarantine) header.from=aspeedtech.com;
-	arc=pass ("lists.ozlabs.org:s=201707:i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=EG4G6Xif;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4322-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4322-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gq9yT3hBdz2yYs;
-	Tue, 30 Jun 2026 15:03:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gqCTY616nz2yY1;
+	Tue, 30 Jun 2026 16:11:45 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1782795793;
-	cv=pass; b=NHJeyLFToB5xMkF6JGX8/r0NgEPOMAhPnujicwJxdm9MSb+Kcr142q8qO7Ynsrt3KWe1hTr1J9L/5zDTYdx9bYq4hA+Qc2EEsRrwVKZHeJ6JoBA47OE3lFuBdT7de8tFDIuZOu4wgVoYAvzoOHHPzKMzcZCTBQLSISuk6xqeSiXtANh6uWWhfJVxmap3zSilFJhrfzHKVNWXYzO2TPsXm27swK8ygeTwGQtURwsAg5SxF+Fe+e9y/l1nixnVsueIqm0ve85879aLVISnfNPx8a+56hnOO8r+2JiBkMi5kGulBi9n+1Pjxw1nHTDKwBhTaP0pD0zmb328HDy/A0LKDA==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1782795793; c=relaxed/relaxed;
-	bh=40jUMhKwuYB+pVNOW02VufthW7Tjing9Tl9YUB27gH8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=XUbIkGjBR8ojWAnlIAQ/rfifAKX3kux4RxwCzdKE18wy3daBbH644OZF+vEDB7aekjN6H90Z/lSQgo2I6PJMgCQz9CO6JmWzdd1ionkjN52mP7XesFP3PHacSOKcXE3m1OQ2r+U3J/XRyqLEe0GNlmGokBsUeMwpn66qay62CD5jt8zyYfLAJ7FvPYkpc/Sm/bwAgbI5jdB1gMoz6nBZbDVhDrnATcgdKfQ++7IkJApT0pS9JKh3HF+VjtfukhjsnAnLGcM2f9KhyVv7AxR4e96QxrKPiWEFG5vBdynh3t+k0e07KaamJXQ9AZqZK8amImQ53zFBiU6KidG1BBuWcA==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=DHs5wXKM; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c405::7; helo=tydpr03cu002.outbound.protection.outlook.com; envelope-from=yh_chung@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazlp170130007.outbound.protection.outlook.com [IPv6:2a01:111:f403:c405::7])
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1782799905;
+	cv=none; b=HHrZFtt5bpPlkE8gi3x1rB5sdECFTKcN/yQjMNIzWiXYmYISrxmI7sMsoIx43JY58xlaKO6mS1lhb7vfeA7KRSjjsIE+Bfn6a0qnwJQGsydxJN++5iAvTkeyrgdisnwGdNmmkb4Nx9FlFgZBprtftazRyG5cVIuOlZZzNzuogBVY6hPC+gYz/0wGG7BA8atQ0AtHvOb0IYTxViHSdleliO5QewWFq3C2UYC1QeRXWAk+G8eBx7NxV4G6JX2Ka74eFxKxg5enPZ8EZ/S5zDyvcoStMPcF6iAybh8sl5qIlRV4LnSe5i/nqvIn/wHUdBvGppyljlQ39M99UpCtDQl9Lg==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1782799905; c=relaxed/relaxed;
+	bh=tltWWGTL9FFdiqSRf9Kfxc1Xnn7zryOZsVoDGgZFEh8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Yqt1GUMi0+GHF+DOVR2ZMRX/aQ4UtU50p99qa4RyBIgP8E28O0K/A7QJm4QgdXJNhz2InRJAnn1u1shVQ9YtjAale5zrFyM/PEJo3DeEu21svIxfBr3WvF20EUanGAVSVtjvDWZZ8QGcoc1/TVabLQy5XCHNHE8iemoLwd3XaS5jES+DB01zn2mv9cw1XqprqkqMfzGwF/nVGY8zCjjl0vMwK6dodMNitOaV4LLAaJcqLKQlNW3LZh8fsd87gMikClbdXiZQeS6BkBTciQXHZ6ANFA5P3z/WkDjbEV0PaRWNYnVmZ61/e7/cqQB78TN3UI6vwucOPQoIiYYX6vlfhg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EG4G6Xif; dkim-atps=neutral; spf=pass (client-ip=2600:3c04:e001:324:0:1991:8:25; helo=tor.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Received: from tor.source.kernel.org (tor.source.kernel.org [IPv6:2600:3c04:e001:324:0:1991:8:25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gq9yR3S1Jz2xHK;
-	Tue, 30 Jun 2026 15:03:11 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eSHD4/HMggKqSxpnZLwQM9hwf8koZbOlXX9Sl36eIJ0rPJ04AHRX1uARP2IN8HZ++DtWQoL6UqxR9aubwiBHwJ0vXe7s8wtzLgGQC43c+0njBf/O/vXdxC97yUZLNTCa39rbuEQ5s/7YJgRem+oZsx546RyhUfIKu3TRmZ8tuXtqSgZan+u62wlZK3I0FZ1+3XD8GL3DcEtHLdaYUddeAGlMY5HJmVjbLE66JgXyNy+gFkPt12PdO8QPSUrnbt505shpmE+CDUOEA7VVjggmQE7GKdxrE0rTOs54wy9aaHzcc1wbjyIPxP0kmJTveEuWJeD/iIJm+dK0rmZUvplJBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=40jUMhKwuYB+pVNOW02VufthW7Tjing9Tl9YUB27gH8=;
- b=CfD9fubIVgmPZslr86cdgVvRElN/2u6JxqTmaaWw0j08/hA9ckzPd2UtZwv22f01ka0g6PLBgrQXHb3NliNq8uW3k40mfcQSHB2htDGYlStL+tYGGspEzWrITFNpSX5SdBIyUfTw+jIKhJ3YemwaKgkjo+I5P4YPukPXQ1MhVuPY1ZoroVrl6GPKNO6KC2UmX8WRGz/B+tzpDmo09PpbPH+NWGUDoW96xKeGmsgNxd/tF2K5xoQGT9tGjeCDujXvjbcFm6+R9cpiq7yCdPCs/B0Xl3A7fUgOcWeAL0by0q5jINLCbn1DyCwHHrxdH31o1z5JeIJ7dGS2ybj4xdgMAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=40jUMhKwuYB+pVNOW02VufthW7Tjing9Tl9YUB27gH8=;
- b=DHs5wXKM45vdtVH0RWXSGcA9kP6PU03O5y8Pr6/57sL5zD+Q3eaJGJi1m9FMkMrexq6XBdJY+XIx+aDBecMYyoYOSPFcRQCpXzUoO5AVj8lZpsBbEhzu+B9egzvuQlPNmjWrJsm0tV9FmTa/5HkWeR1YCdiRE+7pop9TJwdvhesnjeSMxZcPuJPXtbOazMkCE19WJyeeyi+eiUmRoilseE4grDdCoufXKvpDD01Cet/ozpzC8pZgKt/yuROAW1f+BGP9eCnWlGALm6/3whlkhgTkmmRalk6BjNq7WV41Vqx5lXB47THM3XP2ZL0GMroB7qbYQP9fZgQt5is1bxXi3A==
-Received: from KL1PR0601MB4276.apcprd06.prod.outlook.com
- (2603:1096:820:78::12) by TYNPR06MB8403.apcprd06.prod.outlook.com
- (2603:1096:405:3b6::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.13; Tue, 30 Jun
- 2026 05:02:46 +0000
-Received: from KL1PR0601MB4276.apcprd06.prod.outlook.com
- ([fe80::b7f3:3c41:fd0e:e3f6]) by KL1PR0601MB4276.apcprd06.prod.outlook.com
- ([fe80::b7f3:3c41:fd0e:e3f6%7]) with mapi id 15.21.0159.018; Tue, 30 Jun 2026
- 05:02:46 +0000
-From: YH Chung <yh_chung@aspeedtech.com>
-To: Markus Elfring <Markus.Elfring@web.de>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>, "openbmc@lists.ozlabs.org"
-	<openbmc@lists.ozlabs.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
- Herring <robh@kernel.org>, Ryan Chen <ryan_chen@aspeedtech.com>
-CC: LKML <linux-kernel@vger.kernel.org>, Maciej Lawniczak
-	<maciej.lawniczak@intel.com>
-Subject: RE: [5/7] soc: aspeed: Add eSPI flash channel support
-Thread-Topic: [5/7] soc: aspeed: Add eSPI flash channel support
-Thread-Index: AQHdB6Rl+O3f/Pd0jUWeHqrLq3qghrZWi5wQ
-Date: Tue, 30 Jun 2026 05:02:46 +0000
-Message-ID:
- <KL1PR0601MB42764147CB9CC731BFB8DB2090F72@KL1PR0601MB4276.apcprd06.prod.outlook.com>
-References: <20260313-upstream_espi-v1-5-9504428e1f43@aspeedtech.com>
- <3ab543eb-ca09-4d75-b75c-b8a4c71b2173@web.de>
- <KL1PR0601MB4276C2C831B257898AAB363190E82@KL1PR0601MB4276.apcprd06.prod.outlook.com>
- <1df6b921-368e-461a-af01-d453a3898cf7@web.de>
-In-Reply-To: <1df6b921-368e-461a-af01-d453a3898cf7@web.de>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: KL1PR0601MB4276:EE_|TYNPR06MB8403:EE_
-x-ms-office365-filtering-correlation-id: 942faeb8-fd7d-403d-3380-08ded664d332
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|366016|376014|42112799006|1800799024|7416014|38070700021|18002099003|22082099003|921020|4143699003|56012099006;
-x-microsoft-antispam-message-info:
- FocjpZCq5yBRIl8++V81HcpGawg7Eel3tKL+81VKL2SNQ2OAEuKR5JKgFn6MA/ncQ8WxNSLffmPxAsPaml6wPwl5r6+f5bKzC/8Ypn4iA82HNDRc+6NAeMvYOvH577dOdF+2o8fpplMa+xI5DxoUsk8a9r1nxhSHKze0KLWCz0tzrq6zKM9ZhotiDTn4dkStJYuy4djiO2zRmuJxnLxgHbRVsZMQLelVbDLxzo8b9Ntpl29kaPrVpVp8E7ICfYoahU1j95bOytQJl5ZMaSx+IKcXj47dR+Cv/CdjsXM5YklleqUiJRvhLPHu8RU+aK37BGQ8lXr7hnMBGbEenDLJNG9udquCH9Qp4kqOsY148riDETqKAwGa5qjj2nRUUTdrgcacHKdy0jFf4jKFstK1FI/KctjVWHIc1fVy3c0K4bS5qoCre9ulGt575IOoOV8kQXdVMfM3qN970d5hlEVbmFHhQmcDNoqF1ztbYRsSKMj5ZAS15cdtmn3Up27hQllYt/TwqjTl2J+Y3VnhfYqp0PWeskm01NdUjZqv8iIDuD8AUvd34yr1bE7oI+nU9rVPcQdL6uBaJ59t+TnUyjNz6GC+iru+ecWtjImd5P3yBWaf5F8QSBOxySFU34x7fESQrO+L40a83e9+qTRN0Z98PDziPPKts/AbGSe7Hyur89IDNKZ/4f6WOKAAxCGanQI4J3fOqIhN/lEZAsc53lyG7ZC9wUyhxWf7KY0aC+hpnHwfH1b/XP7HfhY3vGN5E582
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR0601MB4276.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(42112799006)(1800799024)(7416014)(38070700021)(18002099003)(22082099003)(921020)(4143699003)(56012099006);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?QjFtWkthV243TThoRldtQWlpcWtBVDlUYUQwTlJJZk1ZNFdmSy9tWm5ZaDgr?=
- =?utf-8?B?V0F2NkNiUnZuS3IrZTJqRi82S0pjZGliRlo3Y0FIR0lWVGtweGhaemhsWWt4?=
- =?utf-8?B?Q3k2Tk16YkM0SHg3dTNzUVdEQS9QWUpjYlQrSlVVQ0kxa2lpMjJzOTRZdEI3?=
- =?utf-8?B?Ymd5R01BY3VJZW0vS1puQ2t5Rkw1RFRiemYyQlZwdEFKUWJycHB6MmpPM0tV?=
- =?utf-8?B?WktVYXQyalpRZWpYZW1rNEI5TGFpc1lzeGlkNE9CSWRtQ1VtSXhxaDFHVHhr?=
- =?utf-8?B?Z0dXL1ZKRSt3dHR2eGNaZkpMcVU1WWJOZllET0kvVUlzWExIb2J0SEhZVTBF?=
- =?utf-8?B?cFNuY3FudTIwYnN4SjNacitwTHdINFRFdld4VDVMV1UyVHF5azhHbEwyekI0?=
- =?utf-8?B?cTNnOGh3L1Y5KzN5MVRocXdWbFFENjRGQ0FZbk5OcG8wYUtZQUMrd3BHeHl3?=
- =?utf-8?B?cysvdXBSQUdyY0JSMzFNMW1BRWZ4Uk1jeE9PMnNMUHpadWowT3ByUi9ML0p3?=
- =?utf-8?B?SjlxZkN5ei9lZUhaQ2VPWEtCNTdrcEVoZmlza1REa2VSUmNQR3BCTW1PZ0Rt?=
- =?utf-8?B?bVVIODcvOWdBS2NGYWJtZno4VzJHYlArekMzZ0ljTitYRDh6Nlc4Q2JZOGN4?=
- =?utf-8?B?b1ZtZFRyaDRvRUFjZlpnaHRBa0tBQ3RrNURuRVE4Mnl1ZjZtOVFsR3NMUXpa?=
- =?utf-8?B?Z1Y3VFlwSW9xUzhwVW9UUmlYMllodGtxb2U3bHl5am9sUmlpWXFRL0w0MlFU?=
- =?utf-8?B?WDhibWpWK1ZBMXpKUWJkSGFFL1FrNzU5UlU5UTVRUW1CZ0prRFowNnkzb2lU?=
- =?utf-8?B?WDVXcUFHVlFLT2xsaDJrb2lsSlhicGJQdlFnWDVCL0pmMStyaWRpN0pPVWZt?=
- =?utf-8?B?TkJHNUNzMkx5MU42Yk1GMjFlY3VvTUFrV0E4UjZWaUdVcm9ZZWRWRkMxbEtr?=
- =?utf-8?B?OTdyQWRtaW45L2Zod1UxY2pNZTZyRkhBcHdaTmhnVXhJTE9YMG5tTnBxbEtk?=
- =?utf-8?B?L0toQjFTbWVVeTF4cHB3UlR6bkxnNlpjalF4blRDQ3dMNWxjN3VMKzloNWlM?=
- =?utf-8?B?Kyt4S1VMaTNjbVl3cXJ3N3Jld2JyRzRoSmd2L1VpQm5qdlh1b0t0S3dBTVpZ?=
- =?utf-8?B?VUJuWCt4SlA2WmFqazJOR0d4ay83aWtkTWNPQnhobUNCb2g3SmhLL3dIQzV3?=
- =?utf-8?B?cGxKVVlEcUtRa05veE1Gakxmb2RQK09tTm85Q3kwRU1UOXVlcGRBcG5JMXd3?=
- =?utf-8?B?Q1UvaDMxRnhveTQvNFNiWkNYKzBoS1JNdzdBanBHd3FYT095ZWVLMUkwbU5s?=
- =?utf-8?B?L1pramt2d04xcmJoeldxazg0RTBGTXFlN1pjZzcydEl2SVNoUnNCanBkamtm?=
- =?utf-8?B?MGJISGVkTElpdEtQN05YNDM0YWJKL1Fja0lGOGVjZThtY2tGR0g1QmY5Rndp?=
- =?utf-8?B?c1IwZ2tyWWoyeUNsR0YwZzZ1RHdtL3ozU1BqT2hrU3hqR0NNNzFacGIrdStu?=
- =?utf-8?B?QllJbGxBSGRXNitLWDNyank0ZXZEOHBPRmlJazZvbWRDWFd1MjFMQjgrZVpC?=
- =?utf-8?B?ZEk5OXZwN2NSclNuMTFSVHlybmJyRWJBTkRzSFZhY1R5aEZDQk0wbnFTRGNy?=
- =?utf-8?B?dVdvU0hmVm5IYWRLMnB0bWtMbGdxVTVKVSs2VDRnQkdId3c1VktvTmhYSFl2?=
- =?utf-8?B?NG9Pdy9DOUJUSmY0VEdDdHU3QzZLS3ZOZUJNMStDeEZUdWlsMXpWN1pSZk5x?=
- =?utf-8?B?UFplanYwN2t3N1RBNnNHTG5KaS9MeWEydzloaldKVjRoZ1F6UFlsSHVMbXNM?=
- =?utf-8?B?YUxobWpjMjVsaWIxMG40OGYyNzM0aG1mSWVJTGFaa0ttZEhSM3V5RmJhUkRW?=
- =?utf-8?B?MDlXRnM3WWJ0amRCZm8vbkUra1hPcGxjU2tuWXFWbk1LNWdiSk5saHNJbm1v?=
- =?utf-8?B?Sk1EMmJJUnI5eFJqYlBEc05kaHQwSTBjR0dqMWcwT0dOUDZjdkY3VzNlYlVP?=
- =?utf-8?B?TG0zVldSamx6dCtOcTVtZm5sdUc5V3Fzd0xraXNIL1B5L1A0NHJBRjBES3k2?=
- =?utf-8?B?eGVnTUVjbGFVQllXK2FKRjI4MkNPeTdyMHU2dEVCNm8wUDZQclFIREYvMWFW?=
- =?utf-8?B?SzhsWldzSnd5YU9OWGNxbndkQkpvaTU0NGRhc0JWQkExL1lMS29iNWxiWlVZ?=
- =?utf-8?B?YzVwZE9uU2h6QlduL2lCVkRCQUlNR01EeVVjM0pnTkZvS2loMzlkemF5NUVO?=
- =?utf-8?B?UmVBODYxUW81NFRDYXRFWE5OR2ptVmkzSzFENVNEeG5MQlF2Zy91SlkyRE9a?=
- =?utf-8?B?bW9pditPaWt3Q3NRMURrRTM2VXpzbE1XQVpFdXZrcEZ2OXpRVkp6QT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gqCTX5CXGz2xq0
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jun 2026 16:11:44 +1000 (AEST)
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id F37A960008;
+	Tue, 30 Jun 2026 06:11:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FF881F000E9;
+	Tue, 30 Jun 2026 06:11:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782799901;
+	bh=tltWWGTL9FFdiqSRf9Kfxc1Xnn7zryOZsVoDGgZFEh8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=EG4G6XifiuP4C/hNu+hZXXxCIPvUqX2K2T7EMrwC74tSo7UCV5iwl42j8rwwuKTiw
+	 oWeFqHY9QyYbvoh0tx0b7plb5AT0ZWlQv5nwOXkiVJm7RZVA+x7J7iSszmJVRPG+QK
+	 Gvfh6zEjbDFb1HOoRumJXUqZgeJ/XQ54HS4z9iM7KoYyPXka7ShVgdUq+ZSxx6bAe5
+	 gP+rKKr06Tb7qQeTRZqdpQgYg73kGqknw9Ymgqu1Wbk8sqhg5FhUX+Jo/nrx/JQ3cF
+	 idDMOs3FdE1XlAXQbSTPX6gUpQ1+4DLLHBCLavnnEmKCx0+XOh8tFnKxfK4NffZ75T
+	 qWzBQW3+M2k0A==
+Message-ID: <35a8e3b3-7725-4d1b-8667-84e6fa24b2ca@kernel.org>
+Date: Tue, 30 Jun 2026 08:11:34 +0200
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -149,66 +62,174 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: KL1PR0601MB4276.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 942faeb8-fd7d-403d-3380-08ded664d332
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2026 05:02:46.1499
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fLWx/nZtFa28lq4Ezrh9OnmdhGg9eht1CUmEpf2bdgz9ppbE4RNR2X67BEt5wzgM73RYXqcKxqEAYnpd7Edb5g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYNPR06MB8403
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] dt-bindings: ipmi: Add optional LPC properties to
+ ASPEED BT devices
+To: yc_hsieh@aspeedtech.com, Corey Minyard <corey@minyard.net>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: openipmi-developer@lists.sourceforge.net, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org
+References: <20260629-aspeed-bt-bmc-multichannel-v1-0-fc23ee337f7a@aspeedtech.com>
+ <20260629-aspeed-bt-bmc-multichannel-v1-3-fc23ee337f7a@aspeedtech.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260629-aspeed-bt-bmc-multichannel-v1-3-fc23ee337f7a@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.61 / 15.00];
+X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[aspeedtech.com,quarantine];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.20)[generic];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
-	R_DKIM_ALLOW(-0.20)[aspeedtech.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-4322-lists,linux-aspeed=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[krzk@kernel.org,linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[web.de,lists.ozlabs.org,lists.infradead.org,vger.kernel.org,codeconstruct.com.au,kernel.org,jms.id.au,pengutronix.de,aspeedtech.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_RECIPIENTS(0.00)[m:yc_hsieh@aspeedtech.com,m:corey@minyard.net,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:openipmi-developer@lists.sourceforge.net,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-4320-lists,linux-aspeed=lfdr.de];
-	DKIM_TRACE(0.00)[aspeedtech.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[yh_chung@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[aspeedtech.com:dkim,aspeedtech.com:from_mime,KL1PR0601MB4276.apcprd06.prod.outlook.com:mid,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1A54E6E0696
+X-Rspamd-Queue-Id: A0F416E0A0F
 
-SGkgTWFya3VzLA0KDQo+ID4+PiArKysgYi9kcml2ZXJzL3NvYy9hc3BlZWQvZXNwaS9hc3BlZWQt
-ZXNwaS5jDQo+ID4+IOKApg0KPiA+Pj4gK3N0YXRpYyB2b2lkIGFzcGVlZF9lc3BpX2ZsYXNoX3J4
-X3dvcmsoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKSB7DQo+IOKApg0KPiA+IFRoYW5rcyBmb3Ig
-dGhlIHN1Z2dlc3Rpb24uIEkgYWdyZWUgdGhhdCBndWFyZChtdXRleCkgaXMgaGVscGZ1bCB3aGVu
-IGENCj4gPiBsb2NrZWQgc2VjdGlvbiBoYXMgbXVsdGlwbGUgZXhpdCBwYXRocy4gU2luY2UgdGhp
-cyB3b3JrZXIgY3VycmVudGx5DQo+ID4gaGFzIGEgc2luZ2xlIHNpbXBsZSBwYXRoLCBJIHdvdWxk
-IHByZWZlciB0byBrZWVwIHRoZSBleHBsaWNpdA0KPiA+IG11dGV4X2xvY2soKS9tdXRleF91bmxv
-Y2soKSBwYWlyIGZvciByZWFkYWJpbGl0eS4gSSBjYW4gc3dpdGNoIHRvDQo+ID4gZ3VhcmQobXV0
-ZXgpIGlmIHlvdSB0aGluayBpdCB3b3VsZCBiZSBiZXR0ZXIgaW4gdGhpcyBjYXNlLg0KPiBJIGhv
-cGUgdGhhdCBkZXZlbG9wbWVudCBpbnRlcmVzdHMgY2FuIGluY3JlYXNlIG1vcmUgYWxzbyBmb3Ig
-dGhlIGFwcGxpY2F0aW9uIG9mDQo+IHNjb3BlLWJhc2VkIHJlc291cmNlIG1hbmFnZW1lbnQuDQo+
-IA0KVGhhbmtzIGZvciB0aGUgY2xhcmlmaWNhdGlvbi4gSSB3aWxsIHN3aXRjaCB0aGlzIHdvcmtl
-ciB0byB1c2UgZ3VhcmQobXV0ZXgpDQpzbyB0aGF0IHRoZSBjb2RlIGZvbGxvd3MgdGhlIHNjb3Bl
-LWJhc2VkIHJlc291cmNlIG1hbmFnZW1lbnQgc3R5bGUuDQoNCkJlc3QgcmVnYXJkcywNCll1biBI
-c3Vhbg0K
+On 29/06/2026 08:49, Yu-Che Hsieh via B4 Relay wrote:
+> From: Yu-Che Hsieh <yc_hsieh@aspeedtech.com>
+> 
+> Allocating IO and IRQ resources to LPC devices is in-theory an operation
+> 
+> for the host, however ASPEED systems describe these resources through
+> 
+> BMC-internal configuration, as already supported by the ASPEED KCS BMC
+
+What
+
+is
+
+with
+
+this
+
+line breaks?
+
+
+> 
+> binding.
+> 
+> Add aspeed,lpc-io-reg and aspeed,lpc-interrupts to the ASPEED BT BMC
+> 
+> binding so firmware can describe the host LPC IO address and SerIRQ
+> 
+> configuration using the same properties as KCS devices.
+> 
+> Signed-off-by: Yu-Che Hsieh <yc_hsieh@aspeedtech.com>
+> ---
+>  .../bindings/ipmi/aspeed,ast2400-ibt-bmc.yaml       | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-ibt-bmc.yaml b/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-ibt-bmc.yaml
+> index c4f7cdbbe16b..1803c6bbae93 100644
+> --- a/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-ibt-bmc.yaml
+> +++ b/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-ibt-bmc.yaml
+> @@ -25,6 +25,24 @@ properties:
+>    interrupts:
+>      maxItems: 1
+>  
+> +  aspeed,lpc-io-reg:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    maxItems: 1
+> +    description: |
+> +      The host CPU LPC IO address for the BT device.
+
+No, you do not get second reg property.
+
+> +
+> +  aspeed,lpc-interrupts:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 2
+> +    maxItems: 2
+> +    description: |
+> +      A 2-cell property expressing the LPC SerIRQ number and the interrupt
+> +      level/sense encoding (specified in the standard fashion).
+> +
+> +      Note that the generated interrupt is issued from the BMC to the host, and
+> +      thus the target interrupt controller is not captured by the BMC's
+> +      devicetree.
+
+No, you do not get second interrupts property.
+
+> 
+
+
+Best regards,
+Krzysztof
 
