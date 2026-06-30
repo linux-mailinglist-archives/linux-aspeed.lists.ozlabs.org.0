@@ -1,61 +1,71 @@
-Return-Path: <linux-aspeed+bounces-4325-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4323-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id vKB6FWVWRGqNtAoAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4325-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 01 Jul 2026 01:51:01 +0200
+	id /ZweEaf5Q2o/mgoAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4323-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jun 2026 19:15:19 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63BB06E8B9A
-	for <lists+linux-aspeed@lfdr.de>; Wed, 01 Jul 2026 01:51:00 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7B96E6D0C
+	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jun 2026 19:15:17 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=lrlJJAyQ;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4325-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4325-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=G4V3OQDK;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4323-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4323-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gqfzX323Gz2yb9;
-	Wed, 01 Jul 2026 09:50:48 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gqVC6129Zz2yR5;
+	Wed, 01 Jul 2026 03:15:14 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1782820387;
-	cv=none; b=ccZfX1eyks3lLu2n/dig5Hln3kLXYzDXzzc2u6QmJ75xaOQogtOe7MDwZAdQbCEgSi/kKWgWefntAkTBL2UzbEIiTOe7lzoL9nSVclz9qN6E+7BcopiYAWJfx4/IlpsereFEACw2/uCjGtqDJUewu5ycpZZEW2AvHr1RRbPEkbn3VP+BGa0UBgGHMc/JVi+1JWMu9ZMCgL5g9n5IOznj8ZVMFJeMidYAZWiflNzUKd6ecB0UcD+EuNw1b2UyY7l/CVMZ1Fpd/9cDGdsCI2yulsF/uxpJLuFpP1S/boY7nNmmonPCHa2BGrpM234iPTGgmifax6/YMlkdOx1oWk7/NQ==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1782839714;
+	cv=none; b=EME4rK0IFC4Jtiq8s0OTgg5wVjAG5uXVX/T5bH6Mnj6+oQO5g8uUHA69eP5LOnV28LlfeJI/NPB02IfhWA/bjx8pN57qQHHTV/CjQ9IG27sdxKZqYQlvbNIE/keVUPKOlxKtLPhxBptfex3+BGT8p4rDrYQE69UeoMGNrkxSb++K9P8REgEv9j/Aqln3xcQoGGMTHBUCCWdedBGC+aw9R5wabOZ0XJKVK+mtE35Am9LM0DeQIt5Gf+QCvrVJOvgJGYhyxNcrRulmLlAx3Pr7D8aiEnzPEqeRLCSWfXzquFpmyCoPu1GKdd4YKb8QUwPs39wvpE//UOetnUJAf9AQ9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1782820387; c=relaxed/relaxed;
-	bh=493enOlPSgfL8Xi3QDIl1rddbYGRJGRVQ1cUt/F2sHc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YjxV/SqAkjJFAgJyLUfeCpJUlUDEsSsxKMOlalhAPcB885hW6TkkRLaLxHG1wmDErnX8v6uLBcDsK2HkTrHFT4pFf+0OA0SVK8rU4ERl6Kg5GXtZ4xrca4cgCxunbjicWynt7eMfSam+MUC+G8PAb/5dvyw8C684HK8hi1sJrsAWYg1K0arsjXYy+4EZ20qZ+OLkxFA7h0KmODWben+/DxTrpmattmDiDMZANjT8l357ox0Ux/EvNHoFwGCtnCSelAbKJ61GcG1yQ0ea2eCcTRMGtK9RTmG9oAXmH8JV/xYON1/571HTyIP3K6Q8kHuDxi3+iFyHonFbpW3SMjRAVA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lrlJJAyQ; dkim-atps=neutral; spf=pass (client-ip=2600:3c0a:e001:78e:0:1991:8:25; helo=sea.source.kernel.org; envelope-from=linusw@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [IPv6:2600:3c0a:e001:78e:0:1991:8:25])
+	t=1782839714; c=relaxed/relaxed;
+	bh=zoCexdF8WAmj/A/cB9RD+x/uZadpQsC20Zx9sVby7Zs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B2zTqmFREh8x3qGU5zeMZGhLHvJy1GMru/MNLMGPd+b5S7UrZvtZCswZcRhnkJTSP6Hm7hnpa70BYNH7RzONSs+qaaY609FMeZg/KXH8NqDZ0J+Wld6eYttqY6xNJoNty5gI6d/TLGifx0UPKpUKbAtYoobspIXaLPi5QI+ayiqHhYi8/2cqwAZAHSpP33fKtDmgqjKNkdXhymG48m+43YFv0J1cA4S8ksnQf4HMoj/x9nSoxUk9A9xjELaGAiriuzaWqxduaU0lth3EdKjGnPj+bIcMnZ4GjNNgZvDluZoNTos3zECH7vrtgaLaXSeXEZzV/ytrSDAIUEMSXFsRiQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G4V3OQDK; dkim-atps=neutral; spf=pass (client-ip=172.234.252.31; helo=sea.source.kernel.org; envelope-from=conor@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gqM3Q4Xqmz2yZ8
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jun 2026 21:53:06 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gqVC44PpHz2yMl
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 01 Jul 2026 03:15:12 +1000 (AEST)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id 28B5A41321
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jun 2026 11:53:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DA681F000E9
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jun 2026 11:53:04 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 0E5824165B;
+	Tue, 30 Jun 2026 17:15:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1BC21F000E9;
+	Tue, 30 Jun 2026 17:15:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782820384;
-	bh=493enOlPSgfL8Xi3QDIl1rddbYGRJGRVQ1cUt/F2sHc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=lrlJJAyQZ3DwijrvkQSaLW/aK3tq35nYYm/c5Fotxi0Uq/sxm/MTtkXjQNgg0Fgxp
-	 KeYk1xrd8xyH45/0n3famjiuhyGtB6ePQFrOG+P4ANJc9Ou8bDFFyq+PNnitfddnlu
-	 nn8vBTyx8KO13fiCz1xG/2id40eL/RmVJCjK3vGEmGii8y2HbrdEeYthuisNvkEIXh
-	 CCCVjANnb6ziEZe65ted0H7vtlp+DAVwnUfFYjeCgc3a3U6n7+/78RExC2z3Wm3HG3
-	 7kx01Gi09g0a+U5y8Tp+vSCr7ClStQFBUwDMXbdFuGNBF84FtfwlnzLaY2irwtKLJ8
-	 R7rE517rnSYuw==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-39b28814916so1461721fa.2
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 30 Jun 2026 04:53:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoHnPCTa1nIGLHHXG9Lh4NZjFT1ifXEh+WviQbJ5w2kEVBulaefM0QN5l6Mf59XdQOXn0veHTCuk8qC8vs=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YwJEG7amfIvYApUVQaHCR/AOsIlgfpRwEF6noojOhG2Hdlfg8D2
-	EBcOrWAWz3T4W6lUuqIFietX/GeXWptajScBKRdxxIJ3ClCwXbCN8mNFUoE6DEKxzAXRRQ74+AJ
-	mluG8txHIC/V/9BbTNehCJU0D0vmEo/s=
-X-Received: by 2002:a05:6512:15a3:b0:5ae:afec:8afb with SMTP id
- 2adb3069b0e04-5aebdbdd0bfmr741396e87.48.1782820382868; Tue, 30 Jun 2026
- 04:53:02 -0700 (PDT)
+	s=k20260515; t=1782839709;
+	bh=zoCexdF8WAmj/A/cB9RD+x/uZadpQsC20Zx9sVby7Zs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=G4V3OQDK4LuGRepnI0nswNLNa/lKuAhTlsiY4H/ai3sTir+w0BkplZkG/88C1YjoE
+	 Ffdpg1MXKDTALoy7fWJHkV5zrAGmDMuCfZ4r3rU2LIGF2RAMIENOXc2420muOJmZQl
+	 wcYv8eysEx7vayF4lhA/q/SJt0VpKuDjgVWrVwzWfQDvkeIX6icpH0FEFRrq97NAbn
+	 uFtuWna5TSOULIZpfJCPupO92fBNo3m+AUaPlt7Bij+TgXJQb88ndD9BPaTwXxg6kc
+	 QPfxJokhSoTAtT2/0X9552Zd+fvO7iA5LXtk52p63kzZaqPP6LAp1VHVA34bI9L5Ph
+	 84iUzCm7/+6mQ==
+Date: Tue, 30 Jun 2026 18:15:05 +0100
+From: Conor Dooley <conor@kernel.org>
+To: YC Hsieh <yc_hsieh@aspeedtech.com>
+Cc: Corey Minyard <corey@minyard.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	"openipmi-developer@lists.sourceforge.net" <openipmi-developer@lists.sourceforge.net>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
+Subject: Re: [PATCH 3/4] dt-bindings: ipmi: Add optional LPC properties to
+ ASPEED BT devices
+Message-ID: <20260630-privatize-flap-8b01761853eb@spud>
+References: <20260629-aspeed-bt-bmc-multichannel-v1-0-fc23ee337f7a@aspeedtech.com>
+ <20260629-aspeed-bt-bmc-multichannel-v1-3-fc23ee337f7a@aspeedtech.com>
+ <20260629-bogus-vocation-db32e55a595f@spud>
+ <TY0PR06MB6855F690BCCCA45172F3F0AD93F72@TY0PR06MB6855.apcprd06.prod.outlook.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -69,84 +79,122 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20260616-pinctrl-fix-v1-0-621036e45c7c@aspeedtech.com>
-In-Reply-To: <20260616-pinctrl-fix-v1-0-621036e45c7c@aspeedtech.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 30 Jun 2026 12:52:49 +0100
-X-Gmail-Original-Message-ID: <CAD++jLm3-5BP+1E_DLTZvEPd1ugMZrXiOjM+Gqnn9Ri+uNWuPw@mail.gmail.com>
-X-Gm-Features: AVVi8Ccukh9jeKMJzDntWFmdET_gKKyPu4vZydSTvGPFTsmFqpaNo79r5YLA3x4
-Message-ID: <CAD++jLm3-5BP+1E_DLTZvEPd1ugMZrXiOjM+Gqnn9Ri+uNWuPw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] pinctrl: aspeed: Make AST2700 SoC1 JTAG master TRST optional
-To: Billy Tsai <billy_tsai@aspeedtech.com>
-Cc: Andrew Jeffery <andrew@codeconstruct.com.au>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, 
-	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="GgAjwmP4KtDGuBGB"
+Content-Disposition: inline
+In-Reply-To: <TY0PR06MB6855F690BCCCA45172F3F0AD93F72@TY0PR06MB6855.apcprd06.prod.outlook.com>
 X-Spam-Status: No, score=-0.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [-2.31 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
-	MAILLIST(-0.20)[generic];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	MIME_GOOD(-0.10)[text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	MAILLIST(-0.20)[generic];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4325-lists,linux-aspeed=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[linusw@kernel.org,linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER(0.00)[conor@kernel.org,linux-aspeed@lists.ozlabs.org];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_RECIPIENTS(0.00)[m:billy_tsai@aspeedtech.com,m:andrew@codeconstruct.com.au,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:linux-aspeed@lists.ozlabs.org,m:openbmc@lists.ozlabs.org,m:linux-gpio@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-4323-lists,linux-aspeed=lfdr.de];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS(0.00)[m:yc_hsieh@aspeedtech.com,m:corey@minyard.net,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:openipmi-developer@lists.sourceforge.net,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-aspeed@lists.ozlabs.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp,aspeedtech.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[spud:mid,conductwatch.com:url,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 63BB06E8B9A
+X-Rspamd-Queue-Id: 5D7B96E6D0C
 
-On Tue, Jun 16, 2026 at 4:30=E2=80=AFAM Billy Tsai <billy_tsai@aspeedtech.c=
-om> wrote:
+--GgAjwmP4KtDGuBGB
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> The JTAGM1 pin group of the AST2700 SoC1 includes ball D12, which
-> carries the TRST signal. TRST is an optional signal for a JTAG master:
-> designs that do not wire it may need the D12 ball for other functions,
-> but with TRST embedded in the group they cannot use the JTAG master at
-> all.
->
-> Split D12 into a new JTAGM1TRST group under the existing JTAGM1
-> function, so TRST is only muxed when a board explicitly requests it.
-> Patch 1 adds the new group to the device tree binding and patch 2
-> splits the group in the driver.
->
-> Note that this changes the meaning of the existing JTAGM1 group: boards
-> that do use TRST now need to select both the JTAGM1 and JTAGM1TRST
-> groups.
->
-> Signed-off-by: Billy Tsai <billy_tsai@aspeedtech.com>
+On Tue, Jun 30, 2026 at 02:24:52AM +0000, YC Hsieh wrote:
 
-Patches applied!
+> ************* Email Confidentiality Notice ********************
+> =E5=85=8D=E8=B2=AC=E8=81=B2=E6=98=8E:
+> =E6=9C=AC=E4=BF=A1=E4=BB=B6(=E6=88=96=E5=85=B6=E9=99=84=E4=BB=B6)=E5=8F=
+=AF=E8=83=BD=E5=8C=85=E5=90=AB=E6=A9=9F=E5=AF=86=E8=B3=87=E8=A8=8A=EF=BC=8C=
+=E4=B8=A6=E5=8F=97=E6=B3=95=E5=BE=8B=E4=BF=9D=E8=AD=B7=E3=80=82=E5=A6=82 =
+=E5=8F=B0=E7=AB=AF=E9=9D=9E=E6=8C=87=E5=AE=9A=E4=B9=8B=E6=94=B6=E4=BB=B6=E8=
+=80=85=EF=BC=8C=E8=AB=8B=E4=BB=A5=E9=9B=BB=E5=AD=90=E9=83=B5=E4=BB=B6=E9=80=
+=9A=E7=9F=A5=E6=9C=AC=E9=9B=BB=E5=AD=90=E9=83=B5=E4=BB=B6=E4=B9=8B=E7=99=BC=
+=E9=80=81=E8=80=85, =E4=B8=A6=E8=AB=8B=E7=AB=8B=E5=8D=B3=E5=88=AA=E9=99=A4=
+=E6=9C=AC=E9=9B=BB=E5=AD=90=E9=83=B5=E4=BB=B6=E5=8F=8A=E5=85=B6=E9=99=84=E4=
+=BB=B6=E5=92=8C=E9=8A=B7=E6=AF=80=E6=89=80=E6=9C=89=E8=A4=87=E5=8D=B0=E4=BB=
+=B6=E3=80=82=E8=AC=9D=E8=AC=9D=E6=82=A8=E7=9A=84=E5=90=88=E4=BD=9C!
+> =E4=BF=A1=E9=A9=8A=E7=A7=91=E6=8A=80=E4=BB=A5=E8=AA=A0=E4=BF=A1=E6=AD=A3=
+=E7=9B=B4=E5=8E=9F=E5=89=87=E6=B0=B8=E7=BA=8C=E7=B6=93=E7=87=9F=E4=BC=81=E6=
+=A5=AD=EF=BC=8C=E4=B8=A6=E5=B7=B2=E5=A7=94=E7=94=B1=E7=AC=AC=E4=B8=89=E6=96=
+=B9=E5=85=AC=E6=AD=A3=E5=96=AE=E4=BD=8D=E5=8B=A4=E6=A5=AD=E7=9C=BE=E4=BF=A1=
+=E5=8F=8A=E4=BF=A1=E9=A9=8A=E7=A7=91=E6=8A=80=E7=8D=A8=E7=AB=8B=E8=91=A3=E4=
+=BA=8B=E4=BE=86=E7=AE=A1=E7=90=86=E5=8C=BF=E5=90=8D=E8=88=89=E5=A0=B1=E7=B3=
+=BB=E7=B5=B1=EF=BC=8C=E5=A6=82=E5=90=84=E5=80=8B=E5=88=A9=E5=AE=B3=E9=97=9C=
+=E4=BF=82=E4=BA=BA=E7=AD=89=E6=9C=89=E7=99=BC=E7=8F=BE=E4=BB=BB=E4=BD=95=E9=
+=81=95=E6=B3=95=E5=8F=8A=E9=81=95=E5=8F=8D=E5=85=AC=E5=8F=B8=E5=BE=9E=E6=A5=
+=AD=E9=81=93=E5=BE=B7=E3=80=81=E9=81=95=E5=8F=8D=E6=B3=95=E4=BB=A4=E6=B3=95=
+=E8=A6=8F=E5=8F=8A=E5=B0=88=E6=A5=AD=E6=BA=96=E5=89=87=E3=80=81=E4=BA=A6=E6=
+=88=96=E9=9C=B8=E5=87=8C=E5=8F=8A=E9=81=95=E5=8F=8D=E6=80=A7=E5=88=A5=E5=B9=
+=B3=E7=AD=89=E4=B9=8B=E6=83=85=E4=BA=8B=EF=BC=8C=E8=AB=8B=E7=9B=B4=E6=8E=A5=
+=E9=80=8F=E9=81=8E=E4=BB=A5=E4=B8=8B=E5=8F=AF=E9=81=B8=E6=93=87=E5=8C=BF=E5=
+=90=8D=E4=B9=8B=E8=88=89=E5=A0=B1=E7=B3=BB=E7=B5=B1=E8=88=89=E5=A0=B1=EF=BC=
+=8C=E5=86=8D=E6=AC=A1=E6=84=9F=E8=AC=9D=E6=82=A8=E5=8D=94=E5=8A=A9=E4=BF=A1=
+=E9=A9=8A=E6=8C=81=E7=BA=8C=E9=82=81=E5=90=91=E6=B0=B8=E7=BA=8C=E7=B6=93=E7=
+=87=9F=E3=80=82=E4=BF=A1=E9=A9=8A=E7=A7=91=E6=8A=80=E8=88=89=E5=A0=B1=E7=B6=
+=B2=E7=AB=99=E9=80=A3=E7=B5=90=EF=BC=9Ahttps://secure.conductwatch.com/aspe=
+edtech/
+>=20
+> DISCLAIMER:
+> This message (and any attachments) may contain legally privileged and/or =
+other confidential information. If you have received it in error, please no=
+tify the sender by reply e-mail and immediately delete the e-mail and any a=
+ttachments without copying or disclosing the contents. Thank you.
+> ASPEED Technology is committed to sustainable business practices based on=
+ integrity and honesty principles. In order to ensure that all information =
+can be openly and transparently communicated, a third-party independent org=
+anization, Deloitte and ASPEED Technology's independent directors, have bee=
+n entrusted to manage the anonymous reporting system. If any stakeholders d=
+iscover any illegal activities, violations of the company's professional et=
+hics, infringements of laws and regulations, or incidents of bullying and g=
+ender inequality, please directly report through the anonymous reporting sy=
+stem provided below. We thank you for your assistance in helping ASPEED Tec=
+hnology continue its journey towards sustainable operations: https://secure=
+=2Econductwatch.com/aspeedtech/
 
-Yours,
-Linus Walleij
+Sort this out, it's not compatible with mailing lists.
+
+--GgAjwmP4KtDGuBGB
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCakP5mQAKCRB4tDGHoIJi
+0sANAQDA/60UmVrLczKv6SoSmrQAAFOoThdWuBLoAD3P9T2y1QEA2X+Byuamqo3I
+lYXK5bHUCYUvg75FNp5lunAzcWGfVwE=
+=8JpS
+-----END PGP SIGNATURE-----
+
+--GgAjwmP4KtDGuBGB--
 
