@@ -1,68 +1,46 @@
-Return-Path: <linux-aspeed+bounces-4324-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4326-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id gop/BDgCRGrjnAoAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4324-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jun 2026 19:51:52 +0200
+	id mtOGIbS6RGrBzgoAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4326-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 01 Jul 2026 08:59:00 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE0D6E7080
-	for <lists+linux-aspeed@lfdr.de>; Tue, 30 Jun 2026 19:51:51 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AAE56EA629
+	for <lists+linux-aspeed@lfdr.de>; Wed, 01 Jul 2026 08:58:59 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=HJCQ722M;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4324-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4324-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=none;
+	dmarc=fail reason="SPF not aligned (relaxed), No valid DKIM" header.from=aspeedtech.com (policy=quarantine);
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4326-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4326-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gqW1H6Jxsz2yR5;
-	Wed, 01 Jul 2026 03:51:47 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gqrTW2cbmz2xPb;
+	Wed, 01 Jul 2026 16:58:55 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1782841907;
-	cv=none; b=XYhk8/B2ovWMP90XukSnNOWh2cL/PVw5ei/geyau/pmeTxUwglGk/EZR3xEWtX0mk00rdfxtNolI141nGykid3rrc2qPdqS/UduAtdKPc1knAJIKk7+fuAS0/IPKSl5F9ijmUS6Iknts0g5X+gPaCBNJ6Qn+acnIj47FE72UsHVL+lhwFApIIi9in9LXfQLSzWF3Uy/gU99ln3SV7BJ/CpSGpIeYVb+cL5ykcpw8FL+4ajHFj7KFjDBYXlTc4y9VRP9TFzQOoqpP8Ajb+Plb1IN07KfPqhn9RRHLquef69hQDfmr8ZOd3cgQnAK5uBueLJ2hNBp2bUEQzBBaBi5oIA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1782889135;
+	cv=none; b=Eh9reOLn73WKnMnOgRqFDG3ON/0DGewGFnJjZfRF8cG15RIzC8r+9JRgR4OAcz6pvVGX6Hbo2Y88mxYBojDqLlmeZ7E5K+La7ZGLu0aH9+cbuED3U4omKyitNvez5B40uzQGsntnFSf+vKQXRwH63CZsfDC5DTE4+WNJ/M8YLdipmpXMZp5MWlSQYpnGS0CF3QiqkHByVCM7AY0cQgdMJLPEmZ9h4WwH7J8pDAl0fA/Tqnt5EG0A+JiTtkToCN3pTBgOxE1HakXDvreKiESxpkbJ7ECQQs64+ZhGWzZ/4ndoiBrltfP32oP0ZUN+JPDhpo8iTBgxnbIddOQ1bq0A5Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1782841907; c=relaxed/relaxed;
-	bh=rpVzYJiD4uvUrnHrs1i+rq74dWRX/dxoOQRnlJsTbJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=foz6NsN4dLD4RErE6zYF0M8+xp4iUhiJO0sskyt5xWFtnUpC38/RFkQGB/GYKFXliZeRT6v+g/vJIx64SytTaEw1SAjfLFy/92gUeEvaP5GsfJtjB8bUl3dKa+jLoOK2k/bg5m7t6MVix8AVydyaTxgQ47AkUTppTg/BrBso78rdUbtTKr0GkexBtcJiA/AWSX5LEzE16ryUNGurtsFyTmbPpLmohjdb1zsp47MZzI1FLuIUHhkxb0gm5jD4KF0mLOiD5UcQpCEKFeW10QsJgenGJ4StBxfLMtUPu57wZ3D3RyYDqUiT8zE4RuRUXYimeeErWKdWi6Yn9f+WImaStg==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HJCQ722M; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=robh@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	t=1782889135; c=relaxed/relaxed;
+	bh=jYKf9cTsfWn+jkBzHovubXGtnpat1HeW9+J4+4meF24=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=CtVNwvWytA3ylVkbnf9XGia0iBmQpyo3MS68/qc8jnGv7NUAGzIo3GVw21W4liO0GuF0oN1mBGRHpAr1Bd6JsSJAA5k1SbnvUUsu4g7+zZ+MY999EIhHqXSzFG73FloyL1LlUh7I7pQ1Uyp/+z/9t8KKquajnePbnTfqA32XTZv+fLgmhsoAUwYqp8gAZ3bWfT0SoB5rekcXP6KE78dUFfs1YmQ507hO3QwZtCGAgJa29+q8wDIyB9bTPp67rs2+OECWuyFVS6jmDqG4wxD8CAmBmB4PR6mM3UySXdIQfx5uMvOEECT3KN+6YGfxC2J9xqnVumlPERgKFRL1KZKiuQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; spf=pass (client-ip=211.20.114.72; helo=twmbx01.aspeedtech.com; envelope-from=ryan_chen@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
+Received: from twmbx01.aspeedtech.com (mail.aspeedtech.com [211.20.114.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gqW1H0zGhz2xq0
-	for <linux-aspeed@lists.ozlabs.org>; Wed, 01 Jul 2026 03:51:47 +1000 (AEST)
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id 593B5600BB;
-	Tue, 30 Jun 2026 17:51:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAFF11F000E9;
-	Tue, 30 Jun 2026 17:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782841904;
-	bh=rpVzYJiD4uvUrnHrs1i+rq74dWRX/dxoOQRnlJsTbJc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HJCQ722MxU+MHC23BSrdoiEHDRw9Ql9TrNC02wM9iluQIfFS2pL7HTm4DMoIfgXor
-	 sZPsO5fe+UCnhgLboo8vr0TxYlvWoSm+8RdtT2FaMnWx7JPw0TX2lNogNtAM5ZteTw
-	 1kPr6vuoJgOVYliMJqn+WxyV5po2NSC7PUY1wPojHU/iIW2U9UbFEofK+nGj/7RIjd
-	 3DSwICjJtI0nh+5j6ehuYBM+m0cJZgkyxCrI7fDAXrV/x7GCwCEd9pXhsyxB0HIQJu
-	 iSdfJvxZ1SPFEXVsbW8oYXCvLLbzRKpZuZq4gN4PrBGSb4ybV8zVkVSfUroRrLgIN0
-	 CwPpm9MKm8V3Q==
-Date: Tue, 30 Jun 2026 12:51:43 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: yc_hsieh@aspeedtech.com, Corey Minyard <corey@minyard.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	openipmi-developer@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Subject: Re: [PATCH 3/4] dt-bindings: ipmi: Add optional LPC properties to
- ASPEED BT devices
-Message-ID: <20260630175143.GA4129206-robh@kernel.org>
-References: <20260629-aspeed-bt-bmc-multichannel-v1-0-fc23ee337f7a@aspeedtech.com>
- <20260629-aspeed-bt-bmc-multichannel-v1-3-fc23ee337f7a@aspeedtech.com>
- <35a8e3b3-7725-4d1b-8667-84e6fa24b2ca@kernel.org>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gqrTV0y5rz2xF8
+	for <linux-aspeed@lists.ozlabs.org>; Wed, 01 Jul 2026 16:58:53 +1000 (AEST)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Wed, 1 Jul
+ 2026 14:58:18 +0800
+Received: from [127.0.1.1] (192.168.10.13) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1748.10 via Frontend
+ Transport; Wed, 1 Jul 2026 14:58:18 +0800
+From: Ryan Chen <ryan_chen@aspeedtech.com>
+Subject: [PATCH v3 0/3] Add AST2700 USB3.2 PHY driver
+Date: Wed, 1 Jul 2026 14:58:16 +0800
+Message-ID: <20260701-upstream_usb3phy-v3-0-00e12315b6f9@aspeedtech.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -76,73 +54,107 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <35a8e3b3-7725-4d1b-8667-84e6fa24b2ca@kernel.org>
-X-Spam-Status: No, score=-0.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIm6RGoC/23N0QqDIBTG8VcJr+dQK1272nuMMVKP04tKtGQRv
+ fssGAza5f+D8zsLihAcRHQtFhQgueiGPkd5KpCybf8C7HRuxAjjhFKGJx/HAG33nKIsvZ2xoJS
+ bizYgRIPymQ9g3Hsn74/c1sVxCPP+IdFt/WLVEUsUE8ygbuqGSGBa3NroAfQIyp7V0KFNTOxX4
+ X8UlhUiiWpMCZKb6qCs6/oBBGE8IvsAAAA=
+X-Change-ID: 20260112-upstream_usb3phy-7116f8dfe779
+To: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, "Andrew
+ Jeffery" <andrew@codeconstruct.com.au>, Philipp Zabel
+	<p.zabel@pengutronix.de>
+CC: <linux-phy@lists.infradead.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-aspeed@lists.ozlabs.org>,
+	<linux-kernel@vger.kernel.org>, Ryan Chen <ryan_chen@aspeedtech.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782889098; l=1671;
+ i=ryan_chen@aspeedtech.com; s=20251126; h=from:subject:message-id;
+ bh=bn8u6iZT/heeYMxwS3gT13QMzWcArkH0V90un5xFeD4=;
+ b=awUCfrqi0MGSFD1GjYf0evv5DlrS0hIHqJjRtUdPjmOksHD0SJTQiXAe/gKUsCtwN/oCLfBEz
+ Y0iyYwtPBPLCJ8u+r+25FkG5Y/F5eOuRgXc/iYmI+HSjUqRooQkTHEy
+X-Developer-Key: i=ryan_chen@aspeedtech.com; a=ed25519;
+ pk=Xe73xY6tcnkuRjjbVAB/oU30KdB3FvG4nuJuILj7ZVc=
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.29 / 15.00];
+X-Spamd-Result: default: False [1.49 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[aspeedtech.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4324-lists,linux-aspeed=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:yc_hsieh@aspeedtech.com,m:corey@minyard.net,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:openipmi-developer@lists.sourceforge.net,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_SENDER(0.00)[robh@kernel.org,linux-aspeed@lists.ozlabs.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	TAGGED_FROM(0.00)[bounces-4326-lists,linux-aspeed=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:p.zabel@pengutronix.de,m:linux-phy@lists.infradead.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:ryan_chen@aspeedtech.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	ALIAS_RESOLVED(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[ryan_chen@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:helo,lists.ozlabs.org:rdns,lists.ozlabs.org:from_smtp]
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1AE0D6E7080
+X-Rspamd-Queue-Id: 3AAE56EA629
 
-On Tue, Jun 30, 2026 at 08:11:34AM +0200, Krzysztof Kozlowski wrote:
-> On 29/06/2026 08:49, Yu-Che Hsieh via B4 Relay wrote:
-> > From: Yu-Che Hsieh <yc_hsieh@aspeedtech.com>
-> > 
-> > Allocating IO and IRQ resources to LPC devices is in-theory an operation
-> > 
-> > for the host, however ASPEED systems describe these resources through
-> > 
-> > BMC-internal configuration, as already supported by the ASPEED KCS BMC
-> 
-> What
-> 
-> is
-> 
-> with
-> 
-> this
-> 
-> line breaks?
+Add AST2700 USB3.2 PHY support.
+ - Supports Super Speed Plus Gen2x1 (10 Gbps), Super Speed (5 Gbps),
+   High Speed (480 Mbps), Full Speed (12Mbps), and Low Speed (1.5 Mbps).
 
-I've seen Codex do this... It amazes me how hard it is to get it to 
-write properly formatted commit messages and then not forget how to 
-write them.
+Signed-off-by: Ryan Chen <ryan_chen@aspeedtech.com>
+---
+Changes in v3:
+- Wire drivers/phy/aspeed/ into drivers/phy/Kconfig and
+  drivers/phy/Makefile so the driver is actually built.
+- Fix the Makefile config symbol to CONFIG_PHY_ASPEED_USB3 to match
+  the Kconfig symbol.
+- Expand the Kconfig help text.
+- Link to v2: https://lore.kernel.org/r/20260116-upstream_usb3phy-v2-0-0b0c9f3eb6f4@aspeedtech.com
 
-Rob
+Changes in v2:
+- aspeed,ast2700-usb3-phy.yaml
+ - Drop clocks, resets descripton.
+- Kconfig
+ - add COMPILE_TEST, remove default n
+- Link to v1: https://lore.kernel.org/r/20260114-upstream_usb3phy-v1-0-2e59590be2d7@aspeedtech.com
+
+---
+Ryan Chen (3):
+      dt-bindings: phy: aspeed: Document AST2700 USB3.2 PHY
+      phy: aspeed: Add AST2700 USB3.2 PHY driver
+      MAINTAINERS: Add ASPEED USB3 PHY driver
+
+ .../bindings/phy/aspeed,ast2700-usb3-phy.yaml      |  48 +++++
+ MAINTAINERS                                        |   8 +
+ drivers/phy/Kconfig                                |   1 +
+ drivers/phy/Makefile                               |   1 +
+ drivers/phy/aspeed/Kconfig                         |  15 ++
+ drivers/phy/aspeed/Makefile                        |   2 +
+ drivers/phy/aspeed/phy-aspeed-usb3.c               | 236 +++++++++++++++++++++
+ 7 files changed, 311 insertions(+)
+---
+base-commit: 948efecf22e49aa4bf55bb73ec79a0ddcfd38571
+change-id: 20260112-upstream_usb3phy-7116f8dfe779
+
+Best regards,
+-- 
+Ryan Chen <ryan_chen@aspeedtech.com>
+
 
