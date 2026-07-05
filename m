@@ -1,103 +1,116 @@
-Return-Path: <linux-aspeed+bounces-4340-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4394-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 0MteMnrrSWoX8gAAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4340-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Sun, 05 Jul 2026 07:28:26 +0200
+	id 1fsiHvDqSmrqJgEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4394-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 06 Jul 2026 01:38:24 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E42FC709046
-	for <lists+linux-aspeed@lfdr.de>; Sun, 05 Jul 2026 07:28:24 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99ABE70BC0A
+	for <lists+linux-aspeed@lfdr.de>; Mon, 06 Jul 2026 01:38:23 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=ECvd+FOX;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b="Y/AD0EMk";
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=EDqYFdv4;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=IdlzMJAG;
 	dmarc=pass (policy=reject) header.from=qualcomm.com;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4340-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4340-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4394-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4394-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gtGH91Y17z2yYd;
-	Sun, 05 Jul 2026 15:28:21 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gtkRP17zBz3btq;
+	Mon, 06 Jul 2026 09:37:05 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783190018;
-	cv=none; b=K//N0jyVfFFt12YbmcZnk5O4ZueaB5OWPkJ9y0wZm8BDZXMlB01ov/uSkcB7BEQ194WiXK4qU9ZtuEuqv2zYaTxjaC7EG01V7FAcDRjkueeit7UScl0mJn1tpNo0zzzd7f80qA/0QE2mdKqSwsX3pvnCmVHuLLnAme/lJpEbjakck/41KJFWfwPaAnrHBIoGBrhH69IQLtDsPLKeK6k90USVAoG2z45R1KYSiNgGOQ6McEt6zpV7LaIWLTI1KIbaOAQ7O5zG1uUU2Rwh4npCAhbaTnhBQz4kiZ87KG3APpEb+qTU+FPV97o3e35tiOPlUc5U2XmDAiVLesRm87EFNA==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783280439;
+	cv=none; b=Z0FvW9y/FFkfIRNrXImA+bamCe1c3qsTOcTEsSeC1Iafh5kLYe4uKSDo3Qh3Ap9ltBFHrLSdKmOStLaf4hKCgUWsNbjOmiqZJ59zqJWY4lbskNr8FD7pN35dZLgCLf9m0WtfCqkoV37krcQzT7GfePcofU/Sx7UnMeSCC5pW/6WWxPLvvoXCzR2bGuIZ6PICjzMeysGDHJ54oGDdVmIaXXRdF0hPF72BCURoEJeV/SgAm+j5ALhnMs3plf9/l3uPLQewFh/n29ldhq21bCgw9r/FGCSyzvD1rVXYJvdG6pfDS5OzbEX85+QqHplMdBGqEqf5hXcFKmVnf/Zetqo5eQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1783190018; c=relaxed/relaxed;
-	bh=IGXwZHbQah8WajNXtsa2tZqdRDir4hma/P5IIaHQ79g=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=h/gErBfyt97/IuvAe+pfDtkmirNxrvgLIfUCNnMZfkFr++ZE99vYqQeECjp2D3VwnwBgHopeTPa29LEOKrMsT/Wjq/BfJoyAbLribb5OvhbiPBOQJdcOsP3jnD8rmnY2cI8VoAa8piQmUHSEhdp6EjsHVtxopiX/u2rQR6xxSr4CwfwHnpZiqq6GdxRY8MdY2e7GPOVpPlRt0/vYBv4uXSlUlYuftLugfwIwQjLpAdj0Ce4Dw/ha+crCu0VXGDIVLTC7EI0s7K1uyst3oTUOaDlV4lSLkiMYRyMzTZdIS/JdOmEZoQ8FWjXTxUDDaPF8BDBsrBsTOohoP4X8AdeniA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ECvd+FOX; dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Y/AD0EMk; dkim-atps=neutral; spf=pass (client-ip=205.220.168.131; helo=mx0a-0031df01.pphosted.com; envelope-from=ze.huang@oss.qualcomm.com; receiver=lists.ozlabs.org) smtp.mailfrom=oss.qualcomm.com
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	t=1783280439; c=relaxed/relaxed;
+	bh=03p+FFlmwi45suRC+aZpApiuhNt9KA4gObs4WxBM+z8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iRqi5YSaB93TmK5XKitN3nROO3cqNBQ5M388651ytFmk9ZfPqdCcfilIFo2Z3WnTBi1+RxnLtzKo8ZwMVhWPnHDaN0jIT8aMmfNNd1CV48lydhL0/0w/XBP8WsbUDge+wUriDohG5fVTmyeEDJx4S0yqGZ2YnxIE3FyJJ8RGHf5toXRbfBMW3EJ7vA5H0yIdqX+Ax4UNjX0ueJ4xQVMTn07Zc7vxtm0w5q1Txrc83vY7vKa/smzOED6TEgY4MX15mrJbxQTZd0JEhMT9ibsvdF8RO/jl+Wz7V/Y8rp1IU7uONRE+GDmo5fT3rb5vSiMliJEJiFiIhDM0A/4ufukA5g==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=EDqYFdv4; dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=IdlzMJAG; dkim-atps=neutral; spf=pass (client-ip=205.220.180.131; helo=mx0b-0031df01.pphosted.com; envelope-from=mukesh.ojha@oss.qualcomm.com; receiver=lists.ozlabs.org) smtp.mailfrom=oss.qualcomm.com
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gszlj5qm3z2xyh
-	for <linux-aspeed@lists.ozlabs.org>; Sun, 05 Jul 2026 04:33:37 +1000 (AEST)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 664G8U0j3450082
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 4 Jul 2026 18:33:36 GMT
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gtdBX5dHkz2xYg
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 05:40:35 +1000 (AEST)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 665Hj2Tn2328901
+	for <linux-aspeed@lists.ozlabs.org>; Sun, 5 Jul 2026 19:40:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	IGXwZHbQah8WajNXtsa2tZqdRDir4hma/P5IIaHQ79g=; b=ECvd+FOX6m7m+uK6
-	znPdHfToJCGz5vNdP6tV4GzW8+gWG/emNUZmGO/Rxywzfrha5unEY40pl2LXO59h
-	7JXv5BMnvdyYquNsxkHqexO5Aqt/ozoQqMvQZkR6SmIcjSk/KX09cknpXg/SmD4y
-	hP6befM9yAWltSsaHmCWvED4/fNXwWB77sN5NX05AUqZLG70NP16/tIDoYPnLcE2
-	EH04DJfiCX6/0wgXIsEVPx0mePP3/mRq6UkdeWFfub4bU+t6MlFqgUKWB0nt0To0
-	f3F3hcil7VXRNQY8Rzd+7aj/3W2ujxhjIQiNl0U335fTz9dmXSjkNMM560EDCcCr
-	drpp9A==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f6s4ssfwg-1
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=03p+FFlmwi4
+	5suRC+aZpApiuhNt9KA4gObs4WxBM+z8=; b=EDqYFdv4Pmeqy9IR99dcNiLiDAT
+	/yuTE7Ljg9Hev+D7GIua619X8FUaXVlexko06UWo2I1UG1HwTHa/3pcOiO1FNKdk
+	YiY1UO4+AP6rm2LO5F78feakLwRgePs5DdWtrzsXwhYCgTfecFqPFRL/MQqcfyO9
+	pb9r2UQAkfcA5gru+dfTHa2mdfv7340zDAANejxt7cH1lKuJqEenlOMOzxtkjth3
+	hBP3jcZzSc9vRDjWjL0r4gMT/svWmjZh1dvVGSJdpYFTDJ+ZtuRTINMxgHG6Wmig
+	3zizUVw2wRtMv7D6VUvWZqVy2hRD9jXlwyfLqvXinpJSMddoU1sfRGdzOYQ==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f6sgh3cs1-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-aspeed@lists.ozlabs.org>; Sat, 04 Jul 2026 18:33:35 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-847a2509456so2657320b3a.1
-        for <linux-aspeed@lists.ozlabs.org>; Sat, 04 Jul 2026 11:33:35 -0700 (PDT)
+	for <linux-aspeed@lists.ozlabs.org>; Sun, 05 Jul 2026 19:40:31 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-c8952346bb9so1794068a12.2
+        for <linux-aspeed@lists.ozlabs.org>; Sun, 05 Jul 2026 12:40:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783190015; x=1783794815; darn=lists.ozlabs.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IGXwZHbQah8WajNXtsa2tZqdRDir4hma/P5IIaHQ79g=;
-        b=Y/AD0EMkfb1YWBk8F0F6WZgrcyWeNiN8vGn2/0tesZS6UurKhEF5kOwcnBznrMz8XZ
-         j1d45n712/elBptx9JrqW/Aaub3WQJvuwUORjP/QJFT7zJvtVcR5KzHGtLsq/siSlID+
-         vy2Kpg/8dHUb0hVxAhaWR7p6r/7fYpDBBZl39Q2HGVr8GwIPNMavpDMO3H+V0/tMMJsE
-         9IN4Wv0eLCMVmwupHh+rrxRjiedSWYg8WJOfQGIcZbTq6aUB9K8qwGVP6wkOlgtEp7Er
-         kn8l2lUWhJot5OqSXUTazukwmdOEVfnkxVxYTGNwFr0IDwBE8oQV+Fc3Tdy5xzx81pEd
-         KElA==
+        d=oss.qualcomm.com; s=google; t=1783280430; x=1783885230; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=03p+FFlmwi45suRC+aZpApiuhNt9KA4gObs4WxBM+z8=;
+        b=IdlzMJAGXfM4TJ9e2APquFKdViAlT9co/vusjPMX43JC5+G77t0ghOHQeM9vQhdqkJ
+         2BmdFVq8B/43vFm8vOqueBZgLN6PniY4ge05n9Wh1Uay6rbl0JwjnzuEfGZ/lqSzS3/I
+         Z/l49CgFT8Z5vh6z6hiG3AmUIXbml06DncvaMydjDLmXchRzBSH8IK32IgXiX4RLAjKA
+         AJLBVF283wWe+Oo1irVTHg/g9BSku+poYi8rMSbOfHDoaOqYjYip3ZVYAqra+D77emFF
+         diO/AhFphHzTtnYaNsGSBLVxSsXfZfHnfSCHnfvCFuVwgHa67XMOzC4ALYvRu9eXacMh
+         kgKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783190015; x=1783794815;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IGXwZHbQah8WajNXtsa2tZqdRDir4hma/P5IIaHQ79g=;
-        b=kkdauOTasPBDqa+oJvxLClTcAZSGjEnWGI+qM3gb9+Y39casyMOjgPmy+LcT/6m2/r
-         O7a1EFfHBt4iERdPJYUF4k+FfqNATk8FcQLJotHz4QUa1a0qerM9Ne1Crqb77Tu0K+1i
-         5JgVH6aFs3UwdVSNJJL4mxXjX4a9kvgc/Nd0ke7Dv4fqZs7lHd1ifhgh9DmiTrzosUb8
-         HKX/pk9Un/DLJAeE6N7/S9XJrJtSHB/sDPOp83WtvpquMVg3yBlYPeObt+CF7Xa0+uKN
-         hHdOq/duf9iZ3r1UR0Ah1lAO+pkSi/kCx5DyD/lIGU01YRxFcEAOhtimiJKdNCQTeo7p
-         +A4w==
-X-Forwarded-Encrypted: i=1; AHgh+RoPlKX1RZMZVZavWJ9l+IiRKZ+keKDKlSU7FIyDGeWOpXkzbCH0WfELm/nBCzZIm1LuL8XgnR6WVz94QPs=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YwI2vaffNnD/0BR4XXeixohaE6cFn2zbOsSOxPaAO1pg7YGqBXj
-	9d8PK/RuzmitWdB1lEOIDAezX1hk/kbaVR2V0cn1YmSsHuya8RCX24Oh1EZNLnUpWhhdhLPCokq
-	avZOYZq/v7i9eSULUIXvuW7TtbzJ8Nn84uAMjrAqtD+9ojWZAc0B1SsBDbATlwoTKszwA
-X-Gm-Gg: AfdE7clPLtdkiQvBY4kiHC1AToIOVHTjWl2RkFina/qcJ9z5Svz4cN+rzEF4+BYpsdg
-	gSqo8anvtqi37+OTm5pyw60islNGLuRynxQDfplQiq9NU9YXWVDgLKiQ4PRCXGZYiBObronYrqe
-	QPCELja7LW4cskh+dmUjmbarfu3OmgYDA0hpuyMT7aAo0ZC0zV6i0uD0KxAk7RmT7DjVAXY57D4
-	5hpQT+aaqlz+ehFAx+VavctsDQwffZYsrwQilELA/KZiGBEPrzNizegLwjAAE7tt7zbm5kGWSWZ
-	lG9bEjfrTKETWxIZ7Pi/CBwe3Wq0RPigrezcXjo31j/PyOKgpVC5+VEY/oCmFyYeBha288vEYGR
-	Qe0orXipCZOcXt3aoKfyDRoo=
-X-Received: by 2002:a05:6a00:a16:b0:845:e34d:f226 with SMTP id d2e1a72fcca58-847f6da5228mr4452856b3a.16.1783190015059;
-        Sat, 04 Jul 2026 11:33:35 -0700 (PDT)
-X-Received: by 2002:a05:6a00:a16:b0:845:e34d:f226 with SMTP id d2e1a72fcca58-847f6da5228mr4452818b3a.16.1783190014533;
-        Sat, 04 Jul 2026 11:33:34 -0700 (PDT)
-Received: from [192.168.1.100] ([151.243.38.149])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6b6057dsm1508437b3a.7.2026.07.04.11.33.29
+        d=1e100.net; s=20251104; t=1783280430; x=1783885230;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=03p+FFlmwi45suRC+aZpApiuhNt9KA4gObs4WxBM+z8=;
+        b=HlES754eTvH3VueicOg6RlJ0ohIiy30+Pu9fYjWMtvx5XzU3t0fCn8eiSGz5iTooeL
+         /Bt95eGeOFlSDsM7NIqhqSGYeQnbsGirY6xbEJ2u0uKaST2s6wIRGcDYGUmI+p/H/XWX
+         EBGLbtr+yHJsqfLkUe6ogGplLKu/m06ydtvZcWxBFSh1uP4K/9PfI3jP9vdHOCbZ3dhQ
+         cZrcBp7Fb1zklb6iPhnR2DMABNRY6xTS8XonkgxZDVkiK4cAEo+sHQPnfi+00a2tyWvc
+         fQTyc6UzZQ3p0s0+7IaoVK8Ttuh4QPFkptLWBX+L7y41vakwsuNt+zciuLW8sOJpiKWg
+         ftww==
+X-Forwarded-Encrypted: i=1; AHgh+RqjWsiDCEJffNZQk/g+U25YyzZm5EYtL6FfNoF3dIB5YuzK9r3Lf+9mXFD9B6Gw+Sct/8nBV6D2eGvU2vE=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Yy/hjGDq/I1OP/DRr+AnRnC/CDVSDdasLhf3d514AyJ7wqb4hbv
+	f6je0wzBAvWvQLcMOwPpqSkM6pF9jG7/baUyT8Yl9gAPT8AlyftDo6OMdL7c+dvsjh/gThLMjVG
+	bgRFXGqMKIPP9Yp8fkDEVm2Euv4vZG8pu7gWEFTs2HY/phwYoYPTx3iUklVm7EJrBvgXd
+X-Gm-Gg: AfdE7cm1gZNZMIQ5+//LbZ/wYG4aZC2GIar0Dzxe4zETvlbd99k2WJT8Gd8g2oKQRYf
+	DWoWudb6mljAoaj0Q0fBMcadRvt6MPmzCCBNgwr9bhH6Ay2pfDzOrtycNAIcqUhWbNsoO5YrQ5L
+	6yndfnz42gAcgOBldC3NhRbdAtxoq6Atomw9V5ygii2/CnZYswtONWb1G00sQWnY5yH3Z8E/zAY
+	FEUhA9o+1Oo5KViE+NdrADH5jJDyWQcNz01UsWxDV9BViuiSi9MDRYpH1bJLxdf6kHmAfknFWrF
+	eCi9KGJtKQ8rCyt57b81LAuOdpUNUhgdCRMJ2Z89pCEAaS8dnfe+cF8F03BJhaGTkqr7IN04f8n
+	yam2w9E1JOGVy7j/0SEFw0vFfqyiEzEvVyg5FTQ==
+X-Received: by 2002:a05:6a20:a122:b0:3bf:9944:a8d8 with SMTP id adf61e73a8af0-3c03e3ed638mr7693667637.34.1783280430274;
+        Sun, 05 Jul 2026 12:40:30 -0700 (PDT)
+X-Received: by 2002:a05:6a20:a122:b0:3bf:9944:a8d8 with SMTP id adf61e73a8af0-3c03e3ed638mr7693658637.34.1783280429779;
+        Sun, 05 Jul 2026 12:40:29 -0700 (PDT)
+Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c7fa566sm40573417c88.4.2026.07.05.12.40.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 11:33:34 -0700 (PDT)
-From: Ze Huang <ze.huang@oss.qualcomm.com>
-Date: Sun, 05 Jul 2026 02:31:18 +0800
-Subject: [PATCH 9/9] drm/xen: replace struct drm_simple_display_pipe with
- regular atomic helpers
+        Sun, 05 Jul 2026 12:40:29 -0700 (PDT)
+From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+To: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-mmc@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        openbmc@lists.ozlabs.org, sound-open-firmware@alsa-project.org
+Cc: Konrad Dybcio <konradybcio@kernel.org>,
+        Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Subject: [PATCH 33/42] drm: arcpgu: Use devm_of_reserved_mem_device_init()
+Date: Mon,  6 Jul 2026 01:10:09 +0530
+Message-ID: <20260705194019.2565498-1-mukesh.ojha@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
+References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -111,431 +124,97 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260705-drm-simple-kms-removal-v1-9-b4e1ca053623@oss.qualcomm.com>
-References: <20260705-drm-simple-kms-removal-v1-0-b4e1ca053623@oss.qualcomm.com>
-In-Reply-To: <20260705-drm-simple-kms-removal-v1-0-b4e1ca053623@oss.qualcomm.com>
-To: Alexey Brodkin <abrodkin@synopsys.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@codeconstruct.com.au>,
-        Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>, Linus Walleij <linusw@kernel.org>,
-        Hans de Goede <hansg@kernel.org>,
-        Alex Lanzano <lanzano.alex@gmail.com>,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
-        imx@lists.linux.dev, xen-devel@lists.xenproject.org,
-        Ze Huang <ze.huang@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783189912; l=11508;
- i=ze.huang@oss.qualcomm.com; s=20260704; h=from:subject:message-id;
- bh=jES7nUSVZBQKhOgvari+mSaMEA9hK9OzE4xbZwzc1Wc=;
- b=naeMyylZbpop3bZogsF4t3ncusoDzSV5MAr4bFahQ9OZoV1nX45pewAGKcoP51qwspHbJK4qL
- CrLEMD+vWkoAPiK+s51b/vLkl6FeLtlnVwJdSWw0mdLqi6JOcjJSi+K
-X-Developer-Key: i=ze.huang@oss.qualcomm.com; a=ed25519;
- pk=pSsISLZF2ubEjJRmslsa6Ps4W3yAuPY7yaircQTlQQU=
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA0MDE5MiBTYWx0ZWRfX4IwVqSUXDmEB
- GCbm6cPqpqm7FLGBAcr4ymzvWBssdrv7NNRuSq1Ev1YwXAltIHfj9jbTE7vHmRiOzgrFHSlHaSZ
- JtPN+c2Nm9E6nt7iL8IGv+r/z0L/L6A=
-X-Proofpoint-ORIG-GUID: 5dTVAbo7f-11XUo6KQ9bijr6lJoxueQl
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA0MDE5MiBTYWx0ZWRfXy4so09MUeLnC
- dGYWpbisqhbNR2TIx1ingnNCfemNA/sz5O2DIP16UXFfS6iOZNk1qrU6pjrD/zZ4lBCwy5PonNq
- x5PfiNAdH2TpErVOKojvqSpD8PvDsczg9GHxtjdXln4QbRY9Eqs9r2H0XW+FgDYB3FTl0nGFu+Q
- sZzCwXXKRVqXPKyjP4W2pkjO2JaDOSZJFcxYdMu/u1OfvZL4CeII779MBponPEklwizjyLZm4gM
- VIxLqJwJwy7by6zBpo7peQ0gbmXZV39m9ef8lDzAYYyqOICIUP+jt7YhLScXp/KzWc98LjNeMj+
- vDzUWCPlIiGw45JbUnJtLZlCzZs75RNycD+caZHp4PHaU+QTcGM1JjpvOB55sPnipqeHgnAKeMd
- WpXPKIqBKIlLaklboQvhvAlQ/IvFewmaQhG2CK8fYwL5sk8gTvxBSQ5Red1LCuxMCl07pgyGUTR
- yFMaAjMfENxhIed8MUg==
-X-Proofpoint-GUID: 5dTVAbo7f-11XUo6KQ9bijr6lJoxueQl
-X-Authority-Analysis: v=2.4 cv=ZfQt8MVA c=1 sm=1 tr=0 ts=6a4951ff cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=cNux22OjBTKCC6TmznXXXA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=EUspDBNiAAAA:8 a=yt2wVW2Sl_HzNKkdQ3QA:9 a=QEXdDO2ut3YA:10
- a=zc0IvFSfCIW2DFIPzwfm:22
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=bLkm5v+Z c=1 sm=1 tr=0 ts=6a4ab32f cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8
+ a=lEtn7xO9CsvGDZioIccA:9 a=_Vgx9l1VpLgwpw_dHYaR:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA1MDIxMiBTYWx0ZWRfXx38YkgDVibSh
+ pwsvVWxDVFzj59Quic5L8chG6Bx1H7CDb2SoyHZQh0Fo9Bj7Er66h6oc1rxBUBAJSy/MYm/YU94
+ fQHPU+8JRb/fpTRVtlWqGGFFKE2T/u5/yfUbltLvtW44kU/ej3W9uJmnrlZpUMfAGGNei76CnHT
+ Q4KQb6tM57yxoWQYEGCJdZUvIcnHRLQ0H3FYSc3YseKhcjKe99VSfSlVx/sJezrAya5ISFdM6mh
+ K5Zxy6mbYmBEQaXp6xGLIpGCsGHxSa3f2rU6NwDZ2iCbpyGsic+zJHyuA+P91MsKDzoEuDwH+5v
+ kKPHCkCK0J2sFmMAQxe0tZOzcDEDKhm8r+ZBQxRMs3+IWZJp3/dNUnGwCr+hKY5bQddBwD9Smpg
+ GadB1yn0l00AX2rqVZOFOOIOLYdoBi5iVkXstifhsJvoFLSPHXYjTGNNdcPE3qObDPDlRsnYW3f
+ +uURDMCFqVR3miAok/A==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA1MDIxMiBTYWx0ZWRfXw6VGdfclnoE4
+ Bjd5T5yZab4lQfqSu1oilGtCh/trdUgN+/hu4rj+nITSyYSy8un7YdYr/Lokzl4WSKesE770HDX
+ kNwYgD6ZDw0qLOzOepm+AFcH0YCGEEo=
+X-Proofpoint-ORIG-GUID: L2R2KU0nPHlJgabnI7b4PR1MpiPZU6Za
+X-Proofpoint-GUID: L2R2KU0nPHlJgabnI7b4PR1MpiPZU6Za
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-04_02,2026-07-03_01,2025-10-01_01
+ definitions=2026-07-05_01,2026-07-03_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 impostorscore=0 adultscore=0 phishscore=0
- priorityscore=1501 clxscore=1015 suspectscore=0 malwarescore=0 spamscore=0
+ priorityscore=1501 suspectscore=0 impostorscore=0 spamscore=0 clxscore=1015
+ adultscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607040192
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607050212
 X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [0.79 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
 	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4340-lists,linux-aspeed=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[23];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	TAGGED_FROM(0.00)[bounces-4394-lists,linux-aspeed=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS(0.00)[m:abrodkin@synopsys.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linusw@kernel.org,m:hansg@kernel.org,m:lanzano.alex@gmail.com,m:oleksandr_andrushchenko@epam.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:imx@lists.linux.dev,m:xen-devel@lists.xenproject.org,m:ze.huang@oss.qualcomm.com,m:lanzanoalex@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[ze.huang@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
-	FREEMAIL_TO(0.00)[synopsys.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,jms.id.au,codeconstruct.com.au,nxp.com,pengutronix.de,epam.com];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	FORGED_SENDER(0.00)[mukesh.ojha@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS(0.00)[m:devicetree@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-mediatek@lists.infradead.org,m:linux-mmc@vger.kernel.org,m:linux-remoteproc@vger.kernel.org,m:linux-sound@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-sunxi@lists.linux.dev,m:linux-tegra@vger.kernel.org,m:linuxppc-dev@lists.ozlabs.org,m:openbmc@lists.ozlabs.org,m:sound-open-firmware@alsa-project.org,m:konradybcio@kernel.org,m:mukesh.ojha@oss.qualcomm.com,s:lists@lfdr.de];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ze.huang@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[mukesh.ojha@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ALIAS_RESOLVED(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,lists.ozlabs.org:from_smtp,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E42FC709046
+X-Rspamd-Queue-Id: 99ABE70BC0A
 
-Replace Xen frontend simple display pipe with explicit plane, CRTC and
-encoder objects for each pipeline.
+Use the devres-managed devm_of_reserved_mem_device_init() to ensure
+the optional reserved memory region is released on device removal,
+fixing a missing cleanup in the original code.
 
-Keep generic plane-state validation before Xen-specific checks, and
-install GEM framebuffer prepare helper explicitly.
-
-Signed-off-by: Ze Huang <ze.huang@oss.qualcomm.com>
+Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 ---
- drivers/gpu/drm/xen/xen_drm_front.h     |   6 +-
- drivers/gpu/drm/xen/xen_drm_front_kms.c | 177 ++++++++++++++++++++++++--------
- 2 files changed, 138 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/tiny/arcpgu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/xen/xen_drm_front.h b/drivers/gpu/drm/xen/xen_drm_front.h
-index a987c78abe41..02138b5abef5 100644
---- a/drivers/gpu/drm/xen/xen_drm_front.h
-+++ b/drivers/gpu/drm/xen/xen_drm_front.h
-@@ -14,7 +14,7 @@
- #include <linux/scatterlist.h>
+diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
+index c93d61ac0bb7..fa01407570a8 100644
+--- a/drivers/gpu/drm/tiny/arcpgu.c
++++ b/drivers/gpu/drm/tiny/arcpgu.c
+@@ -278,7 +278,7 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
+ 		 arc_pgu_read(arcpgu, ARCPGU_REG_ID));
  
- #include <drm/drm_connector.h>
--#include <drm/drm_simple_kms_helper.h>
-+#include <drm/drm_encoder.h>
+ 	/* Get the optional framebuffer memory resource */
+-	ret = of_reserved_mem_device_init(drm->dev);
++	ret = devm_of_reserved_mem_device_init(drm->dev);
+ 	if (ret && ret != -ENODEV)
+ 		return ret;
  
- #include "xen_drm_front_cfg.h"
- 
-@@ -100,7 +100,9 @@ struct xen_drm_front_drm_pipeline {
- 
- 	int index;
- 
--	struct drm_simple_display_pipe pipe;
-+	struct drm_plane plane;
-+	struct drm_crtc crtc;
-+	struct drm_encoder encoder;
- 
- 	struct drm_connector conn;
- 	/* These are only for connector mode checking */
-diff --git a/drivers/gpu/drm/xen/xen_drm_front_kms.c b/drivers/gpu/drm/xen/xen_drm_front_kms.c
-index 48772b5fe71c..57e1bef452f8 100644
---- a/drivers/gpu/drm/xen/xen_drm_front_kms.c
-+++ b/drivers/gpu/drm/xen/xen_drm_front_kms.c
-@@ -31,9 +31,9 @@
- #define FRAME_DONE_TO_MS	(XEN_DRM_FRONT_WAIT_BACK_MS + 100)
- 
- static struct xen_drm_front_drm_pipeline *
--to_xen_drm_pipeline(struct drm_simple_display_pipe *pipe)
-+to_xen_drm_pipeline(struct drm_crtc *crtc)
- {
--	return container_of(pipe, struct xen_drm_front_drm_pipeline, pipe);
-+	return container_of(crtc, struct xen_drm_front_drm_pipeline, crtc);
- }
- 
- static void fb_destroy(struct drm_framebuffer *fb)
-@@ -94,7 +94,7 @@ static const struct drm_mode_config_funcs mode_config_funcs = {
- 
- static void send_pending_event(struct xen_drm_front_drm_pipeline *pipeline)
- {
--	struct drm_crtc *crtc = &pipeline->pipe.crtc;
-+	struct drm_crtc *crtc = &pipeline->crtc;
- 	struct drm_device *dev = crtc->dev;
- 	unsigned long flags;
- 
-@@ -105,17 +105,15 @@ static void send_pending_event(struct xen_drm_front_drm_pipeline *pipeline)
- 	spin_unlock_irqrestore(&dev->event_lock, flags);
- }
- 
--static void display_enable(struct drm_simple_display_pipe *pipe,
--			   struct drm_crtc_state *crtc_state,
--			   struct drm_plane_state *plane_state)
-+static void xen_drm_crtc_helper_atomic_enable(struct drm_crtc *crtc,
-+					      struct drm_atomic_commit *state)
- {
--	struct xen_drm_front_drm_pipeline *pipeline =
--			to_xen_drm_pipeline(pipe);
--	struct drm_crtc *crtc = &pipe->crtc;
-+	struct xen_drm_front_drm_pipeline *pipeline = to_xen_drm_pipeline(crtc);
-+	struct drm_plane_state *plane_state = pipeline->plane.state;
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	int ret, idx;
- 
--	if (!drm_dev_enter(pipe->crtc.dev, &idx))
-+	if (!drm_dev_enter(crtc->dev, &idx))
- 		return;
- 
- 	ret = xen_drm_front_mode_set(pipeline, crtc->x, crtc->y,
-@@ -131,13 +129,13 @@ static void display_enable(struct drm_simple_display_pipe *pipe,
- 	drm_dev_exit(idx);
- }
- 
--static void display_disable(struct drm_simple_display_pipe *pipe)
-+static void xen_drm_crtc_helper_atomic_disable(struct drm_crtc *crtc,
-+					       struct drm_atomic_commit *state)
- {
--	struct xen_drm_front_drm_pipeline *pipeline =
--			to_xen_drm_pipeline(pipe);
-+	struct xen_drm_front_drm_pipeline *pipeline = to_xen_drm_pipeline(crtc);
- 	int ret = 0, idx;
- 
--	if (drm_dev_enter(pipe->crtc.dev, &idx)) {
-+	if (drm_dev_enter(crtc->dev, &idx)) {
- 		ret = xen_drm_front_mode_set(pipeline, 0, 0, 0, 0, 0,
- 					     xen_drm_front_fb_to_cookie(NULL));
- 		drm_dev_exit(idx);
-@@ -177,12 +175,13 @@ static void pflip_to_worker(struct work_struct *work)
- 	send_pending_event(pipeline);
- }
- 
--static bool display_send_page_flip(struct drm_simple_display_pipe *pipe,
-+static bool display_send_page_flip(struct xen_drm_front_drm_pipeline *pipeline,
-+				   struct drm_atomic_commit *state,
- 				   struct drm_plane_state *old_plane_state)
- {
- 	struct drm_plane_state *plane_state =
--			drm_atomic_get_new_plane_state(old_plane_state->state,
--						       &pipe->plane);
-+			drm_atomic_get_new_plane_state(state,
-+						       &pipeline->plane);
- 
- 	/*
- 	 * If old_plane_state->fb is NULL and plane_state->fb is not,
-@@ -193,8 +192,6 @@ static bool display_send_page_flip(struct drm_simple_display_pipe *pipe,
- 	 * sent to the backend as a part of display_set_config call.
- 	 */
- 	if (old_plane_state->fb && plane_state->fb) {
--		struct xen_drm_front_drm_pipeline *pipeline =
--				to_xen_drm_pipeline(pipe);
- 		struct xen_drm_front_drm_info *drm_info = pipeline->drm_info;
- 		int ret;
- 
-@@ -224,10 +221,30 @@ static bool display_send_page_flip(struct drm_simple_display_pipe *pipe,
- 	return false;
- }
- 
--static int display_check(struct drm_simple_display_pipe *pipe,
--			 struct drm_plane_state *plane_state,
--			 struct drm_crtc_state *crtc_state)
-+static int xen_drm_plane_helper_atomic_check(struct drm_plane *plane,
-+					     struct drm_atomic_commit *state)
- {
-+	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-+	struct drm_crtc *crtc = plane_state->crtc;
-+	struct drm_crtc_state *crtc_state = NULL;
-+	int ret;
-+
-+	if (crtc)
-+		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+
-+	ret = drm_atomic_helper_check_plane_state(plane_state, crtc_state,
-+						  DRM_PLANE_NO_SCALING,
-+						  DRM_PLANE_NO_SCALING,
-+						  false, false);
-+	if (ret)
-+		return ret;
-+
-+	if (!plane_state->visible)
-+		return 0;
-+
-+	if (!crtc_state)
-+		return 0;
-+
- 	/*
- 	 * Xen doesn't initialize vblanking via drm_vblank_init(), so
- 	 * DRM helpers assume that it doesn't handle vblanking and start
-@@ -242,15 +259,19 @@ static int display_check(struct drm_simple_display_pipe *pipe,
- 	return 0;
- }
- 
--static void display_update(struct drm_simple_display_pipe *pipe,
--			   struct drm_plane_state *old_plane_state)
-+static void xen_drm_plane_helper_atomic_update(struct drm_plane *plane,
-+					       struct drm_atomic_commit *state)
- {
--	struct xen_drm_front_drm_pipeline *pipeline =
--			to_xen_drm_pipeline(pipe);
--	struct drm_crtc *crtc = &pipe->crtc;
-+	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(state, plane);
-+	struct drm_crtc *crtc = plane->state->crtc ?: old_plane_state->crtc;
-+	struct xen_drm_front_drm_pipeline *pipeline;
- 	struct drm_pending_vblank_event *event;
- 	int idx;
- 
-+	if (!crtc)
-+		return;
-+
-+	pipeline = to_xen_drm_pipeline(crtc);
- 	event = crtc->state->event;
- 	if (event) {
- 		struct drm_device *dev = crtc->dev;
-@@ -265,7 +286,7 @@ static void display_update(struct drm_simple_display_pipe *pipe,
- 		spin_unlock_irqrestore(&dev->event_lock, flags);
- 	}
- 
--	if (!drm_dev_enter(pipe->crtc.dev, &idx)) {
-+	if (!drm_dev_enter(crtc->dev, &idx)) {
- 		send_pending_event(pipeline);
- 		return;
- 	}
-@@ -278,19 +299,19 @@ static void display_update(struct drm_simple_display_pipe *pipe,
- 	 * If this is not a page flip, e.g. no flip done event from the backend
- 	 * is expected, then send now.
- 	 */
--	if (!display_send_page_flip(pipe, old_plane_state))
-+	if (!display_send_page_flip(pipeline, state, old_plane_state))
- 		send_pending_event(pipeline);
- 
- 	drm_dev_exit(idx);
- }
- 
- static enum drm_mode_status
--display_mode_valid(struct drm_simple_display_pipe *pipe,
--		   const struct drm_display_mode *mode)
-+xen_drm_crtc_helper_mode_valid(struct drm_crtc *crtc,
-+			       const struct drm_display_mode *mode)
- {
- 	struct xen_drm_front_drm_pipeline *pipeline =
--			container_of(pipe, struct xen_drm_front_drm_pipeline,
--				     pipe);
-+			container_of(crtc, struct xen_drm_front_drm_pipeline,
-+				     crtc);
- 
- 	if (mode->hdisplay != pipeline->width)
- 		return MODE_ERROR;
-@@ -301,12 +322,55 @@ display_mode_valid(struct drm_simple_display_pipe *pipe,
- 	return MODE_OK;
- }
- 
--static const struct drm_simple_display_pipe_funcs display_funcs = {
--	.mode_valid = display_mode_valid,
--	.enable = display_enable,
--	.disable = display_disable,
--	.check = display_check,
--	.update = display_update,
-+static int xen_drm_crtc_helper_atomic_check(struct drm_crtc *crtc, struct drm_atomic_commit *state)
-+{
-+	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+	int ret;
-+
-+	if (!crtc_state->enable)
-+		goto out;
-+
-+	ret = drm_atomic_helper_check_crtc_primary_plane(crtc_state);
-+	if (ret)
-+		return ret;
-+
-+out:
-+	return drm_atomic_add_affected_planes(state, crtc);
-+}
-+
-+static const struct drm_plane_helper_funcs display_plane_helper_funcs = {
-+	.prepare_fb	= drm_gem_plane_helper_prepare_fb,
-+	.atomic_check	= xen_drm_plane_helper_atomic_check,
-+	.atomic_update	= xen_drm_plane_helper_atomic_update,
-+};
-+
-+static const struct drm_plane_funcs display_plane_funcs = {
-+	.update_plane		= drm_atomic_helper_update_plane,
-+	.disable_plane		= drm_atomic_helper_disable_plane,
-+	.destroy		= drm_plane_cleanup,
-+	.reset			= drm_atomic_helper_plane_reset,
-+	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
-+	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
-+};
-+
-+static const struct drm_crtc_helper_funcs display_crtc_helper_funcs = {
-+	.mode_valid	= xen_drm_crtc_helper_mode_valid,
-+	.atomic_check	= xen_drm_crtc_helper_atomic_check,
-+	.atomic_enable	= xen_drm_crtc_helper_atomic_enable,
-+	.atomic_disable	= xen_drm_crtc_helper_atomic_disable,
-+};
-+
-+static const struct drm_crtc_funcs display_crtc_funcs = {
-+	.reset			= drm_atomic_helper_crtc_reset,
-+	.destroy		= drm_crtc_cleanup,
-+	.set_config		= drm_atomic_helper_set_config,
-+	.page_flip		= drm_atomic_helper_page_flip,
-+	.atomic_duplicate_state	= drm_atomic_helper_crtc_duplicate_state,
-+	.atomic_destroy_state	= drm_atomic_helper_crtc_destroy_state,
-+};
-+
-+static const struct drm_encoder_funcs display_encoder_funcs = {
-+	.destroy = drm_encoder_cleanup,
- };
- 
- static int display_pipe_init(struct xen_drm_front_drm_info *drm_info,
-@@ -331,10 +395,37 @@ static int display_pipe_init(struct xen_drm_front_drm_info *drm_info,
- 
- 	formats = xen_drm_front_conn_get_formats(&format_count);
- 
--	return drm_simple_display_pipe_init(dev, &pipeline->pipe,
--					    &display_funcs, formats,
--					    format_count, NULL,
--					    &pipeline->conn);
-+	ret = drm_universal_plane_init(dev, &pipeline->plane, 1,
-+				       &display_plane_funcs,
-+				       formats, format_count,
-+				       NULL,
-+				       DRM_PLANE_TYPE_PRIMARY, NULL);
-+	if (ret)
-+		return ret;
-+
-+	drm_plane_helper_add(&pipeline->plane, &display_plane_helper_funcs);
-+
-+	ret = drm_crtc_init_with_planes(dev, &pipeline->crtc,
-+					&pipeline->plane, NULL,
-+					&display_crtc_funcs, NULL);
-+	if (ret)
-+		return ret;
-+
-+	drm_crtc_helper_add(&pipeline->crtc, &display_crtc_helper_funcs);
-+
-+	ret = drm_encoder_init(dev, &pipeline->encoder,
-+			       &display_encoder_funcs,
-+			       DRM_MODE_ENCODER_NONE, NULL);
-+	if (ret)
-+		return ret;
-+
-+	pipeline->encoder.possible_crtcs = drm_crtc_mask(&pipeline->crtc);
-+
-+	ret = drm_connector_attach_encoder(&pipeline->conn, &pipeline->encoder);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
- }
- 
- int xen_drm_front_kms_init(struct xen_drm_front_drm_info *drm_info)
-
 -- 
-2.55.0
+2.53.0
 
 
