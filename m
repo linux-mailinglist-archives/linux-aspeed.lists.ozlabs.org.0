@@ -1,94 +1,38 @@
-Return-Path: <linux-aspeed+bounces-4397-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4405-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ddszANRgS2q1QQEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4397-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Mon, 06 Jul 2026 10:01:24 +0200
+	id q/gSDjSaS2pSWQEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4405-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 06 Jul 2026 14:06:12 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FE270DDC7
-	for <lists+linux-aspeed@lfdr.de>; Mon, 06 Jul 2026 10:01:22 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A94E7103DA
+	for <lists+linux-aspeed@lfdr.de>; Mon, 06 Jul 2026 14:06:11 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZpOXbjS5;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bTQM92CH;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZpOXbjS5;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bTQM92CH;
-	dmarc=pass (policy=none) header.from=suse.de;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4397-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4397-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dkim=none;
+	dmarc=fail reason="SPF not aligned (relaxed), No valid DKIM" header.from=qualcomm.com (policy=reject);
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4405-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4405-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gtxdC0M78z3bps;
-	Mon, 06 Jul 2026 18:01:19 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gv33h4RsKz3bby;
+	Mon, 06 Jul 2026 22:06:08 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783324878;
-	cv=none; b=Hr1Mhtr2KzWdOgw2tusHdHRLYN1Fy0+QRtifESgOWuI1Q+DDMZOU7JiKz9VpmYjk+McdthX7xBaEbUbT2UM5D4tHVUMBCcdjxDvYabFcdSI0o+4ao7Ltkgp5EwmytFowqAjXCRW5g8NNptN8JFXX4FZPudhY46C2Ps8Ap4d1vIobVVGn5KOvT2lvO5O0pKB4opnyjt/GIIcXBc3cOvG35o03YzxFvTGdbLT/5W9Vk1lQ/Tyy8eVn2GZxeu0uZvd6VgnkCMxgM5nUnQhEJ5fTsK8y36CQ1MlAqho998SFwwhUfa+hJa7KuH7H1fpI8VqIVR2XnMCHpT4T4qk8y9H89g==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783326253;
+	cv=none; b=VCp581zDi2T9SBMdAybNvzosrnZeCvy/V14c30whkH3OaDYhDwThGsGHzeXJECh4cHjkufuJmOCVbITkvY8NN5Llpb9sTbNHrcVhHgu73D7ZK4gnGWyFXMkvGa9Z2hHESzNjzTbf5NGuZJUUdYtkmbuoLlK40uwgGD6ahStdSZ2N/EInibtVDIq59g2nF++kRAUoQ1+awaOzgBUq9z0LfcIoNbJQa94GuoEt77OjFQqWkvX7Zsb9amrh4aYKTqyNEuZ32C4r+D3UcrH1K0KNjcy26WsatpmUqcJCviJRQIiZedziq7HvLM9dvgzjyAH0c5OJ6QV3NbvQ60i5EocVJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1783324878; c=relaxed/relaxed;
-	bh=Eol3pFSp5FANi6gqhU/0FQxR1lqwhB/1DOs8F+qHl3A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RcK1WQCeCi53dgCJWpO/epYNXc9Cp7GI5h5+vl/Ba1v4rPDaN+UkPVhLZJ5G+JDl0SaD+6TkDAlTho/Dmck5v7kUQV743oeNQUsMjy2cuAOmRFV12/8kBmPEHrrQhlknjYIGS6NFgvsPx219Y0l5TYRLwsVGgNwoKI8GNzIhOq0mIA7hROchvRnGWZBcBnTuZ20xsVwtAWxlufwD9zid0eAlJKwAlSVGgffiOlQT7V6TGT9NkeYFkNjfnirAxPi+ZCztBdeUA8r1l41y884cU2yIIclF9wKucvac78FzCURFUyYfbakxQdhJzrv4wx7pQQ7qwNx46dfkd3Tzuuu5aw==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=suse.de; dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ZpOXbjS5; dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bTQM92CH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ZpOXbjS5; dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bTQM92CH; dkim-atps=neutral; spf=pass (client-ip=2a07:de40:b251:101:10:150:64:2; helo=smtp-out2.suse.de; envelope-from=tzimmermann@suse.de; receiver=lists.ozlabs.org) smtp.mailfrom=suse.de
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
+	t=1783326253; c=relaxed/relaxed;
+	bh=PyFc6hx7btg2QrJ34MAq5ZRc19BwZ2UZKdQ3fQVYlpw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=TLFHTfm4Ufs141wy1fx4J9cUmMwiKL5eyU3Wp+o7vkagRzSwCNi7uyHjPJV0JNaN5xkGaTZQkeEcMF8gWPPWUaOBvWXBmncIW48+wA1O5f6QymU71DGmLjQ7NH7UshLyB0jvS4aR45+LjreABmBbuvr8+8vF23F4+FYSP+If47gNAtyw72+SrUiFbJfbf+a4Hqr63PnXHxwQcSbgd078P1hHC4ZaQvG8AKK/dxSyeOm0/eYYAAsNqAvi/eHTKK5ZRi1HiSC4lXr1Jlh6DvlUQa541h7SpLfg2wVIlm0hIIwyeOG97i2QdWTvXhBWjZ4/eAHlr88m7VyZV7YK/iQh5w==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=fail (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass (client-ip=91.218.175.171; helo=out-171.mta0.migadu.com; envelope-from=huang.ze@linux.dev; receiver=lists.ozlabs.org) smtp.mailfrom=linux.dev
+X-Greylist: delayed 76 seconds by postgrey-1.37 at boromir; Mon, 06 Jul 2026 18:24:12 AEST
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gtxd92KPbz3bp7
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 18:01:16 +1000 (AEST)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5D53275BB4;
-	Mon,  6 Jul 2026 08:01:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783324873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Eol3pFSp5FANi6gqhU/0FQxR1lqwhB/1DOs8F+qHl3A=;
-	b=ZpOXbjS5VM5yesg7YgX3ioRId3bJRp7RciAGBqT9vFAkCfJT9dHq0PH8bCungq1kzqBw/9
-	ZYFtPD2ZeY4xVbZ9efu/SRCPICtf0fH8Q6Xl9ieiEO9Hz67UOmQgW/d6ZSBWaUccrpelGL
-	spOdxfSqoQvWlKlGuzW5oPNtb/oIn0U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783324873;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Eol3pFSp5FANi6gqhU/0FQxR1lqwhB/1DOs8F+qHl3A=;
-	b=bTQM92CHlooYbex+c9cktnZIj7dWM7FPh/QvmtYuG5H+mm8owXLhELv3+peLP2aut61G/W
-	EC3gyeQpX9cQbxAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783324873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Eol3pFSp5FANi6gqhU/0FQxR1lqwhB/1DOs8F+qHl3A=;
-	b=ZpOXbjS5VM5yesg7YgX3ioRId3bJRp7RciAGBqT9vFAkCfJT9dHq0PH8bCungq1kzqBw/9
-	ZYFtPD2ZeY4xVbZ9efu/SRCPICtf0fH8Q6Xl9ieiEO9Hz67UOmQgW/d6ZSBWaUccrpelGL
-	spOdxfSqoQvWlKlGuzW5oPNtb/oIn0U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783324873;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Eol3pFSp5FANi6gqhU/0FQxR1lqwhB/1DOs8F+qHl3A=;
-	b=bTQM92CHlooYbex+c9cktnZIj7dWM7FPh/QvmtYuG5H+mm8owXLhELv3+peLP2aut61G/W
-	EC3gyeQpX9cQbxAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C709F779AA;
-	Mon,  6 Jul 2026 08:01:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dMQ3L8hgS2ryEgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 06 Jul 2026 08:01:12 +0000
-Message-ID: <2f2f0744-02a0-44ae-a8af-df6163869be4@suse.de>
-Date: Mon, 6 Jul 2026 10:01:12 +0200
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gty7c57Ppz3bps
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 18:24:11 +1000 (AEST)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -101,456 +45,147 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/9] drm/arcpgu: replace struct drm_simple_display_pipe
- with regular atomic helpers
-To: Ze Huang <ze.huang@oss.qualcomm.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Linus Walleij <linusw@kernel.org>,
- Hans de Goede <hansg@kernel.org>, Alex Lanzano <lanzano.alex@gmail.com>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- imx@lists.linux.dev, xen-devel@lists.xenproject.org
-References: <20260705-drm-simple-kms-removal-v1-0-b4e1ca053623@oss.qualcomm.com>
- <20260705-drm-simple-kms-removal-v1-1-b4e1ca053623@oss.qualcomm.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260705-drm-simple-kms-removal-v1-1-b4e1ca053623@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Score: -2.80
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=disabled
-	version=4.0.1
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 06 Jul 2026 16:22:24 +0800
+Message-Id: <DJRCCWQOT4TA.1OPAZI88KOWLW@oss.qualcomm.com>
+Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-aspeed@lists.ozlabs.org>, <linux-arm-kernel@lists.infradead.org>,
+ <imx@lists.linux.dev>, <xen-devel@lists.xenproject.org>
+Subject: Re: [PATCH 0/9] drm: replace simple display pipe users with atomic
+ helpers
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Ze Huang" <ze.huang@oss.qualcomm.com>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>, "Ze Huang"
+ <ze.huang@oss.qualcomm.com>, "Alexey Brodkin" <abrodkin@synopsys.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Joel Stanley" <joel@jms.id.au>, "Andrew Jeffery"
+ <andrew@codeconstruct.com.au>, "Frank Li" <Frank.Li@nxp.com>, "Sascha
+ Hauer" <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Linus
+ Walleij" <linusw@kernel.org>, "Hans de Goede" <hansg@kernel.org>, "Alex
+ Lanzano" <lanzano.alex@gmail.com>, "Oleksandr Andrushchenko"
+ <oleksandr_andrushchenko@epam.com>
+References: <20260705-drm-simple-kms-removal-v1-0-b4e1ca053623@oss.qualcomm.com> <9612bb41-db52-4169-a7fa-e57268d69e24@suse.de>
+In-Reply-To: <9612bb41-db52-4169-a7fa-e57268d69e24@suse.de>
+X-Migadu-Flow: FLOW_OUT
+X-Spam-Status: No, score=-0.5 required=5.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,SPF_PASS,TO_EQ_FM_DIRECT_MX
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [2.49 / 15.00];
+	DMARC_POLICY_REJECT(2.00)[qualcomm.com : SPF not aligned (relaxed), No valid DKIM,reject];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-4405-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4397-lists,linux-aspeed=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[22];
+	FREEMAIL_TO(0.00)[suse.de,oss.qualcomm.com,synopsys.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,jms.id.au,codeconstruct.com.au,nxp.com,pengutronix.de,epam.com];
+	FORGED_RECIPIENTS(0.00)[m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:imx@lists.linux.dev,m:xen-devel@lists.xenproject.org,m:tzimmermann@suse.de,m:ze.huang@oss.qualcomm.com,m:abrodkin@synopsys.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linusw@kernel.org,m:hansg@kernel.org,m:lanzano.alex@gmail.com,m:oleksandr_andrushchenko@epam.com,m:lanzanoalex@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_TWO(0.00)[2];
+	FORGED_SENDER(0.00)[ze.huang@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS(0.00)[m:ze.huang@oss.qualcomm.com,m:abrodkin@synopsys.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linusw@kernel.org,m:hansg@kernel.org,m:lanzano.alex@gmail.com,m:oleksandr_andrushchenko@epam.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:imx@lists.linux.dev,m:xen-devel@lists.xenproject.org,m:lanzanoalex@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,linux-aspeed@lists.ozlabs.org];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,synopsys.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,jms.id.au,codeconstruct.com.au,nxp.com,pengutronix.de,epam.com];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ze.huang@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
+	ALIAS_RESOLVED(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,suse.com:url,suse.de:from_mime,suse.de:dkim,suse.de:mid,bootlin.com:url]
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,lists.ozlabs.org:from_smtp,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 89FE270DDC7
+X-Rspamd-Queue-Id: 3A94E7103DA
 
-Hi
-
-Am 04.07.26 um 20:31 schrieb Ze Huang:
-> Instantiate plane, CRTC and encoder directly and wire them up with
-> standard atomic helpers.
+On Mon Jul 6, 2026 at 3:27 PM CST, Thomas Zimmermann wrote:
+> Hi
 >
-> This removes arcpgu's dependency on deprecated simple-KMS display pipe
-> interface.
+> Am 04.07.26 um 20:31 schrieb Ze Huang:
+>> struct drm_simple_display_pipe was meant to simplify simple DRM
+>> drivers, but instead adds an extra wrapper around normal DRM atomic
+>> helper setup. As noted in Documentation/gpu/todo.rst, remaining users
+>> should be converted to regular atomic helpers and stop depending on the
+>> simple-KMS interfaces.
+>>
+>> This series converts the following drivers:
+>>
+>>    - arcpgu
+>>    - aspeed
+>>    - imx lcdc
+>>    - mcde
+>>    - pl111
+>>    - gm12u320
+>>    - repaper
+>>    - tve200
+>>    - xen frontend
+>>
+>> Each patch replaces drm_simple_display_pipe_init() with explicit
+>> primary plane, CRTC and encoder setup, and moves the old simple-pipe
+>> callbacks into regular plane and CRTC helper callbacks named according
+>> to local driver conventions.
+>>
+>> The conversions preserve helper behavior that used to be implicit in
+>> drm_simple_kms_helper.c, including plane-state validation, CRTC
+>> primary-plane checks, affected-plane propagation, framebuffer prepare
+>> handling, and existing event/vblank flow where applicable.
+>>
+>> Result is less helper indirection and more explicit driver-side atomic
+>> wiring, with no remaining simple-KMS dependency in these drivers.
+>>
+>> These changes are build-tested only. No hardware testing has been
+>> performed on the affected devices.
 >
-> Signed-off-by: Ze Huang <ze.huang@oss.qualcomm.com>
-> ---
->   drivers/gpu/drm/tiny/arcpgu.c | 165 +++++++++++++++++++++++++++++++++---------
->   1 file changed, 131 insertions(+), 34 deletions(-)
->
-> diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
-> index c93d61ac0bb7..375cdb79e4e8 100644
-> --- a/drivers/gpu/drm/tiny/arcpgu.c
-> +++ b/drivers/gpu/drm/tiny/arcpgu.c
-> @@ -17,12 +17,12 @@
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_fourcc.h>
->   #include <drm/drm_framebuffer.h>
-> +#include <drm/drm_gem_atomic_helper.h>
->   #include <drm/drm_gem_dma_helper.h>
->   #include <drm/drm_gem_framebuffer_helper.h>
->   #include <drm/drm_module.h>
->   #include <drm/drm_of.h>
->   #include <drm/drm_probe_helper.h>
-> -#include <drm/drm_simple_kms_helper.h>
->   #include <linux/dma-mapping.h>
->   #include <linux/module.h>
->   #include <linux/of_reserved_mem.h>
-> @@ -52,14 +52,14 @@ struct arcpgu_drm_private {
->   	struct drm_device	drm;
->   	void __iomem		*regs;
->   	struct clk		*clk;
-> -	struct drm_simple_display_pipe pipe;
-> +	struct drm_plane	plane;
-> +	struct drm_crtc		crtc;
-> +	struct drm_encoder	encoder;
->   	struct drm_connector	sim_conn;
->   };
->   
->   #define dev_to_arcpgu(x) container_of(x, struct arcpgu_drm_private, drm)
->   
-> -#define pipe_to_arcpgu_priv(x) container_of(x, struct arcpgu_drm_private, pipe)
-> -
->   static inline void arc_pgu_write(struct arcpgu_drm_private *arcpgu,
->   				 unsigned int reg, u32 value)
->   {
-> @@ -117,7 +117,7 @@ static const u32 arc_pgu_supported_formats[] = {
->   
->   static void arc_pgu_set_pxl_fmt(struct arcpgu_drm_private *arcpgu)
->   {
-> -	const struct drm_framebuffer *fb = arcpgu->pipe.plane.state->fb;
-> +	const struct drm_framebuffer *fb = arcpgu->plane.state->fb;
->   	uint32_t pixel_format = fb->format->format;
->   	u32 format = DRM_FORMAT_INVALID;
->   	int i;
-> @@ -139,10 +139,10 @@ static void arc_pgu_set_pxl_fmt(struct arcpgu_drm_private *arcpgu)
->   	arc_pgu_write(arcpgu, ARCPGU_REG_CTRL, reg_ctrl);
->   }
->   
-> -static enum drm_mode_status arc_pgu_mode_valid(struct drm_simple_display_pipe *pipe,
-> -					       const struct drm_display_mode *mode)
-> +static enum drm_mode_status arcpgu_crtc_helper_mode_valid(struct drm_crtc *crtc,
-> +							  const struct drm_display_mode *mode)
->   {
-> -	struct arcpgu_drm_private *arcpgu = pipe_to_arcpgu_priv(pipe);
-> +	struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(crtc->dev);
->   	long rate, clk_rate = mode->clock * 1000;
->   	long diff = clk_rate / 200; /* +-0.5% allowed by HDMI spec */
->   
-> @@ -155,7 +155,7 @@ static enum drm_mode_status arc_pgu_mode_valid(struct drm_simple_display_pipe *p
->   
->   static void arc_pgu_mode_set(struct arcpgu_drm_private *arcpgu)
->   {
-> -	struct drm_display_mode *m = &arcpgu->pipe.crtc.state->adjusted_mode;
-> +	struct drm_display_mode *m = &arcpgu->crtc.state->adjusted_mode;
->   	u32 val;
->   
->   	arc_pgu_write(arcpgu, ARCPGU_REG_FMT,
-> @@ -194,11 +194,10 @@ static void arc_pgu_mode_set(struct arcpgu_drm_private *arcpgu)
->   	clk_set_rate(arcpgu->clk, m->crtc_clock * 1000);
->   }
->   
-> -static void arc_pgu_enable(struct drm_simple_display_pipe *pipe,
-> -			   struct drm_crtc_state *crtc_state,
-> -			   struct drm_plane_state *plane_state)
-> +static void arcpgu_crtc_helper_atomic_enable(struct drm_crtc *crtc,
-> +					     struct drm_atomic_commit *state)
-
-Since you're adding these functions anew, please use 'commit' for the 
-name of the drm_atomic_commit.  Here and everywhere else in the series.  
-You don't have to update existing functions, of course.
-
-The name 'state' is a bit off here and comes from when drm_atomic_commit 
-was still called drm_atomic_state.
-
-CRTCs, plane, etc have state, but the update of these states is called 
-commit.
-
-
->   {
-> -	struct arcpgu_drm_private *arcpgu = pipe_to_arcpgu_priv(pipe);
-> +	struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(crtc->dev);
->   
->   	arc_pgu_mode_set(arcpgu);
->   
-> @@ -208,9 +207,10 @@ static void arc_pgu_enable(struct drm_simple_display_pipe *pipe,
->   		      ARCPGU_CTRL_ENABLE_MASK);
->   }
->   
-> -static void arc_pgu_disable(struct drm_simple_display_pipe *pipe)
-> +static void arcpgu_crtc_helper_atomic_disable(struct drm_crtc *crtc,
-> +					      struct drm_atomic_commit *state)
->   {
-> -	struct arcpgu_drm_private *arcpgu = pipe_to_arcpgu_priv(pipe);
-> +	struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(crtc->dev);
->   
->   	clk_disable_unprepare(arcpgu->clk);
->   	arc_pgu_write(arcpgu, ARCPGU_REG_CTRL,
-> @@ -218,35 +218,106 @@ static void arc_pgu_disable(struct drm_simple_display_pipe *pipe)
->   			      ~ARCPGU_CTRL_ENABLE_MASK);
->   }
->   
-> -static void arc_pgu_update(struct drm_simple_display_pipe *pipe,
-> -			   struct drm_plane_state *state)
-> +static void arcpgu_plane_helper_atomic_update(struct drm_plane *plane,
-> +					      struct drm_atomic_commit *state)
->   {
->   	struct arcpgu_drm_private *arcpgu;
->   	struct drm_gem_dma_object *gem;
->   
-> -	if (!pipe->plane.state->fb)
-> +	if (!plane->state->fb)
->   		return;
->   
-> -	arcpgu = pipe_to_arcpgu_priv(pipe);
-> -	gem = drm_fb_dma_get_gem_obj(pipe->plane.state->fb, 0);
-> +	arcpgu = dev_to_arcpgu(plane->dev);
-> +	gem = drm_fb_dma_get_gem_obj(plane->state->fb, 0);
->   	arc_pgu_write(arcpgu, ARCPGU_REG_BUF0_ADDR, gem->dma_addr);
->   }
->   
-> -static const struct drm_simple_display_pipe_funcs arc_pgu_pipe_funcs = {
-> -	.update = arc_pgu_update,
-> -	.mode_valid = arc_pgu_mode_valid,
-> -	.enable	= arc_pgu_enable,
-> -	.disable = arc_pgu_disable,
-> -};
-> -
->   static const struct drm_mode_config_funcs arcpgu_drm_modecfg_funcs = {
-> -	.fb_create  = drm_gem_fb_create,
-> +	.fb_create = drm_gem_fb_create,
->   	.atomic_check = drm_atomic_helper_check,
->   	.atomic_commit = drm_atomic_helper_commit,
->   };
->   
->   DEFINE_DRM_GEM_DMA_FOPS(arcpgu_drm_ops);
->   
-> +static int arcpgu_plane_helper_atomic_check(struct drm_plane *plane,
-> +					    struct drm_atomic_commit *state)
-> +{
-> +	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
-> +	struct drm_crtc *crtc = plane_state->crtc;
-> +	struct drm_crtc_state *crtc_state = NULL;
-> +	int ret;
-> +
-> +	if (crtc)
-> +		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-> +
-> +	ret = drm_atomic_helper_check_plane_state(plane_state, crtc_state,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  DRM_PLANE_NO_SCALING,
-> +						  false, false);
-> +	return ret;
-
-
-Return directly here.
-
-
-> +}
-> +
-> +static const struct drm_plane_helper_funcs arcpgu_plane_helper_funcs = {
-> +	.prepare_fb	= drm_gem_plane_helper_prepare_fb,
-> +	.atomic_check	= arcpgu_plane_helper_atomic_check,
-> +	.atomic_update	= arcpgu_plane_helper_atomic_update,
-> +};
-> +
-> +static bool arcpgu_plane_format_mod_supported(struct drm_plane *plane,
-> +					      u32 format,
-> +					      u64 modifier)
-> +{
-> +	return modifier == DRM_FORMAT_MOD_LINEAR;
-> +}
-
-Please remove this function. It doesn't really do anything besides DRM's 
-standard behavior.
-
-> +
-> +static const struct drm_plane_funcs arcpgu_plane_funcs = {
-> +	.update_plane		= drm_atomic_helper_update_plane,
-> +	.disable_plane		= drm_atomic_helper_disable_plane,
-> +	.destroy		= drm_plane_cleanup,
-> +	.reset			= drm_atomic_helper_plane_reset,
-> +	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
-> +	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
-> +	.format_mod_supported	= arcpgu_plane_format_mod_supported,
-> +};
-> +
-> +static int arcpgu_crtc_helper_atomic_check(struct drm_crtc *crtc,
-> +					   struct drm_atomic_commit *state)
-> +{
-> +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-> +	int ret;
-> +
-> +	if (!crtc_state->enable)
-> +		goto out;
-> +
-> +	ret = drm_atomic_helper_check_crtc_primary_plane(crtc_state);
-> +	if (ret)
-> +		return ret;
-> +
-> +out:
-> +	return drm_atomic_add_affected_planes(state, crtc);
-
-Instead of using out, I'd rather use
-
-   if (crtc->enable) {
-       //do checks
-   }
-
-   return add_affected planes.
-
-Seems more natural to me.
-
-> +}
-> +
-> +static const struct drm_crtc_helper_funcs arcpgu_crtc_helper_funcs = {
-> +	.mode_valid	= arcpgu_crtc_helper_mode_valid,
-> +	.atomic_check	= arcpgu_crtc_helper_atomic_check,
-> +	.atomic_enable	= arcpgu_crtc_helper_atomic_enable,
-> +	.atomic_disable	= arcpgu_crtc_helper_atomic_disable,
-> +};
-> +
-> +static const struct drm_crtc_funcs arcpgu_crtc_funcs = {
-> +	.reset			= drm_atomic_helper_crtc_reset,
-> +	.destroy		= drm_crtc_cleanup,
-> +	.set_config		= drm_atomic_helper_set_config,
-> +	.page_flip		= drm_atomic_helper_page_flip,
-> +	.atomic_duplicate_state	= drm_atomic_helper_crtc_duplicate_state,
-> +	.atomic_destroy_state	= drm_atomic_helper_crtc_destroy_state,
-> +};
-> +
-> +static const struct drm_encoder_funcs arcpgu_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
->   static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
->   {
->   	struct platform_device *pdev = to_platform_device(arcpgu->drm.dev);
-> @@ -254,6 +325,9 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
->   	struct device_node *endpoint_node = NULL;
->   	struct drm_connector *connector = NULL;
->   	struct drm_device *drm = &arcpgu->drm;
-> +	struct drm_plane *plane;
-> +	struct drm_encoder *encoder;
-> +	struct drm_crtc *crtc;
->   	int ret;
->   
->   	arcpgu->clk = devm_clk_get(drm->dev, "pxlclk");
-> @@ -301,12 +375,35 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
->   			return ret;
->   	}
->   
-> -	ret = drm_simple_display_pipe_init(drm, &arcpgu->pipe, &arc_pgu_pipe_funcs,
-> -					   arc_pgu_supported_formats,
-> -					   ARRAY_SIZE(arc_pgu_supported_formats),
-> -					   NULL, connector);
-> +	plane = &arcpgu->plane;
-> +	ret = drm_universal_plane_init(drm, plane, 0,
-> +				       &arcpgu_plane_funcs,
-> +				       arc_pgu_supported_formats,
-> +				       ARRAY_SIZE(arc_pgu_supported_formats),
-> +				       NULL,
-> +				       DRM_PLANE_TYPE_PRIMARY, NULL);
->   	if (ret)
->   		return ret;
-> +	drm_plane_helper_add(plane, &arcpgu_plane_helper_funcs);
-> +
-> +	crtc = &arcpgu->crtc;
-> +	ret = drm_crtc_init_with_planes(drm, crtc, plane, NULL,
-> +					&arcpgu_crtc_funcs, NULL);
-> +	if (ret)
-> +		return ret;
-> +	drm_crtc_helper_add(crtc, &arcpgu_crtc_helper_funcs);
-> +
-> +	encoder = &arcpgu->encoder;
-> +	ret = drm_encoder_init(drm, encoder, &arcpgu_encoder_funcs, DRM_MODE_ENCODER_NONE, NULL);
-> +	if (ret)
-> +		return ret;
-> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
-
-
-I think plane, CRTC, and encoder should go before testing the 
-encoder_node at [1].
-
-Then comes the encoder_node test.  If true, do a single encoder-node 
-branch,  or else to a single connector-based branch.   That would 
-simplify the overall logic in this helper.
-
-[1] 
-https://elixir.bootlin.com/linux/v7.1.2/source/drivers/gpu/drm/tiny/arcpgu.c#L287
-
-
-> +
-> +	if (connector) {
-> +		ret = drm_connector_attach_encoder(connector, encoder);
-> +		if (ret)
-> +			return ret;
-> +	}
->   
->   	if (encoder_node) {
->   		/* Locate drm bridge from the hdmi encoder DT node */
-> @@ -315,7 +412,7 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
->   		if (!bridge)
->   			return -EPROBE_DEFER;
->   
-> -		ret = drm_simple_display_pipe_attach_bridge(&arcpgu->pipe, bridge);
-> +		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
->   		if (ret)
->   			return ret;
->   	}
-> @@ -342,7 +439,7 @@ static int arcpgu_show_pxlclock(struct seq_file *m, void *arg)
->   	struct drm_device *drm = node->minor->dev;
->   	struct arcpgu_drm_private *arcpgu = dev_to_arcpgu(drm);
->   	unsigned long clkrate = clk_get_rate(arcpgu->clk);
-> -	unsigned long mode_clock = arcpgu->pipe.crtc.mode.crtc_clock * 1000;
-> +	unsigned long mode_clock = arcpgu->crtc.mode.crtc_clock * 1000;
-
-Here, mode is an obsolete field. The correct field is crtc->state->mode.
-
-Best regards
-Thomas
-
->   
->   	seq_printf(m, "hw  : %lu\n", clkrate);
->   	seq_printf(m, "mode: %lu\n", mode_clock);
+> Thanks a lot for the series. That's quite a nice cleanup.=C2=A0 Did you u=
+se=20
+> any AI to create these patches?
 >
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+Hi Thomas,
 
+Yes, I did. I wrote the first two conversion patches (arcpgu and
+aspeed) myself to understand the migration pattern. For the remaining
+drivers, I used GPT-5.5 to help with the repetitive boilerplate
+conversion.
 
+I should have reviewed the generated code more carefully before sending
+the series. The sashiko-bot feedback shows that I missed several important
+details, including commit-local state handling, the implicit NULL fb /
+visibility checks from simple-KMS, and vblank/pageflip event ordering.
+I am now going through these issues more carefully and working out the
+correct fixes before sending a v2.
+
+Do you expect AI assistance to be mentioned in the cover letter or commit
+messages in some specific form? If there is a preferred tag or wording
+for this, I will use it in v2.
+
+For issues that appear to be pre-existing but are exposed or carried over
+by the migration, which is better?
+
+1. Include them as separate prep/fix patches at the beginning of the v2
+series, before the corresponding conversion patches; or
+2. address those pre-existing issues in a separate follow-up series?
+
+Thanks for your time and review. :)
+
+> Best regards
+> Thomas
+>
+
+Best regards,
+Ze
 
