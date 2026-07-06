@@ -1,99 +1,60 @@
-Return-Path: <linux-aspeed+bounces-4417-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4413-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id hzZsG4c+TGrTiAEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4417-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Jul 2026 01:47:19 +0200
+	id 2tp0NX4+TGrMiAEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4413-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Jul 2026 01:47:10 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC67716585
-	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Jul 2026 01:47:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD27716567
+	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Jul 2026 01:47:09 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=fG+3SByw;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=gwN2EAPJ;
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4417-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4417-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	arc=pass ("lists.ozlabs.org:s=201707:i=1")
+	dkim=pass header.d=collabora.com header.s=zohomail header.b=ImgA1Hj8;
+	dmarc=pass (policy=none) header.from=collabora.com;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4413-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4413-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	arc=pass ("lists.ozlabs.org:s=201707:i=2")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gvLcS2Vfzz3br5;
-	Tue, 07 Jul 2026 09:47:04 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gvLcP3JGCz3brN;
+	Tue, 07 Jul 2026 09:47:01 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783344746;
-	cv=none; b=HXQTOei4TcmFWy5l2X4BFORe/qPae+Yr4x7+tpjMwiNPbVx94IoRUG/IN1uKOvDBXUm7qiNwidg8LLead+v/At2GH3ADgyLEwZZ6KeZrU5kj6e4XmCCIr2Jc4IH4TG9/q8xyglPOtKTr7AdetkARInPca/hB0yzF+1ZYNq32IZdN63UkEybpo5vIMsOwYXeazIcsY8XdLpb2w/4rJl/hou38jQh14LCMhEZSDXhwwBbS5wB4SOBJ91L6een5Eax/NCzzdx+MSDRHnU6jCqvAoDS6AWpAttVlBtV6HYvD+xAEaGl7LnppdgDL5Smc7gznuyMvq5H6NxxPPYdSg3F9lw==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1783344746; c=relaxed/relaxed;
-	bh=b0A44HOo06DPQTnDCUPqJ4UMJjyqFyasJ88lIL5lLZ8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=DwCn2SfXVrKWRpZWm2zXpzc4tkCGiggfj0tASHLnzNI03qC96kfp4WA0al0UKwdH9w7I3I+mKYhVckBCobWeTJACa8AJIOfO4PML1dFBkcFQCaFQEBIFIIn1GSgnL19t6cAmCfK/ldNa90bR63P+B5IduSz2Uus0khNwcMV8I6yo4hCSsxzy5NinliBLfY3ImXSr8dwILN6JhkhcRXZcP/Us2O3NY668OgF4kdT1V/CpQMV4PFytbiKo2F32SnT5KKRoEYM47fEA1TqEG3kPVXCjnQJ7v8MgCpvosbq7cxt1QrjnXqF8MOY5Fwz7jTJWQmpkFYavyUEBAxQMOk2s2A==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=fG+3SByw; dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=gwN2EAPJ; dkim-atps=neutral; spf=pass (client-ip=205.220.168.131; helo=mx0a-0031df01.pphosted.com; envelope-from=ze.huang@oss.qualcomm.com; receiver=lists.ozlabs.org) smtp.mailfrom=oss.qualcomm.com
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783351088;
+	cv=pass; b=Lsz2rc0irU51+A2TRSw6j46HuSxU5odr0oTAnunupgfqt6eVpOVDevHP2aBIMFxkxrPiJFdroEnjMVAW2uBHo3mHab6FemptP6tZoca+RiEsL7RMkjQ3Nyolm3CyMJqR33LPcsSO4iHf46XIouQPhOEcsdDKnTKPyoyoT2iAygh5+NC1mWz7BusbvG5/q9JZg2ka1CmDzimw9df0KSD5MRiM6iz1osI3ZcvDhdEIsXK8hcbevf7GTLmwor3AndEE4VYVA3wui7KAoxsY+MVVq2xopGgn2aNdJ74D7lmjOWrs/UXwum97fxaCFpKZV8szrLNodeBRNP9TGFsoTBPFow==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1783351088; c=relaxed/relaxed;
+	bh=3XwyWTIrA/V6J7edt1EVqOvQjuCfvvAm71aap9OvOCI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o3fmPPtZZScUMYNIIQ1a9ev8cs7iPFPPHuEn1EKgXmCKD26afJAHMhhwQneh9h1Re1LBBi1XK77+GeC/ruSsTjrfSc1MffOFoDcGDtOTxeL3E9AeA8ZBo6iZGUUNj4ORCIPmcUU9eWQGu9u08xoG4Y2l8TtraX9MEE/CMKHoIMB1+AEUZAEgbBT3SljNVLol8LFhOTRkTmedTfixb6Gg115jM4hvKs0E1RLF1khfZ84y0EbsDKal4k7ZE2mTWuXzUnSq1MsUR3hnAhAUcJCZykDboLe0eUTjsPZ3nuEwddDglCxL9qmFZQ8MyiQdU6aE68mQyZUwmFJJwUd+ltQTRg==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=collabora.com; dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=ImgA1Hj8; dkim-atps=neutral; spf=pass (client-ip=136.143.188.11; helo=sender4-op-o11.zoho.com; envelope-from=dmitry.osipenko@collabora.com; receiver=lists.ozlabs.org) smtp.mailfrom=collabora.com
+X-Greylist: delayed 917 seconds by postgrey-1.37 at boromir; Tue, 07 Jul 2026 01:18:05 AEST
+Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gv4zF0fntz2yVZ
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 23:32:24 +1000 (AEST)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666AxBJd238111
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 6 Jul 2026 13:32:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	b0A44HOo06DPQTnDCUPqJ4UMJjyqFyasJ88lIL5lLZ8=; b=fG+3SBywJZ4CROyC
-	EBkvPSthGbsziZkeQ7K40QVe4l60fKx8Uz2ijBpMSp1CBVrM+HI0Qd48bpu+Nzhi
-	b04ix3wRfk0Y6Vz8Brg9AsqOEADGYxOTg6YXVxaP6tiB5K+NL9xWmAIQdcSDsoja
-	45b2aDZ3euian4+uXjzxtwYvwI7wgwpW24xN4DoAEA0dPPY4VKGbbtifFuvCkpGD
-	W08lRaoc5vSPjy7BTnjfbHHH1tS2o+s/64gN7WIJ9Qc5EPV85CK276mNfFiZO5Kz
-	6EK8MGQwRIYJLD/vCqeLfFfNvZBogj1cBhA/mt27j0jVSHDY5xiaxoDqHwFtLlDE
-	9x26Mg==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f88t896ur-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 13:32:22 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-847e32ef4caso4783377b3a.2
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 06:32:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783344741; x=1783949541; darn=lists.ozlabs.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b0A44HOo06DPQTnDCUPqJ4UMJjyqFyasJ88lIL5lLZ8=;
-        b=gwN2EAPJrKW0PD1J19tLIUPCXMkmBtQAJEOKANtur7ZWCcpOVHe8F4eESVhGRPvSWM
-         eIpX9pcMjD3+dLzU5ZwUOvt8ax/gmF95RZde9jqt+FBNJL1bANWkdi7U4hn49H/qUNCa
-         0cZkPLO3MbeM2doO938eQV+SodYD7y/U1xAHoOvQTYM0rjPmmYTlsiNWAVtxtgvQGicu
-         g5f04q+ADIuGZ0wCdLFDSDE1HVOKPMp77psEXeeWBU9Z4hlXu0Rky0C500ZbSB9mBoja
-         oRRT8RpJKNDFDHKCDGMwXQkdhP5KBaZOdt9bhOy8HV3BR8V0WpP9Tkk6hkegKjptNiZk
-         oKSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783344741; x=1783949541;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=b0A44HOo06DPQTnDCUPqJ4UMJjyqFyasJ88lIL5lLZ8=;
-        b=rpNWKc9QUNNJWdiYafr3B+/KCrC69PA3/qoN0NyD2DuFstC8P5IaGQzVHEW8if5JcS
-         hEXuExTzMY1NnkC1m77PsvrsvUQhRhZi1YpW62W1PKqyq/VbUUXki9ZM6wrNbViLxtcp
-         MWpJXUdLXbOLvmU8Dw/U5C7LdyxZpSYE+9o9QsOXk98P/I5HHrWNqkf7PRdFK3r4wpzv
-         uyMwmW63+MxeQyKoxrjkRYX8vIJaQuKfls080Z9gkBUVxWFyc+HLEn3spkaYJv5b6xV2
-         v9LLI4v6+XlgXEvuDGcnsxIf2oVRjA3WOAwis4ETb3gypZOUA0MVNkph1psDJjWmaAR9
-         oNwA==
-X-Forwarded-Encrypted: i=1; AHgh+Rr+W2T/D4FNGyfMhOJvqw117w9iCDHEPDa4wepG/CCUsxiXVzwyZHpWF1h3athWiI1u/zvx0MCTm3eL+nU=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YzpC23K23y1hN/WSV3ha5a4Plsi9LupBdGUREh+sWL6HOlmyQwD
-	bR/EE5gYX55+yfTQa3oJmJtOp9OA5nZqUXU7CoaN9F/5KAtikewJKlNDo33GCp/TWp24cr1PzJq
-	4V9CvRkeWqfiXPGHRa11ruNAcR9GRh98rEzYBCODLqqB6e8v3wIFLdQSzHnFDzqdgZsTg
-X-Gm-Gg: AfdE7clEzvLhoyJOnxJrS+WxuKDyMK0BTTm0n8QAIBCnYsIO1swV83zuUaP0bcoGZiH
-	xh/1KRF3CDlr8ZEBP6el48w2wRP9A1HliVxdjuCmud78oW542EdqdKVQOoTXrloAQVQesJuYlqA
-	Seaa4Kk7iyVolDSmls9a4S/T7pdENTTAodhllfbpHQ3iWlVd0LSXAtTyLJZV+837+pbEFemwuTG
-	DfZYCLbAVtG6ZMte+Fw0prZHcqT5cLsq12RX88ul68s2Lm0RogiLvNJY9/JVyvlcgHVmwoAqwNu
-	8DS4n98Vuww9sEL/SWkh4DoqQLazvpW6MzixNt7CUDnyggdCsbeQcA/SPzfFtJxaHupouJF3NkV
-	XZr6DF/TY6LXYEsQ=
-X-Received: by 2002:a05:6a00:c8d:b0:847:8f8a:a055 with SMTP id d2e1a72fcca58-84826bea1afmr615689b3a.17.1783344741255;
-        Mon, 06 Jul 2026 06:32:21 -0700 (PDT)
-X-Received: by 2002:a05:6a00:c8d:b0:847:8f8a:a055 with SMTP id d2e1a72fcca58-84826bea1afmr615631b3a.17.1783344740650;
-        Mon, 06 Jul 2026 06:32:20 -0700 (PDT)
-Received: from localhost ([151.243.38.149])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d82382sm3762898b3a.49.2026.07.06.06.32.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 06:32:20 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gv7K925zXz2yVZ;
+	Tue, 07 Jul 2026 01:18:04 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; t=1783350034; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ShBwgIB9Tp0j2ieVFNXD2nNlBvkYSrZX6KL3AeDB+tfLOnE+7CHZu5rN/HP3/wiA65AfS2awNfBnLG6v3KttLERp5k37uX5cTjLkGlHu1epQC0tpKbiWTjw2bmWO4R3cJ9Bceq/UN4MGpiO+12hQk2boeKqRMVN9X9phSckbKF0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1783350034; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=3XwyWTIrA/V6J7edt1EVqOvQjuCfvvAm71aap9OvOCI=; 
+	b=aUIQNdoKYFXhqBqNhsY+F02CkGve6EXcuTScFbe5OHL/WHUKXk+LgtUumBUdfOodPJNOea5bCjHJ9ycCR0cPvohjbCewZV5P129fWS7uy+uA2tTiwdLdX3wI3zpXyvb7h2kq1Re2lQrUV6CFisZwObNuwW+4qzyVdb787O027/g=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783350034;
+	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=3XwyWTIrA/V6J7edt1EVqOvQjuCfvvAm71aap9OvOCI=;
+	b=ImgA1Hj80B9JHQg2Jp0iR3Hfkzuv+c1ZmjHHLY5vXEEHJlu3rx/mY5cc4HVAWJDf
+	QREjGnw/uNA5JcHG0nEUz0PUvTE/0uKgXtwmj8p0wIRVC2fcF+pZOIvPjdNL8NnCNrh
+	RgJCMxLw7XsRX8tO1eirdxvjf97IRGDZQzh4oCj8=
+Received: by mx.zohomail.com with SMTPS id 1783350031182921.1240379629376;
+	Mon, 6 Jul 2026 08:00:31 -0700 (PDT)
+Message-ID: <3541fb84-81ce-4415-8027-38aa611834ae@collabora.com>
+Date: Mon, 6 Jul 2026 18:00:09 +0300
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -106,411 +67,168 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/42] media: synopsys: hdmirx: Use
+ devm_of_reserved_mem_device_init()
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Paul Kocialkowski <paulk@sys-base.io>, Linus Walleij <linusw@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Alexey Brodkin
+ <abrodkin@synopsys.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>,
+ Daniel Scally <dan.scally@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Eddie James <eajames@linux.ibm.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Houlong Wei <houlong.wei@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ge Gordon
+ <gordon.ge@bst.ai>, Adrian Hunter <adrian.hunter@intel.com>,
+ Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
+ Saravana Kannan <saravanak@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Peter Chen <peter.chen@cixtech.com>, Fugang Duan <fugang.duan@cixtech.com>
+Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+ BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>,
+ CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+ kernel@collabora.com, linux-tegra@vger.kernel.org,
+ linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ imx@lists.linux.dev, sound-open-firmware@alsa-project.org
+References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
+ <20260703193855.110619-7-mukesh.ojha@oss.qualcomm.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20260703193855.110619-7-mukesh.ojha@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 06 Jul 2026 21:32:03 +0800
-Message-Id: <DJRIY04KAKRH.2XJRADHKJ4G55@oss.qualcomm.com>
-Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-        <linux-aspeed@lists.ozlabs.org>,
-        <linux-arm-kernel@lists.infradead.org>, <imx@lists.linux.dev>,
-        <xen-devel@lists.xenproject.org>
-Subject: Re: [PATCH 2/9] drm/aspeed: replace struct drm_simple_display_pipe
- with regular atomic helpers
-From: "Ze Huang" <ze.huang@oss.qualcomm.com>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>,
-        "Ze Huang"
- <ze.huang@oss.qualcomm.com>,
-        "Alexey Brodkin" <abrodkin@synopsys.com>,
-        "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
-        "Maxime Ripard"
- <mripard@kernel.org>,
-        "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>,
-        "Joel Stanley" <joel@jms.id.au>,
-        "Andrew Jeffery"
- <andrew@codeconstruct.com.au>,
-        "Frank Li" <Frank.Li@nxp.com>,
-        "Sascha
- Hauer" <s.hauer@pengutronix.de>,
-        "Pengutronix Kernel Team"
- <kernel@pengutronix.de>,
-        "Fabio Estevam" <festevam@gmail.com>,
-        "Linus
- Walleij" <linusw@kernel.org>,
-        "Hans de Goede" <hansg@kernel.org>,
-        "Alex
- Lanzano" <lanzano.alex@gmail.com>,
-        "Oleksandr Andrushchenko"
- <oleksandr_andrushchenko@epam.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260705-drm-simple-kms-removal-v1-0-b4e1ca053623@oss.qualcomm.com> <20260705-drm-simple-kms-removal-v1-2-b4e1ca053623@oss.qualcomm.com> <4e35e133-364a-4743-9ca0-f0799bdf28f8@suse.de>
-In-Reply-To: <4e35e133-364a-4743-9ca0-f0799bdf28f8@suse.de>
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDEzNyBTYWx0ZWRfX11H3NrpmT1tB
- tEBDRdfHTn6BU1/E6QPjk8WvgdMTvgpPGysiE4oDpodEtc9u2ce9J2olzNGM93RpRnnBs3/XmBK
- o995aPYHMpWL0EsU2XYCPE6Eu4oKq2U=
-X-Proofpoint-GUID: 7l0gU6D1TFaqOblrNs3LWBSejMevTida
-X-Authority-Analysis: v=2.4 cv=C6zZDwP+ c=1 sm=1 tr=0 ts=6a4bae66 cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=cNux22OjBTKCC6TmznXXXA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=EUspDBNiAAAA:8 a=OF-i8N8vVdU2NhfsQ9oA:9 a=QEXdDO2ut3YA:10
- a=zc0IvFSfCIW2DFIPzwfm:22
-X-Proofpoint-ORIG-GUID: 7l0gU6D1TFaqOblrNs3LWBSejMevTida
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDEzNyBTYWx0ZWRfX8vdkWdOPCEIQ
- Ls9Pm+BOWCB0ATLauFjYpltd72uqiMoMPRPznA3dnykKHExL9S7154PCFU4JBUY+07Q+tGP3GcK
- U53TERZ0KbEpH/iuxAeOrWD29AscumzWzoTIBS81xG30jkBiA4HwQg3CNR+DmxaYoZwRJwWPimQ
- aKhy2bLeNvgZ80htkWmJZyTyq4kI6rBwgQF0Xjc1gaJzXfYk776ejwD0SFshtYTVju43b0c2bmw
- v9kSAwJNW3NX1wit0AhPgsdPYJTKXwt2Dk0Pp7OSYCJZ6E6JvRds4fv7ETbNA2Q0D+hPcZXPqty
- DQc8CjoWWeOdzybrux/lNSyMhP87kPXWnMuCcS7pnkViWiRKzcslnmvArT3hn1fcHHQXOweHMFV
- VYq9BPwFH0edatZS42cRtJT6fdkHDToTyh9chNuhRT+5jh9hIyq/3MYyaJ5TzLBGNi56GNPQZfL
- x3uCkLVTQMTo+rXLtSQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-06_01,2026-07-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 clxscore=1015 spamscore=0 adultscore=0
- bulkscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607060137
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
-	autolearn=disabled version=4.0.1
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,
+	RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=disabled
+	version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.21 / 15.00];
+X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	MAILLIST(-0.20)[generic];
+	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4417-lists,linux-aspeed=lfdr.de];
-	FORGED_SENDER(0.00)[ze.huang@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS(0.00)[m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:imx@lists.linux.dev,m:xen-devel@lists.xenproject.org,m:tzimmermann@suse.de,m:ze.huang@oss.qualcomm.com,m:abrodkin@synopsys.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linusw@kernel.org,m:hansg@kernel.org,m:lanzano.alex@gmail.com,m:oleksandr_andrushchenko@epam.com,m:lanzanoalex@gmail.com,s:lists@lfdr.de];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[suse.de,oss.qualcomm.com,synopsys.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,jms.id.au,codeconstruct.com.au,nxp.com,pengutronix.de,epam.com];
+	TAGGED_FROM(0.00)[bounces-4413-lists,linux-aspeed=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,jms.id.au,codeconstruct.com.au,crapouillou.net,intel.com,sys-base.io,sholland.org,synopsys.com,ideasonboard.com,amd.com,linux.ibm.com,mediatek.com,collabora.com,nuvoton.com,nvidia.com,arndb.de,linuxfoundation.org,bst.ai,linaro.org,perex.cz,suse.com,nxp.com,pengutronix.de,linux.alibaba.com,cixtech.com];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,bstai.top,gmail.com,pengutronix.de,linux.intel.com,linux.dev,amd.com,cixtech.com,vger.kernel.org,lists.freedesktop.org,lists.ozlabs.org,lists.infradead.org,lists.linux.dev,collabora.com,alsa-project.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ze.huang@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[92];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.osipenko@collabora.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,lists.ozlabs.org:from_smtp,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid]
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,lists.ozlabs.org:from_smtp,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,collabora.com:from_mime,collabora.com:email,collabora.com:mid,collabora.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CBC67716585
+X-Rspamd-Queue-Id: 5DD27716567
 
-On Mon Jul 6, 2026 at 4:31 PM CST, Thomas Zimmermann wrote:
-> Hi,
->
-> common points from my arcgpu review applied here as well. See below for=
-=20
-> a new other things.
->
-> Am 04.07.26 um 20:31 schrieb Ze Huang:
->> Replace simple display pipe with explicit plane, CRTC and encoder
->> objects. Move callbacks to plane and CRTC helpers, with vblank handling
->> through drm_crtc_funcs.
->>
->> This removes intermediate simple-pipe layer and uses standard atomic
->> helper wiring.
->>
->> Signed-off-by: Ze Huang <ze.huang@oss.qualcomm.com>
->> ---
->>   drivers/gpu/drm/aspeed/aspeed_gfx.h      |   5 +-
->>   drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c | 156 +++++++++++++++++++++++=
---------
->>   drivers/gpu/drm/aspeed/aspeed_gfx_drv.c  |   3 +-
->>   3 files changed, 123 insertions(+), 41 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx.h b/drivers/gpu/drm/aspee=
-d/aspeed_gfx.h
->> index 4e6a442c3886..a34811564c0d 100644
->> --- a/drivers/gpu/drm/aspeed/aspeed_gfx.h
->> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx.h
->> @@ -2,7 +2,6 @@
->>   /* Copyright 2018 IBM Corporation */
->>  =20
->>   #include <drm/drm_device.h>
->> -#include <drm/drm_simple_kms_helper.h>
->>  =20
->>   struct aspeed_gfx {
->>   	struct drm_device		drm;
->> @@ -17,7 +16,9 @@ struct aspeed_gfx {
->>   	u32				throd_val;
->>   	u32				scan_line_max;
->>  =20
->> -	struct drm_simple_display_pipe	pipe;
->> +	struct drm_plane		plane;
->> +	struct drm_crtc			crtc;
->> +	struct drm_encoder		encoder;
->>   	struct drm_connector		connector;
->>   };
->>   #define to_aspeed_gfx(x) container_of(x, struct aspeed_gfx, drm)
->> diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c b/drivers/gpu/drm/=
-aspeed/aspeed_gfx_crtc.c
->> index 7877a57b8e26..3294795c31c4 100644
->> --- a/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
->> +++ b/drivers/gpu/drm/aspeed/aspeed_gfx_crtc.c
->> @@ -5,6 +5,8 @@
->>   #include <linux/reset.h>
->>   #include <linux/regmap.h>
->>  =20
->> +#include <drm/drm_atomic.h>
->> +#include <drm/drm_atomic_helper.h>
->>   #include <drm/drm_device.h>
->>   #include <drm/drm_fb_dma_helper.h>
->>   #include <drm/drm_fourcc.h>
->> @@ -12,20 +14,13 @@
->>   #include <drm/drm_gem_atomic_helper.h>
->>   #include <drm/drm_gem_dma_helper.h>
->>   #include <drm/drm_panel.h>
->> -#include <drm/drm_simple_kms_helper.h>
->>   #include <drm/drm_vblank.h>
->>  =20
->>   #include "aspeed_gfx.h"
->>  =20
->> -static struct aspeed_gfx *
->> -drm_pipe_to_aspeed_gfx(struct drm_simple_display_pipe *pipe)
->> -{
->> -	return container_of(pipe, struct aspeed_gfx, pipe);
->> -}
->> -
->
-> Please create a new helper
->
->  =C2=A0 struct drm_aspeed_gfx *to_aspeed_gfx(drm_device *drm)
->
-> that does the upcast.
->
+On 7/3/26 22:38, Mukesh Ojha wrote:
+> Replace the hand-rolled devm_hdmirx_of_reserved_mem_device_release()
+> devres action with devm_of_reserved_mem_device_init(), which handles the
+> cleanup automatically. This removes both the wrapper function and the
+> devm_add_action_or_reset() call.
+> 
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> ---
+>  .../media/platform/synopsys/hdmirx/snps_hdmirx.c | 16 ++--------------
+>  1 file changed, 2 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+> index 25f8ca0d6d94..7c6acc6d7e88 100644
+> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+> @@ -2265,11 +2265,6 @@ static const struct hdmirx_cec_ops hdmirx_cec_ops = {
+>  	.read = hdmirx_readl,
+>  };
+>  
+> -static void devm_hdmirx_of_reserved_mem_device_release(void *dev)
+> -{
+> -	of_reserved_mem_device_release(dev);
+> -}
+> -
+>  static int hdmirx_parse_dt(struct snps_hdmirx_dev *hdmirx_dev)
+>  {
+>  	struct device *dev = hdmirx_dev->dev;
+> @@ -2316,16 +2311,9 @@ static int hdmirx_parse_dt(struct snps_hdmirx_dev *hdmirx_dev)
+>  	if (!device_property_read_bool(dev, "hpd-is-active-low"))
+>  		hdmirx_dev->hpd_trigger_level_high = true;
+>  
+> -	ret = of_reserved_mem_device_init(dev);
+> -	if (ret) {
+> +	ret = devm_of_reserved_mem_device_init(dev);
+> +	if (ret)
+>  		dev_warn(dev, "no reserved memory for HDMIRX, use default CMA\n");
+> -	} else {
+> -		ret = devm_add_action_or_reset(dev,
+> -					       devm_hdmirx_of_reserved_mem_device_release,
+> -					       dev);
+> -		if (ret)
+> -			return ret;
+> -	}
+>  
+>  	return 0;
+>  }
 
-Will do
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
->>   static int aspeed_gfx_set_pixel_fmt(struct aspeed_gfx *priv, u32 *bpp)
->>   {
->> -	struct drm_crtc *crtc =3D &priv->pipe.crtc;
->> +	struct drm_crtc *crtc =3D &priv->crtc;
->>   	struct drm_device *drm =3D crtc->dev;
->>   	const u32 format =3D crtc->primary->state->fb->format->format;
->>   	u32 ctrl1;
->> @@ -79,7 +74,7 @@ static void aspeed_gfx_disable_controller(struct aspee=
-d_gfx *priv)
->>  =20
->>   static void aspeed_gfx_crtc_mode_set_nofb(struct aspeed_gfx *priv)
->>   {
->> -	struct drm_display_mode *m =3D &priv->pipe.crtc.state->adjusted_mode;
->> +	struct drm_display_mode *m =3D &priv->crtc.state->adjusted_mode;
->>   	u32 ctrl1, d_offset, t_count, bpp;
->>   	int err;
->>  =20
->> @@ -139,33 +134,31 @@ static void aspeed_gfx_crtc_mode_set_nofb(struct a=
-speed_gfx *priv)
->>   	writel(priv->throd_val, priv->base + CRT_THROD);
->>   }
->>  =20
->> -static void aspeed_gfx_pipe_enable(struct drm_simple_display_pipe *pipe=
-,
->> -			      struct drm_crtc_state *crtc_state,
->> -			      struct drm_plane_state *plane_state)
->> +static void aspeed_gfx_crtc_helper_atomic_enable(struct drm_crtc *crtc,
->> +						 struct drm_atomic_commit *state)
->
-> Please see my comment on arcgpu for the new naming of 'state'.
->
-
-OK
-
->>   {
->> -	struct aspeed_gfx *priv =3D drm_pipe_to_aspeed_gfx(pipe);
->> -	struct drm_crtc *crtc =3D &pipe->crtc;
->> +	struct aspeed_gfx *priv =3D container_of(crtc, struct aspeed_gfx, crtc=
-);
->
-> Please use=C2=A0 your helper=C2=A0 to_aspeed_gfx(crtc->dev)=C2=A0 to do t=
-he upcast.=C2=A0=20
-> Here any in other places.
->
-
-OK
-
->>  =20
->>   	aspeed_gfx_crtc_mode_set_nofb(priv);
->>   	aspeed_gfx_enable_controller(priv);
->>   	drm_crtc_vblank_on(crtc);
->>   }
->>  =20
->> -static void aspeed_gfx_pipe_disable(struct drm_simple_display_pipe *pip=
-e)
->> +static void aspeed_gfx_crtc_helper_atomic_disable(struct drm_crtc *crtc=
-,
->> +						  struct drm_atomic_commit *state)
->>   {
->> -	struct aspeed_gfx *priv =3D drm_pipe_to_aspeed_gfx(pipe);
->> -	struct drm_crtc *crtc =3D &pipe->crtc;
->> +	struct aspeed_gfx *priv =3D container_of(crtc, struct aspeed_gfx, crtc=
-);
->
-> Another upcast issue
->
-
-Acknowledged
-
->>  =20
->>   	drm_crtc_vblank_off(crtc);
->>   	aspeed_gfx_disable_controller(priv);
->>   }
->>  =20
->> -static void aspeed_gfx_pipe_update(struct drm_simple_display_pipe *pipe=
-,
->> -				   struct drm_plane_state *plane_state)
->> +static void aspeed_gfx_plane_helper_atomic_update(struct drm_plane *pla=
-ne,
->> +						  struct drm_atomic_commit *state)
->>   {
->> -	struct aspeed_gfx *priv =3D drm_pipe_to_aspeed_gfx(pipe);
->> -	struct drm_crtc *crtc =3D &pipe->crtc;
->> -	struct drm_framebuffer *fb =3D pipe->plane.state->fb;
->> +	struct aspeed_gfx *priv =3D container_of(plane, struct aspeed_gfx, pla=
-ne);
->
-> to_aspeed_gfx(plane->dev)
->
-
-Acknowledged
-
->> +	struct drm_crtc *crtc =3D &priv->crtc;
->> +	struct drm_framebuffer *fb =3D plane->state->fb;
->>   	struct drm_pending_vblank_event *event;
->>   	struct drm_gem_dma_object *gem;
->>  =20
->> @@ -190,9 +183,9 @@ static void aspeed_gfx_pipe_update(struct drm_simple=
-_display_pipe *pipe,
->>   	writel(gem->dma_addr, priv->base + CRT_ADDR);
->>   }
->>  =20
->> -static int aspeed_gfx_enable_vblank(struct drm_simple_display_pipe *pip=
-e)
->> +static int aspeed_gfx_crtc_enable_vblank(struct drm_crtc *crtc)
->>   {
->> -	struct aspeed_gfx *priv =3D drm_pipe_to_aspeed_gfx(pipe);
->> +	struct aspeed_gfx *priv =3D container_of(crtc, struct aspeed_gfx, crtc=
-);
->>   	u32 reg =3D readl(priv->base + CRT_CTRL1);
->>  =20
->>   	/* Clear pending VBLANK IRQ */
->> @@ -204,9 +197,9 @@ static int aspeed_gfx_enable_vblank(struct drm_simpl=
-e_display_pipe *pipe)
->>   	return 0;
->>   }
->>  =20
->> -static void aspeed_gfx_disable_vblank(struct drm_simple_display_pipe *p=
-ipe)
->> +static void aspeed_gfx_crtc_disable_vblank(struct drm_crtc *crtc)
->>   {
->> -	struct aspeed_gfx *priv =3D drm_pipe_to_aspeed_gfx(pipe);
->> +	struct aspeed_gfx *priv =3D container_of(crtc, struct aspeed_gfx, crtc=
-);
->>   	u32 reg =3D readl(priv->base + CRT_CTRL1);
->>  =20
->>   	reg &=3D ~CRT_CTRL_VERTICAL_INTR_EN;
->> @@ -216,12 +209,75 @@ static void aspeed_gfx_disable_vblank(struct drm_s=
-imple_display_pipe *pipe)
->>   	writel(reg | CRT_CTRL_VERTICAL_INTR_STS, priv->base + CRT_CTRL1);
->>   }
->>  =20
->> -static const struct drm_simple_display_pipe_funcs aspeed_gfx_funcs =3D =
-{
->> -	.enable		=3D aspeed_gfx_pipe_enable,
->> -	.disable	=3D aspeed_gfx_pipe_disable,
->> -	.update		=3D aspeed_gfx_pipe_update,
->> -	.enable_vblank	=3D aspeed_gfx_enable_vblank,
->> -	.disable_vblank	=3D aspeed_gfx_disable_vblank,
->> +static int aspeed_gfx_plane_helper_atomic_check(struct drm_plane *plane=
-,
->> +						struct drm_atomic_commit *state)
->> +{
->> +	struct drm_plane_state *plane_state =3D drm_atomic_get_new_plane_state=
-(state, plane);
->> +	struct drm_crtc *crtc =3D plane_state->crtc;
->> +	struct drm_crtc_state *crtc_state =3D NULL;
->> +	int ret;
->> +
->> +	if (crtc)
->> +		crtc_state =3D drm_atomic_get_new_crtc_state(state, crtc);
->> +
->> +	ret =3D drm_atomic_helper_check_plane_state(plane_state, crtc_state,
->> +						  DRM_PLANE_NO_SCALING,
->> +						  DRM_PLANE_NO_SCALING,
->> +						  false, false);
->> +	return ret;
->> +}
->
-> Return directly.
->
-
-OK
-
->> +
->> +static const struct drm_plane_helper_funcs aspeed_gfx_plane_helper_func=
-s =3D {
->> +	.prepare_fb	=3D drm_gem_plane_helper_prepare_fb,
->> +	.atomic_check	=3D aspeed_gfx_plane_helper_atomic_check,
->> +	.atomic_update	=3D aspeed_gfx_plane_helper_atomic_update,
->> +};
->> +
->> +static const struct drm_plane_funcs aspeed_gfx_plane_funcs =3D {
->> +	.update_plane		=3D drm_atomic_helper_update_plane,
->> +	.disable_plane		=3D drm_atomic_helper_disable_plane,
->> +	.destroy		=3D drm_plane_cleanup,
->> +	.reset			=3D drm_atomic_helper_plane_reset,
->> +	.atomic_duplicate_state	=3D drm_atomic_helper_plane_duplicate_state,
->> +	.atomic_destroy_state	=3D drm_atomic_helper_plane_destroy_state,
->> +};
->> +
->> +static int aspeed_gfx_crtc_helper_atomic_check(struct drm_crtc *crtc,
->> +					       struct drm_atomic_commit *state)
->> +{
->> +	struct drm_crtc_state *crtc_state =3D drm_atomic_get_new_crtc_state(st=
-ate, crtc);
->> +	int ret;
->> +
->> +	if (!crtc_state->enable)
->> +		goto out;
->> +
->> +	ret =3D drm_atomic_helper_check_crtc_primary_plane(crtc_state);
->> +	if (ret)
->> +		return ret;
->> +
->> +out:
->> +	return drm_atomic_add_affected_planes(state, crtc);
->> +}
->
-> See arcpgu on a possible style improvement.
->
-
-Will do, thanks
-
-
-> Best regards
-> Thomas
->
-
-[ ... ]
+-- 
+Best regards,
+Dmitry
 
