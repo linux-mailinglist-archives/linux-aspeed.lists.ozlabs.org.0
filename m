@@ -1,179 +1,100 @@
-Return-Path: <linux-aspeed+bounces-4418-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4416-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id d3GZHJ8+TGrZiAEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4418-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Jul 2026 01:47:43 +0200
+	id 0aRDOIE+TGrSiAEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4416-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Jul 2026 01:47:13 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86A871658E
-	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Jul 2026 01:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9ECA71657F
+	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Jul 2026 01:47:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=gxURCHyC;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=ggtxlJt3;
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=J6jD3g6q;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=bT4gmbtM;
 	dmarc=pass (policy=reject) header.from=qualcomm.com;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4418-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4418-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4416-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4416-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gvLcd6t6Wz3bsQ;
-	Tue, 07 Jul 2026 09:47:13 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gvLcS00f2z3brT;
+	Tue, 07 Jul 2026 09:47:03 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783343821;
-	cv=none; b=JVA+vxD8JaUlhzvZnb8oh6iJqR/pkNg/zW8ak++Vnlwm22A0IHlGz2jbPWjsgfRSNI0Gl1RgzpnNlZWQHC7EHeMS3/yBLjcEfxUGccSKte7l3/TZa1GT/FnlaTHMAczqPrgLgqVYStWyabCP12LO9YnAV7Cv1Oymgqjv6zUPb0Zwwrvi5VpOJRlINpVoYPjyvCN5Bvs3RppJcc+4yBGDELYD3wuI3VYQEcqzBLHzhOh3k83eQVm3S9Dxstb99OBOoHNWOQzA2Pqakg1zdbYQHCfow1RxuCMbfQJM9mHgbnfsY+c9VD9BPfGoaAqSHOGVIwg/zdjqJd7fKY0tTf+pdw==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783344432;
+	cv=none; b=mF0z3A46asfYM88oFUGNFJFxbt5sWrVdI3Pf8ujM4IYIsDoOnBkUdn/CpjUjuXVTOok2oPdLpllfQNV9kjVLOgHBmmxuQuka8ETphqaKD6GAO1aK8YyTtNJYGpXVDW3OOlSAmtnxDP5gHmcB+ICaNwPI3Q0Jou23s/P/SSneNstk3pd98YjolOwB5/UP+gl6iM8Zz69GU1GB3E+DTasVFK8KWAIDub4cNivu3L6cSBkLQaIzfuJj2nr9/I8pNQ55e2/HW1SvUNs+KPNg7zVQkIGn4snPILsfcDr6Hw5o4njGEnbb0pNKrroCTpdFNptqxiGrkYMfBe5oyGToIkPP2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1783343821; c=relaxed/relaxed;
-	bh=Vz86zd3go04za6BKCrEOJJ5AQbsnL3kIqNm4xRq1ahk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EzJtfmCD8T5BC2XLafoobWF/nWDhNFM53oYOLaeJNI3eXSpSQgxX47Yq4rcROHxekKnRH5BjZ4foa1JGWRJc+2CqHyLpVMNMIps2NUPGcWApjiR3fmkKjqAq2T8UXDspwMcQIV/SLEEJ+J/I6Rki4tIceI3Jh3DmTA2X7HWpIGaDlN0bsDWGnvPP9MbIgJsoU7tnLYbr5yvHgdRngNAUidBKNNlfrIXyBMicC8zGy+OYsZtLV69svRC/UVy8bZynQb2yfHsJwVdlAAbP8j4Xd0Bs0sqb3A44bdqECiC7gtfG/Fql1yA5Q14yrtgwIsn5egRq1VnTbuUHdkBmF4Z+aQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=gxURCHyC; dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ggtxlJt3; dkim-atps=neutral; spf=pass (client-ip=205.220.168.131; helo=mx0a-0031df01.pphosted.com; envelope-from=mukesh.ojha@oss.qualcomm.com; receiver=lists.ozlabs.org) smtp.mailfrom=oss.qualcomm.com
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	t=1783344432; c=relaxed/relaxed;
+	bh=Z62ZCofdO2RSyyIJCVJx2qppYjkSOPFanx+87YcffZY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=bRpqfiTV6XsLUqJUIPie59F4cYw6jdmWWm714wfKorjIxpnmdehdKx4ueMDoIvDnfz//+XONRzsmqz9QEImUIr/gLMZ/4rgo2UBg/AKPCh2GolR2cvHRWRrJ1Q6sgX87XAVid43NJpLYB8j87iDvNZ+FnPJg2k7RW/WvDI1tzqYroPseBOucY7Zjvb4UTJ/DKscDYUFyuoUQnLGTpqWgOGUzB/fSf6L1QAjn23sOyRXGBhHW9b4rVNKlg+X5q7PT2ixmtXMfuO1D1oO1MdBDo1oTQKyQya51FbrWOrKr6TbhuIfDvAl4Mv38orIodKcb4mevSzslUIqnAiziT20+7Q==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=J6jD3g6q; dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=bT4gmbtM; dkim-atps=neutral; spf=pass (client-ip=205.220.180.131; helo=mx0b-0031df01.pphosted.com; envelope-from=ze.huang@oss.qualcomm.com; receiver=lists.ozlabs.org) smtp.mailfrom=oss.qualcomm.com
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gv4dS67NZz3bqs
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 23:16:58 +1000 (AEST)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666AxH7U174785
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 6 Jul 2026 13:16:57 GMT
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gv4sC3XgZz2yVZ
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 23:27:10 +1000 (AEST)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666AxMEv316792
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 6 Jul 2026 13:27:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=Vz86zd3go04za6BKCrEOJJ5A
-	QbsnL3kIqNm4xRq1ahk=; b=gxURCHyC5Uby2DEF/Sz+/5yNg3sVS5RYamD/XHiq
-	Oeg+y1LJwkhEFbOaeUT/NQGKPdVK2zZ8VlG3hv6H4S/me/nezIWTxoEm9In3Bs8g
-	ZvdBIq0+/gprmciBEXPztT6Da/pNCqKAPXP77qtywx46VRNq9dIbfHagzvAaAEIl
-	E6hG0pwACBSPp2ODRqZ5jgVnHaYTwWXW8Uuan0qZj5WO8InmLPD6We8EBKixryDx
-	iPil71OMzHER33szNYpl62CNRKnWkJ2P7UpjNxjXjQ3Ou5rCnNsvVYC1bhpBPa1w
-	4pcAqdWpoDmeLyJqbgihNBYMa0DBssjFzMUnNnE2Yj0Udg==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f87rxsdx5-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Z62ZCofdO2RSyyIJCVJx2qppYjkSOPFanx+87YcffZY=; b=J6jD3g6q1gm777Y0
+	tCEhSej+igS1polSMQBKyYChhg+l/XZ4uwIc80VGLNbhFVtISQD3SpBmjE1ZwhbF
+	Gyy+MZ6yrmI/cemN48srn8oUg6zOIJn4hEBXEccdQEQcbYcJLAmnJCa3pO8gwWMS
+	hQX0gz+gfZGsFO0XhX7ADUamBPev1aPouLxYej3AVjWqNyitOIqt+jg5xamMruy9
+	mXClb3UePhfIV1iJDxj1j8O0FupwqsG6JhREVpfdK6IKl5SgTqCojkkEdR0ZVmop
+	bmddZIy/is8juTCeZv8+eboKz68wZOZqboke98c+QKCX6raXn8VcSx3hJMac8F3h
+	cxmmQw==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f87q7hexq-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 13:16:56 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-381abcccbf4so1998241a91.3
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 06:16:55 -0700 (PDT)
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 13:27:07 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2c82843005eso56520485ad.1
+        for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 06:27:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783343815; x=1783948615; darn=lists.ozlabs.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Vz86zd3go04za6BKCrEOJJ5AQbsnL3kIqNm4xRq1ahk=;
-        b=ggtxlJt3hm++ah48oSJDLX+aQIUZFuwnWKSTwSuwhnjZxMbMMQ8hPs5/clO3ZAnR/K
-         m4Rn2hehs6gRPnSFx0kCUDVX0G15ASA+KmO2xgJJ8dpZjdKgZcEHU6lW3z3071m2pjQC
-         d3qg2dYGxeHdRa9g87KZAkkFvFjjPK/ZA1bNiSFsqL7IQIk7yvEPa4nvx5wCr+amSZtf
-         5dONsa0V3Fyo9f0L6xdRGrvGz5nlrhGjSlEL8RA4jkT8qiRHsQ60wYB0dDcRFET33SWk
-         nOZmt0KfE6/qL5SAlLnYcx09oP0jshuQMLmuwakh9TSmG4Zf+x+QiOFruloF9vP6/DRS
-         k9rA==
+        d=oss.qualcomm.com; s=google; t=1783344427; x=1783949227; darn=lists.ozlabs.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Z62ZCofdO2RSyyIJCVJx2qppYjkSOPFanx+87YcffZY=;
+        b=bT4gmbtM+IJwTEQJVJ/r7eOE9hDk9MIdZ+1/jbQVcbz40CtmnIJoa2H5AgtRW0vuGY
+         NUZV8jnXouWRFArivDdefggiGPxPgypiVLqZ/7T2dRsm1Yl3sgzAGFMtloziDO49sIlV
+         zJDLEDO93DdWBjM17YFrvd7BXcPnS8TtHUSuQZo0Ma3rie2OmyfWJJluwhepBEJVkXmW
+         Ec0ZfkySnhs5BnBwLm5c26EzhvxfFy00PPvnV4x5fjdUs8D3bdPV20C73W8q0bvzFjoK
+         XulbveU8maVb1dc9bRsZR/iJCPZ/rk4zqhkNiFTS9h+XDr8fOjivUGijwwW1SHgtALHl
+         3ubg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783343815; x=1783948615;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1783344427; x=1783949227;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Vz86zd3go04za6BKCrEOJJ5AQbsnL3kIqNm4xRq1ahk=;
-        b=JUNltgkytjeINI/nDrk0S2M+z7CEMyb633hd0g8avPcDCEmhsyU6Mwmhc6QNnlfDzF
-         XImYSpXVqstUcn5xaYVdJdoyRpbgMNgzuhGq+ghZdrAZvdzErwTgmszswp7lvKqtSjqG
-         GpVIMcpuDU8aU1VXnVMN/MVOZqpNEMCO/seDRzqeA1BA0hN3hR0oSbUSgep2JrK0z/5V
-         ip+kX3WsLc0xHqoeo/ernyVmuZmPcm2HDl9o2hLpf7cIwJYrIjRRjIVulp5ExYAhUuqz
-         fNQNYZkl/KD3XJSotCh4hh2QiuE71UP3JtdAoQ5k9iVfv0mGIdB4K2ALJQhf+48FIPq4
-         yH9Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rr2eCEyQCQ72oFDIwebtoHKOvfUgyp52EMYwymDCGpjb4DjZBe7kl0nuJEThZOfSE5BV+nER4h3LfZGD4Q=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YxNPgkUxivAv2MkBCGBhedx7dimOsLi6pqv/sC7i0mFxGl9Ua83
-	Ry4/vLs8ftPO5yYZNJ93z0fD47X6/qkDUI8WE9bxwwp0r6ahhqJFO5nctuWLy/zQLIAQ7Rer7h4
-	CM63X6A+w4hyU58wRJ2nBsoWCraGBAu1VpE3QUY/Q91/bpdZfe1iqNFFMe7kE+IeOXADF
-X-Gm-Gg: AfdE7cmtOHzp5NFasoCUnVc4h8+dj3CPni7wqXGLcEg/L6hMmgOl84DTbxdy8WGSVO+
-	PV5qCev20D7Ek/BS9X7ak2CGP+V+tHlVWQWLzFQPVzYHNPRcNYKcux/YTpC1gy8egl+dak/xNOd
-	INyp/cstyR+S4w/fO1L+eTyZIaYC9As0Hg1bipGUHtUFAiuSyjx8PqLzZL2MsuguSWaWNw/MVL0
-	NGlClu89VYnIwAGKIpThybs/WjzrzbX3LF63z3CaXBQc/2TXJecRkf7JZCLuC9s4AwzML1OJjeh
-	8+MsrSLvqYdwZdT660d2IMT0RvyKOM2FyUxbZklGyi1btVXupqVReE+4EXa2z6KZWtjG351y7Mt
-	ucbbEpTLwkXvWNjZh2G1njlHG+63v/+PbF5/Hsw==
-X-Received: by 2002:a17:90b:4ccc:b0:380:f389:447b with SMTP id 98e67ed59e1d1-38755769514mr376373a91.11.1783343814421;
-        Mon, 06 Jul 2026 06:16:54 -0700 (PDT)
-X-Received: by 2002:a17:90b:4ccc:b0:380:f389:447b with SMTP id 98e67ed59e1d1-38755769514mr376272a91.11.1783343813871;
-        Mon, 06 Jul 2026 06:16:53 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311561dd3a1sm16176449eec.22.2026.07.06.06.16.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 06:16:53 -0700 (PDT)
-Date: Mon, 6 Jul 2026 18:46:25 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@codeconstruct.com.au>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-        Paul Kocialkowski <paulk@sys-base.io>,
-        Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Eddie James <eajames@linux.ibm.com>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
-        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Thierry Reding <thierry.reding@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ge Gordon <gordon.ge@bst.ai>, Adrian Hunter <adrian.hunter@intel.com>,
-        Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
-        Saravana Kannan <saravanak@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Shengjiu Wang <shengjiu.wang@gmail.com>,
-        Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-        Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Daniel Baluta <daniel.baluta@nxp.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Peter Chen <peter.chen@cixtech.com>,
-        Fugang Duan <fugang.duan@cixtech.com>,
-        Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-        BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
-        Fabio Estevam <festevam@gmail.com>,
-        Nicolin Chen <nicoleotsuka@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-        kernel@collabora.com, linux-tegra@vger.kernel.org,
-        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        imx@lists.linux.dev, sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH 00/42] of: reserved_mem: Introduce devres helpers and
- convert drivers
-Message-ID: <20260706131625.nygqmu2usgifmias@hu-mojha-hyd.qualcomm.com>
-References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
- <ceeca378-3c76-4b2c-81b4-0ff1bb1e99be@sirena.org.uk>
+        bh=Z62ZCofdO2RSyyIJCVJx2qppYjkSOPFanx+87YcffZY=;
+        b=gSpwkMI7R3F4z+l3edfSH0NwlpMwvjBHweLUaFOoQHSHyaNLFivreGj4qBapuiBQY2
+         u4nsnC7YYfkWYveN536dexxYMrYlIYSqxJenQfEG3qufpNU5U1dhWCSj7eCtg0Kzu9UR
+         TKuoTINZb60iPn+fRLoahNAKpm2YBM85CQmXfW8p8H23zK7NHZ5128SCq8kjCglqKEZ7
+         5ZjknuMOo12EbSy/SGtDN9WmHuAMLYiu0J29zlLKbHFxLsKcfmO08c/+IO/12anyHQpu
+         WxgMxigsaewrEZ2SEsVbpdcoZANuIBwzFeu7k9qRoqCsw0vQSsmSRUad7lPgkVfo6tTZ
+         aEMw==
+X-Forwarded-Encrypted: i=1; AHgh+RrzfO3VPBmsTrxpPP0R9kled8aWcB7Wq1qQ/ORObM2NV+8FCpk9+1l5RGecFwS9GtDoez6Cu3K688L5dTA=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YxWJ1Wrk5YaCLxcIQ248ZrskmluVY+OWGbexlmQyxJHPnbXanEv
+	DIxL+JvDILgYsgju2ZuG0Zw9QYkx1IEOLYeAsoZhpSDeG1ynOOAKcG8edWxitaNqUIr+zEcjOBp
+	pYnaa9CiLG/0NYl6mE7HZGjdcCBmqSbpB7PI82RqNVjkIFAEMJKiIbpVAnZVJwoKuWTE1
+X-Gm-Gg: AfdE7clh6NUZ8nWwQH3hOoq5ki+B6mxMzvvJQ2ke9gvXmdtgXvi/u5cwMyJNon32bMG
+	86F+KYSJPvhhun1DE82POlJ7HU3+nZjBVfGm+0Kd1JMLBQoKfZA9S8G8JCswLRQ8TNJOhhKKhSD
+	hBCqNrQCs5nkyzQKmAWiwjsR6tw1LStkZ89cVkaliiTnIs6/X1l+m95GMuc469vAcDYmlGJCt18
+	hQ3l40GoMXJJ0DR5qGOGu8TtNRP5hnCLF8YDnVifYcCtcEsiDNVQ9aQMnTzniN5EOorylsCQL3X
+	KByA3BDBH/3UlcABz44JJ7nuWinuZN/U2gJqpXMhbv6aAAzgwTXzRMh+ccATS2pQLl2NLyGFMec
+	WkdpwT9oZFGtBrHY=
+X-Received: by 2002:a17:903:2409:b0:2ca:4cfd:a6ea with SMTP id d9443c01a7336-2ccbe729806mr5550615ad.16.1783344426569;
+        Mon, 06 Jul 2026 06:27:06 -0700 (PDT)
+X-Received: by 2002:a17:903:2409:b0:2ca:4cfd:a6ea with SMTP id d9443c01a7336-2ccbe729806mr5550005ad.16.1783344425931;
+        Mon, 06 Jul 2026 06:27:05 -0700 (PDT)
+Received: from localhost ([151.243.38.149])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad7146914sm51455915ad.35.2026.07.06.06.26.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jul 2026 06:27:05 -0700 (PDT)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -186,110 +107,520 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
   <mailto:linux-aspeed+subscribe-nomail@lists.ozlabs.org>
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ceeca378-3c76-4b2c-81b4-0ff1bb1e99be@sirena.org.uk>
-X-Proofpoint-ORIG-GUID: dp6or9WCpDCd0O7I_z6ynBPvlEvgcCu3
-X-Authority-Analysis: v=2.4 cv=Hv1G3UTS c=1 sm=1 tr=0 ts=6a4baac8 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=1XWaLZrsAAAA:8 a=sOACTKiIrrgCOb8DNPwA:9 a=CjuIK1q_8ugA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDEzNSBTYWx0ZWRfX4zNWMKoGLKt+
- 4EUuDHXBhSNz2phkKBgjaLIUCQ2ODmuy24EvR0OmShY6uv5Ect1xc1CbzZW/QZedm1bNL/ScSi6
- Ol1bqNceUC8okjEgID/ME0e/8nyBWoo=
-X-Proofpoint-GUID: dp6or9WCpDCd0O7I_z6ynBPvlEvgcCu3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDEzNSBTYWx0ZWRfX/cd7KH2quxfL
- CkctXmGDnXTY9YKXFQjzkie2m/gp3P9OAapl+u3La3/sB1J8cxpqRS8qDXxxZ+6KhO3/mrB/v3S
- 3xygB8np3m5Yn1XfCeKzL1AKCQIj7x56IerfvGgd9RQ3SyVfIxttJywfDL2R27s1lOzXa44BUPZ
- 5ppfWylNx6LESTAj2/gWq8Tg7i52+o87YlacVlGaEt4WJicMztOe7LUrdbRMgeT5asrjdfEdcfd
- bR6556Jhv+bJMGA4zpT1JDSQz8x6AYuarHzBl65HzVCHJVSryGYIF5nqjQe6HynqQdbaMJxJKwe
- 78pPMYZo07CoGa4e8IfP80Q9zDtxPfvDZqVwoFnJsYSPjaygKyuqZWkA0vlMjyNXkfGff1pcqpH
- JamPzGFWu19w6eYfvqgOak/FVdtdcdNYBAoXvlfMxY5k5ThRDKTG8u6BCMcrL6/LF+AYrbXUhdL
- 6SbjzOcAAyId6F/R0Ug==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 06 Jul 2026 21:26:52 +0800
+Message-Id: <DJRIU0Y04PXO.1B0U1KFJRF3DX@oss.qualcomm.com>
+Subject: Re: [PATCH 1/9] drm/arcpgu: replace struct drm_simple_display_pipe
+ with regular atomic helpers
+From: "Ze Huang" <ze.huang@oss.qualcomm.com>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>,
+        "Ze Huang"
+ <ze.huang@oss.qualcomm.com>,
+        "Alexey Brodkin" <abrodkin@synopsys.com>,
+        "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+        "Maxime Ripard"
+ <mripard@kernel.org>,
+        "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>,
+        "Joel Stanley" <joel@jms.id.au>,
+        "Andrew Jeffery"
+ <andrew@codeconstruct.com.au>,
+        "Frank Li" <Frank.Li@nxp.com>,
+        "Sascha
+ Hauer" <s.hauer@pengutronix.de>,
+        "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>,
+        "Fabio Estevam" <festevam@gmail.com>,
+        "Linus
+ Walleij" <linusw@kernel.org>,
+        "Hans de Goede" <hansg@kernel.org>,
+        "Alex
+ Lanzano" <lanzano.alex@gmail.com>,
+        "Oleksandr Andrushchenko"
+ <oleksandr_andrushchenko@epam.com>
+Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+        <linux-aspeed@lists.ozlabs.org>,
+        <linux-arm-kernel@lists.infradead.org>, <imx@lists.linux.dev>,
+        <xen-devel@lists.xenproject.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260705-drm-simple-kms-removal-v1-0-b4e1ca053623@oss.qualcomm.com> <20260705-drm-simple-kms-removal-v1-1-b4e1ca053623@oss.qualcomm.com> <2f2f0744-02a0-44ae-a8af-df6163869be4@suse.de>
+In-Reply-To: <2f2f0744-02a0-44ae-a8af-df6163869be4@suse.de>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDEzNyBTYWx0ZWRfXxACiAtK+RaO7
+ 6tt0Z8h+9A3/K9DIJVSexa2wptdP2as/hkIYsK6mRUYDFaQVBc3E+oWwWtFgh+5yiJP/pm1ixut
+ yFVQLsFxIqTMUj74HCTzSqfHIUJQgKU1gzE/gr2njchNtPhpH7YKeJOQ3ErHrhTHGBnUs558tAS
+ UyoTdFleRUaO0D2ew1aRDIjT0h8it4uQdoo5nY9PfHxn8cUWA633sSgvBMl4Owr8zOLkWYI3J6p
+ DJSqogiMvIUDi5yVfGVxvQIZ+tNQEfShItPKIh9P85g8/mXrsEEeAwxJ1yhuNwUO77mN5fZRd7A
+ IJEoD9SXWGfcWPMl/RSFGI8AtTeVD/Eiu/D6vxrJL0lWbV/6T7MfU02b9PwOZKM3knV/TMZdzWn
+ yzLmnzYMVxkngycsfBYN3FYxlmJbNHu7cPgLzO3fvkNEEmQdvxdMwjSkJSrqeIwMVMaz32ORSU8
+ ai8Hf5j1Lpx4Z/mdMdw==
+X-Proofpoint-ORIG-GUID: dCody50GfwsTdBoQFZr7gaKkIC0dovxC
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDEzNyBTYWx0ZWRfXzPNNLMxAgvr7
+ 9ogoqmLC7eeUcJ94jqziyf3jUXTviuEKDE1y8t2jjFrQ6t3GeP1TCb2RO5e4fVig8BEFF1ZV8nF
+ X0bq7lUqZwjLP4RCDUyYiahaDedZyuc=
+X-Proofpoint-GUID: dCody50GfwsTdBoQFZr7gaKkIC0dovxC
+X-Authority-Analysis: v=2.4 cv=f9N4wuyM c=1 sm=1 tr=0 ts=6a4bad2c cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=cNux22OjBTKCC6TmznXXXA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=P-IC7800AAAA:8 a=EUspDBNiAAAA:8 a=rGEwuu0Ht92CbwYE1HAA:9 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22 a=d3PnA9EDa4IxuAV0gXij:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-06_01,2026-07-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 malwarescore=0 adultscore=0 priorityscore=1501
- spamscore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
+ lowpriorityscore=0 adultscore=0 impostorscore=0 bulkscore=0 suspectscore=0
+ clxscore=1015 spamscore=0 phishscore=0 priorityscore=1501 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060135
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060137
 X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.71 / 15.00];
+X-Spamd-Result: default: False [-0.21 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MV_CASE(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-4418-lists,linux-aspeed=lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,jms.id.au,codeconstruct.com.au,crapouillou.net,intel.com,sys-base.io,sholland.org,synopsys.com,ideasonboard.com,amd.com,linux.ibm.com,mediatek.com,collabora.com,nuvoton.com,nvidia.com,arndb.de,linuxfoundation.org,bst.ai,linaro.org,perex.cz,suse.com,nxp.com,pengutronix.de,linux.alibaba.com,cixtech.com,oss.qualcomm.com,bstai.top,linux.dev,vger.kernel.org,lists.freedesktop.org,lists.ozlabs.org,lists.infradead.org,lists.linux.dev,alsa-project.org];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:broonie@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:liviu.dudau@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:paul@crapouillou.net,m:anitha.chrisanthus@intel.com,m:paulk@sys-base.io,m:linusw@kernel.org,m:wens@kernel.org,m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:abrodkin@synopsys.com,m:laurent.pinchart@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:michal.simek@amd.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:mchehab@kernel.org,m:eajames@linux.ibm.com,m:tiffany.lin@mediatek.com,m:andrew-ct.chen@mediatek.com,m:yunfei.dong@mediatek.com,m:minghsiu.tsai@mediatek.com,m:houlong.wei@mediatek.com,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:kwliu@nuvoton.com,m:kflin@nuvoton.com,m:dmitry.osipenko@collabora.com,m:krzk@kernel.org,m:thierry.reding@kernel.org,m:jonath
- anh@nvidia.com,m:srini@kernel.org,m:arnd@arndb.de,m:gregkh@linuxfoundation.org,m:gordon.ge@bst.ai,m:adrian.hunter@intel.com,m:ulfh@kernel.org,m:robh@kernel.org,m:saravanak@kernel.org,m:mathieu.poirier@linaro.org,m:perex@perex.cz,m:tiwai@suse.com,m:shengjiu.wang@gmail.com,m:Xiubo.Lee@gmail.com,m:lgirdwood@gmail.com,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:peter.ujfalusi@linux.intel.com,m:yung-chuan.liao@linux.intel.com,m:daniel.baluta@nxp.com,m:orsonzhai@gmail.com,m:baolin.wang@linux.alibaba.com,m:peter.chen@cixtech.com,m:fugang.duan@cixtech.com,m:ekansh.gupta@oss.qualcomm.com,m:bst-upstream@bstai.top,m:festevam@gmail.com,m:nicoleotsuka@gmail.com,m:kernel@pengutronix.de,m:kai.vehmanen@linux.intel.com,m:pierre-louis.bossart@linux.dev,m:Vijendar.Mukunda@amd.com,m:zhang.lyra@gmail.com,m:cix-kernel-upstream@cixtech.com,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.or
- g,m:linux-mips@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-media@vger.kernel.org,m:openbmc@lists.ozlabs.org,m:linux-mediatek@lists.infradead.org,m:kernel@collabora.com,m:linux-tegra@vger.kernel.org,m:linux-mmc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-remoteproc@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-sound@vger.kernel.org,m:linuxppc-dev@lists.ozlabs.org,m:imx@lists.linux.dev,m:sound-open-firmware@alsa-project.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-4416-lists,linux-aspeed=lfdr.de];
+	FORGED_SENDER(0.00)[ze.huang@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER(0.00)[mukesh.ojha@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS(0.00)[m:tzimmermann@suse.de,m:ze.huang@oss.qualcomm.com,m:abrodkin@synopsys.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linusw@kernel.org,m:hansg@kernel.org,m:lanzano.alex@gmail.com,m:oleksandr_andrushchenko@epam.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:imx@lists.linux.dev,m:xen-devel@lists.xenproject.org,m:lanzanoalex@gmail.com,s:lists@lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[suse.de,oss.qualcomm.com,synopsys.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,jms.id.au,codeconstruct.com.au,nxp.com,pengutronix.de,epam.com];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mukesh.ojha@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[92];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	FROM_NEQ_ENVFROM(0.00)[ze.huang@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:from_smtp,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,lists.ozlabs.org:from_smtp,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,bootlin.com:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A86A871658E
+X-Rspamd-Queue-Id: D9ECA71657F
 
-On Mon, Jul 06, 2026 at 01:14:13PM +0100, Mark Brown wrote:
-> On Sat, Jul 04, 2026 at 01:08:13AM +0530, Mukesh Ojha wrote:
-> > Drivers using of_reserved_mem_device_init() and its variants must
-> > manually call of_reserved_mem_device_release() in their remove and
-> > error-unwind paths. This is repetitive boilerplate that is easy to
-> > get wrong, and several drivers have open-coded the teardown
-> > inconsistently or skipped it entirely, leading to dangling reserved
-> > memory references.
-> 
-> Just as a general thing, rather than sending a huge cross subsystem
-> series for something like this it's probably better to just send a
-> couple of examples, then once the new API is introduced and either has a
-> pullable tag or has made it to mainline go and do the conversion.  This
-> avoids clogging everyone's inbox with very big serieses.
+On Mon Jul 6, 2026 at 4:01 PM CST, Thomas Zimmermann wrote:
+> Hi
+>
+> Am 04.07.26 um 20:31 schrieb Ze Huang:
+>> Instantiate plane, CRTC and encoder directly and wire them up with
+>> standard atomic helpers.
+>>
+>> This removes arcpgu's dependency on deprecated simple-KMS display pipe
+>> interface.
+>>
+>> Signed-off-by: Ze Huang <ze.huang@oss.qualcomm.com>
+>> ---
+>>   drivers/gpu/drm/tiny/arcpgu.c | 165 +++++++++++++++++++++++++++++++++-=
+--------
+>>   1 file changed, 131 insertions(+), 34 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu=
+.c
+>> index c93d61ac0bb7..375cdb79e4e8 100644
+>> --- a/drivers/gpu/drm/tiny/arcpgu.c
+>> +++ b/drivers/gpu/drm/tiny/arcpgu.c
+>> @@ -17,12 +17,12 @@
+>>   #include <drm/drm_fbdev_dma.h>
+>>   #include <drm/drm_fourcc.h>
+>>   #include <drm/drm_framebuffer.h>
+>> +#include <drm/drm_gem_atomic_helper.h>
+>>   #include <drm/drm_gem_dma_helper.h>
+>>   #include <drm/drm_gem_framebuffer_helper.h>
+>>   #include <drm/drm_module.h>
+>>   #include <drm/drm_of.h>
+>>   #include <drm/drm_probe_helper.h>
+>> -#include <drm/drm_simple_kms_helper.h>
+>>   #include <linux/dma-mapping.h>
+>>   #include <linux/module.h>
+>>   #include <linux/of_reserved_mem.h>
+>> @@ -52,14 +52,14 @@ struct arcpgu_drm_private {
+>>   	struct drm_device	drm;
+>>   	void __iomem		*regs;
+>>   	struct clk		*clk;
+>> -	struct drm_simple_display_pipe pipe;
+>> +	struct drm_plane	plane;
+>> +	struct drm_crtc		crtc;
+>> +	struct drm_encoder	encoder;
+>>   	struct drm_connector	sim_conn;
+>>   };
+>>  =20
+>>   #define dev_to_arcpgu(x) container_of(x, struct arcpgu_drm_private, dr=
+m)
+>>  =20
+>> -#define pipe_to_arcpgu_priv(x) container_of(x, struct arcpgu_drm_privat=
+e, pipe)
+>> -
+>>   static inline void arc_pgu_write(struct arcpgu_drm_private *arcpgu,
+>>   				 unsigned int reg, u32 value)
+>>   {
+>> @@ -117,7 +117,7 @@ static const u32 arc_pgu_supported_formats[] =3D {
+>>  =20
+>>   static void arc_pgu_set_pxl_fmt(struct arcpgu_drm_private *arcpgu)
+>>   {
+>> -	const struct drm_framebuffer *fb =3D arcpgu->pipe.plane.state->fb;
+>> +	const struct drm_framebuffer *fb =3D arcpgu->plane.state->fb;
+>>   	uint32_t pixel_format =3D fb->format->format;
+>>   	u32 format =3D DRM_FORMAT_INVALID;
+>>   	int i;
+>> @@ -139,10 +139,10 @@ static void arc_pgu_set_pxl_fmt(struct arcpgu_drm_=
+private *arcpgu)
+>>   	arc_pgu_write(arcpgu, ARCPGU_REG_CTRL, reg_ctrl);
+>>   }
+>>  =20
+>> -static enum drm_mode_status arc_pgu_mode_valid(struct drm_simple_displa=
+y_pipe *pipe,
+>> -					       const struct drm_display_mode *mode)
+>> +static enum drm_mode_status arcpgu_crtc_helper_mode_valid(struct drm_cr=
+tc *crtc,
+>> +							  const struct drm_display_mode *mode)
+>>   {
+>> -	struct arcpgu_drm_private *arcpgu =3D pipe_to_arcpgu_priv(pipe);
+>> +	struct arcpgu_drm_private *arcpgu =3D dev_to_arcpgu(crtc->dev);
+>>   	long rate, clk_rate =3D mode->clock * 1000;
+>>   	long diff =3D clk_rate / 200; /* +-0.5% allowed by HDMI spec */
+>>  =20
+>> @@ -155,7 +155,7 @@ static enum drm_mode_status arc_pgu_mode_valid(struc=
+t drm_simple_display_pipe *p
+>>  =20
+>>   static void arc_pgu_mode_set(struct arcpgu_drm_private *arcpgu)
+>>   {
+>> -	struct drm_display_mode *m =3D &arcpgu->pipe.crtc.state->adjusted_mode=
+;
+>> +	struct drm_display_mode *m =3D &arcpgu->crtc.state->adjusted_mode;
+>>   	u32 val;
+>>  =20
+>>   	arc_pgu_write(arcpgu, ARCPGU_REG_FMT,
+>> @@ -194,11 +194,10 @@ static void arc_pgu_mode_set(struct arcpgu_drm_pri=
+vate *arcpgu)
+>>   	clk_set_rate(arcpgu->clk, m->crtc_clock * 1000);
+>>   }
+>>  =20
+>> -static void arc_pgu_enable(struct drm_simple_display_pipe *pipe,
+>> -			   struct drm_crtc_state *crtc_state,
+>> -			   struct drm_plane_state *plane_state)
+>> +static void arcpgu_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+>> +					     struct drm_atomic_commit *state)
+>
+> Since you're adding these functions anew, please use 'commit' for the=20
+> name of the drm_atomic_commit.=C2=A0 Here and everywhere else in the seri=
+es.=C2=A0=20
+> You don't have to update existing functions, of course.
+>
+> The name 'state' is a bit off here and comes from when drm_atomic_commit=
+=20
+> was still called drm_atomic_state.
+>
+> CRTCs, plane, etc have state, but the update of these states is called=20
+> commit.
+>
 
-Apologies for this; this is my first series touching these many
-subsystems, and I also learned the hard way when the entire
-series was not sent in one shot due to the daily sending limit
-via git send-email[1], and I had to cut many cc lists for patches
-33/42 to 42/42.
+Thanks for your explanation.
 
-[1]
-4.5.3 Your message has too many recipients. For more information regarding
-  4.5.3 Google's sending limits, go to
-  4.5.3  https://support.google.com/mail/?p=TooManyRecipientsError 5a478bee46e88-30f0bbd2362sm49597158eec.20 - gsmtp
+I will change to name 'commit' for type drm_atomic_commit, here and
+everywhere else in the series.
+
+>
+>>   {
+>> -	struct arcpgu_drm_private *arcpgu =3D pipe_to_arcpgu_priv(pipe);
+>> +	struct arcpgu_drm_private *arcpgu =3D dev_to_arcpgu(crtc->dev);
+>>  =20
+>>   	arc_pgu_mode_set(arcpgu);
+>>  =20
+>> @@ -208,9 +207,10 @@ static void arc_pgu_enable(struct drm_simple_displa=
+y_pipe *pipe,
+>>   		      ARCPGU_CTRL_ENABLE_MASK);
+>>   }
+>>  =20
+>> -static void arc_pgu_disable(struct drm_simple_display_pipe *pipe)
+>> +static void arcpgu_crtc_helper_atomic_disable(struct drm_crtc *crtc,
+>> +					      struct drm_atomic_commit *state)
+>>   {
+>> -	struct arcpgu_drm_private *arcpgu =3D pipe_to_arcpgu_priv(pipe);
+>> +	struct arcpgu_drm_private *arcpgu =3D dev_to_arcpgu(crtc->dev);
+>>  =20
+>>   	clk_disable_unprepare(arcpgu->clk);
+>>   	arc_pgu_write(arcpgu, ARCPGU_REG_CTRL,
+>> @@ -218,35 +218,106 @@ static void arc_pgu_disable(struct drm_simple_dis=
+play_pipe *pipe)
+>>   			      ~ARCPGU_CTRL_ENABLE_MASK);
+>>   }
+>>  =20
+>> -static void arc_pgu_update(struct drm_simple_display_pipe *pipe,
+>> -			   struct drm_plane_state *state)
+>> +static void arcpgu_plane_helper_atomic_update(struct drm_plane *plane,
+>> +					      struct drm_atomic_commit *state)
+>>   {
+>>   	struct arcpgu_drm_private *arcpgu;
+>>   	struct drm_gem_dma_object *gem;
+>>  =20
+>> -	if (!pipe->plane.state->fb)
+>> +	if (!plane->state->fb)
+>>   		return;
+>>  =20
+>> -	arcpgu =3D pipe_to_arcpgu_priv(pipe);
+>> -	gem =3D drm_fb_dma_get_gem_obj(pipe->plane.state->fb, 0);
+>> +	arcpgu =3D dev_to_arcpgu(plane->dev);
+>> +	gem =3D drm_fb_dma_get_gem_obj(plane->state->fb, 0);
+>>   	arc_pgu_write(arcpgu, ARCPGU_REG_BUF0_ADDR, gem->dma_addr);
+>>   }
+>>  =20
+>> -static const struct drm_simple_display_pipe_funcs arc_pgu_pipe_funcs =
+=3D {
+>> -	.update =3D arc_pgu_update,
+>> -	.mode_valid =3D arc_pgu_mode_valid,
+>> -	.enable	=3D arc_pgu_enable,
+>> -	.disable =3D arc_pgu_disable,
+>> -};
+>> -
+>>   static const struct drm_mode_config_funcs arcpgu_drm_modecfg_funcs =3D=
+ {
+>> -	.fb_create  =3D drm_gem_fb_create,
+>> +	.fb_create =3D drm_gem_fb_create,
+>>   	.atomic_check =3D drm_atomic_helper_check,
+>>   	.atomic_commit =3D drm_atomic_helper_commit,
+>>   };
+>>  =20
+>>   DEFINE_DRM_GEM_DMA_FOPS(arcpgu_drm_ops);
+>>  =20
+>> +static int arcpgu_plane_helper_atomic_check(struct drm_plane *plane,
+>> +					    struct drm_atomic_commit *state)
+>> +{
+>> +	struct drm_plane_state *plane_state =3D drm_atomic_get_new_plane_state=
+(state, plane);
+>> +	struct drm_crtc *crtc =3D plane_state->crtc;
+>> +	struct drm_crtc_state *crtc_state =3D NULL;
+>> +	int ret;
+>> +
+>> +	if (crtc)
+>> +		crtc_state =3D drm_atomic_get_new_crtc_state(state, crtc);
+>> +
+>> +	ret =3D drm_atomic_helper_check_plane_state(plane_state, crtc_state,
+>> +						  DRM_PLANE_NO_SCALING,
+>> +						  DRM_PLANE_NO_SCALING,
+>> +						  false, false);
+>> +	return ret;
+>
+>
+> Return directly here.
+>
+
+OK
+
+>
+>> +}
+>> +
+>> +static const struct drm_plane_helper_funcs arcpgu_plane_helper_funcs =
+=3D {
+>> +	.prepare_fb	=3D drm_gem_plane_helper_prepare_fb,
+>> +	.atomic_check	=3D arcpgu_plane_helper_atomic_check,
+>> +	.atomic_update	=3D arcpgu_plane_helper_atomic_update,
+>> +};
+>> +
+>> +static bool arcpgu_plane_format_mod_supported(struct drm_plane *plane,
+>> +					      u32 format,
+>> +					      u64 modifier)
+>> +{
+>> +	return modifier =3D=3D DRM_FORMAT_MOD_LINEAR;
+>> +}
+>
+> Please remove this function. It doesn't really do anything besides DRM's=
+=20
+> standard behavior.
+>
 
 
-Thanks for the suggestion; point noted.
+Will do
 
--- 
--Mukesh Ojha
+>> +
+>> +static const struct drm_plane_funcs arcpgu_plane_funcs =3D {
+>> +	.update_plane		=3D drm_atomic_helper_update_plane,
+>> +	.disable_plane		=3D drm_atomic_helper_disable_plane,
+>> +	.destroy		=3D drm_plane_cleanup,
+>> +	.reset			=3D drm_atomic_helper_plane_reset,
+>> +	.atomic_duplicate_state	=3D drm_atomic_helper_plane_duplicate_state,
+>> +	.atomic_destroy_state	=3D drm_atomic_helper_plane_destroy_state,
+>> +	.format_mod_supported	=3D arcpgu_plane_format_mod_supported,
+>> +};
+>> +
+>> +static int arcpgu_crtc_helper_atomic_check(struct drm_crtc *crtc,
+>> +					   struct drm_atomic_commit *state)
+>> +{
+>> +	struct drm_crtc_state *crtc_state =3D drm_atomic_get_new_crtc_state(st=
+ate, crtc);
+>> +	int ret;
+>> +
+>> +	if (!crtc_state->enable)
+>> +		goto out;
+>> +
+>> +	ret =3D drm_atomic_helper_check_crtc_primary_plane(crtc_state);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +out:
+>> +	return drm_atomic_add_affected_planes(state, crtc);
+>
+> Instead of using out, I'd rather use
+>
+>  =C2=A0 if (crtc->enable) {
+>  =C2=A0 =C2=A0 =C2=A0 //do checks
+>  =C2=A0 }
+>
+>  =C2=A0 return add_affected planes.
+>
+> Seems more natural to me.
+>
+
+Will do
+
+>> +}
+>> +
+>> +static const struct drm_crtc_helper_funcs arcpgu_crtc_helper_funcs =3D =
+{
+>> +	.mode_valid	=3D arcpgu_crtc_helper_mode_valid,
+>> +	.atomic_check	=3D arcpgu_crtc_helper_atomic_check,
+>> +	.atomic_enable	=3D arcpgu_crtc_helper_atomic_enable,
+>> +	.atomic_disable	=3D arcpgu_crtc_helper_atomic_disable,
+>> +};
+>> +
+>> +static const struct drm_crtc_funcs arcpgu_crtc_funcs =3D {
+>> +	.reset			=3D drm_atomic_helper_crtc_reset,
+>> +	.destroy		=3D drm_crtc_cleanup,
+>> +	.set_config		=3D drm_atomic_helper_set_config,
+>> +	.page_flip		=3D drm_atomic_helper_page_flip,
+>> +	.atomic_duplicate_state	=3D drm_atomic_helper_crtc_duplicate_state,
+>> +	.atomic_destroy_state	=3D drm_atomic_helper_crtc_destroy_state,
+>> +};
+>> +
+>> +static const struct drm_encoder_funcs arcpgu_encoder_funcs =3D {
+>> +	.destroy =3D drm_encoder_cleanup,
+>> +};
+>> +
+>>   static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
+>>   {
+>>   	struct platform_device *pdev =3D to_platform_device(arcpgu->drm.dev);
+>> @@ -254,6 +325,9 @@ static int arcpgu_load(struct arcpgu_drm_private *ar=
+cpgu)
+>>   	struct device_node *endpoint_node =3D NULL;
+>>   	struct drm_connector *connector =3D NULL;
+>>   	struct drm_device *drm =3D &arcpgu->drm;
+>> +	struct drm_plane *plane;
+>> +	struct drm_encoder *encoder;
+>> +	struct drm_crtc *crtc;
+>>   	int ret;
+>>  =20
+>>   	arcpgu->clk =3D devm_clk_get(drm->dev, "pxlclk");
+>> @@ -301,12 +375,35 @@ static int arcpgu_load(struct arcpgu_drm_private *=
+arcpgu)
+>>   			return ret;
+>>   	}
+>>  =20
+>> -	ret =3D drm_simple_display_pipe_init(drm, &arcpgu->pipe, &arc_pgu_pipe=
+_funcs,
+>> -					   arc_pgu_supported_formats,
+>> -					   ARRAY_SIZE(arc_pgu_supported_formats),
+>> -					   NULL, connector);
+>> +	plane =3D &arcpgu->plane;
+>> +	ret =3D drm_universal_plane_init(drm, plane, 0,
+>> +				       &arcpgu_plane_funcs,
+>> +				       arc_pgu_supported_formats,
+>> +				       ARRAY_SIZE(arc_pgu_supported_formats),
+>> +				       NULL,
+>> +				       DRM_PLANE_TYPE_PRIMARY, NULL);
+>>   	if (ret)
+>>   		return ret;
+>> +	drm_plane_helper_add(plane, &arcpgu_plane_helper_funcs);
+>> +
+>> +	crtc =3D &arcpgu->crtc;
+>> +	ret =3D drm_crtc_init_with_planes(drm, crtc, plane, NULL,
+>> +					&arcpgu_crtc_funcs, NULL);
+>> +	if (ret)
+>> +		return ret;
+>> +	drm_crtc_helper_add(crtc, &arcpgu_crtc_helper_funcs);
+>> +
+>> +	encoder =3D &arcpgu->encoder;
+>> +	ret =3D drm_encoder_init(drm, encoder, &arcpgu_encoder_funcs, DRM_MODE=
+_ENCODER_NONE, NULL);
+>> +	if (ret)
+>> +		return ret;
+>> +	encoder->possible_crtcs =3D drm_crtc_mask(crtc);
+>
+>
+> I think plane, CRTC, and encoder should go before testing the=20
+> encoder_node at [1].
+>
+> Then comes the encoder_node test.=C2=A0 If true, do a single encoder-node=
+=20
+> branch,=C2=A0 or else to a single connector-based branch.=C2=A0 =C2=A0Tha=
+t would=20
+> simplify the overall logic in this helper.
+>
+> [1]=20
+> https://elixir.bootlin.com/linux/v7.1.2/source/drivers/gpu/drm/tiny/arcpg=
+u.c#L287
+>
+
+OK, will move them before the encoder_node test
+
+>
+>> +
+>> +	if (connector) {
+>> +		ret =3D drm_connector_attach_encoder(connector, encoder);
+>> +		if (ret)
+>> +			return ret;
+>> +	}
+>>  =20
+>>   	if (encoder_node) {
+>>   		/* Locate drm bridge from the hdmi encoder DT node */
+>> @@ -315,7 +412,7 @@ static int arcpgu_load(struct arcpgu_drm_private *ar=
+cpgu)
+>>   		if (!bridge)
+>>   			return -EPROBE_DEFER;
+>>  =20
+>> -		ret =3D drm_simple_display_pipe_attach_bridge(&arcpgu->pipe, bridge);
+>> +		ret =3D drm_bridge_attach(encoder, bridge, NULL, 0);
+>>   		if (ret)
+>>   			return ret;
+>>   	}
+>> @@ -342,7 +439,7 @@ static int arcpgu_show_pxlclock(struct seq_file *m, =
+void *arg)
+>>   	struct drm_device *drm =3D node->minor->dev;
+>>   	struct arcpgu_drm_private *arcpgu =3D dev_to_arcpgu(drm);
+>>   	unsigned long clkrate =3D clk_get_rate(arcpgu->clk);
+>> -	unsigned long mode_clock =3D arcpgu->pipe.crtc.mode.crtc_clock * 1000;
+>> +	unsigned long mode_clock =3D arcpgu->crtc.mode.crtc_clock * 1000;
+>
+> Here, mode is an obsolete field. The correct field is crtc->state->mode.
+
+Will correct the field
+
+>
+> Best regards
+> Thomas
+>
+>>  =20
+>>   	seq_printf(m, "hw  : %lu\n", clkrate);
+>>   	seq_printf(m, "mode: %lu\n", mode_clock);
+>>
+
+Thanks,
+Ze
 
