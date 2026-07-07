@@ -1,107 +1,154 @@
-Return-Path: <linux-aspeed+bounces-4414-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4419-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id qCWQCX8+TGrOiAEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4414-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Jul 2026 01:47:11 +0200
+	id k8UiMN5aTGo1jgEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4419-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Jul 2026 03:48:14 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B2C71656A
-	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Jul 2026 01:47:10 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A66716AC1
+	for <lists+linux-aspeed@lfdr.de>; Tue, 07 Jul 2026 03:48:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=giDj9PJ9;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=Cz7aZWlF;
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4414-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4414-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	arc=pass ("lists.ozlabs.org:s=201707:i=1")
+	dkim=none;
+	dmarc=none;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4419-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4419-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	arc=pass ("lists.ozlabs.org:s=201707:i=2")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gvLcP4QrTz2yfS;
-	Tue, 07 Jul 2026 09:47:01 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gvPJ95pMlz3bqs;
+	Tue, 07 Jul 2026 11:48:09 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783360998;
-	cv=none; b=n7aLfjtH5DvutiflFx8B6b6ItOTwgw4K5UNW+v4ZvH3MoK+aiHHpgt+TYyEhiQtC5klrtGBxoW4klJ85esEj6rZK08bputKVX09NzDdHFLO+BOVK2VOUVYaIbr3uosMlFZE3imkWXLniCTikFH3SeaNUP/rozrbtDsRiPAHn77hNg9cdZwtjCy1TR8//jFMhYLVq0CSR5rXYvgWn53Y7f0Kz+f3aB4cc9+G/dCvEwXZLMY4/h8sW1CTQsbmVk2Avx+6PHASpGTbRjbf206ZnOmwrp7dRuXEWb+Ydv0laWuGNn3pFyNrzCZOIp29iBl9cnN7tRsDCvjO5MRi+p0PhBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1783360998; c=relaxed/relaxed;
-	bh=Gt1vxrCSNrq7y97Hv08uirOBPw/48mufLTobNvyzlTU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hHfzUMPXXH4o7/wwgu5/d6JOy8D0ciz/C+B6CPUwq/UXI0/i7GA6posaiWNoi+d+dgoOgplsJ9n1FYDj7HR7MYaofT0Ec2WFXbdRu08r+oo/cHMcr0wOKG9JNcFVuTBSKPx5DwD70Q1K+8Gv66XnHBGkiv0dLXaDnEKFiEkrCePiWOAlfSml8YDxEDS6WXz2caZGTU54MojNWKwwUL+MvmPsAEjAkpL2AFiU8VPoa1ntTcWUEyO/M0wUQsu0xRYqvLgqVYtUX+2CoGdc91S/0XLA7IAilC3Y4FcEmoumazsLKT0XXbOafUurmlKRSqa1MEDycp2KTR1bHKDS4n5VxQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=giDj9PJ9; dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Cz7aZWlF; dkim-atps=neutral; spf=pass (client-ip=205.220.168.131; helo=mx0a-0031df01.pphosted.com; envelope-from=krzysztof.kozlowski@oss.qualcomm.com; receiver=lists.ozlabs.org) smtp.mailfrom=oss.qualcomm.com
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783388230;
+	cv=pass; b=c8jI+ox6a+podoREFRTGO1A4w6ZWePIXFfTJlaDnEWdv2ohy1qR/WtJH5tFQJUuaANvaLY4OLo8buma1pPrufxmAEhCZdmnwWQdQing+mKhxObrRnhX63ifn7oMm+xKgQvlDEX4WoAaoLGcKebSJgYJhIo586O/8bNDh8YvtU2i0bD0nzgFtvy9yddQJ7ujnFuiyDaMtguYx6DPiLdjVla+t5u/C0W4+o3b1DxLyDl+HPkqn/dUOwis9McPNM0B5NjXkj/p7SqZigTWpdb+PNPTha+qv6TgXVzXEQdr45K1e5zSeJXaXJxaCdOUuMPufY8gErDRzsnJv8oM3Fmkhwg==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1783388230; c=relaxed/relaxed;
+	bh=zVAt++BBwa9Lp7CQU3w81aHy4kuxWu8xS5VkSssx/8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wi2k4ujw2MpZwL/5bf7kmjqhgCIREr+V7CP4kghv2KK7DAjMgZZ4ssklbOI3tSVDaW79scKJoEqeQdbswGlUBIhva67XguGbvO5nKRCVQliqyNkZK2Rgz4zN1Am1kzGhvOMfbXl99h94gs2fX/BKCq+XVlge4HvAWVUPPc7KD/1u9RDDZ2EZ6LZTWPoH+DUPgshNWlrvu4/GKHdFVuA7/6cWa+9tV+Nx846OfmyFncSSIVYwcJHX58DqkjW1Qh18oB+HcjK+vJsgiIoo43blJ1Nv5vJi8elHLdvo58wqYVkHxIpOoy2Atc7VZ5t+qASkeHPnC3sqsYEkOh/7YOLSeA==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass (client-ip=2a01:111:f403:c405::7; helo=tydpr03cu002.outbound.protection.outlook.com; envelope-from=gary.yang@cixtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=cixtech.com
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazlp170130007.outbound.protection.outlook.com [IPv6:2a01:111:f403:c405::7])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange secp256r1 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gvBzn6jlTz3bps
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 07 Jul 2026 04:03:17 +1000 (AEST)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666FFCdZ990326
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 6 Jul 2026 18:03:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=Gt1vxrCSNrq7y97Hv08uirOBPw/48mufLTo
-	bNvyzlTU=; b=giDj9PJ9BabyIlHd/8JLoqHNzisAjKoD89j+xblWLHWKkuhKLfJ
-	taYJtwL+pERpKqRr8B40no+92AM7AFkIePyjq04RKbNpdF1MulaR0DthtZHnA64m
-	lNuwEul026dzZgo2CVW5+EUoRtL8edXYnKvPr4RQbV2+F+T10G/HqYYftbg7837m
-	wbpR2XWOM/rxC0Ul+5ugVl6ITXxmrcydZhHRLNfPlOACJDoWQCNg+TxBCusv/us1
-	w+Sz1M0zUqbOzYIMGCJkzrbspc0cvXMbFKK9SlKEq1mIZu4M4j3JDqCnb6GxaJAi
-	2GUHFpu3bzou24UcAznr5o1atnZqiW3i6Fw==
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8a3gt92d-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 18:03:15 +0000 (GMT)
-Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-5be3d6de82dso231916e0c.3
-        for <linux-aspeed@lists.ozlabs.org>; Mon, 06 Jul 2026 11:03:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783360994; x=1783965794; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gt1vxrCSNrq7y97Hv08uirOBPw/48mufLTobNvyzlTU=;
-        b=Cz7aZWlF+u1II07iFMWIPv0rss1s3ZcktiCsnR9SRyu6TkDWwOYrZRSrh+JAi5ygeO
-         uxeA2S7G0fYtg8yx9/T2I1QN/sl7SvUDcKx2CJNu3nt30f49noS5nnTK9/p9abVag1MT
-         ehie8vBf5BkosSaJL3iyAevL+l1AHr+SzIo6+zXsfD4ITkdKmg3hlyC7dUkcULjJ7q99
-         0C048xTeXEXUS2gNui55zufqiUn/fvxa5x38umQtToYnwIRu9qNVRqa9V9tGYo1jDiSn
-         j8+ryK7oWXvp2U/UoAV7isLNAsFaFdxhZKWgLnn+qD9nuRuOXc3VocW4PyJOy/cThscs
-         0BRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783360994; x=1783965794;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gt1vxrCSNrq7y97Hv08uirOBPw/48mufLTobNvyzlTU=;
-        b=TlWk8LSPmMG2wqnMJ7plhGAchz68sW+kWd2Chsft55qIKZDOul7w1v8DyXvdbFINmn
-         B/UfRueJWM1jNv0JL2EOsWPJoMSBntZKrrEHEjcGTRQQUAsgpef+lHhmMd3qvESQH+u/
-         n0xTWm17+rc+Vdu/+6m2GTK8RGxli6XiM0LuXDi6q5j3/nyMGwzX16nuSLS8h8qtICkj
-         TJKsdFYMqufaMHD8IU4d2tPOs8otBmiAFyDUmsmj0LJ7/BH55ZGKAJ7TIS6LQ2a+SVGb
-         GmLnGRcq2S1LfV0graxlbA+JN4rkbFme79kdxWwLXXRz6hyEJWcftCAIKnqhoBAAOuKc
-         1Xgg==
-X-Forwarded-Encrypted: i=1; AHgh+RobIwD00yccSRJJc9EqFh4DQ/yn7bFTRHCbdu1AGenwMUaC8ZgDg66qZfPHHmJJWctItUBYwPiYRriLf5U=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yx9nEbggCyyN+3ZRsyfU0MX162nD4MEI7X1g3z1fgVm91q08zco
-	7vF7cb3N6cYdO8FyW6pD3MelYxAI1gHOvrj2euyOUoxzLy3fgPeV+PG/qNteeHTVcmFXfADZY5a
-	WSpxtMn0sTWe2x51pXcFKlpMUOQKPkYOJuYbvw5VqC87+C/ZnthLHHm7gPC3L+4qclKdD
-X-Gm-Gg: AfdE7clYtQe1AMFSm63n5jJAI9l2/UjeLSohbsp38qJOfGK7bzstlUhKAK4dHvjoXJt
-	ow9Q0OvHCVjvkqOJo+xov9X0rHJMvV2kKyVK0cgs3oyjI/wF3ys0/6clC8U/vFymvZSvV498Pm7
-	VustY2Tpcx9IVO42q7RxZi+CDelXPYYYR72TpLjxwZ0r+O6GaSFFxOzI/GLemapbCHLlQ3RLPyY
-	0wWIvFeHBZB9oyF25A6qNDBe5AxVrR8q1LWffyjGaggO+iOXIrwKgDZqY/ngfCzVjlnZ515UmOA
-	B7dwr5kPQZ/a+Xy1NO9stgHvRZcRYrKDfbSDeUYxr/C/wuH43McKhUojRPGhXyEwms/kUe97Qlj
-	eNpDwY9mBUGOWA/tC+KY7zeSFn3U=
-X-Received: by 2002:a05:6122:e44a:b0:5bd:c27a:dafd with SMTP id 71dfb90a1353d-5be89e1543amr904416e0c.3.1783360993854;
-        Mon, 06 Jul 2026 11:03:13 -0700 (PDT)
-X-Received: by 2002:a05:6122:e44a:b0:5bd:c27a:dafd with SMTP id 71dfb90a1353d-5be89e1543amr904332e0c.3.1783360992942;
-        Mon, 06 Jul 2026 11:03:12 -0700 (PDT)
-Received: from quoll ([178.197.223.174])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d780csm27356538f8f.11.2026.07.06.11.03.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 11:03:12 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@codeconstruct.com.au>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH v2] ARM: dts: aspeed: Correct indentation
-Date: Mon,  6 Jul 2026 20:03:08 +0200
-Message-ID: <20260706180307.635369-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gvP3T1Kybz2xyh;
+	Tue, 07 Jul 2026 11:37:08 +1000 (AEST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=enilA8zYZzVL1Y1E8qXyS7/jZFIXtdnJgPiYOmK83r9gOPTKJqwAyI7CyKQs+aKJ1M+HROiyeuGbdPHmRVnJhy8f9qATTUWW/dR+MGYmZboIEBamyfvWeCtG4iGsKDHMY2kTdJvNX5nHkKeH7TKowAy9NEs1b0yc3CF/5K1y/QsnJDJ3tJKH2NOWanUBrhBBdaKZhZN/Ldv5hNETIzEw1qS3ZklECAswkfAwdyvZsZb6Z0hIrUVzYZFStGf3lUW33Dk6c2R8Dsy3z4d2cRMJHVFhIL64JDowVSpYTgqbLqB1q7KSMChujI+tLRZo//qeztXYZaGviP1AgewKeZG6ZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zVAt++BBwa9Lp7CQU3w81aHy4kuxWu8xS5VkSssx/8s=;
+ b=SfMp+HnA/nq59x5AwpIC0k7qpcQi7ldLr+1t2moMNCA4VpXIRK3jyw4SzceIhwaMHBE62OTqFCusu/qV9Hq8mUU68M1RknexNMQwMUDWX/+KLaLBBZyVNSNGSGqQm3zZgCj9USN3uKolqS4FnPJiwobgFokr8JLFK3TBIPxfdipT4A8d5ADV0EfacqXDymSeClaJP+h3oiNPCUqGtmh3/j8fLFwEOVTATcnMN4cKKHaV2K0LTEk6qNqFqsL9MlYAmlqdDk0UAPnSHh+/XIkw/3D+bp8Tt4mg8bzdqVe0S5tO/Hr939ErpSqiU5v4MfF4esSzg4pG1LLn6dbXRZrL2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 222.71.101.198) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=cixtech.com;
+ dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
+ not signed); arc=none (0)
+Received: from PUVP216CA0003.KORP216.PROD.OUTLOOK.COM (2603:1096:301:16f::7)
+ by SEZPR06MB5992.apcprd06.prod.outlook.com (2603:1096:101:f2::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Tue, 7 Jul
+ 2026 01:36:42 +0000
+Received: from TY2PEPF0000AB85.apcprd03.prod.outlook.com
+ (2603:1096:301:16f:cafe::97) by PUVP216CA0003.outlook.office365.com
+ (2603:1096:301:16f::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.13 via Frontend Transport; Tue, 7
+ Jul 2026 01:36:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
+ smtp.mailfrom=cixtech.com; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
+Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
+ 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
+Received: from smtprelay.cixcomputing.com (222.71.101.198) by
+ TY2PEPF0000AB85.mail.protection.outlook.com (10.167.253.5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 01:36:41 +0000
+Received: from gary-System-Product-Name (unknown [172.16.64.196])
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 15ED34351F23;
+	Tue,  7 Jul 2026 09:36:40 +0800 (CST)
+Date: Tue, 7 Jul 2026 09:34:46 +0800
+From: Gary Yang <gary.yang@cixtech.com>
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Eddie James <eajames@linux.ibm.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ge Gordon <gordon.ge@bst.ai>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Peter Chen <peter.chen@cixtech.com>,
+	Fugang Duan <fugang.duan@cixtech.com>,
+	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+	BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+	kernel@collabora.com, linux-tegra@vger.kernel.org,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev, sound-open-firmware@alsa-project.org
+Subject: Re: [PATCH 31/42] ASoC: cix-ipbloq: Use
+ devm_of_reserved_mem_device_init()
+Message-ID: <akxXtlUYtT3T-huE@gary-System-Product-Name>
+References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
+ <20260703193855.110619-32-mukesh.ojha@oss.qualcomm.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -115,673 +162,102 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=15384; i=krzysztof.kozlowski@oss.qualcomm.com;
- h=from:subject; bh=LdhjOdTRiwYN1T2j9SwCfs17Qi6jkgIysZsTMSeCB6I=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBqS+3bzaoCGnhqEtDlbcaXCaGjDv3ej/HylA87L
- 9qGEpCaeeyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCakvt2wAKCRDBN2bmhouD
- 1wVXD/0XwHSBVLnre+wUfDtHq73rhECaCtvpphs+di9tMlTnHNoGaUK79LZ6cyNfpeE7YlQ/hfV
- SS8yDulpkOmnV9EE8nDp3tfgFWmmjFcQWpOc2yS2DCd7FieT/VH1+AzY7fOuRyyfyjXshWQaGuK
- r+aziQbxvNlSAc124vLbX44DvsN9dVomyNIFc2llisb03yALRgm9w/K+ZT8jKfIxfneZou5r7IV
- 0h4yEXV4jfAzmicPci4wfbu/DTmTcYPZxanYa0FGSr45tXT/irdL72murxQRLkPbYl9yk+Hiamh
- +yxlj23yk0YJKHEzMSBYebr4Ay7SUpcsz+Nb/eCKAxNu5Y7nP2d9CH2yCcV7sHZJJ26Kwd6S1p0
- yPfWSSec7kHMElqFmbBGmvcdKYV4ZtoHFwUW5Ip0qJYHjxPsa73IMg1lwuTvgkPT5WIgH9C7G/y
- 4VsCktVQuNrLZERzhn1gqYYdYzr+kSv6DuuZj3zkGn4m55avw8B4aGREe6O8Mr22eqdkkWU1MDu
- +ftCZVUo5krjQopsXQWOEsF5+OHQrI/45qyrnpa2INwukNzYkYFj0OkkUlC4ylbFyT/IO7XkULQ
- +Xdu7Y/1j4QONfFjhcLvzbmgYqQYeWuPEDePg8/qkP/ePIln2vAU8VkRuUVYRAhRGlcuwGCfSAh sRDD2WMu6Cgnpwg==
-X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: uCX9uJJk51n45TIczfep5ztgRS1_AYuc
-X-Proofpoint-ORIG-GUID: uCX9uJJk51n45TIczfep5ztgRS1_AYuc
-X-Authority-Analysis: v=2.4 cv=CPYamxrD c=1 sm=1 tr=0 ts=6a4bede3 cx=c_pps
- a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=N6niishs+lR9UBL1FN3Qrw==:17
- a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
- a=EdFd9dCIzGFzXepkhT4A:9 a=hhpmQAJR8DioWGSBphRh:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDE4MiBTYWx0ZWRfX78t+rqVLO+1e
- KlhEDO1It1O4mSBXxFvofbVAHa6dlg2SoHcWOzXXPKWCrzoRL/gTBL6X56aTnjx2KJJ5Udqwo3O
- MPya2/l3GeAbuuYUYlpJnNW0SdNmCPyikFHqVLzWPOab6kt/a8psutLlwvvTR4AS4qE9GTvRhIv
- RsNW0+mt/wDtlQetaEXQURGNOuWbRDzaW4tNKPmaPaDqeTWqwgseK/NiDEjVXe2AAS9S1BjfqIE
- sfw0wi0a7VrPNLWP8iu7lQwGmtbxffK2TCgbyUxvp1VxVZYzabsXhhUxUVbHKRRnRhtGYRQknSN
- kPSlNAsgqSGKqoPmLJsQtImSlxB6dMqPVyq2MxMfFwZ+UJnsR1gN00nB/YpB1fYe9eFB3bBYz1V
- H2RfUsB5y0LXSpVEMTkPuzDNV57iSHXFx7/5/9xYTR4c5Gsnlv0oENWwzadO9f5cKVTeyR1yO3h
- k8jfALY9v8wR0Lf33RA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDE4MiBTYWx0ZWRfX029QfVfFPpke
- ZNLL7dHGC6/es5K1pb/3o1pfs/VoRUpakrxAlpKWmMnIu/bxfWqxCo78DlAnfGpzBr8OGEyhjkN
- 34UoH8OtrxHqd7JWbShrpxZE/ELpp9k=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-06_02,2026-07-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- malwarescore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060182
-X-Spam-Status: No, score=-0.9 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
-	WEIRD_QUOTING autolearn=disabled version=4.0.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260703193855.110619-32-mukesh.ojha@oss.qualcomm.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB85:EE_|SEZPR06MB5992:EE_
+X-MS-Office365-Filtering-Correlation-Id: 58b0bcd8-fc53-439a-90a3-08dedbc83256
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|23010399003|82310400026|1800799024|36860700016|376014|4143699003|22082099003|18002099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	PbsmJJUC3r+PSMHFYv1/5KAHLPksanDfP7Pr+9GjfsZBINxm7MQ/6oaciRBlKjgm8PiiDmCKpLrQa3R0g79rj/OxhD1HdasUwlMwOHrf0JU8wHBBXuG3hdrKLpnv3P2vBaYKWkRyc7YH5GxFLqRfvvRthoAbKoabp1FOx4VB5JAj7OOr80zr2tzMjzlR47UUAXdphACxz6nv6LEjFZjw5nkP/Lfsoqsy57C1SI/3g+k5VsMhfKjzOnAQN3EyPypuAs7HBnj/AgliW+5HrJP1s74vhFuGt9CA1adcAJymarP4P5Nu6rX/AGOmLp1FnrjZvD2gczG1qUGKllxinGTkHAq4cqKLnqUQi8kaQUtaGx1KVfb86Qb1Z9CU5EFISIvQPEeR4m6sVRd3OljqlwtBXwmq8NH0FKD6SzKRqX4kD7GACn0dK6g6lsKQaR0sduqxWfqLbbg995xOWjawLEAXZ5XeivDMAZdOzhoR1hZr9DyJLv97YF00hvFCX5vTY7XkkngNF6u6oJDxRFbKaxRldx2PRzrbyC1rKEQxL5IX49C9fw7ENvTpNXgi0JPL/z+qTwPIgc77MJq1fRsrgmnB0IzA4DF+dUOpoKdg8bFdE74+HkbQgvupu+ng7tbGCb//sb+zUbDWK84eo+dJfWy2FVgLDQ3OEd3TdRSJu+GPRJAWAcu149u8rXkMyUlF6D54k0cbFWV3qZoNda129jn/Gg==
+X-Forefront-Antispam-Report:
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(82310400026)(1800799024)(36860700016)(376014)(4143699003)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	YQP9tmTZsZsst2XVhSMEt6ze26TOYYsaRySCTBU4b2JeGgsxxgjlxfxR5rqo9srtq52gxFXeRrAQpizWmq4rnR131aJL0yADN5UOJK5lOhRoyD34mXpqnTYllYtoO8lT3DKhABUr/r2VCTrknBLHcdjkvQxRqySLGfkJL2ujdOo/T6nQjmBRjqZerpuQXpvNUbQjY+9vRg32YosHnAcL16AMcUeJKjcxDswM9WRodsARyKalf+gPqZeGfVvQ8KBlfqwwBXHZU+z4FORlOWYRleGy1UUtXHCYuF2zFO2AEVXiVpYxVmrrfudDWbEcZaDDnNgniI5tZ2x+7qCWJ2wsDNzhdk4pdS+t1rXnoA677qfpLmy+0wLuODVSDADMZKXY1btJl1j4/a4CCslM/GsYj2UZ3ZJuQONRDXT5z0louJEFMWXX8aZh++Us93/xLCDu
+X-OriginatorOrg: cixtech.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 01:36:41.4300
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58b0bcd8-fc53-439a-90a3-08dedbc83256
+X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	TY2PEPF0000AB85.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5992
+X-Spam-Status: No, score=0.0 required=5.0 tests=RCVD_IN_DNSWL_NONE,
+	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.79 / 15.00];
+X-Spamd-Result: default: False [0.49 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-4419-lists,linux-aspeed=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,jms.id.au,codeconstruct.com.au,crapouillou.net,intel.com,sys-base.io,sholland.org,synopsys.com,ideasonboard.com,amd.com,linux.ibm.com,mediatek.com,collabora.com,nuvoton.com,nvidia.com,arndb.de,linuxfoundation.org,bst.ai,linaro.org,perex.cz,suse.com,nxp.com,pengutronix.de,linux.alibaba.com,cixtech.com,oss.qualcomm.com,bstai.top,linux.dev,vger.kernel.org,lists.freedesktop.org,lists.ozlabs.org,lists.infradead.org,lists.linux.dev,alsa-project.org];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4414-lists,linux-aspeed=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:krzysztof.kozlowski@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[krzysztof.kozlowski@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
-	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[krzysztof.kozlowski@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DMARC_NA(0.00)[cixtech.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ALIAS_RESOLVED(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,lists.ozlabs.org:from_smtp,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,oss.qualcomm.com:mid]
+	RCPT_COUNT_GT_50(0.00)[93];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[gary.yang@cixtech.com,linux-aspeed@lists.ozlabs.org];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	REDIRECTOR_URL(0.00)[aka.ms];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[aka.ms:url,lists.ozlabs.org:from_smtp,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,qualcomm.com:email,cixtech.com:from_mime,cixtech.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 88B2C71656A
+X-Rspamd-Queue-Id: 36A66716AC1
 
-Correct spaces or mix of tabs+spaces into proper tab-indented lines.
-No functional impact (same DTB).
+On 2026-07-04 01:08, Mukesh Ojha wrote:
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> [Some people who received this message don't often get email from mukesh.ojha@oss.qualcomm.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> 
+> EXTERNAL EMAIL
+> 
+> Use the devres-managed devm_of_reserved_mem_device_init() to ensure
+> the reserved memory region is released on device removal, fixing a
+> missing cleanup in the original code.
+> 
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> ---
+>  sound/hda/controllers/cix-ipbloq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/hda/controllers/cix-ipbloq.c b/sound/hda/controllers/cix-ipbloq.c
+> index c1084a915c13..815932e5c58b 100644
+> --- a/sound/hda/controllers/cix-ipbloq.c
+> +++ b/sound/hda/controllers/cix-ipbloq.c
+> @@ -257,7 +257,7 @@ static int cix_ipbloq_hda_probe(struct platform_device *pdev)
+> 
+>         dma_set_mask_and_coherent(hda->dev, DMA_BIT_MASK(32));
+> 
+> -       err = of_reserved_mem_device_init(hda->dev);
+> +       err = devm_of_reserved_mem_device_init(hda->dev);
+>         if (err < 0 && err != -ENODEV) {
+>                 dev_err(hda->dev,
+>                         "failed to init reserved mem for DMA, err = %d\n", err);
 
----
+Reviewed-by: Gary Yang <gary.yang@cixtech.com>
 
-Ongoing bigger work for all bindings and DTS with built-in checker (dt-check-style).
-
-Changes in v2:
-1. Fix also arch/arm/boot/dts/aspeed/aspeed-bmc-inventec-transformers.dts
----
- .../aspeed-bmc-inventec-transformers.dts      | 432 +++++++++---------
- .../boot/dts/aspeed/aspeed-bmc-opp-vesnin.dts |   2 +-
- arch/arm/boot/dts/aspeed/aspeed-g6.dtsi       |   2 +-
- 3 files changed, 218 insertions(+), 218 deletions(-)
-
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-inventec-transformers.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-inventec-transformers.dts
-index c713cb7a6187..45ee0f2cc2bb 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-inventec-transformers.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-inventec-transformers.dts
-@@ -9,320 +9,320 @@
- #include <dt-bindings/gpio/aspeed-gpio.h>
- 
- / {
--       model = "TRANSFORMERS BMC";
--       compatible = "inventec,transformer-bmc", "aspeed,ast2600";
-+	model = "TRANSFORMERS BMC";
-+	compatible = "inventec,transformer-bmc", "aspeed,ast2600";
- 
--       aliases {
--               serial4 = &uart5;
--       };
-+	aliases {
-+		serial4 = &uart5;
-+	};
- 
--       chosen {
--               stdout-path = &uart5;
--               bootargs = "console=ttyS4,115200n8";
--       };
-+	chosen {
-+		stdout-path = &uart5;
-+		bootargs = "console=ttyS4,115200n8";
-+	};
- 
--       memory@80000000 {
--               device_type = "memory";
--               reg = <0x80000000 0x80000000>;
--       };
-+	memory@80000000 {
-+		device_type = "memory";
-+		reg = <0x80000000 0x80000000>;
-+	};
- 
--       leds {
--               compatible = "gpio-leds";
-+	leds {
-+		compatible = "gpio-leds";
- 
--               // UID led
--               uid {
--                       label = "UID_LED";
--                       gpios = <&gpio0 ASPEED_GPIO(X, 0) GPIO_ACTIVE_LOW>;
--               };
-+		// UID led
-+		uid {
-+			label = "UID_LED";
-+			gpios = <&gpio0 ASPEED_GPIO(X, 0) GPIO_ACTIVE_LOW>;
-+		};
- 
--               // Heart beat led
--               heartbeat {
--                       label = "HB_LED";
--                       gpios = <&gpio0 ASPEED_GPIO(P, 7) GPIO_ACTIVE_LOW>;
--               };
--       };
-+		// Heart beat led
-+		heartbeat {
-+			label = "HB_LED";
-+			gpios = <&gpio0 ASPEED_GPIO(P, 7) GPIO_ACTIVE_LOW>;
-+		};
-+	};
- };
- 
- &mdio0 {
--       status = "okay";
-+	status = "okay";
- 
--       ethphy0: ethernet-phy@0 {
--               compatible = "ethernet-phy-ieee802.3-c22";
--               reg = <1>;
--       };
-+	ethphy0: ethernet-phy@0 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+	};
- };
- 
- &mac3 {
--       status = "okay";
--       phy-mode = "rgmii";
--       phy-handle = <&ethphy0>;
--       pinctrl-names = "default";
--       pinctrl-0 = <&pinctrl_rgmii4_default>;
-+	status = "okay";
-+	phy-mode = "rgmii";
-+	phy-handle = <&ethphy0>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rgmii4_default>;
- };
- 
- &fmc {
--       status = "okay";
-+	status = "okay";
- 
--       flash@0 {
--               status = "okay";
--               m25p,fast-read;
--               label = "bmc";
--               spi-max-frequency = <33000000>;
--               spi-tx-bus-width = <2>;
--               spi-rx-bus-width = <2>;
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc";
-+		spi-max-frequency = <33000000>;
-+		spi-tx-bus-width = <2>;
-+		spi-rx-bus-width = <2>;
- #include "openbmc-flash-layout.dtsi"
--       };
-+	};
- 
--       flash@1 {
--               status = "okay";
--               m25p,fast-read;
--               label = "bmc2";
--               spi-max-frequency = <33000000>;
--               spi-tx-bus-width = <2>;
--               spi-rx-bus-width = <2>;
--       };
-+	flash@1 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bmc2";
-+		spi-max-frequency = <33000000>;
-+		spi-tx-bus-width = <2>;
-+		spi-rx-bus-width = <2>;
-+	};
- };
- 
- &spi1 {
--       status = "okay";
--       pinctrl-names = "default";
--       pinctrl-0 = <&pinctrl_spi1_default>;
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_spi1_default>;
- 
--       flash@0 {
--               status = "okay";
--               m25p,fast-read;
--               label = "bios";
--               spi-max-frequency = <33000000>;
--               spi-tx-bus-width = <1>;
--               spi-rx-bus-width = <1>;
--       };
-+	flash@0 {
-+		status = "okay";
-+		m25p,fast-read;
-+		label = "bios";
-+		spi-max-frequency = <33000000>;
-+		spi-tx-bus-width = <1>;
-+		spi-rx-bus-width = <1>;
-+	};
- };
- 
- &wdt1 {
--       status = "okay";
-+	status = "okay";
- };
- 
- &uart1 {
--       status = "okay";
-+	status = "okay";
- };
- 
- &uart5 {
--       status = "okay";
-+	status = "okay";
- };
- 
- &i2c0 {
--       status = "okay";
-+	status = "okay";
- 
--       //Set bmc' slave address;
--       bmc_slave@10 {
--               compatible = "ipmb-dev";
--               reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
--               i2c-protocol;
--       };
-+	//Set bmc' slave address;
-+	bmc_slave@10 {
-+		compatible = "ipmb-dev";
-+		reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-+		i2c-protocol;
-+	};
- };
- 
- &i2c2 {
--       status = "okay";
-+	status = "okay";
- };
- 
- &i2c3 {
--       // FRU AT24C512C-SSHM-T
--       status = "okay";
--       eeprom@50 {
--               compatible = "atmel,24c512";
--               reg = <0x50>;
--               pagesize = <128>;
--       };
-+	// FRU AT24C512C-SSHM-T
-+	status = "okay";
-+	eeprom@50 {
-+		compatible = "atmel,24c512";
-+		reg = <0x50>;
-+		pagesize = <128>;
-+	};
- };
- 
- &i2c5 {
--       status = "okay";
-+	status = "okay";
- };
- 
- &i2c6 {
--       status = "okay";
-+	status = "okay";
- 
--       tmp75@49 {
--               compatible = "ti,tmp75";
--               reg = <0x49>;
--       };
-+	tmp75@49 {
-+		compatible = "ti,tmp75";
-+		reg = <0x49>;
-+	};
- 
--       tmp75@4f {
--               compatible = "ti,tmp75";
--               reg = <0x4f>;
--       };
-+	tmp75@4f {
-+		compatible = "ti,tmp75";
-+		reg = <0x4f>;
-+	};
- 
--       tmp468@48 {
--               compatible = "ti,tmp468";
--               reg = <0x48>;
--       };
-+	tmp468@48 {
-+		compatible = "ti,tmp468";
-+		reg = <0x48>;
-+	};
- };
- 
- &i2c7 {
--       status = "okay";
--       adm1278@40 {
--               compatible = "adi,adm1278";
--               reg = <0x40>;
--       };
-+	status = "okay";
-+	adm1278@40 {
-+		compatible = "adi,adm1278";
-+		reg = <0x40>;
-+	};
- };
- 
- 
- &i2c8 {
--       // FRU AT24C512C-SSHM-T
--       status = "okay";
-+	// FRU AT24C512C-SSHM-T
-+	status = "okay";
- 
--       eeprom@51 {
--               compatible = "atmel,24c512";
--               reg = <0x51>;
--               pagesize = <128>;
--       };
-+	eeprom@51 {
-+		compatible = "atmel,24c512";
-+		reg = <0x51>;
-+		pagesize = <128>;
-+	};
- 
--       eeprom@53 {
--               compatible = "atmel,24c512";
--               reg = <0x53>;
--               pagesize = <128>;
--       };
-+	eeprom@53 {
-+		compatible = "atmel,24c512";
-+		reg = <0x53>;
-+		pagesize = <128>;
-+	};
- };
- 
- &i2c9 {
--       // M.2
--       status = "okay";
-+	// M.2
-+	status = "okay";
- };
- 
- &i2c10 {
--       // I2C EXPANDER
--       status = "okay";
-+	// I2C EXPANDER
-+	status = "okay";
- 
--       i2c-mux@71 {
--               compatible = "nxp,pca9544";
--               #address-cells = <1>;
--               #size-cells = <0>;
--               reg = <0x71>;
--       };
-+	i2c-mux@71 {
-+		compatible = "nxp,pca9544";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		reg = <0x71>;
-+	};
- 
--       i2c-mux@73 {
--               compatible = "nxp,pca9544";
--               #address-cells = <1>;
--               #size-cells = <0>;
--               reg = <0x73>;
--       };
-+	i2c-mux@73 {
-+		compatible = "nxp,pca9544";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		reg = <0x73>;
-+	};
- };
- 
- &i2c11 {
--       // I2C EXPANDER
--       status = "okay";
-+	// I2C EXPANDER
-+	status = "okay";
- 
--       i2c-mux@70 {
--               compatible = "nxp,pca9544";
--               #address-cells = <1>;
--               #size-cells = <0>;
--               reg = <0x70>;
-+	i2c-mux@70 {
-+		compatible = "nxp,pca9544";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		reg = <0x70>;
- 
--               pcie_eeprom_riser1: i2c@0 {
--                       #address-cells = <1>;
--                       #size-cells = <0>;
--                       reg = <0>;
-+		pcie_eeprom_riser1: i2c@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
- 
--                       eeprom@55 {
--                               compatible = "atmel,24c512";
--                               reg = <0x55>;
--                               pagesize = <128>;
--                       };
--               };
-+			eeprom@55 {
-+				compatible = "atmel,24c512";
-+				reg = <0x55>;
-+				pagesize = <128>;
-+			};
-+		};
- 
--               pcie_eeprom_riser2: i2c@1 {
--                       #address-cells = <1>;
--                       #size-cells = <0>;
--                       reg = <1>;
-+		pcie_eeprom_riser2: i2c@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
- 
--                       eeprom@55 {
--                               compatible = "atmel,24c512";
--                               reg = <0x55>;
--                               pagesize = <128>;
--                       };
--               };
-+			eeprom@55 {
-+				compatible = "atmel,24c512";
-+				reg = <0x55>;
-+				pagesize = <128>;
-+			};
-+		};
- 
--               pcie_eeprom_riser3: i2c@2 {
--                       #address-cells = <1>;
--                       #size-cells = <0>;
--                       reg = <2>;
-+		pcie_eeprom_riser3: i2c@2 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <2>;
- 
--                       eeprom@55 {
--                               compatible = "atmel,24c512";
--                               reg = <0x55>;
--                               pagesize = <128>;
--                       };
--               };
--       };
-+			eeprom@55 {
-+				compatible = "atmel,24c512";
-+				reg = <0x55>;
-+				pagesize = <128>;
-+			};
-+		};
-+	};
- };
- 
- &i2c12 {
--       status = "okay";
-+	status = "okay";
- 
--       psu0:psu0@58 {
--               compatible = "pmbus";
--               reg = <0x58>;
--       };
-+	psu0:psu0@58 {
-+		compatible = "pmbus";
-+		reg = <0x58>;
-+	};
- };
- 
- &gpio0 {
--       status = "okay";
--       gpio-line-names =
--       /*A0-A7*/   "","","","","","","","",
--       /*B0-B7*/   "presence-ps0","power-chassis-good","","","","","presence-ps1","",
--       /*C0-C7*/   "","","","","","","","",
--       /*D0-D7*/   "","","","","","","","",
--       /*E0-E7*/   "","","","","","","","",
--       /*F0-F7*/   "","","","","power-chassis-control","","","",
--       /*G0-G7*/   "","","jtag-mux","","","","","",
--       /*H0-H7*/   "","","","","reset-button","power-button","","",
--       /*I0-I7*/   "","","","","","","","",
--       /*J0-J7*/   "","","","","","","","",
--       /*K0-K7*/   "","","","","","","","",
--       /*L0-L7*/   "","","","","","","","",
--       /*M0-M7*/   "","","","","","","","",
--       /*N0-N7*/   "","","","","","","","",
--       /*O0-O7*/   "","","","","","","","",
--       /*P0-P7*/   "","","","tck-mux","","","","",
--       /*Q0-Q7*/   "","","","","","","","",
--       /*R0-R7*/   "","","","","","","","",
--       /*S0-S7*/   "","","","","","","","",
--       /*T0-T7*/   "","","","","","","","",
--       /*U0-U7*/   "","nmi-button","","","","","","",
--       /*V0-V7*/   "","","","","power-config-full-load","","","",
--       /*W0-W7*/   "","","","","","","","",
--       /*X0-X7*/   "","","","","","","","",
--       /*Y0-Y7*/   "","","","","","","","",
--       /*Z0-Z7*/   "","","","","","","","",
--       /*AA0-AA7*/ "","","","","","","","",
--       /*AB0-AB7*/ "","","","","","","","",
--       /*AC0-AC7*/ "","","","","","","","";
-+	status = "okay";
-+	gpio-line-names =
-+	/*A0-A7*/   "","","","","","","","",
-+	/*B0-B7*/   "presence-ps0","power-chassis-good","","","","","presence-ps1","",
-+	/*C0-C7*/   "","","","","","","","",
-+	/*D0-D7*/   "","","","","","","","",
-+	/*E0-E7*/   "","","","","","","","",
-+	/*F0-F7*/   "","","","","power-chassis-control","","","",
-+	/*G0-G7*/   "","","jtag-mux","","","","","",
-+	/*H0-H7*/   "","","","","reset-button","power-button","","",
-+	/*I0-I7*/   "","","","","","","","",
-+	/*J0-J7*/   "","","","","","","","",
-+	/*K0-K7*/   "","","","","","","","",
-+	/*L0-L7*/   "","","","","","","","",
-+	/*M0-M7*/   "","","","","","","","",
-+	/*N0-N7*/   "","","","","","","","",
-+	/*O0-O7*/   "","","","","","","","",
-+	/*P0-P7*/   "","","","tck-mux","","","","",
-+	/*Q0-Q7*/   "","","","","","","","",
-+	/*R0-R7*/   "","","","","","","","",
-+	/*S0-S7*/   "","","","","","","","",
-+	/*T0-T7*/   "","","","","","","","",
-+	/*U0-U7*/   "","nmi-button","","","","","","",
-+	/*V0-V7*/   "","","","","power-config-full-load","","","",
-+	/*W0-W7*/   "","","","","","","","",
-+	/*X0-X7*/   "","","","","","","","",
-+	/*Y0-Y7*/   "","","","","","","","",
-+	/*Z0-Z7*/   "","","","","","","","",
-+	/*AA0-AA7*/ "","","","","","","","",
-+	/*AB0-AB7*/ "","","","","","","","",
-+	/*AC0-AC7*/ "","","","","","","","";
- };
- 
- &lpc_snoop {
--       status = "okay";
--       snoop-ports = <0x80>;
-+	status = "okay";
-+	snoop-ports = <0x80>;
- };
- 
- &emmc_controller {
--       status = "okay";
-+	status = "okay";
- };
- 
- &emmc {
--       status = "okay";
--       non-removable;
--       max-frequency = <52000000>;
--       bus-width = <8>;
-+	status = "okay";
-+	non-removable;
-+	max-frequency = <52000000>;
-+	bus-width = <8>;
- };
- 
- &vhub {
--       status = "okay";
--       aspeed,vhub-downstream-ports = <7>;
--       aspeed,vhub-generic-endpoints = <21>;
--       pinctrl-names = "default";
--       pinctrl-0 = <&pinctrl_usb2ad_default>;
-+	status = "okay";
-+	aspeed,vhub-downstream-ports = <7>;
-+	aspeed,vhub-generic-endpoints = <21>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_usb2ad_default>;
- };
- 
- &rtc {
--       status = "okay";
-+	status = "okay";
- };
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-vesnin.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-vesnin.dts
-index 8a7fb55ab489..5a3e8a3941d4 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-vesnin.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-opp-vesnin.dts
-@@ -82,7 +82,7 @@ &fmc {
- 	flash@0 {
- 		status = "okay";
- 		m25p,fast-read;
--        label = "bmc";
-+		label = "bmc";
- #include "openbmc-flash-layout.dtsi"
- 	};
- 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-index 56bb3b0444f7..edf4b74f5aba 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-+++ b/arch/arm/boot/dts/aspeed/aspeed-g6.dtsi
-@@ -517,7 +517,7 @@ timer: timer@1e782000 {
- 				clocks = <&syscon ASPEED_CLK_APB1>;
- 				clock-names = "PCLK";
- 				status = "disabled";
--                        };
-+			};
- 
- 			uart1: serial@1e783000 {
- 				compatible = "ns16550a";
--- 
-2.53.0
-
+> --
+> 2.53.0
+> 
 
