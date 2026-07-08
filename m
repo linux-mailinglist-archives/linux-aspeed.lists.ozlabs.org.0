@@ -1,79 +1,81 @@
-Return-Path: <linux-aspeed+bounces-4442-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4445-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id AMAMOcLdTmrwVgIAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4442-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Thu, 09 Jul 2026 01:31:14 +0200
+	id yQI/GsXdTmrxVgIAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4445-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Thu, 09 Jul 2026 01:31:17 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377A572B28D
-	for <lists+linux-aspeed@lfdr.de>; Thu, 09 Jul 2026 01:31:13 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAE9372B299
+	for <lists+linux-aspeed@lfdr.de>; Thu, 09 Jul 2026 01:31:16 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=9elements.com header.s=google header.b="QYYNLh/w";
+	dkim=pass header.d=9elements.com header.s=google header.b=KHmqiAwI;
 	dmarc=pass (policy=quarantine) header.from=9elements.com;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4442-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4442-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4445-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4445-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gwZ9C1Dzbz3054;
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gwZ9C6W6Xz2yf9;
 	Thu, 09 Jul 2026 09:31:11 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783525109;
-	cv=none; b=TvsgFZiP0IcEq+ZsAO9IQhH0Sh6NXX/VCN1cFLgoWAi0aauCqa93mc9DoR3K5p3lWEDF8e9qk9j+rsEFs/IGiMg+ssr1+3t/GA7nVke7cs9nFWZwY+9NBv3uEm19VNWwy+Is5HZwHRvG23qwNvM816+cNqwiqLdws8VLDDNvd7CTYbb1OVWwus+YuZDIxZed3UKf60wZOY8xBpDR90p4cshMqkARwshymRjRu2YHE5iKbXxKGfqlgO+sutbH5iqoAFuQ55xLvTBubqwA7+19XbqO3cxmT4mzXmnRjd8Ouo5s3Zhia0HJSuSaIT3+1WYWFVDnQhIJFoRFhM7+XDKZqg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783525113;
+	cv=none; b=cV03DrE33n8N2i11Xi4bVbXSTKf5wZ5LOFDMF5wtUapEe1evBABa+1PSSyhpOmTwdEOZg/PWgFGekbRGNvJsswgn0vfWIBxXSj1PQRBwexFFGi5SSX7FIJorDCKrF0cuXl+4lBjTVdhybBDuQNW073S+1q6Er0wdpiANfWBVnN00uugXSY3Lsm1VcdWfcqarZcDFLJiFWUA1R8g+IuFC3fNX39LDDxRmCsb4mVzhTPCgQzRUIkijFVDWzKNGA2x3g30CTYdHKhWt4/62GQvZ1R3r4Zu3eCuovdH6HLVjACS416/N5pZh9HPpcYQIn0BO8YFre7lM7q60AECsuaYEtw==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1783525109; c=relaxed/relaxed;
-	bh=6E2M/OW82zq935Lg7IK8OFbhLBXo8GmRMpNDGq8g+oA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Tw+nDkz5k3el4F1Fz6Fv/T3ZrjmW2mbJ0jIfFSTPv+BycCZJSHtQhpfLFVpG4xU9JNAN7KbBKv0UJ36bDJUnBxALZt97Klap4cw1scJk5KPhBvHraW23SAGK9GcMnRZ1pnmhgNHUsNtWiyKUIlGygdQU2h+wJYsOEz09wciPvKGtw9ZUvC9Riovm/nSFHj746+UYwCjqRrKiOTe1MB3j0fDzpq8S9AhJJsQhqqTvc335U7CYozmLfyWdvXYQ93BHjTVGby06j/AzV5hNGtPMV96GGZ0isky1yLnZTVCjw+jdc4WciJQVZqQeNTxX825VoR0i+r2sGj1PDZtVKqk1BA==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=QYYNLh/w; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:30::2; helo=mail-wr2-x02.google.com; envelope-from=gregoire.layet@9elements.com; receiver=lists.ozlabs.org) smtp.mailfrom=9elements.com
-Received: from mail-wr2-x02.google.com (mail-wr2-x02.google.com [IPv6:2a00:1450:4864:30::2])
+	t=1783525113; c=relaxed/relaxed;
+	bh=aX3VKusEpXR9oPYMG8wA1f/3Abd5fn9FdmFI4yazez0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZxZ3FE9zcJm+o1HT1kz/eLax1pA+cyBNjbRrz1vLkHDzu1LCtCSn9rgQhXcutbqBI5sufgv6AjKnV25x76cBx0Dh4ZQSWOFtvuPE8GIXjbHLAYVkhbQaiGONxXaCJAkfZ2VpBJ2JeGqcJRQzUeQtk6FTOb/b5YL0ZE6NVmhOfsvUSXEQSQewRA1DNHMB9lYVSZQeTJwWrOrqkDCs6JMPnNGHUDwS/xSRX2g+eXvXOn6SP4/PcPNiAhhajkuz2kuTsjA4fqIc45i4Rd2UsMD1gJPEg43uh4xFcBXTsX1UYgHEj4YRleWSwXsWSWgNf3TjgcmnxarEiS2ufsRTrLOboA==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=9elements.com; dkim=pass (2048-bit key; secure) header.d=9elements.com header.i=@9elements.com header.a=rsa-sha256 header.s=google header.b=KHmqiAwI; dkim-atps=neutral; spf=pass (client-ip=2a00:1450:4864:20::433; helo=mail-wr1-x433.google.com; envelope-from=gregoire.layet@9elements.com; receiver=lists.ozlabs.org) smtp.mailfrom=9elements.com
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gwMgl0mtHz2xWY
-	for <linux-aspeed@lists.ozlabs.org>; Thu, 09 Jul 2026 01:38:26 +1000 (AEST)
-Received: by mail-wr2-x02.google.com with SMTP id ffacd0b85a97d-47528970fbdso353136f8f.1
-        for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Jul 2026 08:38:26 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gwMgr6139z2xWY
+	for <linux-aspeed@lists.ozlabs.org>; Thu, 09 Jul 2026 01:38:32 +1000 (AEST)
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-47d6c634f45so643115f8f.3
+        for <linux-aspeed@lists.ozlabs.org>; Wed, 08 Jul 2026 08:38:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1783525103; x=1784129903; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6E2M/OW82zq935Lg7IK8OFbhLBXo8GmRMpNDGq8g+oA=;
-        b=QYYNLh/wRTPUwU40pfYRXFxoBczlIx1xPsZrO2ZGFvyqKMmLnXiqwSTOTOnxOSwCWW
-         CZOGZbEiS5Pj8c+4kwFZF62gXRr1QrrO73OB7T86/Pm9Vb0JSICIgwlnqHb0I0IIX882
-         Rw2XmMR8HFj9pIHcburxtnIFP8u0UaX+C8YXRsVUQqYqv3DMwKLwnRBnLKpISA+lCxA7
-         8ygrJjGjQnBWu4y6KlILVghRRPH0so+JmTZ1U/QHLF4JzmE/syYSrnKE/30yUBFLX3O+
-         jARNEgcC2mMnPBOD9kSPZr7a3eqO9kLvGYEkvIGRDVrQ93CBDUVj+/PZYUJZ35slRszJ
-         e4EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783525103; x=1784129903;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+        d=9elements.com; s=google; t=1783525110; x=1784129910; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=6E2M/OW82zq935Lg7IK8OFbhLBXo8GmRMpNDGq8g+oA=;
-        b=ZSvxbOJM5Uwl8k8GKBkJjxnx9nVAoydVJKf7YduHCDLsy1HN7riympfXuXFJ9scHso
-         RSH35l+7PgP687d5Q9Za7G67NFzrrkvmHN6TS++XchD1WoEcF2Rt+tw7CJjRsHGGekSk
-         kLqAcsgS4VVddW36B7lkd9QgVz/FHUnDa82fkjlrBOlSZgk9cGHJNxViMJ5ZKl0lT5s4
-         rQaDz0rlagW3++DWYv9xzip7kP0kFBlCpbZnBS+izmKjruPJoIas/80Jg+MZI+c8qXXn
-         XqglBNlkZClqVoWOiAR9+e+9SZPfjTt9GbCscA3Q1ZcCFNCNR0qzhWAUawRyFIY8l3ho
-         APFg==
-X-Forwarded-Encrypted: i=1; AHgh+RoxHmYm0OqVR407yeuoUsmq47/XkoUINJHLcMHxpSmJbnYwsdlX/ZcnplbUwHKYl033aq2GNMsPM3+L0JY=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0YyUlNIYJ5CJEDusPKdoWeFzXlPBfr4/oORM7rzjo6wHUa8hMuhM
-	Bt2sqWo+KK2wzpVpMCGOXBdRCJf+WqZKsOqc2NXY6Vwdm+YyHfSpbLeSXkO0PXCJ6uQ=
-X-Gm-Gg: AfdE7ckgVoUfS3rc46rgAajSt3FrUt61laNYWLjeWnW2nZTPiEoyYmHjkCsxbIqjZiy
-	ZlRV6OPOKy6bd0AhHEGKBLszyk9cmnRtv1jPf8q+DOmogOgn5Qz/YSyMoXEKVJC5bPZBaHaasRS
-	SqjCos102Hpfczs8NXNaBJQYBn2ajR7g2S+FqmD0RHWkC5eozK3rvSQZqysC9+Fbxar5l70IKH0
-	lrRP8sKvbWra2fKPgaqw2tsQEcEssI6nZxcYD05enamqQgcl//VemHPFoUByWsmKlSr6OnDnEnE
-	rhf8813p2L7DHeCbMcDmqShb4RdLZreEMee4qVYYjFKR4zFp51Z+tWj15lDFmY9JEftOHsgr9wL
-	w2vHXAynudvGzVkvmfmKvwBI/e7Xlzy+Y+xzlfArA43FScV/LECNBvEKcnyek1FxyHu/5zSj7Ne
-	grRpf4ghoJrO4789JmXSWitjokgGITlA9+4ak8l4HYyw48yj/CbstI8wTMUVcDM9W60FFMwY9Tc
-	/jiwwGf6/bMxVvwTXggg/X6rRO+
-X-Received: by 2002:a05:6000:1ac5:b0:45e:f302:95b with SMTP id ffacd0b85a97d-47df078ba55mr3258189f8f.37.1783525103272;
-        Wed, 08 Jul 2026 08:38:23 -0700 (PDT)
+        bh=aX3VKusEpXR9oPYMG8wA1f/3Abd5fn9FdmFI4yazez0=;
+        b=KHmqiAwI6TRySUwpNWJ0E4nB930dt/umOyogZUaFZXi5Bmi/p+R/Rk6uVEJ+BrZU3b
+         kUQqd4FMnq1ujrhOFZ2uQYjxNt3tNSqrCe6M/FQHOlmXPjEGS9a+NjPaHAM12kGaHOM1
+         3qAaVvHfqiV9pt9aXn/ak+6S+Q8IC0g7MSP4ZTFIiMiIccHk8sIVNNkExx89U8eqZlNS
+         QVcPI30hNS49IE6piCMyj3DnpSp3hhPszyJ6YidliTUCeYwjEC3FqaTX021KdKltv/Zy
+         e97wTSM0Jq7GS3JqCMTNTEz+Jw6imNpFcDnZGyaTI9w8nrE4edRQKEwjy47CUtHwymHZ
+         sJSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783525110; x=1784129910;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aX3VKusEpXR9oPYMG8wA1f/3Abd5fn9FdmFI4yazez0=;
+        b=KTkGsYwrLj12+GK2WYbGbaZ92jYGzwVskw45iVfpm5OWx1YTeS2TeN4pPJPe8hCmOz
+         QYwkd+XKxzk24By9QJrc3dEZaytu5rCkgKDApSly8m7iYwE83IUx2L5TRJYv4bZTLgOt
+         wLxd/UGSMk8qO9wQFNAeLcWfTlvSsYZ7EsbdZuLssxjl+W55ps9XEao1FZUEmRWphp2j
+         /mQYAzaQRsoL00pFNmsjnZMH/CpKohj2KK5tc2QiuY9aSmzkYIIQyDLRPFdb8UCe8soy
+         xoj4hQ6F5SNI7F1QbHw0T7DUG2XGAf+Ox4BAA6VDigDg0U9wNftRZVWqnnxBU5T4AQb8
+         51UQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr8woj/ZqxSVIDardcorWcU0xNdbbdqFn9ZRmph9cYSYuwGJamR3vJ1Ekz+72VGOOpUI5IvibmIItV75/A=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YytlNMZ2w3ph6cd2yO5afTUrdJNoOiPgDIT4Oc7WlSmcmvupY28
+	CAHDeVPmQsD+GyytjnF6XqQfAoGFOx93zhjJRjZnIDJjMflyKDxznmGf0q2xSqN2CBM=
+X-Gm-Gg: AfdE7cni/pILSm28+95dA9fVFUEZ3/X9avgMpGKKad5mAcCl3iqX1yE+Ri1VyUUmNrU
+	qpoB/IpLMUqewI10jNYITUAgB8kgm6oG6/0vl4FoZXBKiCWlbvmMTyL8an07zbbIq5sApc5nY2z
+	/Ra2tyMNZOyOhpU5ry73jpv8JF1PiS3rtiJ9AvHcqs5vwszPh3uKHKb7CdPM7EevqLuKoT4SO9B
+	eNJfffR17NWhs96cDy5HfN0/fyqDib/lkdXABO5lKxgIadJYPEY9PuA/mu4GsDaUCYX4fUPdRm3
+	5llUWGclPLFWnETHXLvddxhUZBC6hdRO6mvcIBBoPe41ang4GJrbETfv7K3y5cBRfR7U/vtzcrC
+	CyROaCqucN0s4OCXq6dFSOOS3GntfmWozqsaV2T0B+qI7yWGfcvB1Wwx0NqXtSZSqNpNgGf35BI
+	I4X5l7+OX5DssL+xvReM8S6gBAxXfPFz+Kc/GsZWhqCJUQf7py3MQcL6U4sxXZMxfcLKtuqvXAu
+	VzCXd0NrBL+JYovxCIHEF2/9IJpUNuttpNVY34=
+X-Received: by 2002:a05:6000:25c8:b0:474:9dd3:981 with SMTP id ffacd0b85a97d-47df07314bbmr3555871f8f.26.1783525110073;
+        Wed, 08 Jul 2026 08:38:30 -0700 (PDT)
 Received: from gregwork.sec.9e.network ([188.111.3.154])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d8410sm44254136f8f.15.2026.07.08.08.38.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d8410sm44254136f8f.15.2026.07.08.08.38.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 08:38:22 -0700 (PDT)
+        Wed, 08 Jul 2026 08:38:29 -0700 (PDT)
 From: =?UTF-8?q?Gr=C3=A9goire=20Layet?= <gregoire.layet@9elements.com>
 To: joel@jms.id.au,
 	andrew@codeconstruct.com.au,
@@ -94,10 +96,12 @@ Cc: andrew@lunn.ch,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?Gr=C3=A9goire=20Layet?= <gregoire.layet@9elements.com>
-Subject: [PATCH v4 0/7] soc: aspeed: Add BMC and host driver for PCIe BMC device
-Date: Wed,  8 Jul 2026 15:35:52 +0000
-Message-ID: <cover.1783524645.git.gregoire.layet@9elements.com>
+Subject: [PATCH v4 1/7] dt-bindings: serial: 8250: aspeed: add compatible string for ast2600
+Date: Wed,  8 Jul 2026 15:35:53 +0000
+Message-ID: <cbe59dfba231dcd55fa86233dc076b017d67463a.1783524645.git.gregoire.layet@9elements.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1783524645.git.gregoire.layet@9elements.com>
+References: <cover.1783524645.git.gregoire.layet@9elements.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -114,8 +118,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS autolearn=disabled
-	version=4.0.1
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [0.29 / 15.00];
@@ -124,17 +128,17 @@ X-Spamd-Result: default: False [0.29 / 15.00];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[9elements.com,quarantine];
 	R_DKIM_ALLOW(-0.20)[9elements.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MAILLIST(-0.20)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4442-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-4445-lists,linux-aspeed=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:lkundrak@v3.sk,m:devicetree@vger.kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrew@lunn.ch,m:jacky_chou@aspeedtech.com,m:yh_chung@aspeedtech.com,m:ninad@linux.ibm.com,m:anirudhsriniv@gmail.com,m:linux-serial@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:gregoire.layet@9elements.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[gregoire.layet@9elements.com,linux-aspeed@lists.ozlabs.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:lkundrak@v3.sk,m:devicetree@vger.kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andrew@lunn.ch,m:jacky_chou@aspeedtech.com,m:yh_chung@aspeedtech.com,m:ninad@linux.ibm.com,m:anirudhsriniv@gmail.com,m:linux-serial@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:gregoire.layet@9elements.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_CC(0.00)[lunn.ch,aspeedtech.com,linux.ibm.com,gmail.com,vger.kernel.org,lists.ozlabs.org,lists.infradead.org,9elements.com];
@@ -147,114 +151,83 @@ X-Spamd-Result: default: False [0.29 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 377A572B28D
+X-Rspamd-Queue-Id: CAE9372B299
 
-This is a v4 for upstreaming the VUART over PCIe BMC device driver.
-The initial driver is from the ASPEED kernel SDK (master-v6.18) [1].
+The ast2600 was using the ast2500 vuart compatible string.
+Make it possible to have ast2600-specific properties.
 
-There are two drivers: a BMC-side driver and a host-side driver.
-Together they enable host<->BMC VUART communication via PCIe.
+Signed-off-by: Grégoire Layet <gregoire.layet@9elements.com>
+---
+ .../devicetree/bindings/serial/8250.yaml      | 24 ++++++++++++-------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-The virtual UART is an 8250-compatible register set.
-On the AST2600, two VUARTs can be exposed over PCI via the PCI BMC device.
-
-The host cannot access the BMC's memory. Only the exposed features are
-accessible. These are the KCS4 channel and 2 VUARTs. There is also some
-mailbox register functionality for a communication between
-the host and the BMC. More information can be found here [2].
-
-The v3 and this v4 mainly modifies the BMC driver and focuses on VUART.
-The BMC driver is now incorporated into the '8250_aspeed_vuart' driver.
-A specific flag can be set to indicate that the VUART should be used
-over PCI. Several changes have been made to the 8250 device tree binding
-and the 'aspeed-g6.dtsi'.
-
-This v4 serves as a resend of the v3 while applying Krzysztof's review.
-
-Changes since v3 [3]:
-- Add the aspeed,ast2600-vuart compatible entry to the '8250' DT binding
-- Add the aspeed,ast2600-vuart compatible property in 'aspeed-g6.dtsi'
-- Add the aspeed,vuart-over-pci boolean property to the '8250' DT binding,
-  only for the aspeed,ast2600-vuart
-- Add the syscon phandle property required for aspeed,vuart-over-pci.
-- Add the aspeed,vuart-over-pci flag and syscon phandle to the vuart3 and vuart4
-- Cleanup the VUART over PCI code in the '8250_aspeed_vuart' driver.
-- Further cleanup of the host side driver.
-
-The host-side driver is still in /soc/aspeed/, as it is very specific to
-this SoC for me. I didn't receive any feedback on where to put this
-driver. I can, of course, change this to the relevant location.
-
-It's important to consider that the host driver will do multiple
-functions. The AST2600 also supports LPC over PCI, with a specific KCS
-channel (KCS4). This driver should also be used to enable the IPMI
-automatically via this KCS channel. The UART and the IPMI will depend on
-the same PCI resource (BAR1), so this must be configured in one driver.
-
-As with v3, VUART data flow and MSI interrupts have been verified
-working on the test hardware.
-
-Tested on:
-BMC:
-- Asus IPMI Kommando Card R1.01, AST2600 A3.
-- OpenBMC
-Host:
-- Linux kernel v7.0.0
-
-This series only supports AST2600; the AST2700 is not supported.
-
-Same as v3, I would like to know whether I should add the 'lpc-io-reg' and
-'lpc-interrupt' values to the vuart3 and vuart4 nodes directly in the
-'aspeed-g6.dtsi'. The host driver is not capable of finding the vuart
-address on its own, so they are hardcoded to 0x3f8 and 0x2f8. It will
-not work with other addresses, so perhaps they should be in the .dtsi to
-ensure the correct configuration for the 2 vuart over PCI.
-
-For the interrupt number, my test is working with interrupt = 0
-for vuart3 and interrupt = 1 for vuart4. I don't fully understand how
-the silicon routes MSI numbers to the VUART but the following
-combination is working :
-       | host MSI idx | BMC lpc-interrupts |
-VUART3 |      16      |       0            |
-VUART4 |      17      |       1            |
-
-The original ASPEED driver used MSI index 15 for the VUART4.
-I tested every lpc-interrupts on the BMC from 0 to 15, but none of them
-worked with the host MSI index set to 15.
-
-For me, the silicon only routes the MSI index 16 to VUART3 and 17 to
-VUART4, and the lpc-interrupt needs to match the 4 least significant bits.
-I might be wrong on this explanation but the data path is working with
-those numbers. There is no explanation for any of this in the datasheet.
-
-[1]: https://github.com/AspeedTech-BMC/linux/tree/aspeed-master-v6.18/drivers/soc/aspeed
-[2]: https://lore.kernel.org/linux-aspeed/CAFi2wKYOAotiezepDqaR5PZDqDaPKKDfAEnpx5EHC0mL39hy6w@mail.gmail.com/
-[3]: https://lore.kernel.org/linux-aspeed/cover.1782224059.git.gregoire.layet@9elements.com/
-
-Grégoire Layet (7):
-  dt-bindings: serial: 8250: aspeed: add compatible string for ast2600
-  dt-bindings: serial: 8250: aspeed: add aspeed,vuart-over-pci bool prop
-  serial: 8250_aspeed_vuart: add aspeed,ast2600-vuart compatible string
-  serial: 8250_aspeed_vuart: add VUART over PCI
-  soc: aspeed: add host-side PCIe BMC device driver
-  ARM: dts: aspeed: g6: Change vuart compatible string for ast2600
-  ARM: dts: aspeed: g6: add aspeed,vuart-over-pci prop to vuart3 and 4
-
- .../devicetree/bindings/serial/8250.yaml      |  46 ++++-
- arch/arm/boot/dts/aspeed/aspeed-g6.dtsi       |  12 +-
- drivers/soc/aspeed/Kconfig                    |  15 ++
- drivers/soc/aspeed/Makefile                   |   1 +
- drivers/soc/aspeed/aspeed-host-bmc-dev.c      | 174 ++++++++++++++++++
- drivers/tty/serial/8250/8250_aspeed_vuart.c   |  87 +++++++++
- 6 files changed, 323 insertions(+), 12 deletions(-)
- create mode 100644 drivers/soc/aspeed/aspeed-host-bmc-dev.c
-
-
-base-commit: 564edaca14861ba9e58d4e646d272c677296d285
---
+diff --git a/Documentation/devicetree/bindings/serial/8250.yaml b/Documentation/devicetree/bindings/serial/8250.yaml
+index bb7b9c87a807..8f22121381fc 100644
+--- a/Documentation/devicetree/bindings/serial/8250.yaml
++++ b/Documentation/devicetree/bindings/serial/8250.yaml
+@@ -23,7 +23,10 @@ allOf:
+     then:
+       properties:
+         compatible:
+-          const: aspeed,ast2500-vuart
++          contains:
++            enum:
++              - aspeed,ast2500-vuart
++              - aspeed,ast2600-vuart
+   - if:
+       properties:
+         compatible:
+@@ -106,6 +109,9 @@ properties:
+       - const: ns16850
+       - const: aspeed,ast2400-vuart
+       - const: aspeed,ast2500-vuart
++      - items:
++          - const: aspeed,ast2600-vuart
++          - const: aspeed,ast2500-vuart
+       - const: intel,xscale-uart
+       - const: mrvl,pxa-uart
+       - const: nuvoton,wpcm450-uart
+@@ -287,17 +293,19 @@ properties:
+   aspeed,sirq-polarity-sense:
+     $ref: /schemas/types.yaml#/definitions/phandle-array
+     description: |
+-      Phandle to aspeed,ast2500-scu compatible syscon alongside register
+-      offset and bit number to identify how the SIRQ polarity should be
+-      configured. One possible data source is the LPC/eSPI mode bit. Only
+-      applicable to aspeed,ast2500-vuart.
++      Phandle to aspeed,ast2500-scu or aspeed,ast2600-scu compatible syscon
++      alongside register offset and bit number to identify how the SIRQ
++      polarity should be configured. One possible data source is the LPC/eSPI
++      mode bit. Only applicable to aspeed,ast2500-vuart and
++      aspeed,ast2600-vuart.
+     deprecated: true
+ 
+   aspeed,lpc-io-reg:
+     $ref: /schemas/types.yaml#/definitions/uint32-array
+     maxItems: 1
+     description: |
+-      The VUART LPC address.  Only applicable to aspeed,ast2500-vuart.
++      The VUART LPC address. Only applicable to aspeed,ast2500-vuart and
++      aspeed,ast2600-vuart.
+ 
+   aspeed,lpc-interrupts:
+     $ref: /schemas/types.yaml#/definitions/uint32-array
+@@ -305,8 +313,8 @@ properties:
+     maxItems: 2
+     description: |
+       A 2-cell property describing the VUART SIRQ number and SIRQ
+-      polarity (IRQ_TYPE_LEVEL_LOW or IRQ_TYPE_LEVEL_HIGH).  Only
+-      applicable to aspeed,ast2500-vuart.
++      polarity (IRQ_TYPE_LEVEL_LOW or IRQ_TYPE_LEVEL_HIGH). Only
++      applicable to aspeed,ast2500-vuart and aspeed,ast2600-vuart.
+ 
+ required:
+   - reg
+-- 
 2.54.0
+
 
