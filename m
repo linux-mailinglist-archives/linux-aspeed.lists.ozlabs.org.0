@@ -1,94 +1,94 @@
-Return-Path: <linux-aspeed+bounces-4459-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4455-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id DX2mOHDnUmqQVQMAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4459-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Sun, 12 Jul 2026 03:01:36 +0200
+	id PFuYO+G2UGqa3wIAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4455-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Jul 2026 11:09:54 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6AB5743586
-	for <lists+linux-aspeed@lfdr.de>; Sun, 12 Jul 2026 03:01:35 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF60738DD7
+	for <lists+linux-aspeed@lfdr.de>; Fri, 10 Jul 2026 11:09:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=Nvidia.com header.s=selector2 header.b=TRM31SOI;
-	dmarc=pass (policy=reject) header.from=nvidia.com;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4459-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4459-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	arc=pass ("lists.ozlabs.org:s=201707:i=2")
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=k+QJoD0u;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/4ehUeG0";
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tdA8pSdz;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wxAgPYyM;
+	dmarc=pass (policy=none) header.from=suse.de;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4455-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4455-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gyS240Mkvz2yYf;
-	Sun, 12 Jul 2026 11:01:32 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gxQyN0Mj4z2yS4;
+	Fri, 10 Jul 2026 19:09:48 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783662630;
-	cv=pass; b=iyNEtfSzLOBLU3jvhTY2gyYoTn52T6zX39BwvT4eleWZ07Ukrn9lp+jrnyRb9BImVePXRotxzgEM9MZGFdch/+3dHBs0nD/IfvrTaq9Fqdv35uOC0O77KFHfzhmeuAIrwM75OFLGI/77MTzXBj+7vEvrQAHmz7/k3CNpyJR2gCF8hB78cfTHQ9gxspzoJIBIL7gp1/uvPGdRrJKAwQvn/pB+Y8jZ5LLFVlyYwK1SDmaulF3ipSVvF8RPkNSURcXMR1YMPOh5gH+pNDIawNdG/VNC0Y8nYONjomVx3UiDjMJdASEJOAurGKsu1aWDxuVS2/PA2z7cXKbpswhzKLLocA==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1783662630; c=relaxed/relaxed;
-	bh=HB5m/p7iSwhmm5reInIR98Q9qv8vwwv0Oz0FNCDet/A=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N6J9JxkPvzFnlol5TwZw7NRUkrn7eKiTmuTdJJ74PtM82I60WmkHcWsySJH7QXjwV8BIyrCUhhOP71VI4up6tb8ZrAIXK3VxFpRs8mrCHIJBtN1AzOHQkolYgM8i+LLXRX2FtQSthVeVLYKAXKs4G0NHtwMP4XOE3I5ka9p6wGFs93yTTRXY5YHqhqqPF0GqRqs3ah4TkSFmbCdZUzz1TKyOhEQ26Nv3jC+1Bp/MYXW9ayWYL/VaMXLGRczow4QUX6OXqboIM70nalrvSKmAyV3F4hdj5YeE8xfUaaQm9+URY65LxglfoOpQeHyWnPxCqlIob6VOZeh/1Do1k0DXKA==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=TRM31SOI; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c107::9; helo=ph7pr06cu001.outbound.protection.outlook.com; envelope-from=jackyhuang@nvidia.com; receiver=lists.ozlabs.org) smtp.mailfrom=nvidia.com
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azlp170100009.outbound.protection.outlook.com [IPv6:2a01:111:f403:c107::9])
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783674587;
+	cv=none; b=fbzshbY512L4aO4orBPX4HwJ+lKZJSlWIId1rzOdbBGIWFbNWJqBhqjSYA4s/RpZmovwjlHYQpuTFDYseyGwWcVp1NsZeKaMZQo9r1wLCIZqygYe7XXIoYkCDlahLDQu2bj3JVm7oFcQfG+b9CywZACDxZphoMjMjLtEQngAIIzo01KKbb4VoVOfCd47sdPO6YoNPavn3SnDHv9eUnE5W9KEYANj5Cu/SyyP6Ia1V5x5ggwjwvEbCtZZ9EJ0JNwZHmCG9IXhtIA3hRExNRZicIlLGes4xh/UoZ5s1zj/wNND0EVyyWgK0FToUb3UWQFeQn9qMhje2lbtxOfkrD4gEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1783674587; c=relaxed/relaxed;
+	bh=WYana5gcemuDvpyp9NIAbnx2PeGEB3xQn2SDg+e4dzQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fvSKtlMpA31/6VpgZmrT7OpE5hgED84EkJ1zx8l6WJh7m/PhMvBUVBWJp9gH5LmvrrB2YLuyU2t2OBIpAiQsYmuA8JcM9U06bf9S+6IIUYnGIbLgO5DihW6/gKWDlv5ov5JRWMxEbg7BnDIFctY9Jk2Hz9R4YmBoSVjJNtiVOyc4b9NoKRTGGVy0Pv86VGVqoh3oKsfrd30Jy8cJrRLD5D1UGKoHZ+D2woqeWb/sLKoGBi5ElNj4LSEGd4Pme8TZR3C3OtE4yQW6170uP8gGyXr2ACUk2mEDvaI4yhs2W6iMv34uzZ6fBagMsj1yes2ICSfW52a7aBwa4EgwY2PyRQ==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=suse.de; dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=k+QJoD0u; dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=/4ehUeG0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=tdA8pSdz; dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wxAgPYyM; dkim-atps=neutral; spf=pass (client-ip=195.135.223.130; helo=smtp-out1.suse.de; envelope-from=tzimmermann@suse.de; receiver=lists.ozlabs.org) smtp.mailfrom=suse.de
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gxLXP2r86z2yRF;
-	Fri, 10 Jul 2026 15:50:29 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SRksKs36vko018DHVXKnRxTMOig1mc0jm0bevL3Q7o+UwBXAztp+rkIJtiuPMWrfFV1p8Au6EVVCizf86raYbFt4Di+2Sw5kkTaJmpvsagntIKZwTyc6P1ZU3t0lhMRBLRpCp9xGhnuwKNfCmYDGON26rVr3kRicaVwXM70ee5ENmsaFUzFHf+X6UgBtgxXc0IUBGRTdNUYMrqnHfkk/e/G/itknhn21bCJVxzx8FHXIckW8SkatuCSBeFltmzY8q2FBcrofaedzwlncJpp+ikP5DvlhYc+57wYkd9VnXKrvhzcyUaqwFElEEAOmh5pdBNTnKGGFt6Mn5C4AOrDjHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HB5m/p7iSwhmm5reInIR98Q9qv8vwwv0Oz0FNCDet/A=;
- b=NvZIkx41HXle55JyDyV4wiv12PxfslVg2+w17Z8uxi9fgvo0Sco2NBvNY+M11yXwj/9DSunCwb8DYJ5GpbpF3ZaJkXnYpWZ5Nn0OuI/XFtC4VNkF+hr392tQK+GNC9QZTsJY6jfpgO09AbhHWDSd9xlBFx+FR6NbQkcWbH+XSgWdxIni6Xn9Y0QATs0xEsJ4GG54wk23OOTIWY0Y5q+u+lpwDKEfTTtHUFgFYqm3aypB2vh06a8WXyocNY/FUNhUf/8orRulEanjk6GAKYm1/r81O6kf2Qp+Di9SRXpaLT48B4WwIWgIFSasyS3nXrc2OxlN8v+0HLfIiaSDp9/Ydw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=codeconstruct.com.au
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HB5m/p7iSwhmm5reInIR98Q9qv8vwwv0Oz0FNCDet/A=;
- b=TRM31SOIwJdRI2Mbw9vRHQHUenD0BCzkAF2xO0N2FNEP83i/Vn/vaPDMJkb+Lq+cACNbRFpjpBiHzpXzVDIBEFtWUd0M3dXozfbX+ZxUvt/WptCCljP8kOWn1QiFJJQYcuXBmqgGd9XvHVXVhce90heCV4s4yqlXpEZzyZFcZ0G3ltxBcMfa/zlUxOtO7vhreocdO50osjUfBVAQbvhIwBIWf0WR8O4kR8dcPoRBPI+din4mQGm4ZalsnURiflafeZ3M/6S9+T4RgtQ3Z4cZ2IVbTrwsBYI8Cmt8MOIKPcYxx7Q9xoYrVeQVC7CHqkBDexYD4P3K+Zaw4ZCtQy/GLA==
-Received: from CH0PR03CA0279.namprd03.prod.outlook.com (2603:10b6:610:e6::14)
- by SA1PR12MB7221.namprd12.prod.outlook.com (2603:10b6:806:2bd::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 10 Jul
- 2026 05:49:56 +0000
-Received: from CH3PEPF00000016.namprd21.prod.outlook.com
- (2603:10b6:610:e6:cafe::1) by CH0PR03CA0279.outlook.office365.com
- (2603:10b6:610:e6::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.12 via Frontend Transport; Fri,
- 10 Jul 2026 05:49:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CH3PEPF00000016.mail.protection.outlook.com (10.167.244.121) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.223.0 via Frontend Transport; Fri, 10 Jul 2026 05:49:55 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 9 Jul
- 2026 22:49:41 -0700
-Received: from nvidia.com (10.126.231.37) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 9 Jul
- 2026 22:49:39 -0700
-From: Jacky Huang <jackyhuang@nvidia.com>
-To: <andrew@codeconstruct.com.au>, <joel@jms.id.au>, <robh@kernel.org>,
-	<krzysztof.kozlowski@oss.qualcomm.com>, <conor+dt@kernel.org>,
-	<andrew@lunn.ch>
-CC: <devicetree@vger.kernel.org>, <linux-aspeed@lists.ozlabs.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<openbmc@lists.ozlabs.org>, Jacky Huang <jackyhuang@nvidia.com>
-Subject: [PATCH v3 2/2] ARM: dts: aspeed: Add NVIDIA VR-NVL BMC
-Date: Fri, 10 Jul 2026 14:46:56 +0900
-Message-ID: <20260710054849.3178747-3-jackyhuang@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260710054849.3178747-1-jackyhuang@nvidia.com>
-References: <20260710054849.3178747-1-jackyhuang@nvidia.com>
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gxQyJ4g8Cz2xlt
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Jul 2026 19:09:44 +1000 (AEST)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ACC1076709;
+	Fri, 10 Jul 2026 09:09:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783674579; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WYana5gcemuDvpyp9NIAbnx2PeGEB3xQn2SDg+e4dzQ=;
+	b=k+QJoD0uzbelEsf++/2y4ND5oJjvieTzrZpGMXWCRRfUXGx2fLqKKwtRnDBmVJ/jGW1osR
+	hlgubkxEHUEPqz+AfK1Qps9dCT7D/75iaZrYsmT8tjZ6ATt16FDXVrrEttTRpwgfF5xCNL
+	vAnAqzrZYfeHfE/UYALEsYGi0PI529c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783674579;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WYana5gcemuDvpyp9NIAbnx2PeGEB3xQn2SDg+e4dzQ=;
+	b=/4ehUeG0YJTYcU44d+BOlXTzRC2uecfBMBB/SaVQ3viFmonS6/GNVlZbppLbE1TnpwpB5V
+	lXW5gABB7Mz1QDAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783674578; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WYana5gcemuDvpyp9NIAbnx2PeGEB3xQn2SDg+e4dzQ=;
+	b=tdA8pSdzfeXEKy7XND4BnIXo5St5lY0gIhoL7qSpcO/bthuvk33yRYAZNpOPn+HJc0pFxI
+	w1NHHP93n7QrQX2tdckcRPtoBEWzOCEA9ARHCYPYnjkajPYa51UGoj6lZF06ViKqQ3YRmb
+	vk7PbAICwF/5jD0ws6FZZzNwKLY79x4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783674578;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WYana5gcemuDvpyp9NIAbnx2PeGEB3xQn2SDg+e4dzQ=;
+	b=wxAgPYyMx2NxMJ213r8fL6XLneJbj6RlnBSqsYKUeEYgpkR5SmTFVVlqMiX17q112i7/nF
+	3kPPnn6rnKVefFAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28604779BD;
+	Fri, 10 Jul 2026 09:09:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LQdoCNK2UGouCgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Fri, 10 Jul 2026 09:09:38 +0000
+Message-ID: <e69b3cf5-9a9f-46ca-abc8-68c1375ef6ca@suse.de>
+Date: Fri, 10 Jul 2026 11:09:37 +0200
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -102,1016 +102,320 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/9] drm/gm12u320: replace struct drm_simple_display_pipe
+ with regular atomic helpers
+To: Ze Huang <ze.huang@oss.qualcomm.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Linus Walleij <linusw@kernel.org>,
+ Hans de Goede <hansg@kernel.org>, Alex Lanzano <lanzano.alex@gmail.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ imx@lists.linux.dev, xen-devel@lists.xenproject.org
+References: <20260705-drm-simple-kms-removal-v1-0-b4e1ca053623@oss.qualcomm.com>
+ <20260705-drm-simple-kms-removal-v1-6-b4e1ca053623@oss.qualcomm.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20260705-drm-simple-kms-removal-v1-6-b4e1ca053623@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.231.37]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000016:EE_|SA1PR12MB7221:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b49e450-d564-4373-aa3a-08dede471216
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|7416014|376014|23010399003|82310400026|1800799024|11063799006|6133799003|56012099006|22082099003|18002099003|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	NMA0kinlAqM31+RzDDUO8qvPYIfeBBuIJaOPdqj8cclPouRfVqeol3M+JVPLEcRuIL+7apRIsAMJi42XXWz6r2Gqu0F2jHq8QYqhRM7FZa9LPKocTiQgqGOt5hZvVOnIWjd4gjOQeKgh1ZVcETCQ8Uq5iMPlq+FoaPxCyn025qKydAoxh0ivXBQiv41XNZ0H/eosFRumtyDIS8lhL8wFfCnvTt78emN5z1lrVxotITy8+iDX72jgEpJQrJNMgd2UmVmCwZoUByL01oslkz5cTMvzAUejHv/uyy4iOrHkOvva7Uk+ouL8v3ovLsBuMk8/Zowp07ErD4kpc+lRaSbuD2Fd6s58bOSfiDaHyR+rGz8UCJ8v3W+SZlyBpjh6BqCZwlN7IktamiE2I0grPsP1NfvVxLfAucq5VF9YilFkisaraLiI9jHQa9Kr9muc8HPBfggBOyMRHI0kbrY+l7imrC31Kaks7LwX4X+buGCJ2gTfvW2uwibvu+ZTVFYUTi6lXs2isZdL4lmNx9srtwpJbekSoKFI68ta/P1dTV71209PufRMHAq0SU9WekPAoy6X73LuRgUTyEBIWrBXL4QZUcmM1/tKqkO4PIcrDfBhg1vmNR56kTlPT4c3dF7y/tqOSeijKQBH3Jh0VtHVKHLPbHD8zOAIXs03Prvl7nBK7ZndEYoNJt+87iN7+H6HgC+DAa81Y39Tc4TaWGIyOklkGQ==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(7416014)(376014)(23010399003)(82310400026)(1800799024)(11063799006)(6133799003)(56012099006)(22082099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	khP5cGNvwGGB+aiqAsPsdY9HDTK0w6L6Pj6RB/vhpKWtggdPSTyk7ldzPI2K3YMx86SVR/TUwAoetry6tHQVH1Ivm++Ffo6at0nG21E2IzKpw8rM0p6lH1j7zWQXVDFdBFPX4k9MVn+/uRA8EcopyOOO7V+IgFfpwTPGfZH01J5KiVLFBK/ZBVLW6Q/f97H7HzK7wvQAS0CzGNzByn8yDhvN6a62o6BinhHbhWGXYwL4F0Xqpyy8YUTdGtZ1MM3Ppt4zQYmaGisgjIi1AOUtOYrCb+ShHxRdMqSB0lKyyIDkF1Vsb/5+tcxO5e4n1wsO/OFvsoaJPzN7Wg4zad/rBzD7N+AtdWzSyLEQiZiOOJWYEBgWhDTx8j62rmPbQ4tkv25F53KZpNrDTdqlD2a04bEPk/5z1rVrA2vY0F/MYJZ0ovTEDEM4+IED/CB4rTcK
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2026 05:49:55.9062
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b49e450-d564-4373-aa3a-08dede471216
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH3PEPF00000016.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7221
-X-Spam-Status: No, score=-0.6 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+X-Spam-Level: 
+X-Spam-Score: -2.80
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.21 / 15.00];
-	WHITELIST_DMARC(-7.00)[nvidia.com:D:+];
+X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	DATE_IN_PAST(1.00)[43];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MAILLIST(-0.20)[generic];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-4459-lists,linux-aspeed=lfdr.de];
-	SUSPICIOUS_AUTH_ORIGIN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-4455-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:from_smtp,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,Nvidia.com:dkim,nvidia.com:from_mime,nvidia.com:email,nvidia.com:mid,lunn.ch:email];
-	FROM_NEQ_ENVFROM(0.00)[jackyhuang@nvidia.com,linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
-	HAS_XOIP(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,synopsys.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,jms.id.au,codeconstruct.com.au,nxp.com,pengutronix.de,epam.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:ze.huang@oss.qualcomm.com,m:abrodkin@synopsys.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linusw@kernel.org,m:hansg@kernel.org,m:lanzano.alex@gmail.com,m:oleksandr_andrushchenko@epam.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-aspeed@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:imx@lists.linux.dev,m:xen-devel@lists.xenproject.org,m:lanzanoalex@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER(0.00)[tzimmermann@suse.de,linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,linux-aspeed@lists.ozlabs.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A6AB5743586
+X-Rspamd-Queue-Id: BCF60738DD7
 
-Add the device tree for the Aspeed AST2600 BMC for NVIDIA's Vera
-Rubin NVL compute platform.
+Hi
 
-MAC0 uses phy-mode = "rgmii-id" because the on-board PHY supplies
-both RGMII internal delays.  The matching U-Boot device tree does not
-enable SoC-side MAC clock delays, leaving the MAC internal delay at
-zero so the PHY-provided delay is not doubled by the MAC controller.
+Am 04.07.26 um 20:31 schrieb Ze Huang:
+> Convert gm12u320 to direct primary plane, CRTC and encoder setup.
+>
+> Keep shadow-plane helper state, framebuffer access helpers and
+> no-scaling plane-state check from simple-KMS path.
+>
+> Signed-off-by: Ze Huang <ze.huang@oss.qualcomm.com>
 
-The corresponding U-Boot change has been submitted to openbmc/u-boot:
-Link: https://lore.kernel.org/all/20260629105202.1417679-1-jackyhuang@nvidia.com/
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Jacky Huang <jackyhuang@nvidia.com>
----
-v3: reword the &mac0 comment per Andrew Lunn's feedback.
+And I also have this device. Works nicely with the patch
 
- arch/arm/boot/dts/aspeed/Makefile             |   1 +
- .../aspeed/aspeed-bmc-nvidia-vr-nvl-bmc.dts   | 901 ++++++++++++++++++
- 2 files changed, 902 insertions(+)
- create mode 100644 arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-vr-nvl-bmc.dts
+Tested-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-diff --git a/arch/arm/boot/dts/aspeed/Makefile b/arch/arm/boot/dts/aspeed/Makefile
-index 6b68671f9379..07e10083a8bd 100644
---- a/arch/arm/boot/dts/aspeed/Makefile
-+++ b/arch/arm/boot/dts/aspeed/Makefile
-@@ -65,6 +65,7 @@ dtb-$(CONFIG_ARCH_ASPEED) += \
- 	aspeed-bmc-microsoft-olympus.dtb \
- 	aspeed-bmc-nvidia-gb200nvl-bmc.dtb \
- 	aspeed-bmc-nvidia-msx4-bmc.dtb \
-+	aspeed-bmc-nvidia-vr-nvl-bmc.dtb \
- 	aspeed-bmc-opp-lanyang.dtb \
- 	aspeed-bmc-opp-mowgli.dtb \
- 	aspeed-bmc-opp-nicole.dtb \
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-vr-nvl-bmc.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-vr-nvl-bmc.dts
-new file mode 100644
-index 000000000000..197f6c5a95fe
---- /dev/null
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-vr-nvl-bmc.dts
-@@ -0,0 +1,901 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (c) 2026 NVIDIA Corporation
-+
-+/dts-v1/;
-+
-+#include "aspeed-g6.dtsi"
-+#include <dt-bindings/gpio/aspeed-gpio.h>
-+#include <dt-bindings/i2c/i2c.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	model = "AST2600 VR NVL BMC";
-+	compatible = "nvidia,vr-nvl-bmc", "aspeed,ast2600";
-+
-+	aliases {
-+		i2c16 = &i2c_usbhub;
-+		i2c17 = &i2c_tpm;
-+		i2c18 = &i2c_dp;
-+		serial2 = &uart3;
-+		serial4 = &uart5;
-+	};
-+
-+	chosen {
-+		stdout-path = &uart5;
-+	};
-+
-+	memory@80000000 {
-+		device_type = "memory";
-+		reg = <0x80000000 0x80000000>;
-+	};
-+
-+	reserved-memory {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges;
-+
-+		vga_memory: framebuffer@9f000000 {
-+			no-map;
-+			reg = <0x9f000000 0x01000000>;	/* 16 MiB */
-+		};
-+
-+		ramoops@a0000000 {
-+			compatible = "ramoops";
-+			reg = <0xa0000000 0x100000>;	/* 1 MiB */
-+			record-size = <0x10000>;	/* 64 KiB */
-+			max-reason = <2>;		/* KMSG_DUMP_OOPS */
-+		};
-+
-+		gfx_memory: framebuffer {
-+			compatible = "shared-dma-pool";
-+			size = <0x01000000>;
-+			alignment = <0x01000000>;
-+			reusable;
-+		};
-+
-+		video_engine_memory: jpegbuffer {
-+			compatible = "shared-dma-pool";
-+			size = <0x02000000>;		/* 32 MiB */
-+			alignment = <0x01000000>;
-+			reusable;
-+		};
-+	};
-+
-+	standby_power_regulator: regulator-standby-power {
-+		compatible = "regulator-fixed";
-+		regulator-name = "standby_power";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		gpios = <&gpio0 ASPEED_GPIO(M, 3) GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+		regulator-always-on;
-+		regulator-boot-on;
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
-+			label = "uid_led";
-+			gpios = <&exp4 10 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-1 {
-+			label = "fault_led";
-+			gpios = <&exp4 12 GPIO_ACTIVE_LOW>;
-+		};
-+
-+		led-2 {
-+			label = "power_led";
-+			gpios = <&exp4 8 GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+};
-+
-+&ehci1 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+
-+	hub@1 {
-+		reg = <1>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		hub@1 {
-+			reg = <1>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			hub@4 {
-+				reg = <4>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				/* port 1: BlueField-4 SMA management interface */
-+				device@1 {
-+					reg = <1>;
-+					#address-cells = <2>;
-+					#size-cells = <0>;
-+
-+					interface@1 {
-+						reg = <1 1>;
-+					};
-+				};
-+
-+				cp2112g: device@2 {
-+					reg = <2>;
-+					gpio-controller;
-+					#gpio-cells = <2>;
-+					interrupt-controller;
-+					#interrupt-cells = <2>;
-+					gpio-line-names =
-+						"BF4_USB_MCU_RECOVERY_L",
-+						"BF4_USB_MCU_RST_L",
-+						"BF4_USB_FORCE_FNP_L",
-+						"BF4_GLOBAL_WP",
-+						"BF4_FORCE_POR_L",
-+						"BF4_BMC_EROT_RST_L",
-+						"BF4_BMC_EROT_RECOVERY_L",
-+						"BF4_THERM_SHUTDOWN";
-+				};
-+			};
-+		};
-+
-+		hub@2 {
-+			reg = <2>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			hub@1 {
-+				reg = <1>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				hub@3 {
-+					reg = <3>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					device@1 {
-+						reg = <1>;
-+						#address-cells = <2>;
-+						#size-cells = <0>;
-+
-+						iob1_sma: interface@1 {
-+							reg = <1 1>;
-+
-+							gpio-controller;
-+							#gpio-cells = <2>;
-+							interrupt-controller;
-+							#interrupt-cells = <2>;
-+						};
-+					};
-+
-+					cp2112c: device@2 {
-+						reg = <2>;
-+						gpio-controller;
-+						#gpio-cells = <2>;
-+						interrupt-controller;
-+						#interrupt-cells = <2>;
-+						gpio-line-names =
-+							"IOB1_MCP_P0_2-B",
-+							"IOB1_MCU_RST_L-O",
-+							"IOB1_MCU_RECOVERY_L-O",
-+							"IOB1_GLOBAL_WP-O",
-+							"IOB1_GLOBAL_ADDR_L_R-O",
-+							"IOB1_GLOBAL_ADDR_U_D-O",
-+							"IOB1_PWR_EN-O",
-+							"IOB1_MCU_READY_STATUS-I";
-+					};
-+				};
-+
-+				hub@4 {
-+					reg = <4>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					device@1 {
-+						reg = <1>;
-+						#address-cells = <2>;
-+						#size-cells = <0>;
-+
-+						iob0_sma: interface@1 {
-+							reg = <1 1>;
-+
-+							gpio-controller;
-+							#gpio-cells = <2>;
-+							interrupt-controller;
-+							#interrupt-cells = <2>;
-+						};
-+					};
-+
-+					cp2112d: device@2 {
-+						reg = <2>;
-+						gpio-controller;
-+						#gpio-cells = <2>;
-+						interrupt-controller;
-+						#interrupt-cells = <2>;
-+						gpio-line-names =
-+							"IOB0_MCP_P0_2-B",
-+							"IOB0_MCU_RST_L-O",
-+							"IOB0_MCU_RECOVERY_L-O",
-+							"IOB0_GLOBAL_WP-O",
-+							"IOB0_GLOBAL_ADDR_L_R-O",
-+							"IOB0_GLOBAL_ADDR_U_D-O",
-+							"IOB0_PWR_EN-O",
-+							"IOB0_MCU_READY_STATUS-I";
-+					};
-+				};
-+
-+				device@1 {
-+					reg = <1>;
-+					#address-cells = <2>;
-+					#size-cells = <0>;
-+
-+					cp2112a: interface@1 {
-+						reg = <1 1>;
-+						gpio-controller;
-+						#gpio-cells = <2>;
-+						interrupt-controller;
-+						#interrupt-cells = <2>;
-+					};
-+				};
-+			};
-+
-+			hub@2 {
-+				reg = <2>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				hub@3 {
-+					reg = <3>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					device@1 {
-+						reg = <1>;
-+						#address-cells = <2>;
-+						#size-cells = <0>;
-+
-+						iob2_sma: interface@1 {
-+							reg = <1 1>;
-+
-+							gpio-controller;
-+							#gpio-cells = <2>;
-+							interrupt-controller;
-+							#interrupt-cells = <2>;
-+						};
-+					};
-+
-+					cp2112e: device@2 {
-+						reg = <2>;
-+						gpio-controller;
-+						#gpio-cells = <2>;
-+						interrupt-controller;
-+						#interrupt-cells = <2>;
-+						gpio-line-names =
-+							"IOB2_MCP_P0_2-B",
-+							"IOB2_MCU_RST_L-O",
-+							"IOB2_MCU_RECOVERY_L-O",
-+							"IOB2_GLOBAL_WP-O",
-+							"IOB2_GLOBAL_ADDR_L_R-O",
-+							"IOB2_GLOBAL_ADDR_U_D-O",
-+							"IOB2_PWR_EN-O",
-+							"IOB2_MCU_READY_STATUS-I";
-+					};
-+				};
-+
-+				hub@4 {
-+					reg = <4>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					device@1 {
-+						reg = <1>;
-+						#address-cells = <2>;
-+						#size-cells = <0>;
-+
-+						iob3_sma: interface@1 {
-+							reg = <1 1>;
-+
-+							gpio-controller;
-+							#gpio-cells = <2>;
-+							interrupt-controller;
-+							#interrupt-cells = <2>;
-+						};
-+					};
-+
-+					cp2112f: device@2 {
-+						reg = <2>;
-+						gpio-controller;
-+						#gpio-cells = <2>;
-+						interrupt-controller;
-+						#interrupt-cells = <2>;
-+						gpio-line-names =
-+							"IOB3_MCP_P0_2-B",
-+							"IOB3_MCU_RST_L-O",
-+							"IOB3_MCU_RECOVERY_L-O",
-+							"IOB3_GLOBAL_WP-O",
-+							"IOB3_GLOBAL_ADDR_L_R-O",
-+							"IOB3_GLOBAL_ADDR_U_D-O",
-+							"IOB3_PWR_EN-O",
-+							"IOB3_MCU_READY_STATUS-I";
-+					};
-+				};
-+
-+				device@1 {
-+					reg = <1>;
-+					#address-cells = <2>;
-+					#size-cells = <0>;
-+
-+					cp2112b: interface@1 {
-+						reg = <1 1>;
-+						gpio-controller;
-+						#gpio-cells = <2>;
-+						interrupt-controller;
-+						#interrupt-cells = <2>;
-+					};
-+				};
-+			};
-+		};
-+	};
-+};
-+
-+&fmc {
-+	status = "okay";
-+
-+	flash@0 {
-+		label = "bmc";
-+		status = "okay";
-+
-+		partitions {
-+			compatible = "fixed-partitions";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			partition@0 {
-+				reg = <0x0 0xe0000>;		/* 896 KiB */
-+				label = "u-boot";
-+			};
-+
-+			partition@100000 {
-+				reg = <0x100000 0x900000>;	/* 9 MiB */
-+				label = "kernel";
-+			};
-+
-+			partition@a00000 {
-+				/*
-+				 * extends to end of 64 MiB - 4 KiB; last
-+				 * 4 KiB reserved for EROT image
-+				 */
-+				reg = <0xa00000 0x35ff000>;
-+				label = "rofs";
-+			};
-+		};
-+	};
-+};
-+
-+&gpio0 {
-+	gpio-line-names =
-+		/* A0-A7 */ "", "", "", "", "", "", "", "",
-+		/* B0-B7 */ "", "", "", "", "", "", "", "",
-+		/* C0-C7 */ "", "BF4_USB_RST_L-O", "", "", "", "", "", "",
-+		/* D0-D7 */ "", "", "", "", "", "FPGA_PEX_RST_L", "", "",
-+		/* E0-E7 */ "RTL8221_PHY_RST_L-O", "RTL8211_PHY_INT_L-I",
-+			    "", "", "", "", "", "MUX_SGPIO_SEL-O",
-+		/* F0-F7 */ "", "", "", "", "", "", "", "",
-+		/* G0-G7 */ "", "", "", "", "", "", "", "",
-+		/* H0-H7 */ "", "", "", "", "", "", "", "",
-+		/* I0-I7 */ "", "", "", "", "", "QSPI2_RST_L-O",
-+			    "GLOBAL_WP_BMC-I", "BMC_DDR4_TEN-O",
-+		/* J0-J7 */ "", "", "", "", "", "", "", "",
-+		/* K0-K7 */ "", "", "", "", "", "", "", "",
-+		/* L0-L7 */ "", "", "", "", "", "", "", "",
-+		/* M0-M7 */ "USB_HUB_RST_N-O", "BMC_FRU_WP-O",
-+			    "", "HMC_STBY_POWER_EN-O", "STBY_POWER_PG-I",
-+			    "PCIE_EP_RST_L-O", "", "",
-+		/* N0-N7 */ "", "", "", "", "", "", "", "",
-+		/* O0-O7 */ "", "", "", "", "", "", "", "",
-+		/* P0-P7 */ "", "", "", "", "", "", "", "",
-+		/* Q0-Q7 */ "", "", "", "", "", "", "", "",
-+		/* R0-R7 */ "", "SP0_AP_INTR_N-I", "", "", "", "", "", "",
-+		/* S0-S7 */ "", "", "", "", "", "", "", "",
-+		/* T0-T7 */ "", "", "", "", "", "", "", "",
-+		/* U0-U7 */ "", "", "", "", "", "", "", "",
-+		/* V0-V7 */ "", "", "", "", "",
-+			    "PCB_TEMP_ALERT-I", "", "",
-+		/* W0-W7 */ "", "", "", "", "", "", "", "CPU_RST_L-I",
-+		/* X0-X7 */ "", "", "", "", "", "", "", "",
-+		/* Y0-Y7 */ "", "", "", "EMMC_RST-O", "", "", "", "",
-+		/* Z0-Z7 */ "HMC_EROT_SPI_INT_L-I",
-+			    "", "", "", "", "", "", "";
-+};
-+
-+&gpio1 {
-+	gpio-line-names =
-+		/* A0-A7 */ "", "", "", "", "", "", "", "",
-+		/* B0-B7 */ "", "", "", "", "AP_EROT_REQ-O",
-+			    "EROT_AP_GNT-I", "IO_EXPANDER_INT_L-I", "",
-+		/* C0-C7 */ "", "", "", "", "", "", "", "",
-+		/* D0-D7 */ "", "", "", "", "", "", "",
-+			    "I2C_SSIF_ALERT_L-I",
-+		/* E0-E7 */ "", "", "", "", "", "", "", "";
-+};
-+
-+/* SSIF (CPU0 host IPMI) */
-+&i2c0 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+};
-+
-+/* BMC <-> HMC management (FRU proxy) */
-+&i2c1 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+};
-+
-+&i2c2 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+
-+	exp0: gpio@20 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x20>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <ASPEED_GPIO(B, 6) IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-controller;
-+		#interrupt-cells = <2>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		vcc-supply = <&standby_power_regulator>;
-+		gpio-line-names =
-+			"B0_M0_SHDN_FORCE_L-O",
-+			"B0_M0_STBY_POWER_PG-I",
-+			"B0_M0_THERM_OVERT_L-I",
-+			"B0_M0_THERM_WARN_L-I",
-+			"B0_M0_GLOBAL_WP-O",
-+			"B0_M0_USB_HUB0_RST_L-O",
-+			"B0_M0_PRE_SYS_RST_L-O",
-+			"B0_M0_LEAK_DETECT_ALERT_L-I",
-+			"B0_M0_RUN_POWER_EN-O",
-+			"B0_M0_RUN_POWER_PG-I",
-+			"B0_M0_CPU_CHIPTHROT_L-O",
-+			"B0_M0_SHDN_REQ_L-O",
-+			"B0_M0_CPU_SHDN_OK_L-I",
-+			"B0_M0_CPLD_READY-I",
-+			"B0_M0_PWR_BRAKE_L-O",
-+			"B0_M0_PWR_BRAKE_STATUS_L-I";
-+	};
-+
-+	exp1: gpio@21 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x21>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <ASPEED_GPIO(B, 6) IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-controller;
-+		#interrupt-cells = <2>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		vcc-supply = <&standby_power_regulator>;
-+		gpio-line-names =
-+			"B0_M0_I2C_BUS_MUX_RESET_L-O",
-+			"B0_M0_HPM_MCU_OK-I",
-+			"B0_M0_CPU_L0_RST_IND_L-O",
-+			"B0_M0_C0_SOCAMM_DAC_SEL0-O",
-+			"B0_M0_C1_SOCAMM_DAC_SEL1-O",
-+			"B0_M0_C0_SOCAMM_I2C_SEL_R-O",
-+			"B0_M0_C1_SOCAMM_I2C_SEL_R-O",
-+			"B0_M0_EEPROM_POWER_DISABLE-O",
-+			"B0_M0_L0L1_RST_L-I",
-+			"B0_M0_L2_RST_L-I",
-+			"B0_M0_BRD_ID_0-I",
-+			"B0_M0_BRD_ID_1-I",
-+			"B0_M0_BMC_LEAK_TEST_L-O",
-+			"B0_M0_MCU_BMC_ALERT_L-I",
-+			"B0_M0_CPU_BOOT_COMPLETE_3V3-I",
-+			"B0_M0_BMC_TO_GPU_MCU_I2C_EN-O";
-+	};
-+};
-+
-+/* HMC virtual EEPROM / sensor proxy */
-+&i2c3 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+};
-+
-+/* MCIO expansion connector (HPM board 0) */
-+&i2c4 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+};
-+
-+&i2c5 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+
-+	exp4: gpio@20 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x20>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <ASPEED_GPIO(B, 6) IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-controller;
-+		#interrupt-cells = <2>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		gpio-line-names =
-+			"HMC_RST_R_L-O",
-+			"HMC_RECOVERY_R-O",
-+			"HMC_SPI_MUX_R_SEL-O",
-+			"GLOBAL_WP-O",
-+			"HMC_READY-I",
-+			"HMC_PRSNT_R-I",
-+			"BMC_SELF_PWR_CYCLE-O",
-+			"EEDO_LED2-O",
-+			"PWR_LED_L-O",
-+			"PWR_BTN_L-I",
-+			"UID_LED_L-O",
-+			"UID_BTN_L-I",
-+			"FAULT_LED_L-O",
-+			"USB2_HUB_RST_L-O",
-+			"IOX_GPIO_P16_TP",
-+			"WARN_LED_L-O";
-+	};
-+
-+	exp5: gpio@21 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x21>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <ASPEED_GPIO(B, 6) IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-controller;
-+		#interrupt-cells = <2>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		gpio-line-names =
-+			"BMC_HMC_MUX_SEL-O",
-+			"BMC_TPM_MUX_SEL-O",
-+			"BMC_USB2_MUX_SEL-O",
-+			"HMC_PGOOD_3V3-I",
-+			"BF3_AOC_NCSI_PRSNT_L-I",
-+			"HDR_SPI_PRSNT_L-I",
-+			"SW_NRESET_R_L-O",
-+			"MUX_I2C_ESPI_SEL-O",
-+			"I2C_BUS_MUX_RESET_L-O",
-+			"USB_MUX_EN-O",
-+			"PDB_TRAY_RST-O",
-+			"USB_PWR_EN-O",
-+			"RTC_CLR_L-O",
-+			"I2C_RTC_ALERT_L-I",
-+			"X86_TPM_RST_SEL_L-O",
-+			"BMC_MUX_PI3DP_SEL-O";
-+	};
-+};
-+
-+&i2c6 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+
-+	exp19: gpio@20 {
-+		compatible = "ti,tca6408";
-+		reg = <0x20>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <ASPEED_GPIO(B, 6) IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-controller;
-+		#interrupt-cells = <2>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		gpio-line-names =
-+			"", "",
-+			"HMC_EROT_FATAL_ERROR_L-I", "",
-+			"", "HMC_EROT_RECOVERY_L-O",
-+			"HMC_EROT_RESET_L-O", "";
-+	};
-+
-+	i2c-mux@70 {
-+		compatible = "nxp,pca9546";
-+		reg = <0x70>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		i2c-mux-idle-disconnect;
-+
-+		/* USB hub sideband */
-+		i2c_usbhub: i2c@0 {
-+			reg = <0>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
-+		/* optional TPM mux (unused; primary TPM is SPI) */
-+		i2c_tpm: i2c@1 {
-+			reg = <1>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
-+		/* DisplayPort/USB-C crossbar */
-+		i2c_dp: i2c@2 {
-+			reg = <2>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+	};
-+};
-+
-+&i2c7 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+
-+	exp2: gpio@20 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x20>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <ASPEED_GPIO(B, 6) IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-controller;
-+		#interrupt-cells = <2>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		vcc-supply = <&standby_power_regulator>;
-+		gpio-line-names =
-+			"B1_M0_SHDN_FORCE_L-O",
-+			"B1_M0_STBY_POWER_PG-I",
-+			"B1_M0_THERM_OVERT_L-I",
-+			"B1_M0_THERM_WARN_L-I",
-+			"B1_M0_GLOBAL_WP-O",
-+			"B1_M0_USB_HUB0_RST_L-O",
-+			"B1_M0_PRE_SYS_RST_L-O",
-+			"B1_M0_LEAK_DETECT_ALERT_L-I",
-+			"B1_M0_RUN_POWER_EN-O",
-+			"B1_M0_RUN_POWER_PG-I",
-+			"B1_M0_CPU_CHIPTHROT_L-O",
-+			"B1_M0_SHDN_REQ_L-O",
-+			"B1_M0_CPU_SHDN_OK_L-I",
-+			"B1_M0_CPLD_READY-I",
-+			"B1_M0_PWR_BRAKE_L-O",
-+			"B1_M0_PWR_BRAKE_STATUS_L-I";
-+	};
-+
-+	exp3: gpio@21 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x21>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <ASPEED_GPIO(B, 6) IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-controller;
-+		#interrupt-cells = <2>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		vcc-supply = <&standby_power_regulator>;
-+		gpio-line-names =
-+			"B1_M0_I2C_BUS_MUX_RESET_L-O",
-+			"B1_M0_HPM_MCU_OK-I",
-+			"B1_M0_CPU_L0_RST_IND_L-O",
-+			"B1_M0_C0_SOCAMM_DAC_SEL0-O",
-+			"B1_M0_C1_SOCAMM_DAC_SEL1-O",
-+			"B1_M0_C0_SOCAMM_I2C_SEL_R-O",
-+			"B1_M0_C1_SOCAMM_I2C_SEL_R-O",
-+			"B1_M0_EEPROM_POWER_DISABLE-O",
-+			"B1_M0_L0L1_RST_L-I",
-+			"B1_M0_L2_RST_L-I",
-+			"B1_M0_BRD_ID_0-I",
-+			"B1_M0_BRD_ID_1-I",
-+			"B1_M0_BMC_LEAK_TEST_L-O",
-+			"B1_M0_MCU_BMC_ALERT_L-I",
-+			"B1_M0_CPU_BOOT_COMPLETE_3V3-I",
-+			"B1_M0_BMC_TO_GPU_MCU_I2C_EN-O";
-+	};
-+};
-+
-+/* SSIF (CPU1 host IPMI) */
-+&i2c8 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+};
-+
-+&i2c9 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+
-+	exp6: gpio@20 {
-+		compatible = "nxp,pca9555";
-+		reg = <0x20>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <ASPEED_GPIO(B, 6) IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-controller;
-+		#interrupt-cells = <2>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		gpio-line-names =
-+			"PDB_STRAP-I",
-+			"STBY_POWER_EN-O",
-+			"STBY_PWR_OK-I",
-+			"", "",
-+			"MAIN_PWR_EN-O",
-+			"MAIN_PWR_OK-I",
-+			"PDB_GLB_WP-O",
-+			"PDB_PWR_BRK_L-I",
-+			"FAN_PRSNT-I",
-+			"", "",
-+			"HSC4_S5_OR_S0_N-O",
-+			"", "", "";
-+	};
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c02";
-+		reg = <0x50>;
-+		pagesize = <8>;
-+	};
-+
-+	exp7: gpio@75 {
-+		compatible = "nxp,pca9539";
-+		reg = <0x75>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <ASPEED_GPIO(B, 6) IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-controller;
-+		#interrupt-cells = <2>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		gpio-line-names =
-+			"SNN_PDB_RUN_IO0_A_R_PG-I",
-+			"RST_STBY_R_L-O",
-+			"SNN_PDB_RUN_IO0_B_R_EN-O",
-+			"PSU1_PRSNT_R_N-O",
-+			"PSU2_PRSNT_R_N-O",
-+			"PSU3_PRSNT_R_N-O",
-+			"PSU4_PRSNT_R_N-O",
-+			"PDB_12V_PG_R-I",
-+			"PDB_12V_2_PG_R-I",
-+			"PDB_12V_2_EN_R-O",
-+			"PDB_12V_EN_N_R-O",
-+			"",
-+			"HSC_PG_VIN_PG_R-I",
-+			"PDB_PSU_SMB_ALERT_L_R-O",
-+			"SNN_JSB2_17_R-I",
-+			"TRAY_RST_L_R-I";
-+	};
-+};
-+
-+&i2c10 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+
-+	eeprom@50 {
-+		compatible = "atmel,24c02";
-+		reg = <0x50>;
-+		pagesize = <8>;
-+	};
-+};
-+
-+/* Realtek Ethernet switch config EEPROM */
-+&i2c11 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+};
-+
-+/* BMC EROT */
-+&i2c12 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+};
-+
-+&i2c13 {
-+	clock-frequency = <400000>;
-+	multi-master;
-+	mctp-controller;
-+	status = "okay";
-+
-+	mctp-controller@18 {
-+		compatible = "mctp-i2c-controller";
-+		reg = <(0x18 | I2C_OWN_SLAVE_ADDRESS)>;
-+	};
-+
-+	exp18: gpio@38 {
-+		compatible = "nxp,pca9554";
-+		reg = <0x38>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <ASPEED_GPIO(B, 6) IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-controller;
-+		#interrupt-cells = <2>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+		gpio-line-names =
-+			"SSD0_PRSNT_L-I",
-+			"E1S_PWR_EN-O",
-+			"SSD0_PWRDIS-O",
-+			"I2C_PDB_ALERT_L-I",
-+			"BMC_SSD0_RST_L-O",
-+			"GLOBAL_WP_E1S-O",
-+			"12V_SSD0_PGD-I",
-+			"SSD0_LED-O";
-+	};
-+};
-+
-+/* MCIO expansion connector (HPM board 1) */
-+&i2c14 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+};
-+
-+/* USB-C PD controller */
-+&i2c15 {
-+	clock-frequency = <400000>;
-+	status = "okay";
-+};
-+
-+&mac0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_rgmii1_default>;
-+	/*
-+	 * The on-board PHY uses both the RX and TX RGMII internal
-+	 * delays. Declare "rgmii-id" so the MAC does not add
-+	 * additional delay. The same setting is applied in the
-+	 * matching u-boot DTS to keep early-boot networking working.
-+	 */
-+	phy-mode = "rgmii-id";
-+	phy-handle = <&ethphy0>;
-+	status = "okay";
-+};
-+
-+&mdio0 {
-+	status = "okay";
-+
-+	ethphy0: ethernet-phy@0 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <0>;
-+	};
-+};
-+
-+&spi2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_spi2_default>;
-+	status = "okay";
-+
-+	flash@0 {
-+		label = "config";
-+		status = "okay";
-+
-+		partitions {
-+			compatible = "fixed-partitions";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			partition@0 {
-+				reg = <0x0 0x40000>;	/* 256 KiB */
-+				label = "u-boot-env";
-+			};
-+
-+			partition@40000 {
-+				reg = <0x40000 0x1000000>;	/* 16 MiB */
-+				label = "rwfs";
-+			};
-+
-+			partition@1040000 {
-+				reg = <0x1040000 0x2800000>;	/* 40 MiB */
-+				label = "log";
-+			};
-+		};
-+	};
-+};
-+
-+/* BMC <-> host CPU UART */
-+&uart1 {
-+	status = "okay";
-+};
-+
-+/* Serial-over-LAN */
-+&uart3 {
-+	status = "okay";
-+};
-+
-+/* BMC debug console */
-+&uart5 {
-+	status = "okay";
-+};
-+
-+&uart_routing {
-+	status = "okay";
-+};
-+
-+&vhub {
-+	status = "okay";
-+};
-+
-+&video {
-+	memory-region = <&video_engine_memory>;
-+	status = "okay";
-+};
+> ---
+>   drivers/gpu/drm/tiny/gm12u320.c | 128 ++++++++++++++++++++++++++++++++--------
+>   1 file changed, 104 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
+> index d73dfebb4353..992160ea794d 100644
+> --- a/drivers/gpu/drm/tiny/gm12u320.c
+> +++ b/drivers/gpu/drm/tiny/gm12u320.c
+> @@ -8,6 +8,7 @@
+>   #include <linux/usb.h>
+>   
+>   #include <drm/clients/drm_client_setup.h>
+> +#include <drm/drm_atomic.h>
+>   #include <drm/drm_atomic_helper.h>
+>   #include <drm/drm_atomic_state_helper.h>
+>   #include <drm/drm_connector.h>
+> @@ -27,7 +28,6 @@
+>   #include <drm/drm_modeset_helper_vtables.h>
+>   #include <drm/drm_print.h>
+>   #include <drm/drm_probe_helper.h>
+> -#include <drm/drm_simple_kms_helper.h>
+>   
+>   static bool eco_mode;
+>   module_param(eco_mode, bool, 0644);
+> @@ -87,7 +87,9 @@ MODULE_PARM_DESC(eco_mode, "Turn on Eco mode (less bright, more silent)");
+>   
+>   struct gm12u320_device {
+>   	struct drm_device	         dev;
+> -	struct drm_simple_display_pipe   pipe;
+> +	struct drm_plane	         plane;
+> +	struct drm_crtc		         crtc;
+> +	struct drm_encoder	         encoder;
+>   	struct drm_connector	         conn;
+>   	unsigned char                   *cmd_buf;
+>   	unsigned char                   *data_buf[GM12U320_BLOCK_COUNT];
+> @@ -554,31 +556,33 @@ static int gm12u320_conn_init(struct gm12u320_device *gm12u320)
+>   }
+>   
+>   /* ------------------------------------------------------------------ */
+> -/* gm12u320 (simple) display pipe				      */
+> +/* gm12u320 display pipe						      */
+>   
+> -static void gm12u320_pipe_enable(struct drm_simple_display_pipe *pipe,
+> -				 struct drm_crtc_state *crtc_state,
+> -				 struct drm_plane_state *plane_state)
+> +static void gm12u320_crtc_helper_atomic_enable(struct drm_crtc *crtc,
+> +					       struct drm_atomic_commit *commit)
+>   {
+>   	struct drm_rect rect = { 0, 0, GM12U320_USER_WIDTH, GM12U320_HEIGHT };
+> -	struct gm12u320_device *gm12u320 = to_gm12u320(pipe->crtc.dev);
+> +	struct gm12u320_device *gm12u320 = to_gm12u320(crtc->dev);
+> +	struct drm_plane_state *plane_state = crtc->primary->state;
+>   	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+>   
+>   	gm12u320->fb_update.draw_status_timeout = FIRST_FRAME_TIMEOUT;
+>   	gm12u320_fb_mark_dirty(plane_state->fb, &shadow_plane_state->data[0], &rect);
+>   }
+>   
+> -static void gm12u320_pipe_disable(struct drm_simple_display_pipe *pipe)
+> +static void gm12u320_crtc_helper_atomic_disable(struct drm_crtc *crtc,
+> +						struct drm_atomic_commit *commit)
+>   {
+> -	struct gm12u320_device *gm12u320 = to_gm12u320(pipe->crtc.dev);
+> +	struct gm12u320_device *gm12u320 = to_gm12u320(crtc->dev);
+>   
+>   	gm12u320_stop_fb_update(gm12u320);
+>   }
+>   
+> -static void gm12u320_pipe_update(struct drm_simple_display_pipe *pipe,
+> -				 struct drm_plane_state *old_state)
+> +static void gm12u320_plane_helper_atomic_update(struct drm_plane *plane,
+> +						struct drm_atomic_commit *commit)
+>   {
+> -	struct drm_plane_state *state = pipe->plane.state;
+> +	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(commit, plane);
+> +	struct drm_plane_state *state = plane->state;
+>   	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(state);
+>   	struct drm_rect rect;
+>   
+> @@ -586,11 +590,71 @@ static void gm12u320_pipe_update(struct drm_simple_display_pipe *pipe,
+>   		gm12u320_fb_mark_dirty(state->fb, &shadow_plane_state->data[0], &rect);
+>   }
+>   
+> -static const struct drm_simple_display_pipe_funcs gm12u320_pipe_funcs = {
+> -	.enable	    = gm12u320_pipe_enable,
+> -	.disable    = gm12u320_pipe_disable,
+> -	.update	    = gm12u320_pipe_update,
+> -	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
+> +static const struct drm_plane_funcs gm12u320_plane_funcs = {
+> +	.update_plane	= drm_atomic_helper_update_plane,
+> +	.disable_plane	= drm_atomic_helper_disable_plane,
+> +	.destroy	= drm_plane_cleanup,
+> +	DRM_GEM_SHADOW_PLANE_FUNCS,
+> +};
+> +
+> +static int gm12u320_plane_helper_atomic_check(struct drm_plane *plane,
+> +					      struct drm_atomic_commit *state)
+> +{
+> +	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state, plane);
+> +	struct drm_crtc *crtc = plane_state->crtc;
+> +	struct drm_crtc_state *crtc_state = NULL;
+> +	int ret;
+> +
+> +	if (crtc)
+> +		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+> +
+> +	ret = drm_atomic_helper_check_plane_state(plane_state, crtc_state,
+> +						  DRM_PLANE_NO_SCALING,
+> +						  DRM_PLANE_NO_SCALING,
+> +						  false, false);
+> +	return ret;
+
+Interestingly, this patch handled _check_plane_state() correctly.
+
+Best regards
+Thomas
+
+> +}
+> +
+> +static const struct drm_plane_helper_funcs gm12u320_plane_helper_funcs = {
+> +	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+> +	.atomic_check	= gm12u320_plane_helper_atomic_check,
+> +	.atomic_update	= gm12u320_plane_helper_atomic_update,
+> +};
+> +
+> +static int gm12u320_crtc_helper_atomic_check(struct drm_crtc *crtc,
+> +					     struct drm_atomic_commit *state)
+> +{
+> +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+> +	int ret;
+> +
+> +	if (!crtc_state->enable)
+> +		goto out;
+> +
+> +	ret = drm_atomic_helper_check_crtc_primary_plane(crtc_state);
+> +	if (ret)
+> +		return ret;
+> +
+> +out:
+> +	return drm_atomic_add_affected_planes(state, crtc);
+> +}
+> +
+> +static const struct drm_crtc_helper_funcs gm12u320_crtc_helper_funcs = {
+> +	.atomic_check	= gm12u320_crtc_helper_atomic_check,
+> +	.atomic_enable	= gm12u320_crtc_helper_atomic_enable,
+> +	.atomic_disable	= gm12u320_crtc_helper_atomic_disable,
+> +};
+> +
+> +static const struct drm_crtc_funcs gm12u320_crtc_funcs = {
+> +	.set_config		= drm_atomic_helper_set_config,
+> +	.page_flip		= drm_atomic_helper_page_flip,
+> +	.reset			= drm_atomic_helper_crtc_reset,
+> +	.destroy		= drm_crtc_cleanup,
+> +	.atomic_duplicate_state	= drm_atomic_helper_crtc_duplicate_state,
+> +	.atomic_destroy_state	= drm_atomic_helper_crtc_destroy_state,
+> +};
+> +
+> +static const struct drm_encoder_funcs gm12u320_encoder_funcs = {
+> +	.destroy = drm_encoder_cleanup,
+>   };
+>   
+>   static const uint32_t gm12u320_pipe_formats[] = {
+> @@ -677,13 +741,29 @@ static int gm12u320_usb_probe(struct usb_interface *interface,
+>   	if (ret)
+>   		return ret;
+>   
+> -	ret = drm_simple_display_pipe_init(&gm12u320->dev,
+> -					   &gm12u320->pipe,
+> -					   &gm12u320_pipe_funcs,
+> -					   gm12u320_pipe_formats,
+> -					   ARRAY_SIZE(gm12u320_pipe_formats),
+> -					   gm12u320_pipe_modifiers,
+> -					   &gm12u320->conn);
+> +	ret = drm_universal_plane_init(dev, &gm12u320->plane, 0,
+> +				       &gm12u320_plane_funcs,
+> +				       gm12u320_pipe_formats,
+> +				       ARRAY_SIZE(gm12u320_pipe_formats),
+> +				       gm12u320_pipe_modifiers,
+> +				       DRM_PLANE_TYPE_PRIMARY, NULL);
+> +	if (ret)
+> +		return ret;
+> +	drm_plane_helper_add(&gm12u320->plane, &gm12u320_plane_helper_funcs);
+> +
+> +	ret = drm_crtc_init_with_planes(dev, &gm12u320->crtc, &gm12u320->plane, NULL,
+> +					&gm12u320_crtc_funcs, NULL);
+> +	if (ret)
+> +		return ret;
+> +	drm_crtc_helper_add(&gm12u320->crtc, &gm12u320_crtc_helper_funcs);
+> +
+> +	ret = drm_encoder_init(dev, &gm12u320->encoder, &gm12u320_encoder_funcs,
+> +			       DRM_MODE_ENCODER_NONE, NULL);
+> +	if (ret)
+> +		return ret;
+> +	gm12u320->encoder.possible_crtcs = drm_crtc_mask(&gm12u320->crtc);
+> +
+> +	ret = drm_connector_attach_encoder(&gm12u320->conn, &gm12u320->encoder);
+>   	if (ret)
+>   		return ret;
+>   
+>
+
 -- 
-2.43.0
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, (HRB 36809, AG Nürnberg)
+
 
 
