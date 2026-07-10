@@ -1,93 +1,116 @@
-Return-Path: <linux-aspeed+bounces-4458-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4461-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +JXEOvDlUmpkVQMAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4458-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Sun, 12 Jul 2026 02:55:12 +0200
+	id k8w1G4PnUmqcVQMAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4461-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Sun, 12 Jul 2026 03:01:55 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11021743577
-	for <lists+linux-aspeed@lfdr.de>; Sun, 12 Jul 2026 02:55:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87827435A0
+	for <lists+linux-aspeed@lfdr.de>; Sun, 12 Jul 2026 03:01:54 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=kV4m75yN;
-	dmarc=pass (policy=none) header.from=gmail.com;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4458-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4458-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	arc=pass ("lists.ozlabs.org:s=201707:i=1")
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=PQbhMoe3;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=UsY6iobo;
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4461-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4461-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	arc=pass ("lists.ozlabs.org:s=201707:i=2")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gyRtj6fPGz2yVv;
-	Sun, 12 Jul 2026 10:55:09 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gyS253v6Kz2yYY;
+	Sun, 12 Jul 2026 11:01:33 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783681663;
-	cv=none; b=IHUgJjLGowbqbuaW0Zi7EV9KjuKk6AJcF8XU/U5wPthhFMXY7Or2VEYHr/fAgOksS7aTRP36FUPy1WWmowzfQcSL9VLGYtT1CyKoBtBh+uOEotQpFtC/0SXZTypU5h3gKsWk2tARqz2enK+dQCdBG1fj/NL9H4qru1oKmMp5mwixtbUq/yM6oWD/Xcytv/K+mkDvtMz1xrEbny/yUR+aXQP2uEoBQ0hFFo4Mg+I2zBof3ACeJ7cl60gZbgyVTmNuFwYhrxbfU7T22OdHUMmQWAc/EvELMdVDL3Qs5xMmZy5yfPZUFkUY15OTEPAcP13pb7CBZTiZVC8gMBfN8rKc/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1783681663; c=relaxed/relaxed;
-	bh=QMK3eVT0/oAQlr0eGKAyS3VOV21a/B1AmoQDrAJ9a3s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oZWzipEszOTGImaaCpLI0pxJG2xpEnPeWn0/BtTZsvTHA+UExVkaaLpZxQ79WsorChA0k9mpjCtRkjoi7LxwA3HXZ7+ZA4EvhhKr1sqHvIOWMx5kMFvdhFW6aJXo9FhrQbN5PspukzOLe7rDrs93EX4w8ItEzWXS/OGed32vDJbElT+h5oNTeIkxRUm+PaebywhwCCn2vw17jU7hc+yAqKJ6f0TP4osR3O9mGoNFau6+h8ZJnF1yHWXvOxzd339uaeuKdXFv9cAnH4MmAIoq2qgbwAuO2uSQ8+Wq82tt4FbMaNIHjSXh++xCplmqRk9lROSNG9UJpPU16mkE3At1vQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=kV4m75yN; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1031; helo=mail-pj1-x1031.google.com; envelope-from=ahmisaranrao@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783688932;
+	cv=pass; b=T16OAig8G3L6XfJZXx/g8xhwlY5kKAl55dafwbNpFMwIldcYuUQEqOSQ691wdlPCe7fzmBySC8+20Bg0UyR73mXgCDES+pM/V91IwsL3G2/MuZR8nHA/bA9WBx5TslVgeTGGxmTQ0x+zDKhOtvuGD5rxZgxmMIsT28Ybp36y2VtkHBsCvqqmKL2YpZxnnXZxJcoAtGMeRUsVkU8A2NpHbLcTkcvmxwagIEkrh62h3cO0rYZJQsP/uX69fK4nixtIC8pqwXkepvEY0LQ+61+zR1huOhxrWSlW87+VjQFPHxcO4NfpMEVFLw1ltq48eM2lu8ryzei+u/1XCeW+eCxSZw==
+ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1783688932; c=relaxed/relaxed;
+	bh=N5Cka933m4keuHC9q+ty9VLjOYV17gugYbjBnwJv6Bo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PksgxjsQeDRhw8bAJDwbjq4VHRWJ3LaUglZVgJ4bLiLgIWcUdp7gT5LAtzb1cc70eum2NWpZz3JxYuzMRMGM5jAysR9ibB9zCQIWHQRxpvXJmZ0w0USjfky17FXhd9g7y00D5I+InlEubgwm/7GoxSpTTPpdT9keRUUPjHmHNKNURA+xZjlVcHBMXUgRBZHhvi4xFB/N6w8ZOlpWdaL/WlOgQt077L8yCAQ1cy+O4G6e42PUFO9HxdviHiGtaigNs0b6lGAcdXrZwnJde0nHD/jzI5e9mpEmbqcpSASBqDesq4cy2LmIz3ZyciDiksUKVGzQfUz8XRhxISnktIhdfg==
+ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=PQbhMoe3; dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=UsY6iobo; dkim-atps=neutral; spf=pass (client-ip=205.220.168.131; helo=mx0a-0031df01.pphosted.com; envelope-from=ulf.hansson@oss.qualcomm.com; receiver=lists.ozlabs.org) smtp.mailfrom=oss.qualcomm.com
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gxTZQ1jrnz2yS4
-	for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Jul 2026 21:07:41 +1000 (AEST)
-Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-381018b9375so1024523a91.0
-        for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Jul 2026 04:07:41 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gxXGC5ql8z2yS4
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Jul 2026 23:08:51 +1000 (AEST)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66AD6Ymh700685
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Jul 2026 13:08:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	N5Cka933m4keuHC9q+ty9VLjOYV17gugYbjBnwJv6Bo=; b=PQbhMoe3PoBcb3Hs
+	/DihV9aYD7N2odD9vazHqRjsDv89h5rZHGphaH+tpWhsa7+af5rBKTPuJdW8LPZn
+	Mk39Wieqo6Mw60r42dLUd2Gxgi7p8bxjZpLshjrj7AzbL34A0DXvPUZmVUH4NX0g
+	MgtJWs+BKx0AJ2Ezx5aSRboaeoiSWTe52rVeK8zpfzJ0RAwKpEqAfSYiOKp5qRRf
+	EsdJxs0bExnyDS3qhxtop/v2dbSfVm0i9jaV/APL5yQgCnzY8s/Y1+SDeOsMMPGn
+	F/+wgSzwHMID5UrcvHdiCAnKRs1pvv9gBeLt9XKdfGXLhg0wmyfSh8mZwn6Udt4N
+	ZKZX0A==
+Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com [74.125.224.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fahv8ke1d-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Jul 2026 13:08:48 +0000 (GMT)
+Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-6675e8ebb1aso1215744d50.3
+        for <linux-aspeed@lists.ozlabs.org>; Fri, 10 Jul 2026 06:08:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783688927; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AuxzZ7KQpy4u5P6y1hjdU9lMDkBP6vmavDK3aM3OTDbycsaqZDG7a9XquVjVLv+Bpu
+         DgfcRHxzv7ats+bfzvyGlwmlu0JoGhFtyNOnVHHxWtspJmJb4qfOUh4FwAI5ZTM489yl
+         BToDrIhXDvkjr+1SEFjCpDFffTBjgLWm2wYSME5P889nwVCBAaM0QXAGnVP84VbMfXFR
+         tsjrpzK16kE5o9KNGXFJFEOcg+ldlr0Oqy00sl8PlL0C68XvUzuaNY8+a0L2bDXJs5oe
+         DR2/fIb42MJlhYMoi4SWnhgJb2CNJyIm26r19I01ZHlYEnCOe/AAayIJJa4biopOj1n6
+         naOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=N5Cka933m4keuHC9q+ty9VLjOYV17gugYbjBnwJv6Bo=;
+        fh=WU1QetICZpjoe8rchwhE2gPPt3growVHuXxYkDgaPzE=;
+        b=J/nDLx2tqhdLgH+jcSRBOwn5FnNJu9VXF+hMhlHmVugZpezTl2uz5eZ4/haefwHZAb
+         jAJqvV3pHwmcAnkPN7UqUOFsF6OTNR/wU5vfba2lMiywbIS6xinO01dVfz5uPWJRq+Y0
+         oXl44B9IybrOPrCVKcYoknwf29gpfnuIlx6Hgk4rwpX6kKz8m+12jE5A3ewxuJTT5h4u
+         L/ku1juVP5Z6thtBCbGQ5VeyQ9kUBnOM6RW6WdgXaHgV1ttcu6omdPKi2PwAiq9O5NMi
+         onw2JkaTzXHqDMJj713owSawnLYkBIOGukVe2MhuBwsEAByKfJHhBMqMbKeCcRH7hWr9
+         ED2A==;
+        darn=lists.ozlabs.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783681659; x=1784286459; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QMK3eVT0/oAQlr0eGKAyS3VOV21a/B1AmoQDrAJ9a3s=;
-        b=kV4m75yNMNUXKP2yRb9jNqyK6zEDQG77X16S7wrtKZ1nk+ZoPMb4w5WBUG1gE26bZI
-         l6qylM8II7kY5vfaeGhhNvvTr9fGpIbzpwI6hLcfCdrPJFESoxJMhwFfBaSjiLzWkjDc
-         rI9x9149YmusW4cikroj3NJe5DgKj2FCLqFWinlLX56iG/HNNab7Xw4iMnVJTxyfnb+2
-         swJie4Z8eBJ7SDANU3i0uc8EFo+nPmjmy9v6I9hDRmZfp0s2I4TUnjuswIbnF2u6SJh+
-         NOoQGkWHlRfANr8qar2w7cHVXbsoutiibTVO8FhKzQ1er04YAEcAJwrdo9CTYy9IDiRw
-         TuZQ==
+        d=oss.qualcomm.com; s=google; t=1783688927; x=1784293727; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=N5Cka933m4keuHC9q+ty9VLjOYV17gugYbjBnwJv6Bo=;
+        b=UsY6ioboNaBLAzh9EpcjL2NTiqQf/ORLD2j3lzhFsrJHJRZwU41GrdEh3det1GPnPx
+         ZaVY9hnhPn0YfcRmUi53x3+MN43Q9OicnAXbLykSbsPM1t3FLjqxQAixP6zI0ahIEhfw
+         6vh5l+BWSTZGobEOFg7oDYgomlpTXRCnu6+7mQQ+vB+vXyPWhKUROns2C1cfK4Zg5vcw
+         qzlZCiXbzdEiw+juEo7edO2INK9gjQXjag/mtTyT2IcWXBDESa94muYFWEsxz7ktNE0Z
+         wFrbmGh1LDZ9D8KU/anreX0YdXa9dxoQuSFN/vhxTijrFvWRKTrZH+DPr0Bon+ORjsql
+         wtCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783681659; x=1784286459;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QMK3eVT0/oAQlr0eGKAyS3VOV21a/B1AmoQDrAJ9a3s=;
-        b=IFhD3Vl+V3q6GZwwKcToq8hf1H9sdDrD+emZjGd4zi01tYtjcXLU8g6CWigw5X4FMe
-         c0Q3Ib5SurV7oDbMBT6EaW6bIG+0coLG6X/kBP9/qsBQERLtCBwA/uaOmXYGLb7usw5T
-         /fDULsZAf4kace/7RhjyRWEMnUtBcXJFjFl9CkG0U+SxW9QiSsrhEOkrT3Wzr98SyiF5
-         LMQP6GzhvMmhVr+wlfITn+lcHT6LxPk7NZCKgc6AUYwT8gvOYhL+PTxTTjiGI+lYdDgr
-         gKM9hBsrGh/7UJWprcdjplh/ftSS6RClD/vsHb2OB45USniq26pqVjgx+RD/CyOp1+m2
-         Ntfw==
-X-Forwarded-Encrypted: i=1; AHgh+RoyhAo/ajBGP0GSh1E1f19wGM46Yqc4vlmM/coqStNNXEDPtApxoJl3vDPNf6onAQqnJe7qI6kPVaJCMes=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yw8+m/gaYbNYMZ5Js28hK8LRkgfgq6cVPtaR2Wh5fHqJTr/8Z7p
-	rpPs2LeH8jJ7J7AIjl1ozkARccU++0a7Ayk8PLAmvvk/XJh0+lQ/swui
-X-Gm-Gg: AfdE7clCql7MfjwrY9jZApXmrrQ5ufWSUIO3p4vZW3fcAMjAkZ7KHTLN+632o7i23Lj
-	3+uvGOtBAsMPpbr3pTCmv3STHfOG9XKdMmlexkSM6ibFKzxB6OLdKXwXSJJWoABuAPasmAzRbv/
-	4BZm1AYNz23CGFisDuGTimM1oLURQxXOWZKGuQGs5kNgx4sdawXMyn0RRn3Nk1YZoWwnW5AcgGT
-	ZBxlxqelt1aUgBjZNuHt5Exs9IdhplUUE+8jQsj3/AoORjN5B9fkQZkDUQW+lMKfhyJa7OR8cK2
-	/YkE3IYkqcnZEM5PEwWZbg0xTQrhZZZ17q1Nsg7HM8ubUz5+/6zaTzWO1wFSAomkCPoUNFN9l+p
-	BYDP+g3RBQwqjsUvUrJwldnlDH9kngtCZTh1cw8QhOIB53+/gNGxqql4nV3oNV/lDj2eHQFyp9f
-	f0BaTwGkFSw9gHNSOtCjF7zJpxfLg=
-X-Received: by 2002:a17:90b:564f:b0:37f:d6d5:8e8c with SMTP id 98e67ed59e1d1-3893d91fed4mr10524502a91.0.1783681659012;
-        Fri, 10 Jul 2026 04:07:39 -0700 (PDT)
-Received: from ahmi-PC.. ([2401:4900:88f4:a225:f83:5ab4:33ab:8313])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311838c9235sm35061109eec.21.2026.07.10.04.07.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 04:07:38 -0700 (PDT)
-From: Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
-To: Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S . Miller" <davem@davemloft.net>
-Cc: Neal Liu <neal_liu@aspeedtech.com>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	YueHaibing <yuehaibing@huawei.com>,
-	linux-aspeed@lists.ozlabs.org,
-	linux-crypto@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
-Subject: [PATCH] crypto: aspeed: Propagate platform_get_irq() errors
-Date: Fri, 10 Jul 2026 16:37:29 +0530
-Message-ID: <20260710110729.224090-1-ahmisaranrao@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1783688927; x=1784293727;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=N5Cka933m4keuHC9q+ty9VLjOYV17gugYbjBnwJv6Bo=;
+        b=RqcxqPzayUPJ7kGNowIlGBc9gSdnRYCMV3ZQrNc0FapOsoKTuOF1vDwGK2hePHgfaI
+         l5f/Q9KVZD6vTSokMDT7AqQlSqhWvAWsPMh5xdaYJAuk2TlU107K8Ggh+moTwSsjsLqQ
+         ak9v2Pw0qqRJFbFWRLFnlosIITAtBWLOcWziimxciz3UKTLIg2KqNztPVl1V086Q1lfO
+         Z0PCmQ4JrlCd8TrGjQ6MkQGi/5affVXnZBrSjcjhxGNa5Sd8IOVzqjOvCy7KGt4y0Itj
+         ZlufD3xKNMxy5nUJIe51qkTvi7V7AABOx+tBwurA+cEAHo24OSW7tNTDnIVBAwUTwOvK
+         IU2g==
+X-Forwarded-Encrypted: i=1; AHgh+RqmOCliAG+zxjpSNxS/vfJus6poxROcPA4C20ZJ3TWiDeFKPiboUKq4pbEVXuxpqK2s6Pj6nTRcbTCJJDw=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0YxIQrBZ3rGF4kOcHTVtdeAe+wLYKB687H+nBUvrPx3EDYYZ6NbQ
+	vUxg6ZnMuMkwg3omWNMQPhEaG38ajoQ1qA9T+JNh8fH1ChAjBZRR/d8vEMEZokjtYrYSwPBeBR3
+	8LnXKyVMOMg/i6Z6/1DmjkT5/uhg2ikZCvSh05sS/HPL9KO39B8nyMD9GaSijauzPTtmYXD8Psa
+	9+xR8mY2jwM/sX9oKWDYr2rWViYFTE+gRyZDBe50MsJnU=
+X-Gm-Gg: AfdE7cncBwiW7wBsa+VPcUHHHHWQUzPUlNb/FmQ0af79mfDU2NwzUPxowwBMm1+cJoc
+	42JrdMtjdx4rFByvPDuSCELDINF/8j0R4rTkD0WLf9Xi4riKMfGS3hVwhEK1bdwgLglvDk5dG6m
+	F1IJQb5CnTV7bgQbQjnJn4rruWYC0KU1Xc7SVhFhTc/UZZsViIYY0dCsXtSqv5VycIddnl
+X-Received: by 2002:a53:bd08:0:b0:667:8b91:242d with SMTP id 956f58d0204a3-6679f245672mr5946041d50.92.1783688927304;
+        Fri, 10 Jul 2026 06:08:47 -0700 (PDT)
+X-Received: by 2002:a53:bd08:0:b0:667:8b91:242d with SMTP id
+ 956f58d0204a3-6679f245672mr5945969d50.92.1783688926691; Fri, 10 Jul 2026
+ 06:08:46 -0700 (PDT)
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -101,92 +124,222 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com> <20260703193855.110619-24-mukesh.ojha@oss.qualcomm.com>
+In-Reply-To: <20260703193855.110619-24-mukesh.ojha@oss.qualcomm.com>
+From: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Date: Fri, 10 Jul 2026 15:08:34 +0200
+X-Gm-Features: AVVi8CefhojPUiWasaXCCjZmJBb6K9Qzlv92c3u5BPoEMYadIduP2fyzpl9La3Q
+Message-ID: <CAPx+jO-hkYQoEOj1Jrp7sn5HXYTDbfAG4U5rpNBW2Wue2TZxhQ@mail.gmail.com>
+Subject: Re: [PATCH 23/42] mmc: sdhci-of-bst: Use devm_of_reserved_mem_device_init_by_idx()
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@codeconstruct.com.au>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Paul Kocialkowski <paulk@sys-base.io>,
+        Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Eddie James <eajames@linux.ibm.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Thierry Reding <thierry.reding@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ge Gordon <gordon.ge@bst.ai>, Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
+        Saravana Kannan <saravanak@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Shengjiu Wang <shengjiu.wang@gmail.com>,
+        Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Peter Chen <peter.chen@cixtech.com>,
+        Fugang Duan <fugang.duan@cixtech.com>,
+        Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+        BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
+        Fabio Estevam <festevam@gmail.com>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+        openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+        kernel@collabora.com, linux-tegra@vger.kernel.org,
+        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        imx@lists.linux.dev, sound-open-firmware@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: O0wodlzz58ZaNBB2ZyBIusSnyRxyVQXw
+X-Proofpoint-ORIG-GUID: O0wodlzz58ZaNBB2ZyBIusSnyRxyVQXw
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEwMDEzMCBTYWx0ZWRfXyoEu+htLoGSC
+ f0lrh5SPrIQN9tTT8PnZr2Z7QJ35Ye4tSDnFwdHV+xOfjpVz/ihqrfe1LAIJ7O8dei+GYrkeFjd
+ bgcNYuM+2C+98wAdwXRlyJRJzJ6Bdf4=
+X-Authority-Analysis: v=2.4 cv=funsol4f c=1 sm=1 tr=0 ts=6a50eee0 cx=c_pps
+ a=VEzVgl358Dq0xwHDEbsOzA==:117 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
+ a=z_eSG8vRrt57AjWXvbkA:9 a=QEXdDO2ut3YA:10 a=uujmmnXaIg8lM0-o0HFK:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEwMDEzMCBTYWx0ZWRfX0dx1IrkCkBHQ
+ gW8IoyJCKGsxGu73ziBfL9LeGX0d61HUvp5jilOhwZ+7Tj2IrRjEww3UzJvxnvEv3brMoYj1QnR
+ u9i3K4fKfNb5iGI8oBhdkFeRnA0LiHeUIFMW5B9HpMihB16QBgw2dFwekyw2L+JB+sXg997vpXn
+ AgzjHWoLR7TY4UaCXs3hDRpX5x06WJKuA8BNt+jYUnrGycr3M2PRsZGwMsfA9Ln+n5ml4E3mBiH
+ 8Z9GzFoHhL8W8w86SPxEQPEjUrKEl7txltDnoT3Jr7FMEednBAKLORTyZ5oW6/DUD0FztkIAVe7
+ +zua6MDHgZkXzGlOk7lOMHVbEDBDsB0lC/tmIEiVG386HmPcIk8KkM6YaHpfMcYfjLkicx5BkOT
+ J6YIGjCkSmi3K4E7Ufy/TjeVSnnv8YMdVsgqy0fIhOgTgvr4AaXqaNVPmjX2//Fb5xb+LXHvkmp
+ NL6/LAAB5RAjL48/oZg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-10_03,2026-07-10_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 clxscore=1011 lowpriorityscore=0 adultscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607100130
+X-Spam-Status: No, score=0.3 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_LOW,
 	SPF_HELO_NONE,SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [0.29 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	DATE_IN_PAST(1.00)[37];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
+	DATE_IN_PAST(1.00)[35];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-4458-lists,linux-aspeed=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[aspeedtech.com,jms.id.au,codeconstruct.com.au,huawei.com,lists.ozlabs.org,vger.kernel.org,lists.infradead.org,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[ahmisaranrao@gmail.com,linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER(0.00)[ulf.hansson@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS(0.00)[m:herbert@gondor.apana.org.au,m:davem@davemloft.net,m:neal_liu@aspeedtech.com,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:yuehaibing@huawei.com,m:linux-aspeed@lists.ozlabs.org,m:linux-crypto@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:ahmisaranrao@gmail.com,s:lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_NEQ_ENVFROM(0.00)[ahmisaranrao@gmail.com,linux-aspeed@lists.ozlabs.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,jms.id.au,codeconstruct.com.au,crapouillou.net,intel.com,sys-base.io,sholland.org,synopsys.com,ideasonboard.com,amd.com,linux.ibm.com,mediatek.com,collabora.com,nuvoton.com,nvidia.com,arndb.de,linuxfoundation.org,bst.ai,linaro.org,perex.cz,suse.com,nxp.com,pengutronix.de,linux.alibaba.com,cixtech.com,oss.qualcomm.com,bstai.top,linux.dev,vger.kernel.org,lists.freedesktop.org,lists.ozlabs.org,lists.infradead.org,lists.linux.dev,alsa-project.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-4461-lists,linux-aspeed=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mukesh.ojha@oss.qualcomm.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:liviu.dudau@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:paul@crapouillou.net,m:anitha.chrisanthus@intel.com,m:paulk@sys-base.io,m:linusw@kernel.org,m:wens@kernel.org,m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:abrodkin@synopsys.com,m:laurent.pinchart@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:michal.simek@amd.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:mchehab@kernel.org,m:eajames@linux.ibm.com,m:tiffany.lin@mediatek.com,m:andrew-ct.chen@mediatek.com,m:yunfei.dong@mediatek.com,m:minghsiu.tsai@mediatek.com,m:houlong.wei@mediatek.com,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:kwliu@nuvoton.com,m:kflin@nuvoton.com,m:dmitry.osipenko@collabora.com,m:krzk@kernel.org,m:thierry.reding@kernel.or
+ g,m:jonathanh@nvidia.com,m:srini@kernel.org,m:arnd@arndb.de,m:gregkh@linuxfoundation.org,m:gordon.ge@bst.ai,m:adrian.hunter@intel.com,m:ulfh@kernel.org,m:robh@kernel.org,m:saravanak@kernel.org,m:mathieu.poirier@linaro.org,m:perex@perex.cz,m:tiwai@suse.com,m:shengjiu.wang@gmail.com,m:Xiubo.Lee@gmail.com,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:peter.ujfalusi@linux.intel.com,m:yung-chuan.liao@linux.intel.com,m:daniel.baluta@nxp.com,m:orsonzhai@gmail.com,m:baolin.wang@linux.alibaba.com,m:peter.chen@cixtech.com,m:fugang.duan@cixtech.com,m:ekansh.gupta@oss.qualcomm.com,m:bst-upstream@bstai.top,m:festevam@gmail.com,m:nicoleotsuka@gmail.com,m:kernel@pengutronix.de,m:kai.vehmanen@linux.intel.com,m:pierre-louis.bossart@linux.dev,m:Vijendar.Mukunda@amd.com,m:zhang.lyra@gmail.com,m:cix-kernel-upstream@cixtech.com,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-aspeed@lists.ozlabs.org,m:linu
+ x-arm-kernel@lists.infradead.org,m:linux-mips@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-media@vger.kernel.org,m:openbmc@lists.ozlabs.org,m:linux-mediatek@lists.infradead.org,m:kernel@collabora.com,m:linux-tegra@vger.kernel.org,m:linux-mmc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-remoteproc@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-sound@vger.kernel.org,m:linuxppc-dev@lists.ozlabs.org,m:imx@lists.linux.dev,m:sound-open-firmware@alsa-project.org,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ALIAS_RESOLVED(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ulf.hansson@oss.qualcomm.com,linux-aspeed@lists.ozlabs.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCPT_COUNT_GT_50(0.00)[93];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-aspeed];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:from_smtp,lists.ozlabs.org:helo,lists.ozlabs.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.ozlabs.org:from_smtp,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,mail.gmail.com:mid,qualcomm.com:email,qualcomm.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 11021743577
+X-Rspamd-Queue-Id: A87827435A0
 
-platform_get_irq() returns a positive IRQ number on success and a negative
-error code on failure. aspeed_acry_probe() and aspeed_hace_probe()
-already detect negative returns, but both convert every failure to -ENXIO.
+On Fri, Jul 3, 2026 at 9:48=E2=80=AFPM Mukesh Ojha <mukesh.ojha@oss.qualcom=
+m.com> wrote:
+>
+> Use the devres-managed devm_of_reserved_mem_device_init_by_idx() instead
+> of the manual of_reserved_mem_device_init_by_idx()/
+> of_reserved_mem_device_release() pair, letting the device resource
+> manager handle cleanup automatically.
+>
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 
-Return the original error code so callers can handle errors such as
--EPROBE_DEFER correctly.
+Acked-by: Ulf Hansson <ulfh@kernel.org>
 
-Fixes: 2f1cf4e50c95 ("crypto: aspeed - Add ACRY RSA driver")
-Fixes: 70513e1d6559 ("crypto: aspeed - Fix check for platform_get_irq() errors")
-Signed-off-by: Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
----
- drivers/crypto/aspeed/aspeed-acry.c | 2 +-
- drivers/crypto/aspeed/aspeed-hace.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Kind regards
+Uffe
 
-diff --git a/drivers/crypto/aspeed/aspeed-acry.c b/drivers/crypto/aspeed/aspeed-acry.c
-index 5993bcba9716..301612556a76 100644
---- a/drivers/crypto/aspeed/aspeed-acry.c
-+++ b/drivers/crypto/aspeed/aspeed-acry.c
-@@ -728,7 +728,7 @@ static int aspeed_acry_probe(struct platform_device *pdev)
- 	/* Get irq number and register it */
- 	acry_dev->irq = platform_get_irq(pdev, 0);
- 	if (acry_dev->irq < 0)
--		return -ENXIO;
-+		return acry_dev->irq;
- 
- 	rc = devm_request_irq(dev, acry_dev->irq, aspeed_acry_irq, 0,
- 			      dev_name(dev), acry_dev);
-diff --git a/drivers/crypto/aspeed/aspeed-hace.c b/drivers/crypto/aspeed/aspeed-hace.c
-index 3fe644bfe037..1f9afa002ae8 100644
---- a/drivers/crypto/aspeed/aspeed-hace.c
-+++ b/drivers/crypto/aspeed/aspeed-hace.c
-@@ -127,7 +127,7 @@ static int aspeed_hace_probe(struct platform_device *pdev)
- 	/* Get irq number and register it */
- 	hace_dev->irq = platform_get_irq(pdev, 0);
- 	if (hace_dev->irq < 0)
--		return -ENXIO;
-+		return hace_dev->irq;
- 
- 	rc = devm_request_irq(&pdev->dev, hace_dev->irq, aspeed_hace_irq, 0,
- 			      dev_name(&pdev->dev), hace_dev);
--- 
-2.43.0
-
+> ---
+>  drivers/mmc/host/sdhci-of-bst.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/mmc/host/sdhci-of-bst.c b/drivers/mmc/host/sdhci-of-=
+bst.c
+> index f8d3df715e1a..304554ced690 100644
+> --- a/drivers/mmc/host/sdhci-of-bst.c
+> +++ b/drivers/mmc/host/sdhci-of-bst.c
+> @@ -405,7 +405,6 @@ static void sdhci_bst_free_bounce_buffer(struct sdhci=
+_host *host)
+>                                   host->bounce_buffer, host->bounce_addr)=
+;
+>                 host->bounce_buffer =3D NULL;
+>         }
+> -       of_reserved_mem_device_release(mmc_dev(host->mmc));
+>  }
+>
+>  static int sdhci_bst_alloc_bounce_buffer(struct sdhci_host *host)
+> @@ -417,7 +416,7 @@ static int sdhci_bst_alloc_bounce_buffer(struct sdhci=
+_host *host)
+>         /* Fixed SRAM bounce size to 32KB: verified config under 32-bit D=
+MA addressing limit */
+>         bounce_size =3D SZ_32K;
+>
+> -       ret =3D of_reserved_mem_device_init_by_idx(mmc_dev(mmc), mmc_dev(=
+mmc)->of_node, 0);
+> +       ret =3D devm_of_reserved_mem_device_init_by_idx(mmc_dev(mmc), mmc=
+_dev(mmc)->of_node, 0);
+>         if (ret) {
+>                 dev_err(mmc_dev(mmc), "Failed to initialize reserved memo=
+ry\n");
+>                 return ret;
+> @@ -425,10 +424,8 @@ static int sdhci_bst_alloc_bounce_buffer(struct sdhc=
+i_host *host)
+>
+>         host->bounce_buffer =3D dma_alloc_coherent(mmc_dev(mmc), bounce_s=
+ize,
+>                                                  &host->bounce_addr, GFP_=
+KERNEL);
+> -       if (!host->bounce_buffer) {
+> -               of_reserved_mem_device_release(mmc_dev(mmc));
+> +       if (!host->bounce_buffer)
+>                 return -ENOMEM;
+> -       }
+>
+>         host->bounce_buffer_size =3D bounce_size;
+>
+> --
+> 2.53.0
+>
 
