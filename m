@@ -1,143 +1,54 @@
-Return-Path: <linux-aspeed+bounces-4484-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4463-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id pNdRAwY5V2qLHgEAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4484-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Jul 2026 09:38:46 +0200
+	id lATzEgV+VGpmmgMAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4463-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Jul 2026 07:56:21 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
-Received: from lists.ozlabs.org (lists.ozlabs.org [IPv6:2404:9400:21b9:f100::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24AC975B836
-	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Jul 2026 09:38:45 +0200 (CEST)
+Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CC097475F4
+	for <lists+linux-aspeed@lfdr.de>; Mon, 13 Jul 2026 07:56:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=aspeedtech.com header.s=selector1 header.b=h3SX35bd;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4484-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 2404:9400:21b9:f100::1 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4484-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
-	dmarc=pass (policy=quarantine) header.from=aspeedtech.com;
-	arc=pass ("lists.ozlabs.org:s=201707:i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=dXV90xl+;
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4463-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4463-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4h0Shz0pdsz304x;
-	Wed, 15 Jul 2026 17:38:43 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4gzBWj4p2dz2xlv;
+	Mon, 13 Jul 2026 15:56:17 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783920885;
-	cv=pass; b=mOmls5CImofnze22ln3zZtNtwaTri5DiNDROSEGlj1NxVXSwMbNQigxXEZTCKILcxu7g96K9cqCbzwoGiAH0aSjnB+SVktXmyLb6Li+ZOj87AvBHHvmB2+Eq0l2jZDPBR9l7Srr0edRy/XFn0WaOasuYQS/6vxeR6vn8xqnQAn0o0XT4L/PiYsn9eYgpkb0Ba+VhhenwEee22ubp3GpGNwzyPzrtAz7dM85ZhGCGuAK2UK1+g9oQznBQmv1bLkK7Hdlpdonh0OYvDSp/d0mo3UgDQjyhwePwH0Fryhd4zSnonNx/IiYs6/nHPQPlLp9JUWqDac6YndZnINzH4E0bZw==
-ARC-Message-Signature: i=2; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1783920885; c=relaxed/relaxed;
-	bh=UuXYe5HvREAo9l6/5lOOmQOiQhAErjxuKKwZDIpGJ9c=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Q0Bv88Lo6INoUFF20K89+eo9WYClfFuqPZbINEA/31zZu9RyiKGCzyNWuDgR0gfptTMH4XlSLTJELOxXIkFaKZWELAfIA2HQMlgwn84xR1vyV6rfB6ntKl/fGNFFTxvs4g4aCk06KxEBBaR3CS5JdxU2C6sYwqRvsXzvJLDGVL8qs3tLrGrtZKdnhVjNOKPJiZD2J9EdjSSw3E6Trw8nBsEx7Z62jI2uDpWUbtNzbtNL3m1ERD96NFSoMOxYao/pn41FDiOTYPLUTeU3Zdp4lPLW9SjwW8LGWW3sf5x7HqnqPgFdppWq7vA9grA1V+7Jb/biGpUPnOmWJbmrap52cw==
-ARC-Authentication-Results: i=2; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=aspeedtech.com; dkim=pass (2048-bit key; unprotected) header.d=aspeedtech.com header.i=@aspeedtech.com header.a=rsa-sha256 header.s=selector1 header.b=h3SX35bd; dkim-atps=neutral; spf=pass (client-ip=2a01:111:f403:c406::3; helo=os8pr02cu002.outbound.protection.outlook.com; envelope-from=yc_hsieh@aspeedtech.com; receiver=lists.ozlabs.org) smtp.mailfrom=aspeedtech.com
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazlp170120003.outbound.protection.outlook.com [IPv6:2a01:111:f403:c406::3])
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1783922177;
+	cv=none; b=dm0UQxK5Mefg8+8mPpd/+c3ozMdhIIoHrsyMgmqlUuaLnfFxXuCB0qN0bNt/jjbYkoCclgzaZ1E8tnPvjQEEDBxuJrL1A6pzf4NnBf11gpY8+sOcXnuS+OdqdRz1mT5rLfZy24t6jhhViJrZ1tf7K3BD5NywIZDcxlrlEUe4nlAnj2SErEF8IfV8DmoLoOuE6dmbySfYWGp/ZFhenHq255bxzA/gw1l2e3+e7EZrOyI1Z2IUQCItOkg+YGNNkz7Ieq19loqqpSa/iDRpNuBZIEHYESapggACtVC+1pwQrDHTlx81o42pj8t7tULt/pjaEESj4hnDOEMrygVCoqjYQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
+	t=1783922177; c=relaxed/relaxed;
+	bh=PtrCDJHGMBLrAiE0X+RqgpgZ1PM0JBugYWIm44VvHeg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gIIv9BDg+W1hCAwNCoZQNbnqAlRxzyGATmWb8LYs3guSJguirwUObnSS/XiH/ojD7nDTVKHK2w1yIlAF8QftNdK+X3gUZZc1wRvksURmnsp/u/zMHufh+7VA77m4Th6tf2IRmGXTjGHDf7fusQcun9BH3/UPR0zMkNsSYwYx9lBa0IQoIhfBEVoVhmYi/m6SukfGP9fy0gDVLQw+bVZdeBbAQ2WdZTTkgX1I3HujqvwHxAXRjs4mSxiHH2tyLqaNtE+i+XRy6mmiiwfNw6m2HUvXSTYjWjltKcCe/x/tH/5FDT2EAeETxlcVIeI+GUeSFdkQw/f0dxnyFt1nSAUCwg==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dXV90xl+; dkim-atps=neutral; spf=pass (client-ip=172.105.4.254; helo=tor.source.kernel.org; envelope-from=krzk@kernel.org; receiver=lists.ozlabs.org) smtp.mailfrom=kernel.org
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gzB2p5pgYz2xqM
-	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Jul 2026 15:34:42 +1000 (AEST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tsYCVCJIl0hUDyoJJbKueHCXjxUC/7+xR7CIbPy3Ctqip9QSi36mz6OfsSI+joxoE5SSN8GAo+6rgc6YZRTuyC6AzDJxBOG8Y0V+WUJ4d7tgLbF6KqQJZPCRLuk/yoGuuzf5wqpKh4b6OBfg5C2qvCi28uVLB1mc7BwSuNjH1CAdDV1MyGXNcGnoJBOV+2sRt6bmUrpGq5UieH4iJxKO4tbuFLPtIhNSL74UaoGBPQWrO6vJllJaYw5AHycTtQMqOYL4EGnntZ4vHeNhOSCl3uoETBbEdeAwzggVlpox/mrgCqXY2aagfKVrw3jdYOkgARIdb54Qs6brmOVPveX3kA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UuXYe5HvREAo9l6/5lOOmQOiQhAErjxuKKwZDIpGJ9c=;
- b=NZvVms6vyF/PGtf2mxGFsFZdtttBDNMz6oV8zrVf8WUMnyxpo0RiT/ChFR9egFgWyj9x1oZxxXX0ka/UGDtdWq1LOM0SYMGDgJqIcfNFpPBqgCKWqx1J2NW9OWGoW0qbwZFBiMy8/zRTKIpbHUWppE1Y5DqHuZatCdNnlNBaTpFYjeEmvM2tTDPcCLvEOo6fcoxI+LtSLlqHvJFVL/Ek6jjE0XnlX6+5MCc8tYMuE3q7K6rD1WaOKBz8hsmtl9IRz/mu3LMMWm5x5jKWLsdYKmJv/wdHrJmTaoHGv77HMKBdD/Rn9JEl87qnW9vgfNoMYTG0+VdBfa0nFQcBKBcPuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UuXYe5HvREAo9l6/5lOOmQOiQhAErjxuKKwZDIpGJ9c=;
- b=h3SX35bdnY3ccCMUio+pgwREc+P1cDWdsSS5UrNA95jPVoPUiNUf0xbkgq1l2ubBAK5YfVtGelLJkPExmuuFn6c5Oav0tKs799iqgZM4J9UOzvkUmJspv8OR+Vc7ChggQKr24DPBxkWbeVKGrwJW6iB+m1fVkx3C8+Sq6NXujMDU8sDyD1A35QcKh8PkJnA8aG+l5LivC0/c7g83QL/3SmXQ1CLIQB5XzQmDwZdCgSB0s4ji4eUxFqzdiM1DTbp3+YFaS7LGwd6T3We6KdDXrOP0/s+FnFzm1pGWLmlspsBJ5rbciycIwAJWoE/eNbPFeZ6QmzQqOZArTfmOIHL1Lw==
-Received: from TY0PR06MB6855.apcprd06.prod.outlook.com (2603:1096:405:13::10)
- by SEZPR06MB5713.apcprd06.prod.outlook.com (2603:1096:101:9d::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Mon, 13 Jul
- 2026 05:34:16 +0000
-Received: from TY0PR06MB6855.apcprd06.prod.outlook.com
- ([fe80::9405:99c0:aadd:7e05]) by TY0PR06MB6855.apcprd06.prod.outlook.com
- ([fe80::9405:99c0:aadd:7e05%6]) with mapi id 15.21.0181.017; Mon, 13 Jul 2026
- 05:34:16 +0000
-From: YC Hsieh <yc_hsieh@aspeedtech.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Corey Minyard <corey@minyard.net>,
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>, Andrew
- Jeffery <andrew@codeconstruct.com.au>
-CC: "openipmi-developer@lists.sourceforge.net"
-	<openipmi-developer@lists.sourceforge.net>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org"
-	<linux-aspeed@lists.ozlabs.org>
-Subject:
- =?big5?B?pl7C0DogW1BBVENIIDMvNF0gZHQtYmluZGluZ3M6IGlwbWk6IEFkZCBvcHRpb25h?=
- =?big5?Q?l_LPC_properties_to_ASPEED_BT_devices?=
-Thread-Topic: [PATCH 3/4] dt-bindings: ipmi: Add optional LPC properties to
- ASPEED BT devices
-Thread-Index: AQHdB5N07GOCG0yUdU+n8UrPxJS92rZWn3MAgBRgtcA=
-Date: Mon, 13 Jul 2026 05:34:16 +0000
-Message-ID:
- <TY0PR06MB6855F4F499246CD5C44DB23893FA2@TY0PR06MB6855.apcprd06.prod.outlook.com>
-References:
- <20260629-aspeed-bt-bmc-multichannel-v1-0-fc23ee337f7a@aspeedtech.com>
- <20260629-aspeed-bt-bmc-multichannel-v1-3-fc23ee337f7a@aspeedtech.com>
- <35a8e3b3-7725-4d1b-8667-84e6fa24b2ca@kernel.org>
-In-Reply-To: <35a8e3b3-7725-4d1b-8667-84e6fa24b2ca@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY0PR06MB6855:EE_|SEZPR06MB5713:EE_
-x-ms-office365-filtering-correlation-id: bb4d90c3-4608-4895-ee86-08dee0a06114
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|23010399003|7416014|376014|3023799007|6133799003|38070700021|18002099003|22082099003|56012099006|4143699003|8096899003;
-x-microsoft-antispam-message-info:
- 94JKcYwszho6ZXyHm0oX0csYD8b+3eT3wK8J/1Ol6wBhXnPPlD+A1jfBRmYMZvyPc6mCHfFR4+v1NojLJw1jqHWy/OsZpAmU+RwFvP514cn0rBLkP4OS114pm5+oL8es9xNvoxHIkBRKVmUwUlInZZibOifODS9BEXH6Thm3AcH2TPjSSNt2YgA/CZXmRpz+hIV41ZuPNP20nAOc8Cm69bks5gEmH8JoUWHk9+ghXgfeVSBcCkbcoZnnNk/dPeD1sL6wJ6QK0TNewzTrE/IvPAI5UoJ0keurt0PGS2ZRgb1axjIPrSupH2tAajHiWxT5Yg5091kdER+G60ChOn7PZDi1oKIi/oSNVezoPx9PiB8gJ0dFYPM04i7C41IWQKtzrOxhmPCiPS5yU0iKru84dlmwdF4pJRRBlKRoshbwZ8EapieScXc3IS0s44WbI6khZeBz9v9++ZzULai6flnmeFLz6cDiqd3TXkoPBBQl3VMPbFdnKLxrl5RsiQlU0jLwugODUY42nCfu9sUQEADhedAfFyLurcmt8J5/w3VPAXhn9IIIQL8ANvKWBHpbLMqYow1tGgKNTXOEoUZnrCcXVlHbzGLajxNd399Ge29yunTR1AV1PO+fGtaDra62mc7YGz/JZUzWoEoDJBfv8GLUyR7WmaC8/qufZ6zPHbjLphcB+huK2rmXjYQCSwsQrzYedf9vavDjlfTKaSTCkCYnpV7K52fdN8Kjioc0heAPDIA=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR06MB6855.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(7416014)(376014)(3023799007)(6133799003)(38070700021)(18002099003)(22082099003)(56012099006)(4143699003)(8096899003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?big5?B?dU90bTE3cVVMa0VSaTVJNWc5ZE84SElaQnhtemlqTFRXcG5PTVJIY2VCUm1VMnRJ?=
- =?big5?B?elJWbnRQM1VvcjVrWFpWZUFCU2pRWjg4M0VjSzJsRXk3MVJNUjNYVWdYM0FucnRn?=
- =?big5?B?bDlmRU92NVJId01wMTVrRDZoaUtyc2NOdC9VV0swQU9mVzBRdW56M1VLRkczQXlY?=
- =?big5?B?MnNOMzhXOVhyY3lwT0Z1SjcyWFErOUNHOURPdm80RHZSekFVd3hLZVJlZllYSE01?=
- =?big5?B?ZTV6R0t6L2c3OHdpbVd6VXlSODZ1R1R0cFVubld6b1VBNG9BcGwydnA3MWdYK2pl?=
- =?big5?B?SFBocDNEMHlsMDUyN0lFL1pYcEdCRmV6d0pXNXp6MnhxYzJhMjIyZGJhc3FoSUZM?=
- =?big5?B?M1pHOFpXUU56eEF6ekFRMng1SUtURkJjYndWWHMwYVdzY09SVVlheCtXOUN6V09C?=
- =?big5?B?UnRXY3pYdjBLTUNaSzVTZzFXZ1A0M3c4OXBzZUhIdEh1ZWZraHJ0bnpTbFk5NVQr?=
- =?big5?B?bkdZZ293d01idHR6dnVSbDlJR1pUSkI3T0IxU0tsc01aWUR0Mm1JZVdCdHQzUk5E?=
- =?big5?B?aktrajVUY0tkTUxxaTNvZVpWaWJZaFRRS0FYaTV5T2dNbGl6NmZKSEc3dnZha0JQ?=
- =?big5?B?MGZza0dWNmhQbTJzM3Yvai84R1B3N0l3MXk3YTd3S0Z4QUU4a200eVNWWGpnbHR6?=
- =?big5?B?Y0hLZjRoUlBsVzlnR2FpZCtid3M2aHdRQkhCcmJaWFpJVi84eWdUa1g4QW1yMkxs?=
- =?big5?B?Z1pudTU4d3lMWmdtM2pacDVtdUZ3b2JUT3hKbXlLeXlURTJSQ0N3KzliVlExZjJH?=
- =?big5?B?RjIwUlJIaTlLNytMN3pWeFVjd3E5TnZXNE1OMDdjRlhRZWh3WTR6L2FhYVVPSFk3?=
- =?big5?B?QWV5ZW5BZVE3YUxkKzFnaStvNDdwWTNreVBVUnI3QlFlM2VJWkswU09hV2dnOW9p?=
- =?big5?B?T25SWXpIWXVoVUJWLzc3U2FIMUpJSUcyWkxULzE3QllBMmFjS0J2TTVGT3MySi9q?=
- =?big5?B?bS9GbE5lVC91dEM1UzFaNU9ya3NaTXRPUlpwenhHZks5THZmdzVINWhvNkFqU3BJ?=
- =?big5?B?ZU8zM2g2K0d6SllTYUx0RkhYZi81WjZ4ZS9zaHB2aXAvYlNkb1RQSExNM2NRdjMz?=
- =?big5?B?OGM1bi9Ra0MvWGJXcXpDT1FyR21TVDNKYTBTdzdwaVh2ekZUTWlzM0hoellxa0s4?=
- =?big5?B?eHFZMGtDdm96OVhEc3dLZk9nYlJNWnJ4RmtlWGNsRE5OZHNqT1V0YjRJZGUzcUUz?=
- =?big5?B?QkFqVGJocGdEL0hOMTI3VXdWTGtiQjdJVzNPWTNwQjVLSU1DVlYyTmN0L0oxUTNX?=
- =?big5?B?SGozNUJvazYvOG9Nc1U0RFdFUUwyYVZPMnZYT0FRSndVL3FrbVYrbzdwY21iRlJi?=
- =?big5?B?Q1d4VG1LeEZCZ3MvcS9rWnlkZVgxWkJWUFpIendiVVIxTExjZnhQeWJ4U0JXTitn?=
- =?big5?B?QWR0UUJjeFRFTjJQYjM3a0xJS0hnTVA0ZUNxZkFiMkRyY09wbWExUHkxejkxNVNu?=
- =?big5?B?RWJ2NENyN3UvYVBPeDBqME9FSHBNRkVGSlU5QjU0T0JhN1pTYUhzeFZIWEZndCtC?=
- =?big5?B?OWwzS25FUnM2QzR6SEwwT1g1dCtMNzlqRkdHTmUzWERJS3JCWkxSMkVWZEVpUVlU?=
- =?big5?B?UUdGUnVmeWhFSHkzakxtbUJtdGxrUE9ySmpBRHdsZzFrc0JUQUk0Q092T1Z6dGdZ?=
- =?big5?B?MEk4UkZYRGJKWTdkcXZ2eFVBWVo4ZEJadkhVb0xvcDAxYWtHaTJpNlE0WDJXWmxv?=
- =?big5?B?S1UvRzE1dnVpNHpOQ3hqR3RTRlNWU1pLcE1LYUxNaTV4clprMFdvL01ZMGtjbU1j?=
- =?big5?B?UEZMMTd6OGtKNmlEMEJSRlVFTmxmZVo4aitNTGFMZVJ3SnpkZWpDRFJnbTFFMTgv?=
- =?big5?B?V2VSNjFMaEczTWxCUnRkR2ZRTWNmWHdCQkZVdzhyb3NrbHBvUHJkd0c3VDBGTHNG?=
- =?big5?B?WWRjZmQ2TGgvZGsrNCtLNVliU3dGOWRmNlBUQmE5VU0wbHhCMk1RcU5CTzBiYXZJ?=
- =?big5?B?T3FqYUk1Zk5uMUIyZkcrVjNCMEo3djZEOSswb0hJenpISFZ5ZHI0Ukc0cFBYbVpF?=
- =?big5?B?T01qRmJibExCQWQ5Z0VWK3hJdHYwL1QvWnJqNjM3THBLa2NRR1lkZjV5d2ZKanRr?=
- =?big5?B?eDdJZTBRRUJIUG9vLzNxZWtibTAxTGg0VGMxSy90czJqQ1RTdmFHSlVJNzRERzEy?=
- =?big5?B?K1BXY1p1aG9uUmZrS2Z1YVJ2TWNHai9qeFhXUUtKSzdQcDhHTWFlMW9kN1gwem92?=
- =?big5?B?THZEemMwd0J4dEJ1SEl6TExoRXUwdz09?=
-Content-Type: multipart/alternative;
-	boundary="_000_TY0PR06MB6855F4F499246CD5C44DB23893FA2TY0PR06MB6855apcp_"
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gzBWh58m0z2xjN
+	for <linux-aspeed@lists.ozlabs.org>; Mon, 13 Jul 2026 15:56:16 +1000 (AEST)
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id 3502860018;
+	Mon, 13 Jul 2026 05:56:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E41F1F000E9;
+	Mon, 13 Jul 2026 05:56:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783922173;
+	bh=PtrCDJHGMBLrAiE0X+RqgpgZ1PM0JBugYWIm44VvHeg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=dXV90xl+gj+TloizpMWOy2PLVfKxDOTs3Mz57RiuvirEqtc08yxbFlEO1DRo/WB4N
+	 3Fwk8LPppJB7R7mMreSgYg+W76g2jgHZ+NWXfsVSij+SC6N8WczYkBlW4fGXMENBuT
+	 sxKF8xsJT9hWcSlU8V01bfytLpWk8J7zH98Cbd7JfUiaIYmVs8pH0l7kIHoCqY6YIk
+	 8rH8R3KS/XAGPv1ALWuR117kg+e7ktt7Ah12X33XO0cIe+uslkzmqxbMxiWIVr9W9J
+	 EROB0zmVBIe3IG4DtLAoX/L9ikk5oSHELLrIy9HddhfodDuXZEPqP/Fz8hwhkvFvfX
+	 UJq7x6k1LboUQ==
+Message-ID: <31df2c13-9c31-4a78-975f-b0152ad3356d@kernel.org>
+Date: Mon, 13 Jul 2026 07:56:06 +0200
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -151,420 +62,145 @@ List-Subscribe: <mailto:linux-aspeed+subscribe@lists.ozlabs.org>,
 List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR06MB6855.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb4d90c3-4608-4895-ee86-08dee0a06114
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jul 2026 05:34:16.0567
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NH6fmECNkyfra9IqhEmnCB2Ml/GFOPOieS0XQnH0Bdi4vPF2laQ7yMS30MyUNqLZi1oHvEOLl2khHh3IeD3nng==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5713
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,HTML_MESSAGE,SPF_HELO_NONE,SPF_PASS
+User-Agent: Mozilla Thunderbird
+Subject: =?UTF-8?B?UmU6IOWbnuimhjogW1BBVENIIDMvNF0gZHQtYmluZGluZ3M6IGlwbWk6?=
+ =?UTF-8?Q?_Add_optional_LPC_properties_to_ASPEED_BT_devices?=
+To: YC Hsieh <yc_hsieh@aspeedtech.com>, Corey Minyard <corey@minyard.net>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: "openipmi-developer@lists.sourceforge.net"
+ <openipmi-developer@lists.sourceforge.net>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
+References: <20260629-aspeed-bt-bmc-multichannel-v1-0-fc23ee337f7a@aspeedtech.com>
+ <20260629-aspeed-bt-bmc-multichannel-v1-3-fc23ee337f7a@aspeedtech.com>
+ <35a8e3b3-7725-4d1b-8667-84e6fa24b2ca@kernel.org>
+ <TY0PR06MB6855F4F499246CD5C44DB23893FA2@TY0PR06MB6855.apcprd06.prod.outlook.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <TY0PR06MB6855F4F499246CD5C44DB23893FA2@TY0PR06MB6855.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
 	autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.39 / 15.00];
+X-Spamd-Result: default: False [-0.71 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DATE_IN_PAST(1.00)[50];
-	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[aspeedtech.com,quarantine];
+	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117];
 	MAILLIST(-0.20)[generic];
-	R_DKIM_ALLOW(-0.20)[aspeedtech.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2404:9400:21b9:f100::1:c];
-	MIME_BASE64_TEXT(0.10)[];
-	MIME_GOOD(-0.10)[multipart/alternative,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-4484-lists,linux-aspeed=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-4463-lists,linux-aspeed=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:corey@minyard.net,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:openipmi-developer@lists.sourceforge.net,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[yc_hsieh@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[aspeedtech.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:yc_hsieh@aspeedtech.com,m:corey@minyard.net,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:openipmi-developer@lists.sourceforge.net,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
+	FORGED_SENDER(0.00)[krzk@kernel.org,linux-aspeed@lists.ozlabs.org];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FROM_NEQ_ENVFROM(0.00)[yc_hsieh@aspeedtech.com,linux-aspeed@lists.ozlabs.org];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-aspeed@lists.ozlabs.org];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:133159, ipnet:2404:9400:2000::/36, country:AU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[TY0PR06MB6855.apcprd06.prod.outlook.com:mid,ozlabs.org:email,aspeedtech.com:from_mime,aspeedtech.com:email,aspeedtech.com:dkim,lists.ozlabs.org:from_smtp,lists.ozlabs.org:helo,lists.ozlabs.org:rdns,infradead.org:email,codeconstruct.com.au:email,jms.id.au:email]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 24AC975B836
+X-Rspamd-Queue-Id: 0CC097475F4
 
---_000_TY0PR06MB6855F4F499246CD5C44DB23893FA2TY0PR06MB6855apcp_
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+On 13/07/2026 07:34, YC Hsieh wrote:
+> On Tue, Jun 30, 2026 at 08:11:34AM +0200, Krzysztof Kozlowski wrote:
+> 
+>> What
+>>
+>> is
+>>
+>> with
+>>
+>> this
+>>
+>> line breaks?
+> 
+> Apologies for the broken formatting in the commit message.
+> I will fix it in the next revision.
+> 
+>> No, you do not get second reg property.
+>>
+>> No, you do not get second interrupts property.
+> 
+> Understood.
+> 
+> These values are not addressable resources of the BMC node itself;
+> rather, they describe how the BMC's LPC engine is exposed on the host
+> LPC bus. I am not sure how they should be represented in DT, since
+> they do not seem to fit the usual semantics of either "reg" or "interrupts".
+> 
+> Do you have a preferred way to represent this kind of host-facing LPC
+> configuration in the binding?
 
-T24gVHVlLCBKdW4gMzAsIDIwMjYgYXQgMDg6MTE6MzRBTSArMDIwMCwgS3J6eXN6dG9mIEtvemxv
-d3NraSB3cm90ZToNCg0KPiBXaGF0DQo+DQo+IGlzDQo+DQo+IHdpdGgNCj4NCj4gdGhpcw0KPg0K
-PiBsaW5lIGJyZWFrcz8NCg0KQXBvbG9naWVzIGZvciB0aGUgYnJva2VuIGZvcm1hdHRpbmcgaW4g
-dGhlIGNvbW1pdCBtZXNzYWdlLg0KSSB3aWxsIGZpeCBpdCBpbiB0aGUgbmV4dCByZXZpc2lvbi4N
-Cg0KPiBObywgeW91IGRvIG5vdCBnZXQgc2Vjb25kIHJlZyBwcm9wZXJ0eS4NCj4NCj4gTm8sIHlv
-dSBkbyBub3QgZ2V0IHNlY29uZCBpbnRlcnJ1cHRzIHByb3BlcnR5Lg0KDQpVbmRlcnN0b29kLg0K
-DQpUaGVzZSB2YWx1ZXMgYXJlIG5vdCBhZGRyZXNzYWJsZSByZXNvdXJjZXMgb2YgdGhlIEJNQyBu
-b2RlIGl0c2VsZjsNCnJhdGhlciwgdGhleSBkZXNjcmliZSBob3cgdGhlIEJNQydzIExQQyBlbmdp
-bmUgaXMgZXhwb3NlZCBvbiB0aGUgaG9zdA0KTFBDIGJ1cy4gSSBhbSBub3Qgc3VyZSBob3cgdGhl
-eSBzaG91bGQgYmUgcmVwcmVzZW50ZWQgaW4gRFQsIHNpbmNlDQp0aGV5IGRvIG5vdCBzZWVtIHRv
-IGZpdCB0aGUgdXN1YWwgc2VtYW50aWNzIG9mIGVpdGhlciAicmVnIiBvciAiaW50ZXJydXB0cyIu
-DQoNCkRvIHlvdSBoYXZlIGEgcHJlZmVycmVkIHdheSB0byByZXByZXNlbnQgdGhpcyBraW5kIG9m
-IGhvc3QtZmFjaW5nIExQQw0KY29uZmlndXJhdGlvbiBpbiB0aGUgYmluZGluZz8NCg0KVGhhbmtz
-LA0KWXUtQ2hlDQoNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQqxSKXzqsw6IEty
-enlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4NCqR3tsewZTogrFC0waRHLCAyMDI2
-IKZ+IDYgpOsgMzAgpOkgpFWkyCAwMjoxMQ0Kpqyl86rMOiBZQyBIc2llaCA8eWNfaHNpZWhAYXNw
-ZWVkdGVjaC5jb20+OyBDb3JleSBNaW55YXJkIDxjb3JleUBtaW55YXJkLm5ldD47IFJvYiBIZXJy
-aW5nIDxyb2JoQGtlcm5lbC5vcmc+OyBLcnp5c3p0b2YgS296bG93c2tpIDxrcnprK2R0QGtlcm5l
-bC5vcmc+OyBDb25vciBEb29sZXkgPGNvbm9yK2R0QGtlcm5lbC5vcmc+OyBKb2VsIFN0YW5sZXkg
-PGpvZWxAam1zLmlkLmF1PjsgQW5kcmV3IEplZmZlcnkgPGFuZHJld0Bjb2RlY29uc3RydWN0LmNv
-bS5hdT4NCrDGpbs6IG9wZW5pcG1pLWRldmVsb3BlckBsaXN0cy5zb3VyY2Vmb3JnZS5uZXQgPG9w
-ZW5pcG1pLWRldmVsb3BlckBsaXN0cy5zb3VyY2Vmb3JnZS5uZXQ+OyBsaW51eC1rZXJuZWxAdmdl
-ci5rZXJuZWwub3JnIDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPjsgZGV2aWNldHJlZUB2
-Z2VyLmtlcm5lbC5vcmcgPGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnPjsgbGludXgtYXJtLWtl
-cm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnIDxsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVh
-ZC5vcmc+OyBsaW51eC1hc3BlZWRAbGlzdHMub3psYWJzLm9yZyA8bGludXgtYXNwZWVkQGxpc3Rz
-Lm96bGFicy5vcmc+DQqlRKauOiBSZTogW1BBVENIIDMvNF0gZHQtYmluZGluZ3M6IGlwbWk6IEFk
-ZCBvcHRpb25hbCBMUEMgcHJvcGVydGllcyB0byBBU1BFRUQgQlQgZGV2aWNlcw0KDQpPbiAyOS8w
-Ni8yMDI2IDA4OjQ5LCBZdS1DaGUgSHNpZWggdmlhIEI0IFJlbGF5IHdyb3RlOg0KPiBGcm9tOiBZ
-dS1DaGUgSHNpZWggPHljX2hzaWVoQGFzcGVlZHRlY2guY29tPg0KPg0KPiBBbGxvY2F0aW5nIElP
-IGFuZCBJUlEgcmVzb3VyY2VzIHRvIExQQyBkZXZpY2VzIGlzIGluLXRoZW9yeSBhbiBvcGVyYXRp
-b24NCj4NCj4gZm9yIHRoZSBob3N0LCBob3dldmVyIEFTUEVFRCBzeXN0ZW1zIGRlc2NyaWJlIHRo
-ZXNlIHJlc291cmNlcyB0aHJvdWdoDQo+DQo+IEJNQy1pbnRlcm5hbCBjb25maWd1cmF0aW9uLCBh
-cyBhbHJlYWR5IHN1cHBvcnRlZCBieSB0aGUgQVNQRUVEIEtDUyBCTUMNCg0KV2hhdA0KDQppcw0K
-DQp3aXRoDQoNCnRoaXMNCg0KbGluZSBicmVha3M/DQoNCg0KPg0KPiBiaW5kaW5nLg0KPg0KPiBB
-ZGQgYXNwZWVkLGxwYy1pby1yZWcgYW5kIGFzcGVlZCxscGMtaW50ZXJydXB0cyB0byB0aGUgQVNQ
-RUVEIEJUIEJNQw0KPg0KPiBiaW5kaW5nIHNvIGZpcm13YXJlIGNhbiBkZXNjcmliZSB0aGUgaG9z
-dCBMUEMgSU8gYWRkcmVzcyBhbmQgU2VySVJRDQo+DQo+IGNvbmZpZ3VyYXRpb24gdXNpbmcgdGhl
-IHNhbWUgcHJvcGVydGllcyBhcyBLQ1MgZGV2aWNlcy4NCj4NCj4gU2lnbmVkLW9mZi1ieTogWXUt
-Q2hlIEhzaWVoIDx5Y19oc2llaEBhc3BlZWR0ZWNoLmNvbT4NCj4gLS0tDQo+IC4uLi9iaW5kaW5n
-cy9pcG1pL2FzcGVlZCxhc3QyNDAwLWlidC1ibWMueWFtbCAgICAgICB8IDIxICsrKysrKysrKysr
-KysrKysrKysrKw0KPiAgMSBmaWxlIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKykNCj4NCj4gZGlm
-ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9pcG1pL2FzcGVlZCxh
-c3QyNDAwLWlidC1ibWMueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9p
-cG1pL2FzcGVlZCxhc3QyNDAwLWlidC1ibWMueWFtbA0KPiBpbmRleCBjNGY3Y2RiYmUxNmIuLjE4
-MDNjNmJiYWU5MyAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL2lwbWkvYXNwZWVkLGFzdDI0MDAtaWJ0LWJtYy55YW1sDQo+ICsrKyBiL0RvY3VtZW50YXRp
-b24vZGV2aWNldHJlZS9iaW5kaW5ncy9pcG1pL2FzcGVlZCxhc3QyNDAwLWlidC1ibWMueWFtbA0K
-PiBAQCAtMjUsNiArMjUsMjQgQEAgcHJvcGVydGllczoNCj4gICAgaW50ZXJydXB0czoNCj4gICAg
-ICBtYXhJdGVtczogMQ0KPg0KPiArICBhc3BlZWQsbHBjLWlvLXJlZzoNCj4gKyAgICAkcmVmOiAv
-c2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzItYXJyYXkNCj4gKyAgICBtYXhJ
-dGVtczogMQ0KPiArICAgIGRlc2NyaXB0aW9uOiB8DQo+ICsgICAgICBUaGUgaG9zdCBDUFUgTFBD
-IElPIGFkZHJlc3MgZm9yIHRoZSBCVCBkZXZpY2UuDQoNCk5vLCB5b3UgZG8gbm90IGdldCBzZWNv
-bmQgcmVnIHByb3BlcnR5Lg0KDQo+ICsNCj4gKyAgYXNwZWVkLGxwYy1pbnRlcnJ1cHRzOg0KPiAr
-ICAgICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMi1hcnJheQ0K
-PiArICAgIG1pbkl0ZW1zOiAyDQo+ICsgICAgbWF4SXRlbXM6IDINCj4gKyAgICBkZXNjcmlwdGlv
-bjogfA0KPiArICAgICAgQSAyLWNlbGwgcHJvcGVydHkgZXhwcmVzc2luZyB0aGUgTFBDIFNlcklS
-USBudW1iZXIgYW5kIHRoZSBpbnRlcnJ1cHQNCj4gKyAgICAgIGxldmVsL3NlbnNlIGVuY29kaW5n
-IChzcGVjaWZpZWQgaW4gdGhlIHN0YW5kYXJkIGZhc2hpb24pLg0KPiArDQo+ICsgICAgICBOb3Rl
-IHRoYXQgdGhlIGdlbmVyYXRlZCBpbnRlcnJ1cHQgaXMgaXNzdWVkIGZyb20gdGhlIEJNQyB0byB0
-aGUgaG9zdCwgYW5kDQo+ICsgICAgICB0aHVzIHRoZSB0YXJnZXQgaW50ZXJydXB0IGNvbnRyb2xs
-ZXIgaXMgbm90IGNhcHR1cmVkIGJ5IHRoZSBCTUMncw0KPiArICAgICBkZXZpY2V0cmVlLg0KDQpO
-bywgeW91IGRvIG5vdCBnZXQgc2Vjb25kIGludGVycnVwdHMgcHJvcGVydHkuDQoNCj4NCg0KDQpC
-ZXN0IHJlZ2FyZHMsDQpLcnp5c3p0b2YNCg==
+I don't understand what you are referring to, entire context is gone
+because essentially you top-posted.
 
---_000_TY0PR06MB6855F4F499246CD5C44DB23893FA2TY0PR06MB6855apcp_
-Content-Type: text/html; charset="big5"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dbig5">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-On Tue, Jun 30, 2026 at 08:11:34AM +0200, Krzysztof Kozlowski wrote:</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-&gt; What</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-&gt;&nbsp;</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-&gt; is</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-&gt;&nbsp;</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-&gt; with</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-&gt;</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-&gt; this</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-&gt;</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-&gt; line breaks?</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-Apologies for the broken formatting in the commit message.</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-I will fix it in the next revision.</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-&gt; No, you do not get second reg property.</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-&gt;</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-&gt; No, you do not get second interrupts property.</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-Understood.</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-These values are not addressable resources of the BMC node itself;</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-rather, they describe how the BMC's LPC engine is exposed on the host</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-LPC bus. I am not sure how they should be represented in DT, since</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-they do not seem to fit the usual semantics of either &quot;reg&quot; or &q=
-uot;interrupts&quot;.</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-Do you have a preferred way to represent this kind of host-facing LPC</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-configuration in the binding?</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: &quot;Segoe UI&quot;, &=
-quot;Segoe UI Web (West European)&quot;, -apple-system, BlinkMacSystemFont,=
- Roboto, &quot;Helvetica Neue&quot;, sans-serif; font-size: 11pt; color: rg=
-b(0, 0, 0);">
-Thanks,</div>
-<div style=3D"font-family: &quot;Segoe UI&quot;, &quot;Segoe UI Web (West E=
-uropean)&quot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvetica =
-Neue&quot;, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-Yu-Che</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<hr style=3D"display: inline-block; width: 98%;">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<b>=B1H=A5=F3=AA=CC:</b> Krzysztof Kozlowski &lt;krzk@kernel.org&gt;<br>
-<b>=A4w=B6=C7=B0e:</b> =ACP=B4=C1=A4G, 2026 =A6~ 6 =A4=EB 30 =A4=E9 =A4U=A4=
-=C8 02:11<br>
-<b>=A6=AC=A5=F3=AA=CC:</b> YC Hsieh &lt;yc_hsieh@aspeedtech.com&gt;; Corey =
-Minyard &lt;corey@minyard.net&gt;; Rob Herring &lt;robh@kernel.org&gt;; Krz=
-ysztof Kozlowski &lt;krzk+dt@kernel.org&gt;; Conor Dooley &lt;conor+dt@kern=
-el.org&gt;; Joel Stanley &lt;joel@jms.id.au&gt;; Andrew Jeffery &lt;andrew@=
-codeconstruct.com.au&gt;<br>
-<b>=B0=C6=A5=BB:</b> openipmi-developer@lists.sourceforge.net &lt;openipmi-=
-developer@lists.sourceforge.net&gt;; linux-kernel@vger.kernel.org &lt;linux=
--kernel@vger.kernel.org&gt;; devicetree@vger.kernel.org &lt;devicetree@vger=
-.kernel.org&gt;; linux-arm-kernel@lists.infradead.org &lt;linux-arm-kernel@=
-lists.infradead.org&gt;;
- linux-aspeed@lists.ozlabs.org &lt;linux-aspeed@lists.ozlabs.org&gt;<br>
-<b>=A5D=A6=AE:</b> Re: [PATCH 3/4] dt-bindings: ipmi: Add optional LPC prop=
-erties to ASPEED BT devices
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-size: 11pt;">On 29/06/2026 08:49, Yu-Che Hsieh via B4 Re=
-lay wrote:<br>
-&gt; From: Yu-Che Hsieh &lt;yc_hsieh@aspeedtech.com&gt;<br>
-&gt;<br>
-&gt; Allocating IO and IRQ resources to LPC devices is in-theory an operati=
-on<br>
-&gt;<br>
-&gt; for the host, however ASPEED systems describe these resources through<=
-br>
-&gt;<br>
-&gt; BMC-internal configuration, as already supported by the ASPEED KCS BMC=
-<br>
-<br>
-What<br>
-<br>
-is<br>
-<br>
-with<br>
-<br>
-this<br>
-<br>
-line breaks?<br>
-<br>
-<br>
-&gt;<br>
-&gt; binding.<br>
-&gt;<br>
-&gt; Add aspeed,lpc-io-reg and aspeed,lpc-interrupts to the ASPEED BT BMC<b=
-r>
-&gt;<br>
-&gt; binding so firmware can describe the host LPC IO address and SerIRQ<br=
->
-&gt;<br>
-&gt; configuration using the same properties as KCS devices.<br>
-&gt;<br>
-&gt; Signed-off-by: Yu-Che Hsieh &lt;yc_hsieh@aspeedtech.com&gt;<br>
-&gt; ---<br>
-&gt; .../bindings/ipmi/aspeed,ast2400-ibt-bmc.yaml&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp; | 21 +++++++++++++++++++++<br>
-&gt;&nbsp; 1 file changed, 21 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-ibt=
--bmc.yaml b/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-ibt-bmc.y=
-aml<br>
-&gt; index c4f7cdbbe16b..1803c6bbae93 100644<br>
-&gt; --- a/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-ibt-bmc.ya=
-ml<br>
-&gt; +++ b/Documentation/devicetree/bindings/ipmi/aspeed,ast2400-ibt-bmc.ya=
-ml<br>
-&gt; @@ -25,6 +25,24 @@ properties:<br>
-&gt;&nbsp;&nbsp;&nbsp; interrupts:<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; maxItems: 1<br>
-&gt;&nbsp;<br>
-&gt; +&nbsp; aspeed,lpc-io-reg:<br>
-&gt; +&nbsp;&nbsp;&nbsp; $ref: /schemas/types.yaml#/definitions/uint32-arra=
-y<br>
-&gt; +&nbsp;&nbsp;&nbsp; maxItems: 1<br>
-&gt; +&nbsp;&nbsp;&nbsp; description: |<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The host CPU LPC IO address for the BT=
- device.<br>
-<br>
-No, you do not get second reg property.<br>
-<br>
-&gt; +<br>
-&gt; +&nbsp; aspeed,lpc-interrupts:<br>
-&gt; +&nbsp;&nbsp;&nbsp; $ref: /schemas/types.yaml#/definitions/uint32-arra=
-y<br>
-&gt; +&nbsp;&nbsp;&nbsp; minItems: 2<br>
-&gt; +&nbsp;&nbsp;&nbsp; maxItems: 2<br>
-&gt; +&nbsp;&nbsp;&nbsp; description: |<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A 2-cell property expressing the LPC S=
-erIRQ number and the interrupt<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; level/sense encoding (specified in the=
- standard fashion).<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Note that the generated interrupt is i=
-ssued from the BMC to the host, and<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; thus the target interrupt controller i=
-s not captured by the BMC's<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; devicetree.<br>
-<br>
-No, you do not get second interrupts property.<br>
-<br>
-&gt;<br>
-<br>
-<br>
-Best regards,<br>
-Krzysztof<br>
-</div>
-</body>
-</html>
-
---_000_TY0PR06MB6855F4F499246CD5C44DB23893FA2TY0PR06MB6855apcp_--
+Best regards,
+Krzysztof
 
