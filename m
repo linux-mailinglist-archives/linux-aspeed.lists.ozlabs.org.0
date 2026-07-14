@@ -1,97 +1,92 @@
-Return-Path: <linux-aspeed+bounces-4472-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
+Return-Path: <linux-aspeed+bounces-4479-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>
 Delivered-To: lists+linux-aspeed@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id y5d9G8EmVmqR0AAAu9opvQ
-	(envelope-from <linux-aspeed+bounces-4472-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Jul 2026 14:08:33 +0200
+	id HD3ABpI3V2oSHgEAu9opvQ
+	(envelope-from <linux-aspeed+bounces-4479-lists+linux-aspeed=lfdr.de@lists.ozlabs.org>)
+	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Jul 2026 09:32:34 +0200
 X-Original-To: lists+linux-aspeed@lfdr.de
 Received: from lists.ozlabs.org (lists.ozlabs.org [112.213.38.117])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA357544A8
-	for <lists+linux-aspeed@lfdr.de>; Tue, 14 Jul 2026 14:08:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3B575B752
+	for <lists+linux-aspeed@lfdr.de>; Wed, 15 Jul 2026 09:32:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=b3a1OMvZ;
-	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4472-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4472-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="X2jX3l/s";
+	spf=pass (mail.lfdr.de: domain of "linux-aspeed+bounces-4479-lists+linux-aspeed=lfdr.de@lists.ozlabs.org" designates 112.213.38.117 as permitted sender) smtp.mailfrom="linux-aspeed+bounces-4479-lists+linux-aspeed=lfdr.de@lists.ozlabs.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("lists.ozlabs.org:s=201707:i=1")
 Received: from boromir.ozlabs.org (localhost [127.0.0.1])
-	by lists.ozlabs.org (Postfix) with ESMTP id 4gzykk4l00z2yRl;
-	Tue, 14 Jul 2026 22:08:30 +1000 (AEST)
+	by lists.ozlabs.org (Postfix) with ESMTP id 4h0SYQ2pGhz303X;
+	Wed, 15 Jul 2026 17:32:10 +1000 (AEST)
 X-Original-To: linux-aspeed@lists.ozlabs.org
-ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1784030910;
-	cv=none; b=lJ8qxGCrLkXS1pUNPwn0yvSfSVBpoX772oJbJZm3w5Tn5kc0XoWxYLKXFNH5QngyJp89coa3jigFnRoOUBNIm0huQfnbLEyTgudbC1AKijS1CTJuTq6aeXzHVu9D8hpFbE2ndzUA4bkg2aKNawgIU5JVdiW2sXEYcm1vc9Wym1buqHdML12XfT7FbBokFh6/oJiJx6vCQwz9JuUjXelPaeQBtyYm79IxFbrF1rfw69V5/5QVP5xDruCRdgVrXBrU50JNML9wOr8+iW8l5XdNzQaJx0NOCeh4edStVSUJL82t5yCe1RXe50uVmvPjphUyf8nkzTuBNOA/BbJCBi79bg==
+ARC-Seal: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707; t=1784032385;
+	cv=none; b=V2KUZYWi3uJ6OdKGb6KAoyzgWVkRd9JHHdLOmS4IkbcwBm+SUg4tfengybKdPgg7X2fCDfLtabJV0O/epfHLHxTitiAZ5ggijEuaWsmjXuV8p21RRFfrEkDvkZp94JBY0CbKaHuODM5uY/WLxk40Psbu/Q73HN8zYoKnjCxE5YZGxWQtxng6yImNwF0+XhdIL5Y5+2Y7H+ZVBQ8FUOUwgEIw5E1X6oJwwP3xi5qadXXJAvPJroRA6NR7dz9VF7LrseKuktYBSoH3y8gK6Cnsoo1fiw2/sUutsGPL22BkLFKOQ7lbFFXYbpUUL9UMIXOPD76Cy4LeknNxI7XOnd0dhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; d=lists.ozlabs.org; s=201707;
-	t=1784030910; c=relaxed/relaxed;
-	bh=m+sHQh7xsIPCcx3DDu2sbd8ZKJKkQ8GLklEL0hevIC8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KjOXDnzA3JN5o6LTqR+ELbp8OCSYZF9VIxy3FIHzXdSS/ga8p/z9vj/mI2qEYKRK9Ei1ruUZ5APbryi8mfEKLmiKyRPRAEN0wHD5QnHNboNHZTJdwOWrggspDVmN07xyUL/UiNmYzBLNR9EiRvusi8znM6HQHL38EWHVmxREdAc547P+FN978tF6OfwszgOtkeBoN2zrBCR8tGxCcTe9Bd2EtGhFkgThlBOdZUAs7um437DaErHfk5OrQZARgx9R7EE+gdNmDvh0HPSoV2VAjCbR6l1Mk9mOejYAhMS8awhqEKBkvDgHW+w44fteoCZbfKc9bLSj3zoadAVWgApjeQ==
-ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=b3a1OMvZ; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::1032; helo=mail-pj1-x1032.google.com; envelope-from=chou.cosmo@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+	t=1784032385; c=relaxed/relaxed;
+	bh=DNvAJagM0h/ttBqvPmQVo9CO+v+pNiBOB9YPIRh2j6k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=As69sTeoGX6hYbbAM46OGuUzJlRz3z50RAnW0Bn6Ol9P3Gsv2UBIRseKuBx54c0UL4v9KCjfZ+jSMRikdxvnmHxuelp8/BcqJdmL+VozuZt8hk5tTzZ2KtWPYpMZ5/jtrySBOzuL8J8YBTjW+gXaG+Iwz9cQ+G91uerGcohpG12lxNqjjeSqNsBC7xt6aCozBQ+ZEkjrM5rGnSe0IQ7YkvC5AyIvVHmbpGhlyu2MelGQWjVhUgHtobnqyMsGFEmdpyF80CIlyY37EiTNbDpnM8HwSp14IJceVfuCDdelDxavBqN/J3ROUHfoCAghuV9G6yn+salFULQSMZFC2AV37Q==
+ARC-Authentication-Results: i=1; lists.ozlabs.org; dmarc=pass (p=none dis=none) header.from=gmail.com; dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=X2jX3l/s; dkim-atps=neutral; spf=pass (client-ip=2607:f8b0:4864:20::102e; helo=mail-pj1-x102e.google.com; envelope-from=lgs201920130244@gmail.com; receiver=lists.ozlabs.org) smtp.mailfrom=gmail.com
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by lists.ozlabs.org (Postfix) with ESMTPS id 4gzykj6Bzmz2xqn
-	for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Jul 2026 22:08:29 +1000 (AEST)
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-381ed661712so4725819a91.2
-        for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Jul 2026 05:08:29 -0700 (PDT)
+	by lists.ozlabs.org (Postfix) with ESMTPS id 4gzzH40Ydjz2y71
+	for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Jul 2026 22:33:03 +1000 (AEST)
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-385ea3ce80dso4465888a91.2
+        for <linux-aspeed@lists.ozlabs.org>; Tue, 14 Jul 2026 05:33:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784030908; x=1784635708; darn=lists.ozlabs.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=m+sHQh7xsIPCcx3DDu2sbd8ZKJKkQ8GLklEL0hevIC8=;
-        b=b3a1OMvZ4tZ+qO3Ae4ub22X5efiW0Kdi2Mro7UPOXgCNK8rFTYn8ELkUkrKbtRriAB
-         AqYjxgBOEDP1P0YAiyQlOKLlgZ6JOaMOBkeKnSV3jXbv9FSMOFrpYAbU/+OR9is/6UFH
-         4GI5sZhrz0IB8rzQAi1NE08DqHQlV5z6uZ2C+LkEwOqKembxommp1nz8msDQesb8tzzZ
-         SfciEDhpIxb7dQq/TkSXv97JtdYYLsRNwmKko60fGfwHo/w/RhdrkxpfYONCDUYXpRO9
-         +209ine1uFgNAfCZl5rezD/ERXnu32vatnaYLb+Sr8+/7/Sqn1ubO8/h+uJekSyJjW1a
-         esMA==
+        d=gmail.com; s=20251104; t=1784032381; x=1784637181; darn=lists.ozlabs.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DNvAJagM0h/ttBqvPmQVo9CO+v+pNiBOB9YPIRh2j6k=;
+        b=X2jX3l/sot77TVw6QCy44rdbYCFEKFctulZrYmNSibn314v1XnSl9hGhcplLOJz9Yr
+         iGVCgWzj22c7EsbyS7kjUCk7pLRVRkyJfQjniQYV+NRoTti9pdcPJbKjZ4YI4w18Y2is
+         YA8Z6xIlUOpr9xF9S+rKrGFv43PIBw0AKBnwCRaV7OolpkDIeUufUEuC1H5GlvmrPpV2
+         QNLG9xtpEi5DVlAZLLynJrx6yXrKFu5Jl+Nyr+d0S2FxyUy89h414FIlcnxHSsWknfUj
+         89b6K9YGd02V8usbTygqNR1LunqxavmF+i+YuxDJjQdOvjtGv6iSMZG5B4RQLqNc6wee
+         T1wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784030908; x=1784635708;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=m+sHQh7xsIPCcx3DDu2sbd8ZKJKkQ8GLklEL0hevIC8=;
-        b=likSv0diKMYkUEGOI5fPEvC1IHInVQPFECKMmHWML6AK48V/rT+jGcEsFHgfSUbxbn
-         cQ4eZ4V24KELkc1vumx/JrUvKmuyuyA+AqbkRziagfCQo4z+R7LUpSg6HNfhxL+CzF8C
-         v1GSHBeGqdAeCtZX8g9pUVq6TJkEAUlhxRREMPMbrhOrHt47B81V5dmgPE031EqbudcF
-         UBr253S4ZahNUh78OoGoI+HtlO6TohAY/odY0AnVzv5BE8sHPqeYyNfjFxbXMYJGis2G
-         1r9F6E7q/tCRVy/3iGnSC5GIKuNcL6uj5/8lFVMgkOqk9ae4esRDRWoIFGlcKCztPi3I
-         Yv8g==
-X-Forwarded-Encrypted: i=1; AHgh+Rpy59S7HIk+dmlCp11/eIDNWBOYBg00z0bGSKlEVIqnevUvFmS/NWhuVj0fiZNs1YPBudTyW78HR+SfrqQ=@lists.ozlabs.org
-X-Gm-Message-State: AOJu0Yw9Khs51TbCYWL4brr+gFchaPeogjUbj4MtW+VpK4Vw7xJ6pW+c
-	iIaVJkEuCf4N0CZRiuoVxu9PbkF0h6xFp4nCEcaEr20nMfGutRiLZQyM
-X-Gm-Gg: AfdE7cmLow9HxIXJvM0uvwXa4cDwY4/OM8VLSFaxzcPzWpRWqgvhXHLtBSffS07dZuM
-	KjMoSAW7i0PFUF54xceaPp2mhFVqzm18Zx2SOpsFvoHLp+lYWdoW2XWL2adIFk7uEucNdIpRhva
-	t5ePyp67Jkdx+mFyGpsNikfijXyIMxl+5nRUJpbAxj1SbkfW6BqRmY5pVZUUuuLVRQdrNRiQfX1
-	WK0W5X/m6/LLrmdZ5YXl0ouQe8CPpJqfjkGdRRSWHbjuoZmPSkVZPMKXyU+NVb8oCfEU6dVrH78
-	HxnDdXbo01ZWAXmdg5ZGjMRTP9SXgBZCwNU6ep9kwRitQbuacWWo1AwO5RtOfC0oVXjPawWJUzE
-	5Yo9qw1zvF/mjguTdve/vyGclb3kzWVhNyf/pqu+6dNKPEFw9Up1Mc7K+vebVj+GNyfSI6eDsOE
-	nAP8it5XPGer1x84kPclxRs5HQtko9RnurHsXo2xKcl0bA425CVT7UcyaNwrY=
-X-Received: by 2002:a17:90b:180d:b0:37f:9ce1:736a with SMTP id 98e67ed59e1d1-38e1af3481amr2454300a91.32.1784030907614;
-        Tue, 14 Jul 2026 05:08:27 -0700 (PDT)
-Received: from cosmo-ubuntu-2404.. (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e172dc530sm1384425a91.8.2026.07.14.05.08.25
+        d=1e100.net; s=20251104; t=1784032381; x=1784637181;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DNvAJagM0h/ttBqvPmQVo9CO+v+pNiBOB9YPIRh2j6k=;
+        b=ABqUkmtTIHkyqOjlc/v7XcG8uTFPs9461YS7FACLYiX+0EW39CkkxUL4sSmEPqTdlV
+         xXODsJLIDP93N3Ob1n2OFp0aqQOkzRzf74I6wractt+p6mYcDut4muVFO2ADrqf+R975
+         y4jLM7ZKcF6NMaGPLp4I8vxoYEHFfCasby4y2xxcGTCdTxf81h53T703+FkaTEzCPusG
+         lXyXlm9m3a6vsvaSSAlOyjECbpZJH6/x/uiZjRYarp1OF3rvfHeHrM+zNuLqTJHFNxXY
+         WgkrF8NZ+b9yzMakv9WHMk4HbiwpHVlttdzoy/uUkIC02p8zVrdZu+8DkggORfQUNZRS
+         2nTw==
+X-Forwarded-Encrypted: i=1; AHgh+RpHTkvHGxf5s6IQfyvvnoWpsur69HEv0/UU2/FAB4VPoL9t0D3Llbs6QpL7Yv8Nusx/zZn+6iTl+rMmk8s=@lists.ozlabs.org
+X-Gm-Message-State: AOJu0Ywv6ZBSkvnzxhDzPZXantky3lMBQ7Q7PF/epCy+U6h22J+pJJUe
+	dHLhwqIPPYHpasoAOp8C7ouVdtNmwQhwrndH+wggAq7YCgg+knZS50sa
+X-Gm-Gg: AfdE7cms2GWvr1j9Bl1Bb+ujUM8Kkd8WzL5MZzH7woqw7vRd22nDGvWOrzwwNfmitwj
+	7yLTSXmeN0HkvAw6OQvSf4FxyUxuMsuhjNgIEHWHMs6aq7q6OjJZcp0hvu9o7FS4zTpUcZagDkR
+	6rxGE8phsmfh5Syuw7pd9eFkurgLp/P9/c57dvpwvdr4peE9eyLeyF2BHiTPKSdfIPbLFwG+0IG
+	lkbbVkjx7O7OPJUzJm86D1bNe3sZyDtEdMmIzD0zdGXU3uIGQOpWHULN6SJm20l874DleFdaU7i
+	seXcHbYUs6hSAZyZ1aAizf5ypUfyDJvfMT31wwE3QvbbvJnV9hlFwhZig/nwk7J810cN+EPjDU5
+	A2kqvnfIkDvoI3XT1i3sPpcbtrCy2GjKT0Fb/mIPnntOINqPXla9yDBmVqWQa4EPIsEWA66Y=
+X-Received: by 2002:a17:90b:53c6:b0:38d:dfd1:7c1 with SMTP id 98e67ed59e1d1-38e17d96421mr2942124a91.2.1784032381474;
+        Tue, 14 Jul 2026 05:33:01 -0700 (PDT)
+Received: from lgs.. ([2001:250:5800:1000::f280])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e172b6d08sm1443513a91.2.2026.07.14.05.32.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 05:08:27 -0700 (PDT)
-From: Cosmo Chou <chou.cosmo@gmail.com>
-To: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	joel@jms.id.au,
-	andrew@codeconstruct.com.au
-Cc: devicetree@vger.kernel.org,
+        Tue, 14 Jul 2026 05:33:01 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Eddie James <eajames@linux.ibm.com>,
+	Ninad Palsule <ninad@linux.ibm.com>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alistair Popple <alistair@popple.id.au>,
+	linux-fsi@lists.ozlabs.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-aspeed@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	cosmo.chou@quantatw.com,
-	Cosmo Chou <chou.cosmo@gmail.com>
-Subject: [PATCH 2/2] ARM: dts: aspeed: bletchley: Add second source PCA9532 LED controllers
-Date: Tue, 14 Jul 2026 20:08:16 +0800
-Message-ID: <20260714120816.1504058-3-chou.cosmo@gmail.com>
+	linux-kernel@vger.kernel.org
+Cc: Guangshuo Li <lgs201920130244@gmail.com>
+Subject: [PATCH] fsi: aspeed: Fix refcount leak on registration failure
+Date: Tue, 14 Jul 2026 20:30:38 +0800
+Message-ID: <20260714123038.1523162-1-lgs201920130244@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260714120816.1504058-1-chou.cosmo@gmail.com>
-References: <20260714120816.1504058-1-chou.cosmo@gmail.com>
 X-Mailing-List: linux-aspeed@lists.ozlabs.org
 List-Id: <linux-aspeed.lists.ozlabs.org>
 List-Help: <mailto:linux-aspeed+help@lists.ozlabs.org>
@@ -106,455 +101,103 @@ List-Unsubscribe: <mailto:linux-aspeed+unsubscribe@lists.ozlabs.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
-	SPF_HELO_NONE,SPF_PASS,WEIRD_QUOTING autolearn=disabled version=4.0.1
+X-Spam-Status: No, score=0.4 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,
+	FROM_LOCAL_DIGITS,FROM_LOCAL_HEX,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+	SPF_PASS autolearn=disabled version=4.0.1
 X-Spam-Checker-Version: SpamAssassin 4.0.1 (2024-03-25) on lists.ozlabs.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.21 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.71 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[lists.ozlabs.org:s=201707:i=1];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:112.213.38.117:c];
 	MAILLIST(-0.20)[generic];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-4472-lists,linux-aspeed=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-4479-lists,linux-aspeed=lfdr.de];
 	FORWARDED(0.00)[linux-aspeed@lists.ozlabs.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.ozlabs.org,quantatw.com,gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:eajames@linux.ibm.com,m:ninad@linux.ibm.com,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:gregkh@linuxfoundation.org,m:alistair@popple.id.au,m:linux-fsi@lists.ozlabs.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:lgs201920130244@gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[choucosmo@gmail.com,linux-aspeed@lists.ozlabs.org];
-	FORGED_RECIPIENTS(0.00)[m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:joel@jms.id.au,m:andrew@codeconstruct.com.au,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-aspeed@lists.ozlabs.org,m:linux-kernel@vger.kernel.org,m:cosmo.chou@quantatw.com,m:chou.cosmo@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:choucosmo@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[lgs201920130244@gmail.com,linux-aspeed@lists.ozlabs.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	PREVIOUSLY_DELIVERED(0.00)[linux-aspeed@lists.ozlabs.org];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[choucosmo@gmail.com,linux-aspeed@lists.ozlabs.org];
+	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-aspeed@lists.ozlabs.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	TAGGED_RCPT(0.00)[linux-aspeed,dt];
+	TAGGED_RCPT(0.00)[linux-aspeed];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:133159, ipnet:112.213.32.0/21, country:AU];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CBA357544A8
+X-Rspamd-Queue-Id: 2F3B575B752
 
-Add alternative PCA9532 LED controllers at address 0x66 to support boards
-populated with the PCA9532 instead of the primary PCA9552 at 0x67.
+fsi_master_aspeed_probe() allocates aspeed and passes its embedded
+master device to fsi_master_register().
 
-Signed-off-by: Cosmo Chou <chou.cosmo@gmail.com>
+After the master index is allocated, fsi_master_register() calls
+device_register(), which initializes master.dev and takes its initial
+reference. If device registration fails, the reference remains held
+when fsi_master_register() returns an error.
+
+The probe error path then calls kfree(aspeed) directly without dropping
+the device reference. This leaves the initialized master.dev reference
+stranded and bypasses aspeed_master_release().
+
+Disable the clock and call put_device() when registration fails after
+the master index has been allocated. Keep the direct kfree() path for
+failures that occur before master.dev is initialized.
+
+This issue was found by a static analysis tool I am developing.
+
+Fixes: 606397d67f41 ("fsi: Add ast2600 master driver")
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
 ---
- .../aspeed/aspeed-bmc-facebook-bletchley.dts  | 289 ++++++++++++++++++
- 1 file changed, 289 insertions(+)
+ drivers/fsi/fsi-master-aspeed.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-bletchley.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-bletchley.dts
-index a966be69f..86e2b5aec 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-bletchley.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-bletchley.dts
-@@ -6,6 +6,7 @@
- #include <dt-bindings/gpio/aspeed-gpio.h>
- #include <dt-bindings/usb/pd.h>
- #include <dt-bindings/leds/leds-pca955x.h>
-+#include <dt-bindings/leds/leds-pca9532.h>
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/i2c/i2c.h>
+diff --git a/drivers/fsi/fsi-master-aspeed.c b/drivers/fsi/fsi-master-aspeed.c
+index aa1380cdff33..2a54b6fa3394 100644
+--- a/drivers/fsi/fsi-master-aspeed.c
++++ b/drivers/fsi/fsi-master-aspeed.c
+@@ -626,8 +626,12 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
+ 	aspeed_master_init(aspeed);
  
-@@ -113,6 +114,58 @@ led-7 {
- 		};
- 	};
+ 	rc = fsi_master_register(&aspeed->master);
+-	if (rc)
+-		goto err_release;
++	if (rc) {
++		if (aspeed->master.idx < 0)
++			goto err_release;
++
++		goto err_put_master;
++	}
  
-+	fan_gpio_leds_alt {
-+		compatible = "gpio-leds";
-+		led-0 {
-+			label = "fan0_blue";
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&fan_leds_alt 8 GPIO_ACTIVE_HIGH>;
-+		};
-+		led-1 {
-+			label = "fan1_blue";
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&fan_leds_alt 9 GPIO_ACTIVE_HIGH>;
-+		};
-+		led-2 {
-+			label = "fan2_blue";
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&fan_leds_alt 10 GPIO_ACTIVE_HIGH>;
-+		};
-+		led-3 {
-+			label = "fan3_blue";
-+			retain-state-shutdown;
-+			default-state = "on";
-+			gpios = <&fan_leds_alt 11 GPIO_ACTIVE_HIGH>;
-+		};
-+		led-4 {
-+			label = "fan0_amber";
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&fan_leds_alt 12 GPIO_ACTIVE_HIGH>;
-+		};
-+		led-5 {
-+			label = "fan1_amber";
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&fan_leds_alt 13 GPIO_ACTIVE_HIGH>;
-+		};
-+		led-6 {
-+			label = "fan2_amber";
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&fan_leds_alt 14 GPIO_ACTIVE_HIGH>;
-+		};
-+		led-7 {
-+			label = "fan3_amber";
-+			retain-state-shutdown;
-+			default-state = "off";
-+			gpios = <&fan_leds_alt 15 GPIO_ACTIVE_HIGH>;
-+		};
-+	};
-+
- 	sled1_gpio_leds {
- 		compatible = "gpio-leds";
- 		led-0 {
-@@ -129,6 +182,22 @@ led-1 {
- 		};
- 	};
+ 	/* At this point, fsi_master_register performs the device_initialize(),
+ 	 * and holds the sole reference on master.dev. This means the device
+@@ -638,6 +642,10 @@ static int fsi_master_aspeed_probe(struct platform_device *pdev)
+ 	 */
+ 	get_device(&aspeed->master.dev);
+ 	return 0;
++err_put_master:
++	clk_disable_unprepare(aspeed->clk);
++	put_device(&aspeed->master.dev);
++	return rc;
  
-+	sled1_gpio_leds_alt {
-+		compatible = "gpio-leds";
-+		led-0 {
-+			label = "sled1_amber";
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&sled1_leds_alt 0 GPIO_ACTIVE_LOW>;
-+		};
-+		led-1 {
-+			label = "sled1_blue";
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&sled1_leds_alt 1 GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+
- 	sled2_gpio_leds {
- 		compatible = "gpio-leds";
- 		led-0 {
-@@ -145,6 +214,22 @@ led-1 {
- 		};
- 	};
- 
-+	sled2_gpio_leds_alt {
-+		compatible = "gpio-leds";
-+		led-0 {
-+			label = "sled2_amber";
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&sled2_leds_alt 0 GPIO_ACTIVE_LOW>;
-+		};
-+		led-1 {
-+			label = "sled2_blue";
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&sled2_leds_alt 1 GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+
- 	sled3_gpio_leds {
- 		compatible = "gpio-leds";
- 		led-0 {
-@@ -161,6 +246,22 @@ led-1 {
- 		};
- 	};
- 
-+	sled3_gpio_leds_alt {
-+		compatible = "gpio-leds";
-+		led-0 {
-+			label = "sled3_amber";
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&sled3_leds_alt 0 GPIO_ACTIVE_LOW>;
-+		};
-+		led-1 {
-+			label = "sled3_blue";
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&sled3_leds_alt 1 GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+
- 	sled4_gpio_leds {
- 		compatible = "gpio-leds";
- 		led-0 {
-@@ -177,6 +278,22 @@ led-1 {
- 		};
- 	};
- 
-+	sled4_gpio_leds_alt {
-+		compatible = "gpio-leds";
-+		led-0 {
-+			label = "sled4_amber";
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&sled4_leds_alt 0 GPIO_ACTIVE_LOW>;
-+		};
-+		led-1 {
-+			label = "sled4_blue";
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&sled4_leds_alt 1 GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+
- 	sled5_gpio_leds {
- 		compatible = "gpio-leds";
- 		led-0 {
-@@ -193,6 +310,22 @@ led-1 {
- 		};
- 	};
- 
-+	sled5_gpio_leds_alt {
-+		compatible = "gpio-leds";
-+		led-0 {
-+			label = "sled5_amber";
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&sled5_leds_alt 0 GPIO_ACTIVE_LOW>;
-+		};
-+		led-1 {
-+			label = "sled5_blue";
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&sled5_leds_alt 1 GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+
- 	sled6_gpio_leds {
- 		compatible = "gpio-leds";
- 		led-0 {
-@@ -209,6 +342,22 @@ led-1 {
- 		};
- 	};
- 
-+	sled6_gpio_leds_alt {
-+		compatible = "gpio-leds";
-+		led-0 {
-+			label = "sled6_amber";
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&sled6_leds_alt 0 GPIO_ACTIVE_LOW>;
-+		};
-+		led-1 {
-+			label = "sled6_blue";
-+			retain-state-shutdown;
-+			default-state = "keep";
-+			gpios = <&sled6_leds_alt 1 GPIO_ACTIVE_LOW>;
-+		};
-+	};
-+
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
-@@ -401,6 +550,24 @@ sled1_leds: pca9552@67 {
- 		"","","","";
- 	};
- 
-+	sled1_leds_alt: pca9532@66 {
-+		compatible = "nxp,pca9532";
-+		reg = <0x66>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		gpio-line-names =
-+		"led-sled1-amber","led-sled1-blue","SLED1_RST_IOEXP","SLED1_MD_REF_PWM",
-+		"","","","",
-+		"","","","",
-+		"","","","";
-+
-+		led-0 { type = <PCA9532_TYPE_GPIO>; };
-+		led-1 { type = <PCA9532_TYPE_GPIO>; };
-+		led-2 { type = <PCA9532_TYPE_GPIO>; };
-+		led-3 { type = <PCA9532_TYPE_GPIO>; };
-+	};
-+
- 	sled1_fusb302: typec-portc@22 {
- 		compatible = "fcs,fusb302";
- 		reg = <0x22>;
-@@ -487,6 +654,24 @@ sled2_leds: pca9552@67 {
- 		"","","","";
- 	};
- 
-+	sled2_leds_alt: pca9532@66 {
-+		compatible = "nxp,pca9532";
-+		reg = <0x66>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		gpio-line-names =
-+		"led-sled2-amber","led-sled2-blue","SLED2_RST_IOEXP","SLED2_MD_REF_PWM",
-+		"","","","",
-+		"","","","",
-+		"","","","";
-+
-+		led-0 { type = <PCA9532_TYPE_GPIO>; };
-+		led-1 { type = <PCA9532_TYPE_GPIO>; };
-+		led-2 { type = <PCA9532_TYPE_GPIO>; };
-+		led-3 { type = <PCA9532_TYPE_GPIO>; };
-+	};
-+
- 	sled2_fusb302: typec-portc@22 {
- 		compatible = "fcs,fusb302";
- 		reg = <0x22>;
-@@ -573,6 +758,24 @@ sled3_leds: pca9552@67 {
- 		"","","","";
- 	};
- 
-+	sled3_leds_alt: pca9532@66 {
-+		compatible = "nxp,pca9532";
-+		reg = <0x66>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		gpio-line-names =
-+		"led-sled3-amber","led-sled3-blue","SLED3_RST_IOEXP","SLED3_MD_REF_PWM",
-+		"","","","",
-+		"","","","",
-+		"","","","";
-+
-+		led-0 { type = <PCA9532_TYPE_GPIO>; };
-+		led-1 { type = <PCA9532_TYPE_GPIO>; };
-+		led-2 { type = <PCA9532_TYPE_GPIO>; };
-+		led-3 { type = <PCA9532_TYPE_GPIO>; };
-+	};
-+
- 	sled3_fusb302: typec-portc@22 {
- 		compatible = "fcs,fusb302";
- 		reg = <0x22>;
-@@ -659,6 +862,24 @@ sled4_leds: pca9552@67 {
- 		"","","","";
- 	};
- 
-+	sled4_leds_alt: pca9532@66 {
-+		compatible = "nxp,pca9532";
-+		reg = <0x66>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		gpio-line-names =
-+		"led-sled4-amber","led-sled4-blue","SLED4_RST_IOEXP","SLED4_MD_REF_PWM",
-+		"","","","",
-+		"","","","",
-+		"","","","";
-+
-+		led-0 { type = <PCA9532_TYPE_GPIO>; };
-+		led-1 { type = <PCA9532_TYPE_GPIO>; };
-+		led-2 { type = <PCA9532_TYPE_GPIO>; };
-+		led-3 { type = <PCA9532_TYPE_GPIO>; };
-+	};
-+
- 	sled4_fusb302: typec-portc@22 {
- 		compatible = "fcs,fusb302";
- 		reg = <0x22>;
-@@ -745,6 +966,24 @@ sled5_leds: pca9552@67 {
- 		"","","","";
- 	};
- 
-+	sled5_leds_alt: pca9532@66 {
-+		compatible = "nxp,pca9532";
-+		reg = <0x66>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		gpio-line-names =
-+		"led-sled5-amber","led-sled5-blue","SLED5_RST_IOEXP","SLED5_MD_REF_PWM",
-+		"","","","",
-+		"","","","",
-+		"","","","";
-+
-+		led-0 { type = <PCA9532_TYPE_GPIO>; };
-+		led-1 { type = <PCA9532_TYPE_GPIO>; };
-+		led-2 { type = <PCA9532_TYPE_GPIO>; };
-+		led-3 { type = <PCA9532_TYPE_GPIO>; };
-+	};
-+
- 	sled5_fusb302: typec-portc@22 {
- 		compatible = "fcs,fusb302";
- 		reg = <0x22>;
-@@ -831,6 +1070,24 @@ sled6_leds: pca9552@67 {
- 		"","","","";
- 	};
- 
-+	sled6_leds_alt: pca9532@66 {
-+		compatible = "nxp,pca9532";
-+		reg = <0x66>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		gpio-line-names =
-+		"led-sled6-amber","led-sled6-blue","SLED6_RST_IOEXP","SLED6_MD_REF_PWM",
-+		"","","","",
-+		"","","","",
-+		"","","","";
-+
-+		led-0 { type = <PCA9532_TYPE_GPIO>; };
-+		led-1 { type = <PCA9532_TYPE_GPIO>; };
-+		led-2 { type = <PCA9532_TYPE_GPIO>; };
-+		led-3 { type = <PCA9532_TYPE_GPIO>; };
-+	};
-+
- 	sled6_fusb302: typec-portc@22 {
- 		compatible = "fcs,fusb302";
- 		reg = <0x22>;
-@@ -957,6 +1214,38 @@ fan_leds: pca9552@67 {
- 		"","","","",
- 		"","","","";
- 	};
-+
-+	fan_leds_alt: pca9532@66 {
-+		compatible = "nxp,pca9532";
-+		reg = <0x66>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		gpio-line-names =
-+		"presence-fan0","presence-fan1",
-+		"presence-fan2","presence-fan3",
-+		"power-fan0-good","power-fan1-good",
-+		"power-fan2-good","power-fan3-good",
-+		"","","","",
-+		"","","","";
-+
-+		led-0 { type = <PCA9532_TYPE_GPIO>; };
-+		led-1 { type = <PCA9532_TYPE_GPIO>; };
-+		led-2 { type = <PCA9532_TYPE_GPIO>; };
-+		led-3 { type = <PCA9532_TYPE_GPIO>; };
-+		led-4 { type = <PCA9532_TYPE_GPIO>; };
-+		led-5 { type = <PCA9532_TYPE_GPIO>; };
-+		led-6 { type = <PCA9532_TYPE_GPIO>; };
-+		led-7 { type = <PCA9532_TYPE_GPIO>; };
-+		led-8 { type = <PCA9532_TYPE_GPIO>; };
-+		led-9 { type = <PCA9532_TYPE_GPIO>; };
-+		led-10 { type = <PCA9532_TYPE_GPIO>; };
-+		led-11 { type = <PCA9532_TYPE_GPIO>; };
-+		led-12 { type = <PCA9532_TYPE_GPIO>; };
-+		led-13 { type = <PCA9532_TYPE_GPIO>; };
-+		led-14 { type = <PCA9532_TYPE_GPIO>; };
-+		led-15 { type = <PCA9532_TYPE_GPIO>; };
-+	};
- };
- 
- &i2c13 {
+ err_release:
+ 	clk_disable_unprepare(aspeed->clk);
 -- 
-2.53.0
+2.43.0
 
 
